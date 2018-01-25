@@ -1,0 +1,5 @@
+node_modules/
+__tests__/
+android/
+ios/
+package.json
