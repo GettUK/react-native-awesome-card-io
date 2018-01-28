@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eslint": "./node_modules/.bin/eslint .",
-    "prettier": "prettier --write \"src/*.js\" \"src/**/*.js\" \"./*.haul.js\"",
+    "prettier": "prettier --write \"src/*.js\" \"src/**/*.js\"",
     "format": "eslint --fix .",
     "flow": "./node_modules/.bin/flow",
     "flow-stop": "./node_modules/.bin/flow stop",
