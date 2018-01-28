@@ -1,0 +1,7 @@
+{
+  "url": "https://swagger.ru/api/",
+  "version": "v1/",
+  "headers": {
+    "Content-Type": "application/json"
+  }
+}

@@ -1,17 +1,11 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 const instructions = Platform.select({
 	ios: 'Press Cmd+R to reload, Cmd+D or shake for dev menu',
 	android:
-		'Double tap R on your keyboard to reload,\n' +
-		'Shake or press menu button for dev menu'
+    'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu'
 });
 
 const styles = StyleSheet.create({
@@ -33,10 +27,8 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class App extends Component<{}> {
-	componentWillUnmount() {
-
-	}
+export default class App extends Component {
+	componentWillUnmount() {}
 	render() {
 		return (
 			<View style={styles.container}>

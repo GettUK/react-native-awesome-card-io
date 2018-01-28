@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import wrapper from './src/index';
 
-AppRegistry.registerComponent('oteApp', () => App);
+AppRegistry.registerComponent('oteApp', () => wrapper);

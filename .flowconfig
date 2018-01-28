@@ -10,6 +10,7 @@
 
 ; Ignore node_modules
 .*/node_modules/react-navigation/
+.*/node_modules/haul/
 
 ; Ignore duplicate module providers
 ; For RN Apps installed via npm, "Libraries" folder is inside
