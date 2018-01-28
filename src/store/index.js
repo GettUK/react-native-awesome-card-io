@@ -1,5 +1,5 @@
 import { createStore as createStore_, applyMiddleware, compose } from 'redux';
-// import { createNetworkMiddleware } from 'react-native-offline';
+import { createNetworkMiddleware } from 'react-native-offline';
 import thunk from 'redux-thunk';
 import { enableBatching } from 'redux-batched-actions';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -17,8 +17,7 @@ import { reducer, initialState } from 'reducers';
 import { changeIsOpenKeyboard } from 'actions/app/statuses';
 
 export function getMiddlewares() {
-	// const middlewares = [thunk, createNetworkMiddleware()];
-	const middlewares = [thunk];
+	const middlewares = [thunk, createNetworkMiddleware()];
 	if (process.env.NODE_ENV === 'development') {
 		// TODO fix logger if needed;
 		// middlewares.push(createLogger());

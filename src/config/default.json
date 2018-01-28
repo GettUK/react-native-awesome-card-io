@@ -1,5 +1,6 @@
 {
   "url": "https://swagger.ru/api/",
+  "ws": "wss://swagger.ru/ws/connect/",
   "version": "v1/",
   "headers": {
     "Content-Type": "application/json"
