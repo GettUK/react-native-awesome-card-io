@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		...StyleSheet.absoluteFillObject,
+		height: '100%',
 		width: '100%',
-		height: '100%'
+		justifyContent: 'flex-end',
+		alignItems: 'center'
 	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		margin: 10
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5
+	map: {
+		flex: 1,
+		...StyleSheet.absoluteFillObject
 	}
 });
 
@@ -25,18 +20,23 @@ export default class App extends Component {
 	componentWillUnmount() {}
 	render() {
 		return (
-            <View style={styles.container}>
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                        latitude: 20.993776,
-                        longitude: 105.811417,
-                        latitudeDelta: 0.021,
-                        longitudeDelta: 0.021
-                    }}
-                    style={StyleSheet.absoluteFillObject}
-                />
-            </View>
+			<View style={styles.container}>
+				<MapView
+					style={styles.map}
+					provider={PROVIDER_GOOGLE}
+					minZoomLevel={0}
+					maxZoomLevel={4}
+					showsUserLocation
+					showsMyLocationButton
+					zoomEnabled
+					region={{
+						latitude: 37.78825,
+						longitude: -122.4324,
+						latitudeDelta: 0.015,
+						longitudeDelta: 0.0121
+					}}
+				/>
+			</View>
 		);
 	}
 }
