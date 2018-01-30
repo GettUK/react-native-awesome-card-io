@@ -5,7 +5,9 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		width: '100%',
+		height: '100%'
 	},
 	welcome: {
 		fontSize: 20,
