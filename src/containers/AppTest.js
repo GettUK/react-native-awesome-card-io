@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-const instructions = Platform.select({
-	ios: 'Press Cmd+R to reload, Cmd+D or shake for dev menu',
-	android:
-		'Double tap R on your keyboard to reload,\n' +
-		'Shake or press menu button for dev menu'
-});
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#F5FCFF'
+		flex: 1
 	},
 	welcome: {
 		fontSize: 20,
@@ -31,11 +23,18 @@ export default class App extends Component {
 	componentWillUnmount() {}
 	render() {
 		return (
-			<View style={styles.container}>
-				<Text style={styles.welcome}>Welcome to React Native! dd</Text>
-				<Text style={styles.instructions}>To get started, edit App.js</Text>
-				<Text style={styles.instructions}>{instructions}</Text>
-			</View>
+            <View style={styles.container}>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                        latitude: 20.993776,
+                        longitude: 105.811417,
+                        latitudeDelta: 0.021,
+                        longitudeDelta: 0.021
+                    }}
+                    style={StyleSheet.absoluteFillObject}
+                />
+            </View>
 		);
 	}
 }
