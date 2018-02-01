@@ -6,3 +6,12 @@ export function changeIsOpenKeyboard(value) {
     payload: value
   };
 }
+
+export const CHANGE_PERMISSIONS = 'APP/STATUSES/CHANGE_PERMISSIONS';
+
+export function changePermissions(value) {
+  return {
+    type: CHANGE_PERMISSIONS,
+    payload: value
+  };
+}

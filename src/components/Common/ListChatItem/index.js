@@ -50,9 +50,9 @@ class ListChatItem extends Component {
                 source={has('source', this.props) ? this.props.source : null}
                 resizeMode={
                   has('resizeMode', this.props) &&
-                  !isNull(this.props.resizeMode)
-                    ? this.props.resizeMode
-                    : 'cover'
+                  !isNull(this.props.resizeMode) ?
+                    this.props.resizeMode :
+                    'cover'
                 }
               />
               {this.state.loading || has('loading', this.props) ? (
@@ -117,13 +117,13 @@ class ListChatItem extends Component {
     return has('onClick', this.props) &&
       isFunction(this.props.onClick) &&
       !isNull(this.props.onClick) ? (
-      <TouchableOpacity
-        onPress={has('onClick', this.props) ? this.props.onClick : null}>
-        {this.renderInner()}
-      </TouchableOpacity>
-    ) : (
-      this.renderInner()
-    );
+        <TouchableOpacity
+          onPress={has('onClick', this.props) ? this.props.onClick : null}>
+          {this.renderInner()}
+        </TouchableOpacity>
+      ) : (
+        this.renderInner()
+      );
   }
 }
 

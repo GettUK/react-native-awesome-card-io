@@ -8,13 +8,13 @@ import { createFilter } from 'redux-persist-transform-filter';
 // import {
 //     createLogger
 // } from 'redux-logger';
-// TODO fix when go to prod;
-// import {
-//     composeWithDevTools
-// } from 'redux-devtools-extension/logOnlyInProduction';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { reducer, initialState } from 'reducers';
-import { changeIsOpenKeyboard } from 'actions/app/statuses';
+import {
+  changeIsOpenKeyboard
+  // changePermissions
+} from 'actions/app/statuses';
+// import { checkMultiplePermissions } from 'utils';
 
 export function getMiddlewares() {
   const middlewares = [thunk, createNetworkMiddleware()];
@@ -48,6 +48,9 @@ export function createStore() {
   // }).purge([]);
   const persistor = persistStore(store, null, () => {
     store.dispatch(changeIsOpenKeyboard(false));
+    // checkMultiplePermissions(['location'], perms => {
+    //   store.dispatch(changePermissions({ ...perms }));
+    // });
   });
   return { store, persistor };
 }
