@@ -12,20 +12,20 @@ import CenterView from './CenterView';
 import Welcome from './Welcome';
 
 storiesOf('Welcome', module).add('to Storybook', () => (
-	<Welcome showApp={linkTo('Button')} />
+  <Welcome showApp={linkTo('Button')} />
 ));
 storiesOf('Common/Block', module)
-	.addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-	.add('default', () => <Block data="No internet connection" />);
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('default', () => <Block data="No internet connection" />);
 storiesOf('Common/ListChatItem', module)
-	.addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-	.add('default', () => (
-		<ListChatItem
-			onClick={action('clicked-emoji')}
-			isOnline
-			resizeMode="contain"
-			title="Aragorn Trymbel"
-			time="14:54"
-			subtitle="TYPING____"
-		/>
-	));
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('default', () => (
+    <ListChatItem
+      onClick={action('clicked-emoji')}
+      isOnline
+      resizeMode="contain"
+      title="Aragorn Trymbel"
+      time="14:54"
+      subtitle="TYPING____"
+    />
+  ));

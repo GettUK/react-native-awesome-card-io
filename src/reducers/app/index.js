@@ -1,20 +1,20 @@
 import {
-	initialState as initialStatuses,
-	reducer as reducerStatuses
+  initialState as initialStatuses,
+  reducer as reducerStatuses
 } from './statuses';
 
 export const initialState = {
-	statuses: initialStatuses
+  statuses: initialStatuses
 };
 
 export function reducer(state, action) {
-	const nextStatuses = reducerStatuses(state.statuses, action);
+  const nextStatuses = reducerStatuses(state.statuses, action);
 
-	if (state.statuses === nextStatuses) {
-		return state;
-	}
+  if (state.statuses === nextStatuses) {
+    return state;
+  }
 
-	return {
-		statuses: nextStatuses
-	};
+  return {
+    statuses: nextStatuses
+  };
 }

@@ -8,17 +8,17 @@ import App from 'containers/App';
 const { store, persistor } = createStore();
 
 const Apps = withNetworkConnectivity({
-	withRedux: true
+  withRedux: true
 })(App);
 
 function wrapper() {
-	return (
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<Apps />
-			</PersistGate>
-		</Provider>
-	);
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Apps />
+      </PersistGate>
+    </Provider>
+  );
 }
 
 export default wrapper;
