@@ -14,22 +14,8 @@ export const initialState = {
   router: initialRouterState
 };
 
-export function reducer(state, action) {
-  const nextNetwork = reducerNetwork(state.network, action);
-  const nextApp = reducerApp(state.app, action);
-  const nextRouter = reducerRouter(state.router, action);
-
-  if (
-    state.network === nextNetwork &&
-    state.app === nextApp &&
-    state.router === nextRouter
-  ) {
-    return state;
-  }
-
-  return {
-    network: nextNetwork,
-    app: nextApp,
-    router: nextRouter
-  };
-}
+export const reducer = (state, action) => ({
+  network: reducerNetwork(state.network, action),
+  app: reducerApp(state.app, action),
+  router: reducerRouter(state.router, action)
+});

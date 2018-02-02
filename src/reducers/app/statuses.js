@@ -8,7 +8,7 @@ export const initialState = {
   isOpenKeyboard: false
 };
 
-export function reducer(state, action) {
+export const reducer = (state, action) => {
   switch (action.type) {
   case CHANGE_ISOPENKEYBOARD: {
     return {
@@ -16,6 +16,7 @@ export function reducer(state, action) {
       isOpenKeyboard: action.payload
     };
   }
+
   case CHANGE_PERMISSIONS: {
     return {
       ...state,
@@ -24,8 +25,9 @@ export function reducer(state, action) {
         merge(state.permissions, action.payload)
     };
   }
+
   default: {
     return state;
   }
   }
-}
+};

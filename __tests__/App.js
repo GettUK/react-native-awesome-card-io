@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import App from '../src/containers/AppTest';
+import App from '../src/containers/MapView/index';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';

@@ -1,9 +1,9 @@
 import { StackNavigator } from 'react-navigation';
-import AppView from 'containers/AppTest';
+import MapView from 'containers/MapView/';
 
 const routeConfiguration = {
-  App: {
-    screen: AppView,
+  MapView: {
+    screen: MapView,
     navigationOptions: {
       headerBackTitle: null,
       headerTintColor: '#F68C41',

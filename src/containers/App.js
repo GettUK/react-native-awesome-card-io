@@ -22,12 +22,8 @@ class AppContainer extends Component {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
-  keyboardDidShow = () => {
-    this.props.dispatch(changeIsOpenKeyboard(true));
-  };
-  keyboardDidHide = () => {
-    this.props.dispatch(changeIsOpenKeyboard(false));
-  };
+  keyboardDidShow = () => this.props.dispatch(changeIsOpenKeyboard(true));
+  keyboardDidHide = () => this.props.dispatch(changeIsOpenKeyboard(false));
   render() {
     return (
       <View style={{ flex: 1 }}>
