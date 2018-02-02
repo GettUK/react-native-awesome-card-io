@@ -3,13 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { changePosition, errorPosition } from 'actions/app/map';
+import {
+  initialRegionPosition,
+  changeRegionPosition,
+  changePosition,
+  errorPosition
+} from 'actions/app/map';
 import styles from './style';
 
 class Map extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
-      this.props.changePosition,
+      position => {
+        this.props.initialRegionPosition(position);
+        this.props.changePosition(position);
+      },
       this.props.errorPosition,
       this.props.map.options
     );
@@ -29,12 +37,13 @@ class Map extends Component {
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
-          minZoomLevel={0}
-          showsUserLocation
-          showsMyLocationButton
           zoomEnabled
-          region={this.props.map.currentPosition}
-        />
+          onRegionChangeComplete={position =>
+            this.props.changeRegionPosition(position)
+          }
+          region={this.props.map.regionPosition}>
+          <MapView.Marker coordinate={this.props.map.currentPosition} />
+        </MapView>
       </View>
     );
   }
@@ -42,6 +51,8 @@ class Map extends Component {
 Map.propTypes = {
   // navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
+  initialRegionPosition: PropTypes.func.isRequired,
+  changeRegionPosition: PropTypes.func.isRequired,
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired
 };
@@ -51,6 +62,8 @@ const select = ({ app }) => ({
 });
 
 const bindActions = {
+  initialRegionPosition,
+  changeRegionPosition,
   changePosition,
   errorPosition
 };

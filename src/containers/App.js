@@ -5,7 +5,7 @@ import { addNavigationHelpers } from 'react-navigation';
 import NavigatorApp from 'navigators/navigatorApp';
 import { connect } from 'react-redux';
 
-import { changeIsOpenKeyboard } from 'actions/app/statuses';
+import { changeKeyboardStatus } from 'actions/app/statuses';
 
 class AppContainer extends Component {
   componentWillMount() {
@@ -22,8 +22,8 @@ class AppContainer extends Component {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
-  keyboardDidShow = () => this.props.dispatch(changeIsOpenKeyboard(true));
-  keyboardDidHide = () => this.props.dispatch(changeIsOpenKeyboard(false));
+  keyboardDidShow = () => this.props.dispatch(changeKeyboardStatus(true));
+  keyboardDidHide = () => this.props.dispatch(changeKeyboardStatus(false));
   render() {
     return (
       <View style={{ flex: 1 }}>

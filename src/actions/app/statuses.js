@@ -2,7 +2,7 @@ import { curry } from 'lodash/fp';
 
 export const CHANGE_ISOPENKEYBOARD = 'APP/STATUSES/CHANGE_ISOPENKEYBOARD';
 
-export const changeIsOpenKeyboard = curry(value => ({
+export const changeKeyboardStatus = curry(value => ({
   type: CHANGE_ISOPENKEYBOARD,
   payload: value
 }));

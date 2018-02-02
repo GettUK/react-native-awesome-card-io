@@ -1,5 +1,10 @@
 import { Dimensions } from 'react-native';
-import { CHANGE_POSITION, ERROR_POSITION } from 'actions/app/map';
+import {
+  INITIAL_REGION_POSITION,
+  CHANGE_REGION_POSITION,
+  CHANGE_POSITION,
+  ERROR_POSITION
+} from 'actions/app/map';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,6 +19,12 @@ export const initialState = {
     timeout: 10000,
     maximumAge: 1000
   },
+  regionPosition: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: LATTITIDE_DELTA,
+    longitudeDelta: LONGTITUDE_DELTA
+  },
   currentPosition: {
     latitude: 0,
     longitude: 0,
@@ -24,6 +35,27 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
+  case INITIAL_REGION_POSITION: {
+    return {
+      ...state,
+      regionPosition: {
+        latitude: parseFloat(action.payload.coords.latitude),
+        longitude: parseFloat(action.payload.coords.longitude),
+        latitudeDelta: LATTITIDE_DELTA,
+        longitudeDelta: LONGTITUDE_DELTA
+      },
+      errors: null
+    };
+  }
+  case CHANGE_REGION_POSITION: {
+    return {
+      ...state,
+      regionPosition: {
+        ...action.payload
+      },
+      errors: null
+    };
+  }
   case CHANGE_POSITION: {
     return {
       ...state,
@@ -40,7 +72,6 @@ export const reducer = (state, action) => {
   case ERROR_POSITION: {
     return {
       ...state,
-      currentPosition: initialState.currentPosition,
       errors: action.payload
     };
   }

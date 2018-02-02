@@ -11,7 +11,7 @@ import { createFilter } from 'redux-persist-transform-filter';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { reducer, initialState } from 'reducers';
 import {
-  changeIsOpenKeyboard
+  changeKeyboardStatus
   // changePermissions
 } from 'actions/app/statuses';
 // import { checkMultiplePermissions } from 'utils';
@@ -44,10 +44,10 @@ export function createStore() {
     composeWithDevTools(getEnhancer())
   );
   // const persistor = persistStore(store, {}, () => {
-  // 	store.dispatch(changeIsOpenKeyboard(false));
+  // 	store.dispatch(changeKeyboardStatus(false));
   // }).purge([]);
   const persistor = persistStore(store, null, () => {
-    store.dispatch(changeIsOpenKeyboard(false));
+    store.dispatch(changeKeyboardStatus(false));
     // checkMultiplePermissions(['location'], perms => {
     //   store.dispatch(changePermissions({ ...perms }));
     // });
