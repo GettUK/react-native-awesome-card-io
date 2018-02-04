@@ -10,4 +10,6 @@ target 'oteApp' do
   pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+
 end

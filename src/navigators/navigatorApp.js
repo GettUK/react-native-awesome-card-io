@@ -1,5 +1,5 @@
 import { StackNavigator } from 'react-navigation';
-import MapView from 'containers/MapView/';
+import MapView from 'containers/MapView';
 
 const routeConfiguration = {
   MapView: {
