@@ -1,4 +1,6 @@
 PODS:
+  - BVLinearGradient (2.4.0):
+    - React
   - GoogleMaps (2.5.0):
     - GoogleMaps/Maps (= 2.5.0)
   - GoogleMaps/Base (2.5.0)
@@ -19,6 +21,7 @@ PODS:
   - yoga (0.50.0.React)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - GoogleMaps
   - React (from `../node_modules/react-native`)
   - ReactNativePermissions (from `../node_modules/react-native-permissions`)
@@ -28,6 +31,8 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   React:
     :path: "../node_modules/react-native"
   ReactNativePermissions:
@@ -42,6 +47,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BVLinearGradient: 8913bd8fdc47b85abc801ae8bae007bbfb6b4ce5
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   React: a699ffba5161ee79517e9eed0a417d157013567d
   ReactNativePermissions: b64e084dff6a5cad51587d38c306f09246246384
@@ -50,6 +56,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 00632755ab42ae7b7d1a5877c9840d71e808efad
   yoga: 66e85d2f10e1069dcfeb7b7223ac2b41d9465df2
 
-PODFILE CHECKSUM: 9f03f390880b9071d6b41b7efc51f7ec99bc0968
+PODFILE CHECKSUM: 91f6593ba31f0e918f48a383f9c0493dd49b961b
 
 COCOAPODS: 1.2.1
