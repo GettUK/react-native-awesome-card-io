@@ -10,6 +10,8 @@ import { createFilter } from 'redux-persist-transform-filter';
 // } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { reducer, initialState } from 'reducers';
+import { isEmpty } from 'lodash/fp';
+import { auth } from 'actions/ui/auth';
 import {
   changeKeyboardStatus
   // changePermissions
@@ -35,8 +37,11 @@ export function createStore() {
   const persistConfig = {
     key: 'root',
     storage,
-    transforms: [createFilter('app', ['statuses'])],
-    whitelist: ['app']
+    transforms: [
+      createFilter('app', ['statuses']),
+      createFilter('session', ['token', 'realms', 'result'])
+    ],
+    whitelist: ['app', 'session']
   };
   const store = createStore_(
     enableBatching(persistReducer(persistConfig, reducer)),
@@ -47,6 +52,9 @@ export function createStore() {
   // 	store.dispatch(changeKeyboardStatus(false));
   // }).purge([]);
   const persistor = persistStore(store, null, () => {
+    if (!isEmpty(store.getState().session.token)) {
+      store.dispatch(auth());
+    }
     store.dispatch(changeKeyboardStatus(false));
     // checkMultiplePermissions(['location'], perms => {
     //   store.dispatch(changePermissions({ ...perms }));

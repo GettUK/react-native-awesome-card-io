@@ -1,5 +1,5 @@
 {
-  "url": "https://swagger.ru/api/",
+  "url": "https://dev.gettaxi.me/api/",
   "ws": "wss://swagger.ru/ws/connect/",
   "version": "v1/",
   "headers": {

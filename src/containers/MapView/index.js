@@ -15,7 +15,9 @@ class Map extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       position => {
-        this.props.initialRegionPosition(position);
+        setTimeout(() => {
+          this.props.initialRegionPosition(position);
+        }, 500);
         this.props.changePosition(position);
       },
       this.props.errorPosition,
@@ -48,6 +50,7 @@ class Map extends Component {
     );
   }
 }
+
 Map.propTypes = {
   // navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
@@ -56,6 +59,8 @@ Map.propTypes = {
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired
 };
+
+Map.defaultProps = {};
 
 const select = ({ app }) => ({
   map: app.map

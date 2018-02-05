@@ -11,7 +11,7 @@ module.exports = ({ platform, root }, defaults) => ({
       components: path.join(root, 'src', 'components'),
       config: path.join(root, 'src', 'config'),
       containers: path.join(root, 'src', 'containers'),
-      i18n: path.join(root, 'src', 'i18n'),
+      locales: path.join(root, 'src', 'locales'),
       models: path.join(root, 'src', 'models'),
       navigators: path.join(root, 'src', 'navigators'),
       reducers: path.join(root, 'src', 'reducers'),
