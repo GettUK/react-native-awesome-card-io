@@ -31,7 +31,8 @@ globals:
   window: true
   fetch: true
   Headers: true,
-  FormData: true
+  FormData: true,
+  navigator: true,
 
 rules:
   ### POSSIBLE ERRORS ###
@@ -184,9 +185,8 @@ rules:
   func-names: 2                  # require function expressions to have a name (off by default)
   func-style: 0                  # enforces use of function declarations or expressions (off by default)
   indent:
+    - 'error'
     - 2
-    - tab
-    - SwitchCase: 1
   key-spacing:                   # enforces spacing between keys and values in object literal properties
     - 2
     - beforeColon: false

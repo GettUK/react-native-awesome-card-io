@@ -8,46 +8,49 @@ import { createFilter } from 'redux-persist-transform-filter';
 // import {
 //     createLogger
 // } from 'redux-logger';
-// TODO fix when go to prod;
-// import {
-//     composeWithDevTools
-// } from 'redux-devtools-extension/logOnlyInProduction';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { reducer, initialState } from 'reducers';
-import { changeIsOpenKeyboard } from 'actions/app/statuses';
+import {
+  changeKeyboardStatus
+  // changePermissions
+} from 'actions/app/statuses';
+// import { checkMultiplePermissions } from 'utils';
 
 export function getMiddlewares() {
-	const middlewares = [thunk, createNetworkMiddleware()];
-	if (process.env.NODE_ENV === 'development') {
-		// TODO fix logger if needed;
-		// middlewares.push(createLogger());
-	}
-	return middlewares;
+  const middlewares = [thunk, createNetworkMiddleware()];
+  if (process.env.NODE_ENV === 'development') {
+    // TODO fix logger if needed;
+    // middlewares.push(createLogger());
+  }
+  return middlewares;
 }
 function getPreloadedState() {
-	return initialState;
+  return initialState;
 }
 function getEnhancer() {
-	const chain = [applyMiddleware(...getMiddlewares())];
-	return compose(...chain);
+  const chain = [applyMiddleware(...getMiddlewares())];
+  return compose(...chain);
 }
 export function createStore() {
-	const persistConfig = {
-		key: 'root',
-		storage,
-		transforms: [createFilter('app', ['statuses'])],
-		whitelist: ['app']
-	};
-	const store = createStore_(
-		enableBatching(persistReducer(persistConfig, reducer)),
-		getPreloadedState(),
-		composeWithDevTools(getEnhancer())
-	);
-	// const persistor = persistStore(store, {}, () => {
-	// 	store.dispatch(changeIsOpenKeyboard(false));
-	// }).purge([]);
-	const persistor = persistStore(store, null, () => {
-		store.dispatch(changeIsOpenKeyboard(false));
-	});
-	return { store, persistor };
+  const persistConfig = {
+    key: 'root',
+    storage,
+    transforms: [createFilter('app', ['statuses'])],
+    whitelist: ['app']
+  };
+  const store = createStore_(
+    enableBatching(persistReducer(persistConfig, reducer)),
+    getPreloadedState(),
+    composeWithDevTools(getEnhancer())
+  );
+  // const persistor = persistStore(store, {}, () => {
+  // 	store.dispatch(changeKeyboardStatus(false));
+  // }).purge([]);
+  const persistor = persistStore(store, null, () => {
+    store.dispatch(changeKeyboardStatus(false));
+    // checkMultiplePermissions(['location'], perms => {
+    //   store.dispatch(changePermissions({ ...perms }));
+    // });
+  });
+  return { store, persistor };
 }
