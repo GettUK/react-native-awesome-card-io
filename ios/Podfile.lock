@@ -8,24 +8,36 @@ PODS:
     - React/Core (= 0.50.0)
   - React/Core (0.50.0):
     - yoga (= 0.50.0.React)
+  - ReactNativePermissions (1.1.1):
+    - React
+  - RNI18n (2.0.11):
+    - React
   - yoga (0.50.0.React)
 
 DEPENDENCIES:
   - GoogleMaps
   - React (from `../node_modules/react-native`)
+  - ReactNativePermissions (from `../node_modules/react-native-permissions`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  ReactNativePermissions:
+    :path: "../node_modules/react-native-permissions"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   React: a699ffba5161ee79517e9eed0a417d157013567d
+  ReactNativePermissions: b64e084dff6a5cad51587d38c306f09246246384
+  RNI18n: 155baa432934b0ca208f34de13834f4720e0cc12
   yoga: 66e85d2f10e1069dcfeb7b7223ac2b41d9465df2
 
-PODFILE CHECKSUM: 4b354e7151492574522b927b03b1cf3bf32d7109
+PODFILE CHECKSUM: 2e050240ed2a2c5dbf304c26e24485e021a5bce8
 
 COCOAPODS: 1.2.1

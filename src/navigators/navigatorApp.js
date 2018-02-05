@@ -1,27 +1,63 @@
+import React from 'react';
+import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import NavImageButton from 'components/Common/NavImageButton';
+
 import MapView from 'containers/MapView';
+import SettingsView from 'containers/Settings';
+
+import assets from 'assets/index';
 
 const routeConfiguration = {
   MapView: {
     screen: MapView,
-    navigationOptions: {
-      headerBackTitle: null,
-      headerTintColor: '#F68C41',
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: '#000',
       headerStyle: {
-        backgroundColor: '#F68C41',
-        shadowColor: 'rgba(178,178,178,1)',
-        shadowOpacity: 1,
-        shadowRadius: 0,
-        shadowOffset: {
-          height: 0.5
-        }
-      }
-    }
+        backgroundColor: '#fff'
+      },
+      //   header: <View style={{height: 20, backgroundColor: 'transparent'}}/>,
+      headerLeft: (
+        <View style={{ flexDirection: 'row' }}>
+          <NavImageButton
+            onClick={() => navigation.navigate('SettingsView', {})}
+            styleContainer={{ justifyContent: 'center' }}
+            styleView={{ marginLeft: 10 }}
+            styleImage={{ width: 21, height: 14 }}
+            source={assets.hamburgerMenu}
+          />
+        </View>
+      )
+    })
+  },
+  SettingsView: {
+    screen: SettingsView,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      },
+      headerLeft: (
+        <View style={{ flexDirection: 'row' }}>
+          <NavImageButton
+            onClick={() => navigation.goBack(null)}
+            styleContainer={{ justifyContent: 'center' }}
+            styleView={{ marginLeft: 10 }}
+            styleImage={{ width: 21, height: 20 }}
+            source={assets.close}
+          />
+        </View>
+      )
+    })
   }
 };
 
 const stackNavigatorConfiguration = {
-  headerMode: 'screen'
+  headerMode: 'screen',
+  transitionConfig: () => ({
+    screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid
+  })
 };
 
 const NavigatorApp = StackNavigator(
