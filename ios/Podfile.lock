@@ -1,4 +1,6 @@
 PODS:
+  - BVLinearGradient (2.4.0):
+    - React
   - GoogleMaps (2.5.0):
     - GoogleMaps/Maps (= 2.5.0)
   - GoogleMaps/Base (2.5.0)
@@ -12,32 +14,48 @@ PODS:
     - React
   - RNI18n (2.0.11):
     - React
+  - RNSVG (6.1.3):
+    - React
+  - RNVectorIcons (4.5.0):
+    - React
   - yoga (0.50.0.React)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - GoogleMaps
   - React (from `../node_modules/react-native`)
   - ReactNativePermissions (from `../node_modules/react-native-permissions`)
   - RNI18n (from `../node_modules/react-native-i18n`)
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   React:
     :path: "../node_modules/react-native"
   ReactNativePermissions:
     :path: "../node_modules/react-native-permissions"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BVLinearGradient: 8913bd8fdc47b85abc801ae8bae007bbfb6b4ce5
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   React: a699ffba5161ee79517e9eed0a417d157013567d
   ReactNativePermissions: b64e084dff6a5cad51587d38c306f09246246384
   RNI18n: 155baa432934b0ca208f34de13834f4720e0cc12
+  RNSVG: f8f97aba6577cad4ef8009039affabf7899d7e40
+  RNVectorIcons: 00632755ab42ae7b7d1a5877c9840d71e808efad
   yoga: 66e85d2f10e1069dcfeb7b7223ac2b41d9465df2
 
-PODFILE CHECKSUM: 2e050240ed2a2c5dbf304c26e24485e021a5bce8
+PODFILE CHECKSUM: 91f6593ba31f0e918f48a383f9c0493dd49b961b
 
 COCOAPODS: 1.2.1
