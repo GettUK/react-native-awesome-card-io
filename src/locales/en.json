@@ -5,5 +5,24 @@
     "forgot_password": "Forgot your password?",
     "login_button": "LOGIN",
     "logout_button": "LOGOUT"
+  },
+  "settings": {
+    "headerTitle": "Settings",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "cartypeLabel": "Default Cartype",
+    "homeLabel": "Home",
+    "workLabel": "Work",
+    "addressesLabel": "My addresses",
+    "smsLabel": "SMS",
+    "notificationLabel": "Push Notifications",
+    "invitesLabel": "Calendar Invites",
+    "wheelchairLabel": "Wheelchair Access",
+    "paymentsLabel":"Payments",
+    "ridesLabel":"My Rides",
+    "privacyLabel": "Privacy Policy",
+    "termsLabel": "Terms & Conditions",
+    "faqsLabel": "FAQs",
+    "locationInfoLabel": "Location Information"
   }
 }

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import NavImageButton from 'components/Common/NavImageButton';
+import { strings } from 'locales';
 
 import MapView from 'containers/MapView';
 import SettingsView from 'containers/Settings';
@@ -38,6 +39,7 @@ const routeConfiguration = {
       headerStyle: {
         backgroundColor: '#fff'
       },
+      title: strings('settings.headerTitle'),
       headerLeft: (
         <View style={{ flexDirection: 'row' }}>
           <NavImageButton
