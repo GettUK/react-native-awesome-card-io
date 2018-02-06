@@ -1,8 +1,8 @@
 import config from 'config';
 import { processResponse, processErrors } from './common';
 
-export const getCompanySettings = token =>
-  fetch(`${config.url}company/settings`, {
+export const getPassengerID = (token, id) =>
+  fetch(`${config.url}passengers/${id}`, {
     method: 'GET',
     headers: new Headers({
       ...config.headers,
