@@ -58,10 +58,9 @@ class Login extends Component {
           />
           <View style={styles.label_unner}>
             <TouchableOpacity
-              // onPress={() =>
-              //   this.props.navigation.navigate('RecoveryPassword')
-              // }
-              onPress={() => {}}>
+              onPress={() =>
+                this.props.navigation.navigate('ForgotPassword')
+              }>
               <Text style={styles.text_label_forgot}>
                 {strings('login.forgot_password')}
               </Text>
@@ -84,7 +83,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  // navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
   login: PropTypes.object.isRequired,
   changePassword: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,

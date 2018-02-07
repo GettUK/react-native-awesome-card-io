@@ -16,6 +16,7 @@
     "storybook": "storybook start -p 7007 --haul webpack.haul.storybook.js --platform all"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "data.either": "^1.5.1",
     "data.maybe": "^1.2.2",
     "lodash": "^4.17.4",
@@ -25,6 +26,7 @@
     "prop-types": "^15.6.0",
     "react": "16.0.0",
     "react-native": "0.50.0",
+    "react-native-dropdownalert": "^3.2.0",
     "react-native-elements": "^0.19.0",
     "react-native-i18n": "^2.0.11",
     "react-native-linear-gradient": "^2.4.0",
@@ -43,7 +45,8 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.5.0",
     "redux-persist-transform-filter": "^0.0.16",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "validate.js": "^0.12.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.11",

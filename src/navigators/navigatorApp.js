@@ -5,14 +5,13 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 import NavImageButton from 'components/Common/NavImageButton';
 import { strings } from 'locales';
 
-import MapView from 'containers/MapView';
-import SettingsView from 'containers/Settings';
+import {Map, Settings } from 'containers';
 
 import assets from 'assets';
 
 const routeConfiguration = {
   MapView: {
-    screen: MapView,
+    screen: Map,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: '#000',
       headerStyle: {
@@ -22,7 +21,7 @@ const routeConfiguration = {
     })
   },
   SettingsView: {
-    screen: SettingsView,
+    screen: Settings,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: '#000',
       headerStyle: {

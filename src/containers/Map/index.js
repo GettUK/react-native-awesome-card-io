@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import Icon from 'components/Icons/Icon';
+import {Icon} from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 import {
