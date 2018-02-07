@@ -1,14 +1,8 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StatusBar,
-  Image,
-  TouchableHighlight,
-  Text
-} from 'react-native';
+import { View, StatusBar, Image, TouchableHighlight, Text } from 'react-native';
 import validate from 'validate.js';
 import DropdownAlert from 'react-native-dropdownalert';
-import {Icon, Input} from 'components';
+import { Icon, Input } from 'components';
 import axios from 'axios';
 import assets from 'assets';
 import styles from './style';

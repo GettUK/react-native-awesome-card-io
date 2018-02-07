@@ -5,7 +5,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 import NavImageButton from 'components/Common/NavImageButton';
 import { strings } from 'locales';
 
-import {Map, Settings } from 'containers';
+import { Map, Settings } from 'containers';
 
 import assets from 'assets';
 

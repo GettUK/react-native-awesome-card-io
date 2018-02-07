@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   KeyboardAvoidingView,
+  TouchableHighlight,
   TouchableOpacity,
+  StatusBar,
   Platform,
+  Image,
   View,
   Text
 } from 'react-native';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import TextInputItem from 'components/Common/TextInput';
+import { Icon, Input } from 'components';
 import {
   changePassword,
   changeEmail,
@@ -20,6 +22,7 @@ import {
 //     logout as onSubmitLogout
 // } from 'actions/ui/logout';
 import { strings } from 'locales';
+import assets from 'assets';
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
@@ -29,48 +32,52 @@ class Login extends Component {
   render() {
     const { login: { fields } } = this.props;
     return (
-      <DismissKeyboardView style={styles.container}>
+      <DismissKeyboardView style={styles.screen}>
+        <StatusBar barStyle="light-content" />
+        <Image style={styles.image} source={assets.loginBg} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
-          style={styles.container_bottom}>
-          <TextInputItem
-            styleContainer={{
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder={strings('login.email')}
+          style={styles.container}>
+          <Icon name="logo" width={250} height={60} fill="#fff" />
+          <Input
             value={fields.email}
-            onChange={this.props.changeEmail}
+            onChangeText={this.props.changeEmail}
+            style={styles.input}
+            autoCorrect={false}
+            // autoFocus
+            inputStyle={styles.inputStyle}
+            labelStyle={styles.label}
+            label={strings('login.email')}
+            keyboardType="email-address"
+            error=""
           />
-          <View style={[styles.delimiter]} />
-          <TextInputItem
-            styleContainer={{
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20
-            }}
-            autoCapitalize="none"
-            placeholder={strings('login.password')}
-            controlled
+          <Input
             value={fields.password}
-            onChange={this.props.changePassword}
+            onChangeText={this.props.changePassword}
+            style={styles.input}
+            autoCorrect={false}
+            controlled
+            // autoFocus
+            inputStyle={styles.inputStyle}
+            labelStyle={styles.label}
+            label={strings('login.password')}
+            keyboardType="email-address"
+            error=""
           />
+          <TouchableHighlight
+            underlayColor="rgba(255, 255, 255, 0.2)"
+            style={styles.btn}
+            onPress={this.props.onSubmitLogin}>
+            <Text style={styles.btnText}>{strings('login.login_button')}</Text>
+          </TouchableHighlight>
           <View style={styles.label_unner}>
             <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('ForgotPassword')
-              }>
+              onPress={() => this.props.navigation.navigate('ForgotPassword')}>
               <Text style={styles.text_label_forgot}>
                 {strings('login.forgot_password')}
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={this.props.onSubmitLogin}>
-            <Text style={styles.text_label_forgot}>
-              {strings('login.login_button')}
-            </Text>
-          </TouchableOpacity>
           {/* <TouchableOpacity onPress={this.props.onSubmitLogout}>*/}
           {/* <Text style={styles.text_label_forgot}>*/}
           {/* {strings('login.logout_button')}*/}
