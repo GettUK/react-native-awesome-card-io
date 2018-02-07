@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { has, isNull, isEqual, isFunction } from 'lodash/fp';
 import { ternaryOp } from 'utils';
-import assets from 'assets/index';
+import assets from 'assets';
 import styles from './style';
 
 class ListChatItem extends Component {

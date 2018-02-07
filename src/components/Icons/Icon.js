@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import lib from './lib';
 
 const Icon = ({ name, size, width, height, ...rest }) => {
-
   if (!name) {
     return null;
   }

@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 import { compose, property, has } from 'lodash/fp';
-import assets from 'assets/index';
+import assets from 'assets';
 import styles from './style';
 
 const pTextNativeEvent = compose(property('text'), property('nativeEvent'));

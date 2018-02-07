@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
-import { ListItem as ListItemEl, Avatar } from 'react-native-elements';
+import { ListItem, Avatar } from 'react-native-elements';
 import { has, join, isEmpty, isNull, isEqual, capitalize } from 'lodash/fp';
 import {
   passegerViewEmpty,
@@ -49,28 +49,30 @@ class Settings extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.blockItems}>
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               avatar={
-                has('avatar_url', results) && !isEmpty(results.avatar_url) &&
-                <Avatar
-                  rounded
-                  medium
-                  source={{
-                    uri: results.avatar_url
-                  }}
-                  title={
-                    has('first_name', results) &&
-                    has('last_name', results) &&
-                    !isEmpty(results.first_name) &&
-                    !isEmpty(results.last_name) ?
-                      join(' ', [
-                        capitalize(results.first_name),
-                        capitalize(results.last_name)
-                      ]) :
-                      null
-                  }
-                />
+                has('avatar_url', results) &&
+                !isEmpty(results.avatar_url) && (
+                  <Avatar
+                    rounded
+                    medium
+                    source={{
+                      uri: results.avatar_url
+                    }}
+                    title={
+                      has('first_name', results) &&
+                      has('last_name', results) &&
+                      !isEmpty(results.first_name) &&
+                      !isEmpty(results.last_name) ?
+                        join(' ', [
+                          capitalize(results.first_name),
+                          capitalize(results.last_name)
+                        ]) :
+                        null
+                    }
+                  />
+                )
               }
               title={
                 has('first_name', results) &&
@@ -93,9 +95,9 @@ class Settings extends Component {
                 styles.avatarContainer
               ]}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.phoneLabel')}
+              title={strings('settings.label.phone')}
               titleNumberOfLines={2}
               rightTitle={
                 has('phone', results) && !isEmpty(results.phone) ?
@@ -108,9 +110,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.emailLabel')}
+              title={strings('settings.label.email')}
               titleNumberOfLines={2}
               rightTitle={
                 has('email', results) && !isEmpty(results.email) ?
@@ -123,9 +125,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.cartypeLabel')}
+              title={strings('settings.label.cartype')}
               titleNumberOfLines={2}
               rightTitle={
                 has('default_vehicle', results) &&
@@ -141,10 +143,10 @@ class Settings extends Component {
             />
           </View>
           <View style={styles.blockItems}>
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'home', color: '#8E8E93' }}
-              title={strings('settings.homeLabel')}
+              title={strings('settings.label.home')}
               titleNumberOfLines={2}
               rightTitle={
                 has('home_address', results) &&
@@ -159,10 +161,10 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'business-center', color: '#8E8E93' }}
-              title={strings('settings.workLabel')}
+              title={strings('settings.label.work')}
               titleNumberOfLines={2}
               rightTitle={
                 has('work_address', results) &&
@@ -177,9 +179,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.addressesLabel')}
+              title={strings('settings.label.addresses')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -189,43 +191,53 @@ class Settings extends Component {
             />
           </View>
           <View style={styles.blockItems}>
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'drafts', color: '#8E8E93' }}
-              title={strings('settings.emailLabel')}
+              title={strings('settings.label.email')}
               titleNumberOfLines={2}
               switchButton
-              onSwitch={bool => console.log('settings.emailLabel', bool)}
+              onSwitch={bool => console.log('settings.label.email', bool)}
               switchOnTintColor="#4CD964"
-              switched={has('notify_with_email', results) ? results.notify_with_email : false}
+              switched={
+                has('notify_with_email', results) ?
+                  results.notify_with_email :
+                  false
+              }
               hideChevron
               rightTitleStyle={styles.listItemRightTitle}
               titleStyle={styles.listItemTitle}
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'home', color: '#8E8E93' }}
-              title={strings('settings.smsLabel')}
+              title={strings('settings.label.sms')}
               titleNumberOfLines={2}
               switchButton
-              onSwitch={bool => console.log('settings.smsLabel', bool)}
+              onSwitch={bool => console.log('settings.label.sms', bool)}
               switchOnTintColor="#4CD964"
-              switched={has('notify_with_sms', results) ? results.notify_with_sms : false}
+              switched={
+                has('notify_with_sms', results) ?
+                  results.notify_with_sms :
+                  false
+              }
               hideChevron
               rightTitleStyle={styles.listItemRightTitle}
               titleStyle={styles.listItemTitle}
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'notifications', color: '#8E8E93' }}
-              title={strings('settings.notificationLabel')}
+              title={strings('settings.label.notification')}
               titleNumberOfLines={2}
               switchButton
-              onSwitch={bool => console.log('settings.notificationLabel', bool)}
+              onSwitch={bool =>
+                console.log('settings.label.notification', bool)
+              }
               switchOnTintColor="#4CD964"
               switched={false}
               hideChevron
@@ -234,33 +246,41 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{ name: 'event-note', color: '#8E8E93' }}
-              title={strings('settings.invitesLabel')}
+              title={strings('settings.label.invites')}
               titleNumberOfLines={2}
               switchButton
-              onSwitch={bool => console.log('settings.invitesLabel', bool)}
+              onSwitch={bool => console.log('settings.label.invites', bool)}
               switchOnTintColor="#4CD964"
-              switched={has('notify_with_calendar_event', results) ? results.notify_with_calendar_event : false}
+              switched={
+                has('notify_with_calendar_event', results) ?
+                  results.notify_with_calendar_event :
+                  false
+              }
               hideChevron
               rightTitleStyle={styles.listItemRightTitle}
               titleStyle={styles.listItemTitle}
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
               leftIcon={{
                 name: 'airline-seat-recline-extra',
                 color: '#8E8E93'
               }}
-              title={strings('settings.wheelchairLabel')}
+              title={strings('settings.label.wheelchair')}
               titleNumberOfLines={2}
               switchButton
-              onSwitch={bool => console.log('wheelchairLabel', bool)}
+              onSwitch={bool => console.log('settings.label.wheelchair', bool)}
               switchOnTintColor="#4CD964"
-              switched={has('wheelchair_user', results) ? results.wheelchair_user : false}
+              switched={
+                has('wheelchair_user', results) ?
+                  results.wheelchair_user :
+                  false
+              }
               hideChevron
               rightTitleStyle={styles.listItemRightTitle}
               titleStyle={styles.listItemTitle}
@@ -269,9 +289,9 @@ class Settings extends Component {
             />
           </View>
           <View style={styles.blockItems}>
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.paymentsLabel')}
+              title={strings('settings.label.payments')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -279,9 +299,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.ridesLabel')}
+              title={strings('settings.label.rides')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -291,9 +311,9 @@ class Settings extends Component {
             />
           </View>
           <View style={styles.blockItems}>
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.privacyLabel')}
+              title={strings('settings.label.privacy')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -301,9 +321,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.termsLabel')}
+              title={strings('settings.label.terms')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -311,9 +331,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.faqsLabel')}
+              title={strings('settings.label.faqs')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}
@@ -321,9 +341,9 @@ class Settings extends Component {
               titleContainerStyle={styles.listItemTitleContainer}
               containerStyle={styles.listItemContainer}
             />
-            <ListItemEl
+            <ListItem
               onPress={() => {}}
-              title={strings('settings.locationInfoLabel')}
+              title={strings('settings.label.locationInfo')}
               titleNumberOfLines={2}
               chevronColor="#C7C7CC"
               rightTitleStyle={styles.listItemRightTitle}

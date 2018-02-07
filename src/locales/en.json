@@ -7,23 +7,25 @@
     "logout_button": "LOGOUT"
   },
   "settings": {
+    "label": {
+      "phone": "Phone",
+      "email": "Email",
+      "cartype": "Default Cartype",
+      "home": "Home",
+      "work": "Work",
+      "addresses": "My addresses",
+      "sms": "SMS",
+      "notification": "Push Notifications",
+      "invites": "Calendar Invites",
+      "wheelchair": "Wheelchair Access",
+      "payments":"Payments",
+      "rides":"My Rides",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "faqs": "FAQs",
+      "locationInfo": "Location Information"
+    },
     "headerTitle": "Settings",
-    "none":"None",
-    "phoneLabel": "Phone",
-    "emailLabel": "Email",
-    "cartypeLabel": "Default Cartype",
-    "homeLabel": "Home",
-    "workLabel": "Work",
-    "addressesLabel": "My addresses",
-    "smsLabel": "SMS",
-    "notificationLabel": "Push Notifications",
-    "invitesLabel": "Calendar Invites",
-    "wheelchairLabel": "Wheelchair Access",
-    "paymentsLabel":"Payments",
-    "ridesLabel":"My Rides",
-    "privacyLabel": "Privacy Policy",
-    "termsLabel": "Terms & Conditions",
-    "faqsLabel": "FAQs",
-    "locationInfoLabel": "Location Information"
+    "none":"None"
   }
 }

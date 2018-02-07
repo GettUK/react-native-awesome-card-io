@@ -8,7 +8,7 @@ import { strings } from 'locales';
 import MapView from 'containers/MapView';
 import SettingsView from 'containers/Settings';
 
-import assets from 'assets/index';
+import assets from 'assets';
 
 const routeConfiguration = {
   MapView: {
@@ -18,18 +18,7 @@ const routeConfiguration = {
       headerStyle: {
         backgroundColor: '#fff'
       },
-      //   header: <View style={{height: 20, backgroundColor: 'transparent'}}/>,
-      headerLeft: (
-        <View style={{ flexDirection: 'row' }}>
-          <NavImageButton
-            onClick={() => navigation.navigate('SettingsView', {})}
-            styleContainer={{ justifyContent: 'center' }}
-            styleView={{ marginLeft: 10 }}
-            styleImage={{ width: 21, height: 14 }}
-            source={assets.hamburgerMenu}
-          />
-        </View>
-      )
+      header: <View style={{marginTop: 20, height: 0}}/>
     })
   },
   SettingsView: {
