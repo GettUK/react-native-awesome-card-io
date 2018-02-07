@@ -12,4 +12,4 @@ export default function Clear({ fill, ...rest }) {
       />
     </Svg>
   );
-};
+}

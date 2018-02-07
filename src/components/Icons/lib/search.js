@@ -14,4 +14,4 @@ export default function Search({ stroke, ...rest }) {
       />
     </Svg>
   );
-};
+}
