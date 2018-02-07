@@ -18,7 +18,7 @@ const routeConfiguration = {
       headerStyle: {
         backgroundColor: '#fff'
       },
-      header: <View style={{marginTop: 20, height: 0}}/>
+      header: <View style={{ marginTop: 20, height: 0 }} />
     })
   },
   SettingsView: {

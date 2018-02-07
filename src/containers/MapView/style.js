@@ -8,6 +8,25 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent'
   },
+  currentPosition: {
+    position: 'absolute',
+    bottom: '15%',
+    left: 14,
+    backgroundColor: '#fff',
+    zIndex: 10,
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'rgba(178,178,178,1)',
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 0.5
+    }
+  },
   headerLeftView: {
     flexDirection: 'row'
   },
