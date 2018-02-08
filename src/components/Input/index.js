@@ -87,7 +87,7 @@ export default class Input extends PureComponent {
           underlineColorAndroid="transparent"
           selectionColor="rgba(255,255,255,0.2)"
         />
-        {allowClear && (
+        {allowClear && rest.value.length > 0 && (
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.clearBtn}
