@@ -1,9 +1,9 @@
 {
   "login": {
-    "email": "EMAIL",
-    "password": "PASSWORD",
+    "email": "Email",
+    "password": "Password",
     "forgot_password": "Forgot your password?",
-    "login_button": "LOGIN",
+    "login_button": "Log in",
     "logout_button": "LOGOUT",
     "reset": "Reset"
   },

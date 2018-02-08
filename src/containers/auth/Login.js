@@ -18,9 +18,6 @@ import {
   changeEmail,
   login as onSubmitLogin
 } from 'actions/ui/login';
-// import {
-//     logout as onSubmitLogout
-// } from 'actions/ui/logout';
 import { strings } from 'locales';
 import assets from 'assets';
 import styles from './style';
@@ -35,6 +32,7 @@ class Login extends Component {
   goToForgot = () => {
     this.props.navigation.navigate('ForgotPassword');
   };
+
   render() {
     const { login: { fields } } = this.props;
     return (
@@ -43,14 +41,14 @@ class Login extends Component {
         <Image style={styles.image} source={assets.loginBg} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
-          style={styles.container}>
+          style={styles.container}
+        >
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={fields.email}
             onChangeText={this.props.changeEmail}
             style={styles.input}
             autoCorrect={false}
-            // autoFocus
             inputStyle={styles.inputStyle}
             labelStyle={styles.label}
             label={strings('login.email')}
@@ -70,29 +68,30 @@ class Login extends Component {
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.2)"
             style={styles.btn}
-            onPress={this.handleSubmit}>
+            onPress={this.handleSubmit}
+          >
             <Text style={styles.btnText}>{strings('login.login_button')}</Text>
           </TouchableHighlight>
-          <View style={styles.footer}>
-            <Text style={[styles.footerText, styles.footerTextGap]}>
-              {strings('login.forgot_password')}
-            </Text>
-            <TouchableHighlight onPress={this.goToForgot}>
-              <Text style={[styles.footerText, styles.footerLink]}>
-                {strings('login.reset')}
-              </Text>
-            </TouchableHighlight>
-          </View>
-          <DropdownAlert
-            closeInterval={10000}
-            endDelta={30}
-            imageStyle={styles.errorImage}
-            errorColor="#f00"
-            defaultContainer={styles.errorContainer}
-            updateStatusBar={false}
-            ref={el => (this.dropdown = el)}
-          />
         </KeyboardAvoidingView>
+        <View style={styles.footer}>
+          <Text style={[styles.footerText, styles.footerTextGap]}>
+            {strings('login.forgot_password')}
+          </Text>
+          <TouchableHighlight onPress={this.goToForgot}>
+            <Text style={[styles.footerText, styles.footerLink]}>
+              {strings('login.reset')}
+            </Text>
+          </TouchableHighlight>
+        </View>
+        <DropdownAlert
+          closeInterval={10000}
+          endDelta={30}
+          imageStyle={styles.errorImage}
+          errorColor="#f00"
+          defaultContainer={styles.errorContainer}
+          updateStatusBar={false}
+          ref={el => (this.dropdown = el)}
+        />
       </DismissKeyboardView>
     );
   }
@@ -117,7 +116,6 @@ const bindActions = {
   changePassword,
   changeEmail,
   onSubmitLogin
-  // onSubmitLogout
 };
 
 export default connect(select, bindActions)(Login);
