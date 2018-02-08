@@ -5,9 +5,7 @@ import { enableBatching } from 'redux-batched-actions';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createFilter } from 'redux-persist-transform-filter';
-// import {
-//     createLogger
-// } from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { reducer, initialState } from 'reducers';
 import { isEmpty } from 'lodash/fp';
@@ -16,23 +14,27 @@ import {
   changeKeyboardStatus
   // changePermissions
 } from 'actions/app/statuses';
+
 // import { checkMultiplePermissions } from 'utils';
 
 export function getMiddlewares() {
   const middlewares = [thunk, createNetworkMiddleware()];
   if (process.env.NODE_ENV === 'development') {
     // TODO fix logger if needed;
-    // middlewares.push(createLogger());
+    middlewares.push(createLogger({ collapsed: true }));
   }
   return middlewares;
 }
+
 function getPreloadedState() {
   return initialState;
 }
+
 function getEnhancer() {
   const chain = [applyMiddleware(...getMiddlewares())];
   return compose(...chain);
 }
+
 export function createStore() {
   const persistConfig = {
     key: 'root',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {
   initialRegionPosition,
@@ -36,6 +36,7 @@ class Map extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="default" />
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}

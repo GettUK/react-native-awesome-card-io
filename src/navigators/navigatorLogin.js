@@ -1,17 +1,17 @@
 import { StackNavigator } from 'react-navigation';
-import Login from 'containers/Login';
+import { Login, ForgotPassword } from 'containers';
 
 const routeConfiguration = {
   Login: {
-    screen: Login,
-    navigationOptions: {
-      header: null
-    }
+    screen: Login
+  },
+  ForgotPassword: {
+    screen: ForgotPassword
   }
 };
 
 const stackNavigatorConfiguration = {
-  headerMode: 'screen'
+  headerMode: 'none'
 };
 
 const NavigatorLogin = StackNavigator(
