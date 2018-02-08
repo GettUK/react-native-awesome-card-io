@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
 
   image: {
@@ -13,18 +13,20 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
 
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 30,
+    padding: 30
   },
 
   logo: {
     alignSelf: 'center',
-    marginBottom: 50
+    marginBottom: 50,
+    width: 240,
+    height: 70
   },
 
   input: {
@@ -33,7 +35,7 @@ export default StyleSheet.create({
 
   inputStyle: {
     fontSize: 18,
-    color: '#fff',
+    color: '#fff'
   },
 
   label: {
@@ -64,18 +66,18 @@ export default StyleSheet.create({
 
   footerText: {
     color: '#fff',
-    fontSize: 18
+    textDecorationLine: 'underline',
+    fontSize: 18,
+    fontWeight: 'bold'
   },
-
   footerLink: {
     fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    textDecorationLine: 'underline'
   },
 
   footerTextGap: {
     marginRight: 15
   },
-
   errorContainer: {
     marginHorizontal: 20,
     borderRadius: 30,
@@ -87,3 +89,5 @@ export default StyleSheet.create({
     display: 'none'
   }
 });
+
+export default styles;

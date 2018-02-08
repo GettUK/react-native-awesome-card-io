@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { TextInput, View, Animated, TouchableOpacity } from 'react-native';
-import { Icon } from 'components/index';
-import styles from './styles';
+import { Icon } from 'components';
+import styles from './style';
 
 export default class Input extends PureComponent {
   labelFontSize = new Animated.Value(18);
@@ -12,7 +12,7 @@ export default class Input extends PureComponent {
   };
 
   componentDidMount() {
-    if(this.props.value.length) {
+    if (this.props.value.length) {
       this.moveLabelUp();
     }
   }
@@ -26,7 +26,7 @@ export default class Input extends PureComponent {
       Animated.spring(this.labelTop, {
         toValue: -10,
         duration: 500
-      }),
+      })
     ]).start();
   }
 
@@ -44,21 +44,33 @@ export default class Input extends PureComponent {
         Animated.spring(this.labelTop, {
           toValue: 10,
           duration: 300
-        }),
+        })
       ]).start();
     }
   };
 
   handleClear = () => {
-    this.props.onChangeText('')
+    this.props.onChangeText('');
   };
 
   render() {
-    const { style, inputStyle, label, labelStyle, allowClear, error, ...rest } = this.props;
-    const labelStyles = [labelStyle, styles.label, {
-      fontSize: this.labelFontSize,
-      transform: [{ translateY: this.labelTop }],
-    }];
+    const {
+      style,
+      inputStyle,
+      label,
+      labelStyle,
+      allowClear,
+      error,
+      ...rest
+    } = this.props;
+    const labelStyles = [
+      labelStyle,
+      styles.label,
+      {
+        fontSize: this.labelFontSize,
+        transform: [{ translateY: this.labelTop }]
+      }
+    ];
 
     const inputStyles = [styles.input, inputStyle];
     if (allowClear) inputStyles.push(styles.withClearBtn);
@@ -75,11 +87,14 @@ export default class Input extends PureComponent {
           underlineColorAndroid="transparent"
           selectionColor="rgba(255,255,255,0.2)"
         />
-        {allowClear &&
-          <TouchableOpacity activeOpacity={0.6} style={styles.clearBtn} onPress={this.handleClear}>
-            <Icon name="clear" size={16} fill="#fff"/>
+        {allowClear && (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.clearBtn}
+            onPress={this.handleClear}>
+            <Icon name="clear" size={16} fill="#fff" />
           </TouchableOpacity>
-        }
+        )}
       </View>
     );
   }

@@ -1,14 +1,20 @@
 import React, { PureComponent } from 'react';
-import { View, StatusBar, Image, TouchableHighlight, Text } from 'react-native';
+import {
+  View,
+  StatusBar,
+  Image,
+  TouchableHighlight,
+  Text,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
 import axios from 'axios';
 import validate from 'validate.js';
 import DropdownAlert from 'react-native-dropdownalert';
-import loginBg from 'assets/images/login-bg.jpg';
-import { Icon } from 'components';
+import { Icon, Input } from 'components';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-
-import { Input } from '../components';
-import styles from '../styles';
+import assets from 'assets';
+import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
@@ -18,19 +24,24 @@ export default class ForgotPassword extends PureComponent {
     error: ''
   };
 
-  handleEmailChange = (value) => {
+  handleEmailChange = value => {
     this.setState({ email: value });
   };
 
   handleSubmit = () => {
     if (this.validateEmail()) {
-      axios.put('https://dev.gettaxi.me/api/user/forgot_password', { email: this.state.email })
+      axios
+        .put('https://dev.gettaxi.me/api/user/forgot_password', {
+          email: this.state.email
+        })
         .then(this.goToLogIn);
     }
   };
 
   validateEmail() {
-    const err = validate.single(this.state.email, { email: { message: 'Invaild email' } });
+    const err = validate.single(this.state.email, {
+      email: { message: 'Invaild email' }
+    });
     if (err) {
       this.showError(`Error! ${err[0]}`);
       this.setState({ error: err[0] });
@@ -40,7 +51,7 @@ export default class ForgotPassword extends PureComponent {
     return !err;
   }
 
-  showError = (error) => {
+  showError = error => {
     this.dropdown.alertWithType('error', error, '');
   };
 
@@ -57,8 +68,10 @@ export default class ForgotPassword extends PureComponent {
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
-        <Image style={styles.image} source={loginBg}/>
-        <View style={styles.container}>
+        <Image style={styles.image} source={assets.loginBg} />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          style={styles.container}>
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={email}
@@ -71,10 +84,13 @@ export default class ForgotPassword extends PureComponent {
             keyboardType="email-address"
             error={error}
           />
-          <TouchableHighlight underlayColor="rgba(255, 255, 255, 0.2)" style={styles.btn} onPress={this.handleSubmit}>
+          <TouchableHighlight
+            underlayColor="rgba(255, 255, 255, 0.2)"
+            style={styles.btn}
+            onPress={this.handleSubmit}>
             <Text style={styles.btnText}>Reset Password</Text>
           </TouchableHighlight>
-        </View>
+        </KeyboardAvoidingView>
         <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
           <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
         </TouchableHighlight>
@@ -85,7 +101,7 @@ export default class ForgotPassword extends PureComponent {
           errorColor="#f00"
           defaultContainer={styles.errorContainer}
           updateStatusBar={false}
-          ref={el => this.dropdown = el}
+          ref={el => (this.dropdown = el)}
           onClose={this.resetError}
         />
       </DismissKeyboardView>

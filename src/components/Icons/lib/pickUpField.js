@@ -5,7 +5,12 @@ export default function PickUpField(props) {
   return (
     <Svg viewBox="0 0 16 16" {...props}>
       <Defs>
-        <LinearGradient id="a" x1="3.681%" x2="101.516%" y1="101.484%" y2="2.681%">
+        <LinearGradient
+          id="a"
+          x1="3.681%"
+          x2="101.516%"
+          y1="101.484%"
+          y2="2.681%">
           <Stop offset="0%" stopColor="#0076BB" />
           <stop offset="100%" stopColor="#284784" />
         </LinearGradient>
@@ -18,4 +23,4 @@ export default function PickUpField(props) {
       />
     </Svg>
   );
-};
+}

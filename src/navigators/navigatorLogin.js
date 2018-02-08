@@ -3,15 +3,21 @@ import { Login, ForgotPassword } from 'containers';
 
 const routeConfiguration = {
   Login: {
-    screen: Login
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
   },
   ForgotPassword: {
-    screen: ForgotPassword
+    screen: ForgotPassword,
+    navigationOptions: {
+      header: null
+    }
   }
 };
 
 const stackNavigatorConfiguration = {
-  headerMode: 'none'
+  headerMode: 'screen'
 };
 
 const NavigatorLogin = StackNavigator(
