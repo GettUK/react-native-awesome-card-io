@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import {
   KeyboardAvoidingView,
   TouchableHighlight,
-  TouchableOpacity,
   StatusBar,
   Platform,
   Image,
   View,
   Text
 } from 'react-native';
+import DropdownAlert from 'react-native-dropdownalert';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
 import { Icon, Input } from 'components';
 import {
@@ -28,7 +28,13 @@ import styles from './style';
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class Login extends Component {
-  componentDidMount() {}
+  handleSubmit = () => {
+    this.props.onSubmitLogin();
+  };
+
+  goToForgot = () => {
+    this.props.navigation.navigate('ForgotPassword');
+  };
   render() {
     const { login: { fields } } = this.props;
     return (
@@ -38,7 +44,7 @@ class Login extends Component {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.container}>
-          <Icon name="logo" width={250} height={60} fill="#fff" />
+          <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={fields.email}
             onChangeText={this.props.changeEmail}
@@ -49,40 +55,43 @@ class Login extends Component {
             labelStyle={styles.label}
             label={strings('login.email')}
             keyboardType="email-address"
-            error=""
           />
           <Input
             value={fields.password}
             onChangeText={this.props.changePassword}
             style={styles.input}
             autoCorrect={false}
-            controlled
-            // autoFocus
             inputStyle={styles.inputStyle}
             labelStyle={styles.label}
             label={strings('login.password')}
             keyboardType="email-address"
-            error=""
+            secureTextEntry
           />
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.2)"
             style={styles.btn}
-            onPress={this.props.onSubmitLogin}>
+            onPress={this.handleSubmit}>
             <Text style={styles.btnText}>{strings('login.login_button')}</Text>
           </TouchableHighlight>
-          <View style={styles.label_unner}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-              <Text style={styles.text_label_forgot}>
-                {strings('login.forgot_password')}
+          <View style={styles.footer}>
+            <Text style={[styles.footerText, styles.footerTextGap]}>
+              {strings('login.forgot_password')}
+            </Text>
+            <TouchableHighlight onPress={this.goToForgot}>
+              <Text style={[styles.footerText, styles.footerLink]}>
+                {strings('login.reset')}
               </Text>
-            </TouchableOpacity>
+            </TouchableHighlight>
           </View>
-          {/* <TouchableOpacity onPress={this.props.onSubmitLogout}>*/}
-          {/* <Text style={styles.text_label_forgot}>*/}
-          {/* {strings('login.logout_button')}*/}
-          {/* </Text>*/}
-          {/* </TouchableOpacity>*/}
+          <DropdownAlert
+            closeInterval={10000}
+            endDelta={30}
+            imageStyle={styles.errorImage}
+            errorColor="#f00"
+            defaultContainer={styles.errorContainer}
+            updateStatusBar={false}
+            ref={el => (this.dropdown = el)}
+          />
         </KeyboardAvoidingView>
       </DismissKeyboardView>
     );

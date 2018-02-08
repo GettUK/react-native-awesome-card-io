@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react';
-import {
-  TextInput,
-  Image,
-  View,
-  Animated,
-  TouchableOpacity
-} from 'react-native';
-import assets from 'assets';
+import { TextInput, View, Animated, TouchableOpacity } from 'react-native';
+import { Icon } from 'components';
 import styles from './style';
 
-class Input extends PureComponent {
+export default class Input extends PureComponent {
+  labelFontSize = new Animated.Value(18);
+  labelTop = new Animated.Value(10);
+
   static defaultProps = {
     allowClear: true
   };
-  labelFontSize = new Animated.Value(18);
-  labelTop = new Animated.Value(10);
-  handleFocus = () => {
+
+  componentDidMount() {
+    if (this.props.value.length) {
+      this.moveLabelUp();
+    }
+  }
+
+  moveLabelUp() {
     Animated.parallel([
       Animated.spring(this.labelFontSize, {
         toValue: 14,
@@ -26,6 +28,10 @@ class Input extends PureComponent {
         duration: 500
       })
     ]).start();
+  }
+
+  handleFocus = () => {
+    this.moveLabelUp();
   };
 
   handleBlur = () => {
@@ -82,13 +88,14 @@ class Input extends PureComponent {
           selectionColor="rgba(255,255,255,0.2)"
         />
         {allowClear && (
-          <TouchableOpacity style={styles.clearBtn} onPress={this.handleClear}>
-            <Image style={styles.clearIcon} source={assets.clear} />
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.clearBtn}
+            onPress={this.handleClear}>
+            <Icon name="clear" size={16} fill="#fff" />
           </TouchableOpacity>
         )}
       </View>
     );
   }
 }
-
-export default Input;
