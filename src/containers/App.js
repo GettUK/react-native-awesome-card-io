@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, View } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
-import NavigatorApp from 'navigators/navigatorApp';
-import NavigatorLogin from 'navigators/navigatorLogin';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash/fp';
+import NavigatorApp from 'navigators/navigatorApp';
+import NavigatorLogin from 'navigators/navigatorLogin';
 
+import { SplashScreen } from 'components';
 import { changeKeyboardStatus } from 'actions/app/statuses';
 
 class AppContainer extends Component {
@@ -52,6 +53,7 @@ class AppContainer extends Component {
             ),
           Just: () => this.loginFlow()
         })}
+        <SplashScreen loaded />
       </View>
     );
   }
