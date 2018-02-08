@@ -24,9 +24,7 @@ const styles = StyleSheet.create({
 
   logo: {
     alignSelf: 'center',
-    marginBottom: 50,
-    width: 240,
-    height: 70
+    marginBottom: 50
   },
 
   input: {
@@ -66,10 +64,9 @@ const styles = StyleSheet.create({
 
   footerText: {
     color: '#fff',
-    textDecorationLine: 'underline',
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontSize: 18
   },
+
   footerLink: {
     fontWeight: 'bold',
     textDecorationLine: 'underline'
@@ -78,6 +75,7 @@ const styles = StyleSheet.create({
   footerTextGap: {
     marginRight: 15
   },
+
   errorContainer: {
     marginHorizontal: 20,
     borderRadius: 30,
