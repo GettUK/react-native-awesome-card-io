@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
 
   footer: {
     marginBottom: 30,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   footerText: {
@@ -68,7 +70,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold'
   },
+  footerLink: {
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
+  },
 
+  footerTextGap: {
+    marginRight: 15
+  },
   errorContainer: {
     marginHorizontal: 20,
     borderRadius: 30,

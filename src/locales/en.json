@@ -4,7 +4,8 @@
     "password": "PASSWORD",
     "forgot_password": "Forgot your password?",
     "login_button": "LOGIN",
-    "logout_button": "LOGOUT"
+    "logout_button": "LOGOUT",
+    "reset": "Reset"
   },
   "settings": {
     "label": {

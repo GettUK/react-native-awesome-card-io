@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity } from 'react-native';
+import { View, StatusBar, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Icon } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -46,6 +46,7 @@ class Map extends Component {
     const { map: { currentPosition, regionPosition } } = this.props;
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="default" />
         <Header
           customStyles={[styles.header]}
           leftButton={

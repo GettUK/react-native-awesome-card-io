@@ -1,13 +1,24 @@
 import React, { PureComponent } from 'react';
-import { View, StatusBar, Image, TouchableHighlight, Text } from 'react-native';
+import {
+  View,
+  StatusBar,
+  Image,
+  TouchableHighlight,
+  Text,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
+import axios from 'axios';
 import validate from 'validate.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import { Icon, Input } from 'components';
-import axios from 'axios';
+import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
 import assets from 'assets';
 import styles from './style';
 
-export default class ResetPassword extends PureComponent {
+const DismissKeyboardView = DismissKeyboardHOC(View);
+
+export default class ForgotPassword extends PureComponent {
   state = {
     email: '',
     error: ''
@@ -49,23 +60,24 @@ export default class ResetPassword extends PureComponent {
   };
 
   goToLogIn = () => {
-    this.props.navigation.goBack(null);
+    this.props.navigation.goBack();
   };
 
   render() {
     const { email, error } = this.state;
     return (
-      <View style={styles.screen}>
+      <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
         <Image style={styles.image} source={assets.loginBg} />
-        <View style={styles.container}>
-          <Icon name="logo" width={250} height={60} fill="#fff" />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          style={styles.container}>
+          <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={email}
             onChangeText={this.handleEmailChange}
             style={styles.input}
             autoCorrect={false}
-            // autoFocus
             inputStyle={styles.inputStyle}
             labelStyle={styles.label}
             label="Email"
@@ -78,9 +90,9 @@ export default class ResetPassword extends PureComponent {
             onPress={this.handleSubmit}>
             <Text style={styles.btnText}>Reset Password</Text>
           </TouchableHighlight>
-        </View>
+        </KeyboardAvoidingView>
         <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
-          <Text style={styles.footerText}>Log in</Text>
+          <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
         </TouchableHighlight>
         <DropdownAlert
           closeInterval={10000}
@@ -92,7 +104,7 @@ export default class ResetPassword extends PureComponent {
           ref={el => (this.dropdown = el)}
           onClose={this.resetError}
         />
-      </View>
+      </DismissKeyboardView>
     );
   }
 }
