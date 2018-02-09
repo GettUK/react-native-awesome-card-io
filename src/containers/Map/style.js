@@ -42,16 +42,17 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   footer: {
-    backgroundColor: 'transparent',
-    padding: 15
+    paddingBottom: 15
   },
   currentPositionBtn: {
     width: 50,
     height: 50,
     marginBottom: 20,
+    marginLeft: 15
   },
   destinationBtns: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingHorizontal: 15
   },
   destinationBtn: {
     marginRight: 10
