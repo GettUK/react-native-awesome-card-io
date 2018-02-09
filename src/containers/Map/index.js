@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, StatusBar, Text } from 'react-native';
+import { View, StatusBar, Text, ScrollView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Icon, Button } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -75,7 +75,11 @@ class Map extends Component {
           <Button style={styles.currentPositionBtn} onPress={this.getCurrentPosition}>
             <Icon name="myLocation" height={22} fill="#284784" />
           </Button>
-          <View style={styles.destinationBtns}>
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.destinationBtns}
+            showsHorizontalScrollIndicator={false}
+          >
             <Button style={styles.destinationBtn}>
               <Icon style={styles.searchIcon} name="search" stroke="#284784" size={18} />
               <Text style={styles.selectDestinationText}>Select Destination</Text>
@@ -83,10 +87,10 @@ class Map extends Component {
             <Button style={styles.destinationBtn}>
               <Text style={styles.customDestinationText}>Home</Text>
             </Button>
-            <Button style={styles.destinationBtn}>
+            <Button>
               <Text style={styles.customDestinationText}>Work</Text>
             </Button>
-          </View>
+          </ScrollView>
         </View>
         <MapView
           style={styles.map}
