@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, StatusBar, TouchableOpacity } from 'react-native';
+import { View, StatusBar, Text } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Icon } from 'components';
+import { Icon, Button } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 import {
@@ -50,25 +50,44 @@ class Map extends Component {
         <Header
           customStyles={[styles.header]}
           leftButton={
-            <View style={styles.headerLeftView}>
-              <NavImageButton
-                onClick={() =>
-                  this.props.navigation.navigate('SettingsView', {})
-                }
-                styleContainer={{ justifyContent: 'center' }}
-                styleView={{ marginLeft: 10 }}
-                styleImage={{ width: 21, height: 14 }}
-                source={assets.hamburgerMenu}
-              />
-            </View>
+            <NavImageButton
+              onClick={() =>
+                this.props.navigation.navigate('SettingsView', {})
+              }
+              styleContainer={{ justifyContent: 'center' }}
+              styleImage={{ width: 21, height: 14 }}
+              source={assets.hamburgerMenu}
+            />
+          }
+          rightButton={
+            <Button style={styles.orderBtn} raised={false} size="sm">
+              <Text style={styles.orderBtnText}>Orders</Text>
+            </Button>
           }
         />
-        <TouchableOpacity
-          onPress={() => this.getCurrentPosition()}
-          activeOpacity={0.8}
-          style={styles.currentPosition}>
-          <Icon name="myLocation" width={21} height={29} fill="#284784" />
-        </TouchableOpacity>
+        <Button style={styles.pickUpBtn}>
+          <Icon style={styles.pickUpIcon} name="pickUpField" size={18} />
+          <Text style={styles.pickUpText} numberOfLines={1}>
+            11 Soho Square, Soho, London W1D sdfsdlfjsldk flsd flssdfsdf sdf sdf sdf df
+          </Text>
+        </Button>
+        <View style={styles.footer}>
+          <Button style={styles.currentPositionBtn} onPress={this.getCurrentPosition}>
+            <Icon name="myLocation" height={22} fill="#284784" />
+          </Button>
+          <View style={styles.destinationBtns}>
+            <Button style={styles.destinationBtn}>
+              <Icon style={styles.searchIcon} name="search" stroke="#284784" size={18} />
+              <Text style={styles.selectDestinationText}>Select Destination</Text>
+            </Button>
+            <Button style={styles.destinationBtn}>
+              <Text style={styles.customDestinationText}>Home</Text>
+            </Button>
+            <Button style={styles.destinationBtn}>
+              <Text style={styles.customDestinationText}>Work</Text>
+            </Button>
+          </View>
+        </View>
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -76,7 +95,8 @@ class Map extends Component {
           onRegionChangeComplete={position =>
             this.props.changeRegionPosition(position)
           }
-          region={regionPosition}>
+          region={regionPosition}
+        >
           <MapView.Marker coordinate={currentPosition} />
         </MapView>
       </View>

@@ -9,13 +9,6 @@ const styles = StyleSheet.create({
   },
   headerWrap: {
     backgroundColor: 'transparent',
-    shadowColor: '#000',
-    shadowOpacity: 0.6,
-    shadowRadius: 4,
-    shadowOffset: {
-      height: 1,
-      width: 0
-    },
     elevation: 2,
     zIndex: 10
   },
