@@ -1,12 +1,12 @@
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-export default function Search({ stroke, ...rest }) {
+export default function Search({ color, ...rest }) {
   return (
     <Svg viewBox="0 0 18 18" {...rest}>
       <Path
         fill="none"
-        stroke={stroke}
+        stroke={color}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

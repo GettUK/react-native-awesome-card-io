@@ -92,7 +92,7 @@ export default class Input extends PureComponent {
             activeOpacity={0.6}
             style={styles.clearBtn}
             onPress={this.handleClear}>
-            <Icon name="clear" size={16} fill="#fff" />
+            <Icon name="clear" size={16} color="#fff" />
           </TouchableOpacity>
         )}
       </View>

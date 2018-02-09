@@ -2,7 +2,7 @@ import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import lib from './lib';
 
-const Icon = ({ name, size, width, height, ...rest }) => {
+const Icon = ({ name, size, width, height, color, ...rest }) => {
   if (!name) {
     return null;
   }
@@ -17,16 +17,20 @@ const Icon = ({ name, size, width, height, ...rest }) => {
   const svgWidth = size || width;
   const svgHeight = size || height;
 
-  return createElement(svg, { ...rest, width: svgWidth, height: svgHeight });
+  return createElement(svg, { ...rest, color, width: svgWidth, height: svgHeight });
 };
 
 Icon.defaultProps = {
-  height: '44',
-  width: '44'
+  height: 22,
+  width: 22
 };
 
 Icon.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number
 };
 
 export default Icon;
