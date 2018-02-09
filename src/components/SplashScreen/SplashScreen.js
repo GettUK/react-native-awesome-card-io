@@ -7,7 +7,7 @@ import styles from './styles';
 
 const AnimateTiming = curry((property, toValue) => {
   Animated.timing(property, {
-    toValue: toValue,
+    toValue,
     duration: 500
   }).start();
 });
@@ -17,14 +17,14 @@ class SplashScreen extends Component {
     loaded: false
   };
 
-  opacity = new Animated.Value(1);
-
   componentDidMount() {
     setTimeout(() => {
       this.setState({ loaded: true });
-      AnimateTiming(this.opacity, 0)
+      AnimateTiming(this.opacity, 0);
     }, 1000);
   }
+
+  opacity = new Animated.Value(1);
 
   render() {
     return (
