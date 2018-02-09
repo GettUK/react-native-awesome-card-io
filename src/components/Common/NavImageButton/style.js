@@ -4,9 +4,6 @@ const styles = StyleSheet.create({
   container_button: {},
   button_view: {
     overflow: 'hidden',
-    marginVertical: 12,
-    marginLeft: 22,
-    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center'
   },

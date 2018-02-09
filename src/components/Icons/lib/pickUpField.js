@@ -10,9 +10,10 @@ export default function PickUpField(props) {
           x1="3.681%"
           x2="101.516%"
           y1="101.484%"
-          y2="2.681%">
+          y2="2.681%"
+        >
           <Stop offset="0%" stopColor="#0076BB" />
-          <stop offset="100%" stopColor="#284784" />
+          <Stop offset="100%" stopColor="#284784" />
         </LinearGradient>
       </Defs>
       <Path
