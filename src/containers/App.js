@@ -53,7 +53,7 @@ class AppContainer extends Component {
             ),
           Just: () => this.loginFlow()
         })}
-        <SplashScreen loaded />
+        <SplashScreen />
       </View>
     );
   }
