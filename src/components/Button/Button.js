@@ -20,15 +20,15 @@ const Button = ({ style, children, size, raised, ...rest }) => {
   };
 
   switch (size) {
-    case 'sm': {
-      computedStyles = {
-        ...computedStyles,
-        borderRadius: 6,
-        paddingVertical: 10,
-        paddingHorizontal: 15
-      };
-      break;
-    }
+  case 'sm': {
+    computedStyles = {
+      ...computedStyles,
+      borderRadius: 6,
+      paddingVertical: 10,
+      paddingHorizontal: 15
+    };
+    break;
+  }
   }
 
   if (raised) {
@@ -39,12 +39,15 @@ const Button = ({ style, children, size, raised, ...rest }) => {
       shadowRadius: 5,
       shadowOffset: {
         height: 0
-      },
-    }
+      }
+    };
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.9} style={[styles.btn, computedStyles, style]} {...rest}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={[styles.btn, computedStyles, style]}
+      {...rest}>
       {children}
     </TouchableOpacity>
   );

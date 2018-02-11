@@ -7,6 +7,11 @@
     "logout_button": "LOGOUT",
     "reset": "Reset"
   },
+  "map": {
+    "label": {
+      "close": "Close"
+    }
+  },
   "settings": {
     "label": {
       "phone": "Phone",
