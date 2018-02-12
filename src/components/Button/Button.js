@@ -39,12 +39,15 @@ const Button = ({ style, children, size, raised, ...rest }) => {
       shadowRadius: 5,
       shadowOffset: {
         height: 0
-      },
-    }
+      }
+    };
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.9} style={[styles.btn, computedStyles, style]} {...rest}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={[styles.btn, computedStyles, style]}
+      {...rest}>
       {children}
     </TouchableOpacity>
   );

@@ -10,24 +10,24 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case CHANGE_ISOPENKEYBOARD: {
-    return {
-      ...state,
-      isOpenKeyboard: action.payload
-    };
-  }
+    case CHANGE_ISOPENKEYBOARD: {
+      return {
+        ...state,
+        isOpenKeyboard: action.payload
+      };
+    }
 
-  case CHANGE_PERMISSIONS: {
-    return {
-      ...state,
-      permissions: isEmpty(state.permissions) ?
-        action.payload :
-        merge(state.permissions, action.payload)
-    };
-  }
+    case CHANGE_PERMISSIONS: {
+      return {
+        ...state,
+        permissions: isEmpty(state.permissions) ?
+          action.payload :
+          merge(state.permissions, action.payload)
+      };
+    }
 
-  default: {
-    return state;
-  }
+    default: {
+      return state;
+    }
   }
 };

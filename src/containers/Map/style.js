@@ -10,6 +10,46 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  pickUpAddress: {
+    marginHorizontal: 12
+  },
+  delimiter: {
+    alignSelf: 'stretch',
+    margin: 0,
+    padding: 0,
+    borderWidth: 0,
+    backgroundColor: '#D8D8D8',
+    height: 1
+  },
+  input: {
+    marginRight: 20
+  },
+  inputStyle: {
+    fontSize: 18,
+    color: '#000'
+  },
+  closeModalText: {
+    fontSize: 14,
+    color: '#284784',
+    textAlign: 'right'
+  },
+  modalContent: {
+    marginTop: 80,
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: 15
+  },
+  modalView: {
+    paddingHorizontal: 20
+  },
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0
+  },
   orderBtn: {
     backgroundColor: '#284784'
   },

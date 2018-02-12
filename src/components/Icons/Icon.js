@@ -17,7 +17,12 @@ const Icon = ({ name, size, width, height, color, ...rest }) => {
   const svgWidth = size || width;
   const svgHeight = size || height;
 
-  return createElement(svg, { ...rest, color, width: svgWidth, height: svgHeight });
+  return createElement(svg, {
+    ...rest,
+    color,
+    width: svgWidth,
+    height: svgHeight
+  });
 };
 
 Icon.defaultProps = {

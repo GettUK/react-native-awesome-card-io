@@ -30,8 +30,7 @@ class SplashScreen extends Component {
     return (
       <Animated.View
         style={[styles.container, { opacity: this.opacity }]}
-        pointerEvents={this.state.loaded ? 'none' : 'auto'}
-      >
+        pointerEvents={this.state.loaded ? 'none' : 'auto'}>
         <Image style={styles.image} source={assets.loginBg} />
         <Icon name="logo" width={240} height={70} />
       </Animated.View>

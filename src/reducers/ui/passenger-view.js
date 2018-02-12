@@ -13,38 +13,38 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case PASSENGER_VIEW_EMPTY: {
-    return {
-      ...initialState
-    };
-  }
+    case PASSENGER_VIEW_EMPTY: {
+      return {
+        ...initialState
+      };
+    }
 
-  case RECEIVE_PASSENGER_VIEW_START: {
-    return {
-      ...state,
-      busy: true,
-      errors: null
-    };
-  }
+    case RECEIVE_PASSENGER_VIEW_START: {
+      return {
+        ...state,
+        busy: true,
+        errors: null
+      };
+    }
 
-  case RECEIVE_PASSENGER_VIEW_FAILURE: {
-    return {
-      ...state,
-      busy: false,
-      errors: action.payload
-    };
-  }
+    case RECEIVE_PASSENGER_VIEW_FAILURE: {
+      return {
+        ...state,
+        busy: false,
+        errors: action.payload
+      };
+    }
 
-  case RECEIVE_PASSENGER_VIEW_SUCCESS: {
-    return {
-      ...state,
-      results: action.payload,
-      busy: false
-    };
-  }
+    case RECEIVE_PASSENGER_VIEW_SUCCESS: {
+      return {
+        ...state,
+        results: action.payload,
+        busy: false
+      };
+    }
 
-  default: {
-    return state;
-  }
+    default: {
+      return state;
+    }
   }
 };

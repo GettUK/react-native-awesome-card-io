@@ -1,5 +1,19 @@
 import { curry } from 'lodash/fp';
 
+export const CHANGE_ADDRESS = 'APP/MAP/CHANGE_ADDRESS';
+
+export const changeAddress = curry(value => ({
+  type: CHANGE_ADDRESS,
+  payload: value
+}));
+
+export const ADDRESS_VISIBLE_MODAL = 'APP/MAP/ADDRESS_VISIBLE_MODAL';
+
+export const addressVisibleModal = curry(bool => ({
+  type: ADDRESS_VISIBLE_MODAL,
+  payload: bool
+}));
+
 export const INITIAL_REGION_POSITION = 'APP/MAP/INITIAL_REGION_POSITION';
 
 export const initialRegionPosition = curry(obq => ({

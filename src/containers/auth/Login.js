@@ -41,8 +41,7 @@ class Login extends Component {
         <Image style={styles.image} source={assets.loginBg} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
-          style={styles.container}
-        >
+          style={styles.container}>
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={fields.email}
@@ -68,8 +67,7 @@ class Login extends Component {
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.2)"
             style={styles.btn}
-            onPress={this.handleSubmit}
-          >
+            onPress={this.handleSubmit}>
             <Text style={styles.btnText}>{strings('login.login_button')}</Text>
           </TouchableHighlight>
         </KeyboardAvoidingView>

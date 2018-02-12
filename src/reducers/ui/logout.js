@@ -11,28 +11,28 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case LOGOUT_START: {
-    return {
-      ...state,
-      busy: true,
-      errors: null
-    };
-  }
+    case LOGOUT_START: {
+      return {
+        ...state,
+        busy: true,
+        errors: null
+      };
+    }
 
-  case LOGOUT_SUCCESS: {
-    return initialState;
-  }
+    case LOGOUT_SUCCESS: {
+      return initialState;
+    }
 
-  case LOGOUT_FAILURE: {
-    return {
-      ...state,
-      busy: false,
-      errors: action.payload
-    };
-  }
+    case LOGOUT_FAILURE: {
+      return {
+        ...state,
+        busy: false,
+        errors: action.payload
+      };
+    }
 
-  default: {
-    return state;
-  }
+    default: {
+      return state;
+    }
   }
 };

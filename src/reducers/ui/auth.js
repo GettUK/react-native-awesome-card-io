@@ -8,28 +8,28 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case AUTH_START: {
-    return {
-      ...state,
-      busy: true,
-      errors: Nothing()
-    };
-  }
+    case AUTH_START: {
+      return {
+        ...state,
+        busy: true,
+        errors: Nothing()
+      };
+    }
 
-  case AUTH_SUCCESS: {
-    return initialState;
-  }
+    case AUTH_SUCCESS: {
+      return initialState;
+    }
 
-  case AUTH_FAILURE: {
-    return {
-      ...state,
-      busy: false,
-      errors: Just(action.payload)
-    };
-  }
+    case AUTH_FAILURE: {
+      return {
+        ...state,
+        busy: false,
+        errors: Just(action.payload)
+      };
+    }
 
-  default: {
-    return state;
-  }
+    default: {
+      return state;
+    }
   }
 };

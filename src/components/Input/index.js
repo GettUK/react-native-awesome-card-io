@@ -61,6 +61,10 @@ export default class Input extends PureComponent {
       labelStyle,
       allowClear,
       error,
+      clearIcon,
+      iconStyle,
+      selectionColor,
+      underlineColorAndroid,
       ...rest
     } = this.props;
     const labelStyles = [
@@ -84,17 +88,18 @@ export default class Input extends PureComponent {
           style={inputStyles}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          underlineColorAndroid="transparent"
-          selectionColor="rgba(255,255,255,0.2)"
+          underlineColorAndroid={underlineColorAndroid || 'transparent'}
+          selectionColor={selectionColor || 'rgba(255,255,255,0.2)'}
         />
-        {allowClear && rest.value.length > 0 && (
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={styles.clearBtn}
-            onPress={this.handleClear}>
-            <Icon name="clear" size={16} color="#fff" />
-          </TouchableOpacity>
-        )}
+        {allowClear &&
+          rest.value.length > 0 && (
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={[styles.clearBtn, iconStyle]}
+              onPress={this.handleClear}>
+              {clearIcon || <Icon name="clear" size={16} color="#fff" />}
+            </TouchableOpacity>
+          )}
       </View>
     );
   }
