@@ -4,10 +4,9 @@ import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import NavImageButton from 'components/Common/NavImageButton';
 import { strings } from 'locales';
+import { Icon } from 'components';
 
 import { Map, Settings } from 'containers';
-
-import assets from 'assets';
 
 const routeConfiguration = {
   MapView: {
@@ -34,8 +33,7 @@ const routeConfiguration = {
             onClick={() => navigation.goBack(null)}
             styleContainer={{ justifyContent: 'center' }}
             styleView={{ marginLeft: 10 }}
-            styleImage={{ width: 21, height: 20 }}
-            source={assets.close}
+            icon={<Icon size={30} name="close" color="#000" />}
           />
         </View>
       )

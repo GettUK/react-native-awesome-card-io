@@ -1,35 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Platform, Image, View } from 'react-native';
-import { has, isNull } from 'lodash/fp';
+import { TouchableOpacity, View } from 'react-native';
 import styles from './style';
 
-function NavImageButton(props) {
+export default function NavImageButton(props) {
   return (
     <TouchableOpacity
-      style={[
-        styles.container_button,
-        has('styleContainer', props) ? props.styleContainer : {}
-      ]}
+      style={props.styleContainer}
       onPress={props.onClick ? props.onClick : null}>
-      <View
-        style={[
-          styles.button_view,
-          has('styleView', props) ? props.styleView : {}
-        ]}>
-        <Image
-          style={[
-            styles.box_image,
-            has('styleImage', props) ? props.styleImage : {}
-          ]}
-          source={has('source', props) ? props.source : null}
-          resizeMethod={Platform.OS === 'ios' ? 'auto' : 'resize'}
-          resizeMode={
-            has('resizeMode', props) && !isNull(props.resizeMode) ?
-              props.resizeMode :
-              'cover'
-          }
-        />
+      <View style={[styles.buttonView, props.styleView]}>
+        {props.icon}
       </View>
     </TouchableOpacity>
   );
@@ -37,8 +17,7 @@ function NavImageButton(props) {
 
 NavImageButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  source: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  resizeMode: PropTypes.string,
+  icon: PropTypes.element.isRequired,
   styleContainer: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
@@ -48,18 +27,10 @@ NavImageButton.propTypes = {
     PropTypes.array,
     PropTypes.object,
     PropTypes.number
-  ]),
-  styleImage: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.number
   ])
 };
 
 NavImageButton.defaultProps = {
   styleContainer: {},
-  styleView: {},
-  styleImage: {}
+  styleView: {}
 };
-
-export default NavImageButton;
