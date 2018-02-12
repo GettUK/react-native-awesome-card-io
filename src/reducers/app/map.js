@@ -41,64 +41,64 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case CHANGE_ADDRESS: {
-    return {
-      ...state,
-      fields: {
-        ...state.fields,
-        address: action.payload
-      }
-    };
-  }
-  case ADDRESS_VISIBLE_MODAL: {
-    return {
-      ...state,
-      addressModal: action.payload
-    };
-  }
-  case INITIAL_REGION_POSITION: {
-    return {
-      ...state,
-      regionPosition: {
-        latitude: parseFloat(action.payload.coords.latitude),
-        longitude: parseFloat(action.payload.coords.longitude),
-        latitudeDelta: LATTITIDE_DELTA,
-        longitudeDelta: LONGTITUDE_DELTA
-      },
-      errors: null
-    };
-  }
-  case CHANGE_REGION_POSITION: {
-    return {
-      ...state,
-      regionPosition: {
-        ...action.payload
-      },
-      errors: null
-    };
-  }
-  case CHANGE_POSITION: {
-    return {
-      ...state,
-      currentPosition: {
-        latitude: parseFloat(action.payload.coords.latitude),
-        longitude: parseFloat(action.payload.coords.longitude),
-        latitudeDelta: LATTITIDE_DELTA,
-        longitudeDelta: LONGTITUDE_DELTA
-      },
-      errors: null
-    };
-  }
+    case CHANGE_ADDRESS: {
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          address: action.payload
+        }
+      };
+    }
+    case ADDRESS_VISIBLE_MODAL: {
+      return {
+        ...state,
+        addressModal: action.payload
+      };
+    }
+    case INITIAL_REGION_POSITION: {
+      return {
+        ...state,
+        regionPosition: {
+          latitude: parseFloat(action.payload.coords.latitude),
+          longitude: parseFloat(action.payload.coords.longitude),
+          latitudeDelta: LATTITIDE_DELTA,
+          longitudeDelta: LONGTITUDE_DELTA
+        },
+        errors: null
+      };
+    }
+    case CHANGE_REGION_POSITION: {
+      return {
+        ...state,
+        regionPosition: {
+          ...action.payload
+        },
+        errors: null
+      };
+    }
+    case CHANGE_POSITION: {
+      return {
+        ...state,
+        currentPosition: {
+          latitude: parseFloat(action.payload.coords.latitude),
+          longitude: parseFloat(action.payload.coords.longitude),
+          latitudeDelta: LATTITIDE_DELTA,
+          longitudeDelta: LONGTITUDE_DELTA
+        },
+        errors: null
+      };
+    }
 
-  case ERROR_POSITION: {
-    return {
-      ...state,
-      errors: action.payload
-    };
-  }
+    case ERROR_POSITION: {
+      return {
+        ...state,
+        errors: action.payload
+      };
+    }
 
-  default: {
-    return state;
-  }
+    default: {
+      return state;
+    }
   }
 };

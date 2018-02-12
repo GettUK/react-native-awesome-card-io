@@ -187,6 +187,7 @@ rules:
   indent:
     - 'error'
     - 2
+    - SwitchCase: 1
   key-spacing:                   # enforces spacing between keys and values in object literal properties
     - 2
     - beforeColon: false

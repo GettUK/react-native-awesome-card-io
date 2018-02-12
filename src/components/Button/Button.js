@@ -20,15 +20,15 @@ const Button = ({ style, children, size, raised, ...rest }) => {
   };
 
   switch (size) {
-  case 'sm': {
-    computedStyles = {
-      ...computedStyles,
-      borderRadius: 6,
-      paddingVertical: 10,
-      paddingHorizontal: 15
-    };
-    break;
-  }
+    case 'sm': {
+      computedStyles = {
+        ...computedStyles,
+        borderRadius: 6,
+        paddingVertical: 10,
+        paddingHorizontal: 15
+      };
+      break;
+    }
   }
 
   if (raised) {

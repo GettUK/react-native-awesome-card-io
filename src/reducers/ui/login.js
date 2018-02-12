@@ -19,57 +19,57 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-  case CHANGE_EMAIL: {
-    return {
-      ...state,
-      fields: {
-        ...state.fields,
-        email: action.payload
-      },
-      errors: null
-    };
-  }
+    case CHANGE_EMAIL: {
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          email: action.payload
+        },
+        errors: null
+      };
+    }
 
-  case CHANGE_PASSWORD: {
-    return {
-      ...state,
-      fields: {
-        ...state.fields,
-        password: action.payload
-      },
-      errors: null
-    };
-  }
+    case CHANGE_PASSWORD: {
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          password: action.payload
+        },
+        errors: null
+      };
+    }
 
-  case SET_SHOW_PASSWORD: {
-    return {
-      ...state,
-      showPassword: !state.showPassword,
-      errors: null
-    };
-  }
+    case SET_SHOW_PASSWORD: {
+      return {
+        ...state,
+        showPassword: !state.showPassword,
+        errors: null
+      };
+    }
 
-  case LOGIN_START: {
-    return {
-      ...state,
-      busy: true,
-      errors: null
-    };
-  }
+    case LOGIN_START: {
+      return {
+        ...state,
+        busy: true,
+        errors: null
+      };
+    }
 
-  case LOGIN_SUCCESS: {
-    return initialState;
-  }
+    case LOGIN_SUCCESS: {
+      return initialState;
+    }
 
-  case LOGIN_FAILURE: {
-    return {
-      ...state,
-      busy: false,
-      errors: action.payload
-    };
-  }
-  default: {
-    return state;
-  }
+    case LOGIN_FAILURE: {
+      return {
+        ...state,
+        busy: false,
+        errors: action.payload
+      };
+    }
+    default: {
+      return state;
+    }
   }
 };
