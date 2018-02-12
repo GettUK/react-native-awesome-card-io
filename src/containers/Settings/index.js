@@ -8,6 +8,7 @@ import {
   passegerViewEmpty,
   receivePassegerView
 } from 'actions/ui/passenger-view';
+import { Icon } from 'components';
 import { strings } from 'locales';
 import styles from './style';
 
@@ -145,7 +146,7 @@ class Settings extends Component {
           <View style={styles.blockItems}>
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'home', color: '#8E8E93' }}
+              leftIcon={<Icon name="home" size={24} color="#8e8e93" />}
               title={strings('settings.label.home')}
               titleNumberOfLines={2}
               rightTitle={
@@ -163,7 +164,7 @@ class Settings extends Component {
             />
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'business-center', color: '#8E8E93' }}
+              leftIcon={<Icon name="work" size={24} color="#8e8e93" />}
               title={strings('settings.label.work')}
               titleNumberOfLines={2}
               rightTitle={
@@ -193,7 +194,7 @@ class Settings extends Component {
           <View style={styles.blockItems}>
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'drafts', color: '#8E8E93' }}
+              leftIcon={<Icon name="email" size={24} color="#8e8e93" />}
               title={strings('settings.label.email')}
               titleNumberOfLines={2}
               switchButton
@@ -212,7 +213,7 @@ class Settings extends Component {
             />
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'home', color: '#8E8E93' }}
+              leftIcon={<Icon name="sms" size={24} color="#8e8e93" />}
               title={strings('settings.label.sms')}
               titleNumberOfLines={2}
               switchButton
@@ -231,7 +232,7 @@ class Settings extends Component {
             />
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'notifications', color: '#8E8E93' }}
+              leftIcon={<Icon name="push" size={24} color="#8e8e93" />}
               title={strings('settings.label.notification')}
               titleNumberOfLines={2}
               switchButton
@@ -248,7 +249,7 @@ class Settings extends Component {
             />
             <ListItem
               onPress={() => {}}
-              leftIcon={{ name: 'event-note', color: '#8E8E93' }}
+              leftIcon={<Icon name="calendar" size={24} color="#8e8e93" />}
               title={strings('settings.label.invites')}
               titleNumberOfLines={2}
               switchButton
@@ -267,10 +268,7 @@ class Settings extends Component {
             />
             <ListItem
               onPress={() => {}}
-              leftIcon={{
-                name: 'airline-seat-recline-extra',
-                color: '#8E8E93'
-              }}
+              leftIcon={<Icon name="wheelchair" size={24} color="#8e8e93" />}
               title={strings('settings.label.wheelchair')}
               titleNumberOfLines={2}
               switchButton

@@ -59,6 +59,11 @@ class Map extends Component {
     this.props.addressVisibleModal(!addressModal);
   };
   watchID = null;
+
+  goToSettings = () => {
+    this.props.navigation.navigate('SettingsView', {});
+  };
+
   render() {
     const {
       map: { currentPosition, regionPosition, addressModal, fields }
@@ -70,10 +75,9 @@ class Map extends Component {
           customStyles={[styles.header]}
           leftButton={
             <NavImageButton
-              onClick={() => this.props.navigation.navigate('SettingsView', {})}
+              onClick={this.goToSettings}
               styleContainer={{ justifyContent: 'center' }}
-              styleImage={{ width: 21, height: 14 }}
-              source={assets.hamburgerMenu}
+              icon={<Icon size={30} name="burger" color="#000" />}
             />
           }
           rightButton={
@@ -129,8 +133,9 @@ class Map extends Component {
         <View style={styles.footer}>
           <Button
             style={styles.currentPositionBtn}
-            onPress={this.getCurrentPosition}>
-            <Icon name="myLocation" height={22} fill="#284784" />
+            onPress={this.getCurrentPosition}
+          >
+            <Icon name="myLocation" height={22} color="#284784" />
           </Button>
           <ScrollView
             horizontal
@@ -140,7 +145,7 @@ class Map extends Component {
               <Icon
                 style={styles.searchIcon}
                 name="search"
-                stroke="#284784"
+                color="#284784"
                 size={18}
               />
               <Text style={styles.selectDestinationText}>
