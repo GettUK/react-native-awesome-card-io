@@ -61,7 +61,7 @@ export default class Input extends PureComponent {
       labelStyle,
       allowClear,
       error,
-      icon,
+      clearIcon,
       iconStyle,
       selectionColor,
       underlineColorAndroid,
@@ -97,7 +97,7 @@ export default class Input extends PureComponent {
               activeOpacity={0.6}
               style={[styles.clearBtn, iconStyle]}
               onPress={this.handleClear}>
-              {icon || <Icon name="clear" size={16} color="#fff" />}
+              {clearIcon || <Icon name="clear" size={16} color="#fff" />}
             </TouchableOpacity>
           )}
       </View>

@@ -112,7 +112,7 @@ class Map extends Component {
                   inputStyle={styles.inputStyle}
                   keyboardType="email-address"
                   selectionColor="#000"
-                  icon={<Icon name="close" size={16} color="#8D8D8D" />}
+                  clearIcon={<Icon name="close" size={16} color="#8D8D8D" />}
                 />
                 <View style={styles.delimiter} />
               </View>
