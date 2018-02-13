@@ -64,6 +64,10 @@ class Map extends Component {
     this.props.navigation.navigate('SettingsView', {});
   };
 
+  goToOrders = () => {
+    this.props.navigation.navigate('OrdersView', {});
+  };
+
   render() {
     const {
       map: { currentPosition, regionPosition, addressModal, fields }
@@ -81,7 +85,7 @@ class Map extends Component {
             />
           }
           rightButton={
-            <Button style={styles.orderBtn} raised={false} size="sm">
+            <Button style={styles.orderBtn} raised={false} size="sm" onPress={this.goToOrders}>
               <Text style={styles.orderBtnText}>Orders</Text>
             </Button>
           }
