@@ -1,3 +1,4 @@
+import back from './back';
 import burger from './burger';
 import calendar from './calendar';
 import clear from './clear';
@@ -15,6 +16,7 @@ import wheelchair from './wheelchair';
 import work from './work';
 
 export default {
+  back,
   burger,
   calendar,
   clear,

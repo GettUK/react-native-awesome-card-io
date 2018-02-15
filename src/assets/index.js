@@ -4,7 +4,8 @@ const imagesApp = {
   eyeIcon: require('./png/application/EyeIconSmall.png'),
   eyeIconActive: require('./png/application/EyeIconSmallActive.png'),
   clear: require('./png/application/clear-icon.png'),
-  loginBg: require('./png/application/login-bg.jpg')
+  loginBg: require('./png/application/login-bg.jpg'),
+  orderMap: require('./png/application/orderTempMap.jpg')
 };
 
 export default imagesApp;

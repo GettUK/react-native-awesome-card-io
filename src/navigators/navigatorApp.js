@@ -6,7 +6,7 @@ import NavImageButton from 'components/Common/NavImageButton';
 import { strings } from 'locales';
 import { Icon } from 'components';
 
-import { Map, Settings } from 'containers';
+import { Map, Settings, Orders } from 'containers';
 
 const routeConfiguration = {
   MapView: {
@@ -38,7 +38,13 @@ const routeConfiguration = {
         </View>
       )
     })
-  }
+  },
+  OrdersView: {
+    screen: Orders,
+    navigationOptions: {
+      header: null
+    }
+  },
 };
 
 const stackNavigatorConfiguration = {
