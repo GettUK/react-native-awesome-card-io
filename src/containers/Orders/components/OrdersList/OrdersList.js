@@ -78,7 +78,7 @@ class OrdersList extends PureComponent {
             <Image source={assets.orderMap} />
           </View>
           <View style={styles.orderLabels}>
-            <View style={[styles.orderLabel, styles[`${this.getLabelColor(item.status)}Label`]]}>
+            <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
               <Text style={styles.orderLabelText}>{item.status}</Text>
             </View>
             {item.totalCost &&
