@@ -3,39 +3,21 @@ platform :ios, '8.0'
 
 target 'oteApp' do
 
-  react_native_path = "../node_modules/react-native"
-  pod "yoga", :path => "#{react_native_path}/ReactCommon/yoga"
-  pod "React", :path => react_native_path
-
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'CxxBridge',
+    'DevSupport'
+  ]
+  
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'GLog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  
   pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
-
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
-
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
-
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
-end
-
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        if target.name == 'yoga'
-            # Workaround: react-native v0.52 bug issue #17274
-            # node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp:208:46: Implicit conversion loses integer
-            # precision: 'size_type' (aka 'unsigned long') to 'const uint32_t' (aka 'const unsigned int')
-            # https://github.com/facebook/react-native/issues/17274#issuecomment-356363557
-            target.build_configurations.each do |config|
-                config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
-                config.build_settings['GCC_WARN_64_TO_32_BIT_CONVERSION'] = 'NO'
-            end
-        end
-        if target.name == "RNSVG"
-            target.build_configurations.each do |config|
-                config.build_settings['GCC_NO_COMMON_BLOCKS'] = 'NO'
-            end
-        end
-    end
 end
