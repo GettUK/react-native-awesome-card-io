@@ -2,7 +2,8 @@ import { createTypes } from 'redux-compose-reducer';
 
 const TYPES = createTypes('booking', [
   'changeTempMessageToDriver',
-  'applyMessageToDriver'
+  'applyMessageToDriver',
+  'changeBookingDate'
 ]);
 
 export const changeTempMessageToDriver = (message) => (dispatch) => {
@@ -11,4 +12,8 @@ export const changeTempMessageToDriver = (message) => (dispatch) => {
 
 export const applyMessageToDriver = () => (dispatch) => {
   dispatch({ type: TYPES.applyMessageToDriver });
+};
+
+export const changeBookingDate = (date) => (dispatch) => {
+  dispatch({ type: TYPES.changeBookingDate, date });
 };

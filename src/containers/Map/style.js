@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
@@ -107,6 +107,52 @@ const styles = StyleSheet.create({
   customDestinationText: {
     fontWeight: 'bold',
     fontSize: 16
+  },
+  TDModal: {
+    height: Platform.OS === 'ios' ? 450 : 230,
+    backgroundColor: '#fff',
+    paddingTop: 15
+  },
+  flex: {
+    flex: 1
+  },
+  selectedWrapper: {
+    padding: 20
+  },
+  time: {
+    fontSize: 36,
+    color: '#000',
+    fontWeight: 'bold',
+    marginBottom: 5,
+    marginRight: 5
+  },
+  date: {
+    color: '#000',
+    fontSize: 18,
+    marginRight: 5
+  },
+  TDPickerWrapper: {
+    shadowColor: "#cdcdcd",
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowRadius: 1,
+    shadowOpacity: 1,
+    marginBottom: 20
+  },
+  TDButton: {
+    backgroundColor: '#284784',
+    alignSelf: 'stretch',
+    marginHorizontal: 15
+  },
+  TDButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  TDEditIcon: {
+    marginBottom: -5
   }
 });
 

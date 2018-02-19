@@ -6,7 +6,11 @@ import {
   StatusBar,
   Text,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  DatePickerIOS,
+  DatePickerAndroid,
+  TimePickerAndroid
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Icon, Input, Button } from 'components';
@@ -22,13 +26,21 @@ import {
   changePosition,
   errorPosition
 } from 'actions/app/map';
-import assets from 'assets';
+import { changeBookingDate } from 'actions/app/booking';
 import { strings } from 'locales';
+import moment from 'moment';
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    }
+  }
+
   componentDidMount() {
     const { map: { options } } = this.props;
     setTimeout(() => {
@@ -67,6 +79,108 @@ class Map extends Component {
   goToOrders = () => {
     this.props.navigation.navigate('OrdersView', {});
   };
+
+  handleDateChange = (date) => {
+    this.setState({ date });
+  };
+
+  handleDateSubmit = () => {
+    this.props.changeBookingDate(this.state.date);
+  };
+
+  renderTimeDatePicker() {
+    const { date } = this.state;
+    const momentDate = moment(date);
+
+    const openDatePickerAndroid = async () => {
+      try {
+        const { action, year, month, day } = await DatePickerAndroid.open({
+          date,
+          minDate: new Date()
+        });
+        if (action !== DatePickerAndroid.dismissedAction) {
+          this.handleDateChange(momentDate.set({ year, month, date: day }).toDate());
+        }
+      } catch ({ code, message }) {
+        console.warn('Cannot open date picker', message);
+      }
+    };
+
+    const openTimePickerAndroid = async () => {
+      try {
+        const { action, hour, minute } = await TimePickerAndroid.open({
+          hour: momentDate.get('hour'),
+          minute: momentDate.get('minute'),
+          is24Hour: true
+        });
+        if (action !== DatePickerAndroid.dismissedAction) {
+          this.handleDateChange(momentDate.set({ hour, minute }).toDate());
+        }
+      } catch ({ code, message }) {
+        console.warn('Cannot open time picker', message);
+      }
+    };
+
+    const renderSelectedValue = (value, handler, icon) => {
+      const isAndroid = Platform.OS === 'android';
+      return (
+        !isAndroid
+          ?
+          <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={handler}>
+            {value}
+            {icon}
+          </TouchableOpacity>
+          : value
+      );
+    };
+
+    const renderSelected = () => {
+      const time = <Text style={styles.time}>{momentDate.format('H:mm')}</Text>;
+      const date = <Text style={styles.date}>{momentDate.format('dddd, MMMM D, YYYY')}</Text>;
+
+      return (
+        <View style={styles.selectedWrapper}>
+          {renderSelectedValue(date, openDatePickerAndroid, <Icon size={20} name="editAndroid" />)}
+          {renderSelectedValue(time, openTimePickerAndroid, <Icon style={styles.TDEditIcon} name="editAndroid" />)}
+        </View>
+      );
+    };
+
+    return (
+      <Modal
+        style={styles.bottomModal}
+        isVisible={false}
+        backdropColor="#284784"
+        backdropOpacity={0.6}
+      >
+        <DismissKeyboardView style={styles.TDModal}>
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={this.toggleAddressModal}>
+              <Text style={styles.closeModalText}>
+                {strings('map.label.close')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.flex}>
+            {renderSelected()}
+
+            {Platform.OS === 'ios' &&
+              <View style={styles.TDPickerWrapper}>
+                <DatePickerIOS
+                  date={date}
+                  onDateChange={this.handleDateChange}
+                  minimumDate={new Date()}
+                />
+              </View>
+            }
+            <Button raised={false} style={styles.TDButton} onPress={this.handleDateSubmit}>
+              <Text style={styles.TDButtonText}>Set the Time</Text>
+            </Button>
+          </View>
+        </DismissKeyboardView>
+      </Modal>
+    );
+  }
 
   render() {
     const {
@@ -174,6 +288,7 @@ class Map extends Component {
           region={regionPosition}>
           <MapView.Marker coordinate={currentPosition} />
         </MapView>
+        {this.renderTimeDatePicker()}
       </View>
     );
   }
@@ -202,7 +317,8 @@ const bindActions = {
   initialRegionPosition,
   changeRegionPosition,
   changePosition,
-  errorPosition
+  errorPosition,
+  changeBookingDate
 };
 
 export default connect(select, bindActions)(Map);
