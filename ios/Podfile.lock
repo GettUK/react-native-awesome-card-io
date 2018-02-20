@@ -1,46 +1,15 @@
 PODS:
-  - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.4.0):
     - React
-  - DoubleConversion (1.1.5)
-  - Folly (2016.09.26.00):
-    - boost-for-react-native
-    - DoubleConversion
-    - GLog
-  - GLog (0.3.4)
   - GoogleMaps (2.5.0):
     - GoogleMaps/Maps (= 2.5.0)
   - GoogleMaps/Base (2.5.0)
   - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
-  - React (0.53.0):
-    - React/Core (= 0.53.0)
-  - React/Core (0.53.0):
-    - yoga (= 0.53.0.React)
-  - React/CxxBridge (0.53.0):
-    - Folly (= 2016.09.26.00)
-    - React/Core
-    - React/cxxreact
-  - React/cxxreact (0.53.0):
-    - boost-for-react-native (= 1.63.0)
-    - Folly (= 2016.09.26.00)
-    - React/jschelpers
-    - React/jsinspector
-  - React/DevSupport (0.53.0):
-    - React/Core
-    - React/RCTWebSocket
-  - React/fishhook (0.53.0)
-  - React/jschelpers (0.53.0):
-    - Folly (= 2016.09.26.00)
-    - React/PrivateDatabase
-  - React/jsinspector (0.53.0)
-  - React/PrivateDatabase (0.53.0)
-  - React/RCTBlob (0.53.0):
-    - React/Core
-  - React/RCTWebSocket (0.53.0):
-    - React/Core
-    - React/fishhook
-    - React/RCTBlob
+  - React (0.50.0):
+    - React/Core (= 0.50.0)
+  - React/Core (0.50.0):
+    - yoga (= 0.50.0.React)
   - ReactNativePermissions (1.1.1):
     - React
   - RNI18n (2.0.11):
@@ -49,16 +18,12 @@ PODS:
     - React
   - RNVectorIcons (4.5.0):
     - React
-  - yoga (0.53.0.React)
+  - yoga (0.50.0.React)
 
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
-  - GLog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
   - GoogleMaps
-  - React/CxxBridge (from `../node_modules/react-native`)
-  - React/DevSupport (from `../node_modules/react-native`)
+  - React (from `../node_modules/react-native`)
   - ReactNativePermissions (from `../node_modules/react-native-permissions`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -68,12 +33,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   BVLinearGradient:
     :path: ../node_modules/react-native-linear-gradient
-  DoubleConversion:
-    :podspec: ../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec
-  Folly:
-    :podspec: ../node_modules/react-native/third-party-podspecs/Folly.podspec
-  GLog:
-    :podspec: ../node_modules/react-native/third-party-podspecs/GLog.podspec
   React:
     :path: ../node_modules/react-native
   ReactNativePermissions:
@@ -88,19 +47,15 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
-  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 4b3f3bdf1ac1a52a5ef5e65c9585d793a7c3f825
-  DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
-  Folly: 0e765a0b56a1bf180dcbd51ee178cd3a1e2ab986
-  GLog: ed471a3ad6ad53eefb343a530f15dad283e5ef51
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
-  React: 988a7dbd5626e0dd4f4b63fb444fa7e3d975e5b7
+  React: 9914d9682e3e7f052c6e9d3ada61378014dca2ac
   ReactNativePermissions: 9f2d9c45c98800795e6c2ed330e25d11a66a8169
   RNI18n: db9be06a40336f04d136f24dd5de3f5eb9f3207c
   RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
   RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
-  yoga: 55da126afc384965b96bff46652464373b330add
+  yoga: 17521bbb0dd54a47c0b3ac43253e78cdac7488e0
 
-PODFILE CHECKSUM: 786ada0332d9102f19cc1a5566f6e2c988298895
+PODFILE CHECKSUM: 91f6593ba31f0e918f48a383f9c0493dd49b961b
 
 COCOAPODS: 1.4.0
