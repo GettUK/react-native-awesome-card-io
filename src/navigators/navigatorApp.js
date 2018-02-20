@@ -4,9 +4,12 @@ import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import NavImageButton from 'components/Common/NavImageButton';
 import { strings } from 'locales';
-import { Icon } from 'components';
+import { has } from 'lodash';
+import { Icon, ScreenHeader } from 'components';
 
-import { Map, Settings, Orders } from 'containers';
+import { Map, Settings, Orders, MessageToDriver } from 'containers';
+import ordersStyles from 'containers/Orders/styles';
+import { MessageToDriverHeader } from 'containers/MessageToDriver';
 
 const routeConfiguration = {
   MapView: {
@@ -41,9 +44,22 @@ const routeConfiguration = {
   },
   OrdersView: {
     screen: Orders,
-    navigationOptions: {
-      header: null
-    }
+    navigationOptions: ({ navigation }) => ({
+      header: (
+        <ScreenHeader
+          navigation={navigation}
+          title="Your Orders"
+          headerStyle={ordersStyles.header}
+          headerContainerStyle={ordersStyles.headerContainer}
+        />
+      )
+    })
+  },
+  MessageToDriver: {
+    screen: MessageToDriver,
+    navigationOptions: ({ navigation }) => ({
+      header: <MessageToDriverHeader navigation={navigation} />
+    })
   },
 };
 
