@@ -7,7 +7,7 @@ import { strings } from 'locales';
 import { has } from 'lodash';
 import { Icon, ScreenHeader } from 'components';
 
-import { Map, Settings, Orders, MessageToDriver } from 'containers';
+import { Map, Settings, Orders, MessageToDriver, ReasonForTravel } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
 
@@ -59,6 +59,17 @@ const routeConfiguration = {
     screen: MessageToDriver,
     navigationOptions: ({ navigation }) => ({
       header: <MessageToDriverHeader navigation={navigation} />
+    })
+  },
+  ReasonForTravel: {
+    screen: ReasonForTravel,
+    navigationOptions: ({ navigation }) => ({
+      header: (
+        <ScreenHeader
+          navigation={navigation}
+          title="Reason for Travel"
+        />
+      )
     })
   },
 };
