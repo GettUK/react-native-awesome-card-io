@@ -84,10 +84,10 @@ export function prepareSwitchersBlock(results = {}, handlers = {}) {
 
 export function prepareHistoryBlock(results = {}, handlers = {}) {
   return [
-    { 
+    {
       title: strings('settings.label.payments')
     },
-    { 
+    {
       title: strings('settings.label.rides')
     }
   ];
@@ -95,17 +95,26 @@ export function prepareHistoryBlock(results = {}, handlers = {}) {
 
 export function prepareInfoBlock(results = {}, handlers = {}) {
   return [
-    { 
+    {
       title: strings('settings.label.privacy')
     },
-    { 
+    {
       title: strings('settings.label.terms')
     },
-    { 
+    {
       title: strings('settings.label.faqs')
     },
-    { 
+    {
       title: strings('settings.label.locationInfo')
     }
   ];
+}
+
+export function prepareLogoutBlock(results = {}, handlers = {}) {
+  return [
+    {
+      title: strings('settings.label.logout'),
+      onPress: handlers.onLogout
+    }
+  ]
 }

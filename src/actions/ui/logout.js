@@ -24,13 +24,20 @@ export const logoutFailure = curry(errors => ({
   payload: errors
 }));
 
+export const NAVIGATION_RESET = 'UI/LOGOUT/NAVIGATION_RESET';
+
+export const navigationReset = () => ({
+  type: NAVIGATION_RESET
+});
+
 export const logout = () => (dispatch, getState) => {
   const { ui } = getState();
 
   if (ui.logout.busy) {
     return Promise.resolve();
   }
-  dispatch(batchActions([userLogout(), logoutSuccess()]));
+
+  dispatch(batchActions([userLogout(), logoutSuccess(), navigationReset()]));
 
   // dispatch(logoutStart());
   //
