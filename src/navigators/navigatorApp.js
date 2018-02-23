@@ -7,7 +7,7 @@ import { strings } from 'locales';
 import { has } from 'lodash';
 import { Icon, ScreenHeader } from 'components';
 
-import { Map, Settings, Orders, MessageToDriver, ReasonForTravel } from 'containers';
+import { Map, Settings, Orders, MessageToDriver, RateDriver, ReasonForTravel } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
 
@@ -72,6 +72,12 @@ const routeConfiguration = {
       )
     })
   },
+  RateDriver: {
+    screen: RateDriver,
+    navigationOptions: {
+      header: null
+    }
+  }
 };
 
 const stackNavigatorConfiguration = {

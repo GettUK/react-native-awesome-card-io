@@ -15,6 +15,7 @@ import pickUpField from './pickUpField';
 import push from './push';
 import search from './search';
 import sms from './sms';
+import star from './star';
 import wheelchair from './wheelchair';
 import work from './work';
 
@@ -36,6 +37,7 @@ export default {
   push,
   search,
   sms,
+  star,
   wheelchair,
   work
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-export default function Close({ color, ...rest }) {
+export default function Back({ color, ...rest }) {
   return (
     <Svg viewBox="0 0 12 21" {...rest}>
       <Path
