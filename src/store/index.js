@@ -46,7 +46,7 @@ export function createStore() {
     key: 'root',
     storage,
     transforms: [
-      createFilter('app', ['statuses']),
+      createFilter('app', ['statuses', 'booking']),
       createFilter('session', ['token', 'realms', 'result'])
     ],
     whitelist: ['app', 'session']

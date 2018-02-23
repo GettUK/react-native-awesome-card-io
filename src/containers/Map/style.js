@@ -119,30 +119,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16
   },
-  TDModal: {
-    height: Platform.OS === 'ios' ? 450 : 230,
-    backgroundColor: '#fff',
-    paddingTop: 15
-  },
   flex: {
     flex: 1
   },
   selectedWrapper: {
-    padding: 20
+    paddingHorizontal: 20
   },
   time: {
     fontSize: 36,
     color: '#000',
     fontWeight: 'bold',
-    marginBottom: 5,
-    marginRight: 5
+    marginBottom: 5
   },
   date: {
     color: '#000',
-    fontSize: 18,
-    marginRight: 5
+    fontSize: 18
   },
   TDPickerWrapper: {
+    marginTop: 20,
     shadowColor: "#cdcdcd",
     shadowOffset: {
       width: 0,
@@ -150,12 +144,12 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 1,
     shadowOpacity: 1,
-    marginBottom: 20
   },
   TDButton: {
     backgroundColor: '#284784',
     alignSelf: 'stretch',
-    marginHorizontal: 15
+    marginHorizontal: 15,
+    marginVertical: 20
   },
   TDButtonText: {
     fontSize: 18,
@@ -164,6 +158,31 @@ const styles = StyleSheet.create({
   },
   TDEditIcon: {
     marginBottom: -5
+  },
+  settingsModal: {
+    paddingBottom: 15
+  },
+  settingsMenuItem: {
+    marginLeft: 15,
+    paddingVertical: 15,
+    paddingRight: 15,
+    flexDirection: 'row',
+    alignContent: 'center'
+  },
+  settingsMenuItemTitle: {
+    fontSize: 17,
+    color: '#000'
+  },
+  settingsMenuSeparator: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#bcbbc1',
+    marginLeft: 15
+  },
+  settingsMenuSelectedValue: {
+    fontSize: 17,
+    color: '#8e8e93',
+    textAlign: 'right',
+    marginRight: 10
   }
 });
 

@@ -14,9 +14,7 @@ import {
   TimePickerAndroid
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Icon, Button } from 'components';
-import Modal from 'react-native-modal';
-import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
+import { Icon, Button, DismissKeyboardView, Modal } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 
@@ -31,7 +29,13 @@ import {
   changePosition,
   errorPosition
 } from 'actions/ui/map';
-import { getFormData, changeBookingDate, createOrder } from 'actions/app/booking';
+import {
+  createOrder,
+  getFormData,
+  changeBookingDate,
+  openSettingsModal,
+  closeSettingsModal
+} from 'actions/app/booking';
 import {
   passegerViewEmpty,
   receivePassegerView
@@ -45,8 +49,6 @@ import moment from 'moment';
 import AddressModal from './AddressModal';
 import PointList from './PointList';
 import styles from './style';
-
-const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class Map extends Component {
   constructor(props) {
@@ -136,7 +138,7 @@ class Map extends Component {
 
   isActiveSceneIs = (name = 'preorder') => {
     return this.props.activeScene === AVAILABLE_MAP_SCENES[name];
-  }
+  };
 
   goToSettings = () => {
     this.props.navigation.navigate('SettingsView', {});
@@ -144,6 +146,16 @@ class Map extends Component {
 
   goToOrders = () => {
     this.props.navigation.navigate('OrdersView', {});
+  };
+
+  goToMessageToDriver = () => {
+    this.props.closeSettingsModal();
+    this.props.navigation.navigate('MessageToDriver');
+  };
+
+  goToTravelReasons = () => {
+    this.props.closeSettingsModal();
+    this.props.navigation.navigate('ReasonForTravel');
   };
 
   handleDateChange = date => {
@@ -190,7 +202,7 @@ class Map extends Component {
     const renderSelectedValue = (value, handler, icon) => {
       const isAndroid = Platform.OS === 'android';
       return (
-        !isAndroid ?
+        isAndroid ?
           <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={handler}>
             {value}
             {icon}
@@ -243,6 +255,28 @@ class Map extends Component {
             </Button>
           </View>
         </DismissKeyboardView>
+      </Modal>
+    );
+  }
+
+  renderSettings() {
+    const { newBooking, bookingFormData: { travelReasons }, bookingMeta: { isSettingsModalOpened }, closeSettingsModal } = this.props;
+
+    const renderMenuItem = (title, value, handler) => (
+      <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
+        <Text style={[styles.flex, styles.settingsMenuItemTitle]}>{title}</Text>
+        <Text style={[styles.flex, styles.settingsMenuSelectedValue]} numberOfLines={1}>{value}</Text>
+        <Icon name="chevron" size={16} color="#c7c7cc" />
+      </TouchableOpacity>
+    );
+
+    const getReasonsName = (id) => (travelReasons && travelReasons.find(r => r.id === id) || {}).name;
+
+    return (
+      <Modal isVisible={isSettingsModalOpened} contentStyles={styles.settingsModal} onClose={closeSettingsModal}>
+        {renderMenuItem('Message to driver', newBooking.messageToDriver, this.goToMessageToDriver)}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Reasons for travel', getReasonsName(newBooking.travelReason), this.goToTravelReasons)}
       </Modal>
     );
   }
@@ -378,6 +412,7 @@ class Map extends Component {
           <MapView.Marker coordinate={currentPosition} />
         </MapView>
         {this.renderTimeDatePicker()}
+        {this.renderSettings()}
       </View>
     );
   }
@@ -407,12 +442,15 @@ Map.propTypes = {
 
 Map.defaultProps = {};
 
-const mapState = ({ session, network, ui }) => ({
+const mapState = ({ session, network, ui, app }) => ({
   network,
   map: ui.map,
   sessionData: session.result,
   passengerView: ui.passengerView,
-  activeScene: ui.navigation.activeScene
+  activeScene: ui.navigation.activeScene,
+  newBooking: app.booking.new,
+  bookingFormData: app.booking.formData,
+  bookingMeta: app.booking.meta
 });
 
 const mapDispatch = {
@@ -431,7 +469,9 @@ const mapDispatch = {
   receivePassegerView,
   changeBookingDate,
   createOrder,
-  getFormData
+  getFormData,
+  openSettingsModal,
+  closeSettingsModal
 };
 
 export default connect(mapState, mapDispatch)(Map);

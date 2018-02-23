@@ -13,7 +13,9 @@ const TYPES = createTypes('booking', [
   'changeTempMessageToDriver',
   'applyMessageToDriver',
   'changeBookingDate',
-  'changeTravelReason'
+  'changeTravelReason',
+  'openSettingsModal',
+  'closeSettingsModal'
 ]);
 
 export const createOrder = () => (dispatch) => {
@@ -29,7 +31,7 @@ export const createOrder = () => (dispatch) => {
     .catch((error) => {
       dispatch({ type: TYPES.createOrderError, error });
     });
-}
+};
 
 export const getFormData = () => (dispatch) => {
   return get('/bookings/new')
@@ -53,4 +55,12 @@ export const changeBookingDate = (date) => (dispatch) => {
 
 export const changeTravelReason = (reasonId) => (dispatch) => {
   dispatch({ type: TYPES.changeTravelReason, reasonId });
+};
+
+export const openSettingsModal = () => (dispatch) => {
+  dispatch({ type: TYPES.openSettingsModal });
+};
+
+export const closeSettingsModal = () => (dispatch) => {
+  dispatch({ type: TYPES.closeSettingsModal });
 };
