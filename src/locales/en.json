@@ -5,7 +5,8 @@
     "forgot_password": "Forgot your password?",
     "login_button": "Log in",
     "logout_button": "LOGOUT",
-    "reset": "Reset"
+    "reset": "Reset",
+    "success_reset": "Password was reseted. Please, check your email"
   },
   "map": {
     "label": {
@@ -33,5 +34,13 @@
     },
     "headerTitle": "Settings",
     "none":"None"
+  },
+  "validation": {
+    "email": {
+      "format": "is invalid"
+    },
+    "password": {
+      "length": "must be at least 6 characters"
+    }
   }
 }

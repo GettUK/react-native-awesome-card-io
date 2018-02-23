@@ -8,12 +8,16 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import axios from 'axios';
 import validate from 'validate.js';
-import DropdownAlert from 'react-native-dropdownalert';
-import { Icon, Input } from 'components';
+
+import { Icon, Input, DropdownAlert } from 'components';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
+
+import { put } from 'utils';
+
 import assets from 'assets';
+
+import { resetPasswordRules } from './validatorRules';
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
@@ -25,34 +29,37 @@ export default class ForgotPassword extends PureComponent {
   };
 
   handleEmailChange = value => {
-    this.setState({ email: value });
+    this.setState({ email: value, error: '' });
+    this.dropdown.close();
   };
 
   handleSubmit = () => {
     if (this.validateEmail()) {
-      axios
-        .put('https://dev.gettaxi.me/api/user/forgot_password', {
-          email: this.state.email
-        })
-        .then(this.goToLogIn);
+      put('/user/forgot_password', { email: this.state.email })
+        .then(this.handleSuccessReset);
     }
   };
 
+  handleSuccessReset = () => {
+    this.goToLogIn();
+    this.props.navigation.state.params.onReturn({ isResetSuccess: true });
+  }
+
   validateEmail() {
-    const err = validate.single(this.state.email, {
-      email: { message: 'Invaild email' }
-    });
+    const err = validate({ email: this.state.email }, resetPasswordRules);
+
     if (err) {
-      this.showError(`Error! ${err[0]}`);
-      this.setState({ error: err[0] });
+      this.showError(`Error! ${err.email[0]}`);
+      this.setState({ error: err.email[0] });
     } else {
       this.resetError();
     }
+
     return !err;
   }
 
   showError = error => {
-    this.dropdown.alertWithType('error', error, '');
+    this.dropdown.showErrorMessage(error);
   };
 
   resetError = () => {
@@ -68,7 +75,9 @@ export default class ForgotPassword extends PureComponent {
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
+
         <Image style={styles.image} source={assets.loginBg} />
+
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.container}>
@@ -84,6 +93,7 @@ export default class ForgotPassword extends PureComponent {
             keyboardType="email-address"
             error={error}
           />
+
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.2)"
             style={styles.btn}
@@ -91,18 +101,14 @@ export default class ForgotPassword extends PureComponent {
             <Text style={styles.btnText}>Reset Password</Text>
           </TouchableHighlight>
         </KeyboardAvoidingView>
+
         <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
           <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
         </TouchableHighlight>
+
         <DropdownAlert
-          closeInterval={10000}
-          endDelta={30}
-          imageStyle={styles.errorImage}
-          errorColor="#f00"
-          defaultContainer={styles.errorContainer}
-          updateStatusBar={false}
+          type='error'
           ref={el => (this.dropdown = el)}
-          onClose={this.resetError}
         />
       </DismissKeyboardView>
     );
