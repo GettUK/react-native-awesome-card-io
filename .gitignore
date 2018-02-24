@@ -33,6 +33,9 @@ local.properties
 android/app/.project
 android/.project
 android/app/bin/
+android/app/.settings/
+android/app/.classpath
+android/.settings
 
 # node.js
 #

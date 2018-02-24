@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, View, Platform } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash/fp';
+import SplashScreen from 'react-native-splash-screen';
 
 import NavigatorApp from 'navigators/navigatorApp';
 import NavigatorLogin from 'navigators/navigatorLogin';
 
 import { saveToken } from 'actions/app/pushNotifications';
-
-import { SplashScreen } from 'components';
 
 import PN from 'utils/notifications';
 
@@ -29,8 +28,12 @@ class AppContainer extends Component {
 
     PN.getNotificationsPermissions();
     PN.registerFCMToken().then((token) => {
-      this.props.dispatch(saveToken(token))
+      this.props.dispatch(saveToken(token));
     });
+  }
+
+  componentDidMount() {
+    setTimeout(SplashScreen.hide, 500); // Avoiding flicker
   }
 
   componentWillUnmount() {
@@ -73,7 +76,6 @@ class AppContainer extends Component {
             )),
           Just: () => this.loginFlow()
         })}
-        <SplashScreen />
       </View>
     );
   }

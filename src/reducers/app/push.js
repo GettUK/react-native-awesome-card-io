@@ -1,5 +1,4 @@
 import { composeReducer } from 'redux-compose-reducer';
-import { merge, isEmpty } from 'lodash/fp';
 
 const initialState = {
   token: ''

@@ -63,7 +63,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
   if (currentOrder.id !== id) {
-    return get(`/bookings/${id}`)
+    get(`/bookings/${id}`)
       .then(({ data }) => {
         dispatch({ type: TYPES.createBookingSuccess, payload: data });
 
@@ -71,7 +71,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
 
         dispatch(orderStatusSubscribe(data.channel));
 
-        return data
+        return data;
       });
   }
 };

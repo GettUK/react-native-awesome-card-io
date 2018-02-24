@@ -48,7 +48,7 @@ PODS:
   - QBImagePickerController (3.4.0)
   - React (0.53.3):
     - React/Core (= 0.53.3)
-  - react-native-fcm (14.1.1):
+  - react-native-fcm (14.1.3):
     - Firebase/Messaging
     - React
   - react-native-google-maps (0.19.0):
@@ -205,6 +205,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 29589365c877037b177371dd7544acdc65800e18
+PODFILE CHECKSUM: 1eb02f15ba7a9be27d5834eb329a6b0999549678
 
 COCOAPODS: 1.4.0
