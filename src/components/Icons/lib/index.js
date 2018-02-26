@@ -3,6 +3,7 @@ import burger from './burger';
 import calendar from './calendar';
 import clear from './clear';
 import close from './close';
+import editAndroid from './editAndroid';
 import email from './email';
 import home from './home';
 import logo from './logo';
@@ -21,6 +22,7 @@ export default {
   calendar,
   clear,
   close,
+  editAndroid,
   email,
   home,
   logo,
