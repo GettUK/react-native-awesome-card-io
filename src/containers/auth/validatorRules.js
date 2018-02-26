@@ -24,4 +24,4 @@ export const loginRules = {
 
 export const resetPasswordRules = {
   email: emailRule
-}
+};

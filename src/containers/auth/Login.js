@@ -26,6 +26,8 @@ import { strings } from 'locales';
 import assets from 'assets';
 
 import { loginRules } from './validatorRules';
+import TextButton from './TextButton';
+
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
@@ -34,7 +36,7 @@ class Login extends Component {
   state = {
     isResetSuccess: false,
     error: ''
-  }
+  };
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.isResetSuccess && !this.state.isResetSuccess) {
@@ -50,7 +52,7 @@ class Login extends Component {
 
   handleActivation = (data) => {
     this.setState(data);
-  }
+  };
 
   validateInputs() {
     const { login: { fields } } = this.props;
@@ -75,7 +77,7 @@ class Login extends Component {
   showResetSuccess = () => {
     this.dropdown.showSuccessMessage(strings('login.success_reset'));
     this.setState({ isResetSuccess: false });
-  }
+  };
 
   showError = error => {
     this.dropdown.showErrorMessage(error);
@@ -91,7 +93,7 @@ class Login extends Component {
   };
 
   render() {
-    const { login: { fields } } = this.props;
+    const { login: { fields, busy } } = this.props;
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
@@ -124,12 +126,11 @@ class Login extends Component {
             secureTextEntry
           />
 
-          <TouchableHighlight
-            underlayColor="rgba(255, 255, 255, 0.2)"
-            style={styles.btn}
-            onPress={this.handleSubmit}>
-            <Text style={styles.btnText}>{strings('login.login_button')}</Text>
-          </TouchableHighlight>
+          <TextButton
+            title={strings('login.login_button')} 
+            loading={busy} 
+            onPress={this.handleSubmit} 
+          />
         </KeyboardAvoidingView>
 
         <View style={styles.footer}>

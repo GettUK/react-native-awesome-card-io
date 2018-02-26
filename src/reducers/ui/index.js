@@ -7,6 +7,7 @@ import logout from './logout';
 import map from './map';
 import navigation from './navigation';
 import passengerView from './passenger-view';
+import resetPassword from './resetPassword';
 
 export default combineReducers({
   addresses,
@@ -16,5 +17,6 @@ export default combineReducers({
   logout,
   map,
   navigation,
-  passengerView
+  passengerView,
+  resetPassword
 });

@@ -415,7 +415,6 @@ const mapState = ({ session, network, ui }) => ({
   activeScene: ui.navigation.activeScene
 });
 
-
 const mapDispatch = {
   addAddressPoint,
   changeAddressType,
