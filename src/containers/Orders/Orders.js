@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
-import { Icon } from 'components';
 import { clearList } from 'actions/app/orders';
 import { OrdersList } from './components';
-import styles from './style';
+import styles from './styles';
 
 function getTitleCount(params) {
   return params ? `(${params.count})` : '';
@@ -43,34 +41,14 @@ const OrdersTabNavigator = TabNavigator({
 );
 
 class Orders extends Component {
-  goBack = () => {
-    this.props.navigation.goBack();
-  };
-
   componentWillUnmount() {
     this.props.clearList();
   }
 
   render() {
     return (
-      <View style={styles.flex}>
-        <StatusBar translucent barStyle="light-content"/>
-        <LinearGradient
-          style={styles.header}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 1, y: 0 }}
-          colors={['#0076BB', '#284784']}
-        >
-          <TouchableOpacity onPress={this.goBack}>
-            <Icon name="back" size={20} color="#fff" />
-          </TouchableOpacity>
-          <View style={styles.flex}>
-            <Text style={styles.title}>Your Orders</Text>
-          </View>
-        </LinearGradient>
-        <View style={[styles.flex, styles.content]}>
-          <OrdersTabNavigator />
-        </View>
+      <View style={[styles.flex, styles.content]}>
+        <OrdersTabNavigator />
       </View>
     );
   }

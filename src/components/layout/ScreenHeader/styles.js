@@ -10,27 +10,39 @@ function isIphoneX() {
   );
 }
 
-const styles = StyleSheet.create({
+const topSpace = (Platform.OS === 'ios' ? (isIphoneX() ? 40 : 20) : StatusBar.currentHeight) + 5;
+
+export default StyleSheet.create({
   flex: {
     flex: 1,
   },
   header: {
-    paddingTop: (Platform.OS === 'ios' ? (isIphoneX() ? 40 : 20) : StatusBar.currentHeight) + 5,
+    paddingTop: topSpace,
     paddingHorizontal: 15,
-    paddingBottom: 50,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center'
   },
-  title: {
+  text: {
     backgroundColor: 'transparent',
     textAlign: 'center',
     color: 'white',
-    fontSize: 17,
-    marginRight: 24
+    fontSize: 17
   },
-  content: {
-    marginTop: -47
+  backBtn: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: topSpace + 1,
+    left: 10,
+    zIndex: 10
+  },
+  backIcon: {
+    marginRight: 3
+  },
+  rightContent: {
+    position: 'absolute',
+    top: topSpace + 1,
+    right: 10,
+    zIndex: 10
   }
 });
-
-export default styles;
