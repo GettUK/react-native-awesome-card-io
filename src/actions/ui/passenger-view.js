@@ -30,7 +30,7 @@ export const receivePassegerViewSuccess = curry(results => ({
   payload: results
 }));
 
-export const receivePassegerView = id => (dispatch, getState) => {
+export const receivePassegerView = () => (dispatch, getState) => {
   const { ui, session } = getState();
 
   if (ui.passengerView.busy) {
@@ -39,7 +39,7 @@ export const receivePassegerView = id => (dispatch, getState) => {
 
   dispatch(receivePassegerViewStart());
 
-  return getPassengerIDRequest(session.token, id)
+  return getPassengerIDRequest(session.token, session.result.member_id)
     .then(result => {
       dispatch(receivePassegerViewSuccess(result));
     })

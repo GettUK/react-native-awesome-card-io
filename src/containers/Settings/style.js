@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   listItemTitleContainer: {},
   listItemContainer: {
     backgroundColor: '#FFFFFF',
-    borderBottomColor: 'rgba(155,155,155,0.3)'
+    borderBottomColor: 'rgba(155, 155, 155, 0.3)'
   },
   avatarContainer: {
     height: 80,
