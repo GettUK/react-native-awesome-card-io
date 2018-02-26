@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { has, join, isEmpty, isNull, isEqual, capitalize } from 'lodash/fp';
+
 import {
   passegerViewEmpty,
   receivePassegerView
 } from 'actions/ui/passenger-view';
+import { logout } from 'actions/ui/logout';
+
 import { Icon } from 'components';
 import { strings } from 'locales';
 
@@ -16,7 +19,8 @@ import {
   prepareAddressesBlock,
   prepareSwitchersBlock,
   prepareHistoryBlock,
-  prepareInfoBlock
+  prepareInfoBlock,
+  prepareLogoutBlock
 } from './utils'
 
 import SettingsListItem from './SettingsListItem';
@@ -59,6 +63,10 @@ class Settings extends Component {
     }
   };
 
+  handleLogout = () => {
+    this.props.logout();
+  };
+
   renderBlock = (data) => (
     <View style={styles.blockItems}>
       {data.map(listItem => <SettingsListItem {...listItem} />)}
@@ -74,7 +82,8 @@ class Settings extends Component {
       prepareAddressesBlock(results),
       prepareSwitchersBlock(results),
       prepareHistoryBlock(results),
-      prepareInfoBlock(results)
+      prepareInfoBlock(results),
+      prepareLogoutBlock(results, { onLogout: this.handleLogout })
     ];
 
     return (
@@ -104,7 +113,8 @@ const select = ({ session, ui, network }) => ({
 
 const bindActions = {
   passegerViewEmpty,
-  receivePassegerView
+  receivePassegerView,
+  logout
 };
 
 export default connect(select, bindActions)(Settings);
