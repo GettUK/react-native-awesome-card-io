@@ -1,4 +1,8 @@
 {
+  "label": {
+    "home": "Home",
+    "work": "Work"
+  },
   "login": {
     "email": "Email",
     "password": "Password",
@@ -17,8 +21,6 @@
       "phone": "Phone",
       "email": "Email",
       "cartype": "Default Cartype",
-      "home": "Home",
-      "work": "Work",
       "addresses": "My addresses",
       "sms": "SMS",
       "notification": "Push Notifications",

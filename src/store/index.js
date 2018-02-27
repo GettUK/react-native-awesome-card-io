@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import { createFilter } from 'redux-persist-transform-filter';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
-import { reducer, initialState } from 'reducers';
+import { reducer } from 'reducers';
 import { isEmpty } from 'lodash/fp';
 import { auth } from 'actions/ui/auth';
 import {
@@ -20,15 +20,21 @@ import {
 export function getMiddlewares() {
   const middlewares = [thunk, createNetworkMiddleware()];
   if (process.env.NODE_ENV === 'development') {
+    global.XMLHttpRequest = global.originalXMLHttpRequest ?
+      global.originalXMLHttpRequest :
+      global.XMLHttpRequest;
+    global.FormData = global.originalFormData ?
+      global.originalFormData :
+      global.FormData;
     // TODO fix logger if needed;
     middlewares.push(createLogger({ collapsed: true }));
   }
   return middlewares;
 }
 
-function getPreloadedState() {
-  return initialState;
-}
+// function getPreloadedState() {
+//   return initialState;
+// }
 
 function getEnhancer() {
   const chain = [applyMiddleware(...getMiddlewares())];
@@ -47,7 +53,7 @@ export function createStore() {
   };
   const store = createStore_(
     enableBatching(persistReducer(persistConfig, reducer)),
-    getPreloadedState(),
+    // getPreloadedState(),
     composeWithDevTools(getEnhancer())
   );
   // const persistor = persistStore(store, {}, () => {

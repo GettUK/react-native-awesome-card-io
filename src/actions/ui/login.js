@@ -1,47 +1,23 @@
-import { curry } from 'lodash/fp';
+import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { userLogin, userData } from 'actions/session';
 import { authSuccess } from 'actions/ui/auth';
 import { login as loginRequest } from 'services/auth';
 
-export const CHANGE_EMAIL = 'UI/LOGIN/CHANGE_EMAIL';
+const TYPES = createTypes('ui/login',
+  ['changeEmail', 'changePassword', 'setShowPassword', 'loginStart', 'loginSuccess', 'loginFailure']);
 
-export const changeEmail = curry(value => ({
-  type: CHANGE_EMAIL,
-  payload: value
-}));
+export const changeEmail = value => ({ type: TYPES.changeEmail, payload: value });
 
-export const CHANGE_PASSWORD = 'UI/LOGIN/CHANGE_PASSWORD';
+export const changePassword = value => ({ type: TYPES.changePassword, payload: value });
 
-export const changePassword = curry(value => ({
-  type: CHANGE_PASSWORD,
-  payload: value
-}));
+export const setShowPassword = () => ({ type: TYPES.setShowPassword });
 
-export const SET_SHOW_PASSWORD = 'UI/LOGIN/SET_SHOW_PASSWORD';
+export const loginStart = () => ({ type: TYPES.loginStart });
 
-export const setShowPassword = () => ({
-  type: SET_SHOW_PASSWORD
-});
+export const loginSuccess = () => ({ type: TYPES.loginSuccess });
 
-export const LOGIN_START = 'UI/LOGIN/LOGIN_START';
-
-export const loginStart = () => ({
-  type: LOGIN_START
-});
-
-export const LOGIN_SUCCESS = 'UI/LOGIN/LOGIN_SUCCESS';
-
-export const loginSuccess = () => ({
-  type: LOGIN_SUCCESS
-});
-
-export const LOGIN_FAILURE = 'UI/LOGIN/LOGIN_FAILURE';
-
-export const loginFailure = curry(errors => ({
-  type: LOGIN_FAILURE,
-  payload: errors
-}));
+export const loginFailure = errors => ({ type: TYPES.loginFailure, payload: errors });
 
 export const login = () => (dispatch, getState) => {
   const { ui } = getState();

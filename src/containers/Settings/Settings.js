@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
-import { ListItem, Avatar } from 'react-native-elements';
-import { has, join, isEmpty, isNull, isEqual, capitalize } from 'lodash/fp';
+import { isNull, isEqual } from 'lodash/fp';
 
 import {
   passegerViewEmpty,
@@ -11,17 +10,14 @@ import {
 } from 'actions/ui/passenger-view';
 import { logout } from 'actions/ui/logout';
 
-import { Icon } from 'components';
-import { strings } from 'locales';
-
-import { 
+import {
   prepareProfileBlock,
   prepareAddressesBlock,
   prepareSwitchersBlock,
   prepareHistoryBlock,
   prepareInfoBlock,
   prepareLogoutBlock
-} from './utils'
+} from './utils';
 
 import SettingsListItem from './SettingsListItem';
 
@@ -67,9 +63,9 @@ class Settings extends Component {
     this.props.logout();
   };
 
-  renderBlock = (data) => (
-    <View style={styles.blockItems}>
-      {data.map(listItem => <SettingsListItem {...listItem} />)}
+  renderBlock = (data, index) => (
+    <View key={index} style={styles.blockItems}>
+      {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
     </View>
   );
 
@@ -100,7 +96,8 @@ Settings.propTypes = {
   sessionData: PropTypes.object.isRequired,
   passengerView: PropTypes.object.isRequired,
   passegerViewEmpty: PropTypes.func.isRequired,
-  receivePassegerView: PropTypes.func.isRequired
+  receivePassegerView: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 Settings.defaultProps = {};

@@ -1,50 +1,26 @@
-import {
-  PASSENGER_VIEW_EMPTY,
-  RECEIVE_PASSENGER_VIEW_START,
-  RECEIVE_PASSENGER_VIEW_FAILURE,
-  RECEIVE_PASSENGER_VIEW_SUCCESS
-} from 'actions/ui/passenger-view';
+import { composeReducer } from 'redux-compose-reducer';
 
-export const initialState = {
+const initialState = {
   results: null,
   busy: false,
   errors: null
 };
 
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case PASSENGER_VIEW_EMPTY: {
-      return {
-        ...initialState
-      };
-    }
+const passegerViewEmpty = () => initialState;
 
-    case RECEIVE_PASSENGER_VIEW_START: {
-      return {
-        ...state,
-        busy: true,
-        errors: null
-      };
-    }
+const receivePassegerViewStart = state => ({...state, busy: true, errors: null});
 
-    case RECEIVE_PASSENGER_VIEW_FAILURE: {
-      return {
-        ...state,
-        busy: false,
-        errors: action.payload
-      };
-    }
+const receivePassegerViewFailure = (state, { payload }) => ({...state, busy: false, errors: payload});
 
-    case RECEIVE_PASSENGER_VIEW_SUCCESS: {
-      return {
-        ...state,
-        results: action.payload,
-        busy: false
-      };
-    }
+const receivePassegerViewSuccess = (state, { payload }) => ({...state, results: payload, busy: false});
 
-    default: {
-      return state;
-    }
-  }
-};
+export default composeReducer(
+  'ui/passengerView',
+  {
+    passegerViewEmpty,
+    receivePassegerViewStart,
+    receivePassegerViewFailure,
+    receivePassegerViewSuccess
+  },
+  initialState
+);

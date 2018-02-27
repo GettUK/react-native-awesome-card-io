@@ -35,3 +35,13 @@ export const toArrayItems = curry(items =>
     )
   )
 );
+
+export function nullAddress(line = null) {
+  return {
+    line,
+    lat: null,
+    lng: null,
+    postal_code: null,
+    timezone: 'Europe/London'
+  };
+}

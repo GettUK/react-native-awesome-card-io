@@ -1,26 +1,16 @@
-import { curry } from 'lodash/fp';
+import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { auth as authRequest } from 'services/auth';
 import { userData } from 'actions/session';
 
-export const AUTH_START = 'UI/AUTH/AUTH_START';
+const TYPES = createTypes('ui/auth',
+  ['authStart', 'authSuccess', 'authFailure']);
 
-export const authStart = () => ({
-  type: AUTH_START
-});
+export const authStart = () => ({ type: TYPES.authStart });
 
-export const AUTH_SUCCESS = 'UI/AUTH/AUTH_SUCCESS';
+export const authSuccess = () => ({ type: TYPES.authSuccess });
 
-export const authSuccess = () => ({
-  type: AUTH_SUCCESS
-});
-
-export const AUTH_FAILURE = 'UI/AUTH/AUTH_FAILURE';
-
-export const authFailure = curry(errors => ({
-  type: AUTH_FAILURE,
-  payload: errors
-}));
+export const authFailure = errors => ({ type: TYPES.authFailure, payload: errors });
 
 export const auth = () => (dispatch, getState) => {
   const { ui, session } = getState();

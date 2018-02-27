@@ -1,8 +1,11 @@
 import { reducer } from 'react-native-offline';
 
-export const initialState = {
+const initialState = {
   isConnected: false,
   actionQueue: []
 };
 
-export { reducer };
+const reducerNetwork = (state = initialState, action) =>
+  reducer(state, action);
+
+export default reducerNetwork;

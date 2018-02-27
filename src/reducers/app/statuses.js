@@ -1,33 +1,20 @@
+import { composeReducer } from 'redux-compose-reducer';
 import { merge, isEmpty } from 'lodash/fp';
-import {
-  CHANGE_ISOPENKEYBOARD,
-  CHANGE_PERMISSIONS
-} from 'actions/app/statuses';
 
-export const initialState = {
+const initialState = {
   isOpenKeyboard: false
 };
 
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case CHANGE_ISOPENKEYBOARD: {
-      return {
-        ...state,
-        isOpenKeyboard: action.payload
-      };
-    }
+const changeKeyboardStatus = (state, { payload }) => ({...state, isOpenKeyboard: payload});
 
-    case CHANGE_PERMISSIONS: {
-      return {
-        ...state,
-        permissions: isEmpty(state.permissions) ?
-          action.payload :
-          merge(state.permissions, action.payload)
-      };
-    }
+const changePermissions = (state, { payload }) =>
+  ({...state, permissions: isEmpty(state.permissions) ? payload : merge(state.permissions, payload)});
 
-    default: {
-      return state;
-    }
-  }
-};
+export default composeReducer(
+  'app/statuses',
+  {
+    changeKeyboardStatus,
+    changePermissions
+  },
+  initialState
+);

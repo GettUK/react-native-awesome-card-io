@@ -1,21 +1,9 @@
-import { curry } from 'lodash/fp';
+import { createTypes } from 'redux-compose-reducer';
 
-export const USER_LOGIN = 'SESSION/USER_LOGIN';
+const TYPES = createTypes('session', ['userLogin', 'userData', 'userLogout']);
 
-export const userLogin = curry((token, realms) => ({
-  type: USER_LOGIN,
-  payload: { token, realms }
-}));
+export const userLogin = (token, realms) => ({ type: TYPES.userLogin, payload: { token, realms } });
 
-export const USER_DATA = 'SESSION/USER_DATA';
+export const userData = result => ({ type: TYPES.userData, payload: result });
 
-export const userData = curry(result => ({
-  type: USER_DATA,
-  payload: result
-}));
-
-export const USER_LOGOUT = 'SESSION/USER_LOGOUT';
-
-export const userLogout = curry(() => ({
-  type: USER_LOGOUT
-}));
+export const userLogout = () => ({ type: TYPES.userLogout });
