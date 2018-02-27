@@ -1,6 +1,7 @@
 import back from './back';
 import burger from './burger';
 import calendar from './calendar';
+import check from './check';
 import clear from './clear';
 import close from './close';
 import editAndroid from './editAndroid';
@@ -21,6 +22,7 @@ export default {
   back,
   burger,
   calendar,
+  check,
   clear,
   close,
   editAndroid,

@@ -30,7 +30,7 @@ import {
   changePosition,
   errorPosition
 } from 'actions/ui/map';
-import { changeBookingDate } from 'actions/app/booking';
+import { getFormData, changeBookingDate } from 'actions/app/booking';
 import {
   passegerViewEmpty,
   receivePassegerView
@@ -54,7 +54,9 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    const { map: { options }, passengerView: { results, errors } } = this.props;
+    const { map: { options }, passengerView: { results, errors }, getFormData } = this.props;
+    getFormData();
+
     if (!isNull(errors)) {
       this.receivePasseger();
     } else if (isNull(results)) {
@@ -63,6 +65,7 @@ class Map extends Component {
     setTimeout(() => {
       this.getCurrentPosition();
     }, 750);
+
     this.watchID = navigator.geolocation.watchPosition(
       this.props.changePosition,
       this.props.errorPosition,
@@ -382,14 +385,15 @@ Map.propTypes = {
 
 Map.defaultProps = {};
 
-const select = ({ session, network, ui }) => ({
+const mapState = ({ session, network, ui }) => ({
   network,
   map: ui.map,
   sessionData: session.result,
   passengerView: ui.passengerView
 });
 
-const bindActions = {
+
+const mapDispatch = {
   addAddressPoint,
   changeAddressType,
   changeAddressTyping,
@@ -403,7 +407,8 @@ const bindActions = {
   receiveGeocode,
   passegerViewEmpty,
   receivePassegerView,
-  changeBookingDate
+  changeBookingDate,
+  getFormData
 };
 
-export default connect(select, bindActions)(Map);
+export default connect(mapState, mapDispatch)(Map);
