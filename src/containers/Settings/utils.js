@@ -1,5 +1,7 @@
 import { strings } from 'locales';
 
+import styles from './style';
+
 function prepareName({ first_name = '', last_name = '' }) {
   return `${first_name} ${last_name}`;
 }
@@ -114,7 +116,9 @@ export function prepareLogoutBlock(results = {}, handlers = {}) {
   return [
     {
       title: strings('settings.label.logout'),
-      onPress: handlers.onLogout
+      onPress: handlers.onLogout,
+      showRightIcon: false,
+      titleStyle: styles.listLabelCentered
     }
   ]
 }

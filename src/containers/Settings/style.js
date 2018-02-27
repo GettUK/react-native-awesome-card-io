@@ -16,11 +16,18 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 17
   },
+  listLabelCentered: { 
+    textAlign: 'center', 
+    color: '#fd6c5a', 
+    fontWeight: '600' 
+  },
   avatarTitle: {
     marginLeft: 8
   },
-  listItemTitleContainer: {},
   listItemContainer: {
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderBottomColor: 'rgba(155, 155, 155, 0.3)'
   },

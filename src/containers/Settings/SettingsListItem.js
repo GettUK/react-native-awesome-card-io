@@ -6,8 +6,20 @@ import { Icon } from 'components';
 
 import styles from './style';
 
-const SettingsListItem = props => {
-  const { title, rightTitle, leftIconName, avatar, titleAvatar, switchButton, switched, onPress, onSwitch } = props;
+export default SettingsListItem = (props) => {
+  const { 
+    title, 
+    rightTitle, 
+    leftIconName, 
+    avatar, 
+    titleAvatar, 
+    showRightIcon,
+    switchButton, 
+    titleStyle,
+    switched, 
+    onPress, 
+    onSwitch 
+  } = props;
 
   return (
     <ListItem
@@ -30,15 +42,16 @@ const SettingsListItem = props => {
       rightTitle={rightTitle || null}
 
       switchButton={switchButton}
-      hideChevron={switchButton}
+      hideChevron={!showRightIcon || switchButton}
       switched={switched}
       onSwitch={onSwitch}
       switchOnTintColor="#4CD964"
 
       rightTitleStyle={styles.listItemRightTitle}
       titleStyle={[
-        styles.listItemTitle,
-        avatar || titleAvatar ? styles.avatarTitle : {}
+        styles.listItemTitle, 
+        avatar || titleAvatar ? styles.avatarTitle : {},
+        titleStyle || {}
       ]}
       containerStyle={[
         styles.listItemContainer,
@@ -57,8 +70,10 @@ SettingsListItem.propTypes = {
     PropTypes.element,
     PropTypes.string
   ]),
+  showRightIcon: PropTypes.bool,
   switchButton: PropTypes.bool,
   switched: PropTypes.bool,
+  titleStyle: PropTypes.object,
   onPress: PropTypes.func,
   onSwitch: PropTypes.func
 };
@@ -68,8 +83,10 @@ SettingsListItem.defaultProps = {
   leftIconName: '',
   titleAvatar: null,
   avatar: null,
+  showRightIcon: true,
   switchButton: false,
   switched: false,
+  titleStyle: {},
   onPress: () => {},
   onSwitch: () => {}
 };
