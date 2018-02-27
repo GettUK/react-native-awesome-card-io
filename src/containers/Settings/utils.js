@@ -34,12 +34,12 @@ export function prepareAddressesBlock(results = {}, handlers = {}) {
   return [
     {
       leftIconName: 'home',
-      title: strings('settings.label.home'),
+      title: strings('label.home'),
       rightTitle: results.home_address && results.home_address.line || strings('settings.none')
     },
     {
       leftIconName: 'work',
-      title: strings('settings.label.work'),
+      title: strings('label.work'),
       rightTitle: results.work_address && results.work_address.line || strings('settings.none')
     },
     {

@@ -1,32 +1,23 @@
-import { USER_LOGIN, USER_DATA, USER_LOGOUT } from 'actions/session';
+import { composeReducer } from 'redux-compose-reducer';
 
-export const initialState = {
+const initialState = {
   token: null,
   realms: null,
   result: null
 };
 
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case USER_LOGIN: {
-      return {
-        ...state,
-        token: action.payload.token,
-        realms: action.payload.realms
-      };
-    }
-    case USER_DATA: {
-      return {
-        ...state,
-        result: action.payload
-      };
-    }
-    case USER_LOGOUT: {
-      return initialState;
-    }
+const userLogin = (state, { payload: { token, realms } }) => ({...state, token, realms});
 
-    default: {
-      return state;
-    }
-  }
-};
+const userData = (state, { payload }) => ({...state, result: payload});
+
+const userLogout = () => initialState;
+
+export default composeReducer(
+  'session',
+  {
+    userLogin,
+    userData,
+    userLogout
+  },
+  initialState
+);

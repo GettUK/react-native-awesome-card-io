@@ -10,12 +10,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10
   },
+  itemAddressView: {
+    marginLeft: 46,
+    paddingVertical: 7
+  },
+  itemAddressText: {
+    fontSize: 14,
+    color: '#000'
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center'
   },
   pickUpAddress: {
     marginHorizontal: 12
+  },
+  indicatorView: {
+    paddingVertical: 20
   },
   delimiter: {
     alignSelf: 'stretch',
@@ -38,8 +49,8 @@ const styles = StyleSheet.create({
     textAlign: 'right'
   },
   modalContent: {
-    marginTop: 80,
-    flex: 1,
+    width: '100%',
+    height: '88%',
     backgroundColor: '#fff',
     paddingTop: 15
   },

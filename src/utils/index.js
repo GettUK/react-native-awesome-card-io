@@ -9,6 +9,7 @@ export {
   firstOne,
   ternaryOp,
   objectToArray,
-  toArrayItems
+  toArrayItems,
+  nullAddress
 } from './common';
 export * from './requests';

@@ -1,35 +1,23 @@
+import { composeReducer } from 'redux-compose-reducer';
 import { Just, Nothing } from 'data.maybe';
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAILURE } from 'actions/ui/auth';
 
-export const initialState = {
+const initialState = {
   busy: false,
   errors: Nothing()
 };
 
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case AUTH_START: {
-      return {
-        ...state,
-        busy: true,
-        errors: Nothing()
-      };
-    }
+const authStart = state => ({...state, busy: true, errors: Nothing()});
 
-    case AUTH_SUCCESS: {
-      return initialState;
-    }
+const authSuccess = () => initialState;
 
-    case AUTH_FAILURE: {
-      return {
-        ...state,
-        busy: false,
-        errors: Just(action.payload)
-      };
-    }
+const authFailure = (state, { payload }) => ({...state, busy: false, errors: Just(payload)});
 
-    default: {
-      return state;
-    }
-  }
-};
+export default composeReducer(
+  'ui/auth',
+  {
+    authStart,
+    authSuccess,
+    authFailure
+  },
+  initialState
+);

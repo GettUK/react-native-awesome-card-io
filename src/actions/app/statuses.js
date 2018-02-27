@@ -1,15 +1,7 @@
-import { curry } from 'lodash/fp';
+import { createTypes } from 'redux-compose-reducer';
 
-export const CHANGE_ISOPENKEYBOARD = 'APP/STATUSES/CHANGE_ISOPENKEYBOARD';
+const TYPES = createTypes('app/statuses', ['changeKeyboardStatus', 'changePermissions']);
 
-export const changeKeyboardStatus = curry(value => ({
-  type: CHANGE_ISOPENKEYBOARD,
-  payload: value
-}));
+export const changeKeyboardStatus = value => ({ type: TYPES.changeKeyboardStatus, payload: value });
 
-export const CHANGE_PERMISSIONS = 'APP/STATUSES/CHANGE_PERMISSIONS';
-
-export const changePermissions = curry(perms => ({
-  type: CHANGE_PERMISSIONS,
-  payload: perms
-}));
+export const changePermissions = perms => ({ type: TYPES.changePermissions, payload: perms });

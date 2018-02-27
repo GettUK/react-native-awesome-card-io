@@ -1,34 +1,15 @@
-import { curry } from 'lodash/fp';
+import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
-// import {
-//     logout as logoutRequest
-// } from 'services/auth';
 import { userLogout } from 'actions/session';
 
-export const LOGOUT_START = 'UI/LOGOUT/LOGOUT_START';
+const TYPES = createTypes('ui/logout',
+  ['logoutSuccess']);
 
-export const logoutStart = () => ({
-  type: LOGOUT_START
-});
+export const logoutSuccess = () => ({ type: TYPES.logoutSuccess });
 
-export const LOGOUT_SUCCESS = 'UI/LOGOUT/LOGOUT_SUCCESS';
+export const NAVIGATION_RESET = 'ui/logout/navigationReset';
 
-export const logoutSuccess = () => ({
-  type: LOGOUT_SUCCESS
-});
-
-export const LOGOUT_FAILURE = 'UI/LOGOUT/LOGOUT_FAILURE';
-
-export const logoutFailure = curry(errors => ({
-  type: LOGOUT_FAILURE,
-  payload: errors
-}));
-
-export const NAVIGATION_RESET = 'UI/LOGOUT/NAVIGATION_RESET';
-
-export const navigationReset = () => ({
-  type: NAVIGATION_RESET
-});
+export const navigationReset = () => ({ type: NAVIGATION_RESET });
 
 export const logout = () => (dispatch, getState) => {
   const { ui } = getState();
@@ -39,16 +20,5 @@ export const logout = () => (dispatch, getState) => {
 
   dispatch(batchActions([userLogout(), logoutSuccess(), navigationReset()]));
 
-  // dispatch(logoutStart());
-  //
-  // return logoutRequest(session.token)
-  //     .then(() => {
-  //         dispatch(
-  //             logoutSuccess()
-  //         );
-  //     })
-  //     .catch(errors => {
-  //         dispatch(logoutFailure(errors));
-  //     });
   return Promise.resolve();
 };

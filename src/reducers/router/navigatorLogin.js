@@ -1,8 +1,10 @@
 import NavigatorLogin from 'navigators/navigatorLogin';
 
-export const initialState = NavigatorLogin.router.getStateForAction(
+const initialState = NavigatorLogin.router.getStateForAction(
   NavigatorLogin.router.getActionForPathAndParams('Login')
 );
 
-export const reducer = (state, action) =>
+const reducerNavigatorLogin = (state = initialState, action) =>
   NavigatorLogin.router.getStateForAction(action, state);
+
+export default reducerNavigatorLogin;

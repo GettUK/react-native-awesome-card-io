@@ -8,6 +8,7 @@ import email from './email';
 import home from './home';
 import logo from './logo';
 import myLocation from './myLocation';
+import plus from './plus';
 import pickUpCenter from './pickUpCenter';
 import pickUpField from './pickUpField';
 import push from './push';
@@ -27,6 +28,7 @@ export default {
   home,
   logo,
   myLocation,
+  plus,
   pickUpCenter,
   pickUpField,
   push,

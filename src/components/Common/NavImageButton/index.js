@@ -8,9 +8,7 @@ export default function NavImageButton(props) {
     <TouchableOpacity
       style={props.styleContainer}
       onPress={props.onClick ? props.onClick : null}>
-      <View style={[styles.buttonView, props.styleView]}>
-        {props.icon}
-      </View>
+      <View style={[styles.buttonView, props.styleView]}>{props.icon}</View>
     </TouchableOpacity>
   );
 }
