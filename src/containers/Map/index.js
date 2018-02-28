@@ -37,6 +37,7 @@ import {
   receivePassegerView
 } from 'actions/ui/passenger-view';
 import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
+import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { nullAddress } from 'utils';
 import { strings } from 'locales';
@@ -132,6 +133,10 @@ class Map extends Component {
     this.props.addressVisibleModal(!addressModal);
   };
   watchID = null;
+
+  isActiveSceneIs = (name = 'preorder') => {
+    return this.props.activeScene === AVAILABLE_MAP_SCENES[name];
+  }
 
   goToSettings = () => {
     this.props.navigation.navigate('SettingsView', {});
@@ -247,6 +252,10 @@ class Map extends Component {
       map: { currentPosition, regionPosition, addressModal, address, fields },
       passengerView: { results }
     } = this.props;
+
+    const isPreordered = this.isActiveSceneIs('preorder');
+    const isActiveOrder = this.isActiveSceneIs('activeOrder');
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="default" />
@@ -402,7 +411,8 @@ const mapState = ({ session, network, ui }) => ({
   network,
   map: ui.map,
   sessionData: session.result,
-  passengerView: ui.passengerView
+  passengerView: ui.passengerView,
+  activeScene: ui.navigation.activeScene
 });
 
 

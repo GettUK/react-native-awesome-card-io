@@ -5,6 +5,7 @@ import geocode from './geocode';
 import login from './login';
 import logout from './logout';
 import map from './map';
+import navigation from './navigation';
 import passengerView from './passenger-view';
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   login,
   logout,
   map,
+  navigation,
   passengerView
 });
