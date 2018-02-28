@@ -1,7 +1,7 @@
 import { createTypes } from 'redux-compose-reducer';
 import { get, post } from 'utils';
 
-import { changeToActiveOrderScene } from '../ui/navigation';
+import { goToActiveOrderScene, goToPreorderScene } from '../ui/navigation';
 
 import { order } from './mockedData';
 
@@ -9,6 +9,7 @@ const TYPES = createTypes('booking', [
   'createOrderStarted',
   'createOrderSuccess',
   'createOrderError',
+  'cancelOrder',
   'getFormDataSuccess',
   'changeTempMessageToDriver',
   'applyMessageToDriver',
@@ -25,13 +26,19 @@ export const createOrder = () => (dispatch) => {
     .then((res) => {
       dispatch({ type: TYPES.createOrderSuccess, data: res.data });
 
-      dispatch(changeToActiveOrderScene());
+      dispatch(goToActiveOrderScene());
       return res.data;
     })
     .catch((error) => {
       dispatch({ type: TYPES.createOrderError, error });
     });
 };
+
+export const cancelOrder = () => (dispatch) => {
+  dispatch(goToPreorderScene());
+
+  dispatch({ type: TYPES.cancelOrder });
+}
 
 export const getFormData = () => (dispatch) => {
   return get('/bookings/new')
