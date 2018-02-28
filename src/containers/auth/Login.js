@@ -10,27 +10,84 @@ import {
   View,
   Text
 } from 'react-native';
-import DropdownAlert from 'react-native-dropdownalert';
+import validate from 'validate.js';
+
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { Icon, Input } from 'components';
+import { Icon, Input, DropdownAlert } from 'components';
+
 import {
   changePassword,
   changeEmail,
   login as onSubmitLogin
 } from 'actions/ui/login';
+
 import { strings } from 'locales';
+
 import assets from 'assets';
+
+import { loginRules } from './validatorRules';
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class Login extends Component {
+  state = {
+    isResetSuccess: false,
+    error: ''
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.isResetSuccess && !this.state.isResetSuccess) {
+      this.showResetSuccess();
+    }
+  }
+
   handleSubmit = () => {
-    this.props.onSubmitLogin();
+    if (this.validateInputs()) {
+      this.props.onSubmitLogin();
+    }
+  };
+
+  handleActivation = (data) => {
+    this.setState(data);
+  }
+
+  validateInputs() {
+    const { login: { fields } } = this.props;
+
+    const err = validate(
+      { email: fields.email, password: fields.password }, 
+      loginRules
+    );
+
+    if (err) {
+      const errorMessage = err.email && err.email[0] || err.password && err.password[0];
+
+      this.showError(`Error! ${errorMessage}`);
+      this.setState({ error: errorMessage });
+    } else {
+      this.resetError();
+    }
+
+    return !err;
+  }
+
+  showResetSuccess = () => {
+    this.dropdown.showSuccessMessage(strings('login.success_reset'));
+    this.setState({ isResetSuccess: false });
+  }
+
+  showError = error => {
+    this.dropdown.showErrorMessage(error);
+  };
+
+  resetError = () => {
+    this.setState({ error: '' });
   };
 
   goToForgot = () => {
-    this.props.navigation.navigate('ForgotPassword');
+    this.props.navigation.navigate('ForgotPassword', { onReturn: this.handleActivation });
+    this.resetError();
   };
 
   render() {
@@ -38,7 +95,9 @@ class Login extends Component {
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
+
         <Image style={styles.image} source={assets.loginBg} />
+
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.container}>
@@ -64,6 +123,7 @@ class Login extends Component {
             keyboardType="email-address"
             secureTextEntry
           />
+
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.2)"
             style={styles.btn}
@@ -71,6 +131,7 @@ class Login extends Component {
             <Text style={styles.btnText}>{strings('login.login_button')}</Text>
           </TouchableHighlight>
         </KeyboardAvoidingView>
+
         <View style={styles.footer}>
           <Text style={[styles.footerText, styles.footerTextGap]}>
             {strings('login.forgot_password')}
@@ -81,13 +142,9 @@ class Login extends Component {
             </Text>
           </TouchableHighlight>
         </View>
+
         <DropdownAlert
-          closeInterval={10000}
-          endDelta={30}
-          imageStyle={styles.errorImage}
-          errorColor="#f00"
-          defaultContainer={styles.errorContainer}
-          updateStatusBar={false}
+          type={this.state.error ? 'error' : 'success'}
           ref={el => (this.dropdown = el)}
         />
       </DismissKeyboardView>
