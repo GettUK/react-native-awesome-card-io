@@ -1,9 +1,9 @@
 import { createTypes } from 'redux-compose-reducer';
 import { get, post } from 'utils';
 
-import { order } from './mockedData';
+import { changeToActiveOrderScene } from '../ui/navigation';
 
-// import { toggleMapScene } from '../ui/navigation';
+import { order } from './mockedData';
 
 const TYPES = createTypes('booking', [
   'createOrderStarted',
@@ -23,7 +23,7 @@ export const createOrder = () => (dispatch) => {
     .then((res) => {
       dispatch({ type: TYPES.createOrderSuccess, data: res.data });
 
-      // dispatch(toggleMapScene());
+      dispatch(changeToActiveOrderScene());
       return res.data;
     })
     .catch((error) => {
