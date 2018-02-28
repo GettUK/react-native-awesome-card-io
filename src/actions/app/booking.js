@@ -1,13 +1,35 @@
 import { createTypes } from 'redux-compose-reducer';
-import { get } from 'utils';
+import { get, post } from 'utils';
+
+import { order } from './mockedData';
+
+// import { toggleMapScene } from '../ui/navigation';
 
 const TYPES = createTypes('booking', [
+  'createOrderStarted',
+  'createOrderSuccess',
+  'createOrderError',
   'getFormDataSuccess',
   'changeTempMessageToDriver',
   'applyMessageToDriver',
   'changeBookingDate',
   'changeTravelReason'
 ]);
+
+export const createOrder = () => (dispatch) => {
+  dispatch({ type: TYPES.createOrderStarted });
+
+  return post('/bookings', order)
+    .then((res) => {
+      dispatch({ type: TYPES.createOrderSuccess, data: res.data });
+
+      // dispatch(toggleMapScene());
+      return res.data;
+    })
+    .catch((error) => {
+      dispatch({ type: TYPES.createOrderError, error });
+    });
+}
 
 export const getFormData = () => (dispatch) => {
   return get('/bookings/new')

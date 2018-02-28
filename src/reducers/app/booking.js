@@ -8,12 +8,32 @@ export const initialState = {
     date: new Date(),
     travelReason: undefined,
     temp: {}
-  }
+  },
+  currentOrder: {},
+  orderCreateError: null
 };
 
 const getFormDataSuccess = (state, { data }) => {
   return update(state, 'formData', { ...initialState.formData, ...data });
 };
+
+const createOrderStarted = (state) => {
+  return update(state, 'orderCreateError', null);
+}
+
+const createOrderSuccess = (state, { data }) => {
+  return update(state, {
+    currentOrder: data,
+    orderCreateError: {}
+  });
+}
+
+const createOrderError = (state, { error }) => {
+  return update(state, {
+    currentOrder: {},
+    orderCreateError: error
+  });
+}
 
 const changeTempMessageToDriver = (state, { message }) => {
   return update(state, 'new.temp.messageToDriver', message);

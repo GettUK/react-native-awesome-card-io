@@ -19,6 +19,7 @@ import Modal from 'react-native-modal';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
+
 import {
   addAddressPoint,
   changeAddressType,
@@ -30,12 +31,13 @@ import {
   changePosition,
   errorPosition
 } from 'actions/ui/map';
-import { getFormData, changeBookingDate } from 'actions/app/booking';
+import { getFormData, changeBookingDate, createOrder } from 'actions/app/booking';
 import {
   passegerViewEmpty,
   receivePassegerView
 } from 'actions/ui/passenger-view';
 import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
+
 import { nullAddress } from 'utils';
 import { strings } from 'locales';
 import moment from 'moment';
@@ -262,7 +264,8 @@ class Map extends Component {
               style={styles.orderBtn}
               raised={false}
               size="sm"
-              onPress={this.goToOrders}>
+              onPress={this.goToOrders}
+            >
               <Text style={styles.orderBtnText}>Orders</Text>
             </Button>
           }
@@ -289,8 +292,15 @@ class Map extends Component {
         <View style={styles.footer}>
           <Button
             style={styles.currentPositionBtn}
-            onPress={this.getCurrentPosition}>
+            onPress={this.getCurrentPosition}
+          >
             <Icon name="myLocation" height={22} color="#284784" />
+          </Button>
+          <Button
+            style={styles.currentPositionBtn}
+            onPress={this.props.createOrder}
+          >
+            <Icon name="pickUpCenter" height={22} color="#284784" />
           </Button>
           <ScrollView
             horizontal
@@ -305,7 +315,8 @@ class Map extends Component {
                 // this.props.changeAddressType('stops', [], null);
                 this.toggleAddressModal();
               }}
-              style={styles.destinationBtn}>
+              style={styles.destinationBtn}
+            >
               <Icon
                 style={styles.searchIcon}
                 name="search"
@@ -325,7 +336,8 @@ class Map extends Component {
                 this.props.changeAddressType('destination_address', {}, null);
                 this.props.addAddressPoint();
               }}
-              style={styles.destinationBtn}>
+              style={styles.destinationBtn}
+            >
               <Text style={styles.customDestinationText}>
                 {strings('label.home')}
               </Text>
@@ -338,7 +350,8 @@ class Map extends Component {
                 });
                 this.props.changeAddressType('destination_address', {}, null);
                 this.props.addAddressPoint();
-              }}>
+              }}
+            >
               <Text style={styles.customDestinationText}>
                 {strings('label.work')}
               </Text>
@@ -408,6 +421,7 @@ const mapDispatch = {
   passegerViewEmpty,
   receivePassegerView,
   changeBookingDate,
+  createOrder,
   getFormData
 };
 
