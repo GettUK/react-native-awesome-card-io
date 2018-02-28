@@ -8,21 +8,26 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
+import { connect } from 'react-redux';
 import validate from 'validate.js';
+
+import { resetPassword } from 'actions/ui/resetPassword';
 
 import { Icon, Input, DropdownAlert } from 'components';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
 
-import { put } from 'utils';
+import { strings } from 'locales';
 
 import assets from 'assets';
 
+import TextButton from './TextButton';
 import { resetPasswordRules } from './validatorRules';
+
 import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
-export default class ForgotPassword extends PureComponent {
+class ForgotPassword extends PureComponent {
   state = {
     email: '',
     error: ''
@@ -35,7 +40,7 @@ export default class ForgotPassword extends PureComponent {
 
   handleSubmit = () => {
     if (this.validateEmail()) {
-      put('/user/forgot_password', { email: this.state.email })
+      this.props.resetPassword({ email: this.state.email })
         .then(this.handleSuccessReset);
     }
   };
@@ -43,7 +48,7 @@ export default class ForgotPassword extends PureComponent {
   handleSuccessReset = () => {
     this.goToLogIn();
     this.props.navigation.state.params.onReturn({ isResetSuccess: true });
-  }
+  };
 
   validateEmail() {
     const err = validate({ email: this.state.email }, resetPasswordRules);
@@ -71,7 +76,9 @@ export default class ForgotPassword extends PureComponent {
   };
 
   render() {
+    const { busy } = this.props;
     const { email, error } = this.state;
+
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
@@ -94,12 +101,11 @@ export default class ForgotPassword extends PureComponent {
             error={error}
           />
 
-          <TouchableHighlight
-            underlayColor="rgba(255, 255, 255, 0.2)"
-            style={styles.btn}
-            onPress={this.handleSubmit}>
-            <Text style={styles.btnText}>Reset Password</Text>
-          </TouchableHighlight>
+          <TextButton
+            title={strings('login.reset_button')} 
+            loading={busy} 
+            onPress={this.handleSubmit} 
+          />
         </KeyboardAvoidingView>
 
         <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
@@ -114,3 +120,13 @@ export default class ForgotPassword extends PureComponent {
     );
   }
 }
+
+const select = ({ ui }) => ({
+  busy: ui.resetPassword.busy
+});
+
+const mapDispatch = {
+  resetPassword
+};
+
+export default connect(select, mapDispatch)(ForgotPassword);

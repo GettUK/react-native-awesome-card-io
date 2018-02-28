@@ -10,6 +10,7 @@
     "login_button": "Log in",
     "logout_button": "LOGOUT",
     "reset": "Reset",
+    "reset_button": "Reset Password",
     "success_reset": "Password was reseted. Please, check your email"
   },
   "map": {

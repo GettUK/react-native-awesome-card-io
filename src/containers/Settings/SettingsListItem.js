@@ -6,19 +6,19 @@ import { Icon } from 'components';
 
 import styles from './style';
 
-export default SettingsListItem = (props) => {
-  const { 
-    title, 
-    rightTitle, 
-    leftIconName, 
-    avatar, 
-    titleAvatar, 
+const SettingsListItem = (props) => {
+  const {
+    title,
+    rightTitle,
+    leftIconName,
+    avatar,
+    titleAvatar,
     showRightIcon,
-    switchButton, 
+    switchButton,
     titleStyle,
-    switched, 
-    onPress, 
-    onSwitch 
+    switched,
+    onPress,
+    onSwitch
   } = props;
 
   return (
@@ -49,7 +49,7 @@ export default SettingsListItem = (props) => {
 
       rightTitleStyle={styles.listItemRightTitle}
       titleStyle={[
-        styles.listItemTitle, 
+        styles.listItemTitle,
         avatar || titleAvatar ? styles.avatarTitle : {},
         titleStyle || {}
       ]}

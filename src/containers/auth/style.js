@@ -40,12 +40,18 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
 
-  btn: {
+  btnContainer: {
     marginTop: 40,
+    marginLeft: 0,
+    marginRight: 0,
     borderWidth: 2,
-    borderRadius: 25,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    padding: 13
+    borderRadius: 26,
+    borderColor: 'rgba(255, 255, 255, 0.5)'
+  },
+
+  btn: {
+    borderRadius: 26,
+    backgroundColor: 'transparent'
   },
 
   btnText: {
@@ -53,6 +59,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold'
+  },
+
+  disabledBtn: {
+    backgroundColor: 'transparent'
   },
 
   footer: {
