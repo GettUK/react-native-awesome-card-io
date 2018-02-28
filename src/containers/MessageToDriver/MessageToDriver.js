@@ -8,8 +8,13 @@ import styles from './styles';
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class MessageToDriver extends Component {
+  componentDidMount() {
+    const { messageToDriver, changeTempMessageToDriver } = this.props;
+    changeTempMessageToDriver(messageToDriver);
+  }
+
   render() {
-    const { messageToDriver, changeTempMessageToDriver, applyMessageToDriver } = this.props;
+    const { tempMessageToDriver, changeTempMessageToDriver, applyMessageToDriver } = this.props;
     return (
       <View style={[styles.flex, styles.bg]}>
         <DismissKeyboardView style={styles.flex}>
@@ -20,7 +25,7 @@ class MessageToDriver extends Component {
           >
             <TextInput
               style={[styles.flex, styles.input]}
-              value={messageToDriver}
+              value={tempMessageToDriver}
               onChangeText={changeTempMessageToDriver}
               maxLength={250}
               multiline
@@ -36,7 +41,8 @@ class MessageToDriver extends Component {
 }
 
 const mapState = (state) => ({
-  messageToDriver: state.app.booking.new.temp.messageToDriver || state.app.booking.new.messageToDriver
+  messageToDriver: state.app.booking.new.messageToDriver,
+  tempMessageToDriver: state.app.booking.new.temp.messageToDriver,
 });
 
 const mapDispatch = ({
