@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
 import { Button, DismissKeyboardHOC } from 'components';
-import { changeTempMessageToDriver, applyMessageToDriver } from 'actions/app/booking';
+import { changeTempMessageToDriver, applyMessageToDriver } from 'actions/booking';
 import styles from './styles';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
@@ -40,9 +40,9 @@ class MessageToDriver extends Component {
   }
 }
 
-const mapState = (state) => ({
-  messageToDriver: state.app.booking.new.messageToDriver,
-  tempMessageToDriver: state.app.booking.new.temp.messageToDriver,
+const mapState = ({ bookings }) => ({
+  messageToDriver: bookings.new.messageToDriver,
+  tempMessageToDriver: bookings.new.temp.messageToDriver
 });
 
 const mapDispatch = ({

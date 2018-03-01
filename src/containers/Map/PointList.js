@@ -56,17 +56,17 @@ class PointList extends Component {
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
-          if (has('pickup_address', data)) {
-            this.props.onChangeAddress(data.pickup_address);
+          if (has('pickupAddress', data)) {
+            this.props.onChangeAddress(data.pickupAddress);
           }
-          this.props.onChangeAddressType('pickup_address', {}, null);
+          this.props.onChangeAddressType('pickupAddress', {}, null);
           this.props.toggleModal();
         }}>
         <Icon style={styles.pickUpIcon} name="pickUpField" size={18} />
-        {has('pickup_address', data) &&
-          !isNull(data.pickup_address.line) && (
+        {has('pickupAddress', data) &&
+          !isNull(data.pickupAddress.line) && (
             <Text style={styles.pickUpText} numberOfLines={1}>
-              {data.pickup_address.line}
+              {data.pickupAddress.line}
             </Text>
           )}
       </TouchableOpacity>
@@ -111,15 +111,15 @@ class PointList extends Component {
   renderDestinationItem = () => {
     const { data } = this.props;
     return (
-      has('destination_address', data) && (
+      has('destinationAddress', data) && (
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.rowView}
             onPress={() => {
-              if (has('destination_address', data)) {
-                this.props.onChangeAddress(data.destination_address);
+              if (has('destinationAddress', data)) {
+                this.props.onChangeAddress(data.destinationAddress);
               }
-              this.props.onChangeAddressType('destination_address', {}, null);
+              this.props.onChangeAddressType('destinationAddress', {}, null);
               this.props.toggleModal();
             }}>
             <Icon
@@ -128,12 +128,12 @@ class PointList extends Component {
               color="#FF0000"
               size={18}
             />
-            {has('destination_address', data) &&
-              (!isNull(data.destination_address.line) ||
-                !isNull(data.destination_address.label)) && (
+            {has('destinationAddress', data) &&
+              (!isNull(data.destinationAddress.line) ||
+                !isNull(data.destinationAddress.label)) && (
                 <Text style={styles.pickUpText} numberOfLines={1}>
-                  {data.destination_address.label ||
-                    data.destination_address.line}
+                  {data.destinationAddress.label ||
+                    data.destinationAddress.line}
                 </Text>
               )}
           </TouchableOpacity>
@@ -155,8 +155,8 @@ class PointList extends Component {
       <View style={[styles.btn, style]}>
         {this.renderPickUpItem()}
         {this.renderStopsItem()}
-        {has('destination_address', data) &&
-          has('pickup_address', data) && <View style={styles.delimiter} />}
+        {has('destinationAddress', data) &&
+          has('pickupAddress', data) && <View style={styles.delimiter} />}
         {this.renderDestinationItem()}
       </View>
     );
