@@ -6,7 +6,7 @@ import styles from './style';
 export default function NavImageButton(props) {
   return (
     <TouchableOpacity
-      style={props.styleContainer}
+      style={[styles.container, props.styleContainer]}
       onPress={props.onClick ? props.onClick : null}>
       <View style={[styles.buttonView, props.styleView]}>{props.icon}</View>
     </TouchableOpacity>

@@ -28,16 +28,18 @@
       "notification": "Push Notifications",
       "invites": "Calendar Invites",
       "wheelchair": "Wheelchair Access",
-      "payments":"Payments",
-      "rides":"My Rides",
+      "payments": "Payments",
+      "rides": "My Rides",
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions",
       "faqs": "FAQs",
       "locationInfo": "Location Information",
       "logout": "Log Out"
     },
+    "editProfile": "Edit Profile",
     "headerTitle": "Settings",
-    "none":"None"
+    "none": "None",
+    "save": "Save"
   },
   "validation": {
     "email": {
@@ -46,5 +48,6 @@
     "password": {
       "length": "must be at least 6 characters"
     }
-  }
+  },
+  "back": "Back"
 }

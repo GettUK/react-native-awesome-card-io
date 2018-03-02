@@ -149,7 +149,7 @@ class Map extends Component {
   };
 
   goToSettings = () => {
-    this.props.navigation.navigate('SettingsView', {});
+    this.props.navigation.navigate('Settings', {});
   };
 
   goToOrders = () => {
@@ -316,7 +316,6 @@ class Map extends Component {
             leftButton={
               <NavImageButton
                 onClick={this.goToSettings}
-                styleContainer={{ justifyContent: 'center' }}
                 icon={<Icon size={30} name="burger" color="#000" />}
               />
             }
