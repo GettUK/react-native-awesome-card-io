@@ -270,9 +270,9 @@ BookingEditor.propTypes = {
 BookingEditor.defaultProps = {};
 
 const select = ({ ui, session, bookings }) => ({
-  memberId: session.result.member_id,
+  memberId: session.result.memberId,
   data: bookings.formData,
-  bookingsValidationEnabled: session.result.bookings_validation_enabled,
+  bookingsValidationEnabled: session.result.bookingsValidationEnabled,
   validatedReferences: bookings.validatedReferences,
   fields: ui.map.fields
 });

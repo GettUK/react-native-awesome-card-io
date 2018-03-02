@@ -38,7 +38,7 @@ class Settings extends Component {
   componentWillReceiveProps({ network: { isConnected } }) {
     const {
       network: { isConnected: oldIsConnected },
-      sessionData: { member_id: memberId }
+      sessionData: { memberId }
     } = this.props;
 
     if (!isEqual(oldIsConnected, isConnected) && isConnected) {
@@ -49,7 +49,7 @@ class Settings extends Component {
   receivePasseger = () => {
     const {
       network: { isConnected },
-      sessionData: { member_id: memberId }
+      sessionData: { memberId }
     } = this.props;
 
     if (isConnected) {

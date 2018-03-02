@@ -73,7 +73,11 @@ SettingsListItem.propTypes = {
   showRightIcon: PropTypes.bool,
   switchButton: PropTypes.bool,
   switched: PropTypes.bool,
-  titleStyle: PropTypes.object,
+  titleStyle: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.number
+  ]),
   onPress: PropTypes.func,
   onSwitch: PropTypes.func
 };

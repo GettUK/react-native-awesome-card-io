@@ -15,8 +15,8 @@ import Modal from 'react-native-modal';
 
 import { Icon, Input } from 'components';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
-import { addressesEmpty, receiveAddresses } from 'actions/ui/addresses';
+import { geocodeEmpty, geocode } from 'actions/ui/geocode';
+import { addressesEmpty, getAddresses } from 'actions/ui/addresses';
 import { strings } from 'locales';
 import { nullAddress } from 'utils';
 import styles from './style';
@@ -42,7 +42,7 @@ class AddressModal extends Component {
   onSelect = item => {
     const { id, text, google, predefined } = item;
     this.props
-      .receiveGeocode({
+      .geocode({
         locationId: id,
         string: text,
         google,
@@ -68,7 +68,7 @@ class AddressModal extends Component {
 
   stoppedTyping = () => {
     const { value } = this.props;
-    this.props.receiveAddresses({
+    this.props.getAddresses({
       string: (value && value.line) || '',
       filters: 'uk'
     });
@@ -197,9 +197,9 @@ AddressModal.propTypes = {
   onChangeTyping: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   addressesEmpty: PropTypes.func.isRequired,
-  receiveAddresses: PropTypes.func.isRequired,
+  getAddresses: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
-  receiveGeocode: PropTypes.func.isRequired
+  geocode: PropTypes.func.isRequired
 };
 
 AddressModal.defaultProps = {
@@ -213,9 +213,9 @@ const select = ({ ui }) => ({
 
 const bindActions = {
   addressesEmpty,
-  receiveAddresses,
+  getAddresses,
   geocodeEmpty,
-  receiveGeocode
+  geocode
 };
 
 export default connect(select, bindActions)(AddressModal);
