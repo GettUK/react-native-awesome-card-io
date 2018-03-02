@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListItem, Avatar } from 'react-native-elements';
 import PropTypes from 'prop-types';
+import StylePropType from 'react-style-proptype';
 
 import { Icon } from 'components';
 
@@ -32,6 +33,7 @@ const SettingsListItem = (props) => {
           medium
           source={{ uri: avatar }}
           title={titleAvatar}
+          containerStyle={styles.avatar}
         />)
       }
 
@@ -73,11 +75,7 @@ SettingsListItem.propTypes = {
   showRightIcon: PropTypes.bool,
   switchButton: PropTypes.bool,
   switched: PropTypes.bool,
-  titleStyle: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.number
-  ]),
+  titleStyle: StylePropType,
   onPress: PropTypes.func,
   onSwitch: PropTypes.func
 };

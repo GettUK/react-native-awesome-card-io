@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { Icon } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import { Settings } from 'containers';
+import { EditProfile, SaveProfileBtn } from 'containers/Settings';
 import { strings } from 'locales';
 
 const RoutesConfig = {
@@ -29,6 +30,13 @@ const RoutesConfig = {
         )
       })
     }
+  },
+  EditProfile: {
+    screen: EditProfile,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: strings('settings.editProfile'),
+      headerRight: <SaveProfileBtn navigation={navigation} />
+    })
   },
 };
 

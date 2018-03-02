@@ -6,43 +6,44 @@ function prepareName({ firstName = '', lastName = '' }) {
   return `${firstName} ${lastName}`;
 }
 
-function prepareInitials({ firstName = '', lastName = '' }) {
+export function prepareInitials({ firstName = '', lastName = '' }) {
   return `${(firstName).charAt(0)}${(lastName).charAt(0)}`.toUpperCase();
 }
 
-export function prepareProfileBlock(results = {}, handlers = {}) {
+export function prepareProfileBlock(data = {}, handlers = {}) {
   return [
     {
-      title: prepareName(results),
-      avatar: results.avatarUrl || null,
-      titleAvatar: prepareInitials(results)
+      title: prepareName(data),
+      avatar: data.avatarUrl || null,
+      titleAvatar: prepareInitials(data),
+      onPress: handlers.goToEditProfile,
     },
     {
       title: strings('settings.label.phone'),
-      rightTitle: results.phone || ''
+      rightTitle: data.phone || ''
     },
     {
       title: strings('settings.label.email'),
-      rightTitle: results.email || ''
+      rightTitle: data.email || ''
     },
     {
       title: strings('settings.label.cartype'),
-      rightTitle: results.defaultVehicle || strings('settings.none')
+      rightTitle: data.defaultVehicle || strings('settings.none')
     }
   ];
 }
 
-export function prepareAddressesBlock(results = {}, handlers = {}) {
+export function prepareAddressesBlock(data = {}, handlers = {}) {
   return [
     {
       leftIconName: 'home',
       title: strings('label.home'),
-      rightTitle: results.homeAddress && results.homeAddress.line || strings('settings.none')
+      rightTitle: data.homeAddress && data.homeAddress.line || strings('settings.none')
     },
     {
       leftIconName: 'work',
       title: strings('label.work'),
-      rightTitle: results.workAddress && results.workAddress.line || strings('settings.none')
+      rightTitle: data.workAddress && data.workAddress.line || strings('settings.none')
     },
     {
       title: strings('settings.label.addresses')
@@ -50,19 +51,19 @@ export function prepareAddressesBlock(results = {}, handlers = {}) {
   ];
 }
 
-export function prepareSwitchersBlock(results = {}, handlers = {}) {
+export function prepareSwitchersBlock(data = {}, handlers = {}) {
   return [
     {
       leftIconName: 'email',
       title: strings('settings.label.email'),
       switchButton: true,
-      switched: results.notifyWithEmail || false
+      switched: data.notifyWithEmail || false
     },
     {
       leftIconName: 'sms',
       title: strings('settings.label.sms'),
       switchButton: true,
-      switched: results.notifyWithSms || false
+      switched: data.notifyWithSms || false
     },
     {
       leftIconName: 'push',
@@ -73,18 +74,18 @@ export function prepareSwitchersBlock(results = {}, handlers = {}) {
       leftIconName: 'calendar',
       title: strings('settings.label.invites'),
       switchButton: true,
-      switched: results.notifyWithCalendarEvent || false
+      switched: data.notifyWithCalendarEvent || false
     },
     {
       leftIconName: 'wheelchair',
       title: strings('settings.label.wheelchair'),
       switchButton: true,
-      switched: results.wheelchairUser || false
+      switched: data.wheelchairUser || false
     }
   ];
 }
 
-export function prepareHistoryBlock(results = {}, handlers = {}) {
+export function prepareHistoryBlock(data = {}, handlers = {}) {
   return [
     {
       title: strings('settings.label.payments')
@@ -95,7 +96,7 @@ export function prepareHistoryBlock(results = {}, handlers = {}) {
   ];
 }
 
-export function prepareInfoBlock(results = {}, handlers = {}) {
+export function prepareInfoBlock(data = {}, handlers = {}) {
   return [
     {
       title: strings('settings.label.privacy')
@@ -112,7 +113,7 @@ export function prepareInfoBlock(results = {}, handlers = {}) {
   ];
 }
 
-export function prepareLogoutBlock(results = {}, handlers = {}) {
+export function prepareLogoutBlock(data = {}, handlers = {}) {
   return [
     {
       title: strings('settings.label.logout'),
