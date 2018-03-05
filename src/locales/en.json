@@ -54,5 +54,18 @@
       "length": "must be at least 6 characters"
     }
   },
-  "back": "Back"
+  "back": "Back",
+  "order": {
+    "statuses": {
+      "connected": "Creating...",
+      "order_received": "Order Received",
+      "locating": "Locating a Car",
+      "on_the_way": "Driver on the way",
+      "arrived": "Driver is waiting for you",
+      "in_progress": "Enjoy Your Journey",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "customer_care": "Customer Care"
+    }
+  }
 }

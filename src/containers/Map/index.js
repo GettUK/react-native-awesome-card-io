@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {every, find, first, has} from 'lodash';
-import { Icon, Button, DismissKeyboardView, Modal } from 'components';
+import { Icon, Button, DismissKeyboardView, Modal, DropdownAlert } from 'components';
 import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
@@ -34,13 +34,18 @@ import {
   getVehicles,
   changeBookingDate,
   openSettingsModal,
-  closeSettingsModal
+  closeSettingsModal,
+  completeOrder,
+  cancelOrder
 } from 'actions/booking';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { nullAddress } from 'utils';
 import { strings } from 'locales';
 import moment from 'moment';
+
+import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
+
 import ActiveOrderScene from './ActiveOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 import styles from './style';
@@ -66,6 +71,20 @@ class Map extends Component {
       this.props.errorPosition,
       options
     );
+  }
+
+  componentWillReceiveProps({ status }) {
+    const { navigation, cancelOrder, completeOrder, status: statusProps } = this.props;
+
+    if (status !== statusProps && status === COMPLETED_STATUS) {
+      navigation.navigate('RateDriver');
+
+      completeOrder();
+    } else if (status !== statusProps && status === CANCELLED_STATUS) {
+      this.dropdown.showErrorMessage('Order was cancelled');
+
+      cancelOrder();
+    }
   }
 
   componentWillUnmount() {
@@ -434,17 +453,23 @@ class Map extends Component {
           zoomEnabled
           onRegionChangeComplete={this.props.changeRegionPosition}
           region={regionPosition}>
-          <MapView.Marker coordinate={currentPosition} />
+          {!isActiveOrder && <MapView.Marker coordinate={currentPosition} />}
         </MapView>
         {this.renderTimeDatePicker()}
         {this.renderSettings()}
 
-        {isActiveOrder &&
+        {isActiveOrder && ACTIVE_DRIVER_STATUSES.includes(this.props.status) &&
           <OrderDetailsPanel
             onActivate = {this.handleHideHeader}
             onClose = {this.handleShowHeader}
           />
         }
+
+        <DropdownAlert
+          type='error'
+          ref={el => (this.dropdown = el)}
+          position='bottom'
+        />
       </View>
     );
   }
@@ -478,7 +503,8 @@ const mapState = ({ ui, bookings }) => ({
   activeScene: ui.navigation.activeScene,
   newBooking: bookings.new,
   bookingFormData: bookings.formData,
-  bookingMeta: bookings.meta
+  bookingMeta: bookings.meta,
+  status: (bookings.orderState || {}).status || 'connected'
 });
 
 const mapDispatch = {
@@ -498,7 +524,9 @@ const mapDispatch = {
   createBooking,
   getVehicles,
   openSettingsModal,
-  closeSettingsModal
+  closeSettingsModal,
+  completeOrder,
+  cancelOrder
 };
 
 export default connect(mapState, mapDispatch)(Map);

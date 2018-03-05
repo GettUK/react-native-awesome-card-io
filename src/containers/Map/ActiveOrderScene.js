@@ -9,9 +9,12 @@ import { cancelOrder } from 'actions/booking';
 import { Icon } from 'components';
 import { FadeInView } from 'components/Animated';
 
+import { strings } from 'locales';
+
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
 import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
+import { ACTIVE_STATUS, ARRIVED_STATUS, ACTIVE_DRIVER_STATUSES } from './ActiveOrderScene/consts';
 
 import { screenStyles } from './ActiveOrderScene/styles';
 
@@ -37,21 +40,31 @@ class ActiveOrderScene extends Component {
   }
 
   render() {
+    const { status } = this.props;
+
+    const isTripActive = status === ACTIVE_STATUS;
+    const isDriverArrived = status === ARRIVED_STATUS;
+    const isDriverActive = ACTIVE_DRIVER_STATUSES.includes(status);
+
     return (
       <View style={screenStyles.container}>
         <FadeInView reverse>
-          <View style={screenStyles.c}>
-            <Text style={screenStyles.header}>Connected...</Text>
+          <View style={screenStyles.headerContainer}>
+            <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
           </View>
         </FadeInView>
 
         <View style={screenStyles.separator} />
 
         <FadeInView>
-          <View style={{ paddingBottom: 100 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <FloatButton key='cancel' label='Cancel Order' iconName='cancel' onPress={this.handleCancelOrder} />
-              <FloatButton key='way' label={`I'm on my way`} iconName='walker' onPress={this.handleOpenModal} style={{ marginLeft: 40 }} />
+          <View style={{ paddingBottom: isDriverActive ? 120 : 60 }}>
+            <View style={screenStyles.actionsRow}>
+              {!isTripActive
+                ? <FloatButton key='cancel' label='Cancel Order' iconName='cancel' onPress={this.handleCancelOrder} />
+                : <FloatButton key='actions' label='Actions' />
+              }
+
+              {isDriverArrived && <FloatButton key='way' label={`I'm on my way`} iconName='walker' onPress={this.handleOpenModal} style={{ marginLeft: 40 }} />}
             </View>
           </View>
         </FadeInView>
@@ -68,12 +81,14 @@ ActiveOrderScene.propTypes = {
   cancelOrder: PropTypes.func.isRequired
 };
 
-ActiveOrderScene.defaultProps = {
+ActiveOrderScene.defaultProps = {};
 
-};
+const mapState = ({ bookings }) => ({
+  status: (bookings.orderState || {}).status || 'connected'
+});
 
 const mapDispatch = {
   cancelOrder
 };
 
-export default connect(null, mapDispatch)(ActiveOrderScene);
+export default connect(mapState, mapDispatch)(ActiveOrderScene);

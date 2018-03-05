@@ -3,5 +3,8 @@
   "static": {
     "termsOfUse": "https://swagger.ru/terms-and-conditions.html",
     "privacyPolicy": "https://swagger.ru/privacy-policy.html"
+  },
+  "faye": {
+    "path" : "https://dev.gettaxi.me/faye"
   }
 }
