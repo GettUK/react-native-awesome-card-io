@@ -6,7 +6,7 @@ import { DismissKeyboardView } from 'components';
 
 import styles from './styles';
 
-export default function Modal({ onClose, style, contentStyles, children, ...rest }) {
+export default function Modal({ onClose, label, style, contentStyles, children, ...rest }) {
   return (
     <NativeModal
       backdropColor="#284784"
@@ -17,7 +17,7 @@ export default function Modal({ onClose, style, contentStyles, children, ...rest
       <DismissKeyboardView style={[styles.content, contentStyles]}>
         <View style={styles.header}>
           <TouchableOpacity onPress={onClose}>
-            <Text style={styles.closeText}>Close</Text>
+            <Text style={styles.closeText}>{label}</Text>
           </TouchableOpacity>
         </View>
         {children}
@@ -27,6 +27,7 @@ export default function Modal({ onClose, style, contentStyles, children, ...rest
 }
 
 Modal.propTypes = {
+  label: PropTypes.string,
   onClose: PropTypes.func,
   style: PropTypes.oneOfType([
     PropTypes.array,
@@ -39,4 +40,8 @@ Modal.propTypes = {
     PropTypes.object,
     PropTypes.number
   ])
+};
+
+Modal.defaultProps = {
+  label: 'Close'
 };

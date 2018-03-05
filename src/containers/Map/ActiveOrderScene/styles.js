@@ -63,7 +63,7 @@ export const onMyWayStyles = StyleSheet.create({
     fontWeight: '600'
   },
   listItem: {
-    width: '100%',
+    width: width - 32,
     height: 56,
     flexDirection: 'row',
     alignItems: 'center',
