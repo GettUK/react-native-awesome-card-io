@@ -1,7 +1,9 @@
 {
   "label": {
     "home": "Home",
-    "work": "Work"
+    "work": "Work",
+    "journeyTime": "Journey Time",
+    "distance": "Distance"
   },
   "login": {
     "email": "Email",

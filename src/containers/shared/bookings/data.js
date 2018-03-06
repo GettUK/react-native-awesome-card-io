@@ -1,4 +1,4 @@
-import { find, without } from 'lodash';
+import { find, keyBy, without } from 'lodash';
 
 // Payment Types, available for booking in 'app' realm. Array to ensure order
 export const paymentTypes = [
@@ -54,3 +54,34 @@ export function paymentTypeToAttrs(value) {
 }
 
 export const vehicleEditableStatuses = ['order_received'];
+
+export const allVehicles = [{
+  name: 'Standard',
+  label: 'Standard'
+}, {
+  name: 'BlackTaxi',
+  label: 'Black Taxi'
+}, {
+  name: 'OTBlackTaxi',
+  label: 'Black Taxi'
+}, {
+  name: 'BlackTaxiXL',
+  label: 'Black Taxi XL'
+}, {
+  name: 'OTBlackTaxiXL',
+  label: 'Black Taxi XL'
+}, {
+  name: 'Exec',
+  label: 'Executive'
+}, {
+  name: 'MPV',
+  label: 'People Carrier'
+}, {
+  name: 'Courier',
+  label: 'Courier'
+}, {
+  name: 'Special',
+  label: 'Special'
+}];
+
+export const vehiclesData = keyBy(allVehicles, 'name');
