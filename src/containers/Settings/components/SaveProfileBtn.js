@@ -15,8 +15,8 @@ class SaveProfileBtn extends Component {
   };
 
   get isChanged() {
-    const { firstName, lastName, tempFirstName, tempLastName } = this.props;
-    return firstName !== tempFirstName || lastName !== tempLastName;
+    const { firstName, lastName, tempFirstName, tempLastName, tempAvatar} = this.props;
+    return firstName !== tempFirstName || lastName !== tempLastName || !!tempAvatar;
   }
 
   handleSave = () => {
@@ -42,7 +42,8 @@ const mapState = ({ passenger }) => ({
   firstName: passenger.data.firstName,
   lastName: passenger.data.lastName,
   tempFirstName: passenger.temp.firstName,
-  tempLastName: passenger.temp.lastName
+  tempLastName: passenger.temp.lastName,
+  tempAvatar: passenger.temp.avatar
 });
 
 export default connect(mapState, { sendProfileData })(SaveProfileBtn);

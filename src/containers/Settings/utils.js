@@ -14,7 +14,7 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
   return [
     {
       title: prepareName(data),
-      avatar: data.avatarUrl || null,
+      avatar: data.avatar || data.avatarUrl || null,
       titleAvatar: prepareInitials(data),
       onPress: handlers.goToEditProfile,
     },

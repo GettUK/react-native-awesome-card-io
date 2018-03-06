@@ -29,7 +29,12 @@ const changeFieldValue = (state, { payload: { field, value } }) => {
 };
 
 const sendProfileDataSuccess = (state) => {
-  return update(state, 'data', { ...state.data, firstName: state.temp.firstName, lastName: state.temp.lastName });
+  return update(state, 'data', {
+    ...state.data,
+    firstName: state.temp.firstName,
+    lastName: state.temp.lastName,
+    avatar: state.temp.avatar
+  });
 };
 
 export default composeReducer('passenger', {

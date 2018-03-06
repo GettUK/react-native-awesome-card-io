@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { Input } from 'components';
+import { Input, Icon } from 'components';
+import ImagePicker from 'react-native-image-crop-picker';
 
-import { setInitialProfileValues, changeFieldValue } from 'actions/passenger';
+import { setInitialProfileValues, changeFieldValue, changeAvatar } from 'actions/passenger';
 import { prepareInitials } from '../utils';
 import styles from './EditProfileStyles';
+
+const avatarPickerConfig = {
+  cropping: true,
+  width: 300,
+  height: 300,
+  mediaType: 'photo',
+  includeBase64: true,
+  //ios only
+  smartAlbums: ['UserLibrary', 'PhotoStream'],
+  showsSelectedCount: false,
+  //android only
+  showCropGuidelines: false,
+  hideBottomControls: true,
+  cropperCircleOverlay: true,
+  cropperActiveWidgetColor: '#284784',
+  cropperStatusBarColor: '#284784',
+  cropperToolbarColor: '#284784',
+};
 
 class EditProfile extends Component {
   static propTypes = {
@@ -26,28 +45,37 @@ class EditProfile extends Component {
     this.props.setInitialProfileValues();
   }
 
-  handleInputChange(field, value) {
-    this.props.changeFieldValue(field, value);
+  openAvatarPicker = () => {
+    ImagePicker.openPicker(avatarPickerConfig).then(image => {
+      this.props.handleAvatarChange(`data:${image.mime};base64,${image.data}`);
+    });
   };
 
-  handleFirstNameChange = this.handleInputChange.bind(this, 'firstName');
-
-  handleLastNameChange = this.handleInputChange.bind(this, 'lastName');
-
   render() {
-    const { firstName, lastName } = this.props;
+    const {
+      firstName,
+      lastName,
+      avatarUrl,
+      avatar,
+      handleFirstNameChange,
+      handleLastNameChange
+    } = this.props;
     return (
       <View style={[styles.flex, styles.container]}>
-        <Avatar
-          rounded
-          xlarge
-          // source={{ uri: avatar }}
-          title={prepareInitials(this.props)}
-          containerStyle={styles.avatar}
-        />
+        <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
+          <Avatar
+            rounded
+            xlarge
+            source={{ uri: avatar || avatarUrl }}
+            title={prepareInitials(this.props)}
+            containerStyle={styles.avatar}
+          />
+          <View style={styles.avatarBackDrop} />
+          <Icon style={styles.cameraIcon} size={32} color="#fff" name="camera" />
+        </TouchableOpacity>
         <Input
           value={firstName}
-          onChangeText={this.handleFirstNameChange}
+          onChangeText={handleFirstNameChange}
           placeholder="First Name"
           inputStyle={styles.input}
           clearIconColor="#d2d0dc"
@@ -56,7 +84,7 @@ class EditProfile extends Component {
         />
         <Input
           value={lastName}
-          onChangeText={this.handleLastNameChange}
+          onChangeText={handleLastNameChange}
           placeholder="Last Name"
           inputStyle={styles.input}
           clearIconColor="#d2d0dc"
@@ -70,12 +98,18 @@ class EditProfile extends Component {
 
 const mapState = ({ passenger }) => ({
   firstName: passenger.temp.firstName,
-  lastName: passenger.temp.lastName
+  lastName: passenger.temp.lastName,
+  avatarUrl: passenger.temp.avatarUrl,
+  avatar: passenger.temp.avatar
 });
 
 const mapDispatch = {
   setInitialProfileValues,
-  changeFieldValue
+  handleFirstNameChange: changeFieldValue('firstName'),
+  handleLastNameChange: changeFieldValue('lastName'),
+  handleAvatarChange: changeFieldValue('avatar'),
+  changeFieldValue,
+  changeAvatar
 };
 
 export default connect(mapState, mapDispatch)(EditProfile);

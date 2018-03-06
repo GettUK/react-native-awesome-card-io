@@ -1,5 +1,6 @@
 import { createTypes } from 'redux-compose-reducer';
 import { get, put } from 'utils';
+import curry from 'lodash/curry';
 
 const TYPES = createTypes('passenger', [
   'getPassengerDataStart',
@@ -36,9 +37,9 @@ export const setInitialProfileValues = () => (dispatch) => {
   dispatch({ type: TYPES.setInitialProfileValues });
 };
 
-export const changeFieldValue = (field, value) => (dispatch) => {
-  dispatch({ type: TYPES.changeFieldValue, payload: { field, value }});
-};
+export const changeFieldValue = curry((field, value) => (dispatch) => {
+  dispatch({ type: TYPES.changeFieldValue, field, value });
+});
 
 export const sendProfileData = () => (dispatch, getState) => {
   dispatch({ type: TYPES.sendProfileDataStart });
