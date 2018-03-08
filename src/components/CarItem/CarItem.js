@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
-import { isNull, isEmpty, replace } from 'lodash';
+import { isNull } from 'lodash';
 import { Icon } from 'components';
 import assets from 'assets';
 import styles from './styles';
@@ -14,10 +14,10 @@ const CarItem = ({ style, name, label, price, eta, active, onChange }) => {
         {label && (<Text numberOfLines={1} style={styles.label}>{label}</Text>)}
         {!isNull(price) && (<Text numberOfLines={1} style={styles.labelPrice}>{vehiclePrice(price)}</Text>)}
       </View>
-      {!isEmpty(eta) && (
+      {eta && (
         <View style={styles.middle}>
           <Icon style={styles.icon} name="clock" color="rgb(216,216,216)" width={16} height={16}/>
-          <Text numberOfLines={1} style={styles.labelEta}>{`${replace(eta, '< ', '')} min`}</Text>
+          <Text numberOfLines={1} style={styles.labelEta}>{`${String(eta).replace('< ', '')} min`}</Text>
         </View>)
       }
       <Image
@@ -44,7 +44,10 @@ CarItem.propTypes = {
     PropTypes.object,
     PropTypes.number
   ]),
-  eta: PropTypes.string,
+  eta: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   name: PropTypes.string,
   label: PropTypes.string,
   price: PropTypes.oneOfType([

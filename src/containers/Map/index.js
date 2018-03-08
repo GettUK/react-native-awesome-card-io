@@ -18,6 +18,7 @@ import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 import {
+  removeFields,
   changeFields,
   addAddressPoint,
   changeAddressType,
@@ -247,6 +248,12 @@ class Map extends Component {
     this.props.navigation.navigate('OrdersView', {});
   };
 
+  clearField = () => {
+    this.props.removeFields([
+      'stops', 'destinationAddress',
+      'vehiclePrice', 'vehicleValue', 'vehicleName'
+    ]);
+  };
   renderTimeDatePicker() {
     const { date } = this.state;
     const momentDate = moment(date);
@@ -383,7 +390,7 @@ class Map extends Component {
               />
             ) : (
               <NavImageButton
-                onClick={() => {}}
+                onClick={this.clearField}
                 styleContainer={styles.headerBack}
                 icon={<Icon width={10} height={18} name="back" color="rgb(40, 71, 132)" />}
               />
@@ -448,6 +455,7 @@ Map.propTypes = {
   map: PropTypes.object.isRequired,
   bookingFormData: PropTypes.object.isRequired,
   getVehicles: PropTypes.func.isRequired,
+  removeFields: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   addAddressPoint: PropTypes.func.isRequired,
   changeAddressType: PropTypes.func.isRequired,
@@ -474,6 +482,7 @@ const mapState = ({ ui, bookings }) => ({
 });
 
 const mapDispatch = {
+  removeFields,
   changeFields,
   addAddressPoint,
   changeAddressType,

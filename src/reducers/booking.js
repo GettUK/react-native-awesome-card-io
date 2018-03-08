@@ -19,7 +19,9 @@ export const initialState = {
   meta: {
     isSettingsModalOpened: false
   },
-  currentOrder: {},
+  currentOrder: {
+    busy: false
+  },
   orderCreateError: null
 };
 
@@ -49,23 +51,25 @@ const getVehiclesFailure = state => (
   update(state, 'formData.vehicles', { data: [], loading: false, loaded: true, failed: true })
 );
 
-const createBookingStart = (state) => {
-  return update(state, 'orderCreateError', null);
-};
-
-const createBookingSuccess = (state, { payload }) => {
-  return update(state, {
-    currentOrder: payload,
+const createBookingStart = state => (
+  update(state, {
+    currentOrder: { busy: true },
     orderCreateError: null
-  });
-};
+  })
+);
 
-const createBookingFailure = (state, { payload }) => {
-  return update(state, {
-    currentOrder: {},
+const createBookingSuccess = (state, { payload }) => (
+  update(state, {
+    currentOrder: { ...payload, busy: false }
+  })
+);
+
+const createBookingFailure = (state, { payload }) => (
+  update(state, {
+    currentOrder: { busy: false },
     orderCreateError: payload
-  });
-};
+  })
+);
 
 const changeTempMessageToDriver = (state, { message }) => {
   return update(state, 'new.temp.messageToDriver', message);
