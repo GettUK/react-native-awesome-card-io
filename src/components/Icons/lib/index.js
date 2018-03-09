@@ -1,3 +1,5 @@
+import arrow from './arrow';
+import arrowDown from './arrowDown';
 import back from './back';
 import burger from './burger';
 import calendar from './calendar';
@@ -32,6 +34,8 @@ import wheelchair from './wheelchair';
 import work from './work';
 
 export default {
+  arrow,
+  arrowDown,
   back,
   burger,
   calendar,

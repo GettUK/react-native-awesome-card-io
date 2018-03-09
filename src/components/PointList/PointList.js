@@ -127,13 +127,16 @@ PointList.propTypes = {
     PropTypes.number
   ]),
   data: PropTypes.object.isRequired,
-  onChangeAddress: PropTypes.func.isRequired,
-  onChangeAddressType: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  onChangeAddress: PropTypes.func,
+  onChangeAddressType: PropTypes.func,
+  toggleModal: PropTypes.func
 };
 
 PointList.defaultProps = {
-  style: {}
+  style: {},
+  onChangeAddress: () => {},
+  onChangeAddressType: () => {},
+  toggleModal: () => {}
 };
 
 export default PointList;
