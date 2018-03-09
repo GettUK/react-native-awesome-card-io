@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-elements';
 import { Input, Icon } from 'components';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { setInitialProfileValues, changeFieldValue, changeAvatar } from 'actions/passenger';
+import { setInitialProfileValues, changeFieldValue } from 'actions/passenger';
 import { prepareInitials } from '../utils';
 import styles from './EditProfileStyles';
 
@@ -107,9 +107,7 @@ const mapDispatch = {
   setInitialProfileValues,
   handleFirstNameChange: changeFieldValue('firstName'),
   handleLastNameChange: changeFieldValue('lastName'),
-  handleAvatarChange: changeFieldValue('avatar'),
-  changeFieldValue,
-  changeAvatar
+  handleAvatarChange: changeFieldValue('avatar')
 };
 
 export default connect(mapState, mapDispatch)(EditProfile);

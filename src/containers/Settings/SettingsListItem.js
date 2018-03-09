@@ -27,7 +27,7 @@ const SettingsListItem = (props) => {
       onPress={onPress}
 
       leftIcon={leftIconName ? <Icon name={leftIconName} size={24} color="#8e8e93" /> : null}
-      avatar={(avatar || titleAvatar) && (
+      avatar={(avatar || !!titleAvatar) && (
         <Avatar
           rounded
           medium
