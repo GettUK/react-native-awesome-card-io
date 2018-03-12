@@ -47,6 +47,7 @@
     "redux-persist": "^5.5.0",
     "redux-persist-transform-filter": "^0.0.16",
     "redux-thunk": "^2.2.0",
+    "rn-sliding-up-panel": "^1.1.7",
     "update-js": "^1.6.1",
     "validate.js": "^0.12.0"
   },

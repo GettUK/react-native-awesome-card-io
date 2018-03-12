@@ -44,17 +44,25 @@ import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { nullAddress } from 'utils';
+
 import { strings } from 'locales';
+
 import moment from 'moment';
+
+import ActiveOrderScene from './ActiveOrderScene';
 import AddressModal from './AddressModal';
 import PointList from './PointList';
+
+import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
+
 import styles from './style';
 
 class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date()
+      date: new Date(),
+      isHeaderEnable: true
     };
   }
 
@@ -164,6 +172,14 @@ class Map extends Component {
 
   handleDateSubmit = () => {
     this.props.changeBookingDate(this.state.date);
+  };
+
+  handleHideHeader = () => {
+    this.setState({ isHeaderEnable: false });
+  };
+
+  handleShowHeader = () => {
+    this.setState({ isHeaderEnable: true });
   };
 
   renderTimeDatePicker() {
@@ -284,7 +300,8 @@ class Map extends Component {
   render() {
     const {
       map: { currentPosition, regionPosition, addressModal, address, fields },
-      passengerView: { results }
+      passengerView: { results },
+      activeScene
     } = this.props;
 
     const isPreordered = this.isActiveSceneIs('preorder');
@@ -293,114 +310,125 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="default" />
-        <Header
-          customStyles={[styles.header]}
-          leftButton={
-            <NavImageButton
-              onClick={this.goToSettings}
-              styleContainer={{ justifyContent: 'center' }}
-              icon={<Icon size={30} name="burger" color="#000" />}
-            />
-          }
-          rightButton={
-            <Button
-              style={styles.orderBtn}
-              raised={false}
-              size="sm"
-              onPress={this.goToOrders}
-            >
-              <Text style={styles.orderBtnText}>Orders</Text>
-            </Button>
-          }
-        />
-        <AddressModal
-          isVisible={addressModal}
-          toggleModal={compose(
-            this.props.addAddressPoint,
-            this.toggleAddressModal
-          )}
-          value={address.value}
-          onChange={this.props.changeAddress}
-          isTyping={address.isTyping}
-          onChangeTyping={this.props.changeAddressTyping}
-          typingTimeout={address.typingTimeout}
-        />
-        <PointList
-          style={styles.pickUpBtn}
-          onChangeAddress={this.props.changeAddress}
-          onChangeAddressType={this.props.changeAddressType}
-          toggleModal={this.toggleAddressModal}
-          data={{ ...fields }}
-        />
-        <View style={styles.footer}>
-          <Button
-            style={styles.currentPositionBtn}
-            onPress={this.getCurrentPosition}
-          >
-            <Icon name="myLocation" height={22} color="#284784" />
-          </Button>
-          <Button
-            style={styles.currentPositionBtn}
-            onPress={this.props.createOrder}
-          >
-            <Icon name="pickUpCenter" height={22} color="#284784" />
-          </Button>
-          <ScrollView
-            horizontal
-            contentContainerStyle={styles.destinationBtns}
-            showsHorizontalScrollIndicator={false}>
-            <Button
-              onPress={() => {
-                if (has('destination_address', fields)) {
-                  this.props.changeAddress(fields.destination_address);
-                }
-                this.props.changeAddressType('destination_address', {}, null);
-                // this.props.changeAddressType('stops', [], null);
-                this.toggleAddressModal();
-              }}
-              style={styles.destinationBtn}
-            >
-              <Icon
-                style={styles.searchIcon}
-                name="search"
-                color="#284784"
-                size={18}
+        {this.state.isHeaderEnable &&
+          <Header
+            customStyles={[styles.header]}
+            leftButton={
+              <NavImageButton
+                onClick={this.goToSettings}
+                styleContainer={{ justifyContent: 'center' }}
+                icon={<Icon size={30} name="burger" color="#000" />}
               />
-              <Text style={styles.selectDestinationText}>
-                Select Destination
-              </Text>
+            }
+            rightButton={
+              <Button
+                style={styles.orderBtn}
+                raised={false}
+                size="sm"
+                onPress={this.goToOrders}
+              >
+                <Text style={styles.orderBtnText}>Orders</Text>
+              </Button>
+            }
+          />
+        }
+
+        {isPreordered
+          ? <AddressModal
+            isVisible={addressModal}
+            toggleModal={compose(
+              this.props.addAddressPoint,
+              this.toggleAddressModal
+            )}
+            value={address.value}
+            onChange={this.props.changeAddress}
+            isTyping={address.isTyping}
+            onChangeTyping={this.props.changeAddressTyping}
+            typingTimeout={address.typingTimeout}
+          />
+          : null
+        }
+
+        {isPreordered
+          ? <PointList
+            style={styles.pickUpBtn}
+            onChangeAddress={this.props.changeAddress}
+            onChangeAddressType={this.props.changeAddressType}
+            toggleModal={this.toggleAddressModal}
+            data={{ ...fields }}
+          />
+          : null
+        }
+        {isPreordered
+          ? <View style={styles.footer}>
+            <Button
+              style={styles.currentPositionBtn}
+              onPress={this.getCurrentPosition}>
+              <Icon name="myLocation" height={22} color="#284784" />
             </Button>
             <Button
-              onPress={() => {
-                this.props.changeAddress({
-                  ...results.home_address,
-                  label: strings('label.home')
-                });
-                this.props.changeAddressType('destination_address', {}, null);
-                this.props.addAddressPoint();
-              }}
-              style={styles.destinationBtn}
-            >
-              <Text style={styles.customDestinationText}>
-                {strings('label.home')}
-              </Text>
+              style={styles.currentPositionBtn}
+              onPress={this.props.createOrder}>
+              <Icon name="pickUpCenter" height={22} color="#284784" />
             </Button>
-            <Button
-              onPress={() => {
-                this.props.changeAddress({
-                  ...results.work_address,
-                  label: strings('label.work')
-                });
-                this.props.changeAddressType('destination_address', {}, null);
-                this.props.addAddressPoint();
-              }}
-            >
-              <Text style={styles.customDestinationText}>
-                {strings('label.work')}
-              </Text>
-            </Button>
-          </ScrollView>
-        </View>
+            <ScrollView
+              horizontal
+              contentContainerStyle={styles.destinationBtns}
+              showsHorizontalScrollIndicator={false}>
+              <Button
+                onPress={() => {
+                  if (has('destination_address', fields)) {
+                    this.props.changeAddress(fields.destination_address);
+                  }
+                  this.props.changeAddressType('destination_address', {}, null);
+                  // this.props.changeAddressType('stops', [], null);
+                  this.toggleAddressModal();
+                }}
+                style={styles.destinationBtn}>
+                <Icon
+                  style={styles.searchIcon}
+                  name="search"
+                  color="#284784"
+                  size={18}
+                />
+                <Text style={styles.selectDestinationText}>
+                  Select Destination
+                </Text>
+              </Button>
+              <Button
+                onPress={() => {
+                  this.props.changeAddress({
+                    ...results.home_address,
+                    label: strings('label.home')
+                  });
+                  this.props.changeAddressType('destination_address', {}, null);
+                  this.props.addAddressPoint();
+                }}
+                style={styles.destinationBtn}>
+                <Text style={styles.customDestinationText}>
+                  {strings('label.home')}
+                </Text>
+              </Button>
+              <Button
+                onPress={() => {
+                  this.props.changeAddress({
+                    ...results.work_address,
+                    label: strings('label.work')
+                  });
+                  this.props.changeAddressType('destination_address', {}, null);
+                  this.props.addAddressPoint();
+                }}>
+                <Text style={styles.customDestinationText}>
+                  {strings('label.work')}
+                </Text>
+              </Button>
+            </ScrollView>
+          </View>
+          : null
+        }
+
+        {isActiveOrder && <ActiveOrderScene />}
+
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -413,6 +441,13 @@ class Map extends Component {
         </MapView>
         {this.renderTimeDatePicker()}
         {this.renderSettings()}
+
+        {isActiveOrder &&
+          <OrderDetailsPanel
+            onActivate = {this.handleHideHeader}
+            onClose = {this.handleShowHeader}
+          />
+        }
       </View>
     );
   }

@@ -9,11 +9,11 @@ const TYPES = createTypes('ui/navigation', [
   'changeMapScene'
 ]);
 
-export const changeToPreorderScene = () => (dispatch) => {
+export const goToPreorderScene = () => (dispatch) => {
   dispatch(changeMapScene(AVAILABLE_MAP_SCENES.preorder));
 }
 
-export const changeToActiveOrderScene = () => (dispatch) => {
+export const goToActiveOrderScene = () => (dispatch) => {
   dispatch(changeMapScene(AVAILABLE_MAP_SCENES.activeOrder));
 }
 

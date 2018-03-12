@@ -27,7 +27,7 @@ const createOrderStarted = (state) => {
 const createOrderSuccess = (state, { data }) => {
   return update(state, {
     currentOrder: data,
-    orderCreateError: {}
+    orderCreateError: null
   });
 };
 
