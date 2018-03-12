@@ -65,13 +65,15 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
       leftIconName: 'email',
       title: strings('settings.label.email'),
       switchButton: true,
-      switched: passenger.notifyWithEmail || false
+      switched: passenger.notifyWithEmail || false,
+      onSwitch: v => handlers.handleToggleChange('notifyWithEmail', v)
     },
     {
       leftIconName: 'sms',
       title: strings('settings.label.sms'),
       switchButton: true,
-      switched: passenger.notifyWithSms || false
+      switched: passenger.notifyWithSms || false,
+      onSwitch: v => handlers.handleToggleChange('notifyWithSms', v)
     },
     {
       leftIconName: 'push',
@@ -82,13 +84,15 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
       leftIconName: 'calendar',
       title: strings('settings.label.invites'),
       switchButton: true,
-      switched: passenger.notifyWithCalendarEvent || false
+      switched: passenger.notifyWithCalendarEvent || false,
+      onSwitch: v => handlers.handleToggleChange('notifyWithCalendarEvent', v)
     },
     {
       leftIconName: 'wheelchair',
       title: strings('settings.label.wheelchair'),
       switchButton: true,
-      switched: passenger.wheelchairUser || false
+      switched: passenger.wheelchairUser || false,
+      onSwitch: v => handlers.handleToggleChange('wheelchairUser', v)
     }
   ];
 }

@@ -57,6 +57,18 @@ const destroyFavoriteAddress = (state, { payload }) => {
   return update.remove(state, `data.favoriteAddresses.{id:${payload}}`);
 };
 
+const changeToggleValueStart = (state, { payload: { field, value } }) => {
+  return update(state, { busy: true, [`data.passenger.${field}`]: value });
+};
+
+const changeToggleValueSuccess = (state) => {
+  return update(state, { busy: false, errors: null });
+};
+
+const changeToggleValueFailure = (state, { payload }) => {
+  return update(state, { busy: false, errors: payload, [`data.passenger.${field}`]: !state[`data.passenger.${field}`] });
+};
+
 export default composeReducer('passenger', {
   getPassengerDataStart,
   getPassengerDataSuccess,
@@ -67,5 +79,8 @@ export default composeReducer('passenger', {
   updatePredefinedAddress,
   updateFavouriteAddress,
   addFavouriteAddress,
-  destroyFavoriteAddress
+  destroyFavoriteAddress,
+  changeToggleValueStart,
+  changeToggleValueSuccess,
+  changeToggleValueFailure
 }, initialState);
