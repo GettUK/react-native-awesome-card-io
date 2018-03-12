@@ -10,6 +10,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10
   },
+  layout: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    paddingHorizontal: 15,
+    paddingVertical: 10
+  },
   itemAddressView: {
     marginLeft: 46,
     paddingVertical: 7

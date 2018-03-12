@@ -2,7 +2,14 @@ import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
 
 export const initialState = {
-  formData: {},
+  validatedReferences: [],
+  formData: {
+    vehicles: {
+      loading: false,
+      loaded: false,
+      data: []
+    }
+  },
   new: {
     messageToDriver: '',
     date: new Date(),
@@ -16,25 +23,47 @@ export const initialState = {
   orderCreateError: null
 };
 
-const getFormDataSuccess = (state, { data }) => {
-  return update(state, 'formData', { ...initialState.formData, ...data });
-};
+const getFormDataSuccess = (state, { payload }) => (
+  update(state, 'formData', { ...initialState.formData, ...payload })
+);
 
-const createOrderStarted = (state) => {
+const getVehiclesStart = state => (
+  update.assign(state, 'formData.vehicles', {
+    loading: true,
+    loaded: false
+  })
+);
+
+const getVehiclesSuccess = (state, {payload: { vehicles, distance, duration }}) => (
+  update(state, 'formData.vehicles', {
+    data: vehicles,
+    loading: false,
+    loaded: true,
+    failed: false,
+    distance,
+    duration
+  })
+);
+
+const getVehiclesFailure = state => (
+  update(state, 'formData.vehicles', { data: [], loading: false, loaded: true, failed: true })
+);
+
+const createBookingStart = (state) => {
   return update(state, 'orderCreateError', null);
 };
 
-const createOrderSuccess = (state, { data }) => {
+const createBookingSuccess = (state, { payload }) => {
   return update(state, {
-    currentOrder: data,
+    currentOrder: payload,
     orderCreateError: null
   });
 };
 
-const createOrderError = (state, { error }) => {
+const createBookingFailure = (state, { payload }) => {
   return update(state, {
     currentOrder: {},
-    orderCreateError: error
+    orderCreateError: payload
   });
 };
 
@@ -64,13 +93,16 @@ const closeSettingsModal = (state) => {
 
 export default composeReducer('booking', {
   getFormDataSuccess,
+  getVehiclesStart,
+  getVehiclesSuccess,
+  getVehiclesFailure,
   changeTempMessageToDriver,
   applyMessageToDriver,
   changeBookingDate,
   changeTravelReason,
   openSettingsModal,
   closeSettingsModal,
-  createOrderStarted,
-  createOrderSuccess,
-  createOrderError
+  createBookingStart,
+  createBookingSuccess,
+  createBookingFailure
 }, initialState);

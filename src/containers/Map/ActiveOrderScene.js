@@ -4,7 +4,7 @@ import { ListItem, Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { cancelOrder } from 'actions/app/booking';
+import { cancelOrder } from 'actions/booking';
 
 import { Icon } from 'components';
 import { FadeInView } from 'components/Animated';

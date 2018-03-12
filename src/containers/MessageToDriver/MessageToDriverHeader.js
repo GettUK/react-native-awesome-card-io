@@ -15,7 +15,7 @@ const MessageToDriverHeader = ({ navigation, messageLength }) => {
 };
 
 const mapState = (state) => {
-  const newBooking = state.app.booking.new;
+  const newBooking = state.bookings.new;
   const messageLength = newBooking.temp.messageToDriver && newBooking.temp.messageToDriver.length
     || newBooking.messageToDriver.length;
   return ({

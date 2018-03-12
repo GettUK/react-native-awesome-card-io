@@ -17,6 +17,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Icon, Button, DismissKeyboardView, Modal } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
+import BookingEditor from 'containers/BookingEditor';
 
 import {
   addAddressPoint,
@@ -30,18 +31,19 @@ import {
   errorPosition
 } from 'actions/ui/map';
 import {
-  createOrder,
+  createBooking,
   getFormData,
   changeBookingDate,
   openSettingsModal,
   closeSettingsModal
-} from 'actions/app/booking';
+} from 'actions/booking';
 import {
   passegerViewEmpty,
   receivePassegerView
 } from 'actions/ui/passenger-view';
 import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
+import { order } from 'actions/mockedData';
 
 import { nullAddress } from 'utils';
 
@@ -124,7 +126,7 @@ class Map extends Component {
   addPoint = name => {
     this.props.geocodeEmpty();
     this.props.changeAddress(name);
-    this.props.changeAddressType('pickup_address', {}, null);
+    this.props.changeAddressType('pickupAddress', {}, null);
     this.props.addAddressPoint();
   };
   receivePasseger = () => {
@@ -333,8 +335,12 @@ class Map extends Component {
           />
         }
 
-        {isPreordered
-          ? <AddressModal
+        {isPreordered ?
+          <BookingEditor /> : null
+        }
+
+        {isPreordered ?
+          <AddressModal
             isVisible={addressModal}
             toggleModal={compose(
               this.props.addAddressPoint,
@@ -345,30 +351,30 @@ class Map extends Component {
             isTyping={address.isTyping}
             onChangeTyping={this.props.changeAddressTyping}
             typingTimeout={address.typingTimeout}
-          />
-          : null
+          /> : null
         }
-
-        {isPreordered
-          ? <PointList
+        {isPreordered ?
+          <PointList
             style={styles.pickUpBtn}
             onChangeAddress={this.props.changeAddress}
             onChangeAddressType={this.props.changeAddressType}
             toggleModal={this.toggleAddressModal}
             data={{ ...fields }}
-          />
-          : null
+          /> : null
         }
-        {isPreordered
-          ? <View style={styles.footer}>
+
+        {isPreordered ?
+          <View style={styles.footer}>
             <Button
               style={styles.currentPositionBtn}
-              onPress={this.getCurrentPosition}>
+              onPress={this.getCurrentPosition}
+            >
               <Icon name="myLocation" height={22} color="#284784" />
             </Button>
             <Button
               style={styles.currentPositionBtn}
-              onPress={this.props.createOrder}>
+              onPress={() => this.props.createBooking(order)}
+            >
               <Icon name="pickUpCenter" height={22} color="#284784" />
             </Button>
             <ScrollView
@@ -377,14 +383,15 @@ class Map extends Component {
               showsHorizontalScrollIndicator={false}>
               <Button
                 onPress={() => {
-                  if (has('destination_address', fields)) {
-                    this.props.changeAddress(fields.destination_address);
+                  if (has('destinationAddress', fields)) {
+                    this.props.changeAddress(fields.destinationAddress);
                   }
-                  this.props.changeAddressType('destination_address', {}, null);
+                  this.props.changeAddressType('destinationAddress', {}, null);
                   // this.props.changeAddressType('stops', [], null);
                   this.toggleAddressModal();
                 }}
-                style={styles.destinationBtn}>
+                style={styles.destinationBtn}
+              >
                 <Icon
                   style={styles.searchIcon}
                   name="search"
@@ -401,10 +408,11 @@ class Map extends Component {
                     ...results.home_address,
                     label: strings('label.home')
                   });
-                  this.props.changeAddressType('destination_address', {}, null);
+                  this.props.changeAddressType('destinationAddress', {}, null);
                   this.props.addAddressPoint();
                 }}
-                style={styles.destinationBtn}>
+                style={styles.destinationBtn}
+              >
                 <Text style={styles.customDestinationText}>
                   {strings('label.home')}
                 </Text>
@@ -415,16 +423,16 @@ class Map extends Component {
                     ...results.work_address,
                     label: strings('label.work')
                   });
-                  this.props.changeAddressType('destination_address', {}, null);
+                  this.props.changeAddressType('destinationAddress', {}, null);
                   this.props.addAddressPoint();
-                }}>
+                }}
+              >
                 <Text style={styles.customDestinationText}>
                   {strings('label.work')}
                 </Text>
               </Button>
             </ScrollView>
-          </View>
-          : null
+          </View> : null
         }
 
         {isActiveOrder && <ActiveOrderScene />}
@@ -477,15 +485,15 @@ Map.propTypes = {
 
 Map.defaultProps = {};
 
-const mapState = ({ session, network, ui, app }) => ({
+const mapState = ({ session, network, ui, bookings }) => ({
   network,
   map: ui.map,
   sessionData: session.result,
   passengerView: ui.passengerView,
   activeScene: ui.navigation.activeScene,
-  newBooking: app.booking.new,
-  bookingFormData: app.booking.formData,
-  bookingMeta: app.booking.meta
+  newBooking: bookings.new,
+  bookingFormData: bookings.formData,
+  bookingMeta: bookings.meta
 });
 
 const mapDispatch = {
@@ -503,7 +511,7 @@ const mapDispatch = {
   passegerViewEmpty,
   receivePassegerView,
   changeBookingDate,
-  createOrder,
+  createBooking,
   getFormData,
   openSettingsModal,
   closeSettingsModal

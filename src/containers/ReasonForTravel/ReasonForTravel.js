@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'components';
-import { changeTravelReason } from 'actions/app/booking';
+import { changeTravelReason } from 'actions/booking';
 import styles from './styles';
 
 class ReasonForTravel extends Component {
@@ -42,9 +42,9 @@ class ReasonForTravel extends Component {
   }
 }
 
-const mapState = ({ app }) => ({
-  travelReasons: app.booking.formData.travelReasons,
-  travelReason: app.booking.new.travelReason,
+const mapState = ({ bookings }) => ({
+  travelReasons: bookings.formData.travelReasons,
+  travelReason: bookings.new.travelReason
 });
 
 const mapDispatch = ({

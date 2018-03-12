@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 import {
   get,
   map,
+  has,
   uniqWith,
   isNull,
   concat,
@@ -31,7 +32,7 @@ const initialState = {
   errors: null,
   options: {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 5000,
     maximumAge: 1000
   },
   regionPosition: {
@@ -103,33 +104,33 @@ const addressVisibleModal = (state, { payload }) => ({
   addressModal: payload
 });
 
-const initialRegionPosition = (state, { payload }) => ({
+const initialRegionPosition = (state, { payload: { coords } }) => ({
   ...state,
-  regionPosition: {
-    latitude: parseFloat(payload.coords.latitude),
-    longitude: parseFloat(payload.coords.longitude),
-    latitudeDelta: LATTITIDE_DELTA,
-    longitudeDelta: LONGTITUDE_DELTA
-  },
+  regionPosition: has('latitude', coords) && has('longitude', coords) ?
+    {
+      latitude: parseFloat(coords.latitude),
+      longitude: parseFloat(coords.longitude),
+      latitudeDelta: LATTITIDE_DELTA,
+      longitudeDelta: LONGTITUDE_DELTA
+    } : state.regionPosition,
   errors: null
 });
 
 const changeRegionPosition = (state, { payload }) => ({
   ...state,
-  regionPosition: {
-    ...payload
-  },
+  regionPosition: payload,
   errors: null
 });
 
-const changePosition = (state, { payload }) => ({
+const changePosition = (state, { payload: { coords } }) => ({
   ...state,
-  currentPosition: {
-    latitude: parseFloat(payload.coords.latitude),
-    longitude: parseFloat(payload.coords.longitude),
-    latitudeDelta: LATTITIDE_DELTA,
-    longitudeDelta: LONGTITUDE_DELTA
-  },
+  currentPosition: has('latitude', coords) && has('longitude', coords) ?
+    {
+      latitude: parseFloat(coords.latitude),
+      longitude: parseFloat(coords.longitude),
+      latitudeDelta: LATTITIDE_DELTA,
+      longitudeDelta: LONGTITUDE_DELTA
+    } : state.currentPosition,
   errors: null
 });
 

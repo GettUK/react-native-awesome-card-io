@@ -4,11 +4,13 @@ import router from './router';
 import app from './app';
 import ui from './ui';
 import session from './session';
+import bookings from './booking';
 
 export const reducer = combineReducers({
   network,
   router,
   app,
   ui,
-  session
+  session,
+  bookings
 });
