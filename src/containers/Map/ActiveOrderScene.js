@@ -11,6 +11,8 @@ import { FadeInView } from 'components/Animated';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
+import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
+
 import { screenStyles } from './ActiveOrderScene/styles';
 
 var MAXIMUM_HEIGHT = 250;
@@ -18,9 +20,21 @@ var HANDLER_HEIGHT = 30;
 var OFFSET_TOP = 9;
 
 class ActiveOrderScene extends Component {
+  state = {
+    isVisible: false
+  };
+
   handleCancelOrder = () => {
     this.props.cancelOrder();
   };
+
+  handleOpenModal = () => {
+    this.setState({ isVisible: true });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ isVisible: false });
+  }
 
   render() {
     return (
@@ -35,14 +49,16 @@ class ActiveOrderScene extends Component {
 
         <FadeInView>
           <View style={{ paddingBottom: 100 }}>
-            <View style={screenStyles.actionsRow}>
+            <View style={{ flexDirection: 'row' }}>
               <FloatButton key='cancel' label='Cancel Order' iconName='cancel' onPress={this.handleCancelOrder} />
-              <FloatButton key='way' label="I'm on my way" iconName='walker' style={{ marginLeft: 40 }} />
+              <FloatButton key='way' label={`I'm on my way`} iconName='walker' onPress={this.handleOpenModal} style={{ marginLeft: 40 }} />
             </View>
           </View>
         </FadeInView>
 
         <Pointer />
+
+        <OnMyWayModal isVisible={this.state.isVisible} onClose={this.handleCloseModal} />
       </View>
     );
   }
