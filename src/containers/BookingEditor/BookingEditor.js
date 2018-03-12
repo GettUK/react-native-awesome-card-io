@@ -111,7 +111,7 @@ class BookingEditor extends Component {
             conditional: ref.conditional,
             value: ref.mandatory && 'default' || ref.value
           }));
-        const nextForm = {
+        let attrs = {
           ...paymentTypeToAttrs(paymentType),
           pickupAddress: data.defaultPickupAddress,
           message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
@@ -119,24 +119,26 @@ class BookingEditor extends Component {
         };
 
         if (!isEmpty(data.booking)) {
-          Object.assign(nextForm, {
+          attrs = {
+            ...attrs,
             ...data.booking,
             scheduledAt: moment(data.booking.scheduledAt).tz(data.booking.pickupAddress.timezone),
             schedule: this.getScheduleParams(data.booking),
             asDirected: !data.booking.destinationAddress
-          });
+          };
         }
 
         if (dataPassenger) {
           const { id, firstName, lastName, phone } = dataPassenger;
 
-          Object.assign(nextForm, {
+          attrs = {
+            ...attrs,
             passengerId: id,
             passengerName: `${firstName} ${lastName}`,
             passengerPhone: phone
-          });
+          };
         }
-        this.props.changeFields(nextForm);
+        this.props.changeFields(attrs);
         this.selectCurrentMemberAsPassenger();
       });
   };

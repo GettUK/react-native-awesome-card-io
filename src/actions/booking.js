@@ -1,8 +1,6 @@
 import { createTypes } from 'redux-compose-reducer';
-
 import { get, post, put } from 'utils';
 import faye from 'utils/faye';
-
 import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
@@ -13,18 +11,17 @@ const TYPES = createTypes('booking', [
   'changeOrderStatus',
   'cancelOrder',
   'getFormDataSuccess',
+  'getVehiclesStart',
+  'getVehiclesSuccess',
+  'getVehiclesFailure',
   'changeTempMessageToDriver',
   'applyMessageToDriver',
   'changeBookingDate',
   'changeTravelReason',
-  'openSettingsModal',
-  'closeSettingsModal',
-  'getVehiclesStart',
-  'getVehiclesSuccess',
-  'getVehiclesFailure'
+  'toggleVisibleModal'
 ]);
 
-export const createBooking = (order) => (dispatch) => {
+export const createBooking = order => dispatch => {
   dispatch({ type: TYPES.createBookingStart });
 
   return post('/bookings', order)
@@ -37,8 +34,8 @@ export const createBooking = (order) => (dispatch) => {
 
       return data;
     })
-    .catch((error) => {
-      dispatch({ type: TYPES.createBookingFailure, error });
+    .catch(errors => {
+      dispatch({ type: TYPES.createBookingFailure, payload: errors });
     });
 };
 
@@ -54,7 +51,7 @@ export const removeOrderStatusSubscription = () => (dispatch) => {
   faye.closeConnection();
 
   dispatch({ type: TYPES.changeOrderStatus, data: {} });
-}
+};
 
 export const cancelOrder = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
@@ -63,15 +60,15 @@ export const cancelOrder = () => (dispatch, getState) => {
     .then(res => {
       dispatch(completeOrder());
     });
-}
+};
 
 export const completeOrder = () => (dispatch) => {
   dispatch(goToPreorderScene());
 
-  dispatch(removeOrderStatusSubscription())
+  dispatch(removeOrderStatusSubscription());
 
   dispatch({ type: TYPES.cancelOrder });
-}
+};
 
 export const getFormData = () => dispatch => (
   get('/bookings/new')
@@ -110,10 +107,4 @@ export const changeTravelReason = (reasonId) => (dispatch) => {
   dispatch({ type: TYPES.changeTravelReason, reasonId });
 };
 
-export const openSettingsModal = () => (dispatch) => {
-  dispatch({ type: TYPES.openSettingsModal });
-};
-
-export const closeSettingsModal = () => (dispatch) => {
-  dispatch({ type: TYPES.closeSettingsModal });
-};
+export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });

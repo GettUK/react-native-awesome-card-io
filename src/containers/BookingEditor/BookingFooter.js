@@ -5,21 +5,23 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
 import moment from 'moment';
 import { has, find, isNull } from 'lodash';
-import { Icon, Button, JourneyDetails, CarItem } from 'components';
+import { Icon, Button, Modal, JourneyDetails, CarItem } from 'components';
 import { strings } from 'locales';
-import {
-  createBooking
-} from 'actions/booking';
 import {
   changeFields,
   addAddressPoint,
   changeAddressType,
   changeAddress
 } from 'actions/ui/map';
+import {
+  createBooking,
+  toggleVisibleModal
+} from 'actions/booking';
 import { order } from 'actions/mockedData';
 import {
   paymentTypeToAttrs,
@@ -85,10 +87,48 @@ class BookingFooter extends Component {
       (fields.vehicleName && fields.vehiclePrice);
   };
 
+  goToMessageToDriver = () => {
+    this.toggleSettingsModal();
+    this.props.navigation.navigate('MessageToDriver');
+  };
+
+  goToTravelReasons = () => {
+    this.toggleSettingsModal();
+    this.props.navigation.navigate('ReasonForTravel');
+  };
+  toggleSettingsModal = () => {
+    this.props.toggleVisibleModal('isSettingsModalOpened');
+  };
+  renderSettings() {
+    const { data: { formData: { travelReasons },
+      meta: { isSettingsModalOpened },
+      new: { messageToDriver, travelReason: newTravelReason }
+    } } = this.props;
+
+    const renderMenuItem = (title, value, handler) => (
+      <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
+        <Text style={[styles.flex, styles.settingsMenuItemTitle]}>{title}</Text>
+        <Text style={[styles.flex, styles.settingsMenuSelectedValue]} numberOfLines={1}>{value}</Text>
+        <Icon name="chevron" size={16} color="#c7c7cc" />
+      </TouchableOpacity>
+    );
+
+    const getReasonsName = id => (travelReasons && travelReasons.find(r => r.id === id) || {}).name;
+
+    return (
+      <Modal isVisible={isSettingsModalOpened} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
+        {renderMenuItem('Message to driver', messageToDriver, this.goToMessageToDriver)}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Reasons for travel', getReasonsName(newTravelReason), this.goToTravelReasons)}
+      </Modal>
+    );
+  }
+
   render() {
     const { map: { fields }, data: { formData: { vehicles }, currentOrder: { busy } }, toOrder } = this.props;
     return (
       <View style={styles.footer}>
+        {this.renderSettings()}
         {
           !toOrder ? (
             <View>
@@ -208,13 +248,13 @@ class BookingFooter extends Component {
               <View style={styles.rowActions}>
                 <Button
                   style={styles.timeBtn}
-                  onPress={() => {}}
+                  onPress={() => this.props.toggleVisibleModal('isPickerModalOpened')}
                 >
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
                 <Button
                   style={styles.orderRideBtn}
-                  disabled={busy || vehicles.loading || !!this.shouldOrderRide()}
+                  disabled={busy || vehicles.loading || !this.shouldOrderRide()}
                   onPress={() => this.props.createBooking(fields)}
                 >
                   {
@@ -226,7 +266,7 @@ class BookingFooter extends Component {
                 </Button>
                 <Button
                   style={styles.settingsBtn}
-                  onPress={() => {}}
+                  onPress={this.toggleSettingsModal}
                 >
                   <Icon name="settings" size={20} color="#d8d8d8" />
                 </Button>
@@ -254,8 +294,8 @@ BookingFooter.propTypes = {
   requestVehicles: PropTypes.func.isRequired,
   toOrder: PropTypes.oneOfType([
     PropTypes.object,
-    PropTypes.bool
-  ])
+    PropTypes.bool]),
+  toggleVisibleModal: PropTypes.func.isRequired
 };
 
 BookingFooter.defaultProps = {};
@@ -270,7 +310,8 @@ const bindActions = {
   changeFields,
   addAddressPoint,
   changeAddressType,
-  changeAddress
+  changeAddress,
+  toggleVisibleModal
 };
 
 export default connect(select, bindActions)(BookingFooter);

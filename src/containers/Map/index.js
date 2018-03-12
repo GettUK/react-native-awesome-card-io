@@ -12,8 +12,8 @@ import {
   TimePickerAndroid
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import {every, find, first, has} from 'lodash';
-import { Icon, Button, DismissKeyboardView, Modal, DropdownAlert } from 'components';
+import { every, find, first, has } from 'lodash';
+import { Icon, Button, Modal, DropdownAlert } from 'components';
 import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
@@ -33,8 +33,7 @@ import {
   createBooking,
   getVehicles,
   changeBookingDate,
-  openSettingsModal,
-  closeSettingsModal,
+  toggleVisibleModal,
   completeOrder,
   cancelOrder
 } from 'actions/booking';
@@ -140,16 +139,6 @@ class Map extends Component {
 
   isActiveSceneIs = (name = 'preorder') => {
     return this.props.activeScene === AVAILABLE_MAP_SCENES[name];
-  };
-
-  goToMessageToDriver = () => {
-    this.props.closeSettingsModal();
-    this.props.navigation.navigate('MessageToDriver');
-  };
-
-  goToTravelReasons = () => {
-    this.props.closeSettingsModal();
-    this.props.navigation.navigate('ReasonForTravel');
   };
 
   handleDateChange = date => {
@@ -269,7 +258,9 @@ class Map extends Component {
   goToOrders = () => {
     this.props.navigation.navigate('OrdersView', {});
   };
-
+  togglePickerModal = () => {
+    this.props.toggleVisibleModal('isPickerModalOpened');
+  };
   clearFields = () => {
     this.props.removeFields([
       'stops', 'destinationAddress',
@@ -279,6 +270,7 @@ class Map extends Component {
 
   renderTimeDatePicker() {
     const { date } = this.state;
+    const { bookingMeta: { isPickerModalOpened } } = this.props;
     const momentDate = moment(date);
 
     const openDatePickerAndroid = async () => {
@@ -337,57 +329,24 @@ class Map extends Component {
     return (
       <Modal
         style={styles.bottomModal}
-        isVisible={false}
-        backdropColor="#284784"
-        backdropOpacity={0.6}
+        isVisible={isPickerModalOpened}
+        contentStyles={styles.TDModal}
+        onClose={this.togglePickerModal}
       >
-        <DismissKeyboardView style={styles.TDModal}>
-          <View style={styles.modalView}>
-            <TouchableOpacity onPress={this.toggleAddressModal}>
-              <Text style={styles.closeModalText}>
-                {strings('map.label.close')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.flex}>
-            {renderSelected()}
+        {renderSelected()}
 
-            {Platform.OS === 'ios' &&
-              <View style={styles.TDPickerWrapper}>
-                <DatePickerIOS
-                  date={date}
-                  onDateChange={this.handleDateChange}
-                  minimumDate={new Date()}
-                />
-              </View>
-            }
-            <Button raised={false} style={styles.TDButton} onPress={this.handleDateSubmit}>
-              <Text style={styles.TDButtonText}>Set the Time</Text>
-            </Button>
-          </View>
-        </DismissKeyboardView>
-      </Modal>
-    );
-  }
-
-  renderSettings() {
-    const { newBooking, bookingFormData: { travelReasons }, bookingMeta: { isSettingsModalOpened }, closeSettingsModal } = this.props;
-
-    const renderMenuItem = (title, value, handler) => (
-      <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
-        <Text style={[styles.flex, styles.settingsMenuItemTitle]}>{title}</Text>
-        <Text style={[styles.flex, styles.settingsMenuSelectedValue]} numberOfLines={1}>{value}</Text>
-        <Icon name="chevron" size={16} color="#c7c7cc" />
-      </TouchableOpacity>
-    );
-
-    const getReasonsName = (id) => (travelReasons && travelReasons.find(r => r.id === id) || {}).name;
-
-    return (
-      <Modal isVisible={isSettingsModalOpened} contentStyles={styles.settingsModal} onClose={closeSettingsModal}>
-        {renderMenuItem('Message to driver', newBooking.messageToDriver, this.goToMessageToDriver)}
-        <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Reasons for travel', getReasonsName(newBooking.travelReason), this.goToTravelReasons)}
+        {Platform.OS === 'ios' &&
+        <View style={styles.TDPickerWrapper}>
+          <DatePickerIOS
+            date={date}
+            onDateChange={this.handleDateChange}
+            minimumDate={new Date()}
+          />
+        </View>
+        }
+        <Button raised={false} style={styles.TDButton} onPress={this.handleDateSubmit}>
+          <Text style={styles.TDButtonText}>Set the Time</Text>
+        </Button>
       </Modal>
     );
   }
@@ -415,7 +374,7 @@ class Map extends Component {
               <NavImageButton
                 onClick={this.clearFields}
                 styleContainer={styles.headerBack}
-                icon={<Icon width={10} height={18} name="back" color="rgb(40, 71, 132)" />}
+                icon={<Icon width={10} height={18} name="back" color="#284784" />}
               />
             )
           }
@@ -461,7 +420,6 @@ class Map extends Component {
           {!isActiveOrder && <MapView.Marker coordinate={currentPosition} />}
         </MapView>
         {this.renderTimeDatePicker()}
-        {this.renderSettings()}
 
         {isActiveOrder && ACTIVE_DRIVER_STATUSES.includes(this.props.status) &&
           <OrderDetailsPanel
@@ -485,6 +443,7 @@ Map.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   bookingFormData: PropTypes.object.isRequired,
+  bookingMeta: PropTypes.object.isRequired,
   getVehicles: PropTypes.func.isRequired,
   removeFields: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
@@ -498,7 +457,8 @@ Map.propTypes = {
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
   geocode: PropTypes.func.isRequired,
-  changeBookingDate: PropTypes.func.isRequired
+  changeBookingDate: PropTypes.func.isRequired,
+  toggleVisibleModal: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {
@@ -529,8 +489,7 @@ const mapDispatch = {
   changeBookingDate,
   createBooking,
   getVehicles,
-  openSettingsModal,
-  closeSettingsModal,
+  toggleVisibleModal,
   completeOrder,
   cancelOrder
 };
