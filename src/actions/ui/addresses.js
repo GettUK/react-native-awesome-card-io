@@ -1,5 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
-import { getAddresses } from 'services/passengers';
+import { get } from 'utils';
 
 const TYPES = createTypes('ui/addresses',
   ['addressesEmpty', 'receiveAddressesStart', 'receiveAddressesFailure', 'receiveAddressesSuccess']);
@@ -12,17 +12,16 @@ export const receiveAddressesFailure = errors => ({ type: TYPES.receiveAddresses
 
 export const receiveAddressesSuccess = results => ({ type: TYPES.receiveAddressesSuccess, payload: results });
 
-export const receiveAddresses = fields => (dispatch, getState) => {
-  const { ui, session } = getState();
+export const getAddresses = params => (dispatch, getState) => {
+  const { ui } = getState();
   if (ui.addresses.busy) {
     return Promise.resolve();
   }
 
   dispatch(receiveAddressesStart());
-
-  return getAddresses(session.token, fields)
-    .then(result => {
-      dispatch(receiveAddressesSuccess(result));
+  return get('/addresses', params)
+    .then(({ data }) => {
+      dispatch(receiveAddressesSuccess(data));
     })
     .catch(errors => {
       dispatch(receiveAddressesFailure(errors));

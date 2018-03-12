@@ -6,15 +6,6 @@ const TYPES = createTypes('resetPassword', [
   'succeed'
 ]);
 
-export const resetPassword = (query) => (dispatch) => {
-  dispatch(resetPasswordStart());
-
-  return put('/user/forgot_password', query)
-    .then((res) => {
-      dispatch(resetPasswordSuccess());
-    });
-};
-
 const resetPasswordStart = () => ({
   type: TYPES.start
 });
@@ -22,3 +13,12 @@ const resetPasswordStart = () => ({
 const resetPasswordSuccess = () => ({
   type: TYPES.succeed
 });
+
+export const resetPassword = query => dispatch => {
+  dispatch(resetPasswordStart());
+
+  return put('/user/forgot_password', query)
+    .then(() => {
+      dispatch(resetPasswordSuccess());
+    });
+};

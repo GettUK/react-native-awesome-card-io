@@ -15,7 +15,6 @@ module.exports = ({ platform, root }, defaults) => ({
       models: path.join(root, 'src', 'models'),
       navigators: path.join(root, 'src', 'navigators'),
       reducers: path.join(root, 'src', 'reducers'),
-      services: path.join(root, 'src', 'services'),
       store: path.join(root, 'src', 'store'),
       utils: path.join(root, 'src', 'utils')
     }

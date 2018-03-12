@@ -1,5 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
-import { getPassengerID } from 'services/passengers';
+import { get } from 'utils';
 
 const TYPES = createTypes('ui/passengerView',
   ['passegerViewEmpty', 'receivePassegerViewStart', 'receivePassegerViewFailure', 'receivePassegerViewSuccess']);
@@ -13,17 +13,16 @@ export const receivePassegerViewFailure = errors => ({ type: TYPES.receivePasseg
 export const receivePassegerViewSuccess = results => ({ type: TYPES.receivePassegerViewSuccess, payload: results });
 
 export const receivePassegerView = id => (dispatch, getState) => {
-  const { ui, session } = getState();
+  const { ui } = getState();
 
   if (ui.passengerView.busy) {
     return Promise.resolve();
   }
 
   dispatch(receivePassegerViewStart());
-
-  return getPassengerID(session.token, id)
-    .then(result => {
-      dispatch(receivePassegerViewSuccess(result));
+  return get(`/passengers/${id}`)
+    .then(({ data }) => {
+      dispatch(receivePassegerViewSuccess(data));
     })
     .catch(errors => {
       dispatch(receivePassegerViewFailure(errors));

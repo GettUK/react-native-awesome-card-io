@@ -2,19 +2,19 @@ import { strings } from 'locales';
 
 import styles from './style';
 
-function prepareName({ first_name = '', last_name = '' }) {
-  return `${first_name} ${last_name}`;
+function prepareName({ firstName = '', lastName = '' }) {
+  return `${firstName} ${lastName}`;
 }
 
-function prepareInitials({ first_name = '', last_name = '' }) {
-  return `${(first_name).charAt(0)}${(last_name).charAt(0)}`.toUpperCase();
+function prepareInitials({ firstName = '', lastName = '' }) {
+  return `${(firstName).charAt(0)}${(lastName).charAt(0)}`.toUpperCase();
 }
 
 export function prepareProfileBlock(results = {}, handlers = {}) {
   return [
     {
       title: prepareName(results),
-      avatar: results.avatar_url || null,
+      avatar: results.avatarUrl || null,
       titleAvatar: prepareInitials(results)
     },
     {
@@ -27,7 +27,7 @@ export function prepareProfileBlock(results = {}, handlers = {}) {
     },
     {
       title: strings('settings.label.cartype'),
-      rightTitle: results.default_vehicle || strings('settings.none')
+      rightTitle: results.defaultVehicle || strings('settings.none')
     }
   ];
 }
@@ -37,12 +37,12 @@ export function prepareAddressesBlock(results = {}, handlers = {}) {
     {
       leftIconName: 'home',
       title: strings('label.home'),
-      rightTitle: results.home_address && results.home_address.line || strings('settings.none')
+      rightTitle: results.homeAddress && results.homeAddress.line || strings('settings.none')
     },
     {
       leftIconName: 'work',
       title: strings('label.work'),
-      rightTitle: results.work_address && results.work_address.line || strings('settings.none')
+      rightTitle: results.workAddress && results.workAddress.line || strings('settings.none')
     },
     {
       title: strings('settings.label.addresses')
@@ -56,13 +56,13 @@ export function prepareSwitchersBlock(results = {}, handlers = {}) {
       leftIconName: 'email',
       title: strings('settings.label.email'),
       switchButton: true,
-      switched: results.notify_with_email || false
+      switched: results.notifyWithEmail || false
     },
     {
       leftIconName: 'sms',
       title: strings('settings.label.sms'),
       switchButton: true,
-      switched: results.notify_with_sms || false
+      switched: results.notifyWithSms || false
     },
     {
       leftIconName: 'push',
@@ -73,13 +73,13 @@ export function prepareSwitchersBlock(results = {}, handlers = {}) {
       leftIconName: 'calendar',
       title: strings('settings.label.invites'),
       switchButton: true,
-      switched: results.notify_with_calendar_event || false
+      switched: results.notifyWithCalendarEvent || false
     },
     {
       leftIconName: 'wheelchair',
       title: strings('settings.label.wheelchair'),
       switchButton: true,
-      switched: results.wheelchair_user || false
+      switched: results.wheelchairUser || false
     }
   ];
 }
@@ -120,5 +120,5 @@ export function prepareLogoutBlock(results = {}, handlers = {}) {
       showRightIcon: false,
       titleStyle: styles.listLabelCentered
     }
-  ]
+  ];
 }

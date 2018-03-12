@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { has, isNull, compose, isEqual } from 'lodash/fp';
+import { has, isNull, compose, isEqual, isUndefined } from 'lodash/fp';
 import {
   View,
   StatusBar,
@@ -41,7 +41,7 @@ import {
   passegerViewEmpty,
   receivePassegerView
 } from 'actions/ui/passenger-view';
-import { geocodeEmpty, receiveGeocode } from 'actions/ui/geocode';
+import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { order } from 'actions/mockedData';
 
@@ -90,11 +90,11 @@ class Map extends Component {
   componentWillReceiveProps({ network: { isConnected } }) {
     const {
       network: { isConnected: oldIsConnected },
-      sessionData: { member_id: memberId }
+      sessionData
     } = this.props;
 
-    if (!isEqual(oldIsConnected, isConnected)) {
-      this.props.receivePassegerView(memberId);
+    if (!isEqual(oldIsConnected, isConnected) && !isUndefined(sessionData.memberId)) {
+      this.props.receivePassegerView(sessionData.memberId);
     }
   }
   componentWillUnmount() {
@@ -108,7 +108,7 @@ class Map extends Component {
         this.props.initialRegionPosition(position);
         this.props.changePosition(position);
         this.props
-          .receiveGeocode({
+          .geocode({
             lat: position.coords.latitude,
             lng: position.coords.longitude
           })
@@ -132,10 +132,10 @@ class Map extends Component {
   receivePasseger = () => {
     const {
       network: { isConnected },
-      sessionData: { member_id: memberId }
+      sessionData
     } = this.props;
-    if (isConnected) {
-      this.props.receivePassegerView(memberId);
+    if (isConnected && !isNull(sessionData) && !isUndefined(sessionData.memberId)) {
+      this.props.receivePassegerView(sessionData.memberId);
     } else {
       this.props.passegerViewEmpty();
     }
@@ -405,7 +405,7 @@ class Map extends Component {
               <Button
                 onPress={() => {
                   this.props.changeAddress({
-                    ...results.home_address,
+                    ...results.homeAddress,
                     label: strings('label.home')
                   });
                   this.props.changeAddressType('destinationAddress', {}, null);
@@ -420,7 +420,7 @@ class Map extends Component {
               <Button
                 onPress={() => {
                   this.props.changeAddress({
-                    ...results.work_address,
+                    ...results.workAddress,
                     label: strings('label.work')
                   });
                   this.props.changeAddressType('destinationAddress', {}, null);
@@ -465,7 +465,7 @@ Map.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
-  sessionData: PropTypes.object.isRequired,
+  sessionData: PropTypes.object,
   passengerView: PropTypes.object.isRequired,
   addAddressPoint: PropTypes.func.isRequired,
   changeAddressType: PropTypes.func.isRequired,
@@ -477,13 +477,15 @@ Map.propTypes = {
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
-  receiveGeocode: PropTypes.func.isRequired,
+  geocode: PropTypes.func.isRequired,
   passegerViewEmpty: PropTypes.func.isRequired,
   receivePassegerView: PropTypes.func.isRequired,
   changeBookingDate: PropTypes.func.isRequired
 };
 
-Map.defaultProps = {};
+Map.defaultProps = {
+  sessionData: {}
+};
 
 const mapState = ({ session, network, ui, bookings }) => ({
   network,
@@ -507,7 +509,7 @@ const mapDispatch = {
   changePosition,
   errorPosition,
   geocodeEmpty,
-  receiveGeocode,
+  geocode,
   passegerViewEmpty,
   receivePassegerView,
   changeBookingDate,

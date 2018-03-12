@@ -1,8 +1,8 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
+import { get, post } from 'utils';
 import { userLogin, userData } from 'actions/session';
-import { authSuccess } from 'actions/ui/auth';
-import { login as loginRequest } from 'services/auth';
+import { authSuccess, authFailure } from 'actions/ui/auth';
 
 const TYPES = createTypes('ui/login',
   ['changeEmail', 'changePassword', 'setShowPassword', 'loginStart', 'loginSuccess', 'loginFailure']);
@@ -28,16 +28,21 @@ export const login = () => (dispatch, getState) => {
 
   dispatch(loginStart());
 
-  return loginRequest({ user: { ...ui.login.fields } })
-    .then(({ token, realms, result }) => {
+  return post('/session', { user: { ...ui.login.fields } })
+    .then(({ data: { token, realms } }) => {
       dispatch(
         batchActions([
           loginSuccess(),
-          userLogin(token, realms),
-          userData(result),
-          authSuccess()
+          userLogin(token, realms)
         ])
       );
+      return get('/session')
+        .then(({ data }) => {
+          dispatch(batchActions([ authSuccess(), userData(data)]));
+        })
+        .catch(errors => {
+          dispatch(authFailure(errors));
+        });
     })
     .catch(errors => {
       dispatch(loginFailure(errors));
