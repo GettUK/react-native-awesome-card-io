@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  container: {
+    justifyContent: 'center'
   }
 });
 

@@ -2,12 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-import NavImageButton from 'components/Common/NavImageButton';
-import { strings } from 'locales';
 import { has } from 'lodash';
-import { Icon, ScreenHeader } from 'components';
+import { ScreenHeader } from 'components';
 
-import { Map, Settings, Orders, MessageToDriver, RateDriver, ReasonForTravel } from 'containers';
+import SettingsNavigator from './navigatorSettings';
+import { Map, Orders, MessageToDriver, RateDriver, ReasonForTravel } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
 
@@ -22,25 +21,11 @@ const routeConfiguration = {
       header: <View style={{ marginTop: 20, height: 0 }} />
     })
   },
-  SettingsView: {
-    screen: Settings,
-    navigationOptions: ({ navigation }) => ({
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      },
-      title: strings('settings.headerTitle'),
-      headerLeft: (
-        <View style={{ flexDirection: 'row' }}>
-          <NavImageButton
-            onClick={() => navigation.goBack(null)}
-            styleContainer={{ justifyContent: 'center' }}
-            styleView={{ marginLeft: 10 }}
-            icon={<Icon size={30} name="close" color="#000" />}
-          />
-        </View>
-      )
-    })
+  Settings: {
+    screen: SettingsNavigator,
+    navigationOptions: {
+      header: null
+    }
   },
   OrdersView: {
     screen: Orders,
