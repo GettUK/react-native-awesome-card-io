@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { isNull, isEqual } from 'lodash/fp';
 
-import { getPassengerData } from 'actions/passenger';
+import { getPassengerData, changeToggleValue } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
 
 import {
@@ -50,12 +50,12 @@ class Settings extends Component {
   );
 
   render() {
-    const { passengerData: data } = this.props;
+    const { passengerData: data, changeToggleValue } = this.props;
 
     const settingsBlocks = [
       prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
       prepareAddressesBlock(data, { goToAddressesList: this.goToAddressesList, goToAddressEditor: this.goToAddressEditor }),
-      prepareSwitchersBlock(data),
+      prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
       prepareHistoryBlock(data),
       prepareInfoBlock(data),
       prepareLogoutBlock(data, { onLogout: this.handleLogout })
@@ -83,7 +83,8 @@ const select = ({ passenger }) => ({
 
 const bindActions = {
   logout,
-  getPassengerData
+  getPassengerData,
+  changeToggleValue
 };
 
 export default connect(select, bindActions)(Settings);

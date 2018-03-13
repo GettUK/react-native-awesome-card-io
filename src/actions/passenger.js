@@ -15,7 +15,10 @@ const TYPES = createTypes('passenger', [
   'updatePredefinedAddress',
   'updateFavouriteAddress',
   'addFavouriteAddress',
-  'destroyFavoriteAddress'
+  'destroyFavoriteAddress',
+  'changeToggleValueStart',
+  'changeToggleValueSuccess',
+  'changeToggleValueFailure'
 ]);
 
 export const getPassengerData = () => (dispatch, getState) => {
@@ -109,3 +112,22 @@ export const destroyFavoriteAddress = (id) => (dispatch, getState) => {
   return destroy(`/passengers/${passengerId}/addresses/${id}`)
     .then(() => dispatch({ type: TYPES.destroyFavoriteAddress, payload: id }));
 };
+
+export const changeToggleValue = curry((field, value) => (dispatch, getState) => {
+  if (getState().passenger.busy) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: TYPES.changeToggleValueStart, payload: { field, value } });
+
+  const id = getState().session.result.memberId;
+
+  return put(`/passengers/${id}`, { [field]: value })
+    .then(() => {
+      dispatch({ type: TYPES.changeToggleValueSuccess });
+    })
+    .catch(err => {
+      dispatch({ type: TYPES.changeToggleValueFailure, payload: err.data, error: true });
+      throw err;
+    });
+});
