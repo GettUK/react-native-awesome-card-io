@@ -49,6 +49,9 @@ class AppContainer extends Component {
                   dispatch: this.props.dispatch,
                   state: this.props.navigatorApp
                 })}
+                screenProps = {{
+                  rootNavigation: NavigatorApp
+                }}
               />
             ),
           Just: () => this.loginFlow()

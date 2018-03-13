@@ -8,7 +8,8 @@ export default class Input extends PureComponent {
   labelTop = new Animated.Value(10);
 
   static defaultProps = {
-    allowClear: true
+    allowClear: true,
+    clearIconColor: '#fff'
   };
 
   componentDidMount() {
@@ -62,7 +63,8 @@ export default class Input extends PureComponent {
       allowClear,
       error,
       clearIcon,
-      iconStyle,
+      clearIconColor,
+      clearIconStyle,
       selectionColor,
       underlineColorAndroid,
       ...rest
@@ -89,15 +91,15 @@ export default class Input extends PureComponent {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           underlineColorAndroid={underlineColorAndroid || 'transparent'}
-          selectionColor={selectionColor || 'rgba(255,255,255,0.2)'}
+          selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
         />
         {allowClear &&
           rest.value.length > 0 && (
             <TouchableOpacity
               activeOpacity={0.6}
-              style={[styles.clearBtn, iconStyle]}
+              style={[styles.clearBtn, clearIconStyle]}
               onPress={this.handleClear}>
-              {clearIcon || <Icon name="clear" size={16} color="#fff" />}
+              {clearIcon || <Icon name="clear" size={16} color={clearIconColor} />}
             </TouchableOpacity>
           )}
       </View>

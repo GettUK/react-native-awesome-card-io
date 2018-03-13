@@ -7181,6 +7181,12 @@ react-style-proptype@^3.0.0:
   dependencies:
     prop-types "^15.5.4"
 
+react-style-proptype@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-3.2.0.tgz#be5de15358b890d83aecfaf6634cc033aa2b1483"
+  dependencies:
+    prop-types "^15.5.4"
+
 react-test-renderer@16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0.tgz#9fe7b8308f2f71f29fc356d4102086f131c9cb15"

@@ -8,27 +8,31 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   listItemRightTitle: {
-    color: '#8E8E93',
+    color: '#8e8e93',
     fontSize: 17
   },
   listItemTitle: {
     marginLeft: 4,
-    color: '#000000',
+    color: '#000',
     fontSize: 17
   },
-  listLabelCentered: { 
-    textAlign: 'center', 
-    color: '#fd6c5a', 
-    fontWeight: '600' 
+  listLabelCentered: {
+    textAlign: 'center',
+    color: '#fd6c5a',
+    fontWeight: '600'
+  },
+  avatar: {
+    marginLeft: 4
   },
   avatarTitle: {
-    marginLeft: 8
+    marginLeft: 10,
+    fontSize: 22
   },
   listItemContainer: {
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     borderBottomColor: 'rgba(155, 155, 155, 0.3)'
   },
   avatarContainer: {
