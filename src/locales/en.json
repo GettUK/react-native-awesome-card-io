@@ -37,9 +37,13 @@
       "logout": "Log Out"
     },
     "editProfile": "Edit Profile",
+    "myAddresses": "My Addresses",
+    "editAddress": "Edit Address",
+    "newAddress": "New Addresses",
     "headerTitle": "Settings",
     "none": "None",
-    "save": "Save"
+    "save": "Save",
+    "delete": "Delete"
   },
   "validation": {
     "email": {

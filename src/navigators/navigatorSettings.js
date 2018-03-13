@@ -5,7 +5,9 @@ import { View } from 'react-native';
 import { Icon } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import { Settings } from 'containers';
-import { EditProfile, SaveProfileBtn } from 'containers/Settings';
+import { EditProfile, SaveProfileBtn, AddressesList, AddressEditor, DestroyFavouriteAddressBtn } from 'containers/Settings';
+import { emptyFavouriteAddress } from 'containers/Settings/utils';
+
 import { strings } from 'locales';
 
 const RoutesConfig = {
@@ -37,6 +39,30 @@ const RoutesConfig = {
       headerTitle: strings('settings.editProfile'),
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
+  },
+  AddressesList: {
+    screen: AddressesList,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: strings('settings.myAddresses'),
+      headerBackTitle: strings('back'),
+      headerRight: (
+        <NavImageButton
+          onClick={() => navigation.navigate('AddressEditor', { address: emptyFavouriteAddress })}
+          styleView={{ marginRight: 10 }}
+          icon={<Icon size={24} name="plus" color="#284784" />}
+        />
+      )
+    })
+  },
+  AddressEditor: {
+    screen: AddressEditor,
+    navigationOptions: ({ navigation }) => {
+      const address = navigation.state.params && navigation.state.params.address;
+      return {
+        headerTitle: address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
+        headerRight: address.passengerId ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} /> : null
+      };
+    }
   },
 };
 

@@ -33,6 +33,16 @@ class Settings extends Component {
     this.props.navigation.navigate('EditProfile');
   };
 
+  goToAddressesList = () => {
+    this.props.navigation.navigate('AddressesList');
+  };
+
+  goToAddressEditor = (predefinedType) => {
+    const { navigation, passengerData } = this.props;
+    const address = passengerData.passenger[`${predefinedType}Address`];
+    navigation.navigate('AddressEditor', { address, predefinedType });
+  };
+
   renderBlock = (data, index) => (
     <View key={index} style={styles.blockItems}>
       {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
@@ -44,7 +54,7 @@ class Settings extends Component {
 
     const settingsBlocks = [
       prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
-      prepareAddressesBlock(data),
+      prepareAddressesBlock(data, { goToAddressesList: this.goToAddressesList, goToAddressEditor: this.goToAddressEditor }),
       prepareSwitchersBlock(data),
       prepareHistoryBlock(data),
       prepareInfoBlock(data),

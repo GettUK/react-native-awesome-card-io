@@ -1,13 +1,14 @@
 import React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 export default function Plus({ color, ...rest }) {
   return (
-    <Svg viewBox="0 0 14 14" {...rest}>
-      <G fill={color} fillRule="evenodd">
-        <Path d="M6 0h2v14H6z" />
-        <Path d="M14 6v2H0V6z" />
-      </G>
+    <Svg viewBox="0 0 15 14" {...rest}>
+      <Path
+        fill={color}
+        fillRule="evenodd"
+        d="M8.375 6.125h5.25a.875.875 0 1 1 0 1.75h-5.25v5.25a.875.875 0 1 1-1.75 0v-5.25h-5.25a.875.875 0 1 1 0-1.75h5.25V.875a.875.875 0 1 1 1.75 0v5.25z"
+      />
     </Svg>
   );
 }

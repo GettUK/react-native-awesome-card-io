@@ -11,7 +11,8 @@ class SaveProfileBtn extends Component {
     lastName: PropTypes.string,
     tempFirstName: PropTypes.string,
     tempLastName: PropTypes.string,
-    sendProfileData: PropTypes.func
+    sendProfileData: PropTypes.func,
+    navigation: PropTypes.object
   };
 
   get isChanged() {
@@ -39,8 +40,8 @@ class SaveProfileBtn extends Component {
 }
 
 const mapState = ({ passenger }) => ({
-  firstName: passenger.data.firstName,
-  lastName: passenger.data.lastName,
+  firstName: passenger.data.passenger.firstName,
+  lastName: passenger.data.passenger.lastName,
   tempFirstName: passenger.temp.firstName,
   tempLastName: passenger.temp.lastName,
   tempAvatar: passenger.temp.avatar

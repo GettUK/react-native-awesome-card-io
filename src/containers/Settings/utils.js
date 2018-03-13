@@ -11,59 +11,67 @@ export function prepareInitials({ firstName = '', lastName = '' }) {
 }
 
 export function prepareProfileBlock(data = {}, handlers = {}) {
+  const { passenger } = data;
   return [
     {
-      title: prepareName(data),
-      avatar: data.avatar || data.avatarUrl || null,
-      titleAvatar: prepareInitials(data),
+      title: prepareName(passenger),
+      avatar: passenger.avatar || passenger.avatarUrl || null,
+      titleAvatar: prepareInitials(passenger),
       onPress: handlers.goToEditProfile,
     },
     {
       title: strings('settings.label.phone'),
-      rightTitle: data.phone || ''
+      rightTitle: passenger.phone || ''
     },
     {
       title: strings('settings.label.email'),
-      rightTitle: data.email || ''
+      rightTitle: passenger.email || ''
     },
     {
       title: strings('settings.label.cartype'),
-      rightTitle: data.defaultVehicle || strings('settings.none')
+      rightTitle: passenger.defaultVehicle || strings('settings.none')
     }
   ];
 }
 
 export function prepareAddressesBlock(data = {}, handlers = {}) {
+  const { passenger } = data;
+
   return [
     {
       leftIconName: 'home',
       title: strings('label.home'),
-      rightTitle: data.homeAddress && data.homeAddress.line || strings('settings.none')
+      rightTitle: passenger.homeAddress && passenger.homeAddress.line || strings('settings.none'),
+      onPress: () => handlers.goToAddressEditor('home')
     },
     {
       leftIconName: 'work',
       title: strings('label.work'),
-      rightTitle: data.workAddress && data.workAddress.line || strings('settings.none')
+      rightTitle: passenger.workAddress && passenger.workAddress.line || strings('settings.none'),
+      onPress: () => handlers.goToAddressEditor('work')
     },
     {
-      title: strings('settings.label.addresses')
+      title: strings('settings.label.addresses'),
+      onPress: handlers.goToAddressesList
     }
   ];
 }
 
 export function prepareSwitchersBlock(data = {}, handlers = {}) {
+  const { passenger } = data;
+
   return [
     {
       leftIconName: 'email',
       title: strings('settings.label.email'),
       switchButton: true,
-      switched: data.notifyWithEmail || false
+      switched: passenger.notifyWithEmail || false
     },
     {
       leftIconName: 'sms',
       title: strings('settings.label.sms'),
       switchButton: true,
-      switched: data.notifyWithSms || false
+      switched: passenger.notifyWithSms || false
     },
     {
       leftIconName: 'push',
@@ -74,13 +82,13 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
       leftIconName: 'calendar',
       title: strings('settings.label.invites'),
       switchButton: true,
-      switched: data.notifyWithCalendarEvent || false
+      switched: passenger.notifyWithCalendarEvent || false
     },
     {
       leftIconName: 'wheelchair',
       title: strings('settings.label.wheelchair'),
       switchButton: true,
-      switched: data.wheelchairUser || false
+      switched: passenger.wheelchairUser || false
     }
   ];
 }
@@ -123,3 +131,20 @@ export function prepareLogoutBlock(data = {}, handlers = {}) {
     }
   ];
 }
+
+export const emptyAddress = {
+  line: '',
+  lat: 0,
+  lng: 0,
+  postalCode: '',
+  countryCode: '',
+  timezone: '',
+  city: ''
+};
+
+export const emptyFavouriteAddress = {
+  name: '',
+  pickupMessage: '',
+  destinationMessage: '',
+  address: emptyAddress
+};
