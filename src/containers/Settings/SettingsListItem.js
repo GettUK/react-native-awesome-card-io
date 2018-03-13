@@ -31,7 +31,7 @@ const SettingsListItem = (props) => {
         <Avatar
           rounded
           medium
-          source={{ uri: avatar }}
+          source={avatar && { uri: avatar }}
           title={titleAvatar}
           containerStyle={styles.avatar}
         />)

@@ -1,6 +1,7 @@
 import back from './back';
 import burger from './burger';
 import calendar from './calendar';
+import camera from './camera';
 import check from './check';
 import chevron from './chevron';
 import clear from './clear';
@@ -29,6 +30,7 @@ export default {
   back,
   burger,
   calendar,
+  camera,
   check,
   chevron,
   clear,

@@ -33,5 +33,15 @@ pod 'GoogleMaps', '2.5.0'
 pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
 
+pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
+
 target 'oteApp'
 target 'oteAppTests'
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
+end

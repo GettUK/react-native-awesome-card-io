@@ -9,7 +9,6 @@ export default StyleSheet.create({
   },
   avatar: {
     alignSelf: 'center',
-    marginVertical: 30,
     width: 140,
     height: 140
   },
@@ -22,5 +21,20 @@ export default StyleSheet.create({
   },
   clearIcon: {
     marginRight: 20
+  },
+  cameraWrapper: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 30,
+    borderRadius: 100,
+    overflow: 'hidden'
+  },
+  cameraIcon: {
+    position: 'absolute'
+  },
+  avatarBackDrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
   }
 });
