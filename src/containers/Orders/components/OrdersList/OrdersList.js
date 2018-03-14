@@ -92,7 +92,7 @@ class OrdersList extends PureComponent {
             <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
               <Text style={styles.orderLabelText}>{item.status}</Text>
             </View>
-            {item.totalCost &&
+            {item.totalCost > 0 &&
               <View style={[styles.orderLabel, styles.blackLabel]}>
                 <Text style={styles.orderLabelText}>£{item.totalCost}</Text>
               </View>
