@@ -103,7 +103,8 @@ export function prepareHistoryBlock(data = {}, handlers = {}) {
       title: strings('settings.label.payments')
     },
     {
-      title: strings('settings.label.rides')
+      title: strings('settings.label.rides'),
+      onPress: handlers.goToMyRides
     }
   ];
 }

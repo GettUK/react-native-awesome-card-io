@@ -6,6 +6,7 @@ import ui from './ui';
 import session from './session';
 import bookings from './booking';
 import passenger from './passenger';
+import orders from './orders';
 
 export const reducer = combineReducers({
   network,
@@ -14,5 +15,6 @@ export const reducer = combineReducers({
   ui,
   session,
   bookings,
-  passenger
+  passenger,
+  orders
 });

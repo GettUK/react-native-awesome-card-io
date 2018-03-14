@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
-import { clearList } from 'actions/app/orders';
+import { clearList } from 'actions/orders';
 import { OrdersList } from './components';
 import styles from './styles';
 
@@ -41,7 +41,7 @@ const OrdersTabNavigator = TabNavigator({
 );
 
 class Orders extends Component {
-  componentWillUnmount() {
+  componentWillMount() {
     this.props.clearList();
   }
 

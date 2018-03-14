@@ -43,6 +43,10 @@ class Settings extends Component {
     navigation.navigate('AddressEditor', { address, predefinedType });
   };
 
+  goToMyRides = () => {
+    this.props.screenProps.rootNavigation.navigate('OrdersView');
+  };
+
   goToInfoPage = (page) => {
     this.props.navigation.navigate('InfoPages', { page });
   };
@@ -60,7 +64,7 @@ class Settings extends Component {
       prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
       prepareAddressesBlock(data, { goToAddressesList: this.goToAddressesList, goToAddressEditor: this.goToAddressEditor }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
-      prepareHistoryBlock(data),
+      prepareHistoryBlock(data, { goToMyRides: this.goToMyRides }),
       prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
       prepareLogoutBlock(data, { onLogout: this.handleLogout })
     ];
