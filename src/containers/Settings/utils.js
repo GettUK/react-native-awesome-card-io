@@ -111,16 +111,16 @@ export function prepareHistoryBlock(data = {}, handlers = {}) {
 export function prepareInfoBlock(data = {}, handlers = {}) {
   return [
     {
-      title: strings('settings.label.privacy')
+      title: strings('settings.label.privacy'),
+      onPress: () => handlers.goToInfoPage('privacy')
     },
     {
-      title: strings('settings.label.terms')
+      title: strings('settings.label.terms'),
+      onPress: () => handlers.goToInfoPage('terms')
     },
     {
-      title: strings('settings.label.faqs')
-    },
-    {
-      title: strings('settings.label.locationInfo')
+      title: strings('settings.label.contactUs'),
+      onPress: () => handlers.goToInfoPage('contactUs')
     }
   ];
 }

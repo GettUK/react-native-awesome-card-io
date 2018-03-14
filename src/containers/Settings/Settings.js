@@ -43,6 +43,10 @@ class Settings extends Component {
     navigation.navigate('AddressEditor', { address, predefinedType });
   };
 
+  goToInfoPage = (page) => {
+    this.props.navigation.navigate('InfoPages', { page });
+  };
+
   renderBlock = (data, index) => (
     <View key={index} style={styles.blockItems}>
       {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
@@ -57,7 +61,7 @@ class Settings extends Component {
       prepareAddressesBlock(data, { goToAddressesList: this.goToAddressesList, goToAddressEditor: this.goToAddressEditor }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
       prepareHistoryBlock(data),
-      prepareInfoBlock(data),
+      prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
       prepareLogoutBlock(data, { onLogout: this.handleLogout })
     ];
 
