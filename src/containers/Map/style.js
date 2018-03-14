@@ -10,6 +10,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10
   },
+  headerBack: {
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    },
+    justifyContent: 'center',
+    width: 30,
+    height: 30,
+    backgroundColor: '#fff',
+    borderRadius: 6
+  },
   layout: {
     position: 'absolute',
     top: 50,
@@ -81,8 +94,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: '100%',
     width: '100%',
-    justifyContent: 'space-between',
-    paddingTop: 75
+    paddingTop: 75,
+    justifyContent: 'space-between'
   },
   map: {
     zIndex: -1,

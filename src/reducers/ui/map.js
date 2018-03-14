@@ -24,8 +24,15 @@ const defaultAddress = {
   typingTimeout: 700
 };
 
+const initialFields = {
+  scheduledAt: null,
+  scheduledType: 'now',
+  travelReasonId: '',
+  bookerReferences: []
+};
+
 const initialState = {
-  fields: {},
+  fields: initialFields,
   address: defaultAddress,
   user: {},
   addressModal: false,
@@ -48,7 +55,13 @@ const initialState = {
     longitudeDelta: LONGTITUDE_DELTA
   }
 };
-
+const changeFields = (state, { payload }) => ({
+  ...state,
+  fields: {
+    ...state.fields,
+    ...payload
+  }
+});
 const setTypeNameModel = (field, type, object) => {
   if (!Array.isArray(type.value)) {
     return { ...object };
@@ -142,6 +155,7 @@ const errorPosition = (state, { payload }) => ({
 export default composeReducer(
   'ui/map',
   {
+    changeFields,
     addAddressPoint,
     changeAddressType,
     changeAddressTyping,

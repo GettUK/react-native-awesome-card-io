@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { has, isNull, compose, isEqual, isUndefined } from 'lodash/fp';
 import {
   View,
   StatusBar,
   Text,
-  ScrollView,
   TouchableOpacity,
   Platform,
   DatePickerIOS,
@@ -14,15 +12,15 @@ import {
   TimePickerAndroid
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import {every, find, first, has} from 'lodash';
 import { Icon, Button, DismissKeyboardView, Modal } from 'components';
+import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
-import BookingEditor from 'containers/BookingEditor';
-
 import {
+  changeFields,
   addAddressPoint,
   changeAddressType,
-  changeAddressTyping,
   changeAddress,
   addressVisibleModal,
   initialRegionPosition,
@@ -32,31 +30,18 @@ import {
 } from 'actions/ui/map';
 import {
   createBooking,
-  getFormData,
+  getVehicles,
   changeBookingDate,
   openSettingsModal,
   closeSettingsModal
 } from 'actions/booking';
-import {
-  passegerViewEmpty,
-  receivePassegerView
-} from 'actions/ui/passenger-view';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
-import { order } from 'actions/mockedData';
-
 import { nullAddress } from 'utils';
-
 import { strings } from 'locales';
-
 import moment from 'moment';
-
 import ActiveOrderScene from './ActiveOrderScene';
-import AddressModal from './AddressModal';
-import PointList from './PointList';
-
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
-
 import styles from './style';
 
 class Map extends Component {
@@ -69,14 +54,8 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    const { map: { options }, passengerView: { results, errors }, getFormData } = this.props;
-    getFormData();
+    const { map: { options } } = this.props;
 
-    if (!isNull(errors)) {
-      this.receivePasseger();
-    } else if (isNull(results)) {
-      this.receivePasseger();
-    }
     setTimeout(() => {
       this.getCurrentPosition();
     }, 750);
@@ -87,16 +66,7 @@ class Map extends Component {
       options
     );
   }
-  componentWillReceiveProps({ network: { isConnected } }) {
-    const {
-      network: { isConnected: oldIsConnected },
-      sessionData
-    } = this.props;
 
-    if (!isEqual(oldIsConnected, isConnected) && !isUndefined(sessionData.memberId)) {
-      this.props.receivePassegerView(sessionData.memberId);
-    }
-  }
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
@@ -112,9 +82,7 @@ class Map extends Component {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           })
-          .then(result => {
-            this.addPoint(result);
-          })
+          .then(this.addPoint)
           .catch(() => {
             this.addPoint(nullAddress());
           });
@@ -123,23 +91,24 @@ class Map extends Component {
       options
     );
   };
+
+  getAvailableVehicles = () => {
+    const { bookingFormData: { vehicles } } = this.props;
+    return (vehicles && vehicles.data || []).filter(vehicle => vehicle.available);
+  };
+
+  getPassenger = () => {
+    const { map: { fields: { passengerId } }, bookingFormData: { passenger, passengers } } = this.props;
+    return passenger || find(passengers, { id: +passengerId });
+  };
+
   addPoint = name => {
     this.props.geocodeEmpty();
     this.props.changeAddress(name);
     this.props.changeAddressType('pickupAddress', {}, null);
     this.props.addAddressPoint();
   };
-  receivePasseger = () => {
-    const {
-      network: { isConnected },
-      sessionData
-    } = this.props;
-    if (isConnected && !isNull(sessionData) && !isUndefined(sessionData.memberId)) {
-      this.props.receivePassegerView(sessionData.memberId);
-    } else {
-      this.props.passegerViewEmpty();
-    }
-  };
+
   toggleAddressModal = () => {
     const { map: { addressModal } } = this.props;
     this.props.addressVisibleModal(!addressModal);
@@ -148,14 +117,6 @@ class Map extends Component {
 
   isActiveSceneIs = (name = 'preorder') => {
     return this.props.activeScene === AVAILABLE_MAP_SCENES[name];
-  };
-
-  goToSettings = () => {
-    this.props.navigation.navigate('Settings', {});
-  };
-
-  goToOrders = () => {
-    this.props.navigation.navigate('OrdersView', {});
   };
 
   goToMessageToDriver = () => {
@@ -176,12 +137,114 @@ class Map extends Component {
     this.props.changeBookingDate(this.state.date);
   };
 
+  toRequestVehicles = () => {
+    if (!this.shouldRequestVehicles()) return;
+    this.requestVehicles();
+  };
+
+  shouldRequestVehicles = () => {
+    const { map: { fields } } = this.props;
+    return has(fields, 'pickupAddress') &&
+      fields.pickupAddress.countryCode &&
+      has(fields, 'destinationAddress') &&
+      fields.destinationAddress.countryCode &&
+      this.isPassengerPresent();
+  };
+
+  allStopsValid = () => {
+    const { map: { fields: { stops } } } = this.props;
+    return every(stops, stop => typeof stop.address.countryCode !== 'undefined');
+  };
+
+  isPassengerPresent = () => {
+    const { map: { fields } } = this.props;
+    return this.getPassenger() ||
+      (fields.passengerName && fields.passengerPhone);
+  };
+
+  destinationFields = () => {
+    const { map: { fields: { destinationAddress } } } = this.props;
+    return {
+      toPostalCode: destinationAddress.postalCode,
+      toLat: destinationAddress.lat,
+      toLng: destinationAddress.lng,
+      toLine: destinationAddress.line,
+      toCountryCode: destinationAddress.countryCode,
+      toPlaceId: destinationAddress.placeId
+    };
+  };
+
+  requestVehicles = () => {
+    const {
+      passengerName,
+      passengerPhone,
+      passengerId,
+      pickupAddress,
+      scheduledAt,
+      scheduledType,
+      paymentMethod,
+      paymentCardId,
+      stops
+    } = this.props.map.fields;
+    const passenger = this.getPassenger();
+
+    this.props.getVehicles({
+      fromPostalCode: pickupAddress.postalCode,
+      fromLat: pickupAddress.lat,
+      fromLng: pickupAddress.lng,
+      fromLine: pickupAddress.line,
+      fromCountryCode: pickupAddress.countryCode,
+      fromTimezone: pickupAddress.timezone,
+      fromPlaceId: pickupAddress.placeId,
+      ...this.destinationFields(),
+      scheduledAt: scheduledType === 'now' ? null : scheduledAt.format(),
+      passengerName: passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName,
+      passengerPhone: passenger ? passenger.phone : passengerPhone,
+      passengerId,
+      paymentMethod,
+      paymentCardId,
+      scheduledType,
+      stops
+    }).then(() => {
+      const vehicle = this.lookupVehicle();
+      this.props.changeFields({
+        quoteId: vehicle.quoteId,
+        vehicleName: vehicle.name,
+        vehicleValue: vehicle.value,
+        vehiclePrice: vehicle.price
+      });
+    });
+  };
+
+  lookupVehicle = () => {
+    const { map: { fields: { vehicleName } } } = this.props;
+    const availableVehicles = this.getAvailableVehicles();
+    const passenger = this.getPassenger();
+    let vehicle = { quoteId: undefined, name: undefined, value: undefined };
+
+    if (availableVehicles.length) {
+      vehicle =
+          (vehicleName && availableVehicles.find(v => v.name === vehicleName)) ||
+          (passenger && availableVehicles.find(v => v.name === passenger.defaultVehicle)) ||
+          first(availableVehicles);
+    }
+    return vehicle;
+  };
+
   handleHideHeader = () => {
     this.setState({ isHeaderEnable: false });
   };
 
   handleShowHeader = () => {
     this.setState({ isHeaderEnable: true });
+  };
+
+  goToSettings = () => {
+    this.props.navigation.navigate('Settings', {});
+  };
+
+  goToOrders = () => {
+    this.props.navigation.navigate('OrdersView', {});
   };
 
   renderTimeDatePicker() {
@@ -300,11 +363,7 @@ class Map extends Component {
   }
 
   render() {
-    const {
-      map: { currentPosition, regionPosition, addressModal, address, fields },
-      passengerView: { results },
-      activeScene
-    } = this.props;
+    const { map: { currentPosition, regionPosition } } = this.props;
 
     const isPreordered = this.isActiveSceneIs('preorder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
@@ -313,136 +372,60 @@ class Map extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="default" />
         {this.state.isHeaderEnable &&
-          <Header
-            customStyles={[styles.header]}
-            leftButton={
+        <Header
+          customStyles={[styles.header]}
+          leftButton={
+            !this.shouldRequestVehicles() ? (
               <NavImageButton
                 onClick={this.goToSettings}
+                styleContainer={{ justifyContent: 'center' }}
                 icon={<Icon size={30} name="burger" color="#000" />}
               />
-            }
-            rightButton={
-              <Button
-                style={styles.orderBtn}
-                raised={false}
-                size="sm"
-                onPress={this.goToOrders}
-              >
-                <Text style={styles.orderBtnText}>Orders</Text>
-              </Button>
-            }
-          />
-        }
-
-        {isPreordered ?
-          <BookingEditor /> : null
-        }
-
-        {isPreordered ?
-          <AddressModal
-            isVisible={addressModal}
-            toggleModal={compose(
-              this.props.addAddressPoint,
-              this.toggleAddressModal
-            )}
-            value={address.value}
-            onChange={this.props.changeAddress}
-            isTyping={address.isTyping}
-            onChangeTyping={this.props.changeAddressTyping}
-            typingTimeout={address.typingTimeout}
-          /> : null
+            ) : (
+              <NavImageButton
+                onClick={() => {}}
+                styleContainer={styles.headerBack}
+                icon={<Icon width={10} height={18} name="back" color="rgb(40, 71, 132)" />}
+              />
+            )
+          }
+          rightButton={
+            <Button
+              style={styles.orderBtn}
+              raised={false}
+              size="sm"
+              onPress={this.goToOrders}
+            >
+              <Text style={styles.orderBtnText}>Orders</Text>
+            </Button>
+          }
+        />
         }
         {isPreordered ?
-          <PointList
-            style={styles.pickUpBtn}
-            onChangeAddress={this.props.changeAddress}
-            onChangeAddressType={this.props.changeAddressType}
+          <BookingEditor
+            navigation={this.props.navigation}
+            passenger={this.getPassenger()}
             toggleModal={this.toggleAddressModal}
-            data={{ ...fields }}
+            requestVehicles={this.toRequestVehicles}
           /> : null
         }
-
         {isPreordered ?
-          <View style={styles.footer}>
-            <Button
-              style={styles.currentPositionBtn}
-              onPress={this.getCurrentPosition}
-            >
-              <Icon name="myLocation" height={22} color="#284784" />
-            </Button>
-            <Button
-              style={styles.currentPositionBtn}
-              onPress={() => this.props.createBooking(order)}
-            >
-              <Icon name="pickUpCenter" height={22} color="#284784" />
-            </Button>
-            <ScrollView
-              horizontal
-              contentContainerStyle={styles.destinationBtns}
-              showsHorizontalScrollIndicator={false}>
-              <Button
-                onPress={() => {
-                  if (has('destinationAddress', fields)) {
-                    this.props.changeAddress(fields.destinationAddress);
-                  }
-                  this.props.changeAddressType('destinationAddress', {}, null);
-                  // this.props.changeAddressType('stops', [], null);
-                  this.toggleAddressModal();
-                }}
-                style={styles.destinationBtn}
-              >
-                <Icon
-                  style={styles.searchIcon}
-                  name="search"
-                  color="#284784"
-                  size={18}
-                />
-                <Text style={styles.selectDestinationText}>
-                  Select Destination
-                </Text>
-              </Button>
-              <Button
-                onPress={() => {
-                  this.props.changeAddress({
-                    ...results.homeAddress,
-                    label: strings('label.home')
-                  });
-                  this.props.changeAddressType('destinationAddress', {}, null);
-                  this.props.addAddressPoint();
-                }}
-                style={styles.destinationBtn}
-              >
-                <Text style={styles.customDestinationText}>
-                  {strings('label.home')}
-                </Text>
-              </Button>
-              <Button
-                onPress={() => {
-                  this.props.changeAddress({
-                    ...results.workAddress,
-                    label: strings('label.work')
-                  });
-                  this.props.changeAddressType('destinationAddress', {}, null);
-                  this.props.addAddressPoint();
-                }}
-              >
-                <Text style={styles.customDestinationText}>
-                  {strings('label.work')}
-                </Text>
-              </Button>
-            </ScrollView>
-          </View> : null
+          <BookingFooter
+            navigation={this.props.navigation}
+            getCurrentPosition={this.getCurrentPosition}
+            passenger={this.getPassenger()}
+            toggleModal={this.toggleAddressModal}
+            requestVehicles={this.toRequestVehicles}
+            toOrder={this.shouldRequestVehicles()}
+          /> : null
         }
-
         {isActiveOrder && <ActiveOrderScene />}
 
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           zoomEnabled
-          onRegionChangeComplete={position =>
-            this.props.changeRegionPosition(position)
-          }
+          onRegionChangeComplete={this.props.changeRegionPosition}
           region={regionPosition}>
           <MapView.Marker coordinate={currentPosition} />
         </MapView>
@@ -463,12 +446,11 @@ class Map extends Component {
 Map.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  network: PropTypes.object.isRequired,
-  sessionData: PropTypes.object,
-  passengerView: PropTypes.object.isRequired,
+  bookingFormData: PropTypes.object.isRequired,
+  getVehicles: PropTypes.func.isRequired,
+  changeFields: PropTypes.func.isRequired,
   addAddressPoint: PropTypes.func.isRequired,
   changeAddressType: PropTypes.func.isRequired,
-  changeAddressTyping: PropTypes.func.isRequired,
   changeAddress: PropTypes.func.isRequired,
   addressVisibleModal: PropTypes.func.isRequired,
   initialRegionPosition: PropTypes.func.isRequired,
@@ -477,20 +459,14 @@ Map.propTypes = {
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
   geocode: PropTypes.func.isRequired,
-  passegerViewEmpty: PropTypes.func.isRequired,
-  receivePassegerView: PropTypes.func.isRequired,
   changeBookingDate: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {
-  sessionData: {}
 };
 
-const mapState = ({ session, network, ui, bookings }) => ({
-  network,
+const mapState = ({ ui, bookings }) => ({
   map: ui.map,
-  sessionData: session.result,
-  passengerView: ui.passengerView,
   activeScene: ui.navigation.activeScene,
   newBooking: bookings.new,
   bookingFormData: bookings.formData,
@@ -498,9 +474,9 @@ const mapState = ({ session, network, ui, bookings }) => ({
 });
 
 const mapDispatch = {
+  changeFields,
   addAddressPoint,
   changeAddressType,
-  changeAddressTyping,
   changeAddress,
   addressVisibleModal,
   initialRegionPosition,
@@ -509,11 +485,9 @@ const mapDispatch = {
   errorPosition,
   geocodeEmpty,
   geocode,
-  passegerViewEmpty,
-  receivePassegerView,
   changeBookingDate,
   createBooking,
-  getFormData,
+  getVehicles,
   openSettingsModal,
   closeSettingsModal
 };

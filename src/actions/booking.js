@@ -1,7 +1,7 @@
 import { createTypes } from 'redux-compose-reducer';
-import axios, { CancelToken } from 'axios';
 import { get, post } from 'utils';
 import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
+import { changeFields } from 'actions/ui/map';
 
 const TYPES = createTypes('booking', [
   'createBookingStart',
@@ -52,27 +52,16 @@ export const getFormData = () => dispatch => (
     })
 );
 
-let cancelGetVehicles;
-
 export const getVehicles = params => dispatch => {
-  if (cancelGetVehicles) {
-    cancelGetVehicles();
-  } else {
-    dispatch({ type: TYPES.getVehiclesStart });
-  }
-  return post('/bookings/vehicles', params, { cancelToken: new CancelToken(c => cancelGetVehicles = c) })
+  dispatch({ type: TYPES.getVehiclesStart });
+
+  return post('/bookings/vehicles', params)
     .then(({ data }) => {
-      cancelGetVehicles = null;
-
       dispatch({ type: TYPES.getVehiclesSuccess, payload: data });
-
       return data;
-    }).catch(err => {
-      if (!axios.isCancel(err)) {
-        cancelGetVehicles = null;
-        dispatch({ type: TYPES.getVehiclesFailure });
-      }
-      throw err;
+    }).catch(() => {
+      dispatch({ type: TYPES.getVehiclesFailure });
+      dispatch(changeFields({ quoteId: undefined, vehicleName: undefined }));
     });
 };
 

@@ -1,8 +1,10 @@
 import { createTypes } from 'redux-compose-reducer';
 
 const TYPES = createTypes('ui/map',
-  ['addAddressPoint', 'changeAddressType', 'changeAddressTyping', 'changeAddress', 'addressVisibleModal',
-    'initialRegionPosition', 'changeRegionPosition', 'changePosition', 'errorPosition']);
+  ['changeFields', 'addAddressPoint', 'changeAddressType', 'changeAddressTyping', 'changeAddress',
+    'addressVisibleModal', 'initialRegionPosition', 'changeRegionPosition', 'changePosition', 'errorPosition']);
+
+export const changeFields = fields => ({ type: TYPES.changeFields, payload: fields });
 
 export const addAddressPoint = () => ({ type: TYPES.addAddressPoint });
 
