@@ -12,9 +12,13 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   listItemTitle: {
-    marginLeft: 4,
+    marginLeft: 5,
     color: '#000',
     fontSize: 17
+  },
+  icon: {
+    marginLeft: 5,
+    marginRight: 10
   },
   listLabelCentered: {
     textAlign: 'center',
@@ -22,10 +26,10 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   avatar: {
-    marginLeft: 4
+    marginLeft: 5
   },
   avatarTitle: {
-    marginLeft: 10,
+    marginLeft: 15,
     fontSize: 22
   },
   listItemContainer: {

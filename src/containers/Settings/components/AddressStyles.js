@@ -14,7 +14,7 @@ export default StyleSheet.create({
     paddingLeft: 15,
   },
   addressWrapper: {
-    marginLeft: 20,
+    marginLeft: 15,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#bcbbc1',
     paddingVertical: 15,
@@ -35,9 +35,6 @@ export default StyleSheet.create({
   },
   chevronIcon: {
     paddingHorizontal: 20
-  },
-  predefinedAddressIcon: {
-    marginHorizontal: 3
   },
   addAddressIcon: {
     width: 30,
