@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {
-  isEmpty, find, flatMap, compact, intersection, without, has
+  isEmpty, find, flatMap, isEqual, compact, intersection, without, has
 } from 'lodash';
 import {compose} from 'lodash/fp';
 import AddressModal from 'containers/Map/AddressModal';
@@ -28,7 +28,7 @@ import {
   vehicleEditableStatuses,
   isCashAllowed
 } from 'containers/shared/bookings/data';
-import { PointList } from './components';
+import { PointList } from 'components';
 import styles from './style';
 
 class BookingEditor extends Component {
@@ -38,9 +38,12 @@ class BookingEditor extends Component {
     }
   }
 
-  componentWillReceiveProps({ data }) {
-    if (!data.vehicles.loaded && !data.vehicles.loading) {
-      this.props.requestVehicles();
+  componentWillReceiveProps({ data, map }) {
+    const { map: propsMap, requestVehicles } = this.props;
+    if (!data.vehicles.loaded && !data.vehicles.loading ||
+        !isEqual(map.fields.stops, propsMap.fields.stops) ||
+        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)) {
+      requestVehicles();
     }
   }
 
@@ -61,7 +64,7 @@ class BookingEditor extends Component {
 
   selectCurrentMemberAsPassenger = () => {
     const { memberId, passenger: {id: passengerId} } = this.props;
-    console.log('selectCurrentMemberAsPassenger');
+
     if (passengerId === memberId) {
       this.clearPassenger();
     } else {
@@ -106,7 +109,7 @@ class BookingEditor extends Component {
             bookingReferenceId: ref.id,
             mandatory: ref.mandatory,
             conditional: ref.conditional,
-            value: ref.value
+            value: ref.mandatory && 'default' || ref.value
           }));
         const nextForm = {
           ...paymentTypeToAttrs(paymentType),

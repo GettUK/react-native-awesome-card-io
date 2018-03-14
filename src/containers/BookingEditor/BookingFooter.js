@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { has, find, isNull } from 'lodash';
-import { Icon, Button } from 'components';
+import { Icon, Button, JourneyDetails, CarItem } from 'components';
 import { strings } from 'locales';
 import {
   createBooking
@@ -26,7 +26,6 @@ import {
   vehiclesData,
   isCashAllowed
 } from 'containers/shared/bookings/data';
-import { JourneyDetails, CarItem } from './components';
 import styles from './style';
 
 class BookingFooter extends Component {
@@ -35,7 +34,7 @@ class BookingFooter extends Component {
     let shift = 60;
 
     if (!vehicle) {
-      const { data } = this.props.data.vehicles;
+      const { vehicles: { data } } = this.props.data.formData;
       vehicle = find(data, { name: vehicleName });
     }
 
@@ -47,7 +46,10 @@ class BookingFooter extends Component {
   };
 
   selectVehicle = vehicleName => {
-    const { map: { fields: { scheduledType, scheduledAt, paymentType } }, data: { vehicles } } = this.props;
+    const {
+      map: { fields: { scheduledType, scheduledAt, paymentType } },
+      data: { formData: { vehicles } }
+    } = this.props;
     const vehicle = vehicles.data.find(v => (v.available && v.name === vehicleName));
 
     if (!vehicle) return;
@@ -75,8 +77,16 @@ class BookingFooter extends Component {
     this.props.changeFields(attrs);
   };
 
+  shouldOrderRide = () => {
+    const { map: { fields } } = this.props;
+    return (has(fields, 'pickupAddress') && fields.pickupAddress.countryCode) &&
+      (has(fields, 'destinationAddress') && fields.destinationAddress.countryCode) &&
+      (fields.passengerName && fields.passengerPhone) &&
+      (fields.vehicleName && fields.vehiclePrice);
+  };
+
   render() {
-    const { map: { fields }, data: { vehicles }, toOrder } = this.props;
+    const { map: { fields }, data: { formData: { vehicles }, currentOrder: { busy } }, toOrder } = this.props;
     return (
       <View style={styles.footer}>
         {
@@ -169,7 +179,7 @@ class BookingFooter extends Component {
               />
               {
                 vehicles.loading ? (
-                  <ActivityIndicator style={styles.carLoading} size="small" color="rgb(216,216,216)" />
+                  <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />
                 ) : (
                   <ScrollView
                     horizontal
@@ -200,19 +210,25 @@ class BookingFooter extends Component {
                   style={styles.timeBtn}
                   onPress={() => {}}
                 >
-                  <Icon name="time" size={24} color="rgb(216,216,216)" />
+                  <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
                 <Button
                   style={styles.orderRideBtn}
-                  onPress={() => {}}
+                  disabled={busy || vehicles.loading || !!this.shouldOrderRide()}
+                  onPress={() => this.props.createBooking(fields)}
                 >
+                  {
+                    busy && (
+                      <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />
+                    )
+                  }
                   <Text style={styles.orderBtnBottomText}>Order Ride</Text>
                 </Button>
                 <Button
                   style={styles.settingsBtn}
                   onPress={() => {}}
                 >
-                  <Icon name="settings" size={20} color="rgb(216,216,216)" />
+                  <Icon name="settings" size={20} color="#d8d8d8" />
                 </Button>
               </View>
             </View>
@@ -238,14 +254,15 @@ BookingFooter.propTypes = {
   requestVehicles: PropTypes.func.isRequired,
   toOrder: PropTypes.oneOfType([
     PropTypes.object,
-    PropTypes.bool])
+    PropTypes.bool
+  ])
 };
 
 BookingFooter.defaultProps = {};
 
 const select = ({ ui, bookings }) => ({
   map: ui.map,
-  data: bookings.formData
+  data: bookings
 });
 
 const bindActions = {

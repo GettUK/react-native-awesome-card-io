@@ -4,6 +4,7 @@ import {
   get,
   map,
   has,
+  omit,
   uniqWith,
   isNull,
   concat,
@@ -55,6 +56,12 @@ const initialState = {
     longitudeDelta: LONGTITUDE_DELTA
   }
 };
+
+const removeFields = (state, { payload }) => ({
+  ...state,
+  fields: omit(payload, state.fields)
+});
+
 const changeFields = (state, { payload }) => ({
   ...state,
   fields: {
@@ -155,6 +162,7 @@ const errorPosition = (state, { payload }) => ({
 export default composeReducer(
   'ui/map',
   {
+    removeFields,
     changeFields,
     addAddressPoint,
     changeAddressType,
