@@ -3,7 +3,7 @@ import { View, Text, Image, FlatList } from 'react-native';
 import { Icon } from 'components';
 import moment from 'moment';
 import assets from 'assets';
-import { getOrders } from 'actions/app/orders';
+import { getOrders } from 'actions/orders';
 
 import styles from './styles';
 import { connect } from 'react-redux';
@@ -59,7 +59,18 @@ class OrdersList extends PureComponent {
     const { pagination, loading } = this.state;
     if (!loading && (items.length < pagination.total || !pagination.total) ) {
       this.setState({ loading: true });
-      getOrders({ page: pagination.current + 1, status: getOrdersStatuses(type) })
+
+      const params = {
+        page: pagination.current + 1,
+        status: getOrdersStatuses(type),
+        order: 'scheduledAt'
+      };
+
+      if (type === 'previous') {
+        params.reverse = true;
+      }
+
+      getOrders(params)
         .then(res => {
           this.setState({ pagination: res.pagination, loading: false });
           this.props.navigation.setParams({ count: res.pagination.total });
@@ -116,14 +127,15 @@ class OrdersList extends PureComponent {
     );
   };
 
+  keyExtractor = item => String(item.id);
+
   render() {
     const { loading } = this.state;
-    const keyExtractor = item => item.id;
     return (
       <FlatList
         data={this.props.items}
         style={styles.orders}
-        keyExtractor={keyExtractor}
+        keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
         onEndReachedThreshold={0}
         onEndReached={this.getOrders}
@@ -135,7 +147,7 @@ class OrdersList extends PureComponent {
 }
 
 const mapState = (state, props) => ({
-  items: state.app.orders.items.filter(i => getOrdersStatuses(props.type).includes(i.status))
+  items: state.orders.items.filter(i => getOrdersStatuses(props.type).includes(i.status))
 });
 
 const mapDispatch = (dispatch) => ({
