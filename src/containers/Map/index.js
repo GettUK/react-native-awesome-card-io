@@ -32,7 +32,6 @@ import {
 import {
   createBooking,
   getVehicles,
-  changeBookingDate,
   toggleVisibleModal,
   completeOrder,
   cancelOrder
@@ -114,12 +113,12 @@ class Map extends Component {
   };
 
   getAvailableVehicles = () => {
-    const { bookingFormData: { vehicles } } = this.props;
+    const { bookings: { formData: { vehicles } } } = this.props;
     return ((vehicles && vehicles.data) || []).filter(vehicle => vehicle.available);
   };
 
   getPassenger = () => {
-    const { map: { fields: { passengerId } }, bookingFormData: { passenger, passengers } } = this.props;
+    const { map: { fields: { passengerId } }, bookings: { formData: { passenger, passengers } } } = this.props;
     return passenger || find(passengers, { id: +passengerId });
   };
 
@@ -144,10 +143,16 @@ class Map extends Component {
   };
 
   handleDateSubmit = () => {
-    this.props.changeBookingDate(this.state.date);
+    const { date } = this.state;
+    this.togglePickerModal();
+    this.props.changeFields({
+      scheduledType: 'later',
+      scheduledAt: Platform.OS === 'ios' ? moment(date) : date
+    });
+    this.goToRequestVehicles();
   };
 
-  toRequestVehicles = () => {
+  goToRequestVehicles = () => {
     if (!this.shouldRequestVehicles()) return;
     this.requestVehicles();
   };
@@ -258,7 +263,7 @@ class Map extends Component {
   };
 
   togglePickerModal = () => {
-    this.props.toggleVisibleModal('isPickerModalOpened');
+    this.props.toggleVisibleModal('picker');
   };
 
   clearFields = () => {
@@ -266,11 +271,15 @@ class Map extends Component {
       'stops', 'destinationAddress',
       'vehiclePrice', 'vehicleValue', 'vehicleName'
     ]);
+    this.props.changeFields({
+      scheduledType: 'now',
+      scheduledAt: null
+    });
   };
 
   renderTimeDatePicker() {
     const { date } = this.state;
-    const { bookingMeta: { isPickerModalOpened } } = this.props;
+    const { bookings: { modals: { picker } } } = this.props;
     const momentDate = moment(date);
 
     const openDatePickerAndroid = async () => {
@@ -331,7 +340,7 @@ class Map extends Component {
     return (
       <Modal
         style={styles.bottomModal}
-        isVisible={isPickerModalOpened}
+        isVisible={picker}
         contentStyles={styles.TDModal}
         onClose={this.togglePickerModal}
       >
@@ -397,7 +406,7 @@ class Map extends Component {
             navigation={this.props.navigation}
             passenger={this.getPassenger()}
             toggleModal={this.toggleAddressModal}
-            requestVehicles={this.toRequestVehicles}
+            requestVehicles={this.goToRequestVehicles}
           /> : null
         }
         {isPreordered ?
@@ -406,7 +415,7 @@ class Map extends Component {
             getCurrentPosition={this.getCurrentPosition}
             passenger={this.getPassenger()}
             toggleModal={this.toggleAddressModal}
-            requestVehicles={this.toRequestVehicles}
+            requestVehicles={this.goToRequestVehicles}
             toOrder={this.shouldRequestVehicles()}
           /> : null
         }
@@ -444,8 +453,7 @@ class Map extends Component {
 Map.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  bookingFormData: PropTypes.object.isRequired,
-  bookingMeta: PropTypes.object.isRequired,
+  bookings: PropTypes.object.isRequired,
   getVehicles: PropTypes.func.isRequired,
   removeFields: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
@@ -459,7 +467,6 @@ Map.propTypes = {
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
   geocode: PropTypes.func.isRequired,
-  changeBookingDate: PropTypes.func.isRequired,
   toggleVisibleModal: PropTypes.func.isRequired
 };
 
@@ -469,9 +476,7 @@ Map.defaultProps = {
 const mapState = ({ ui, bookings }) => ({
   map: ui.map,
   activeScene: ui.navigation.activeScene,
-  newBooking: bookings.new,
-  bookingFormData: bookings.formData,
-  bookingMeta: bookings.meta,
+  bookings,
   status: (bookings.orderState || {}).status || 'connected'
 });
 
@@ -488,7 +493,6 @@ const mapDispatch = {
   errorPosition,
   geocodeEmpty,
   geocode,
-  changeBookingDate,
   createBooking,
   getVehicles,
   toggleVisibleModal,

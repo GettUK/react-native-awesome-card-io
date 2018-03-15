@@ -1,20 +1,40 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
 import { Button, DismissKeyboardHOC } from 'components';
-import { changeTempMessageToDriver, applyMessageToDriver } from 'actions/booking';
+import { changeFields } from 'actions/ui/map';
 import styles from './styles';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class MessageToDriver extends Component {
-  componentDidMount() {
-    const { messageToDriver, changeTempMessageToDriver } = this.props;
-    changeTempMessageToDriver(messageToDriver);
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: ''
+    };
+  }
+  componentWillMount() {
+    const { message } = this.props;
+    this.onChangeText(message);
   }
 
+  onChangeText = message => {
+    const { navigation } = this.props;
+    this.setState({ message });
+    navigation.setParams({ message });
+  };
+
+  onSubmit = () => {
+    const { message } = this.state;
+    const { changeFields, navigation } = this.props;
+    changeFields({ message });
+    navigation.goBack();
+  };
+
   render() {
-    const { tempMessageToDriver, changeTempMessageToDriver, applyMessageToDriver } = this.props;
+    const { message } = this.state;
     return (
       <View style={[styles.flex, styles.bg]}>
         <DismissKeyboardView style={styles.flex}>
@@ -25,12 +45,16 @@ class MessageToDriver extends Component {
           >
             <TextInput
               style={[styles.flex, styles.input]}
-              value={tempMessageToDriver}
-              onChangeText={changeTempMessageToDriver}
+              value={message}
+              onChangeText={this.onChangeText}
               maxLength={250}
               multiline
             />
-            <Button raised={false} style={styles.submitBtn} onPress={applyMessageToDriver}>
+            <Button
+              raised={false}
+              style={styles.submitBtn}
+              onPress={this.onSubmit}
+            >
               <Text style={styles.submitBtnText}>Send Message</Text>
             </Button>
           </KeyboardAvoidingView>
@@ -40,14 +64,22 @@ class MessageToDriver extends Component {
   }
 }
 
-const mapState = ({ bookings }) => ({
-  messageToDriver: bookings.new.messageToDriver,
-  tempMessageToDriver: bookings.new.temp.messageToDriver
+MessageToDriver.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  message: PropTypes.string,
+  changeFields: PropTypes.func.isRequired
+};
+
+MessageToDriver.defaultProps = {
+  message: ''
+};
+
+const mapState = ({ ui }) => ({
+  message: ui.map.fields.message
 });
 
 const mapDispatch = ({
-  changeTempMessageToDriver,
-  applyMessageToDriver
+  changeFields
 });
 
 export default connect(mapState, mapDispatch)(MessageToDriver);

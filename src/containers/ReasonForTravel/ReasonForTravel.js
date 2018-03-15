@@ -2,20 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'components';
-import { changeTravelReason } from 'actions/booking';
+import { changeFields } from 'actions/ui/map';
 import styles from './styles';
 
 class ReasonForTravel extends Component {
   keyExtractor = item => String(item.id);
 
   renderItem = ({ item }) => {
-    const { travelReason, changeTravelReason } = this.props;
-    const isSelected = travelReason === item.id;
+    const { travelReason, changeFields } = this.props;
+    const travelReasonId = item.id.toString();
+    const isSelected = travelReason === travelReasonId;
     const textStyles = [styles.flex, styles.reasonName];
     if (isSelected) textStyles.push(styles.reasonNameSelected);
 
     return (
-      <TouchableOpacity activeOpacity={0.6} style={styles.item} onPress={() => changeTravelReason(item.id)}>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        style={styles.item}
+        onPress={() => changeFields({ travelReasonId })}
+      >
         <Text style={textStyles}>{item.name}</Text>
         {isSelected &&
           <Icon name="check" size={13} color="#007aff" />
@@ -40,13 +45,13 @@ class ReasonForTravel extends Component {
   }
 }
 
-const mapState = ({ bookings }) => ({
+const mapState = ({ bookings, ui }) => ({
   travelReasons: bookings.formData.travelReasons,
-  travelReason: bookings.new.travelReason
+  travelReason: ui.map.fields.travelReasonId || ''
 });
 
 const mapDispatch = ({
-  changeTravelReason
+  changeFields
 });
 
 export default connect(mapState, mapDispatch)(ReasonForTravel);

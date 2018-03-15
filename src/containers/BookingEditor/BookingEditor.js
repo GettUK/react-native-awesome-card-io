@@ -34,9 +34,9 @@ class BookingEditor extends Component {
     }
   }
 
-  componentWillReceiveProps({ data, map }) {
+  componentWillReceiveProps({ bookings: { formData }, map }) {
     const { map: propsMap, requestVehicles } = this.props;
-    if ((!data.vehicles.loaded && !data.vehicles.loading) ||
+    if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
         !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)) {
       requestVehicles();
@@ -62,7 +62,7 @@ class BookingEditor extends Component {
   };
 
   selectPassenger = (id) => {
-    const { passengers, paymentTypes, defaultPaymentType } = this.props.data;
+    const { bookings: { formData: { passengers, paymentTypes, defaultPaymentType } } } = this.props;
     const passenger = find(passengers, { id: +id });
     const { firstName, lastName, phone } = passenger;
     const type = selectedPaymentType({ passenger, paymentTypes, defaultPaymentType });
@@ -80,7 +80,7 @@ class BookingEditor extends Component {
   loadBooking = () => {
     this.props.getFormData()
       .then((data) => {
-        const { validatedReferences } = this.props;
+        const { bookings: { validatedReferences } } = this.props;
         const { passenger: dataPassenger, booking, passengers, paymentTypes, defaultPaymentType } = data;
         const passenger = dataPassenger ||
             (booking && booking.passengerId && find(passengers, { id: +booking.passengerId }));
@@ -160,9 +160,7 @@ BookingEditor.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   memberId: PropTypes.number,
-  data: PropTypes.object,
-  validatedReferences: PropTypes.arrayOf(PropTypes.object),
-  fields: PropTypes.object.isRequired,
+  bookings: PropTypes.object,
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   addAddressPoint: PropTypes.func.isRequired,
@@ -181,9 +179,7 @@ BookingEditor.defaultProps = {
 const select = ({ ui, session, bookings }) => ({
   map: ui.map,
   memberId: has(session.result, 'memberId') ? session.result.memberId : undefined,
-  data: bookings.formData,
-  validatedReferences: bookings.validatedReferences,
-  fields: ui.map.fields
+  bookings
 });
 
 const bindActions = {

@@ -10,15 +10,9 @@ export const initialState = {
       data: []
     }
   },
-  new: {
-    messageToDriver: '',
-    date: new Date(),
-    travelReason: undefined,
-    temp: {}
-  },
-  meta: {
-    isSettingsModalOpened: false,
-    isPickerModalOpened: false
+  modals: {
+    settings: false,
+    picker: false
   },
   currentOrder: {
     busy: false
@@ -89,16 +83,8 @@ const changeOrderStatus = (state, { data }) => {
   return update(state, 'orderState', data);
 };
 
-const changeTempMessageToDriver = (state, { message }) => update(state, 'new.temp.messageToDriver', message);
-
-const applyMessageToDriver = state => update(state, 'new.messageToDriver', state.new.temp.messageToDriver);
-
-const changeBookingDate = (state, { date }) => update(state, 'new.date', date);
-
-const changeTravelReason = (state, { reasonId }) => update(state, 'new.travelReason', reasonId);
-
 const toggleVisibleModal = (state, { payload }) => (
-  update(state, `meta.${payload}`, !state.meta[payload])
+  update(state, `modals.${payload}`, !state.modals[payload])
 );
 
 export default composeReducer('booking', {
@@ -106,10 +92,6 @@ export default composeReducer('booking', {
   getVehiclesStart,
   getVehiclesSuccess,
   getVehiclesFailure,
-  changeTempMessageToDriver,
-  applyMessageToDriver,
-  changeBookingDate,
-  changeTravelReason,
   toggleVisibleModal,
   createBookingStart,
   createBookingSuccess,
