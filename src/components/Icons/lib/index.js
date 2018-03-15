@@ -33,6 +33,11 @@ import walker from './walker';
 import wheelchair from './wheelchair';
 import work from './work';
 
+import info from './alerts/info';
+import failed from './alerts/failed';
+import warning from './alerts/warning';
+import success from './alerts/success';
+
 export default {
   arrow,
   arrowDown,
@@ -67,5 +72,9 @@ export default {
   time,
   walker,
   wheelchair,
-  work
+  work,
+  info,
+  success,
+  warning,
+  failed
 };

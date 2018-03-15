@@ -35,7 +35,7 @@ class ForgotPassword extends PureComponent {
 
   handleEmailChange = (value) => {
     this.setState({ email: value, error: '' });
-    this.dropdown.close();
+    this.alert.hide();
   };
 
   handleSubmit = () => {
@@ -54,8 +54,7 @@ class ForgotPassword extends PureComponent {
     const err = validate({ email: this.state.email }, resetPasswordRules);
 
     if (err) {
-      this.showError(`Error! ${err.email[0]}`);
-      this.setState({ error: err.email[0] });
+      this.setState({ error: err.email[0] }, this.showError);
     } else {
       this.resetError();
     }
@@ -63,8 +62,8 @@ class ForgotPassword extends PureComponent {
     return !err;
   }
 
-  showError = (error) => {
-    this.dropdown.showErrorMessage(error);
+  showError = () => {
+    this.alert.show();
   };
 
   resetError = () => {
@@ -72,6 +71,7 @@ class ForgotPassword extends PureComponent {
   };
 
   goToLogIn = () => {
+    this.alert.hide();
     this.props.navigation.goBack();
   };
 
@@ -113,8 +113,10 @@ class ForgotPassword extends PureComponent {
         </TouchableHighlight>
 
         <Alert
-          type="error"
-          ref={(el) => { this.dropdown = el; }}
+          ref={alert => this.alert = alert}
+          type='failed'
+          message={this.state.error}
+          onClose={this.resetError}
         />
       </DismissKeyboardView>
     );

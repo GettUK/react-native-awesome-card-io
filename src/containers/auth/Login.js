@@ -65,8 +65,7 @@ class Login extends Component {
     if (err) {
       const errorMessage = (err.email && err.email[0]) || (err.password && err.password[0]);
 
-      this.showError(`Error! ${errorMessage}`);
-      this.setState({ error: errorMessage });
+      this.setState({ error: errorMessage }, this.showError);
     } else {
       this.resetError();
     }
@@ -75,13 +74,16 @@ class Login extends Component {
   }
 
   showResetSuccess = () => {
-    this.dropdown.showSuccessMessage(strings('login.success_reset'));
-    this.setState({ isResetSuccess: false });
+    this.alert.show();
   };
 
-  showError = (error) => {
-    this.dropdown.showErrorMessage(error);
+  showError = () => {
+    this.alert.show();
   };
+
+  onCloseAlert = () => {
+    this.setState({ isResetSuccess: false });
+  }
 
   resetError = () => {
     this.setState({ error: '' });
@@ -94,6 +96,8 @@ class Login extends Component {
 
   render() {
     const { login: { fields, busy } } = this.props;
+    const { isResetSuccess, error } = this.state;
+
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
@@ -145,8 +149,10 @@ class Login extends Component {
         </View>
 
         <Alert
-          type={this.state.error ? 'error' : 'success'}
-          ref={(el) => { this.dropdown = el; }}
+          ref={alert => this.alert = alert}
+          type={isResetSuccess ? 'success' : 'failed' }
+          message={isResetSuccess ? strings('login.success_reset') : error}
+          onClose={this.onCloseAlert}
         />
       </DismissKeyboardView>
     );
