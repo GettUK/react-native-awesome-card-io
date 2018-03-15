@@ -18,5 +18,10 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 16,
     left: 16
+  },
+  header: {
+    position: 'absolute',
+    top: 44,
+    left: 16
   }
 });

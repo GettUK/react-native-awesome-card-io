@@ -80,20 +80,92 @@ export const onMyWayStyles = StyleSheet.create({
 export const orderPanelStyles = StyleSheet.create({
   activeContainer: {
     padding: 16,
-    paddingVertical: 4
+    paddingVertical: 6
+  },
+  listItem: {
+    width: '100%',
+    borderRadius: 8,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 8,
+    paddingHorizontal: 16
+  },
+  listContainer: {
+    width: width - 32
   },
   activeItem: {
-    width: '100%',
-    borderRadius: 6,
-    height: 60,
-    backgroundColor: 'white',
+    height: 108,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: {
       height: 0
-    },
+    }
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  header: {
+    fontSize: 32,
+    fontWeight: '600',
+    paddingVertical: 16,
+    color: '#fff'
+  },
+  driverContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4
+  },
+  roundContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 22
+  },
+  driverTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    marginBottom: 8
+  },
+  driverSubtitle: {
+    fontSize: 16
+  },
+  callButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#6ebe2d'
+  },
+  title: {
+    color: '#a4a4a4',
+    marginBottom: 4
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '900'
+  },
+  rating: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#6ebe2d',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  ratingLabel: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#6ebe2d'
+  },
+  pickUpBtn: {
+    alignSelf: 'stretch',
+    justifyContent: 'flex-start'
+  },
+  titleContainer: {
+    flex: 1,
+    paddingHorizontal: 12
   }
 });
 

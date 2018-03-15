@@ -204,8 +204,20 @@ class SlidingUpPanel extends Component {
     return (
       <Animated.View style={[styles.closeButton, { opacity: this.backdropOpacity }]}>
         <TouchableWithoutFeedback onPress={this.requestClose}>
-          <View style={{ width: 40, height: 40, backgroundColor: 'red' }} />
+          <View>
+            {this.props.closeButton}
+          </View>
         </TouchableWithoutFeedback>
+      </Animated.View>
+    );
+  }
+
+  renderHeader = () => {
+    if (!this.props.showBackdrop && !this.state.backdropAvailable) return;
+
+    return (
+      <Animated.View style={[styles.header, { opacity: this.backdropOpacity }]}>
+        {this.props.header}
       </Animated.View>
     );
   }
@@ -250,6 +262,8 @@ class SlidingUpPanel extends Component {
         }
 
         {this.renderCloseButton()}
+
+        {this.props.header && this.renderHeader()}
       </View>
     )
   }
@@ -262,6 +276,8 @@ SlidingUpPanel.propTypes = {
     bottom: PropTypes.number.isRequired
   }),
   backdropComponent: PropTypes.element,
+  header: PropTypes.element,
+  closeButton: PropTypes.element,
   height: PropTypes.number,
   onDrag: PropTypes.func,
   onDragStart: PropTypes.func,
@@ -276,6 +292,8 @@ SlidingUpPanel.defaultProps = {
   visible: false,
   height: visibleHeight,
   backdropComponent: null,
+  header: null,
+  closeButton: null,
   draggableRange: { top: visibleHeight, bottom: 0 },
   onDrag: () => {},
   onDragStart: () => {},

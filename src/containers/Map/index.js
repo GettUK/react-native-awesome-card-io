@@ -79,9 +79,12 @@ class Map extends Component {
     if (status !== statusProps && status === COMPLETED_STATUS) {
       navigation.navigate('RateDriver');
 
+      this.clearFields();
+
       completeOrder();
     } else if (status !== statusProps && status === CANCELLED_STATUS) {
-      this.dropdown.showErrorMessage('Order was cancelled');
+      // TODO: change view and component in OMA-68
+      // this.dropdown.showErrorMessage('Order was cancelled');
 
       cancelOrder();
     }
@@ -267,12 +270,13 @@ class Map extends Component {
     this.props.navigation.navigate('OrdersView', {});
   };
 
-  clearField = () => {
+  clearFields = () => {
     this.props.removeFields([
       'stops', 'destinationAddress',
       'vehiclePrice', 'vehicleValue', 'vehicleName'
     ]);
   };
+
   renderTimeDatePicker() {
     const { date } = this.state;
     const momentDate = moment(date);
@@ -401,7 +405,7 @@ class Map extends Component {
         <Header
           customStyles={[styles.header]}
           leftButton={
-            !this.shouldRequestVehicles() ? (
+            !this.shouldRequestVehicles() || isActiveOrder ? (
               <NavImageButton
                 onClick={this.goToSettings}
                 styleContainer={{ justifyContent: 'center' }}
@@ -409,7 +413,7 @@ class Map extends Component {
               />
             ) : (
               <NavImageButton
-                onClick={this.clearField}
+                onClick={this.clearFields}
                 styleContainer={styles.headerBack}
                 icon={<Icon width={10} height={18} name="back" color="rgb(40, 71, 132)" />}
               />
@@ -445,6 +449,7 @@ class Map extends Component {
             toOrder={this.shouldRequestVehicles()}
           /> : null
         }
+
         {isActiveOrder && <ActiveOrderScene />}
 
         <MapView
@@ -462,6 +467,7 @@ class Map extends Component {
           <OrderDetailsPanel
             onActivate = {this.handleHideHeader}
             onClose = {this.handleShowHeader}
+            visible = {!this.state.isHeaderEnable}
           />
         }
 
