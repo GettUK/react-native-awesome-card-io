@@ -1,5 +1,8 @@
 import { createTypes } from 'redux-compose-reducer';
-import { get, post } from 'utils';
+
+import { get, post, put } from 'utils';
+import faye from 'utils/faye';
+
 import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
@@ -7,42 +10,68 @@ const TYPES = createTypes('booking', [
   'createBookingStart',
   'createBookingSuccess',
   'createBookingFailure',
+  'changeOrderStatus',
   'cancelOrder',
   'getFormDataSuccess',
-  'getVehiclesStart',
-  'getVehiclesSuccess',
-  'getVehiclesFailure',
   'changeTempMessageToDriver',
   'applyMessageToDriver',
   'changeBookingDate',
   'changeTravelReason',
   'openSettingsModal',
-  'closeSettingsModal'
+  'closeSettingsModal',
+  'getVehiclesStart',
+  'getVehiclesSuccess',
+  'getVehiclesFailure'
 ]);
 
-export const createBooking = booking => dispatch => {
-  // booking = {
-  //   ...booking,
-  //   scheduledAt: booking.scheduledType === 'now' ? undefined : booking.scheduledAt.format()
-  // };
+export const createBooking = (order) => (dispatch) => {
   dispatch({ type: TYPES.createBookingStart });
 
-  return post('/bookings', booking)
+  return post('/bookings', order)
     .then(({ data }) => {
       dispatch({ type: TYPES.createBookingSuccess, payload: data });
 
       dispatch(goToActiveOrderScene());
+
+      dispatch(orderStatusSubscribe(data.channel));
+
       return data;
     })
-    .catch(errors => {
-      dispatch({ type: TYPES.createBookingFailure, payload: errors });
+    .catch((error) => {
+      dispatch({ type: TYPES.createBookingFailure, error });
     });
 };
 
-export const cancelOrder = () => dispatch => {
-  dispatch(goToPreorderScene());
-  dispatch({ type: TYPES.cancelOrder });
+export const orderStatusSubscribe = (channel) => (dispatch) => {
+  faye.on(channel, ({ data }) => {
+    if (data.indicator) {
+      dispatch({ type: TYPES.changeOrderStatus, data });
+    }
+  });
 };
+
+export const removeOrderStatusSubscription = () => (dispatch) => {
+  faye.closeConnection();
+
+  dispatch({ type: TYPES.changeOrderStatus, data: {} });
+}
+
+export const cancelOrder = () => (dispatch, getState) => {
+  const { bookings: { currentOrder } } = getState();
+
+  return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
+    .then(res => {
+      dispatch(completeOrder());
+    });
+}
+
+export const completeOrder = () => (dispatch) => {
+  dispatch(goToPreorderScene());
+
+  dispatch(removeOrderStatusSubscription())
+
+  dispatch({ type: TYPES.cancelOrder });
+}
 
 export const getFormData = () => dispatch => (
   get('/bookings/new')

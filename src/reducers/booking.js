@@ -22,7 +22,8 @@ export const initialState = {
   currentOrder: {
     busy: false
   },
-  orderCreateError: null
+  orderCreateError: null,
+  orderState: {}
 };
 
 const getFormDataSuccess = (state, { payload }) => (
@@ -36,7 +37,7 @@ const getVehiclesStart = state => (
   })
 );
 
-const getVehiclesSuccess = (state, {payload: { vehicles, distance, duration }}) => (
+const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }) => (
   update(state, 'formData.vehicles', {
     data: vehicles,
     loading: false,
@@ -70,6 +71,17 @@ const createBookingFailure = (state, { payload }) => (
     orderCreateError: payload
   })
 );
+
+const cancelOrder = (state) => {
+  return update(state, {
+    currentOrder: {},
+    orderCreateError: null
+  });
+}
+
+const changeOrderStatus = (state, { data }) => {
+  return update(state, 'orderState', data);
+}
 
 const changeTempMessageToDriver = (state, { message }) => {
   return update(state, 'new.temp.messageToDriver', message);
@@ -108,5 +120,7 @@ export default composeReducer('booking', {
   closeSettingsModal,
   createBookingStart,
   createBookingSuccess,
-  createBookingFailure
+  createBookingFailure,
+  cancelOrder,
+  changeOrderStatus
 }, initialState);

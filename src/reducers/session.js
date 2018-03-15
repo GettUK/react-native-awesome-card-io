@@ -3,7 +3,7 @@ import { composeReducer } from 'redux-compose-reducer';
 const initialState = {
   token: null,
   realms: null,
-  result: null
+  result: {}
 };
 
 const userLogin = (state, { payload: { token, realms } }) => ({...state, token, realms});

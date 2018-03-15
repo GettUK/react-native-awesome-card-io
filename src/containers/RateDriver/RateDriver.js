@@ -12,6 +12,10 @@ export default class RateDriver extends Component {
     text: ''
   };
 
+  handleCancel = () => {
+    this.props.navigation.goBack();
+  }
+
   onRatingChange = (value) => {
     this.setState({ rating: value });
   };
@@ -44,7 +48,7 @@ export default class RateDriver extends Component {
         <Button raised={false} style={styles.sendBtn}>
           <Text style={styles.sendBtnText}>Send Feedback</Text>
         </Button>
-        <Button raised={false} style={styles.cancelBtn}>
+        <Button raised={false} style={styles.cancelBtn} onPress={this.handleCancel}>
           <Text style={styles.cancelBtnText}>Cancel</Text>
         </Button>
       </View>
