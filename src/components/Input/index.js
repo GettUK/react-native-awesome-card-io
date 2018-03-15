@@ -19,7 +19,7 @@ export default class Input extends PureComponent {
   };
 
   componentWillReceiveProps(nextProps) {
-    if(!this.props.value.length && !!nextProps.value.length) {
+    if (!this.props.value.length && !!nextProps.value.length) {
       this.moveLabelUp();
     }
   }
@@ -39,7 +39,7 @@ export default class Input extends PureComponent {
 
   handleFocus = () => {
     this.moveLabelUp();
-    if(this.props.onFocus) {
+    if (this.props.onFocus) {
       this.props.onFocus();
     }
   };

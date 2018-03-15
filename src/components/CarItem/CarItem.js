@@ -6,8 +6,10 @@ import { Icon } from 'components';
 import assets from 'assets';
 import styles from './styles';
 
-const CarItem = ({ style, name, label, price, eta, active, onChange }) => {
-  const vehiclePrice = cost => (cost ? `£${ (cost / 100).toFixed(2) }` : 'By meter');
+const CarItem = ({
+  style, name, label, price, eta, active, onChange
+}) => {
+  const vehiclePrice = cost => (cost ? `£${(cost / 100).toFixed(2)}` : 'By meter');
   const renderContainer = () => (
     <View style={[styles.container, style]}>
       <View style={styles.top}>
@@ -23,7 +25,7 @@ const CarItem = ({ style, name, label, price, eta, active, onChange }) => {
       <Image
         style={styles.image}
         source={assets.carTypes[name]}
-        resizeMode='contain'
+        resizeMode="contain"
       />
       {!active && (<View style={styles.mask} />)}
     </View>

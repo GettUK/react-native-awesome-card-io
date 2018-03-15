@@ -6,11 +6,11 @@ const initialState = {
   errors: Nothing()
 };
 
-const authStart = state => ({...state, busy: true, errors: Nothing()});
+const authStart = state => ({ ...state, busy: true, errors: Nothing() });
 
 const authSuccess = () => initialState;
 
-const authFailure = (state, { payload }) => ({...state, busy: false, errors: Just(payload)});
+const authFailure = (state, { payload }) => ({ ...state, busy: false, errors: Just(payload) });
 
 export default composeReducer(
   'ui/auth',

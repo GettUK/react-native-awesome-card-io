@@ -18,45 +18,13 @@ const axios = Axios.create({
   }
 });
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
   if (config.params) {
+    // eslint-disable-next-line no-param-reassign
     config.params = snakeizeKeys(config.params);
   }
 
   return config;
 });
-
-if (process.env.NODE_ENV === 'development') {
-  function getUrl(config) {
-    if (config.baseURL) {
-      return config.url.replace(config.baseURL, '');
-    }
-    return config.url;
-  }
-
-  axios.interceptors.response.use(
-    response => {
-      console.log(
-        `%c ${ response.status } - ${ getUrl(response.config) }:`,
-        'color: #008000; font-weight: bold',
-        response
-      );
-      return response;
-    },
-
-    error => {
-      console.log(
-        `%c ${
-          error.response.status
-        } - ${
-          getUrl(error.response.config)
-        }:`,
-        'color: #a71d5d; font-weight: bold',
-        error.response
-      );
-      return Promise.reject(error);
-    }
-  );
-}
 
 export default axios;

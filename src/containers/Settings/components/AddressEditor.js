@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { curry, isNull } from 'lodash';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import update from 'update-js';
 
@@ -35,9 +36,9 @@ class AddressEditor extends Component {
 
   goBack = () => this.props.navigation.goBack(null);
 
-  handleInputChange = (field, value) => {
+  handleInputChange = curry((field, value) => {
     this.setState(state => update(state, `address.${field}`, value));
-  };
+  });
 
   handleAddressChange = (address) => {
     this.setState(state => update(state, this.isPredefinedAddress ? 'address' : 'address.address', address));
@@ -54,7 +55,7 @@ class AddressEditor extends Component {
       .then(this.goBack);
   };
 
-  renderInput = (props) => (
+  renderInput = props => (
     <Input
       labelStyle={styles.inputLabel}
       multiline
@@ -66,6 +67,8 @@ class AddressEditor extends Component {
       {...props}
     />
   );
+
+  getFieldLength = field => ((!isNull(field) && field.length) || 0);
 
   render() {
     const { address, isAddressModalOpened } = this.state;
@@ -81,12 +84,12 @@ class AddressEditor extends Component {
               this.renderInput({
                 label: 'Address Name',
                 value: address.name || '',
-                onChangeText: (v) => this.handleInputChange('name', v)
+                onChangeText: this.handleInputChange('name')
               })
             }
             {
               this.renderInput({
-                inputRef: el => this.addressInput = el,
+                inputRef: (el) => { this.addressInput = el; },
                 label: 'Address',
                 value: this.isPredefinedAddress ? address.line : address.address.line || '',
                 onFocus: this.toggleAddressModal,
@@ -95,17 +98,17 @@ class AddressEditor extends Component {
             }
             {!this.isPredefinedAddress &&
               this.renderInput({
-                label: `Pick Up Message (${address.pickupMessage.length}/100)`,
+                label: `Pick Up Message (${this.getFieldLength(address.pickupMessage)}/100)`,
                 value: address.pickupMessage || '',
-                onChangeText: (v) => this.handleInputChange('pickupMessage', v),
+                onChangeText: this.handleInputChange('pickupMessage'),
                 maxLength: 100
               })
             }
             {!this.isPredefinedAddress &&
               this.renderInput({
-                label: `Destination Message (${address.destinationMessage.length}/100)`,
+                label: `Destination Message (${this.getFieldLength(address.destinationMessage)}/100)`,
                 value: address.destinationMessage || '',
-                onChangeText: (v) => this.handleInputChange('destinationMessage', v),
+                onChangeText: this.handleInputChange('destinationMessage'),
                 maxLength: 100
               })
             }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
-import { isNull, isEqual } from 'lodash/fp';
 
 import { getPassengerData, changeToggleValue } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
@@ -62,7 +61,10 @@ class Settings extends Component {
 
     const settingsBlocks = [
       prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
-      prepareAddressesBlock(data, { goToAddressesList: this.goToAddressesList, goToAddressEditor: this.goToAddressEditor }),
+      prepareAddressesBlock(data, {
+        goToAddressesList: this.goToAddressesList,
+        goToAddressEditor: this.goToAddressEditor
+      }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
       prepareHistoryBlock(data, { goToMyRides: this.goToMyRides }),
       prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),

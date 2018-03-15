@@ -10,22 +10,22 @@ const TOP_POSITION = 30;
 class Alert extends PureComponent {
   showErrorMessage = (title) => {
     this.dropdown.alertWithType('error', title, '');
-  }
+  };
 
   showSuccessMessage = (title) => {
     this.dropdown.alertWithType('success', title, '');
-  }
+  };
 
   close = () => {
     this.dropdown.close();
-  }
+  };
 
   render() {
     const { type, onClose } = this.props;
 
     return (
       <DropdownAlert
-        ref={el => (this.dropdown = el)}
+        ref={(el) => { this.dropdown = el; }}
 
         closeInterval={TIME_AWAKEN}
         endDelta={TOP_POSITION}
@@ -42,7 +42,7 @@ class Alert extends PureComponent {
         onClose={onClose}
 
         imageStyle={styles.errorImage}
-        defaultContainer={[ styles.errorContainer, type === 'error' ? styles.errorLine : {} ]}
+        defaultContainer={[styles.errorContainer, type === 'error' ? styles.errorLine : {}]}
         titleStyle={styles.title}
       />
     );

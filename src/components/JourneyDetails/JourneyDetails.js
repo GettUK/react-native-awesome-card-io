@@ -5,8 +5,10 @@ import { Icon } from 'components';
 import { strings } from 'locales';
 import styles from './styles';
 
-const JourneyDetails = ({ style, time, distance, loading}) => {
-  const renderBlockItem = ({label, text, icon}) => (
+const JourneyDetails = ({
+  style, time, distance, loading
+}) => {
+  const renderBlockItem = ({ label, text, icon }) => (
     <View style={styles.blockItem}>
       {icon}
       <View style={styles.textLines}>

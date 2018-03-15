@@ -6,9 +6,9 @@ const initialState = {
   result: {}
 };
 
-const userLogin = (state, { payload: { token, realms } }) => ({...state, token, realms});
+const userLogin = (state, { payload: { token, realms } }) => ({ ...state, token, realms });
 
-const userData = (state, { payload }) => ({...state, result: payload});
+const userData = (state, { payload }) => ({ ...state, result: payload });
 
 const userLogout = () => initialState;
 

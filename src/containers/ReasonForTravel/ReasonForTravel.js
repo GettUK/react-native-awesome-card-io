@@ -24,9 +24,7 @@ class ReasonForTravel extends Component {
     );
   };
 
-  renderSeparator = () => {
-    return <View style={styles.separator}/>
-  };
+  renderSeparator = () => <View style={styles.separator}/>;
 
   render() {
     const { travelReasons } = this.props;

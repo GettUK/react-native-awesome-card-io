@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
-import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import { Icon, Modal } from 'components';
@@ -12,29 +11,27 @@ const OnMyWayModal = ({ isVisible, onClose }) => {
     { title: 'Comming in 5 minutes', handler: onClose, chevronHide: true },
     { title: 'Comming in 15 minutes', handler: onClose, chevronHide: true },
     { title: 'Custom message', handler: onClose }
-  ]
+  ];
 
-  renderListItem = ({ title, chevronHide, handler }) => {
-    return (
+  const renderListItem = ({ title, chevronHide, handler }) => (
       <TouchableHighlight
         onPress={handler}
         style={onMyWayStyles.listItem}
-        underlayColor='rgba(135, 206, 235, 0.3)'
+        underlayColor="rgba(135, 206, 235, 0.3)"
         key={title}
       >
         <View style={onMyWayStyles.listItem}>
           <Text style={onMyWayStyles.listItemTitle}>{title}</Text>
-          {!chevronHide && <Icon name='chevron' color='#c6c5cd' width={10} />}
+          {!chevronHide && <Icon name="chevron" color="#c6c5cd" width={10} />}
         </View>
       </TouchableHighlight>
-    );
-  }
+  );
 
   return (
     <Modal
       isVisible={isVisible}
       onModalHide={onClose}
-      label='Cancel'
+      label="Cancel"
       onClose={onClose}
     >
       {menuItems.map(renderListItem)}

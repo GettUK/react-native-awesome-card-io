@@ -74,12 +74,12 @@ const createBookingFailure = (state, { payload }) => (
   })
 );
 
-const cancelOrder = (state) => {
-  return update(state, {
+const cancelOrder = state => (
+  update(state, {
     currentOrder: {},
     orderCreateError: null
-  });
-};
+  })
+);
 
 const setDriver = (state, { payload }) => {
   return update(state, 'driver', payload);
@@ -89,21 +89,13 @@ const changeOrderStatus = (state, { data }) => {
   return update(state, 'orderState', data);
 };
 
-const changeTempMessageToDriver = (state, { message }) => {
-  return update(state, 'new.temp.messageToDriver', message);
-};
+const changeTempMessageToDriver = (state, { message }) => update(state, 'new.temp.messageToDriver', message);
 
-const applyMessageToDriver = (state) => {
-  return update(state, 'new.messageToDriver', state.new.temp.messageToDriver);
-};
+const applyMessageToDriver = state => update(state, 'new.messageToDriver', state.new.temp.messageToDriver);
 
-const changeBookingDate = (state, { date }) => {
-  return update(state, 'new.date', date);
-};
+const changeBookingDate = (state, { date }) => update(state, 'new.date', date);
 
-const changeTravelReason = (state, { reasonId }) => {
-  return update(state, 'new.travelReason', reasonId);
-};
+const changeTravelReason = (state, { reasonId }) => update(state, 'new.travelReason', reasonId);
 
 const toggleVisibleModal = (state, { payload }) => (
   update(state, `meta.${payload}`, !state.meta[payload])

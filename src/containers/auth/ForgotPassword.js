@@ -13,7 +13,7 @@ import validate from 'validate.js';
 
 import { resetPassword } from 'actions/ui/resetPassword';
 
-import { Icon, Input, DropdownAlert } from 'components';
+import { Icon, Input, Alert } from 'components';
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
 
 import { strings } from 'locales';
@@ -33,7 +33,7 @@ class ForgotPassword extends PureComponent {
     error: ''
   };
 
-  handleEmailChange = value => {
+  handleEmailChange = (value) => {
     this.setState({ email: value, error: '' });
     this.dropdown.close();
   };
@@ -63,7 +63,7 @@ class ForgotPassword extends PureComponent {
     return !err;
   }
 
-  showError = error => {
+  showError = (error) => {
     this.dropdown.showErrorMessage(error);
   };
 
@@ -102,9 +102,9 @@ class ForgotPassword extends PureComponent {
           />
 
           <TextButton
-            title={strings('login.reset_button')} 
-            loading={busy} 
-            onPress={this.handleSubmit} 
+            title={strings('login.reset_button')}
+            loading={busy}
+            onPress={this.handleSubmit}
           />
         </KeyboardAvoidingView>
 
@@ -112,9 +112,9 @@ class ForgotPassword extends PureComponent {
           <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
         </TouchableHighlight>
 
-        <DropdownAlert
-          type='error'
-          ref={el => (this.dropdown = el)}
+        <Alert
+          type="error"
+          ref={(el) => { this.dropdown = el; }}
         />
       </DismissKeyboardView>
     );

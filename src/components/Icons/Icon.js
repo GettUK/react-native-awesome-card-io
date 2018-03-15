@@ -1,8 +1,10 @@
-import React, { createElement } from 'react';
+import { createElement } from 'react';
 import PropTypes from 'prop-types';
 import lib from './lib';
 
-const Icon = ({ name, size, width, height, color, ...rest }) => {
+const Icon = ({
+  name, size, width, height, color, ...rest
+}) => {
   if (!name) {
     return null;
   }
@@ -10,6 +12,7 @@ const Icon = ({ name, size, width, height, color, ...rest }) => {
   const svg = lib[name];
 
   if (!svg) {
+    // eslint-disable-next-line no-console
     console.error(`Requested unknown icon '${name}'`);
     return null;
   }

@@ -24,13 +24,12 @@ import styles from './style';
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class AddressModal extends Component {
-
   componentDidMount() {
     this.props.addressesEmpty();
     // this.props.onChange(nullAddress(''));
   }
 
-  onChangeText = text => {
+  onChangeText = (text) => {
     const { onChange, onChangeTyping, isTyping } = this.props;
     onChange(nullAddress(text));
     this.resetStopTypingTimeout();
@@ -39,7 +38,7 @@ class AddressModal extends Component {
     }
   };
 
-  onSelect = item => {
+  onSelect = (item) => {
     const { id, text, google, predefined } = item;
     this.props
       .geocode({
@@ -55,11 +54,11 @@ class AddressModal extends Component {
   };
 
   getOptionName = opt =>
-    opt.name && opt.address && opt.address.line ?
+    (opt.name && opt.address && opt.address.line ?
       `${opt.name}, ${opt.address.line}` :
-      opt['formatted_address'] || opt.text;
+      opt.formatted_address || opt.text);
 
-  addPoint = name => {
+  addPoint = (name) => {
     this.props.onChange(name);
     this.props.toggleModal();
     this.props.addressesEmpty();

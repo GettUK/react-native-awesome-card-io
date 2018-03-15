@@ -8,11 +8,12 @@ import axios from 'utils/axios';
 
 const { store, persistor } = createStore();
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
   const token = store.getState().session.token;
 
   if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;

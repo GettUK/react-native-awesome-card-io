@@ -5,6 +5,7 @@ const defaultConfig = require('./default.json');
 let localConfig = {};
 
 try {
+  // eslint-disable-next-line global-require
   localConfig = require('./local.json');
 } catch (e) {
   // pass

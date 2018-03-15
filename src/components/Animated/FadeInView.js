@@ -9,26 +9,27 @@ export default class FadeInView extends React.Component {
       this.fadeAnim,
       {
         toValue: 1,
-        duration: 600,
+        duration: 600
       }
     ).start();
   }
 
   render() {
+    const { style, reverse, children } = this.props;
     return (
       <Animated.View
         style={{
-          ...this.props.style,
+          ...style,
           opacity: this.fadeAnim,
           transform: [{
             translateY: this.fadeAnim.interpolate({
               inputRange: [0, 1],
-              outputRange: [this.props.reverse ? -20 : 20, 0]
-            }),
-          }],
+              outputRange: [reverse ? -20 : 20, 0]
+            })
+          }]
         }}
       >
-        {this.props.children}
+        {children}
       </Animated.View>
     );
   }

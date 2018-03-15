@@ -5,8 +5,7 @@ import { Icon } from 'components';
 
 import styles from './styles';
 
-const Rating = ({ value, style, onChange, ratingCount }) => {
-  return (
+const Rating = ({ value, style, onChange, ratingCount }) => (
     <View style={[styles.ratingHolder, style]}>
       {Array.from(Array(ratingCount)).map((_, i) => {
         const isActive = value >= i + 1;
@@ -17,8 +16,7 @@ const Rating = ({ value, style, onChange, ratingCount }) => {
         );
       })}
     </View>
-  );
-};
+);
 
 Rating.propTypes = {
   value: PropTypes.number.isRequired,

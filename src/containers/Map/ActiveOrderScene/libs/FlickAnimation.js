@@ -13,13 +13,13 @@ export default class FlickAnimation {
 
   scroll = (toValue) => {
     // eslint-disable-next-line no-nested-ternary
-    const offset = (toValue > this.max) ? this.max : (toValue < this.min) ? this.min : toValue
+    const offset = (toValue > this.max) ? this.max : (toValue < this.min) ? this.min : toValue;
     this.animation.setValue(offset);
 
     if (offset === this.min || offset === this.max) {
       this.stop();
     }
-  }
+  };
 
   start = (config) => {
     this.active = true;
@@ -28,7 +28,7 @@ export default class FlickAnimation {
     this.toValue = config.fromValue;
     this.startTime = Date.now();
     this.animationFrame = requestAnimationFrame(this.onUpdate);
-  }
+  };
 
   onUpdate = () => {
     if (!this.active) return;
@@ -43,11 +43,11 @@ export default class FlickAnimation {
     this.toValue += delta;
     this.scroll(this.toValue);
     this.animationFrame = requestAnimationFrame(this.onUpdate);
-  }
+  };
 
   stop = () => {
     this.active = false;
     this.animation.stopAnimation();
     global.cancelAnimationFrame(this.animationFrame);
-  }
+  };
 }

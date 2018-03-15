@@ -22,7 +22,7 @@ import {
   createBooking,
   toggleVisibleModal
 } from 'actions/booking';
-import { order } from 'actions/mockedData';
+import order from 'actions/mockedData';
 import {
   paymentTypeToAttrs,
   vehiclesData,
@@ -31,12 +31,13 @@ import {
 import styles from './style';
 
 class BookingFooter extends Component {
-  getEarliestAvailableTime = vehicle => {
-    const { map: { fields: { vehicleName } }} = this.props;
+  getEarliestAvailableTime = (vehicle) => {
+    const { map: { fields: { vehicleName } } } = this.props;
     let shift = 60;
 
     if (!vehicle) {
       const { vehicles: { data } } = this.props.data.formData;
+      // eslint-disable-next-line no-param-reassign
       vehicle = find(data, { name: vehicleName });
     }
 
@@ -47,7 +48,7 @@ class BookingFooter extends Component {
     return moment().add(shift, 'minutes');
   };
 
-  selectVehicle = vehicleName => {
+  selectVehicle = (vehicleName) => {
     const {
       map: { fields: { scheduledType, scheduledAt, paymentType } },
       data: { formData: { vehicles } }
@@ -96,9 +97,11 @@ class BookingFooter extends Component {
     this.toggleSettingsModal();
     this.props.navigation.navigate('ReasonForTravel');
   };
+
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('isSettingsModalOpened');
   };
+
   renderSettings() {
     const { data: { formData: { travelReasons },
       meta: { isSettingsModalOpened },
@@ -113,7 +116,7 @@ class BookingFooter extends Component {
       </TouchableOpacity>
     );
 
-    const getReasonsName = id => (travelReasons && travelReasons.find(r => r.id === id) || {}).name;
+    const getReasonsName = id => ((travelReasons && travelReasons.find(r => r.id === id)) || {}).name;
 
     return (
       <Modal isVisible={isSettingsModalOpened} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
@@ -227,7 +230,7 @@ class BookingFooter extends Component {
                     showsHorizontalScrollIndicator={false}
                   >
                     {
-                      vehicles.data.filter(v => v.available).map(vehicle => {
+                      vehicles.data.filter(v => v.available).map((vehicle) => {
                         const vehicleData = vehiclesData[vehicle.name];
                         return (
                           <CarItem

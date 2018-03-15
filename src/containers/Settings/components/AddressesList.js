@@ -20,8 +20,7 @@ class AddressesList extends Component {
     this.props.navigation.navigate('AddressEditor', { address, predefinedType });
   };
 
-  renderExistPredefinedAddress = (type, data) => {
-    return (
+  renderExistPredefinedAddress = (type, data) => (
       <View style={styles.predefinedAddress}>
         <Icon name={type} size={24} color="#bcbcbc" />
         <View style={[styles.flex, styles.addressWrapper, styles.predefinedAddressWrapper]}>
@@ -30,11 +29,9 @@ class AddressesList extends Component {
           <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
         </View>
       </View>
-    );
-  };
+  );
 
-  renderEmptyPredefinedAddress = (type) => {
-    return (
+  renderEmptyPredefinedAddress = type => (
       <View style={styles.predefinedAddress}>
         <View style={styles.addAddressIcon}>
           <Icon name="plus" size={14} color="#284784" />
@@ -43,8 +40,7 @@ class AddressesList extends Component {
           <Text style={styles.addressValue}>Add {type} address</Text>
         </View>
       </View>
-    );
-  };
+  );
 
   renderPredefinedAddress = (type) => {
     const data = this.props[`${type}Address`];
@@ -61,13 +57,17 @@ class AddressesList extends Component {
 
   keyExtractor = item => String(item.id);
 
-  renderFavoriteAddresses = () => {
-    return (
+  renderFavoriteAddresses = () => (
       <FlatList
         data={this.props.favoriteAddresses}
         keyExtractor={this.keyExtractor}
         renderItem={({ item }) => (
-          <TouchableOpacity key={item.id} activeOpacity={0.6} onPress={() => this.goToAddressEditor(item)} style={styles.addressWrapper}>
+          <TouchableOpacity
+            key={item.id}
+            activeOpacity={0.6}
+            onPress={() => this.goToAddressEditor(item)}
+            style={styles.addressWrapper}
+          >
             <View style={styles.flex}>
               <Text style={styles.addressName}>{item.name}</Text>
               <Text style={styles.addressValue}>{item.address.line}</Text>
@@ -76,8 +76,7 @@ class AddressesList extends Component {
           </TouchableOpacity>
         )}
       />
-    );
-  };
+  );
 
   render() {
     return (

@@ -1,24 +1,26 @@
 import { Client } from 'faye';
-
 import config from 'config';
-
 import { camelizeKeys } from './transform';
 
-const { faye: { path }} = config;
+const { faye: { path } } = config;
+
+function ch(channel) {
+  return (channel && channel[0] !== '/') ? `/${channel}` : channel;
+}
 
 class FayeClient {
-  get connection() {
-    if (!this._connection) {
-      this._connection = new Client(path, {
+  getConnection() {
+    if (!this.connection) {
+      this.connection = new Client(path, {
         retry: 5
       });
     }
 
-    return this._connection;
+    return this.connection;
   }
 
   on(channel, handler) {
-    this._subscription = this.connection.subscribe(ch(channel), message => handler(camelizeKeys(message)));
+    this.subscription = this.getConnection().subscribe(ch(channel), message => handler(camelizeKeys(message)));
   }
 
   once(channel, handler) {
@@ -31,12 +33,8 @@ class FayeClient {
   }
 
   closeConnection() {
-    this._subscription.cancel();
+    this.subscription.cancel();
   }
 }
 
-function ch(channel) {
-  return (channel && channel[0] !== '/') ? `/${channel}` : channel;
-}
-
-export default new FayeClient;
+export default new FayeClient();

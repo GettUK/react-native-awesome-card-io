@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   orderWrapper: {
     marginBottom: 20,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   blackLabel: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)'
   },
   yellowLabel: {
     backgroundColor: '#f6b530'
@@ -70,11 +70,11 @@ const styles = StyleSheet.create({
   },
   orderAddressIcon: {
     alignItems: 'center',
-    marginRight: 14,
+    marginRight: 14
   },
   orderStopAddressIcon: {
     marginLeft: 3,
-    marginRight: 17,
+    marginRight: 17
   },
   orderAddressGap: {
     marginBottom: 12

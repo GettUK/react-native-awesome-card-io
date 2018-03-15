@@ -1,4 +1,4 @@
-export { default as DropdownAlert } from './Alerts';
+export { default as Alert } from './Alert';
 export { default as Icon } from './Icons';
 export { default as Input } from './Input';
 export { default as Button } from './Button';
@@ -11,3 +11,4 @@ export { default as Modal } from './Modal';
 export { default as CarItem } from './CarItem';
 export { default as JourneyDetails } from './JourneyDetails';
 export { default as PointList } from './PointList';
+export { default as FadeInView } from './Animated/FadeInView';

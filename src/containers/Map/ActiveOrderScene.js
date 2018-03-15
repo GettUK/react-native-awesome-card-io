@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { ListItem, Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { Icon } from 'components';
-import { FadeInView } from 'components/Animated';
+import { FadeInView } from 'components';
 
 import { strings } from 'locales';
 
@@ -17,10 +15,6 @@ import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
 import { ACTIVE_STATUS, ARRIVED_STATUS, ACTIVE_DRIVER_STATUSES } from './ActiveOrderScene/consts';
 
 import { screenStyles } from './ActiveOrderScene/styles';
-
-var MAXIMUM_HEIGHT = 250;
-var HANDLER_HEIGHT = 30;
-var OFFSET_TOP = 9;
 
 class ActiveOrderScene extends Component {
   state = {
@@ -37,7 +31,7 @@ class ActiveOrderScene extends Component {
 
   handleCloseModal = () => {
     this.setState({ isVisible: false });
-  }
+  };
 
   render() {
     const { status } = this.props;
@@ -60,11 +54,19 @@ class ActiveOrderScene extends Component {
           <View style={{ paddingBottom: isDriverActive ? 140 : 60 }}>
             <View style={screenStyles.actionsRow}>
               {!isTripActive
-                ? <FloatButton key='cancel' label='Cancel Order' iconName='cancel' onPress={this.handleCancelOrder} />
-                : <FloatButton key='actions' label='Actions' iconName='dots' />
+                ? <FloatButton key="cancel" label="Cancel Order" iconName="cancel" onPress={this.handleCancelOrder} />
+                : <FloatButton key="actions" label="Actions" iconName="dots" />
               }
 
-              {isDriverArrived && <FloatButton key='way' label={`I'm on my way`} iconName='walker' onPress={this.handleOpenModal} style={{ marginLeft: 40 }} />}
+              {isDriverArrived &&
+                <FloatButton
+                  key="way"
+                  label={'I\'m on my way'}
+                  iconName="walker"
+                  onPress={this.handleOpenModal}
+                  style={{ marginLeft: 40 }}
+                />
+              }
             </View>
           </View>
         </FadeInView>
@@ -75,7 +77,7 @@ class ActiveOrderScene extends Component {
       </View>
     );
   }
-};
+}
 
 ActiveOrderScene.propTypes = {
   cancelOrder: PropTypes.func.isRequired

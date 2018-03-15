@@ -6,7 +6,6 @@ import { Icon } from 'components';
 import styles from './styles';
 
 class PointList extends Component {
-
   renderPickUpItem = () => {
     const { data } = this.props;
     return (
@@ -29,6 +28,7 @@ class PointList extends Component {
       </TouchableOpacity>
     );
   };
+
   renderStopsItem = () => {
     const { data } = this.props;
     return (
@@ -65,6 +65,7 @@ class PointList extends Component {
       )
     );
   };
+
   renderDestinationItem = () => {
     const { data } = this.props;
     return (
@@ -105,6 +106,7 @@ class PointList extends Component {
       )
     );
   };
+
   render() {
     const { style, data } = this.props;
 

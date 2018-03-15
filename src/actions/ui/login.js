@@ -4,8 +4,14 @@ import { get, post } from 'utils';
 import { userLogin, userData } from 'actions/session';
 import { authSuccess, authFailure } from 'actions/ui/auth';
 
-const TYPES = createTypes('ui/login',
-  ['changeEmail', 'changePassword', 'setShowPassword', 'loginStart', 'loginSuccess', 'loginFailure']);
+const TYPES = createTypes('ui/login', [
+  'changeEmail',
+  'changePassword',
+  'setShowPassword',
+  'loginStart',
+  'loginSuccess',
+  'loginFailure'
+]);
 
 export const changeEmail = value => ({ type: TYPES.changeEmail, payload: value });
 
@@ -30,21 +36,19 @@ export const login = () => (dispatch, getState) => {
 
   return post('/session', { user: { ...ui.login.fields } })
     .then(({ data: { token, realms } }) => {
-      dispatch(
-        batchActions([
-          loginSuccess(),
-          userLogin(token, realms)
-        ])
-      );
+      dispatch(batchActions([
+        loginSuccess(),
+        userLogin(token, realms)
+      ]));
       return get('/session')
         .then(({ data }) => {
-          dispatch(batchActions([ authSuccess(), userData(data)]));
+          dispatch(batchActions([authSuccess(), userData(data)]));
         })
-        .catch(errors => {
+        .catch((errors) => {
           dispatch(authFailure(errors));
         });
     })
-    .catch(errors => {
+    .catch((errors) => {
       dispatch(loginFailure(errors));
     });
 };

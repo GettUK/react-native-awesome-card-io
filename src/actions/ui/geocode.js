@@ -2,8 +2,12 @@ import { createTypes } from 'redux-compose-reducer';
 import { join, includes } from 'lodash/fp';
 import { get } from 'utils';
 
-const TYPES = createTypes('ui/geocode',
-  ['geocodeEmpty', 'receiveGeocodeStart', 'receiveGeocodeFailure', 'receiveGeocodeSuccess']);
+const TYPES = createTypes('ui/geocode', [
+  'geocodeEmpty',
+  'receiveGeocodeStart',
+  'receiveGeocodeFailure',
+  'receiveGeocodeSuccess'
+]);
 
 export const geocodeEmpty = () => ({ type: TYPES.geocodeEmpty });
 
@@ -13,7 +17,7 @@ export const receiveGeocodeFailure = errors => ({ type: TYPES.receiveGeocodeFail
 
 export const receiveGeocodeSuccess = results => ({ type: TYPES.receiveGeocodeSuccess, payload: results });
 
-const processLocation = geocodedLoc => {
+const processLocation = (location) => {
   const {
     lat,
     lng,
@@ -24,7 +28,7 @@ const processLocation = geocodedLoc => {
     timezone,
     city,
     placeId
-  } = geocodedLoc;
+  } = location;
   const processedLocation = {
     lat,
     lng,
@@ -59,11 +63,11 @@ export const geocode = params => (dispatch, getState) => {
 
   return get('/addresses/geocode', params)
     .then(({ data }) => processLocation(data))
-    .then(data => {
+    .then((data) => {
       dispatch(receiveGeocodeSuccess(data));
       return data;
     })
-    .catch(errors => {
+    .catch((errors) => {
       dispatch(receiveGeocodeFailure(errors));
     });
 };

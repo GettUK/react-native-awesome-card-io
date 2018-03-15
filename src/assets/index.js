@@ -1,5 +1,5 @@
+/* eslint-disable global-require */
 const imagesApp = {
-  // icon Application
   carTypes: {
     BlackTaxi: require('./png/application/BlackTaxi.png'),
     Standard: require('./png/application/Standard.png'),
@@ -15,5 +15,6 @@ const imagesApp = {
   orderMap: require('./png/application/orderTempMap.jpg'),
   pointerShadow: require('./png/circle_shadow.png')
 };
+/* eslint-enable global-require */
 
 export default imagesApp;

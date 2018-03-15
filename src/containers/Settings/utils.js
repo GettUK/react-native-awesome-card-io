@@ -17,7 +17,7 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
       title: prepareName(passenger),
       avatar: passenger.avatar || passenger.avatarUrl || null,
       titleAvatar: prepareInitials(passenger),
-      onPress: handlers.goToEditProfile,
+      onPress: handlers.goToEditProfile
     },
     {
       title: strings('settings.label.phone'),
@@ -41,13 +41,13 @@ export function prepareAddressesBlock(data = {}, handlers = {}) {
     {
       leftIconName: 'home',
       title: strings('label.home'),
-      rightTitle: passenger.homeAddress && passenger.homeAddress.line || strings('settings.none'),
+      rightTitle: (passenger.homeAddress && passenger.homeAddress.line) || strings('settings.none'),
       onPress: () => handlers.goToAddressEditor('home')
     },
     {
       leftIconName: 'work',
       title: strings('label.work'),
-      rightTitle: passenger.workAddress && passenger.workAddress.line || strings('settings.none'),
+      rightTitle: (passenger.workAddress && passenger.workAddress.line) || strings('settings.none'),
       onPress: () => handlers.goToAddressEditor('work')
     },
     {
@@ -97,7 +97,7 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
   ];
 }
 
-export function prepareHistoryBlock(data = {}, handlers = {}) {
+export function prepareHistoryBlock(_, handlers = {}) {
   return [
     {
       title: strings('settings.label.payments')
@@ -109,7 +109,7 @@ export function prepareHistoryBlock(data = {}, handlers = {}) {
   ];
 }
 
-export function prepareInfoBlock(data = {}, handlers = {}) {
+export function prepareInfoBlock(_, handlers = {}) {
   return [
     {
       title: strings('settings.label.privacy'),
@@ -126,7 +126,7 @@ export function prepareInfoBlock(data = {}, handlers = {}) {
   ];
 }
 
-export function prepareLogoutBlock(data = {}, handlers = {}) {
+export function prepareLogoutBlock(_, handlers = {}) {
   return [
     {
       title: strings('settings.label.logout'),

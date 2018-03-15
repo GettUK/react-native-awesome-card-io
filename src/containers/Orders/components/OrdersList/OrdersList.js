@@ -1,15 +1,17 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
-import { Icon } from 'components';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import assets from 'assets';
+import findKey from 'lodash/findKey';
 import { getOrders } from 'actions/orders';
 
+import { Icon } from 'components';
 import styles from './styles';
-import { connect } from 'react-redux';
 
 function getOrdersStatuses(type) {
   const statuses = {
+    // eslint-disable-next-line max-len
     active: ['creating', 'locating', 'on_the_way', 'arrived', 'in_progress', 'order_received', 'customer_care', 'processing'],
     previous: ['completed', 'cancelled', 'rejected', 'billed']
   };
@@ -17,28 +19,13 @@ function getOrdersStatuses(type) {
 }
 
 function getLabelColor(status) {
-  switch (status) {
-    case 'arrived':
-    case 'creating':
-    case 'in_progress':
-    case 'locating':
-    case 'on_the_way':
-    case 'processing':
-    case 'order_received': {
-      return 'yellow'
-    }
+  const colors = {
+    yellow: ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'processing', 'order_received'],
+    red: ['rejected', 'customer_care', 'cancelled'],
+    green: ['completed', 'billed']
+  };
 
-    case 'rejected':
-    case 'customer_care':
-    case 'cancelled': {
-      return 'red'
-    }
-
-    case 'completed':
-    case 'billed': {
-      return 'green'
-    }
-  }
+  return findKey(colors, s => s.includes(status));
 }
 
 class OrdersList extends PureComponent {
@@ -51,13 +38,13 @@ class OrdersList extends PureComponent {
   };
 
   componentDidMount() {
-    this.getOrders()
+    this.getOrders();
   }
 
   getOrders = () => {
     const { getOrders, type, items } = this.props;
     const { pagination, loading } = this.state;
-    if (!loading && (items.length < pagination.total || !pagination.total) ) {
+    if (!loading && (items.length < pagination.total || !pagination.total)) {
       this.setState({ loading: true });
 
       const params = {
@@ -71,18 +58,17 @@ class OrdersList extends PureComponent {
       }
 
       getOrders(params)
-        .then(res => {
+        .then((res) => {
           this.setState({ pagination: res.pagination, loading: false });
           this.props.navigation.setParams({ count: res.pagination.total });
         })
         .catch(() => {
-          this.setState({ loading: false })
+          this.setState({ loading: false });
         });
     }
   };
 
-  renderItem = ({ item }) => {
-    return (
+  renderItem = ({ item }) => (
       <View key={item.id} style={styles.orderWrapper}>
         <View>
           <View style={styles.orderMap}>
@@ -124,8 +110,7 @@ class OrdersList extends PureComponent {
           </View>
         </View>
       </View>
-    );
-  };
+  );
 
   keyExtractor = item => String(item.id);
 
@@ -150,7 +135,7 @@ const mapState = (state, props) => ({
   items: state.orders.items.filter(i => getOrdersStatuses(props.type).includes(i.status))
 });
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   getOrders(params) {
     return getOrders(dispatch, params);
   }

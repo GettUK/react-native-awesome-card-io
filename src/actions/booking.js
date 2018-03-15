@@ -25,24 +25,6 @@ const TYPES = createTypes('booking', [
   'setDriver'
 ]);
 
-export const createBooking = order => dispatch => {
-  dispatch({ type: TYPES.createBookingStart });
-
-  return post('/bookings', order)
-    .then(({ data }) => {
-      dispatch({ type: TYPES.createBookingSuccess, payload: data });
-
-      dispatch(goToActiveOrderScene());
-
-      dispatch(orderStatusSubscribe(data.channel));
-
-      return data;
-    })
-    .catch(errors => {
-      dispatch({ type: TYPES.createBookingFailure, payload: errors });
-    });
-};
-
 export const orderStatusSubscribe = (channel) => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
@@ -63,10 +45,39 @@ export const orderStatusSubscribe = (channel) => (dispatch, getState) => {
   });
 };
 
+export const createBooking = order => (dispatch) => {
+  dispatch({ type: TYPES.createBookingStart });
+
+  return post('/bookings', order)
+    .then(({ data }) => {
+      dispatch({ type: TYPES.createBookingSuccess, payload: data });
+
+      dispatch(goToActiveOrderScene());
+
+      dispatch(orderStatusSubscribe(data.channel));
+
+      return data;
+    })
+    .catch((errors) => {
+      dispatch({ type: TYPES.createBookingFailure, payload: errors });
+    });
+};
+
 export const removeOrderStatusSubscription = () => (dispatch) => {
   faye.closeConnection();
 
   dispatch({ type: TYPES.changeOrderStatus, data: {} });
+};
+
+export const completeOrder = () => (dispatch) => {
+  dispatch(goToPreorderScene());
+
+  dispatch(removeOrderStatusSubscription());
+
+  dispatch(batchActions([
+    { type: TYPES.setDriver, payload: {} },
+    { type: TYPES.cancelOrder }
+  ]));
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
@@ -82,17 +93,6 @@ export const cancelOrder = () => (dispatch, getState) => {
   dispatch(completeOrder());
 };
 
-export const completeOrder = () => (dispatch) => {
-  dispatch(goToPreorderScene());
-
-  dispatch(removeOrderStatusSubscription());
-
-  dispatch(batchActions([
-    { type: TYPES.setDriver, payload: {} },
-    { type: TYPES.cancelOrder }
-  ]));
-};
-
 export const getFormData = () => dispatch => (
   get('/bookings/new')
     .then(({ data }) => {
@@ -101,7 +101,7 @@ export const getFormData = () => dispatch => (
     })
 );
 
-export const getVehicles = params => dispatch => {
+export const getVehicles = params => (dispatch) => {
   dispatch({ type: TYPES.getVehiclesStart });
 
   return post('/bookings/vehicles', params)
@@ -114,7 +114,7 @@ export const getVehicles = params => dispatch => {
     });
 };
 
-export const changeTempMessageToDriver = (message) => (dispatch) => {
+export const changeTempMessageToDriver = message => (dispatch) => {
   dispatch({ type: TYPES.changeTempMessageToDriver, message });
 };
 
@@ -122,11 +122,11 @@ export const applyMessageToDriver = () => (dispatch) => {
   dispatch({ type: TYPES.applyMessageToDriver });
 };
 
-export const changeBookingDate = (date) => (dispatch) => {
+export const changeBookingDate = date => (dispatch) => {
   dispatch({ type: TYPES.changeBookingDate, date });
 };
 
-export const changeTravelReason = (reasonId) => (dispatch) => {
+export const changeTravelReason = reasonId => (dispatch) => {
   dispatch({ type: TYPES.changeTravelReason, reasonId });
 };
 

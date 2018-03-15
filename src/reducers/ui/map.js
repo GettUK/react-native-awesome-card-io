@@ -90,7 +90,8 @@ const addAddressPoint = state => ({
       state.address.type,
       Array.isArray(state.address.type.value) ?
         { address: state.address.value, ...state.user } :
-        state.address.value)
+        state.address.value
+    )
   },
   address: defaultAddress
 });

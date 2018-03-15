@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import assets from 'assets';
 
-import { Icon, PointList, JourneyDetails, CarItem } from 'components';
+import { Icon, PointList, JourneyDetails } from 'components';
 
 import { vehiclesData } from 'containers/shared/bookings/data';
 
@@ -23,31 +23,25 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
   renderHeader = () => {
     return (
       <Text style={orderPanelStyles.header}>Order Details</Text>
-    );
-  }
+    )
+  };
 
-  renderCloseButton = () => {
-    return <Icon name='arrow' />
-  }
-
-  renderJourneyDetails = () => {
-    return (<View key='journey' style={orderPanelStyles.activeContainer}>
+  const renderJourneyDetails = () => (<View key="journey" style={orderPanelStyles.activeContainer}>
         <JourneyDetails
           loading={vehicles.loading}
           time={vehicles.duration}
           distance={vehicles.distance}
         />
       </View>
-    );
-  }
+  );
 
-  renderCarItem = () => {
+  const renderCarItem = () => {
     const { vehicleName } = map.fields;
     const vehicleData = vehiclesData[vehicleName] || { label: 'Unknown' };
 
     const vehicle = vehicles.data.find(item => item.name === vehicleName) || {};
 
-    return (<View key='car' style={orderPanelStyles.activeContainer}>
+    return (<View key="car" style={orderPanelStyles.activeContainer}>
         <View style={[orderPanelStyles.listItem, orderPanelStyles.listContainer, orderPanelStyles.row]}>
           <Text style={[orderPanelStyles.title, { width: 100 }]}>
             {vehicleData.label}
@@ -56,7 +50,7 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
           <Image
             style={{ width: 90 }}
             source={assets.carTypes[vehicleData.name]}
-            resizeMode='contain'
+            resizeMode="contain"
           />
 
           <Text style={[orderPanelStyles.name, { width: 100, textAlign: 'right' }]}>
@@ -65,27 +59,24 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
         </View>
       </View>
     );
-  }
+  };
 
-  renderOption = ({ icon, title, value, onPress }) => {
-    return (<View key={title} style={orderPanelStyles.activeContainer}>
+  const renderOption = ({ title, value, onPress }) => (<View key={title} style={orderPanelStyles.activeContainer}>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
-          <Icon name='pickUpField' color='#c6c5cd' />
+          <Icon name="pickUpField" color="#c6c5cd" />
 
           <View style={orderPanelStyles.titleContainer}>
             <Text style={orderPanelStyles.title}>{title}</Text>
             <Text style={orderPanelStyles.name}>{value}</Text>
           </View>
 
-          <Icon name='chevron' color='#c6c5cd' width={10} />
+          <Icon name="chevron" color="#c6c5cd" width={10} />
         </View>
       </TouchableWithoutFeedback>
-    </View>)
-  }
+    </View>);
 
-  renderDriverRating = () => {
-    return (
+  const renderDriverRating = () => (
       <View style={orderPanelStyles.activeContainer}>
         <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
           <View>
@@ -98,10 +89,9 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
           </View>
         </View>
       </View>
-    );
-  }
+  );
 
-  renderBackdropComponent = () => {
+  const renderBackdropComponent = () => {
     const options = [
       { title: 'Order for', value: 'Artem Korenev' },
       { title: 'Future order', value: '2 Feb 2018 02:34 pm' },
@@ -126,16 +116,15 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
         {options.map(renderOption)}
       </View>
     );
-  }
+  };
 
-  renderActiveItem = () => {
-    return (
+  const renderActiveItem = () => (
       <View style={orderPanelStyles.activeContainer}>
         <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem]}>
           <Icon
             style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
-            name='arrowDown'
-            color='#c6c5cd'
+            name="arrowDown"
+            color="#c6c5cd"
             width={34}
           />
 
@@ -163,8 +152,7 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
           </View>
         </View>
       </View>
-    );
-  }
+  );
 
   return (
     <SlidingUpPanel
@@ -177,7 +165,7 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
       height = {116}
       backdropComponent={renderBackdropComponent()}
       header={renderHeader()}
-      closeButton={<Icon name='arrow' />}
+      closeButton={<Icon name="arrow" />}
       onActivate = {onActivate}
       onClose = {onClose}
     >

@@ -35,7 +35,7 @@ export const getPassengerData = () => (dispatch, getState) => {
       dispatch({ type: TYPES.getPassengerDataSuccess, payload: res.data });
       return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({ type: TYPES.getPassengerDataFailure, payload: err.data, error: true });
       throw err;
     });
@@ -46,7 +46,7 @@ export const setInitialProfileValues = () => (dispatch) => {
 };
 
 export const changeFieldValue = curry((field, value) => (dispatch) => {
-  dispatch({ type: TYPES.changeFieldValue, payload: { field, value }});
+  dispatch({ type: TYPES.changeFieldValue, payload: { field, value } });
 });
 
 export const sendProfileData = () => (dispatch, getState) => {
@@ -59,28 +59,8 @@ export const sendProfileData = () => (dispatch, getState) => {
     .then(() => {
       dispatch({ type: TYPES.sendProfileDataSuccess });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({ type: TYPES.sendProfileDataFailure, payload: err.data, error: true });
-      throw err;
-    });
-};
-
-export const sendAddress = (address, predefinedAddressType) => (dispatch, getState) => {
-  const passengerId = getState().session.result.memberId;
-  let req;
-
-  if (predefinedAddressType) {
-    req = dispatch(sendPredefinedAddress({ passengerId, address, predefinedAddressType }));
-  } else {
-    if (address.id) {
-      req = dispatch(sendFavouriteAddress({ passengerId, address }));
-    } else {
-      req = dispatch(createFavouriteAddress({ passengerId, address }));
-    }
-  }
-
-  return req
-    .catch(err => {
       throw err;
     });
 };
@@ -100,13 +80,31 @@ const sendFavouriteAddress = ({ passengerId, address }) => dispatch =>
     });
 
 const createFavouriteAddress = ({ passengerId, address }) => dispatch =>
-  post(`/passengers/${passengerId}/addresses`, { passengerAddress: { ...address, type: 'favorite' }})
+  post(`/passengers/${passengerId}/addresses`, { passengerAddress: { ...address, type: 'favorite' } })
     .then((res) => {
       dispatch({ type: TYPES.addFavouriteAddress, payload: res.data });
       return res;
     });
 
-export const destroyFavoriteAddress = (id) => (dispatch, getState) => {
+export const sendAddress = (address, predefinedAddressType) => (dispatch, getState) => {
+  const passengerId = getState().session.result.memberId;
+  let req;
+
+  if (predefinedAddressType) {
+    req = dispatch(sendPredefinedAddress({ passengerId, address, predefinedAddressType }));
+  } else if (address.id) {
+    req = dispatch(sendFavouriteAddress({ passengerId, address }));
+  } else {
+    req = dispatch(createFavouriteAddress({ passengerId, address }));
+  }
+
+  return req
+    .catch((err) => {
+      throw err;
+    });
+};
+
+export const destroyFavoriteAddress = id => (dispatch, getState) => {
   const passengerId = getState().session.result.memberId;
 
   return destroy(`/passengers/${passengerId}/addresses/${id}`)
@@ -126,8 +124,8 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
     .then(() => {
       dispatch({ type: TYPES.changeToggleValueSuccess });
     })
-    .catch(err => {
-      dispatch({ type: TYPES.changeToggleValueFailure, payload: err.data, error: true });
+    .catch((err) => {
+      dispatch({ type: TYPES.changeToggleValueFailure, payload: { errors: err.data, field }, error: true });
       throw err;
     });
 });

@@ -2,18 +2,17 @@ import React from 'react';
 import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
-import { has } from 'lodash';
 import { ScreenHeader } from 'components';
 
-import SettingsNavigator from './navigatorSettings';
 import { Map, Orders, MessageToDriver, RateDriver, ReasonForTravel } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
+import SettingsNavigator from './navigatorSettings';
 
 const routeConfiguration = {
   MapView: {
     screen: Map,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'

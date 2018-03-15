@@ -14,7 +14,8 @@ const resetPasswordSuccess = () => ({
   type: TYPES.succeed
 });
 
-export const resetPassword = query => dispatch => {
+// eslint-disable-next-line import/prefer-default-export
+export const resetPassword = query => (dispatch) => {
   dispatch(resetPasswordStart());
 
   return put('/user/forgot_password', query)

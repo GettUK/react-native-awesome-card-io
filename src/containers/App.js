@@ -21,12 +21,16 @@ class AppContainer extends Component {
       this.keyboardDidHide
     );
   }
+
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
+
   keyboardDidShow = () => this.props.dispatch(changeKeyboardStatus(true));
+
   keyboardDidHide = () => this.props.dispatch(changeKeyboardStatus(false));
+
   loginFlow = () => (
     <NavigatorLogin
       navigation={addNavigationHelpers({
@@ -35,13 +39,14 @@ class AppContainer extends Component {
       })}
     />
   );
+
   render() {
     const { ui: { auth }, session: { token } } = this.props;
     return (
       <View style={{ flex: 1 }}>
         {auth.errors.cata({
           Nothing: () =>
-            isEmpty(token) ? (
+            (isEmpty(token) ? (
               this.loginFlow()
             ) : (
               <NavigatorApp
@@ -53,7 +58,7 @@ class AppContainer extends Component {
                   rootNavigation: NavigatorApp
                 }}
               />
-            ),
+            )),
           Just: () => this.loginFlow()
         })}
         <SplashScreen />

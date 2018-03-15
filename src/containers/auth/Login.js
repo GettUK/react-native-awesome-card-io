@@ -13,7 +13,7 @@ import {
 import validate from 'validate.js';
 
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { Icon, Input, DropdownAlert } from 'components';
+import { Icon, Input, Alert } from 'components';
 
 import {
   changePassword,
@@ -58,12 +58,12 @@ class Login extends Component {
     const { login: { fields } } = this.props;
 
     const err = validate(
-      { email: fields.email, password: fields.password }, 
+      { email: fields.email, password: fields.password },
       loginRules
     );
 
     if (err) {
-      const errorMessage = err.email && err.email[0] || err.password && err.password[0];
+      const errorMessage = (err.email && err.email[0]) || (err.password && err.password[0]);
 
       this.showError(`Error! ${errorMessage}`);
       this.setState({ error: errorMessage });
@@ -79,7 +79,7 @@ class Login extends Component {
     this.setState({ isResetSuccess: false });
   };
 
-  showError = error => {
+  showError = (error) => {
     this.dropdown.showErrorMessage(error);
   };
 
@@ -127,9 +127,9 @@ class Login extends Component {
           />
 
           <TextButton
-            title={strings('login.login_button')} 
-            loading={busy} 
-            onPress={this.handleSubmit} 
+            title={strings('login.login_button')}
+            loading={busy}
+            onPress={this.handleSubmit}
           />
         </KeyboardAvoidingView>
 
@@ -144,9 +144,9 @@ class Login extends Component {
           </TouchableHighlight>
         </View>
 
-        <DropdownAlert
+        <Alert
           type={this.state.error ? 'error' : 'success'}
-          ref={el => (this.dropdown = el)}
+          ref={(el) => { this.dropdown = el; }}
         />
       </DismissKeyboardView>
     );

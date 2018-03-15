@@ -8,11 +8,11 @@ const initialState = {
 
 const geocodeEmpty = () => initialState;
 
-const receiveGeocodeStart = state => ({...state, busy: true, errors: null});
+const receiveGeocodeStart = state => ({ ...state, busy: true, errors: null });
 
-const receiveGeocodeFailure = (state, { payload }) => ({...state, busy: false, errors: payload});
+const receiveGeocodeFailure = (state, { payload }) => ({ ...state, busy: false, errors: payload });
 
-const receiveGeocodeSuccess = (state, { payload }) => ({...state, results: payload, busy: false});
+const receiveGeocodeSuccess = (state, { payload }) => ({ ...state, results: payload, busy: false });
 
 export default composeReducer(
   'ui/geocode',

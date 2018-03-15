@@ -8,7 +8,7 @@ import bookings from './booking';
 import passenger from './passenger';
 import orders from './orders';
 
-export const reducer = combineReducers({
+export default combineReducers({
   network,
   router,
   app,

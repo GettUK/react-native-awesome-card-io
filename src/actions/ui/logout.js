@@ -2,8 +2,9 @@ import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { userLogout } from 'actions/session';
 
-const TYPES = createTypes('ui/logout',
-  ['logoutSuccess']);
+const TYPES = createTypes('ui/logout', [
+  'logoutSuccess'
+]);
 
 export const logoutSuccess = () => ({ type: TYPES.logoutSuccess });
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -190,4 +190,4 @@ export const pointerStyles = StyleSheet.create({
     top: 85,
     left: 85
   }
-})
+});
