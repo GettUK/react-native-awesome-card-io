@@ -17,7 +17,8 @@ export const initialState = {
     temp: {}
   },
   meta: {
-    isSettingsModalOpened: false
+    isSettingsModalOpened: false,
+    isPickerModalOpened: false
   },
   currentOrder: {
     busy: false
@@ -77,11 +78,11 @@ const cancelOrder = (state) => {
     currentOrder: {},
     orderCreateError: null
   });
-}
+};
 
 const changeOrderStatus = (state, { data }) => {
   return update(state, 'orderState', data);
-}
+};
 
 const changeTempMessageToDriver = (state, { message }) => {
   return update(state, 'new.temp.messageToDriver', message);
@@ -99,13 +100,9 @@ const changeTravelReason = (state, { reasonId }) => {
   return update(state, 'new.travelReason', reasonId);
 };
 
-const openSettingsModal = (state) => {
-  return update(state, 'meta.isSettingsModalOpened', true);
-};
-
-const closeSettingsModal = (state) => {
-  return update(state, 'meta.isSettingsModalOpened', false);
-};
+const toggleVisibleModal = (state, { payload }) => (
+  update(state, `meta.${payload}`, !state.meta[payload])
+);
 
 export default composeReducer('booking', {
   getFormDataSuccess,
@@ -116,8 +113,7 @@ export default composeReducer('booking', {
   applyMessageToDriver,
   changeBookingDate,
   changeTravelReason,
-  openSettingsModal,
-  closeSettingsModal,
+  toggleVisibleModal,
   createBookingStart,
   createBookingSuccess,
   createBookingFailure,

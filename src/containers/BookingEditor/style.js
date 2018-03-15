@@ -79,4 +79,32 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16
   },
+  settingsMenuItem: {
+    marginLeft: 15,
+    paddingVertical: 15,
+    paddingRight: 15,
+    flexDirection: 'row',
+    alignContent: 'center'
+  },
+  settingsMenuItemTitle: {
+    fontSize: 17,
+    color: '#000'
+  },
+  settingsMenuSelectedValue: {
+    fontSize: 17,
+    color: '#8e8e93',
+    textAlign: 'right',
+    marginRight: 10
+  },
+  flex: {
+    flex: 1
+  },
+  settingsModal: {
+    paddingBottom: 15
+  },
+  settingsMenuSeparator: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#bcbbc1',
+    marginLeft: 15
+  }
 });

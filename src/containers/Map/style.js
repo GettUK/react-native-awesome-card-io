@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
@@ -141,9 +141,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16
   },
-  flex: {
-    flex: 1
-  },
   selectedWrapper: {
     paddingHorizontal: 20
   },
@@ -159,13 +156,13 @@ const styles = StyleSheet.create({
   },
   TDPickerWrapper: {
     marginTop: 20,
-    shadowColor: "#cdcdcd",
+    shadowColor: '#cdcdcd',
     shadowOffset: {
       width: 0,
       height: 0
     },
     shadowRadius: 1,
-    shadowOpacity: 1,
+    shadowOpacity: 1
   },
   TDButton: {
     backgroundColor: '#284784',
@@ -180,31 +177,6 @@ const styles = StyleSheet.create({
   },
   TDEditIcon: {
     marginBottom: -5
-  },
-  settingsModal: {
-    paddingBottom: 15
-  },
-  settingsMenuItem: {
-    marginLeft: 15,
-    paddingVertical: 15,
-    paddingRight: 15,
-    flexDirection: 'row',
-    alignContent: 'center'
-  },
-  settingsMenuItemTitle: {
-    fontSize: 17,
-    color: '#000'
-  },
-  settingsMenuSeparator: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#bcbbc1',
-    marginLeft: 15
-  },
-  settingsMenuSelectedValue: {
-    fontSize: 17,
-    color: '#8e8e93',
-    textAlign: 'right',
-    marginRight: 10
   }
 });
 
