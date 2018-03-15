@@ -24,7 +24,8 @@ export const initialState = {
     busy: false
   },
   orderCreateError: null,
-  orderState: {}
+  orderState: {},
+  driver: {}
 };
 
 const getFormDataSuccess = (state, { payload }) => (
@@ -80,6 +81,10 @@ const cancelOrder = (state) => {
   });
 };
 
+const setDriver = (state, { payload }) => {
+  return update(state, 'driver', payload);
+}
+
 const changeOrderStatus = (state, { data }) => {
   return update(state, 'orderState', data);
 };
@@ -118,5 +123,6 @@ export default composeReducer('booking', {
   createBookingSuccess,
   createBookingFailure,
   cancelOrder,
-  changeOrderStatus
+  changeOrderStatus,
+  setDriver
 }, initialState);

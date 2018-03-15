@@ -13,8 +13,12 @@ import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
-const OrderDetails = ({ map, vehicles, visible, onActivate, onClose }) => {
+const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) => {
   const height = Dimensions.get('window').height;
+
+  callDriver = () => {
+    Linking.openURL(`tel:${driver.phoneNumber}`)
+  }
 
   renderHeader = () => {
     return (
@@ -86,11 +90,11 @@ const OrderDetails = ({ map, vehicles, visible, onActivate, onClose }) => {
         <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
           <View>
             <Text style={orderPanelStyles.title}>Driver</Text>
-            <Text style={orderPanelStyles.name}>Kevin Willis</Text>
+            <Text style={orderPanelStyles.name}>{driver.name}</Text>
           </View>
 
           <View style={orderPanelStyles.rating}>
-            <Text style={orderPanelStyles.ratingLabel}>4.4</Text>
+            <Text style={orderPanelStyles.ratingLabel}>{driver.rating}</Text>
           </View>
         </View>
       </View>
@@ -136,20 +140,26 @@ const OrderDetails = ({ map, vehicles, visible, onActivate, onClose }) => {
           />
 
           <View style={orderPanelStyles.driverContainer}>
-            <Image source={assets.aupairLarge} style={orderPanelStyles.roundContainer} resizeMode='contain' />
+            <Image
+              source={driver.imageUrl ? { uri: driver.imageUrl } : assets.aupairLarge}
+              style={orderPanelStyles.roundContainer}
+              resizeMode='contain'
+            />
 
             <View style={orderPanelStyles.titleContainer}>
               <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
-                Mersedes-Benz E200
+                {driver.vehicle ? driver.vehicle.model : 'Unknown'}
               </Text>
               <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
-                Black color, BD 51 SMR
+                {driver.vehicle ? `${driver.vehicle.color}, ${driver.vehicle.licencePlate || ''}` : 'Unknown'}
               </Text>
             </View>
 
-            <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-              <Icon name='phone' color='#fff' />
-            </View>
+            <TouchableWithoutFeedback onPress={callDriver}>
+              <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
+                <Icon name='phone' color='#fff' />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
@@ -190,7 +200,8 @@ OrderDetails.defaultProps = {
 
 const mapState = ({ ui, bookings }) => ({
   map: ui.map,
-  vehicles: bookings.formData.vehicles
+  vehicles: bookings.formData.vehicles,
+  driver: bookings.driver
 });
 
 export default connect(mapState)(OrderDetails);
