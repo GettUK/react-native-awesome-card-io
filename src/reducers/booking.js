@@ -79,6 +79,10 @@ const setDriver = (state, { payload }) => {
   return update(state, 'driver', payload);
 }
 
+const setDriver = (state, { payload }) => {
+  return update(state, 'driver', payload);
+}
+
 const changeOrderStatus = (state, { data }) => {
   return update(state, 'orderState', data);
 };
