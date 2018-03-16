@@ -10,6 +10,7 @@ import clear from './clear';
 import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
+import currentLocation from './currentLocation';
 import dots from './dots';
 import distance from './distance';
 import editAndroid from './editAndroid';
@@ -27,6 +28,7 @@ import push from './push';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
+import sourceMarker from './sourceMarker';
 import star from './star';
 import time from './time';
 import walker from './walker';
@@ -51,6 +53,7 @@ export default {
   clock,
   close,
   closeThick,
+  currentLocation,
   dots,
   distance,
   editAndroid,
@@ -68,6 +71,7 @@ export default {
   search,
   settings,
   sms,
+  sourceMarker,
   star,
   time,
   walker,

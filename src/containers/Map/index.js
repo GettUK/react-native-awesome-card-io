@@ -11,7 +11,6 @@ import {
   DatePickerAndroid,
   TimePickerAndroid
 } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import moment from 'moment';
 import { every, find, first, has } from 'lodash';
 
@@ -29,7 +28,6 @@ import {
   changeAddress,
   addressVisibleModal,
   initialRegionPosition,
-  changeRegionPosition,
   changePosition,
   errorPosition
 } from 'actions/ui/map';
@@ -50,6 +48,8 @@ import { strings } from 'locales';
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
 import ActiveOrderScene from './ActiveOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
+
+import MapView from './MapView';
 
 import styles from './style';
 
@@ -372,8 +372,6 @@ class Map extends Component {
   }
 
   render() {
-    const { map: { currentPosition, regionPosition } } = this.props;
-
     const isPreordered = this.isActiveSceneIs('preorder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
 
@@ -431,14 +429,8 @@ class Map extends Component {
 
         {isActiveOrder && <ActiveOrderScene />}
 
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          zoomEnabled
-          onRegionChangeComplete={this.props.changeRegionPosition}
-          region={regionPosition}>
-          {!isActiveOrder && <MapView.Marker coordinate={currentPosition} />}
-        </MapView>
+        <MapView isActiveOrder={isActiveOrder} />
+
         {this.renderTimeDatePicker()}
 
         {isActiveOrder && ACTIVE_DRIVER_STATUSES.includes(this.props.status) &&
@@ -472,7 +464,6 @@ Map.propTypes = {
   changeAddress: PropTypes.func.isRequired,
   addressVisibleModal: PropTypes.func.isRequired,
   initialRegionPosition: PropTypes.func.isRequired,
-  changeRegionPosition: PropTypes.func.isRequired,
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
@@ -498,7 +489,6 @@ const mapDispatch = {
   changeAddress,
   addressVisibleModal,
   initialRegionPosition,
-  changeRegionPosition,
   changePosition,
   errorPosition,
   geocodeEmpty,

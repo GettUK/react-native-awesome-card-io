@@ -95,13 +95,16 @@ class PointList extends Component {
                 </Text>
               )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.onChangeAddressType('stops', [], null);
-              this.props.toggleModal();
-            }}>
-            <Icon name="plus" color="#8D8D8D" size={18} />
-          </TouchableOpacity>
+
+          {(!data.stops || data.stops.length < 5)
+            && <TouchableOpacity
+              onPress={() => {
+                this.props.onChangeAddressType('stops', [], null);
+                this.props.toggleModal();
+              }}>
+              <Icon name="plus" color="#8D8D8D" size={18} />
+            </TouchableOpacity>
+          }
         </View>
       )
     );
