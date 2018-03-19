@@ -1,6 +1,9 @@
 import { createTypes } from 'redux-compose-reducer';
+import { batchActions } from 'redux-batched-actions';
+
 import { get, post, put } from 'utils';
 import faye from 'utils/faye';
+
 import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
@@ -18,7 +21,8 @@ const TYPES = createTypes('booking', [
   'applyMessageToDriver',
   'changeBookingDate',
   'changeTravelReason',
-  'toggleVisibleModal'
+  'toggleVisibleModal',
+  'setDriver'
 ]);
 
 export const createBooking = order => dispatch => {
@@ -39,10 +43,22 @@ export const createBooking = order => dispatch => {
     });
 };
 
-export const orderStatusSubscribe = (channel) => (dispatch) => {
+export const orderStatusSubscribe = (channel) => (dispatch, getState) => {
+  const { bookings: { currentOrder } } = getState();
+
   faye.on(channel, ({ data }) => {
     if (data.indicator) {
-      dispatch({ type: TYPES.changeOrderStatus, data });
+      if (data.status === 'on_the_way') {
+        get(`/bookings/${currentOrder.id}`)
+          .then(({ data }) => {
+            dispatch(batchActions([
+              { type: TYPES.setDriver, payload: data.driverDetails.info },
+              { type: TYPES.changeOrderStatus, data }
+            ]));
+          })
+      } else {
+        dispatch({ type: TYPES.changeOrderStatus, data });
+      }
     }
   });
 };
@@ -56,10 +72,14 @@ export const removeOrderStatusSubscription = () => (dispatch) => {
 export const cancelOrder = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
-  return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
-    .then(res => {
-      dispatch(completeOrder());
-    });
+  if (currentOrder.id) {
+    return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
+      .then(res => {
+        dispatch(completeOrder());
+      });
+  }
+
+  dispatch(completeOrder());
 };
 
 export const completeOrder = () => (dispatch) => {
@@ -67,7 +87,10 @@ export const completeOrder = () => (dispatch) => {
 
   dispatch(removeOrderStatusSubscription());
 
-  dispatch({ type: TYPES.cancelOrder });
+  dispatch(batchActions([
+    { type: TYPES.setDriver, payload: {} },
+    { type: TYPES.cancelOrder }
+  ]));
 };
 
 export const getFormData = () => dispatch => (

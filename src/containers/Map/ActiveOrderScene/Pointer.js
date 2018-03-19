@@ -9,19 +9,19 @@ import assets from 'assets';
 import { pointerStyles } from './styles';
 
 class Pointer extends Component {
-  blinkAnim = new Animated.Value(30);
+  blinkAnim = new Animated.Value(0.2);
 
   componentDidMount() {
     this.cycleBlinking();
   }
 
   cycleBlinking = () => {
-    this.blinkAnim.setValue(30);
+    this.blinkAnim.setValue(0);
 
     Animated.timing(
       this.blinkAnim,
       {
-        toValue: 200,
+        toValue: 2,
         duration: 1500
       }
     ).start(this.cycleBlinking);
@@ -34,12 +34,11 @@ class Pointer extends Component {
           source={assets.pointerShadow}
           style={[
             pointerStyles.shadow, {
-              height: this.blinkAnim,
-              width: this.blinkAnim,
               opacity: this.blinkAnim.interpolate({
-                inputRange: [30, 200],
+                inputRange: [0.2, 2],
                 outputRange: [1, 0]
-              })
+              }),
+              transform: [{ scale: this.blinkAnim }],
             }
           ]}
         />
