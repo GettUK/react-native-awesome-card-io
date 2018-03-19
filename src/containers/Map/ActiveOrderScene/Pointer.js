@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Animated } from 'react-native';
-import PropTypes from 'prop-types';
+import { View, Animated } from 'react-native';
 
 import { Icon } from 'components';
 
@@ -25,7 +24,7 @@ class Pointer extends Component {
         duration: 1500
       }
     ).start(this.cycleBlinking);
-  }
+  };
 
   render() {
     return (
@@ -47,6 +46,6 @@ class Pointer extends Component {
       </View>
     );
   }
-};
+}
 
 export default Pointer;

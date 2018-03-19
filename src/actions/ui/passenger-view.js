@@ -1,8 +1,12 @@
 import { createTypes } from 'redux-compose-reducer';
 import { get } from 'utils';
 
-const TYPES = createTypes('ui/passengerView',
-  ['passegerViewEmpty', 'receivePassegerViewStart', 'receivePassegerViewFailure', 'receivePassegerViewSuccess']);
+const TYPES = createTypes('ui/passengerView', [
+  'passegerViewEmpty',
+  'receivePassegerViewStart',
+  'receivePassegerViewFailure',
+  'receivePassegerViewSuccess'
+]);
 
 export const passegerViewEmpty = () => ({ type: TYPES.passegerViewEmpty });
 
@@ -24,7 +28,7 @@ export const receivePassegerView = id => (dispatch, getState) => {
     .then(({ data }) => {
       dispatch(receivePassegerViewSuccess(data));
     })
-    .catch(errors => {
+    .catch((errors) => {
       dispatch(receivePassegerViewFailure(errors));
     });
 };

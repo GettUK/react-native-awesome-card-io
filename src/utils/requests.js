@@ -4,6 +4,7 @@ export function get(url, data = {}, options = {}) {
   return axios.get(url, { params: data, ...options });
 }
 
+/* eslint-disable */
 export function post() {
   return axios.post(...arguments);
 }
@@ -18,3 +19,4 @@ export function patch() {
 export function destroy() {
   return axios.delete(...arguments);
 }
+/* eslint-enable */

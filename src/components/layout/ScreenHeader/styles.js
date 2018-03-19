@@ -10,11 +10,12 @@ function isIphoneX() {
   );
 }
 
-const topSpace = (Platform.OS === 'ios' ? (isIphoneX() ? 40 : 20) : StatusBar.currentHeight) + 5;
+const iPhoneSpace = isIphoneX() ? 40 : 20;
+const topSpace = (Platform.OS === 'ios' ? iPhoneSpace : StatusBar.currentHeight) + 5;
 
 export default StyleSheet.create({
   flex: {
-    flex: 1,
+    flex: 1
   },
   header: {
     paddingTop: topSpace,

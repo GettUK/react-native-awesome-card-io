@@ -10,15 +10,16 @@ function getTitleCount(params) {
   return params ? `(${params.count})` : '';
 }
 
-const OrdersTabNavigator = TabNavigator({
+const OrdersTabNavigator = TabNavigator(
+  {
     Active: {
-      screen: (props) => <OrdersList type="active" {...props} />,
+      screen: props => <OrdersList type="active" {...props} />,
       navigationOptions: ({ navigation }) => ({
         title: `Active ${getTitleCount(navigation.state.params)}`
       })
     },
     Previous: {
-      screen: (props) => <OrdersList type="previous" {...props} />,
+      screen: props => <OrdersList type="previous" {...props} />,
       navigationOptions: ({ navigation }) => ({
         title: `Previous ${getTitleCount(navigation.state.params)}`
       })
@@ -54,7 +55,7 @@ class Orders extends Component {
   }
 }
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   clearList() {
     return clearList(dispatch);
   }

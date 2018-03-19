@@ -6,21 +6,21 @@ import { Icon } from 'components';
 
 import { fbStyles } from './styles';
 
-const FloatButton = props => {
+const FloatButton = (props) => {
   const { label, iconName, style, onPress } = props;
 
   const icons = {
     cancel: { name: 'closeThick', color: '#ff0000' },
     walker: { name: 'walker', color: '#6bc11a' },
     dots: { name: 'dots', color: '#284784' }
-  }
+  };
 
   return (
     <View style={[fbStyles.container, style]}>
       <TouchableHighlight
         onPress={onPress}
         style={fbStyles.button}
-        underlayColor='rgba(135, 206, 235, 0.3)'
+        underlayColor="rgba(135, 206, 235, 0.3)"
       >
         <View style={fbStyles.button}>
           <Icon {...icons[iconName]} />

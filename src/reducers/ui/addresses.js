@@ -8,11 +8,11 @@ const initialState = {
 
 const addressesEmpty = () => initialState;
 
-const receiveAddressesStart = state => ({...state, busy: true, errors: null});
+const receiveAddressesStart = state => ({ ...state, busy: true, errors: null });
 
-const receiveAddressesFailure = (state, { payload }) => ({...state, busy: false, errors: payload});
+const receiveAddressesFailure = (state, { payload }) => ({ ...state, busy: false, errors: payload });
 
-const receiveAddressesSuccess = (state, { payload }) => ({...state, results: payload, busy: false});
+const receiveAddressesSuccess = (state, { payload }) => ({ ...state, results: payload, busy: false });
 
 export default composeReducer(
   'ui/addresses',

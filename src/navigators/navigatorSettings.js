@@ -5,7 +5,14 @@ import { View } from 'react-native';
 import { Icon } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import { Settings } from 'containers';
-import { EditProfile, SaveProfileBtn, AddressesList, AddressEditor, DestroyFavouriteAddressBtn, InfoPages } from 'containers/Settings';
+import {
+  EditProfile,
+  SaveProfileBtn,
+  AddressesList,
+  AddressEditor,
+  DestroyFavouriteAddressBtn,
+  InfoPages
+} from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
 import { strings } from 'locales';
@@ -13,15 +20,14 @@ import { strings } from 'locales';
 const RoutesConfig = {
   Settings: {
     screen: Settings,
-    navigationOptions: ({ navigation, screenProps }) => {
-      return ({
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff'
-        },
-        title: strings('settings.headerTitle'),
-        headerBackTitle: strings('back'),
-        headerLeft: (
+    navigationOptions: ({ screenProps }) => ({
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      },
+      title: strings('settings.headerTitle'),
+      headerBackTitle: strings('back'),
+      headerLeft: (
           <View style={{ flexDirection: 'row' }}>
             <NavImageButton
               onClick={() => screenProps.rootNavigation.goBack(null)}
@@ -29,9 +35,8 @@ const RoutesConfig = {
               icon={<Icon size={30} name="close" color="#000" />}
             />
           </View>
-        )
-      })
-    }
+      )
+    })
   },
   EditProfile: {
     screen: EditProfile,
@@ -66,13 +71,13 @@ const RoutesConfig = {
   },
   InfoPages: {
     screen: InfoPages
-  },
+  }
 };
 
 const SettingsNavigator = StackNavigator(
   RoutesConfig,
   {
-    initialRouteName: 'Settings',
+    initialRouteName: 'Settings'
   }
 );
 

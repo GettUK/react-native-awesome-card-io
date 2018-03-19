@@ -6,9 +6,7 @@ const initialState = {
   activeScene: AVAILABLE_MAP_SCENES.preorder
 };
 
-const changeMapScene = (state, { data }) => {
-  return { ...state, activeScene: data };
-}
+const changeMapScene = (state, { data }) => ({ ...state, activeScene: data });
 
 export default composeReducer(
   'ui/navigation',

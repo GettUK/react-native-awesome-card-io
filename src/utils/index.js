@@ -13,4 +13,3 @@ export {
   nullAddress
 } from './common';
 export * from './requests';
-export { isEqualAddress } from './isEqualAddress';

@@ -29,6 +29,9 @@ const Button = ({ style, children, size, raised, ...rest }) => {
       };
       break;
     }
+    default: {
+      break;
+    }
   }
 
   if (raised) {

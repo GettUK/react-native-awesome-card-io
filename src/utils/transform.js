@@ -30,12 +30,7 @@ function recursiveTransform(obj, func) {
 /* eslint-enable */
 
 function preserveChar(char, transform) {
-  return function(string) {
-    return string
-      .split(char)
-      .map(transform)
-      .join(char);
-  };
+  return string => string.split(char).map(transform).join(char);
 }
 
 function preserveChars(chars, transform) {

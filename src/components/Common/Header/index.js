@@ -4,7 +4,6 @@ import { View, Text } from 'react-native';
 import styles from './style';
 
 class Header extends React.Component {
-  componentDidMount() {}
   render() {
     const {
       leftButton,

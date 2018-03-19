@@ -16,16 +16,16 @@ const avatarPickerConfig = {
   height: 300,
   mediaType: 'photo',
   includeBase64: true,
-  //ios only
+  // ios only
   smartAlbums: ['UserLibrary', 'PhotoStream'],
   showsSelectedCount: false,
-  //android only
+  // android only
   showCropGuidelines: false,
   hideBottomControls: true,
   cropperCircleOverlay: true,
   cropperActiveWidgetColor: '#284784',
   cropperStatusBarColor: '#284784',
-  cropperToolbarColor: '#284784',
+  cropperToolbarColor: '#284784'
 };
 
 class EditProfile extends Component {
@@ -46,7 +46,7 @@ class EditProfile extends Component {
   }
 
   openAvatarPicker = () => {
-    ImagePicker.openPicker(avatarPickerConfig).then(image => {
+    ImagePicker.openPicker(avatarPickerConfig).then((image) => {
       this.props.handleAvatarChange(`data:${image.mime};base64,${image.data}`);
     });
   };

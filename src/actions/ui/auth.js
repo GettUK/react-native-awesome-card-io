@@ -3,8 +3,11 @@ import { batchActions } from 'redux-batched-actions';
 import { get } from 'utils';
 import { userData } from 'actions/session';
 
-const TYPES = createTypes('ui/auth',
-  ['authStart', 'authSuccess', 'authFailure']);
+const TYPES = createTypes('ui/auth', [
+  'authStart',
+  'authSuccess',
+  'authFailure'
+]);
 
 export const authStart = () => ({ type: TYPES.authStart });
 
@@ -24,7 +27,7 @@ export const auth = () => (dispatch, getState) => {
     .then(({ data }) => {
       dispatch(batchActions([authSuccess(), userData(data)]));
     })
-    .catch(errors => {
+    .catch((errors) => {
       dispatch(authFailure(errors));
     });
 };

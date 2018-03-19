@@ -9,12 +9,12 @@ export const paymentTypes = [
 ];
 
 export const paymentTypeLabels = {
-  'passenger_payment_card': 'Passenger\'s card',
-  'personal_payment_card': 'Passenger\'s Personal card',
-  'business_payment_card': 'Passenger\'s Business card',
-  'account': 'Account',
-  'cash': 'Cash',
-  'company_payment_card': 'Company Payment Card'
+  passenger_payment_card: 'Passenger\'s card',
+  personal_payment_card: 'Passenger\'s Personal card',
+  business_payment_card: 'Passenger\'s Business card',
+  account: 'Account',
+  cash: 'Cash',
+  company_payment_card: 'Company Payment Card'
 };
 
 export function selectedPaymentType({ passenger, paymentTypes, defaultPaymentType } = {}) {

@@ -6,9 +6,9 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {
-  isEmpty, find, flatMap, isEqual, compact, intersection, without, has
+  isEmpty, find, isEqual, has
 } from 'lodash';
-import {compose} from 'lodash/fp';
+import { compose } from 'lodash/fp';
 import AddressModal from 'containers/Map/AddressModal';
 import {
   getFormData
@@ -21,12 +21,8 @@ import {
   changeAddress
 } from 'actions/ui/map';
 import {
-  paymentTypes as allPaymentTypes,
-  paymentTypeLabels,
   selectedPaymentType,
-  paymentTypeToAttrs,
-  vehicleEditableStatuses,
-  isCashAllowed
+  paymentTypeToAttrs
 } from 'containers/shared/bookings/data';
 import { PointList } from 'components';
 import styles from './style';
@@ -40,30 +36,15 @@ class BookingEditor extends Component {
 
   componentWillReceiveProps({ data, map }) {
     const { map: propsMap, requestVehicles } = this.props;
-    if (!data.vehicles.loaded && !data.vehicles.loading ||
+    if ((!data.vehicles.loaded && !data.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
         !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)) {
       requestVehicles();
     }
   }
 
-  getAvailablePaymentTypes = () => {
-    const { passenger, data: { paymentTypes }, fields: { vehicleName } } = this.props;
-
-    const availableTypes = isCashAllowed(vehicleName) ? paymentTypes : without(paymentTypes, 'cash');
-
-    return compact(flatMap(intersection(allPaymentTypes, availableTypes), type => {
-      if (type !== 'passenger_payment_card') {
-        return { value: type, label: paymentTypeLabels[type] };
-      } else if (passenger) {
-        return passenger.paymentCards.map(card =>
-          ({ value: `${card.type}_payment_card:${card.id}`, label: card.title }));
-      }
-    }));
-  };
-
   selectCurrentMemberAsPassenger = () => {
-    const { memberId, passenger: {id: passengerId} } = this.props;
+    const { memberId, passenger: { id: passengerId } } = this.props;
 
     if (passengerId === memberId) {
       this.clearPassenger();
@@ -80,7 +61,7 @@ class BookingEditor extends Component {
     });
   };
 
-  selectPassenger = id => {
+  selectPassenger = (id) => {
     const { passengers, paymentTypes, defaultPaymentType } = this.props.data;
     const passenger = find(passengers, { id: +id });
     const { firstName, lastName, phone } = passenger;
@@ -98,7 +79,7 @@ class BookingEditor extends Component {
 
   loadBooking = () => {
     this.props.getFormData()
-      .then(data => {
+      .then((data) => {
         const { validatedReferences } = this.props;
         const { passenger: dataPassenger, booking, passengers, paymentTypes, defaultPaymentType } = data;
         const passenger = dataPassenger ||
@@ -109,7 +90,7 @@ class BookingEditor extends Component {
             bookingReferenceId: ref.id,
             mandatory: ref.mandatory,
             conditional: ref.conditional,
-            value: ref.mandatory && 'default' || ref.value
+            value: (ref.mandatory && 'default') || ref.value
           }));
         let attrs = {
           ...paymentTypeToAttrs(paymentType),

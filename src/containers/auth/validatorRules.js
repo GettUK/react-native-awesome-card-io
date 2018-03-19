@@ -1,4 +1,4 @@
-import { strings } from 'locales';  
+import { strings } from 'locales';
 
 const emailRule = {
   presence: {
@@ -7,7 +7,7 @@ const emailRule = {
   email: {
     message: strings('validation.email.format')
   }
-}
+};
 
 export const loginRules = {
   email: emailRule,

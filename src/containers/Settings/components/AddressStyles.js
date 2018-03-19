@@ -11,7 +11,7 @@ export default StyleSheet.create({
   predefinedAddress: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 15,
+    paddingLeft: 15
   },
   addressWrapper: {
     marginLeft: 15,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
     borderBottomColor: '#bcbbc1',
     paddingVertical: 15,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   predefinedAddressWrapper: {
     alignSelf: 'stretch'
@@ -50,7 +50,7 @@ export default StyleSheet.create({
     fontSize: 17
   },
   input: {
-    fontSize: 17,
+    fontSize: 17
   },
   inputContainer: {
     marginLeft: 15,

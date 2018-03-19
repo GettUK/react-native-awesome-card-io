@@ -16,7 +16,7 @@ class SaveProfileBtn extends Component {
   };
 
   get isChanged() {
-    const { firstName, lastName, tempFirstName, tempLastName, tempAvatar} = this.props;
+    const { firstName, lastName, tempFirstName, tempLastName, tempAvatar } = this.props;
     return firstName !== tempFirstName || lastName !== tempLastName || !!tempAvatar;
   }
 
@@ -24,7 +24,7 @@ class SaveProfileBtn extends Component {
     if (this.isChanged) {
       const { sendProfileData, navigation } = this.props;
       sendProfileData()
-        .then(() => navigation.goBack(null))
+        .then(() => navigation.goBack(null));
     }
   };
 

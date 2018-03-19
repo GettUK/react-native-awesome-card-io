@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import { createFilter } from 'redux-persist-transform-filter';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
-import { reducer } from 'reducers';
+import reducer from 'reducers';
 import { isEmpty } from 'lodash/fp';
 import { auth } from 'actions/ui/auth';
 import {
@@ -57,7 +57,7 @@ export function createStore() {
     composeWithDevTools(getEnhancer())
   );
   // const persistor = persistStore(store, {}, () => {
-  // 	store.dispatch(changeKeyboardStatus(false));
+  // store.dispatch(changeKeyboardStatus(false));
   // }).purge([]);
   const persistor = persistStore(store, null, () => {
     if (!isEmpty(store.getState().session.token)) {

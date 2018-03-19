@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { every, find, first, has } from 'lodash';
-import { Icon, Button, Modal, DropdownAlert } from 'components';
+import { Icon, Button, Modal, Alert } from 'components';
 import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
@@ -40,7 +40,6 @@ import {
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { nullAddress } from 'utils';
-import { strings } from 'locales';
 import moment from 'moment';
 
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
@@ -96,7 +95,7 @@ class Map extends Component {
   getCurrentPosition = () => {
     const { map: { options } } = this.props;
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         this.props.initialRegionPosition(position);
         this.props.changePosition(position);
         this.props
@@ -116,7 +115,7 @@ class Map extends Component {
 
   getAvailableVehicles = () => {
     const { bookingFormData: { vehicles } } = this.props;
-    return (vehicles && vehicles.data || []).filter(vehicle => vehicle.available);
+    return ((vehicles && vehicles.data) || []).filter(vehicle => vehicle.available);
   };
 
   getPassenger = () => {
@@ -124,7 +123,7 @@ class Map extends Component {
     return passenger || find(passengers, { id: +passengerId });
   };
 
-  addPoint = name => {
+  addPoint = (name) => {
     this.props.geocodeEmpty();
     this.props.changeAddress(name);
     this.props.changeAddressType('pickupAddress', {}, null);
@@ -135,13 +134,12 @@ class Map extends Component {
     const { map: { addressModal } } = this.props;
     this.props.addressVisibleModal(!addressModal);
   };
+
   watchID = null;
 
-  isActiveSceneIs = (name = 'preorder') => {
-    return this.props.activeScene === AVAILABLE_MAP_SCENES[name];
-  };
+  isActiveSceneIs = (name = 'preorder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     this.setState({ date });
   };
 
@@ -258,9 +256,11 @@ class Map extends Component {
   goToOrders = () => {
     this.props.navigation.navigate('OrdersView', {});
   };
+
   togglePickerModal = () => {
     this.props.toggleVisibleModal('isPickerModalOpened');
   };
+
   clearFields = () => {
     this.props.removeFields([
       'stops', 'destinationAddress',
@@ -283,6 +283,7 @@ class Map extends Component {
           this.handleDateChange(momentDate.set({ year, month, date: day }).toDate());
         }
       } catch ({ code, message }) {
+        // eslint-disable-next-line no-console
         console.warn('Cannot open date picker', message);
       }
     };
@@ -298,6 +299,7 @@ class Map extends Component {
           this.handleDateChange(momentDate.set({ hour, minute }).toDate());
         }
       } catch ({ code, message }) {
+        // eslint-disable-next-line no-console
         console.warn('Cannot open time picker', message);
       }
     };
@@ -429,10 +431,10 @@ class Map extends Component {
           />
         }
 
-        <DropdownAlert
-          type='error'
-          ref={el => (this.dropdown = el)}
-          position='bottom'
+        <Alert
+          type="error"
+          ref={(el) => { this.dropdown = el; }}
+          position="bottom"
         />
       </View>
     );

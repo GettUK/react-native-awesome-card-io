@@ -6,7 +6,9 @@ import { DismissKeyboardView } from 'components';
 
 import styles from './styles';
 
-export default function Modal({ onClose, label, style, contentStyles, children, ...rest }) {
+export default function Modal({
+  onClose, label, style, contentStyles, children, ...rest
+}) {
   return (
     <NativeModal
       backdropColor="#284784"

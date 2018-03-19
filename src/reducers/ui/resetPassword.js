@@ -4,15 +4,11 @@ export const initialState = {
   busy: false
 };
 
-const start = (state, { data }) => {
-  return { busy: true };
-};
+const start = () => ({ busy: true });
 
-const succeed = (state, { data }) => {
-  return { busy: false };
-};
+const succeed = () => ({ busy: false });
 
 export default composeReducer('resetPassword', {
   start,
-  succeed,
+  succeed
 }, initialState);

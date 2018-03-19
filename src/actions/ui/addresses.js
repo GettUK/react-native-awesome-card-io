@@ -1,8 +1,12 @@
 import { createTypes } from 'redux-compose-reducer';
 import { get } from 'utils';
 
-const TYPES = createTypes('ui/addresses',
-  ['addressesEmpty', 'receiveAddressesStart', 'receiveAddressesFailure', 'receiveAddressesSuccess']);
+const TYPES = createTypes('ui/addresses', [
+  'addressesEmpty',
+  'receiveAddressesStart',
+  'receiveAddressesFailure',
+  'receiveAddressesSuccess'
+]);
 
 export const addressesEmpty = () => ({ type: TYPES.addressesEmpty });
 
@@ -23,7 +27,7 @@ export const getAddresses = params => (dispatch, getState) => {
     .then(({ data }) => {
       dispatch(receiveAddressesSuccess(data));
     })
-    .catch(errors => {
+    .catch((errors) => {
       dispatch(receiveAddressesFailure(errors));
     });
 };
