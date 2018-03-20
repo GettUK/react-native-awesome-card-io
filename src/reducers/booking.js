@@ -14,6 +14,7 @@ export const initialState = {
     settings: false,
     picker: false
   },
+  bookingId: '',
   currentOrder: {
     busy: false
   },

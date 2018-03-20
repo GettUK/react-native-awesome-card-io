@@ -11,6 +11,7 @@ const axios = Axios.create({
     if (isPlainObject(data)) {
       return JSON.stringify(snakeizeKeys(data));
     }
+
     return data;
   },
   transformResponse(data) {

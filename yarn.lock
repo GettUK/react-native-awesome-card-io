@@ -7197,6 +7197,10 @@ react-native-elements@0.19.0:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-native-fcm@^14.1.1:
+  version "14.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-14.1.1.tgz#5d4cc5a97728086dae9c3a82fade999daf11af8f"
+
 react-native-i18n@2.0.12:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-2.0.12.tgz#4a503cc73b2fe55e8518f6d4a1340d3b449d8d1a"

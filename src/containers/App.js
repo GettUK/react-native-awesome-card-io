@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, View, Platform } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash/fp';
+
 import NavigatorApp from 'navigators/navigatorApp';
 import NavigatorLogin from 'navigators/navigatorLogin';
 
+import { saveToken } from 'actions/app/pushNotifications';
+
 import { SplashScreen } from 'components';
+
+import PN from 'utils/notifications';
+
 import { changeKeyboardStatus } from 'actions/app/statuses';
 
 class AppContainer extends Component {
@@ -20,6 +26,11 @@ class AppContainer extends Component {
       'keyboardDidHide',
       this.keyboardDidHide
     );
+
+    PN.getNotificationsPermissions();
+    PN.registerFCMToken().then((token) => {
+      this.props.dispatch(saveToken(token))
+    });
   }
 
   componentWillUnmount() {
@@ -42,6 +53,7 @@ class AppContainer extends Component {
 
   render() {
     const { ui: { auth }, session: { token } } = this.props;
+
     return (
       <View style={{ flex: 1 }}>
         {auth.errors.cata({
