@@ -12,11 +12,15 @@ import {
   TimePickerAndroid
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import moment from 'moment';
 import { every, find, first, has } from 'lodash';
+
 import { Icon, Button, Modal, Alert } from 'components';
-import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
+
+import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
+
 import {
   removeFields,
   changeFields,
@@ -39,13 +43,15 @@ import {
 } from 'actions/booking';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
+
 import { nullAddress } from 'utils';
-import moment from 'moment';
+
+import { strings } from 'locales';
 
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
-
 import ActiveOrderScene from './ActiveOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
+
 import styles from './style';
 
 class Map extends Component {
@@ -81,8 +87,7 @@ class Map extends Component {
 
       completeOrder();
     } else if (status !== statusProps && status === CANCELLED_STATUS) {
-      // TODO: change view and component in OMA-68
-      // this.dropdown.showErrorMessage('Order was cancelled');
+      this.showAlert();
 
       cancelOrder();
     }
@@ -268,6 +273,10 @@ class Map extends Component {
     ]);
   };
 
+  showAlert = () => {
+    this.alert.show();
+  }
+
   renderTimeDatePicker() {
     const { date } = this.state;
     const { bookingMeta: { isPickerModalOpened } } = this.props;
@@ -432,9 +441,10 @@ class Map extends Component {
         }
 
         <Alert
-          type="error"
-          ref={(el) => { this.dropdown = el; }}
-          position="bottom"
+          ref={alert => this.alert = alert}
+          type='failed'
+          message='Order was cancelled'
+          position='bottom'
         />
       </View>
     );
