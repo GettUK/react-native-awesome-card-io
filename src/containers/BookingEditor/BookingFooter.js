@@ -85,12 +85,13 @@ class BookingFooter extends Component {
     return (has(fields, 'pickupAddress') && fields.pickupAddress.countryCode) &&
       (has(fields, 'destinationAddress') && fields.destinationAddress.countryCode) &&
       (fields.passengerName && fields.passengerPhone) &&
-      (fields.vehicleName && fields.vehiclePrice);
+      (fields.vehicleName && !isNull(fields.vehiclePrice));
   };
 
   goToMessageToDriver = () => {
+    const { map: { fields: { message } } } = this.props;
     this.toggleSettingsModal();
-    this.props.navigation.navigate('MessageToDriver');
+    this.props.navigation.navigate('MessageToDriver', { message });
   };
 
   goToTravelReasons = () => {
@@ -99,14 +100,12 @@ class BookingFooter extends Component {
   };
 
   toggleSettingsModal = () => {
-    this.props.toggleVisibleModal('isSettingsModalOpened');
+    this.props.toggleVisibleModal('settings');
   };
 
   renderSettings() {
-    const { data: { formData: { travelReasons },
-      meta: { isSettingsModalOpened },
-      new: { messageToDriver, travelReason: newTravelReason }
-    } } = this.props;
+    const { data: { formData: { travelReasons }, modals: { settings } },
+      map: { fields: { message, travelReasonId, passengerName } } } = this.props;
 
     const renderMenuItem = (title, value, handler) => (
       <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
@@ -116,13 +115,15 @@ class BookingFooter extends Component {
       </TouchableOpacity>
     );
 
-    const getReasonsName = id => ((travelReasons && travelReasons.find(r => r.id === id)) || {}).name;
+    const getReasonsName = id => ((travelReasons && travelReasons.find(r => r.id === +id)) || {}).name;
 
     return (
-      <Modal isVisible={isSettingsModalOpened} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
-        {renderMenuItem('Message to driver', messageToDriver, this.goToMessageToDriver)}
+      <Modal isVisible={settings} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
+        {renderMenuItem('Order for', passengerName, () => {})}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Reasons for travel', getReasonsName(newTravelReason), this.goToTravelReasons)}
+        {renderMenuItem('Message to driver', message, this.goToMessageToDriver)}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), this.goToTravelReasons)}
       </Modal>
     );
   }
@@ -251,7 +252,7 @@ class BookingFooter extends Component {
               <View style={styles.rowActions}>
                 <Button
                   style={styles.timeBtn}
-                  onPress={() => this.props.toggleVisibleModal('isPickerModalOpened')}
+                  onPress={() => this.props.toggleVisibleModal('picker')}
                 >
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>

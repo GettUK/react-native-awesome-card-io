@@ -1,23 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Text } from 'react-native';
+import { has } from 'lodash/fp';
 import { ScreenHeader } from 'components';
 import styles from './styles';
 
-const MessageToDriverHeader = ({ navigation, messageLength }) => (
-    <ScreenHeader
-      navigation={navigation}
-      title="Message to Driver"
-      rightContent={<Text style={styles.lengthTitle}>{messageLength} / 250</Text>}
-    />
+const MessageToDriverHeader = ({ navigation }) => (
+  <ScreenHeader
+    navigation={navigation}
+    title="Message to Driver"
+    rightContent={
+      <Text style={styles.lengthTitle}>
+        {has('message', navigation.state.params) && navigation.state.params.message.length || 0} / 250
+      </Text>
+    }
+  />
 );
 
-const mapState = (state) => {
-  const newBooking = state.bookings.new;
-  const messageLength = (newBooking.temp.messageToDriver && newBooking.temp.messageToDriver.length)
-    || newBooking.messageToDriver.length;
-  return ({
-    messageLength
-  });
+MessageToDriverHeader.propTypes = {
+  navigation: PropTypes.object.isRequired
 };
-export default connect(mapState)(MessageToDriverHeader);
+
+export default MessageToDriverHeader;

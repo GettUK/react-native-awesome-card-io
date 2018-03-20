@@ -17,10 +17,6 @@ const TYPES = createTypes('booking', [
   'getVehiclesStart',
   'getVehiclesSuccess',
   'getVehiclesFailure',
-  'changeTempMessageToDriver',
-  'applyMessageToDriver',
-  'changeBookingDate',
-  'changeTravelReason',
   'toggleVisibleModal',
   'setDriver'
 ]);
@@ -109,25 +105,11 @@ export const getVehicles = params => (dispatch) => {
       dispatch({ type: TYPES.getVehiclesSuccess, payload: data });
       return data;
     }).catch(() => {
-      dispatch({ type: TYPES.getVehiclesFailure });
-      dispatch(changeFields({ quoteId: undefined, vehicleName: undefined }));
+      dispatch(batchActions([
+        { type: TYPES.getVehiclesFailure },
+        changeFields({ quoteId: undefined, vehicleName: undefined })
+      ]));
     });
-};
-
-export const changeTempMessageToDriver = message => (dispatch) => {
-  dispatch({ type: TYPES.changeTempMessageToDriver, message });
-};
-
-export const applyMessageToDriver = () => (dispatch) => {
-  dispatch({ type: TYPES.applyMessageToDriver });
-};
-
-export const changeBookingDate = date => (dispatch) => {
-  dispatch({ type: TYPES.changeBookingDate, date });
-};
-
-export const changeTravelReason = reasonId => (dispatch) => {
-  dispatch({ type: TYPES.changeTravelReason, reasonId });
 };
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
