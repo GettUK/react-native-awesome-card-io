@@ -40,6 +40,7 @@ import {
   completeOrder,
   cancelOrder
 } from 'actions/booking';
+import { requestPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
@@ -62,22 +63,27 @@ class Map extends Component {
     };
   }
 
-  componentDidMount() {
-    const { map: { options } } = this.props;
-
-    setTimeout(() => {
-      this.getCurrentPosition();
-    }, 750);
-
-    this.watchID = navigator.geolocation.watchPosition(
-      this.props.changePosition,
-      this.props.errorPosition,
-      options
-    );
+  componentWillMount() {
+    this.props.requestPermissions('location', { type: 'always' });
   }
 
-  componentWillReceiveProps({ status }) {
-    const { navigation, cancelOrder, completeOrder, status: statusProps } = this.props;
+  componentDidMount() {
+    this.getCurrentPosition();
+    this.watchPosition();
+  }
+
+  componentWillReceiveProps({ app: { statuses }, status }) {
+    const { app: { statuses: statusesProps },
+      navigation, cancelOrder, completeOrder, status: statusProps } = this.props;
+
+    if (
+      statuses.permissions && statusesProps.permissions &&
+      statuses.permissions.location !== statusesProps.permissions.location &&
+      statuses.permissions.location === PERMISSION_STATUS.authorized
+    ) {
+      this.getCurrentPosition();
+      this.watchPosition();
+    }
 
     if (status !== statusProps && status === COMPLETED_STATUS) {
       navigation.navigate('RateDriver');
@@ -93,28 +99,55 @@ class Map extends Component {
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
+    this.clearWatchPosition();
   }
+
+  watchPosition = () => {
+    const { map: { options } } = this.props;
+    if (this.isAuthorizedPermission('location')) {
+      this.watchID = navigator.geolocation.watchPosition(
+        this.props.changePosition,
+        this.props.errorPosition,
+        options
+      );
+    }
+  };
+
+  clearWatchPosition = () => {
+    if (this.isAuthorizedPermission('location')) {
+      navigator.geolocation.clearWatch(this.watchID);
+    }
+  };
+
+  isAuthorizedPermission = (permission) => {
+    const { app: { statuses } } = this.props;
+    return (
+      statuses.permissions &&
+      statuses.permissions[permission] === PERMISSION_STATUS.authorized
+    );
+  };
 
   getCurrentPosition = () => {
     const { map: { options } } = this.props;
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.props.initialRegionPosition(position);
-        this.props.changePosition(position);
-        this.props
-          .geocode({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          })
-          .then(this.addPoint)
-          .catch(() => {
-            this.addPoint(nullAddress());
-          });
-      },
-      this.props.errorPosition,
-      options
-    );
+    if (this.isAuthorizedPermission('location')) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.props.initialRegionPosition(position);
+          this.props.changePosition(position);
+          this.props
+            .geocode({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            })
+            .then(this.addPoint)
+            .catch(() => {
+              this.addPoint(nullAddress());
+            });
+        },
+        this.props.errorPosition,
+        options
+      );
+    }
   };
 
   getAvailableVehicles = () => {
@@ -477,13 +510,15 @@ Map.propTypes = {
   errorPosition: PropTypes.func.isRequired,
   geocodeEmpty: PropTypes.func.isRequired,
   geocode: PropTypes.func.isRequired,
-  toggleVisibleModal: PropTypes.func.isRequired
+  toggleVisibleModal: PropTypes.func.isRequired,
+  requestPermissions: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {
 };
 
-const mapState = ({ ui, bookings }) => ({
+const mapState = ({ app, ui, bookings }) => ({
+  app,
   map: ui.map,
   activeScene: ui.navigation.activeScene,
   bookings,
@@ -507,7 +542,8 @@ const mapDispatch = {
   getVehicles,
   toggleVisibleModal,
   completeOrder,
-  cancelOrder
+  cancelOrder,
+  requestPermissions
 };
 
 export default connect(mapState, mapDispatch)(Map);
