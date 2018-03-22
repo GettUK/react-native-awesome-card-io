@@ -11,11 +11,9 @@ import reducer from 'reducers';
 import { isEmpty } from 'lodash/fp';
 import { auth } from 'actions/ui/auth';
 import {
-  changeKeyboardStatus
-  // changePermissions
+  changeKeyboardStatus,
+  checkMultiplePermissions
 } from 'actions/app/statuses';
-
-// import { checkMultiplePermissions } from 'utils';
 
 export function getMiddlewares() {
   const middlewares = [thunk, createNetworkMiddleware()];
@@ -46,7 +44,7 @@ export function createStore() {
     key: 'root',
     storage,
     transforms: [
-      createFilter('app', ['statuses', 'booking']),
+      createFilter('app', ['statuses']),
       createFilter('session', ['token', 'realms', 'result'])
     ],
     whitelist: ['app', 'session']
@@ -64,9 +62,7 @@ export function createStore() {
       store.dispatch(auth());
     }
     store.dispatch(changeKeyboardStatus(false));
-    // checkMultiplePermissions(['location'], perms => {
-    //   store.dispatch(changePermissions({ ...perms }));
-    // });
+    store.dispatch(checkMultiplePermissions(['location', 'camera', 'photo']));
   });
   return { store, persistor };
 }
