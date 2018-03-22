@@ -18,7 +18,13 @@ export const removeFields = fields => ({ type: TYPES.removeFields, payload: fiel
 
 export const changeFields = fields => ({ type: TYPES.changeFields, payload: fields });
 
-export const addAddressPoint = () => ({ type: TYPES.addAddressPoint });
+export const addAddressPoint = () => (dispatch, getState) => {
+  const { ui: { map: { address } } } = getState();
+
+  if (address.value.lat && address.value.lng) {
+    dispatch({ type: TYPES.addAddressPoint })
+  }
+};
 
 export const changeAddressType = (name, value, object) =>
   ({ type: TYPES.changeAddressType, payload: { name, value, object } });
