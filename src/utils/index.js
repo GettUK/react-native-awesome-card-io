@@ -9,3 +9,4 @@ export {
   formatPrice
 } from './common';
 export * from './requests';
+export * from './map';

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,11 +8,13 @@ import { changeRegionPosition } from 'actions/ui/map';
 
 import { Icon } from 'components';
 
+import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
+
 import styles from './style';
 
 class MapView extends Component {
-  componentWillReceiveProps({ fields }) {
-    const { fields: fieldsProps } = this.props;
+  componentWillReceiveProps({ fields, isActiveOrder }) {
+    const { fields: fieldsProps, isActiveOrder: isActiveOrderProps } = this.props;
 
     if (this.isPathChanged(fields, fieldsProps)) {
       const source = this.prepareCoordinates(fields.pickupAddress);
@@ -25,10 +28,15 @@ class MapView extends Component {
       ], { edgePadding: { top: 200, bottom: 300, left: 100, right: 100 }, animated: true });
     }
 
-    if (fields.pickupAddress !== fieldsProps.pickupAddress && !fields.destinationAddress) {
+    if (fields.pickupAddress !== fieldsProps.pickupAddress && !fields.destinationAddress
+      || isActiveOrder && !isActiveOrderProps) {
       const source = this.prepareCoordinates(fields.pickupAddress);
 
-      this.map.animateToCoordinate(source);
+      this.map.animateToRegion({
+        ...source,
+        latitudeDelta: LATTITIDE_DELTA,
+        longitudeDelta: LONGTITUDE_DELTA,
+      });
     }
   }
 
@@ -38,7 +46,7 @@ class MapView extends Component {
         fields.pickupAddress !== fieldsProps.pickupAddress
       )
     )
-    || fields.stops !== fieldsProps.stops
+    || fields.stops && fields.stops !== fieldsProps.stops
   );
 
   prepareCoordinates = address => (

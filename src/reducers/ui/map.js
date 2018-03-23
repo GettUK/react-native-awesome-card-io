@@ -1,5 +1,4 @@
 import { composeReducer } from 'redux-compose-reducer';
-import { Dimensions } from 'react-native';
 import {
   get,
   map,
@@ -10,13 +9,7 @@ import {
   concat,
   isEqual
 } from 'lodash/fp';
-import { nullAddress } from 'utils';
-
-const { width, height } = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATTITIDE_DELTA = 0.0125;
-const LONGTITUDE_DELTA = LATTITIDE_DELTA * ASPECT_RATIO;
+import { nullAddress, LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 
 const defaultAddress = {
   value: nullAddress(''),
