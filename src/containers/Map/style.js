@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
   },
   itemAddressView: {
     marginLeft: 46,
-    paddingVertical: 7
+    paddingVertical: 5
   },
   itemAddressText: {
-    fontSize: 14,
+    fontSize: 18,
     color: '#000'
   },
   row: {

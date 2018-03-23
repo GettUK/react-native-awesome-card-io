@@ -5,9 +5,7 @@ import {
   View
 } from 'react-native';
 import moment from 'moment';
-import {
-  isEmpty, find, isEqual, has
-} from 'lodash';
+import { isEmpty, find, isEqual, has } from 'lodash';
 import { compose } from 'lodash/fp';
 import AddressModal from 'containers/Map/AddressModal';
 import {
@@ -25,6 +23,7 @@ import {
   paymentTypeToAttrs
 } from 'containers/shared/bookings/data';
 import { PointList } from 'components';
+import { prepareDefaultValues } from './utils';
 import styles from './style';
 
 class BookingEditor extends Component {
@@ -128,6 +127,7 @@ class BookingEditor extends Component {
 
   render() {
     const {
+      passenger, changeAddressTyping, addAddressPoint, toggleModal, changeAddress, changeAddressType,
       map: { addressModal, address, fields }
     } = this.props;
 
@@ -136,20 +136,21 @@ class BookingEditor extends Component {
         <AddressModal
           isVisible={addressModal}
           toggleModal={compose(
-            this.props.addAddressPoint,
-            this.props.toggleModal
+            addAddressPoint,
+            toggleModal
           )}
           value={address.value}
-          onChange={this.props.changeAddress}
+          defaultValues={prepareDefaultValues(passenger)}
+          onChange={changeAddress}
           isTyping={address.isTyping}
-          onChangeTyping={this.props.changeAddressTyping}
+          onChangeTyping={changeAddressTyping}
           typingTimeout={address.typingTimeout}
         />
         <PointList
           style={styles.pointList}
-          onChangeAddress={this.props.changeAddress}
-          onChangeAddressType={this.props.changeAddressType}
-          toggleModal={this.props.toggleModal}
+          onChangeAddress={changeAddress}
+          onChangeAddressType={changeAddressType}
+          toggleModal={toggleModal}
           data={{ ...fields }}
         />
       </View>
