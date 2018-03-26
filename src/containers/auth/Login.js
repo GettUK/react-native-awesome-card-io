@@ -83,7 +83,7 @@ class Login extends Component {
 
   onCloseAlert = () => {
     this.setState({ isResetSuccess: false });
-  }
+  };
 
   resetError = () => {
     this.setState({ error: '' });
@@ -149,7 +149,7 @@ class Login extends Component {
         </View>
 
         <Alert
-          ref={alert => this.alert = alert}
+          ref={(alert) => { this.alert = alert; }}
           type={isResetSuccess ? 'success' : 'failed' }
           message={isResetSuccess ? strings('login.success_reset') : error}
           onClose={this.onCloseAlert}

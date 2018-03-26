@@ -22,7 +22,7 @@ export const addAddressPoint = () => (dispatch, getState) => {
   const { ui: { map: { address } } } = getState();
 
   if (address.value.lat && address.value.lng) {
-    dispatch({ type: TYPES.addAddressPoint })
+    dispatch({ type: TYPES.addAddressPoint });
   }
 };
 

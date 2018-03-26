@@ -11,7 +11,7 @@ const MessageToDriverHeader = ({ navigation }) => (
     title="Message to Driver"
     rightContent={
       <Text style={styles.lengthTitle}>
-        {has('message', navigation.state.params) && navigation.state.params.message.length || 0} / 250
+        {(has('message', navigation.state.params) && navigation.state.params.message.length) || 0} / 250
       </Text>
     }
   />

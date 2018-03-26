@@ -21,7 +21,7 @@ const TYPES = createTypes('booking', [
   'setDriver'
 ]);
 
-export const orderStatusSubscribe = (channel) => (dispatch, getState) => {
+export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
   faye.on(channel, ({ data }) => {
@@ -33,7 +33,7 @@ export const orderStatusSubscribe = (channel) => (dispatch, getState) => {
               { type: TYPES.setDriver, payload: data.driverDetails.info },
               { type: TYPES.changeOrderStatus, data }
             ]));
-          })
+          });
       } else {
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
@@ -79,14 +79,12 @@ export const completeOrder = () => (dispatch) => {
 export const cancelOrder = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
-  if (currentOrder.id) {
-    return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
-      .then(res => {
-        dispatch(completeOrder());
-      });
-  }
+  if (!currentOrder.id) dispatch(completeOrder());
 
-  dispatch(completeOrder());
+  return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
+    .then(() => {
+      dispatch(completeOrder());
+    });
 };
 
 export const getFormData = () => dispatch => (
