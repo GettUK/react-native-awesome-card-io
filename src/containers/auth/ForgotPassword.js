@@ -113,8 +113,8 @@ class ForgotPassword extends PureComponent {
         </TouchableHighlight>
 
         <Alert
-          ref={alert => this.alert = alert}
-          type='failed'
+          ref={(alert) => { this.alert = alert; }}
+          type="failed"
           message={this.state.error}
           onClose={this.resetError}
         />

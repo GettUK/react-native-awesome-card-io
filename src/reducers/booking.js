@@ -75,13 +75,13 @@ const cancelOrder = state => (
   })
 );
 
-const setDriver = (state, { payload }) => {
-  return update(state, 'driver', payload);
-}
+const setDriver = (state, { payload }) => (
+  update(state, 'driver', payload)
+);
 
-const changeOrderStatus = (state, { data }) => {
-  return update(state, 'orderState', data);
-};
+const changeOrderStatus = (state, { data }) => (
+  update(state, 'orderState', data)
+);
 
 const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])

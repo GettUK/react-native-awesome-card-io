@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Dimensions, Image, TouchableWithoutFeedback, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -16,23 +16,20 @@ import { orderPanelStyles } from './styles';
 const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) => {
   const height = Dimensions.get('window').height;
 
-  callDriver = () => {
-    Linking.openURL(`tel:${driver.phoneNumber}`)
-  }
-
-  renderHeader = () => {
-    return (
-      <Text style={orderPanelStyles.header}>Order Details</Text>
-    )
+  const callDriver = () => {
+    Linking.openURL(`tel:${driver.phoneNumber}`);
   };
 
-  const renderJourneyDetails = () => (<View key="journey" style={orderPanelStyles.activeContainer}>
-        <JourneyDetails
-          loading={vehicles.loading}
-          time={vehicles.duration}
-          distance={vehicles.distance}
-        />
-      </View>
+  const renderHeader = () => <Text style={orderPanelStyles.header}>Order Details</Text>;
+
+  const renderJourneyDetails = () => (
+    <View key="journey" style={orderPanelStyles.activeContainer}>
+      <JourneyDetails
+        loading={vehicles.loading}
+        time={vehicles.duration}
+        distance={vehicles.distance}
+      />
+    </View>
   );
 
   const renderCarItem = () => {
@@ -62,33 +59,33 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
   };
 
   const renderOption = ({ title, value, onPress }) => (<View key={title} style={orderPanelStyles.activeContainer}>
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
-          <Icon name="pickUpField" color="#c6c5cd" />
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
+        <Icon name="pickUpField" color="#c6c5cd" />
 
-          <View style={orderPanelStyles.titleContainer}>
-            <Text style={orderPanelStyles.title}>{title}</Text>
-            <Text style={orderPanelStyles.name}>{value}</Text>
-          </View>
-
-          <Icon name="chevron" color="#c6c5cd" width={10} />
+        <View style={orderPanelStyles.titleContainer}>
+          <Text style={orderPanelStyles.title}>{title}</Text>
+          <Text style={orderPanelStyles.name}>{value}</Text>
         </View>
-      </TouchableWithoutFeedback>
-    </View>);
+
+        <Icon name="chevron" color="#c6c5cd" width={10} />
+      </View>
+    </TouchableWithoutFeedback>
+  </View>);
 
   const renderDriverRating = () => (
-      <View style={orderPanelStyles.activeContainer}>
-        <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
-          <View>
-            <Text style={orderPanelStyles.title}>Driver</Text>
-            <Text style={orderPanelStyles.name}>{driver.name}</Text>
-          </View>
+    <View style={orderPanelStyles.activeContainer}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
+        <View>
+          <Text style={orderPanelStyles.title}>Driver</Text>
+          <Text style={orderPanelStyles.name}>{driver.name}</Text>
+        </View>
 
-          <View style={orderPanelStyles.rating}>
-            <Text style={orderPanelStyles.ratingLabel}>{driver.rating}</Text>
-          </View>
+        <View style={orderPanelStyles.rating}>
+          <Text style={orderPanelStyles.ratingLabel}>{driver.rating}</Text>
         </View>
       </View>
+    </View>
   );
 
   const renderBackdropComponent = () => {
@@ -119,55 +116,55 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
   };
 
   const renderActiveItem = () => (
-      <View style={orderPanelStyles.activeContainer}>
-        <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem]}>
-          <Icon
-            style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
-            name="arrowDown"
-            color="#c6c5cd"
-            width={34}
+    <View style={orderPanelStyles.activeContainer}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem]}>
+        <Icon
+          style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
+          name="arrowDown"
+          color="#c6c5cd"
+          width={34}
+        />
+
+        <View style={orderPanelStyles.driverContainer}>
+          <Image
+            source={driver.imageUrl ? { uri: driver.imageUrl } : assets.aupairLarge}
+            style={orderPanelStyles.roundContainer}
+            resizeMode="contain"
           />
 
-          <View style={orderPanelStyles.driverContainer}>
-            <Image
-              source={driver.imageUrl ? { uri: driver.imageUrl } : assets.aupairLarge}
-              style={orderPanelStyles.roundContainer}
-              resizeMode='contain'
-            />
-
-            <View style={orderPanelStyles.titleContainer}>
-              <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
-                {driver.vehicle ? driver.vehicle.model : 'Unknown'}
-              </Text>
-              <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
-                {driver.vehicle ? `${driver.vehicle.color}, ${driver.vehicle.licencePlate || ''}` : 'Unknown'}
-              </Text>
-            </View>
-
-            <TouchableWithoutFeedback onPress={callDriver}>
-              <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-                <Icon name='phone' color='#fff' />
-              </View>
-            </TouchableWithoutFeedback>
+          <View style={orderPanelStyles.titleContainer}>
+            <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
+              {driver.vehicle ? driver.vehicle.model : 'Unknown'}
+            </Text>
+            <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
+              {driver.vehicle ? `${driver.vehicle.color}, ${driver.vehicle.licencePlate || ''}` : 'Unknown'}
+            </Text>
           </View>
+
+          <TouchableWithoutFeedback onPress={callDriver}>
+            <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
+              <Icon name="phone" color="#fff" />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
+    </View>
   );
 
   return (
     <SlidingUpPanel
       visible
-      showBackdrop = {false}
-      draggableRange = {{
+      showBackdrop={false}
+      draggableRange={{
         top: height - 60 - 60,
         bottom: 148
       }}
-      height = {116}
+      height={116}
       backdropComponent={renderBackdropComponent()}
       header={renderHeader()}
       closeButton={<Icon name="arrow" />}
-      onActivate = {onActivate}
-      onClose = {onClose}
+      onActivate={onActivate}
+      onClose={onClose}
     >
       {renderActiveItem()}
     </SlidingUpPanel>

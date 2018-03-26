@@ -9,21 +9,17 @@ import styles from './styles';
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class MessageToDriver extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: ''
-    };
-  }
+  state = {
+    message: ''
+  };
+
   componentWillMount() {
-    const { message } = this.props;
-    this.onChangeText(message);
+    this.onChangeText(this.props.message);
   }
 
-  onChangeText = message => {
-    const { navigation } = this.props;
+  onChangeText = (message) => {
     this.setState({ message });
-    navigation.setParams({ message });
+    this.props.navigation.setParams({ message });
   };
 
   onSubmit = () => {

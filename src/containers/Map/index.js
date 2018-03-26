@@ -44,8 +44,6 @@ import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { nullAddress } from 'utils';
 
-import { strings } from 'locales';
-
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
 import ActiveOrderScene from './ActiveOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
@@ -317,7 +315,7 @@ class Map extends Component {
 
   showAlert = () => {
     this.alert.show();
-  }
+  };
 
   renderTimeDatePicker() {
     const { date } = this.state;
@@ -475,10 +473,10 @@ class Map extends Component {
         }
 
         <Alert
-          ref={alert => this.alert = alert}
-          type='failed'
-          message='Order was cancelled'
-          position='bottom'
+          ref={(alert) => { this.alert = alert; }}
+          type="failed"
+          message="Order was cancelled"
+          position="bottom"
         />
       </View>
     );

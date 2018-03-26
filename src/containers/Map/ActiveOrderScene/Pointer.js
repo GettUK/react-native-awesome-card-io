@@ -7,7 +7,7 @@ import assets from 'assets';
 
 import { pointerStyles } from './styles';
 
-class Pointer extends Component {
+export default class Pointer extends Component {
   blinkAnim = new Animated.Value(0.2);
 
   componentDidMount() {
@@ -37,7 +37,7 @@ class Pointer extends Component {
                 inputRange: [0.2, 2],
                 outputRange: [1, 0]
               }),
-              transform: [{ scale: this.blinkAnim }],
+              transform: [{ scale: this.blinkAnim }]
             }
           ]}
         />
@@ -47,5 +47,3 @@ class Pointer extends Component {
     );
   }
 }
-
-export default Pointer;
