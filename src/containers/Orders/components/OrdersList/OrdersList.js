@@ -7,6 +7,7 @@ import findKey from 'lodash/findKey';
 import { getOrders } from 'actions/orders';
 
 import { Icon } from 'components';
+import { formatPrice } from 'utils';
 import styles from './styles';
 
 function getOrdersStatuses(type) {
@@ -80,7 +81,7 @@ class OrdersList extends PureComponent {
             </View>
             {item.totalCost > 0 &&
               <View style={[styles.orderLabel, styles.blackLabel]}>
-                <Text style={styles.orderLabelText}>£{item.totalCost}</Text>
+                <Text style={styles.orderLabelText}>{formatPrice(item.totalCost)}</Text>
               </View>
             }
           </View>

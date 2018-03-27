@@ -4,12 +4,13 @@ import { TouchableOpacity, Image, Text, View } from 'react-native';
 import { isNull } from 'lodash';
 import { Icon } from 'components';
 import assets from 'assets';
+import { formatPrice } from 'utils';
 import styles from './styles';
 
 const CarItem = ({
   style, name, label, price, eta, active, onChange
 }) => {
-  const vehiclePrice = cost => (cost ? `£${(cost / 100).toFixed(2)}` : 'By meter');
+  const vehiclePrice = cost => (cost ? formatPrice(cost) : 'By meter');
   const renderContainer = () => (
     <View style={[styles.container, style]}>
       <View style={styles.top}>
