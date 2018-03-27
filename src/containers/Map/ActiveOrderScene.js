@@ -34,7 +34,7 @@ class ActiveOrderScene extends Component {
   };
 
   render() {
-    const { status } = this.props;
+    const { status, busy } = this.props;
 
     const isTripActive = status === ACTIVE_STATUS;
     const isDriverArrived = status === ARRIVED_STATUS;
@@ -54,7 +54,14 @@ class ActiveOrderScene extends Component {
           <View style={{ paddingBottom: isDriverActive ? 140 : 60 }}>
             <View style={screenStyles.actionsRow}>
               {!isTripActive
-                ? <FloatButton key="cancel" label="Cancel Order" iconName="cancel" onPress={this.handleCancelOrder} />
+                ?
+                  <FloatButton
+                    key="cancel"
+                    label="Cancel Order"
+                    iconName="cancel"
+                    loading={busy}
+                    onPress={this.handleCancelOrder}
+                  />
                 : <FloatButton key="actions" label="Actions" iconName="dots" />
               }
 
@@ -80,13 +87,15 @@ class ActiveOrderScene extends Component {
 }
 
 ActiveOrderScene.propTypes = {
-  cancelOrder: PropTypes.func.isRequired
+  cancelOrder: PropTypes.func.isRequired,
+  busy: PropTypes.bool
 };
 
 ActiveOrderScene.defaultProps = {};
 
 const mapState = ({ bookings }) => ({
-  status: (bookings.orderState || {}).status || 'connected'
+  status: (bookings.orderState || {}).status || 'connected',
+  busy: bookings.currentOrder.busy
 });
 
 const mapDispatch = {

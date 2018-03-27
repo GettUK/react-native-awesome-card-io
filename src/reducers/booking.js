@@ -68,7 +68,14 @@ const createBookingFailure = (state, { payload }) => (
   })
 );
 
-const cancelOrder = state => (
+const cancelOrderStart = state => (
+  update(state, {
+    currentOrder: { busy: true },
+    orderCreateError: null
+  })
+);
+
+const cancelOrderSuccess = state => (
   update(state, {
     currentOrder: {},
     orderCreateError: null
@@ -96,7 +103,8 @@ export default composeReducer('booking', {
   createBookingStart,
   createBookingSuccess,
   createBookingFailure,
-  cancelOrder,
+  cancelOrderStart,
+  cancelOrderSuccess,
   changeOrderStatus,
   setDriver
 }, initialState);

@@ -12,7 +12,8 @@ const TYPES = createTypes('booking', [
   'createBookingSuccess',
   'createBookingFailure',
   'changeOrderStatus',
-  'cancelOrder',
+  'cancelOrderStart',
+  'cancelOrderSuccess',
   'getFormDataSuccess',
   'getVehiclesStart',
   'getVehiclesSuccess',
@@ -72,7 +73,7 @@ export const completeOrder = () => (dispatch) => {
 
   dispatch(batchActions([
     { type: TYPES.setDriver, payload: {} },
-    { type: TYPES.cancelOrder }
+    { type: TYPES.cancelOrderSuccess }
   ]));
 };
 
@@ -80,6 +81,8 @@ export const cancelOrder = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
   if (!currentOrder.id) dispatch(completeOrder());
+
+  dispatch({ type: TYPES.cancelOrderStart });
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
     .then(() => {
