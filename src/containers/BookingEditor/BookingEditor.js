@@ -38,6 +38,7 @@ class BookingEditor extends Component {
     const { map: propsMap, requestVehicles } = this.props;
     if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
+        !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
         !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)) {
       requestVehicles();
     }
