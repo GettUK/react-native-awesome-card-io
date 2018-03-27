@@ -52,7 +52,9 @@ const getVehiclesFailure = state => (
 const createBookingStart = state => (
   update(state, {
     currentOrder: { busy: true },
-    orderCreateError: null
+    orderCreateError: null,
+    canceledByExternal: false,
+    canceledByUser: false
   })
 );
 
@@ -83,6 +85,20 @@ const cancelOrderSuccess = state => (
   })
 );
 
+const canceledByExternal = state => {
+  return update(state, {
+    canceledByExternal: true,
+    canceledByUser: false
+  })
+}
+
+const canceledByUser = state => {
+  return update(state, {
+    canceledByExternal: false,
+    canceledByUser: true
+  })
+}
+
 const setDriver = (state, { payload }) => (
   update(state, 'driver', payload)
 );
@@ -106,6 +122,8 @@ export default composeReducer('booking', {
   createBookingFailure,
   cancelOrderStart,
   cancelOrderSuccess,
+  canceledByExternal,
+  canceledByUser,
   changeOrderStatus,
   setDriver
 }, initialState);
