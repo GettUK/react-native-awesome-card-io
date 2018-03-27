@@ -36,17 +36,18 @@ export const login = () => (dispatch, getState) => {
 
   return post('/session', { user: { ...ui.login.fields } })
     .then(({ data: { token, realms } }) => {
-      dispatch(batchActions([
-        loginSuccess(),
-        userLogin(token, realms)
-      ]));
-      return get('/session')
+      get('/session')
         .then(({ data }) => {
           dispatch(batchActions([authSuccess(), userData(data)]));
         })
         .catch((errors) => {
           dispatch(authFailure(errors));
         });
+
+      dispatch(batchActions([
+        loginSuccess(),
+        userLogin(token, realms)
+      ]));
     })
     .catch((errors) => {
       dispatch(loginFailure(errors));
