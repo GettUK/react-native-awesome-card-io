@@ -39,3 +39,7 @@ export function nullAddress(line = null) {
     timezone: 'Europe/London'
   };
 }
+
+export function formatPrice(value) {
+  return `£${(value / 100).toFixed(2)}`;
+}

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import assets from 'assets';
 
 import { Icon, PointList, JourneyDetails } from 'components';
+import { formatPrice } from 'utils';
 
 import { vehiclesData } from 'containers/shared/bookings/data';
 
@@ -51,7 +52,7 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
           />
 
           <Text style={[orderPanelStyles.name, { width: 100, textAlign: 'right' }]}>
-            {vehicle.price ? `£${vehicle.price}` : 'By meter'}
+            {vehicle.price ? formatPrice(vehicle.price) : 'By meter'}
           </Text>
         </View>
       </View>
