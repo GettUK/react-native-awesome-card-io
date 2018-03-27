@@ -42,7 +42,8 @@ import { requestPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
-import { nullAddress } from 'utils';
+import { strings } from 'locales';
+import { nullAddress, showConfirmationAlert } from 'utils';
 import PN from 'utils/notifications';
 
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
@@ -323,6 +324,10 @@ class Map extends Component {
     this.alert.show();
   };
 
+  cancelOrderCreation = () => {
+    showConfirmationAlert({ title: strings('order.cancelOrderCreation'), handler: this.clearFields });
+  };
+
   renderTimeDatePicker() {
     const { date } = this.state;
     const { bookings: { modals: { picker } } } = this.props;
@@ -427,7 +432,7 @@ class Map extends Component {
               />
             ) : (
               <NavImageButton
-                onClick={this.clearFields}
+                onClick={this.cancelOrderCreation}
                 styleContainer={styles.headerBack}
                 icon={<Icon width={10} height={18} name="back" color="#284784" />}
               />

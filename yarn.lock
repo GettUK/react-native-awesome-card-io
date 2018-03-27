@@ -8798,9 +8798,9 @@ unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
-update-js@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/update-js/-/update-js-1.6.1.tgz#91a95c73e94ab3474f1a2c64024cb765e1c8d8f7"
+update-js@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/update-js/-/update-js-1.7.0.tgz#c418480bcfd950a802998e658bee779ebebdef95"
   dependencies:
     lodash.set ">= 3.7.0"
 

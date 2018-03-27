@@ -50,7 +50,8 @@
     "headerTitle": "Settings",
     "none": "None",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "deleteAddress": "Delete Address"
   },
   "validation": {
     "email": {
@@ -61,7 +62,12 @@
     }
   },
   "back": "Back",
+  "no": "No",
+  "yes": "Yes",
+  "areYouSure": "Are you sure?",
+  "goBack": "Go Back",
   "order": {
+    "cancelOrderCreation": "Cancel Order Creation",
     "statuses": {
       "connected": "Creating...",
       "order_received": "Order Received",

@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-elements';
 import { Input, Icon } from 'components';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { setInitialProfileValues, changeFieldValue } from 'actions/passenger';
+import { setInitialProfileValues, changeProfileFieldValue } from 'actions/passenger';
 import { prepareInitials } from '../utils';
 import styles from './EditProfileStyles';
 
@@ -33,7 +33,7 @@ class EditProfile extends Component {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     setInitialProfileValues: PropTypes.func,
-    changeFieldValue: PropTypes.func
+    changeProfileFieldValue: PropTypes.func
   };
 
   static defaultProps = {
@@ -105,9 +105,9 @@ const mapState = ({ passenger }) => ({
 
 const mapDispatch = {
   setInitialProfileValues,
-  handleFirstNameChange: changeFieldValue('firstName'),
-  handleLastNameChange: changeFieldValue('lastName'),
-  handleAvatarChange: changeFieldValue('avatar')
+  handleFirstNameChange: changeProfileFieldValue('firstName'),
+  handleLastNameChange: changeProfileFieldValue('lastName'),
+  handleAvatarChange: changeProfileFieldValue('avatar')
 };
 
 export default connect(mapState, mapDispatch)(EditProfile);

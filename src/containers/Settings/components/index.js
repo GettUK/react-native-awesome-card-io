@@ -4,3 +4,4 @@ export { default as AddressesList } from './AddressesList';
 export { default as AddressEditor } from './AddressEditor';
 export { default as DestroyFavouriteAddressBtn } from './DestroyFavouriteAddressBtn';
 export { default as InfoPages } from './InfoPages';
+export { default as BackBtn } from './BackBtn';
