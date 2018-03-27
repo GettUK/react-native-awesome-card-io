@@ -71,7 +71,8 @@
       "in_progress": "Enjoy Your Journey",
       "completed": "Completed",
       "cancelled": "Cancelled",
-      "customer_care": "Customer Care"
+      "customer_care": "Customer Care",
+      "rejected": "Rejected"
     }
   }
 }
