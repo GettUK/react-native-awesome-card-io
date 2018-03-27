@@ -103,6 +103,76 @@ class BookingFooter extends Component {
     this.props.toggleVisibleModal('settings');
   };
 
+  renderAddressItem = (address, label) => {
+    const {
+      changeAddress,
+      changeAddressType,
+      addAddressPoint
+    } = this.props;
+
+    return (
+      <Button
+        key={address.id || label}
+        onPress={() => {
+          changeAddress({ ...address, label });
+          changeAddressType('destinationAddress', {}, null);
+          addAddressPoint();
+        }}
+        style={styles.destinationBtn}
+      >
+        <Text style={styles.customDestinationText}>{label}</Text>
+      </Button>
+    );
+  };
+
+  renderAddressesSelector() {
+    const {
+      map: { fields },
+      changeAddress,
+      changeAddressType,
+      toggleModal,
+      passenger
+    } = this.props;
+
+    return (
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.destinationBtns}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Button
+          onPress={() => {
+            if (has(fields, 'destinationAddress')) {
+              changeAddress(fields.destinationAddress);
+            }
+            changeAddressType('destinationAddress', {}, null);
+            toggleModal();
+          }}
+          style={styles.destinationBtn}
+        >
+          <Icon
+            style={styles.searchIcon}
+            name="search"
+            color="#284784"
+            size={18}
+          />
+          <Text style={styles.selectDestinationText}>
+            Select Destination
+          </Text>
+        </Button>
+        {passenger && !isNull(passenger.homeAddress) &&
+          this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+        }
+        {passenger && !isNull(passenger.workAddress) &&
+          this.renderAddressItem(passenger.workAddress, strings('label.work'))
+        }
+        {passenger && passenger.favoriteAddresses.map(address =>
+          this.renderAddressItem(address.address, address.name))
+        }
+      </ScrollView>
+    );
+  }
+
   renderSettings() {
     const { data: { formData: { travelReasons }, modals: { settings } },
       map: { fields: { message, travelReasonId, passengerName } } } = this.props;
@@ -129,7 +199,15 @@ class BookingFooter extends Component {
   }
 
   render() {
-    const { map: { fields }, data: { formData: { vehicles }, currentOrder: { busy } }, toOrder } = this.props;
+    const {
+      map: { fields },
+      data: { formData: { vehicles }, currentOrder: { busy } },
+      toOrder,
+      getCurrentPosition,
+      createBooking,
+      toggleVisibleModal
+    } = this.props;
+
     return (
       <View style={styles.footer}>
         {this.renderSettings()}
@@ -138,80 +216,17 @@ class BookingFooter extends Component {
             <View>
               <Button
                 style={styles.currentPositionBtn}
-                onPress={this.props.getCurrentPosition}
+                onPress={getCurrentPosition}
               >
                 <Icon name="myLocation" height={22} color="#284784" />
               </Button>
               <Button
                 style={styles.currentPositionBtn}
-                onPress={() => this.props.createBooking(order)}
+                onPress={() => createBooking(order)}
               >
                 <Icon name="pickUpCenter" height={22} color="#284784" />
               </Button>
-              <ScrollView
-                horizontal
-                contentContainerStyle={styles.destinationBtns}
-                showsHorizontalScrollIndicator={false}>
-                <Button
-                  onPress={() => {
-                    if (has(fields, 'destinationAddress')) {
-                      this.props.changeAddress(fields.destinationAddress);
-                    }
-                    this.props.changeAddressType('destinationAddress', {}, null);
-                    this.props.toggleModal();
-                  }}
-                  style={styles.destinationBtn}
-                >
-                  <Icon
-                    style={styles.searchIcon}
-                    name="search"
-                    color="#284784"
-                    size={18}
-                  />
-                  <Text style={styles.selectDestinationText}>
-                    Select Destination
-                  </Text>
-                </Button>
-                {
-                  has(this.props.passenger, 'homeAddress') &&
-                  !isNull(this.props.passenger.homeAddress) && (
-                    <Button
-                      onPress={() => {
-                        this.props.changeAddress({
-                          ...this.props.passenger.homeAddress,
-                          label: strings('label.home')
-                        });
-                        this.props.changeAddressType('destinationAddress', {}, null);
-                        this.props.addAddressPoint();
-                      }}
-                      style={styles.destinationBtn}
-                    >
-                      <Text style={styles.customDestinationText}>
-                        {strings('label.home')}
-                      </Text>
-                    </Button>
-                  )
-                }
-                {
-                  has(this.props.passenger, 'workAddress') &&
-                  !isNull(this.props.passenger.workAddress) && (
-                    <Button
-                      onPress={() => {
-                        this.props.changeAddress({
-                          ...this.props.passenger.workAddress,
-                          label: strings('label.work')
-                        });
-                        this.props.changeAddressType('destinationAddress', {}, null);
-                        this.props.addAddressPoint();
-                      }}
-                    >
-                      <Text style={styles.customDestinationText}>
-                        {strings('label.work')}
-                      </Text>
-                    </Button>
-                  )
-                }
-              </ScrollView>
+              {this.renderAddressesSelector()}
             </View>
           ) : (
             <View>
@@ -252,14 +267,14 @@ class BookingFooter extends Component {
               <View style={styles.rowActions}>
                 <Button
                   style={styles.timeBtn}
-                  onPress={() => this.props.toggleVisibleModal('picker')}
+                  onPress={() => toggleVisibleModal('picker')}
                 >
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
                 <Button
                   style={styles.orderRideBtn}
                   disabled={busy || vehicles.loading || !this.shouldOrderRide()}
-                  onPress={() => this.props.createBooking(fields)}
+                  onPress={() => createBooking(fields)}
                 >
                   {
                     busy && (
