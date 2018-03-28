@@ -110,8 +110,8 @@ class BookingEditor extends Component {
           };
         }
 
-        if (dataPassenger) {
-          const { id, firstName, lastName, phone } = dataPassenger;
+        if (passenger) {
+          const { id, firstName, lastName, phone } = passenger;
 
           attrs = {
             ...attrs,
@@ -120,6 +120,7 @@ class BookingEditor extends Component {
             passengerPhone: phone
           };
         }
+
         this.props.changeFields(attrs);
         this.selectCurrentMemberAsPassenger();
       });
@@ -155,7 +156,6 @@ class BookingEditor extends Component {
     );
   }
 }
-
 
 BookingEditor.propTypes = {
   navigation: PropTypes.object.isRequired,

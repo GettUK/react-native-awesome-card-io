@@ -155,6 +155,7 @@ class Map extends Component {
 
   getPassenger = () => {
     const { map: { fields: { passengerId } }, bookings: { formData: { passenger, passengers } } } = this.props;
+
     return passenger || find(passengers, { id: +passengerId });
   };
 
