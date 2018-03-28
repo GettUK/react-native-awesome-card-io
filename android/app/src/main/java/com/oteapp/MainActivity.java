@@ -1,4 +1,4 @@
-package com.oteapp;
+package com.onetransport.enterprise;
 
 import com.facebook.react.ReactActivity;
 

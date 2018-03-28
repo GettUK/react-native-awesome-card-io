@@ -99,7 +99,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.oteapp"
+        applicationId "com.onetransport.enterprise"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 7
@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fcm')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-vector-icons')
@@ -174,3 +175,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

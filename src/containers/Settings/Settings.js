@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 
 import { getPassengerData, changeToggleValue } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
+import { deleteToken } from 'actions/app/pushNotifications';
 
 import {
   prepareProfileBlock,
@@ -24,7 +25,9 @@ class Settings extends Component {
     this.props.getPassengerData();
   }
 
-  handleLogout = () => {
+  handleLogout = async () => {
+    await this.props.deleteToken();
+
     this.props.logout();
   };
 
@@ -94,7 +97,8 @@ const select = ({ passenger }) => ({
 const bindActions = {
   logout,
   getPassengerData,
-  changeToggleValue
+  changeToggleValue,
+  deleteToken
 };
 
 export default connect(select, bindActions)(Settings);

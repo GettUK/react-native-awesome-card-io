@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "347205680091",
+    "firebase_url": "https://otepush.firebaseio.com",
+    "project_id": "otepush",
+    "storage_bucket": "otepush.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347205680091:android:3d9ed0f8381ec1eb",
+        "android_client_info": {
+          "package_name": "com.onetransport.enterprise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347205680091-cred6ljh3nqe6kgbos7lomjskjldrs7g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhNbVyg_EE_Jh130ZOitj9juJLWmUcJP0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

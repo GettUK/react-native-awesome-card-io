@@ -43,6 +43,7 @@ import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { nullAddress } from 'utils';
+import PN from 'utils/notifications';
 
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
 import ActiveOrderScene from './ActiveOrderScene';
@@ -68,6 +69,8 @@ class Map extends Component {
   componentDidMount() {
     this.getCurrentPosition();
     this.watchPosition();
+
+    PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
   componentWillReceiveProps({ app: { statuses }, status }) {
@@ -98,6 +101,8 @@ class Map extends Component {
 
   componentWillUnmount() {
     this.clearWatchPosition();
+
+    PN.clearNotificationListener();
   }
 
   watchPosition = () => {
@@ -507,9 +512,10 @@ Map.propTypes = {
 Map.defaultProps = {
 };
 
-const mapState = ({ app, ui, bookings }) => ({
+const mapState = ({ app, ui, bookings, session }) => ({
   app,
   map: ui.map,
+  session,
   activeScene: ui.navigation.activeScene,
   bookings,
   status: (bookings.orderState || {}).status || 'connected'

@@ -3,6 +3,7 @@ import { batchActions } from 'redux-batched-actions';
 import { get, post } from 'utils';
 import { userLogin, userData } from 'actions/session';
 import { authSuccess, authFailure } from 'actions/ui/auth';
+import { registerToken } from 'actions/app/pushNotifications';
 
 const TYPES = createTypes('ui/login', [
   'changeEmail',
@@ -48,6 +49,8 @@ export const login = () => (dispatch, getState) => {
         loginSuccess(),
         userLogin(token, realms)
       ]));
+
+      dispatch(registerToken());
     })
     .catch((errors) => {
       dispatch(loginFailure(errors));

@@ -14,23 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "oteApp.app"
-               BlueprintName = "oteApp"
-               ReferencedContainer = "container:oteApp.xcodeproj">
+               BlueprintIdentifier = "5AE4AC6DC1F7D013B5E978BB2DB0468C"
+               BuildableName = "libReact.a"
+               BlueprintName = "React"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "oteAppTests.xctest"
-               BlueprintName = "oteAppTests"
+               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+               BuildableName = "oteApp.app"
+               BlueprintName = "oteApp"
                ReferencedContainer = "container:oteApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,16 +57,6 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "oteAppTests.xctest"
-               BlueprintName = "oteAppTests"
-               ReferencedContainer = "container:oteApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

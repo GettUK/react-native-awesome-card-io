@@ -35,6 +35,11 @@ pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
 
 pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
 
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
+
+pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
+
 target 'oteApp'
 target 'oteAppTests'
 

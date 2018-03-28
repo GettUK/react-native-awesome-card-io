@@ -59,6 +59,23 @@ export const createBooking = order => (dispatch) => {
     });
 };
 
+export const setActiveBooking = id => (dispatch, getState) => {
+  const { bookings: { currentOrder } } = getState();
+
+  if (currentOrder.id !== id) {
+    return get(`/bookings/${id}`)
+      .then(({ data }) => {
+        dispatch({ type: TYPES.createBookingSuccess, payload: data });
+
+        dispatch(goToActiveOrderScene());
+
+        dispatch(orderStatusSubscribe(data.channel));
+
+        return data
+      });
+  }
+};
+
 export const removeOrderStatusSubscription = () => (dispatch) => {
   faye.closeConnection();
 
