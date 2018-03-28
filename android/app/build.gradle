@@ -102,7 +102,7 @@ android {
         applicationId "com.oteapp"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
+        versionCode 7
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
