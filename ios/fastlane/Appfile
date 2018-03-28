@@ -1,0 +1,3 @@
+app_identifier("com.onetransport.enterprise")
+itc_team_id("118995481") # iTunes Connect Team ID
+team_id("S4RTY2P4MM") # Developer Portal Team ID

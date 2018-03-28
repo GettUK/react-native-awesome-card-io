@@ -55,6 +55,11 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+/ios/*.zip
+/ios/*.cer
+/ios/*.mobileprovision
+/ios/*.p12
+/ios/*.certSigningRequest
 
 # Haul
 #
