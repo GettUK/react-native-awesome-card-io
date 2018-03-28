@@ -107,7 +107,7 @@ class OrdersList extends PureComponent {
           }
           <View style={styles.orderAddress}>
             <Icon name="pickUpField" color="#f00" size={16} style={styles.orderAddressIcon} />
-            <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress.line}</Text>
+            <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress && item.destinationAddress.line}</Text>
           </View>
         </View>
       </View>
