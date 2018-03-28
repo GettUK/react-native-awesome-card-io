@@ -89,7 +89,7 @@ class Map extends Component {
     if (status !== statusProps && status === COMPLETED_STATUS) {
       navigation.navigate('RateDriver');
 
-      this.clearFields();
+      //this.clearFields();
 
       completeOrder();
     } else if (status !== statusProps && status === CANCELLED_STATUS) {
