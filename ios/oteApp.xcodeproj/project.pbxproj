@@ -19,7 +19,6 @@
 		3CD4FA0824D56A974214C8B6 /* libPods-oteAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D6AAA0E037AF57C3991C43 /* libPods-oteAppTests.a */; };
 		4251E8B05496CC6C423C9FEE /* libPods-oteApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 506114E7CB4CE1CE5EB0FE68 /* libPods-oteApp.a */; };
 		7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0722AD2061373600C06D82 /* GoogleService-Info.plist */; };
-		CC2FF042204DB270008351CA /* ImageCropPickerSDK in Resources */ = {isa = PBXBuildFile; fileRef = CC2FF041204DB270008351CA /* ImageCropPickerSDK */; };
 		7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7ACDC5204D5FCC00298C96 /* libSplashScreen.a */; };
 		7D8BC1AD2041B39B009D2E2B /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1A62041B397009D2E2B /* libRCTWebSocket.a */; };
 		7D8BC1AE2041B4EF009D2E2B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1522041ACAA009D2E2B /* libReact.a */; };
@@ -29,6 +28,8 @@
 		7D8BC1D62041B8E1009D2E2B /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1D32041B8DC009D2E2B /* libRCTNetwork.a */; };
 		7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1DC2041B920009D2E2B /* libRCTGeolocation.a */; };
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
+		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
+		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +264,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTGeolocation;
 		};
+		7DB89A1D206D3E4100BF652B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAnimation;
+		};
+		7DB89A1F206D3E4100BF652B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
+			remoteInfo = "RCTAnimation-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -296,6 +311,7 @@
 		7D8BC1CD2041B8DB009D2E2B /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "login-bg.jpg"; path = "oteApp/login-bg.jpg"; sourceTree = "<group>"; };
+		7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -313,6 +329,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */,
 				7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */,
 				7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */,
 				7D8BC1D62041B8E1009D2E2B /* libRCTNetwork.a in Frameworks */,
@@ -470,10 +487,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7DB89A19206D3E3F00BF652B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */,
+				7DB89A20206D3E4100BF652B /* libRCTAnimation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				CC2FF041204DB270008351CA /* ImageCropPickerSDK */,
+				7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */,
 				7D7ACDC0204D5FCC00298C96 /* SplashScreen.xcodeproj */,
 				7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */,
 				7D8BC1CD2041B8DB009D2E2B /* RCTNetwork.xcodeproj */,
@@ -678,6 +704,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 7DB89A19206D3E3F00BF652B /* Products */;
+					ProjectRef = 7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */;
+				},
 				{
 					ProductGroup = 7D8BC1D82041B920009D2E2B /* Products */;
 					ProjectRef = 7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */;
@@ -932,6 +962,20 @@
 			remoteRef = 7D8BC1DB2041B920009D2E2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 7DB89A1D206D3E4100BF652B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7DB89A20206D3E4100BF652B /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 7DB89A1F206D3E4100BF652B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -948,7 +992,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */,
-				CC2FF042204DB270008351CA /* ImageCropPickerSDK in Resources */,
+				CC2FF042204DB270008351CA /* (null) in Resources */,
 				7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
