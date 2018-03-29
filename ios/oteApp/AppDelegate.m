@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 
 #import "RNFIRMessaging.h"
+#import "SplashScreen.h"
 
 @import GoogleMaps;
 
@@ -23,7 +24,7 @@
   NSURL *jsCodeLocation;
 
   [GMSServices provideAPIKey:@"AIzaSyA2Blf-W72G_uUAWuHCoLk8PMddTUfJ0TM"];
-  
+
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -37,10 +38,12 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   [FIRApp configure];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-  
+
+  [SplashScreen show];
+
   return YES;
 }
 
