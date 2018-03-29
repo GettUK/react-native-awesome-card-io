@@ -38,12 +38,11 @@ import {
   completeOrder,
   cancelOrder
 } from 'actions/booking';
-import { requestPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
-import { geocodeEmpty, geocode } from 'actions/ui/geocode';
+import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { strings } from 'locales';
-import { nullAddress, showConfirmationAlert } from 'utils';
+import { showConfirmationAlert } from 'utils';
 import PN from 'utils/notifications';
 
 import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
@@ -64,7 +63,7 @@ class Map extends Component {
   }
 
   componentWillMount() {
-    this.props.requestPermissions('location', { type: 'always' });
+    this.props.requestLocation();
   }
 
   componentDidMount() {
@@ -84,8 +83,12 @@ class Map extends Component {
       statuses.permissions.location !== statusesProps.permissions.location &&
       statuses.permissions.location === PERMISSION_STATUS.authorized
     ) {
-      this.getCurrentPosition();
-      this.watchPosition();
+      this.props.checkMultiplePermissions(['location']).then(({ location }) => {
+        if (location === PERMISSION_STATUS.authorized) {
+          this.getCurrentPosition();
+          this.watchPosition();
+        }
+      });
     }
 
     if (status !== statusProps && status === COMPLETED_STATUS) {
@@ -145,15 +148,6 @@ class Map extends Component {
         (position) => {
           this.props.initialRegionPosition(position);
           this.props.changePosition(position);
-          this.props
-            .geocode({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            })
-            .then(this.addPoint)
-            .catch(() => {
-              this.addPoint(nullAddress());
-            });
         },
         this.props.errorPosition,
         options
@@ -170,13 +164,6 @@ class Map extends Component {
     const { map: { fields: { passengerId } }, bookings: { formData: { passenger, passengers } } } = this.props;
 
     return passenger || find(passengers, { id: +passengerId });
-  };
-
-  addPoint = (name) => {
-    this.props.geocodeEmpty();
-    this.props.changeAddress(name);
-    this.props.changeAddressType('pickupAddress', {}, null);
-    this.props.addAddressPoint();
   };
 
   toggleAddressModal = () => {
@@ -515,10 +502,9 @@ Map.propTypes = {
   initialRegionPosition: PropTypes.func.isRequired,
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
-  geocodeEmpty: PropTypes.func.isRequired,
-  geocode: PropTypes.func.isRequired,
   toggleVisibleModal: PropTypes.func.isRequired,
-  requestPermissions: PropTypes.func.isRequired
+  checkMultiplePermissions: PropTypes.func.isRequired,
+  requestLocation: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {
@@ -545,14 +531,13 @@ const mapDispatch = {
   initialRegionPosition,
   changePosition,
   errorPosition,
-  geocodeEmpty,
-  geocode,
   createBooking,
   getVehicles,
   toggleVisibleModal,
   completeOrder,
   cancelOrder,
-  requestPermissions
+  checkMultiplePermissions,
+  requestLocation
 };
 
 export default connect(mapState, mapDispatch)(Map);

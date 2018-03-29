@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import Permissions from 'react-native-permissions';
 import { createTypes } from 'redux-compose-reducer';
 import { curry } from 'lodash/fp';
@@ -25,3 +26,15 @@ export const requestPermissions = curry((perm, type) => dispatch => Permissions.
 }));
 
 export const openSettingsPermissions = () => Permissions.openSettings();
+
+export const requestLocation = () => (dispatch) => {
+  try {
+    if (Platform.OS === 'ios') {
+      navigator.geolocation.requestAuthorization();
+    }
+    dispatch(requestPermissions('location', { type: 'always' }));
+  } catch (e) {
+    console.log('Cannot request authorization location', e);
+  }
+  dispatch(checkMultiplePermissions(['location']));
+};
