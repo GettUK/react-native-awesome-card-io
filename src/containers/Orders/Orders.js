@@ -12,16 +12,16 @@ function getTitleCount(params) {
 
 const OrdersTabNavigator = TabNavigator(
   {
-    Active: {
-      screen: props => <OrdersList type="active" {...props} />,
-      navigationOptions: ({ navigation }) => ({
-        title: `Active ${getTitleCount(navigation.state.params)}`
-      })
-    },
     Previous: {
       screen: props => <OrdersList type="previous" {...props} />,
       navigationOptions: ({ navigation }) => ({
         title: `Previous ${getTitleCount(navigation.state.params)}`
+      })
+    },
+    Active: {
+      screen: props => <OrdersList type="active" {...props} />,
+      navigationOptions: ({ navigation }) => ({
+        title: `Active ${getTitleCount(navigation.state.params)}`
       })
     }
   },

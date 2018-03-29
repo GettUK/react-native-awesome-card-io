@@ -74,9 +74,10 @@ class Map extends Component {
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
-  componentWillReceiveProps({ app: { statuses }, status }) {
+  componentWillReceiveProps({ app: { statuses }, status, canceledByUser, canceledByExternal }) {
     const { app: { statuses: statusesProps },
-      navigation, cancelOrder, completeOrder, status: statusProps } = this.props;
+      navigation, cancelOrder, completeOrder, status: statusProps,
+      canceledByUser: canceledByUserProps, canceledByExternal: canceledByExternalProps } = this.props;
 
     if (
       statuses.permissions && statusesProps.permissions &&
@@ -94,9 +95,15 @@ class Map extends Component {
 
       completeOrder();
     } else if (status !== statusProps && status === CANCELLED_STATUS) {
-      this.showAlert();
+      completeOrder();
+    }
 
-      cancelOrder();
+    if (canceledByUser && !canceledByUserProps) {
+      this.showAlert();
+    }
+
+    if (canceledByExternal && !canceledByExternalProps) {
+      navigation.navigate('OrdersView');
     }
   }
 
@@ -485,7 +492,7 @@ class Map extends Component {
 
         <Alert
           ref={(alert) => { this.alert = alert; }}
-          type="failed"
+          type="success"
           message="Order was cancelled"
           position="bottom"
         />
@@ -523,7 +530,9 @@ const mapState = ({ app, ui, bookings, session }) => ({
   session,
   activeScene: ui.navigation.activeScene,
   bookings,
-  status: (bookings.orderState || {}).status || 'connected'
+  status: (bookings.orderState || {}).status || 'connected',
+  canceledByExternal: bookings.canceledByExternal,
+  canceledByUser: bookings.canceledByUser
 });
 
 const mapDispatch = {

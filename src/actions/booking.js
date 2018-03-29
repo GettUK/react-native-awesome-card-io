@@ -14,6 +14,8 @@ const TYPES = createTypes('booking', [
   'changeOrderStatus',
   'cancelOrderStart',
   'cancelOrderSuccess',
+  'canceledByExternal',
+  'canceledByUser',
   'getFormDataSuccess',
   'getVehiclesStart',
   'getVehiclesSuccess',
@@ -35,6 +37,10 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
               { type: TYPES.changeOrderStatus, data }
             ]));
           });
+      } if (data.status === 'cancelled') {
+        dispatch(getAuthorOfCancellation());
+
+        dispatch({ type: TYPES.changeOrderStatus, data });
       } else {
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
@@ -103,6 +109,8 @@ export const cancelOrder = () => (dispatch, getState) => {
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
     .then(() => {
+      dispatch(getAuthorOfCancellation());
+
       dispatch(completeOrder());
     });
 };
@@ -129,5 +137,18 @@ export const getVehicles = params => (dispatch) => {
       ]));
     });
 };
+
+const getAuthorOfCancellation = () => (dispatch, getState) => {
+  const { bookings: { currentOrder } } = getState();
+
+  get(`/bookings/${currentOrder.id}`)
+    .then(({ data }) => {
+      if (data.passenger === data.cancelledByName) {
+        dispatch({ type: TYPES.canceledByUser });
+      } else {
+        dispatch({ type: TYPES.canceledByExternal });
+      }
+    });
+}
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
