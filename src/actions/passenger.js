@@ -7,7 +7,7 @@ const TYPES = createTypes('passenger', [
   'getPassengerDataSuccess',
   'getPassengerDataFailure',
   'setInitialProfileValues',
-  'changeFieldValue',
+  'changeProfileFieldValue',
   'sendProfileDataStart',
   'sendProfileDataSuccess',
   'sendProfileDataFailure',
@@ -18,7 +18,8 @@ const TYPES = createTypes('passenger', [
   'destroyFavoriteAddress',
   'changeToggleValueStart',
   'changeToggleValueSuccess',
-  'changeToggleValueFailure'
+  'changeToggleValueFailure',
+  'touchField'
 ]);
 
 export const getPassengerData = () => (dispatch, getState) => {
@@ -45,8 +46,8 @@ export const setInitialProfileValues = () => (dispatch) => {
   dispatch({ type: TYPES.setInitialProfileValues });
 };
 
-export const changeFieldValue = curry((field, value) => (dispatch) => {
-  dispatch({ type: TYPES.changeFieldValue, payload: { field, value } });
+export const changeProfileFieldValue = curry((field, value) => (dispatch) => {
+  dispatch({ type: TYPES.changeProfileFieldValue, payload: { field, value } });
 });
 
 export const sendProfileData = () => (dispatch, getState) => {
@@ -129,3 +130,7 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
       throw err;
     });
 });
+
+export const touchField = (field, value = true) => (dispatch) => {
+  dispatch({ type: TYPES.touchField, payload: { field, value } });
+};

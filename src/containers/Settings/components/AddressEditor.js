@@ -5,7 +5,7 @@ import { curry, isNull } from 'lodash';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import update from 'update-js';
 
-import { sendAddress } from 'actions/passenger';
+import { sendAddress, touchField } from 'actions/passenger';
 import { Button, Input, DismissKeyboardView } from 'components';
 import AddressModal from 'containers/Map/AddressModal';
 import { strings } from 'locales';
@@ -17,7 +17,8 @@ class AddressEditor extends Component {
     super(props);
     this.state = {
       address: props.navigation.state.params.address,
-      isAddressModalOpened: false
+      isAddressModalOpened: false,
+      touched: false
     };
   }
 
@@ -26,6 +27,16 @@ class AddressEditor extends Component {
     navigation: PropTypes.object,
     sendAddress: PropTypes.func
   };
+
+  componentDidMount() {
+    this.props.touchField('address', false);
+  }
+
+  componentWillUpdate(_, nextState) {
+    if (this.state.touched !== nextState.touched) {
+      this.props.touchField('address');
+    }
+  }
 
   get isPredefinedAddress() {
     const type = this.props.navigation.state.params.predefinedType;
@@ -37,11 +48,14 @@ class AddressEditor extends Component {
   goBack = () => this.props.navigation.goBack(null);
 
   handleInputChange = curry((field, value) => {
-    this.setState(state => update(state, `address.${field}`, value));
+    this.setState(state => update(state, { [`address.${field}`]: value, touched: true }));
   });
 
   handleAddressChange = (address) => {
-    this.setState(state => update(state, this.isPredefinedAddress ? 'address' : 'address.address', address));
+    this.setState(state => update(state, {
+      [this.isPredefinedAddress ? 'address' : 'address.address']: address,
+      touched: true
+    }));
   };
 
   toggleAddressModal = () => {
@@ -132,7 +146,8 @@ class AddressEditor extends Component {
 }
 
 const mapDispatch = {
-  sendAddress
+  sendAddress,
+  touchField
 };
 
 export default connect(null, mapDispatch)(AddressEditor);

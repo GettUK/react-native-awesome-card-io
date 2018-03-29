@@ -4,11 +4,15 @@ import { connect } from 'react-redux';
 import { Text, TouchableOpacity } from 'react-native';
 import { destroyFavoriteAddress } from 'actions/passenger';
 import { strings } from 'locales';
+import { showConfirmationAlert } from 'utils';
 
 const DestroyFavouriteAddressBtn = ({ id, destroyFavoriteAddress, navigation }) => {
-  const handleDestroy = () => {
+  const destroyAddress = () =>
     destroyFavoriteAddress(id)
       .then(() => navigation.goBack(null));
+
+  const handleDestroy = () => {
+    showConfirmationAlert({ title: strings('settings.deleteAddress'), handler: destroyAddress });
   };
 
   return (

@@ -11,7 +11,8 @@ import {
   AddressesList,
   AddressEditor,
   DestroyFavouriteAddressBtn,
-  InfoPages
+  InfoPages,
+  BackBtn
 } from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
@@ -42,6 +43,7 @@ const RoutesConfig = {
     screen: EditProfile,
     navigationOptions: ({ navigation }) => ({
       headerTitle: strings('settings.editProfile'),
+      headerLeft: <BackBtn navigation={navigation} field="profile" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
   },
@@ -49,7 +51,7 @@ const RoutesConfig = {
     screen: AddressesList,
     navigationOptions: ({ navigation }) => ({
       headerTitle: strings('settings.myAddresses'),
-      headerBackTitle: strings('back'),
+      headerLeft: <BackBtn navigation={navigation} />,
       headerRight: (
         <NavImageButton
           onClick={() => navigation.navigate('AddressEditor', { address: emptyFavouriteAddress })}
@@ -64,6 +66,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => {
       const address = navigation.state.params && navigation.state.params.address;
       return {
+        headerLeft: <BackBtn navigation={navigation} field="address" />,
         headerTitle: address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
         headerRight: address.passengerId ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} /> : null
       };

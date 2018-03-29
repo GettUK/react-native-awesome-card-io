@@ -18,12 +18,12 @@ const getPassengerDataSuccess = (state, { payload }) => update(state, { busy: fa
 
 const getPassengerDataFailure = (state, { payload }) => update(state, { busy: false, errors: payload });
 
-const setInitialProfileValues = state => update(state, 'temp', { ...state.temp, ...state.data.passenger });
+const setInitialProfileValues = state => update(state, 'temp', state.data.passenger);
 
-const changeFieldValue = (state, { payload: { field, value } }) => update(state, `temp.${field}`, value);
+const changeProfileFieldValue = (state, { payload: { field, value } }) =>
+  update(state, { 'temp.profileTouched': true, [`temp.${field}`]: value });
 
-const sendProfileDataSuccess = state => update(state, 'data.passenger', {
-  ...state.data,
+const sendProfileDataSuccess = state => update.assign(state, 'data.passenger', {
   firstName: state.temp.firstName,
   lastName: state.temp.lastName,
   avatar: state.temp.avatar
@@ -50,12 +50,14 @@ const changeToggleValueSuccess = state =>
 const changeToggleValueFailure = (state, { payload: { field, errors } }) =>
   update(state, { busy: false, errors, [`data.passenger.${field}`]: !state[`data.passenger.${field}`] });
 
+const touchField = (state, { payload: { field, value } }) => update(state, `temp.${field}Touched`, value);
+
 export default composeReducer('passenger', {
   getPassengerDataStart,
   getPassengerDataSuccess,
   getPassengerDataFailure,
   setInitialProfileValues,
-  changeFieldValue,
+  changeProfileFieldValue,
   sendProfileDataSuccess,
   updatePredefinedAddress,
   updateFavouriteAddress,
@@ -63,5 +65,6 @@ export default composeReducer('passenger', {
   destroyFavoriteAddress,
   changeToggleValueStart,
   changeToggleValueSuccess,
-  changeToggleValueFailure
+  changeToggleValueFailure,
+  touchField
 }, initialState);

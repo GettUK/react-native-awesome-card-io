@@ -7,21 +7,11 @@ import { strings } from 'locales';
 
 class SaveProfileBtn extends Component {
   static propTypes = {
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    tempFirstName: PropTypes.string,
-    tempLastName: PropTypes.string,
-    sendProfileData: PropTypes.func,
-    navigation: PropTypes.object
+    touched: PropTypes.bool
   };
 
-  get isChanged() {
-    const { firstName, lastName, tempFirstName, tempLastName, tempAvatar } = this.props;
-    return firstName !== tempFirstName || lastName !== tempLastName || !!tempAvatar;
-  }
-
   handleSave = () => {
-    if (this.isChanged) {
+    if (this.props.touched) {
       const { sendProfileData, navigation } = this.props;
       sendProfileData()
         .then(() => navigation.goBack(null));
@@ -31,7 +21,7 @@ class SaveProfileBtn extends Component {
   render() {
     return (
       <TouchableOpacity onPress={this.handleSave} style={{ paddingRight: 14 }}>
-        <Text style={{ fontSize: 17, color: this.isChanged ? '#284784' : '#bcbbc1' }}>
+        <Text style={{ fontSize: 17, color: this.props.touched ? '#284784' : '#bcbbc1' }}>
           {strings('settings.save')}
         </Text>
       </TouchableOpacity>
@@ -40,11 +30,7 @@ class SaveProfileBtn extends Component {
 }
 
 const mapState = ({ passenger }) => ({
-  firstName: passenger.data.passenger.firstName,
-  lastName: passenger.data.passenger.lastName,
-  tempFirstName: passenger.temp.firstName,
-  tempLastName: passenger.temp.lastName,
-  tempAvatar: passenger.temp.avatar
+  touched: passenger.temp.profileTouched
 });
 
 export default connect(mapState, { sendProfileData })(SaveProfileBtn);
