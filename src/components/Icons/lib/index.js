@@ -40,6 +40,8 @@ import failed from './alerts/failed';
 import warning from './alerts/warning';
 import success from './alerts/success';
 
+import informWarning from './inform/warning';
+
 export default {
   arrow,
   arrowDown,
@@ -80,5 +82,6 @@ export default {
   info,
   success,
   warning,
-  failed
+  failed,
+  informWarning
 };

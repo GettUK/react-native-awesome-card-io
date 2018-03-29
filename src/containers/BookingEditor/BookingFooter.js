@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { has, find, isNull } from 'lodash';
-import { Icon, Button, Modal, JourneyDetails, CarItem } from 'components';
+import { Icon, Button, Modal, JourneyDetails, CarItem, InformView } from 'components';
 import { strings } from 'locales';
 import {
   changeFields,
@@ -22,13 +22,13 @@ import {
   createBooking,
   toggleVisibleModal
 } from 'actions/booking';
-import order from 'actions/mockedData';
 import {
   paymentTypeToAttrs,
   vehiclesData,
   isCashAllowed,
   paymentTypeLabels
 } from 'containers/shared/bookings/data';
+import { LoaderLayer } from './components';
 
 import styles from './style';
 
@@ -104,7 +104,7 @@ class BookingFooter extends Component {
   goToPaymentsList = () => {
     this.toggleSettingsModal();
     this.props.navigation.navigate('PaymentsOptions');
-  }
+  };
 
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('settings');
@@ -207,7 +207,7 @@ class BookingFooter extends Component {
     );
   }
 
-  render() {
+  renderFooter() {
     const {
       map: { fields },
       data: { formData: { vehicles }, currentOrder: { busy } },
@@ -217,11 +217,20 @@ class BookingFooter extends Component {
       toggleVisibleModal
     } = this.props;
 
+    const availableVehicles = vehicles.data.filter(v => v.available);
+
     return (
+
       <View style={styles.footer} pointerEvents="box-none">
-        {this.renderSettings()}
         {
-          !toOrder ? (
+          toOrder && availableVehicles.length === 0 && (
+            <InformView>
+              <Text style={styles.informText}>{strings('information.notVehicles')}</Text>
+            </InformView>
+          )
+        }
+        {
+          !toOrder && (
             <View pointerEvents="box-none">
               <Button
                 style={styles.currentPositionBtn}
@@ -231,8 +240,12 @@ class BookingFooter extends Component {
               </Button>
               {this.renderAddressesSelector()}
             </View>
-          ) : (
+          )
+        }
+        {
+          toOrder && availableVehicles.length > 0 && (
             <View pointerEvents="box-none">
+              {this.renderSettings()}
               <JourneyDetails
                 loading={vehicles.loading}
                 style={styles.journeyDetails}
@@ -249,7 +262,7 @@ class BookingFooter extends Component {
                     showsHorizontalScrollIndicator={false}
                   >
                     {
-                      vehicles.data.filter(v => v.available).map((vehicle) => {
+                      availableVehicles.map((vehicle) => {
                         const vehicleData = vehiclesData[vehicle.name];
                         return (
                           <CarItem
@@ -297,6 +310,18 @@ class BookingFooter extends Component {
           )
         }
       </View>
+    );
+  }
+
+  render() {
+    const {
+      data: { formData: { vehicles } }
+    } = this.props;
+
+    return (
+      vehicles.loading
+        ? <LoaderLayer loading={vehicles.loading} />
+        : this.renderFooter()
     );
   }
 }

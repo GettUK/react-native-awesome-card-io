@@ -112,7 +112,7 @@ PODS:
     - React
   - RNVectorIcons (4.5.0):
     - React
-  - RSKImageCropper (2.0.0)
+  - RSKImageCropper (2.0.1)
   - yoga (0.53.3.React)
 
 DEPENDENCIES:
@@ -202,7 +202,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: a637beb8f4c76bf9fe8a89d404ad65a33c4215ac
   RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
   RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
-  RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
+  RSKImageCropper: 50d5a3e4160f0309b14d75b89d5ae2f496d56e0d
   yoga: 55da126afc384965b96bff46652464373b330add
 
 PODFILE CHECKSUM: 1eb02f15ba7a9be27d5834eb329a6b0999549678

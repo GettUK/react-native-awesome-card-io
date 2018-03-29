@@ -8,6 +8,11 @@ export default StyleSheet.create({
     marginRight: 10,
     marginLeft: 10
   },
+  informText: {
+    textAlign: 'center',
+    fontSize: 14,
+    lineHeight: 21
+  },
   orderBtnBottomText: {
     color: '#fff',
     fontWeight: 'bold',
