@@ -40,6 +40,7 @@ import {
 } from 'actions/booking';
 import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
+import { getPassengerData } from 'actions/passenger';
 
 import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
@@ -191,6 +192,9 @@ class Map extends Component {
 
   goToRequestVehicles = () => {
     if (!this.shouldRequestVehicles()) return;
+
+    this.props.getPassengerData();
+
     this.requestVehicles();
   };
 
@@ -537,7 +541,8 @@ const mapDispatch = {
   completeOrder,
   cancelOrder,
   checkMultiplePermissions,
-  requestLocation
+  requestLocation,
+  getPassengerData
 };
 
 export default connect(mapState, mapDispatch)(Map);

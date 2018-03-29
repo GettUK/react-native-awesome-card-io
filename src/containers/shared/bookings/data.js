@@ -17,6 +17,24 @@ export const paymentTypeLabels = {
   company_payment_card: 'Company Payment Card'
 };
 
+export function preparePaymentLabel({ payment, cards }) {
+  let label = paymentTypeLabels[payment];
+
+  if (payment.includes('payment_card')) {
+    const currentCard = find(cards, 'default') || cards[0];
+
+    label = `${label} ends with ${currentCard.last4}`;
+  }
+
+  return label;
+}
+
+export function preparePaymentType({ payment, cards }) {
+  return payment.includes('payment_card')
+    ? `${payment}:${(find(cards, 'default') || cards[0]).id}`
+    : payment
+}
+
 export function selectedPaymentType({ passenger, paymentTypes, defaultPaymentType } = {}) {
   if ((defaultPaymentType === 'passenger_payment_card') && passenger) {
     const cards = passenger.paymentCards;
@@ -40,7 +58,7 @@ export function isCashAllowed(vehicleName) {
 export function paymentTypeToAttrs(value) {
   // a value of form 'personal_payment_card:13' represents a payment method 'personal_payment_card'
   // with a payment card with id 13
-  const match = value && value.match(/^((?:personal|business)_payment_card):(\d+)$/);
+  const match = value && value.match(/^((?:personal|business|passenger)_payment_card):(\d+)$/);
 
   if (match) {
     const [paymentMethod, paymentCardId] = match.slice(1);

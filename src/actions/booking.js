@@ -112,8 +112,8 @@ export const cancelOrder = () => (dispatch, getState) => {
   dispatch({ type: TYPES.cancelOrderStart });
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
-    .then(() => {
-      dispatch(getAuthorOfCancellation());
+    .then(async () => {
+      await dispatch(getAuthorOfCancellation());
 
       dispatch(completeOrder());
     });
@@ -145,7 +145,7 @@ export const getVehicles = params => (dispatch) => {
 const getAuthorOfCancellation = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
-  get(`/bookings/${currentOrder.id}`)
+  return get(`/bookings/${currentOrder.id}`)
     .then(({ data }) => {
       if (data.passenger === data.cancelledByName) {
         dispatch({ type: TYPES.canceledByUser });
