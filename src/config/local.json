@@ -6,5 +6,6 @@
   },
   "faye": {
     "path" : "https://dev.gettaxi.me/faye"
-  }
+  },
+  "googleAPIKey": "AIzaSyBmgcuoNZLqQG7I51V9dk_mUoadHi438P8"
 }
