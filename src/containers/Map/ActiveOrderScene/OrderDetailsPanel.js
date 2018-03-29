@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Dimensions, Image, TouchableWithoutFeedback, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import assets from 'assets';
 
@@ -14,7 +15,7 @@ import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
-const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) => {
+const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClose }) => {
   const height = Dimensions.get('window').height;
 
   const callDriver = () => {
@@ -90,12 +91,19 @@ const OrderDetails = ({ map, driver, vehicles, visible, onActivate, onClose }) =
   );
 
   const renderBackdropComponent = () => {
-    const options = [
-      { title: 'Order for', value: 'Artem Korenev' },
-      { title: 'Future order', value: '2 Feb 2018 02:34 pm' },
-      { title: 'Message for driver', value: 'I would like to have a seat belt on back seat' },
-      { title: 'Trip reason', value: 'Work' }
-    ];
+    const options = [{ title: 'Order for', value: order.passenger }];
+
+    if (!order.asap && order.scheduledAt) {
+      options.push({ title: 'Future order', value: moment(order.scheduledAt).format('D MMM YYYY HH:mm a') });
+    }
+
+    if (order.messageToDriver) {
+      options.push({ title: 'Message for driver', value: order.messageToDriver });
+    }
+
+    if (order.travelReason) {
+      options.push({ title: 'Trip reason', value: 'Work' });
+    }
 
     return (
       <View style={{ paddingBottom: 120 }}>
@@ -186,6 +194,7 @@ OrderDetails.defaultProps = {
 
 const mapState = ({ ui, bookings }) => ({
   map: ui.map,
+  order: bookings.currentOrder,
   vehicles: bookings.formData.vehicles,
   driver: bookings.driver
 });
