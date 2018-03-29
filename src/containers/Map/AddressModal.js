@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   Text,
   View,
+  Keyboard,
   Platform,
   FlatList,
   TouchableOpacity,
@@ -39,18 +40,23 @@ class AddressModal extends Component {
   };
 
   onSelect = (item) => {
-    const { id, text, google, predefined } = item;
-    this.props
-      .geocode({
+    const { id, text, google, predefined, address } = item;
+    Keyboard.dismiss();
+    if (text) {
+      this.props.geocode({
         locationId: id,
         string: text,
         google,
         predefined
       })
-      .then(this.addPoint)
-      .catch(() => {
-        this.addPoint(nullAddress(text));
-      });
+        .then(this.addPoint)
+        .catch(() => {
+          this.addPoint(nullAddress(text));
+        });
+    }
+    if (address) {
+      this.addPoint(address);
+    }
   };
 
   getOptionName = opt =>
@@ -115,7 +121,7 @@ class AddressModal extends Component {
   };
 
   render() {
-    const { isVisible, value, addresses: { results } } = this.props;
+    const { isVisible, value, addresses: { results }, defaultValues } = this.props;
     return (
       <Modal
         style={styles.bottomModal}
@@ -162,17 +168,18 @@ class AddressModal extends Component {
             style={{ flex: 1 }}>
             <FlatList
               style={{}}
+              keyboardShouldPersistTaps="always"
               contentContainerStyle={{ flexGrow: 1 }}
               removeClippedSubviews={Platform.OS !== 'ios'}
               data={
                 !isNull(results) &&
                 has('list', results) &&
-                results.list.length > 0 ?
-                  results.list :
-                  []
+                results.list.length > 0
+                  ? results.list
+                  : defaultValues
               }
               renderItem={this.renderItem}
-              keyExtractor={item => item.text}
+              keyExtractor={item => item.text || item.name || String(item.id)}
               ListFooterComponent={this.renderFooter}
             />
           </KeyboardAvoidingView>
@@ -191,6 +198,7 @@ AddressModal.propTypes = {
     lat: PropTypes.number,
     lng: PropTypes.number
   }),
+  defaultValues: PropTypes.array,
   addresses: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onChangeTyping: PropTypes.func.isRequired,
@@ -203,7 +211,8 @@ AddressModal.propTypes = {
 
 AddressModal.defaultProps = {
   typingTimeout: 700,
-  value: {}
+  value: {},
+  defaultValues: []
 };
 
 const select = ({ ui }) => ({
