@@ -28,7 +28,6 @@ class ReasonForTravel extends Component {
         activeOpacity={0.6}
         style={styles.item}
         onPress={() => changeFields(paymentTypeToAttrs(paymentType))}
-        key={item}
       >
         <Text style={[styles.flex, styles.reasonName, isSelected ? styles.reasonNameSelected : {}]}>
           {label}
@@ -51,6 +50,7 @@ class ReasonForTravel extends Component {
         style={[styles.flex, styles.bg]}
         data={companyPaymentTypes}
         ItemSeparatorComponent={this.renderSeparator}
+        keyExtractor={item => item}
         renderItem={this.renderItem}
       />
     );
