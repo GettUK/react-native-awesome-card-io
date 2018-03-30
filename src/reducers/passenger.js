@@ -52,6 +52,8 @@ const changeToggleValueFailure = (state, { payload: { field, errors } }) =>
 
 const touchField = (state, { payload: { field, value } }) => update(state, `temp.${field}Touched`, value);
 
+const clearPassenger = () => initialState;
+
 export default composeReducer('passenger', {
   getPassengerDataStart,
   getPassengerDataSuccess,
@@ -66,5 +68,6 @@ export default composeReducer('passenger', {
   changeToggleValueStart,
   changeToggleValueSuccess,
   changeToggleValueFailure,
-  touchField
+  touchField,
+  clearPassenger
 }, initialState);

@@ -3,6 +3,7 @@ import { createTypes } from 'redux-compose-reducer';
 const TYPES = createTypes('ui/map', [
   'removeFields',
   'changeFields',
+  'clearMap',
   'addAddressPoint',
   'changeAddressType',
   'changeAddressTyping',
@@ -42,3 +43,5 @@ export const changeRegionPosition = obq => ({ type: TYPES.changeRegionPosition, 
 export const changePosition = obq => ({ type: TYPES.changePosition, payload: obq });
 
 export const errorPosition = e => ({ type: TYPES.changePosition, payload: e });
+
+export const clearMap = () => ({ type: TYPES.clearMap });

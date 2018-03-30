@@ -111,6 +111,8 @@ const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])
 );
 
+const clearBooking = () => initialState;
+
 export default composeReducer('booking', {
   getFormDataSuccess,
   getVehiclesStart,
@@ -125,5 +127,6 @@ export default composeReducer('booking', {
   canceledByExternal,
   canceledByUser,
   changeOrderStatus,
-  setDriver
+  setDriver,
+  clearBooking
 }, initialState);

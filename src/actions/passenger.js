@@ -19,7 +19,8 @@ const TYPES = createTypes('passenger', [
   'changeToggleValueStart',
   'changeToggleValueSuccess',
   'changeToggleValueFailure',
-  'touchField'
+  'touchField',
+  'clearPassenger'
 ]);
 
 export const getPassengerData = () => (dispatch, getState) => {
@@ -134,3 +135,5 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
 export const touchField = (field, value = true) => (dispatch) => {
   dispatch({ type: TYPES.touchField, payload: { field, value } });
 };
+
+export const clearPassenger = () => ({ type: TYPES.clearPassenger });

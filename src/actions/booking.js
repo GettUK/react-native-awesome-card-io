@@ -21,7 +21,8 @@ const TYPES = createTypes('booking', [
   'getVehiclesSuccess',
   'getVehiclesFailure',
   'toggleVisibleModal',
-  'setDriver'
+  'setDriver',
+  'clearBooking'
 ]);
 
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
@@ -156,3 +157,5 @@ const getAuthorOfCancellation = () => (dispatch, getState) => {
 }
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
+
+export const clearBooking = () => ({ type: TYPES.clearBooking });
