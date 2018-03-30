@@ -218,27 +218,21 @@ class BookingFooter extends Component {
     } = this.props;
 
     return (
-      <View style={styles.footer}>
+      <View style={styles.footer} pointerEvents="box-none">
         {this.renderSettings()}
         {
           !toOrder ? (
-            <View>
+            <View pointerEvents="box-none">
               <Button
                 style={styles.currentPositionBtn}
                 onPress={getCurrentPosition}
               >
                 <Icon name="myLocation" height={22} color="#284784" />
               </Button>
-              <Button
-                style={styles.currentPositionBtn}
-                onPress={() => createBooking(order)}
-              >
-                <Icon name="pickUpCenter" height={22} color="#284784" />
-              </Button>
               {this.renderAddressesSelector()}
             </View>
           ) : (
-            <View>
+            <View pointerEvents="box-none">
               <JourneyDetails
                 loading={vehicles.loading}
                 style={styles.journeyDetails}
