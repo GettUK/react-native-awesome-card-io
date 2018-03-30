@@ -33,7 +33,6 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
       if (data.status === 'on_the_way') {
         get(`/bookings/${currentOrder.id}`)
           .then(({ data: driverData }) => {
-            console.warn(driverData)
             dispatch(batchActions([
               {
                 type: TYPES.setDriver,
