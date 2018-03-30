@@ -13,7 +13,5 @@ export const getOrders = (dispatch, query) =>
       return res.data;
     });
 
-export const clearList = (dispatch) => {
-  dispatch({ type: TYPES.clearList });
-};
+export const clearList = () => ({ type: TYPES.clearList });
 

@@ -9,6 +9,8 @@ import {
   concat,
   isEqual
 } from 'lodash/fp';
+import update from 'update-js';
+
 import { nullAddress, LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 
 const defaultAddress = {
@@ -62,6 +64,7 @@ const changeFields = (state, { payload }) => ({
     ...payload
   }
 });
+
 const setTypeNameModel = (field, type, object) => {
   if (!Array.isArray(type.value)) {
     return { ...object };
@@ -153,6 +156,8 @@ const errorPosition = (state, { payload }) => ({
   errors: payload
 });
 
+const clearMap = () => initialState;
+
 export default composeReducer(
   'ui/map',
   {
@@ -166,7 +171,8 @@ export default composeReducer(
     initialRegionPosition,
     changeRegionPosition,
     changePosition,
-    errorPosition
+    errorPosition,
+    clearMap
   },
   initialState
 );

@@ -1,6 +1,14 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
+
 import { userLogout } from 'actions/session';
+import { clearPassenger } from 'actions/passenger';
+import { clearMap } from 'actions/ui/map';
+import { clearList } from 'actions/orders';
+import { clearBooking } from 'actions/booking';
+import { passegerViewEmpty } from 'actions/ui/passenger-view';
+import { addressesEmpty } from 'actions/ui/addresses';
+import { geocodeEmpty } from 'actions/ui/geocode';
 
 const TYPES = createTypes('ui/logout', [
   'logoutSuccess'
@@ -20,6 +28,16 @@ export const logout = () => (dispatch, getState) => {
   }
 
   dispatch(batchActions([userLogout(), logoutSuccess(), navigationReset()]));
+
+  dispatch(batchActions([
+    clearList(),
+    clearPassenger(),
+    clearBooking(),
+    passegerViewEmpty(),
+    clearMap(),
+    geocodeEmpty(),
+    addressesEmpty()
+  ]));
 
   return Promise.resolve();
 };
