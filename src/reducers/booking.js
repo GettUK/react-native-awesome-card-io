@@ -73,14 +73,14 @@ const createBookingFailure = (state, { payload }) => (
 
 const cancelOrderStart = state => (
   update(state, {
-    currentOrder: { busy: true },
+    'currentOrder.busy': true,
     orderCreateError: null
   })
 );
 
 const cancelOrderSuccess = state => (
   update(state, {
-    currentOrder: {},
+    currentOrder: { busy: false },
     orderCreateError: null
   })
 );

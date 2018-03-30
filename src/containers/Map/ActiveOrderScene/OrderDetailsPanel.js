@@ -9,7 +9,7 @@ import assets from 'assets';
 import { Icon, PointList, JourneyDetails } from 'components';
 import { formatPrice } from 'utils';
 
-import { vehiclesData } from 'containers/shared/bookings/data';
+import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
 
 import SlidingUpPanel from './SlidingUpPanel';
 
@@ -102,7 +102,11 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
     }
 
     if (order.travelReason) {
-      options.push({ title: 'Trip reason', value: 'Work' });
+      options.push({ title: 'Trip reason', value: order.travelReason });
+    }
+
+    if (order.paymentMethod) {
+      options.push({ title: 'Payment method', value: paymentTypeLabels[order.paymentMethod] });
     }
 
     return (

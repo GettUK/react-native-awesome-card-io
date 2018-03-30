@@ -26,8 +26,10 @@ import order from 'actions/mockedData';
 import {
   paymentTypeToAttrs,
   vehiclesData,
-  isCashAllowed
+  isCashAllowed,
+  paymentTypeLabels
 } from 'containers/shared/bookings/data';
+
 import styles from './style';
 
 class BookingFooter extends Component {
@@ -98,6 +100,11 @@ class BookingFooter extends Component {
     this.toggleSettingsModal();
     this.props.navigation.navigate('ReasonForTravel');
   };
+
+  goToPaymentsList = () => {
+    this.toggleSettingsModal();
+    this.props.navigation.navigate('PaymentsOptions');
+  }
 
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('settings');
@@ -175,7 +182,7 @@ class BookingFooter extends Component {
 
   renderSettings() {
     const { data: { formData: { travelReasons }, modals: { settings } },
-      map: { fields: { message, travelReasonId, passengerName } } } = this.props;
+      map: { fields: { message, travelReasonId, paymentMethod, passengerName } } } = this.props;
 
     const renderMenuItem = (title, value, handler) => (
       <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
@@ -194,6 +201,8 @@ class BookingFooter extends Component {
         {renderMenuItem('Message to driver', message, this.goToMessageToDriver)}
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), this.goToTravelReasons)}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], this.goToPaymentsList)}
       </Modal>
     );
   }

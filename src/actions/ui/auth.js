@@ -2,6 +2,7 @@ import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { get } from 'utils';
 import { userData } from 'actions/session';
+import { getPassengerData } from 'actions/passenger';
 
 const TYPES = createTypes('ui/auth', [
   'authStart',

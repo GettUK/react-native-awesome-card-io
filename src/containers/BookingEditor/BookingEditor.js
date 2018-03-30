@@ -18,10 +18,6 @@ import {
   changeAddressTyping,
   changeAddress
 } from 'actions/ui/map';
-import {
-  selectedPaymentType,
-  paymentTypeToAttrs
-} from 'containers/shared/bookings/data';
 import { PointList } from 'components';
 import { prepareDefaultValues } from './utils';
 import styles from './style';
@@ -38,7 +34,8 @@ class BookingEditor extends Component {
     if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
         !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
-        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)) {
+        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)||
+        !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod)) {
       requestVehicles();
     }
   }
@@ -62,16 +59,14 @@ class BookingEditor extends Component {
   };
 
   selectPassenger = (id) => {
-    const { bookings: { formData: { passengers, paymentTypes, defaultPaymentType } } } = this.props;
+    const { bookings: { formData: { passengers } } } = this.props;
     const passenger = find(passengers, { id: +id });
     const { firstName, lastName, phone } = passenger;
-    const type = selectedPaymentType({ passenger, paymentTypes, defaultPaymentType });
 
     this.props.changeFields({
       passengerId: id,
       passengerName: `${firstName} ${lastName}`,
-      passengerPhone: phone,
-      ...paymentTypeToAttrs(type)
+      passengerPhone: phone
     });
 
     this.props.requestVehicles();
@@ -80,23 +75,13 @@ class BookingEditor extends Component {
   loadBooking = () => {
     this.props.getFormData()
       .then((data) => {
-        const { bookings: { validatedReferences } } = this.props;
-        const { passenger: dataPassenger, booking, passengers, paymentTypes, defaultPaymentType } = data;
+        const { passenger: dataPassenger, booking, passengers } = data;
         const passenger = dataPassenger ||
             (booking && booking.passengerId && find(passengers, { id: +booking.passengerId }));
-        const paymentType = selectedPaymentType({ passenger, paymentTypes, defaultPaymentType });
-        const bookerReferences = !isEmpty(validatedReferences) ?
-          validatedReferences : data.bookingReferences.map(ref => ({
-            bookingReferenceId: ref.id,
-            mandatory: ref.mandatory,
-            conditional: ref.conditional,
-            value: (ref.mandatory && 'default') || ref.value
-          }));
+
         let attrs = {
-          ...paymentTypeToAttrs(paymentType),
           pickupAddress: data.defaultPickupAddress,
-          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
-          bookerReferences
+          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`
         };
 
         if (!isEmpty(data.booking)) {

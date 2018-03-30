@@ -6,3 +6,4 @@ export { default as Orders } from './Orders';
 export { default as MessageToDriver } from './MessageToDriver';
 export { default as ReasonForTravel } from './ReasonForTravel';
 export { default as RateDriver } from './RateDriver';
+export { default as PaymentsOptions } from './PaymentsOptions';
