@@ -3,10 +3,10 @@ PODS:
   - BVLinearGradient (2.4.0):
     - React
   - DoubleConversion (1.1.5)
-  - Firebase/Core (4.10.1):
+  - Firebase/Core (4.11.0):
     - FirebaseAnalytics (= 4.1.0)
-    - FirebaseCore (= 4.0.17)
-  - Firebase/Messaging (4.10.1):
+    - FirebaseCore (= 4.0.18)
+  - Firebase/Messaging (4.11.0):
     - Firebase/Core
     - FirebaseMessaging (= 2.1.1)
   - FirebaseAnalytics (4.1.0):
@@ -14,9 +14,9 @@ PODS:
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.17):
+  - FirebaseCore (4.0.18):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (2.0.9):
+  - FirebaseInstanceID (2.0.10):
     - FirebaseCore (~> 4.0)
   - FirebaseMessaging (2.1.1):
     - FirebaseAnalytics (~> 4.1)
@@ -181,10 +181,10 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 4b3f3bdf1ac1a52a5ef5e65c9585d793a7c3f825
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
-  Firebase: 92c6ba593e32db0defde464a9adc981d5cb49f97
+  Firebase: cc13dfab1038c8b45d7903e01fc690451d6d0b24
   FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
-  FirebaseCore: 872307b001bbefda1dfa0dbfffa50a6919023d4a
-  FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
+  FirebaseCore: b981f47e5254cbcfdeb483355300d743f6fcab2c
+  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
   FirebaseMessaging: db0e01c52ef7e1f42846431273558107d084ede4
   Folly: 0e765a0b56a1bf180dcbd51ee178cd3a1e2ab986
   GLog: ed471a3ad6ad53eefb343a530f15dad283e5ef51

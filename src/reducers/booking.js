@@ -14,13 +14,10 @@ export const initialState = {
     settings: false,
     picker: false
   },
-  bookingId: '',
   currentOrder: {
     busy: false
   },
-  orderCreateError: null,
-  orderState: {},
-  driver: {}
+  orderCreateError: null
 };
 
 const getFormDataSuccess = (state, { payload }) => (
@@ -58,7 +55,7 @@ const createBookingStart = state => (
   })
 );
 
-const createBookingSuccess = (state, { payload }) => (
+const updateCurrentOrder = (state, { payload }) => (
   update(state, {
     currentOrder: { ...payload, busy: false }
   })
@@ -85,30 +82,34 @@ const cancelOrderSuccess = state => (
   })
 );
 
-const canceledByExternal = state => {
-  return update(state, {
+const canceledByExternal = state => (
+  update(state, {
     canceledByExternal: true,
     canceledByUser: false
   })
-}
+);
 
-const canceledByUser = state => {
-  return update(state, {
+const canceledByUser = state => (
+  update(state, {
     canceledByExternal: false,
     canceledByUser: true
   })
-}
+);
 
 const setDriver = (state, { payload }) => (
-  update(state, 'driver', payload)
+  update(state, 'currentOrder.driverDetails', payload)
 );
 
 const changeOrderStatus = (state, { data }) => (
-  update(state, 'orderState', data)
+  update(state, { 'currentOrder.serviceId': data.serviceId, 'currentOrder.status': data.status })
 );
 
 const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])
+);
+
+const clearCurrentOrder = state => (
+  update(state, 'currentOrder', initialState.currentOrder)
 );
 
 const clearBooking = () => initialState;
@@ -120,7 +121,7 @@ export default composeReducer('booking', {
   getVehiclesFailure,
   toggleVisibleModal,
   createBookingStart,
-  createBookingSuccess,
+  updateCurrentOrder,
   createBookingFailure,
   cancelOrderStart,
   cancelOrderSuccess,
@@ -128,5 +129,6 @@ export default composeReducer('booking', {
   canceledByUser,
   changeOrderStatus,
   setDriver,
+  clearCurrentOrder,
   clearBooking
 }, initialState);

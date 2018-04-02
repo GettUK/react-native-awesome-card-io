@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView } from 'components';
+import { FadeInView, Button } from 'components';
 
 import { strings } from 'locales';
+import { ACTIVE_STATUS, ARRIVED_STATUS, COMPLETED_STATUS } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
 import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
-import { ACTIVE_STATUS, ARRIVED_STATUS, ACTIVE_DRIVER_STATUSES } from './ActiveOrderScene/consts';
 
 import { screenStyles } from './ActiveOrderScene/styles';
 
@@ -20,6 +20,11 @@ class ActiveOrderScene extends Component {
   state = {
     isVisible: false
   };
+
+  get isDriverExist() {
+    const { order: { driverDetails } } = this.props;
+    return driverDetails && driverDetails.info && !!driverDetails.info.name;
+  }
 
   handleCancelOrder = () => {
     this.props.cancelOrder();
@@ -38,20 +43,21 @@ class ActiveOrderScene extends Component {
 
     const isTripActive = status === ACTIVE_STATUS;
     const isDriverArrived = status === ARRIVED_STATUS;
-    const isDriverActive = ACTIVE_DRIVER_STATUSES.includes(status);
+    const isCompletedStatus = status === COMPLETED_STATUS;
 
     return (
       <View style={screenStyles.container}>
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
+            {isCompletedStatus && <Button size="sm"><Text>Create new</Text></Button>}
           </View>
         </FadeInView>
 
         <View style={screenStyles.separator} />
 
         <FadeInView>
-          <View style={{ paddingBottom: isDriverActive ? 140 : 60 }}>
+          <View style={{ paddingBottom: this.isDriverExist ? 140 : 75 }}>
             <View style={screenStyles.actionsRow}>
               {!isTripActive
                 ?
@@ -94,7 +100,8 @@ ActiveOrderScene.propTypes = {
 ActiveOrderScene.defaultProps = {};
 
 const mapState = ({ bookings }) => ({
-  status: (bookings.orderState || {}).status || 'connected',
+  status: bookings.currentOrder.status || 'connected',
+  order: bookings.currentOrder,
   busy: bookings.currentOrder.busy
 });
 

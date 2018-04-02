@@ -5,9 +5,7 @@ import { Icon } from 'components';
 import { strings } from 'locales';
 import styles from './styles';
 
-const JourneyDetails = ({
-  style, time, distance, loading
-}) => {
+const JourneyDetails = ({ style, time, distance, loading }) => {
   const renderBlockItem = ({ label, text, icon }) => (
     <View style={styles.blockItem}>
       {icon}
@@ -49,12 +47,17 @@ JourneyDetails.propTypes = {
     PropTypes.number
   ]),
   time: PropTypes.string,
-  distance: PropTypes.string,
+  distance: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   loading: PropTypes.bool
 };
 
 JourneyDetails.defaultProps = {
-  style: {}
+  style: {},
+  time: '',
+  distance: ''
 };
 
 export default JourneyDetails;

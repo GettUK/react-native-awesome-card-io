@@ -2,7 +2,8 @@ import { createTypes } from 'redux-compose-reducer';
 
 export const AVAILABLE_MAP_SCENES = {
   preorder: 'PREORDER',
-  activeOrder: 'ACTIVE_ORDER'
+  activeOrder: 'ACTIVE_ORDER',
+  completedOrder: 'COMPLETED_ORDER'
 };
 
 const TYPES = createTypes('ui/navigation', [
@@ -19,4 +20,8 @@ export const goToPreorderScene = () => (dispatch) => {
 
 export const goToActiveOrderScene = () => (dispatch) => {
   dispatch(changeMapScene(AVAILABLE_MAP_SCENES.activeOrder));
+};
+
+export const goToCompletedOrderScene = () => (dispatch) => {
+  dispatch(changeMapScene(AVAILABLE_MAP_SCENES.completedOrder));
 };

@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import assets from 'assets';
 import findKey from 'lodash/findKey';
 import { getOrders } from 'actions/orders';
+import { setActiveBooking } from 'actions/booking';
 
 import { Icon } from 'components';
 import { formatPrice } from 'utils';
@@ -41,6 +42,12 @@ class OrdersList extends PureComponent {
   componentDidMount() {
     this.getOrders();
   }
+
+  goToOrderDetails = (id) => {
+    const { setActiveBooking, screenProps: { rootNavigation } } = this.props;
+    setActiveBooking(id);
+    rootNavigation.navigate('MapView');
+  };
 
   getOrders = () => {
     const { getOrders, type, items } = this.props;
@@ -110,6 +117,16 @@ class OrdersList extends PureComponent {
             <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress && item.destinationAddress.line}</Text>
           </View>
         </View>
+        <TouchableOpacity
+          onPress={() => this.goToOrderDetails(item.id)}
+          activeOpacity={0.6}
+          style={styles.goToDetailsBtn}
+        >
+          <Text style={styles.goToDetailsText}>Details</Text>
+          <View style={styles.goToDetailsIcon}>
+            <Icon name="arrow" size={14} color="#5389df" />
+          </View>
+        </TouchableOpacity>
       </View>
   );
 
@@ -136,10 +153,9 @@ const mapState = (state, props) => ({
   items: state.orders.items.filter(i => getOrdersStatuses(props.type).includes(i.status))
 });
 
-const mapDispatch = dispatch => ({
-  getOrders(params) {
-    return getOrders(dispatch, params);
-  }
+const mapDispatch = ({
+  getOrders,
+  setActiveBooking
 });
 
 export default connect(mapState, mapDispatch)(OrdersList);

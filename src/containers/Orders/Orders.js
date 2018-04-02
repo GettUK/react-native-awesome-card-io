@@ -49,7 +49,7 @@ class Orders extends Component {
   render() {
     return (
       <View style={[styles.flex, styles.content]}>
-        <OrdersTabNavigator />
+        <OrdersTabNavigator screenProps={{ rootNavigation: this.props.navigation }} />
       </View>
     );
   }

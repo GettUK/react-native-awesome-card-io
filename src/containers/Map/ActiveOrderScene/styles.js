@@ -22,6 +22,14 @@ export const screenStyles = StyleSheet.create({
   },
   actionsRow: {
     flexDirection: 'row'
+  },
+  createNewBtn: {
+    alignSelf: 'center',
+    marginTop: 12
+  },
+  createNewText: {
+    color: '#284784',
+    fontWeight: 'bold'
   }
 });
 
@@ -84,7 +92,7 @@ export const orderPanelStyles = StyleSheet.create({
   },
   listItem: {
     width: '100%',
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: 'white',
     alignItems: 'center',
     padding: 8,
@@ -94,7 +102,6 @@ export const orderPanelStyles = StyleSheet.create({
     width: width - 32
   },
   activeItem: {
-    height: 108,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -137,6 +144,11 @@ export const orderPanelStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6ebe2d'
   },
+  rateButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f6b530'
+  },
   title: {
     color: '#a4a4a4',
     marginBottom: 4
@@ -166,6 +178,10 @@ export const orderPanelStyles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     paddingHorizontal: 12
+  },
+  shadowLessPointList: {
+    shadowRadius: 0,
+    shadowColor: 'transparent'
   }
 });
 
@@ -173,7 +189,7 @@ export const pointerStyles = StyleSheet.create({
   container: {
     position: 'absolute',
     left: (width / 2) - 100,
-    top: (height / 2) - 100 - 20 - 60,
+    top: (height / 2) - 200,
     height: 200,
     width: 200,
     alignItems: 'center',

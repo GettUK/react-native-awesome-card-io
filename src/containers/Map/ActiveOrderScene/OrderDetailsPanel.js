@@ -8,6 +8,7 @@ import assets from 'assets';
 
 import { Icon, PointList, JourneyDetails } from 'components';
 import { formatPrice } from 'utils';
+import { FINAL_STATUSES, IN_PROGRESS_STATUS } from 'utils/orderStatuses';
 
 import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
 
@@ -15,11 +16,17 @@ import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
-const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClose }) => {
+const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, navigation }) => {
   const height = Dimensions.get('window').height;
 
+  const isDriverExist = driver && driver.info && !!driver.info.name;
+
   const callDriver = () => {
-    Linking.openURL(`tel:${driver.phoneNumber}`);
+    Linking.openURL(`tel:${driver.info.phoneNumber}`);
+  };
+
+  const goToRateDriver = () => {
+    navigation.navigate('RateDriver');
   };
 
   const renderHeader = () => <Text style={orderPanelStyles.header}>Order Details</Text>;
@@ -28,17 +35,20 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
     <View key="journey" style={orderPanelStyles.activeContainer}>
       <JourneyDetails
         loading={vehicles.loading}
-        time={vehicles.duration}
-        distance={vehicles.distance}
+        time={driver.eta ? `${driver.eta} min` : vehicles.duration}
+        distance={driver.distance
+          ? `${driver.distance.value || '0.00'} ${driver.distance.unit || 'mi'}`
+          : order.travelDistance
+        }
       />
     </View>
   );
 
   const renderCarItem = () => {
-    const { vehicleName } = map.fields;
-    const vehicleData = vehiclesData[vehicleName] || { label: 'Unknown' };
+    const vehicleType = order.vehicleType;
+    const vehicleData = vehiclesData[vehicleType] || { label: 'Unknown' };
 
-    const vehicle = vehicles.data.find(item => item.name === vehicleName) || {};
+    const vehicle = vehicles.data.find(item => item.name === vehicleType) || {};
 
     return (<View key="car" style={orderPanelStyles.activeContainer}>
         <View style={[orderPanelStyles.listItem, orderPanelStyles.listContainer, orderPanelStyles.row]}>
@@ -80,15 +90,30 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
       <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
         <View>
           <Text style={orderPanelStyles.title}>Driver</Text>
-          <Text style={orderPanelStyles.name}>{driver.name}</Text>
+          <Text style={orderPanelStyles.name}>{driver.info.name}</Text>
         </View>
 
         <View style={orderPanelStyles.rating}>
-          <Text style={orderPanelStyles.ratingLabel}>{driver.rating}</Text>
+          <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating}</Text>
         </View>
       </View>
     </View>
   );
+
+  const renderPointList = () => {
+    const data = {
+      pickupAddress: order.pickupAddress,
+      destinationAddress: order.destinationAddress,
+      stops: order.stopAddresses
+    };
+    return (
+      <PointList
+        allowAddingStops={false}
+        style={[orderPanelStyles.pickUpBtn, !isDriverExist ? orderPanelStyles.shadowLessPointList : {}]}
+        data={data}
+      />
+    );
+  };
 
   const renderBackdropComponent = () => {
     const options = [{ title: 'Order for', value: order.passenger }];
@@ -111,13 +136,10 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
 
     return (
       <View style={{ paddingBottom: 120 }}>
-        {renderDriverRating()}
+        {isDriverExist && renderDriverRating()}
 
         <View style={orderPanelStyles.activeContainer}>
-          <PointList
-            style={orderPanelStyles.pickUpBtn}
-            data={{ ...map.fields }}
-          />
+          {renderPointList()}
         </View>
 
         {renderJourneyDetails()}
@@ -128,9 +150,49 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
     );
   };
 
+  const renderCallBtn = () => (
+    <TouchableWithoutFeedback onPress={callDriver}>
+      <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
+        <Icon name="phone" color="#fff" />
+      </View>
+    </TouchableWithoutFeedback>
+  );
+
+  const renderRateBtn = () => (
+    <TouchableWithoutFeedback onPress={goToRateDriver}>
+      <View style={[orderPanelStyles.roundContainer, orderPanelStyles.rateButton]}>
+        <Icon name="star" color="#fff" />
+      </View>
+    </TouchableWithoutFeedback>
+  );
+
+  const renderDriver = () => (
+    <View style={orderPanelStyles.driverContainer}>
+      <Image
+        source={driver.info.imageUrl ? { uri: driver.info.imageUrl } : assets.aupairLarge}
+        style={orderPanelStyles.roundContainer}
+        resizeMode="contain"
+      />
+
+      <View style={orderPanelStyles.titleContainer}>
+        <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
+          {driver.info.vehicle ? driver.info.vehicle.model : 'Unknown'}
+        </Text>
+        <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
+          {driver.info.vehicle ? `${driver.info.vehicle.color}, ${driver.info.vehicle.licensePlate || ''}` : 'Unknown'}
+        </Text>
+      </View>
+
+      {(FINAL_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
+        ? renderRateBtn()
+        : renderCallBtn()
+      }
+    </View>
+  );
+
   const renderActiveItem = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem]}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 108 : 'auto' }]}>
         <Icon
           style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
           name="arrowDown"
@@ -138,28 +200,7 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
           width={34}
         />
 
-        <View style={orderPanelStyles.driverContainer}>
-          <Image
-            source={driver.imageUrl ? { uri: driver.imageUrl } : assets.aupairLarge}
-            style={orderPanelStyles.roundContainer}
-            resizeMode="contain"
-          />
-
-          <View style={orderPanelStyles.titleContainer}>
-            <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
-              {driver.vehicle ? driver.vehicle.model : 'Unknown'}
-            </Text>
-            <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
-              {driver.vehicle ? `${driver.vehicle.color}, ${driver.vehicle.licencePlate || ''}` : 'Unknown'}
-            </Text>
-          </View>
-
-          <TouchableWithoutFeedback onPress={callDriver}>
-            <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-              <Icon name="phone" color="#fff" />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        {isDriverExist && renderDriver()}
       </View>
     </View>
   );
@@ -170,9 +211,9 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
       showBackdrop={false}
       draggableRange={{
         top: height - 60 - 60,
-        bottom: 148
+        bottom: isDriverExist ? 148 : 80
       }}
-      height={116}
+      height={ isDriverExist ? 116 : 54}
       backdropComponent={renderBackdropComponent()}
       header={renderHeader()}
       closeButton={<Icon name="arrow" />}
@@ -185,22 +226,26 @@ const OrderDetails = ({ map, order, driver, vehicles, visible, onActivate, onClo
 };
 
 OrderDetails.propTypes = {
+  navigation: PropTypes.object,
   visible: PropTypes.bool,
   onActivate: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  order: PropTypes.object,
+  driver: PropTypes.object,
+  vehicles: PropTypes.object
 };
 
 OrderDetails.defaultProps = {
+  driver: {},
   visible: false,
   onActivate: () => {},
   onClose: () => {}
 };
 
-const mapState = ({ ui, bookings }) => ({
-  map: ui.map,
+const mapState = ({ bookings }) => ({
   order: bookings.currentOrder,
   vehicles: bookings.formData.vehicles,
-  driver: bookings.driver
+  driver: bookings.currentOrder.driverDetails
 });
 
 export default connect(mapState)(OrderDetails);

@@ -11,8 +11,7 @@ import config from 'config';
 import { Icon } from 'components';
 
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
-
-import { ACTIVE_STATUS, DRIVER_ON_WAY } from './ActiveOrderScene/consts';
+import { ACTIVE_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
 import styles from './style';
 
@@ -86,7 +85,7 @@ class MapView extends Component {
 
   renderMarker = ({ address, type = 'current' }) => {
     return !this.props.isActiveOrder &&
-      <Map.Marker coordinate={this.prepareCoordinates(address)}>
+      <Map.Marker key={address.line} coordinate={this.prepareCoordinates(address)}>
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>;
   }
@@ -179,8 +178,8 @@ const mapState = ({ ui, bookings }) => ({
   fields: ui.map.fields,
   currentPosition: ui.map.currentPosition,
   regionPosition: ui.map.regionPosition,
-  driverLocation: bookings.driver.location,
-  status: (bookings.orderState || {}).status || 'connected'
+  driverLocation: bookings.currentOrder.driverDetails ? bookings.currentOrder.driverDetails.location : {},
+  status: bookings.currentOrder.status || 'connected'
 });
 
 const mapDispatch = {

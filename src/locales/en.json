@@ -68,17 +68,21 @@
   "goBack": "Go Back",
   "order": {
     "cancelOrderCreation": "Cancel Order Creation",
+    "createNew": "Create New",
     "statuses": {
       "connected": "Creating...",
+      "creating": "Creating...",
       "order_received": "Order Received",
+      "processing": "Processing",
       "locating": "Locating a Car",
       "on_the_way": "Driver on the way",
       "arrived": "Driver is waiting for you",
       "in_progress": "Enjoy Your Journey",
-      "completed": "Completed",
-      "cancelled": "Cancelled",
+      "completed": "Ride has been completed",
+      "billed": "Billed",
+      "cancelled": "Ride has been canceled",
       "customer_care": "Customer Care",
-      "rejected": "Rejected"
+      "rejected": "Ride has been rejected"
     }
   }
 }
