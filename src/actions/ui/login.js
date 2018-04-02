@@ -2,7 +2,6 @@ import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { get, post } from 'utils';
 import { userLogin, userData } from 'actions/session';
-import { getPassengerData } from 'actions/passenger';
 import { authSuccess, authFailure } from 'actions/ui/auth';
 import { registerToken } from 'actions/app/pushNotifications';
 
@@ -50,8 +49,6 @@ export const login = () => (dispatch, getState) => {
         loginSuccess(),
         userLogin(token, realms)
       ]));
-
-      dispatch(getPassengerData());
 
       dispatch(registerToken());
     })

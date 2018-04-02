@@ -38,9 +38,15 @@ class Login extends Component {
     error: ''
   };
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate({ login }, nextState) {
     if (nextState.isResetSuccess && !this.state.isResetSuccess) {
       this.showResetSuccess();
+    } else if (login.errors && !this.props.login.errors) {
+      const error = login.errors.response && login.errors.response.status === 401
+        ? 'The email or password you entered is incorrect'
+        : "User can't be logged in now";
+
+      this.setState({ error }, this.showError);
     }
   }
 
