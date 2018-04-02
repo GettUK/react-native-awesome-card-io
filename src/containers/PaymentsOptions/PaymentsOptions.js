@@ -1,36 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { flatMap } from 'lodash';
+
 import { Icon } from 'components';
+
 import { changeFields } from 'actions/ui/map';
 
 import {
   paymentTypeLabels,
-  preparePaymentType,
-  preparePaymentLabel,
   paymentTypeToAttrs
 } from 'containers/shared/bookings/data';
 
 import styles from './styles';
 
 class ReasonForTravel extends Component {
+  preparePaymentTypes = () => {
+    const { companyPaymentTypes, paymentCards } = this.props;
+
+    return flatMap(companyPaymentTypes, (type) => {
+      if (type !== 'passenger_payment_card' && type !== 'passenger_payment_card_periodic') {
+        return { value: type, label: paymentTypeLabels[type] };
+      } else if (paymentCards) {
+        return paymentCards.map(card => ({ value: `${card.type}_payment_card:${card.id}`, label: card.title }));
+      }
+    });
+  };
+
   renderItem = ({ item }) => {
-    const { paymentMethod, changeFields, paymentCards: cards } = this.props;
+    const { paymentMethod, paymentCardId, changeFields } = this.props;
 
-    const isSelected = item === paymentMethod;
-
-    const label = preparePaymentLabel({ payment: item, cards });
-
-    const paymentType = preparePaymentType({ payment: item, cards });
+    const isSelected = item.value === paymentMethod || item.value === `${paymentMethod}:${paymentCardId}`;
 
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.item}
-        onPress={() => changeFields(paymentTypeToAttrs(paymentType))}
+        onPress={() => changeFields(paymentTypeToAttrs(item.value))}
       >
         <Text style={[styles.flex, styles.reasonName, isSelected ? styles.reasonNameSelected : {}]}>
-          {label}
+          {item.label}
         </Text>
 
         {isSelected &&
@@ -43,24 +52,26 @@ class ReasonForTravel extends Component {
   renderSeparator = () => <View style={styles.separator}/>;
 
   render() {
-    const { companyPaymentTypes } = this.props;
+    const paymentTypes = this.preparePaymentTypes();
 
     return (
       <FlatList
         style={[styles.flex, styles.bg]}
-        data={companyPaymentTypes}
+        data={paymentTypes}
         ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={item => item}
+        keyExtractor={item => item.label}
         renderItem={this.renderItem}
       />
     );
   }
 }
 
-const mapState = ({ passenger, ui }) => ({
-  companyPaymentTypes: passenger.data.companyPaymentTypes,
-  paymentCards: passenger.data.paymentCards,
-  paymentMethod: ui.map.fields.paymentMethod || ''
+const mapState = ({ bookings, ui, session }) => ({
+  companyPaymentTypes: bookings.formData.paymentTypes,
+  paymentCards: (bookings.formData.passengers
+    .find(passenger => passenger.id === session.result.memberId) || {}).paymentCards,
+  paymentMethod: ui.map.fields.paymentMethod || '',
+  paymentCardId: ui.map.fields.paymentCardId || ''
 });
 
 const mapDispatch = ({

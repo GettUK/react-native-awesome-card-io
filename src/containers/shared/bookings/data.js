@@ -31,8 +31,8 @@ export function preparePaymentLabel({ payment, cards }) {
 
 export function preparePaymentType({ payment, cards }) {
   return payment.includes('payment_card')
-    ? `${payment}:${(find(cards, 'default') || cards[0]).id}`
-    : payment
+    ? `${payment}:${(find(cards, 'default') || cards[0] || {}).id}`
+    : payment;
 }
 
 export function selectedPaymentType({ passenger, paymentTypes, defaultPaymentType } = {}) {

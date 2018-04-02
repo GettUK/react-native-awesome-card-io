@@ -239,6 +239,7 @@ class Map extends Component {
       scheduledAt,
       scheduledType,
       paymentMethod,
+      paymentType,
       paymentCardId,
       stops
     } = this.props.map.fields;
@@ -258,6 +259,7 @@ class Map extends Component {
       passengerPhone: passenger ? passenger.phone : passengerPhone,
       passengerId,
       paymentMethod,
+      paymentType,
       paymentCardId,
       scheduledType,
       stops
