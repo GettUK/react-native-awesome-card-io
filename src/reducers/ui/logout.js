@@ -5,11 +5,14 @@ const initialState = {
   errors: null
 };
 
+const logoutStart = state => ({ ...state, busy: true });
+
 const logoutSuccess = () => initialState;
 
 export default composeReducer(
   'ui/logout',
   {
+    logoutStart,
     logoutSuccess
   },
   initialState

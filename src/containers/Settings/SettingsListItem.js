@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import StylePropType from 'react-style-proptype';
@@ -18,15 +19,18 @@ const SettingsListItem = (props) => {
     switchButton,
     titleStyle,
     switched,
+    isLoading,
     onPress,
     onSwitch
   } = props;
+
+  const leftIcon = leftIconName ? <Icon style={styles.icon} name={leftIconName} size={24} color="#8e8e93" /> : null;
 
   return (
     <ListItem
       onPress={onPress}
 
-      leftIcon={leftIconName ? <Icon style={styles.icon} name={leftIconName} size={24} color="#8e8e93" /> : null}
+      leftIcon={isLoading ? <ActivityIndicator color="#fd6c5a" /> : leftIcon}
       avatar={(avatar || !!titleAvatar) && (
         <Avatar
           rounded

@@ -126,11 +126,12 @@ export function prepareInfoBlock(_, handlers = {}) {
   ];
 }
 
-export function prepareLogoutBlock(_, handlers = {}) {
+export function prepareLogoutBlock({ isLoading = false }, handlers = {}) {
   return [
     {
       title: strings('settings.label.logout'),
       onPress: handlers.onLogout,
+      isLoading,
       showRightIcon: false,
       titleStyle: styles.listLabelCentered
     }
