@@ -1,73 +1,72 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { has, isNull, map } from 'lodash/fp';
 import { Icon } from 'components';
 import styles from './styles';
 
-class PointList extends Component {
+class PointList extends PureComponent {
   renderPickUpItem = () => {
-    const { data } = this.props;
+    const { data, onChangeAddress, onChangeAddressType, toggleModal } = this.props;
     return (
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
           if (has('pickupAddress', data)) {
-            this.props.onChangeAddress(data.pickupAddress);
+            onChangeAddress(data.pickupAddress);
           }
-          this.props.onChangeAddressType('pickupAddress', {}, null);
-          this.props.toggleModal();
+          onChangeAddressType('pickupAddress', {}, null);
+          toggleModal();
         }}>
         <Icon style={styles.pickUpIcon} name="pickUpField" size={18} />
-        {has('pickupAddress', data) &&
-          !isNull(data.pickupAddress.line) && (
-            <Text style={styles.pickUpText} numberOfLines={1}>
-              {data.pickupAddress.line}
-            </Text>
-          )}
+        {has('pickupAddress', data) && !isNull(data.pickupAddress.line) &&
+          <Text style={styles.pickUpText} numberOfLines={1}>
+            {data.pickupAddress.label || data.pickupAddress.line}
+          </Text>
+        }
       </TouchableOpacity>
     );
   };
 
   renderStopsItem = () => {
-    const { data } = this.props;
+    const { data, onChangeAddress, onChangeAddressType, toggleModal } = this.props;
     return (
       has('stops', data) &&
       map(
-        item => (
-          <View key={item.address.line}>
-            <View style={styles.delimiter} />
-            <TouchableOpacity
-              style={styles.row}
-              onPress={() => {
-                if (has('address', item)) {
-                  this.props.onChangeAddress(item.address);
-                }
-                this.props.onChangeAddressType('stops', [], { ...item });
-                this.props.toggleModal();
-              }}>
-              <Icon
-                style={[styles.pickUpIcon, { marginLeft: 3 }]}
-                name="pickUpField"
-                size={12}
-                color="#8D8D8D"
-              />
-              {has('address', item) &&
-                !isNull(item.address.line) && (
+        (item) => {
+          const address = item.address ? item.address : item;
+          return (
+            <View key={address.line}>
+              <View style={styles.delimiter} />
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => {
+                  onChangeAddress(address);
+                  onChangeAddressType('stops', [], { ...item });
+                  toggleModal();
+                }}>
+                <Icon
+                  style={[styles.pickUpIcon, { marginLeft: 3 }]}
+                  name="pickUpField"
+                  size={12}
+                  color="#8D8D8D"
+                />
+                {!isNull(address.line) &&
                   <Text style={styles.pickUpText} numberOfLines={1}>
-                    {item.address.line}
+                    {address.label || address.line}
                   </Text>
-                )}
-            </TouchableOpacity>
-          </View>
-        ),
+                }
+              </TouchableOpacity>
+            </View>
+          );
+        },
         data.stops
       )
     );
   };
 
   renderDestinationItem = () => {
-    const { data } = this.props;
+    const { data, onChangeAddress, onChangeAddressType, toggleModal, allowAddingStops } = this.props;
     return (
       has('destinationAddress', data) && (
         <View style={styles.row}>
@@ -75,10 +74,10 @@ class PointList extends Component {
             style={styles.rowView}
             onPress={() => {
               if (has('destinationAddress', data)) {
-                this.props.onChangeAddress(data.destinationAddress);
+                onChangeAddress(data.destinationAddress);
               }
-              this.props.onChangeAddressType('destinationAddress', {}, null);
-              this.props.toggleModal();
+              onChangeAddressType('destinationAddress', {}, null);
+              toggleModal();
             }}>
             <Icon
               style={styles.pickUpIcon}
@@ -86,21 +85,18 @@ class PointList extends Component {
               color="#FF0000"
               size={18}
             />
-            {has('destinationAddress', data) &&
-              (!isNull(data.destinationAddress.line) ||
-                !isNull(data.destinationAddress.label)) && (
-                <Text style={styles.pickUpText} numberOfLines={1}>
-                  {data.destinationAddress.label ||
-                    data.destinationAddress.line}
-                </Text>
-              )}
+            {has('destinationAddress', data) && !isNull(data.destinationAddress.line) &&
+              <Text style={styles.pickUpText} numberOfLines={1}>
+                {data.destinationAddress.label || data.destinationAddress.line}
+              </Text>
+            }
           </TouchableOpacity>
 
-          {(!data.stops || data.stops.length < 5)
-            && <TouchableOpacity
+          {allowAddingStops && (!data.stops || data.stops.length < 5) &&
+            <TouchableOpacity
               onPress={() => {
-                this.props.onChangeAddressType('stops', [], null);
-                this.props.toggleModal();
+                onChangeAddressType('stops', [], null);
+                toggleModal();
               }}>
               <Icon name="plus" color="#8D8D8D" size={18} />
             </TouchableOpacity>
@@ -117,8 +113,9 @@ class PointList extends Component {
       <View style={[styles.btn, style]}>
         {this.renderPickUpItem()}
         {this.renderStopsItem()}
-        {has('destinationAddress', data) &&
-          has('pickupAddress', data) && <View style={styles.delimiter} />}
+        {has('destinationAddress', data) && has('pickupAddress', data) &&
+          <View style={styles.delimiter} />
+        }
         {this.renderDestinationItem()}
       </View>
     );
@@ -141,7 +138,8 @@ PointList.defaultProps = {
   style: {},
   onChangeAddress: () => {},
   onChangeAddressType: () => {},
-  toggleModal: () => {}
+  toggleModal: () => {},
+  allowAddingStops: true
 };
 
 export default PointList;

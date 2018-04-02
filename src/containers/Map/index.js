@@ -46,8 +46,9 @@ import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
 import PN from 'utils/notifications';
 
-import { ACTIVE_DRIVER_STATUSES, COMPLETED_STATUS, CANCELLED_STATUS } from './ActiveOrderScene/consts';
+import { COMPLETED_STATUS, CANCELLED_STATUS } from 'utils/orderStatuses';
 import ActiveOrderScene from './ActiveOrderScene';
+import CompletedOrderScene from './CompletedOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 
 import MapView from './MapView';
@@ -74,10 +75,11 @@ class Map extends Component {
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
-  componentWillReceiveProps({ app: { statuses }, status, canceledByUser, canceledByExternal }) {
-    const { app: { statuses: statusesProps },
-      navigation, cancelOrder, completeOrder, status: statusProps,
-      canceledByUser: canceledByUserProps, canceledByExternal: canceledByExternalProps } = this.props;
+  componentWillReceiveProps({ app: { statuses }, canceledByUser }) {
+    const {
+      app: { statuses: statusesProps },
+      canceledByUser: canceledByUserProps
+    } = this.props;
 
     if (
       statuses.permissions && statusesProps.permissions &&
@@ -92,22 +94,8 @@ class Map extends Component {
       });
     }
 
-    if (status !== statusProps && status === COMPLETED_STATUS) {
-      navigation.navigate('RateDriver');
-
-      //this.clearFields();
-
-      completeOrder();
-    } else if (status !== statusProps && status === CANCELLED_STATUS) {
-      completeOrder();
-    }
-
     if (canceledByUser && !canceledByUserProps) {
       this.showAlert();
-    }
-
-    if (canceledByExternal && !canceledByExternalProps) {
-      navigation.navigate('OrdersView');
     }
   }
 
@@ -414,8 +402,10 @@ class Map extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     const isPreordered = this.isActiveSceneIs('preorder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
+    const isCompletedOrder = this.isActiveSceneIs('completedOrder');
 
     return (
       <View style={styles.container}>
@@ -450,36 +440,38 @@ class Map extends Component {
           }
         />
         }
-        {isPreordered ?
+        {isPreordered &&
           <BookingEditor
-            navigation={this.props.navigation}
+            navigation={navigation}
             passenger={this.getPassenger()}
             toggleModal={this.toggleAddressModal}
             requestVehicles={this.goToRequestVehicles}
-          /> : null
+          />
         }
-        {isPreordered ?
+        {isPreordered &&
           <BookingFooter
-            navigation={this.props.navigation}
+            navigation={navigation}
             getCurrentPosition={this.getCurrentPosition}
             passenger={this.getPassenger()}
             toggleModal={this.toggleAddressModal}
             requestVehicles={this.goToRequestVehicles}
             toOrder={this.shouldRequestVehicles()}
-          /> : null
+          />
         }
 
         {isActiveOrder && <ActiveOrderScene />}
+        {isCompletedOrder && <CompletedOrderScene />}
 
         <MapView isActiveOrder={isActiveOrder} />
 
         {this.renderTimeDatePicker()}
 
-        {isActiveOrder && ACTIVE_DRIVER_STATUSES.includes(this.props.status) &&
+        {(isActiveOrder || isCompletedOrder) &&
           <OrderDetailsPanel
-            onActivate = {this.handleHideHeader}
-            onClose = {this.handleShowHeader}
-            visible = {!this.state.isHeaderEnable}
+            navigation={navigation}
+            onActivate={this.handleHideHeader}
+            onClose={this.handleShowHeader}
+            visible={!this.state.isHeaderEnable}
           />
         }
 
@@ -522,7 +514,7 @@ const mapState = ({ app, ui, bookings, session }) => ({
   session,
   activeScene: ui.navigation.activeScene,
   bookings,
-  status: (bookings.orderState || {}).status || 'connected',
+  status: bookings.currentOrder.status || 'connected',
   canceledByExternal: bookings.canceledByExternal,
   canceledByUser: bookings.canceledByUser
 });

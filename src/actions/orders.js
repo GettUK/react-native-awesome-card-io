@@ -6,7 +6,7 @@ const TYPES = createTypes('orders', [
   'clearList'
 ]);
 
-export const getOrders = (dispatch, query) =>
+export const getOrders = query => dispatch =>
   get('/bookings', query)
     .then((res) => {
       dispatch({ type: TYPES.getOrders, data: res.data });

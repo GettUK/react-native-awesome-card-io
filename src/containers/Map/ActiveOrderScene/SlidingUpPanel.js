@@ -55,6 +55,10 @@ class SlidingUpPanel extends Component {
       this.transitionTo(-this.props.draggableRange.top);
     }
 
+    if (bottom !== this.props.draggableRange.bottom) {
+      this.animatedValueY = -bottom;
+    }
+
     if (top !== this.props.draggableRange.top || bottom !== this.props.draggableRange.bottom) {
       this.flick = new FlickAnimation(this.translateYAnimation, -top, -bottom);
     }

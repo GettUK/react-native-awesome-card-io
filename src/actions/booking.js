@@ -3,8 +3,9 @@ import { batchActions } from 'redux-batched-actions';
 
 import { get, post, put } from 'utils';
 import faye from 'utils/faye';
+import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
-import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
+import { goToActiveOrderScene, goToPreorderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
 import {
@@ -14,7 +15,7 @@ import {
 
 const TYPES = createTypes('booking', [
   'createBookingStart',
-  'createBookingSuccess',
+  'updateCurrentOrder',
   'createBookingFailure',
   'changeOrderStatus',
   'cancelOrderStart',
@@ -27,29 +28,54 @@ const TYPES = createTypes('booking', [
   'getVehiclesFailure',
   'toggleVisibleModal',
   'setDriver',
+  'clearCurrentOrder',
   'clearBooking'
 ]);
+
+const getAuthorOfCancellation = () => (dispatch, getState) => {
+  const { bookings: { currentOrder } } = getState();
+
+  return get(`/bookings/${currentOrder.id}`)
+    .then(({ data }) => {
+      if (data.passenger === data.cancelledByName) {
+        dispatch({ type: TYPES.canceledByUser });
+      } else {
+        dispatch({ type: TYPES.canceledByExternal });
+      }
+      return data;
+    });
+};
+
+const removeOrderStatusSubscription = () => {
+  faye.closeConnection();
+};
 
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
   faye.on(channel, ({ data }) => {
     if (data.indicator) {
-      if (data.status === 'on_the_way') {
+      if (data.status === DRIVER_ON_WAY) {
         get(`/bookings/${currentOrder.id}`)
           .then(({ data: driverData }) => {
             dispatch(batchActions([
               {
                 type: TYPES.setDriver,
-                payload: { ...driverData.driverDetails.info, location: driverData.driverDetails.location }
+                payload: driverData.driverDetails
               },
               { type: TYPES.changeOrderStatus, data }
             ]));
           });
-      } if (data.status === 'cancelled') {
-        dispatch(getAuthorOfCancellation());
+      } else if (FINAL_STATUSES.includes(data.status)) {
+        dispatch(goToCompletedOrderScene());
+
+        if (data.status === CANCELLED_STATUS) {
+          dispatch(getAuthorOfCancellation());
+        }
 
         dispatch({ type: TYPES.changeOrderStatus, data });
+
+        removeOrderStatusSubscription();
       } else {
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
@@ -62,7 +88,7 @@ export const createBooking = order => (dispatch) => {
 
   return post('/bookings', order)
     .then(({ data }) => {
-      dispatch({ type: TYPES.createBookingSuccess, payload: data });
+      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
       dispatch(goToActiveOrderScene());
 
@@ -81,46 +107,40 @@ export const setActiveBooking = id => (dispatch, getState) => {
   if (currentOrder.id !== id) {
     get(`/bookings/${id}`)
       .then(({ data }) => {
-        dispatch({ type: TYPES.createBookingSuccess, payload: data });
+        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-        dispatch(goToActiveOrderScene());
+        if (FINAL_STATUSES.includes(data.status)) {
+          dispatch(goToCompletedOrderScene());
+        } else {
+          dispatch(goToActiveOrderScene());
 
-        dispatch(orderStatusSubscribe(data.channel));
+          dispatch(orderStatusSubscribe(data.channel));
+        }
 
         return data;
       });
   }
 };
 
-export const removeOrderStatusSubscription = () => (dispatch) => {
-  faye.closeConnection();
-
-  dispatch({ type: TYPES.changeOrderStatus, data: {} });
-};
-
-export const completeOrder = () => (dispatch) => {
+export const initializeOrderCreation = () => (dispatch) => {
   dispatch(goToPreorderScene());
 
-  dispatch(removeOrderStatusSubscription());
-
-  dispatch(batchActions([
-    { type: TYPES.setDriver, payload: {} },
-    { type: TYPES.cancelOrderSuccess }
-  ]));
+  dispatch({ type: TYPES.clearCurrentOrder });
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
-  if (!currentOrder.id) dispatch(completeOrder());
-
   dispatch({ type: TYPES.cancelOrderStart });
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
     .then(async () => {
-      await dispatch(getAuthorOfCancellation());
+      const data = await dispatch(getAuthorOfCancellation());
+      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-      dispatch(completeOrder());
+      dispatch(goToCompletedOrderScene());
+
+      removeOrderStatusSubscription();
     });
 };
 
@@ -155,19 +175,6 @@ export const getVehicles = params => (dispatch) => {
       ]));
     });
 };
-
-const getAuthorOfCancellation = () => (dispatch, getState) => {
-  const { bookings: { currentOrder } } = getState();
-
-  return get(`/bookings/${currentOrder.id}`)
-    .then(({ data }) => {
-      if (data.passenger === data.cancelledByName) {
-        dispatch({ type: TYPES.canceledByUser });
-      } else {
-        dispatch({ type: TYPES.canceledByExternal });
-      }
-    });
-}
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
 

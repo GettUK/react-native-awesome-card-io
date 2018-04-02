@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   orderDetails: {
     paddingHorizontal: 15,
-    paddingVertical: 20
+    paddingTop: 20
   },
   orderDate: {
     fontWeight: 'bold',
@@ -78,6 +78,19 @@ const styles = StyleSheet.create({
   },
   orderAddressGap: {
     marginBottom: 12
+  },
+  goToDetailsBtn: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 15
+  },
+  goToDetailsText: {
+    color: '#5389df',
+    fontSize: 17
+  },
+  goToDetailsIcon: {
+    marginLeft: 12,
+    transform: [{ rotate: '-90deg' }]
   }
 });
 
