@@ -1,4 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+
+import { isIphoneX } from 'utils';
+
+const topIPhone = isIphoneX() ? 34 : 20;
 
 export default StyleSheet.create({
   container: {
@@ -16,12 +20,12 @@ export default StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 16,
+    top: 16 + (Platform.OS === 'ios' ? topIPhone : 0),
     left: 16
   },
   header: {
     position: 'absolute',
-    top: 44,
+    top: 44 + (Platform.OS === 'ios' ? topIPhone : 0),
     left: 16
   }
 });

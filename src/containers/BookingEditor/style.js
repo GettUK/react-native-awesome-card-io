@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
 export default StyleSheet.create({
   orderRideBtn: {
     backgroundColor: '#284784',
@@ -35,7 +37,7 @@ export default StyleSheet.create({
     elevation: 2,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: isIphoneX() ? 15 : 0,
     paddingBottom: 15
   },
   settingsBtn: {

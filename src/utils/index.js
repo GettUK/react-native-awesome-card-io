@@ -10,4 +10,5 @@ export {
 } from './common';
 export * from './requests';
 export * from './map';
+export { default as isIphoneX } from './ui';
 export { default as showConfirmationAlert } from './showConfirmationAlert';

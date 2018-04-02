@@ -7,8 +7,9 @@ import moment from 'moment';
 import assets from 'assets';
 
 import { Icon, PointList, JourneyDetails } from 'components';
-import { formatPrice } from 'utils';
+
 import { FINAL_STATUSES, IN_PROGRESS_STATUS } from 'utils/orderStatuses';
+import { formatPrice, isIphoneX } from 'utils';
 
 import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
 
@@ -205,12 +206,14 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
     </View>
   );
 
+  const topIPhone = isIphoneX() ? 34 : 20;
+
   return (
     <SlidingUpPanel
       visible
       showBackdrop={false}
       draggableRange={{
-        top: height - 60 - 60,
+        top: height - 60 - (60 + topIPhone),
         bottom: isDriverExist ? 148 : 80
       }}
       height={ isDriverExist ? 116 : 54}
