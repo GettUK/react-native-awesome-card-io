@@ -7,6 +7,11 @@ import faye from 'utils/faye';
 import { goToActiveOrderScene, goToPreorderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
+import {
+  preparePaymentType,
+  paymentTypeToAttrs
+} from 'containers/shared/bookings/data';
+
 const TYPES = createTypes('booking', [
   'createBookingStart',
   'createBookingSuccess',
@@ -119,9 +124,18 @@ export const cancelOrder = () => (dispatch, getState) => {
     });
 };
 
-export const getFormData = () => dispatch => (
+export const getFormData = () => (dispatch, getState) => (
   get('/bookings/new')
     .then(({ data }) => {
+      if (!getState().ui.map.fields.paymentMethod) {
+        const memberId = getState().session.result.memberId;
+        const cards = (data.passengers.find(passenger => passenger.id === memberId) || {}).paymentCards || [];
+
+        const paymentType = preparePaymentType({ payment: data.paymentTypes[0], cards });
+
+        dispatch(changeFields(paymentTypeToAttrs(paymentType)));
+      }
+
       dispatch({ type: TYPES.getFormDataSuccess, payload: data });
       return data;
     })

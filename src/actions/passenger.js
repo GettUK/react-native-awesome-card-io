@@ -1,14 +1,7 @@
 import { createTypes } from 'redux-compose-reducer';
 import curry from 'lodash/curry';
 
-import { changeFields } from 'actions/ui/map';
-
 import { get, put, post, destroy } from 'utils';
-
-import {
-  preparePaymentType,
-  paymentTypeToAttrs
-} from 'containers/shared/bookings/data';
 
 const TYPES = createTypes('passenger', [
   'getPassengerDataStart',
@@ -42,10 +35,6 @@ export const getPassengerData = () => (dispatch, getState) => {
 
   return get(`/passengers/${id}/edit`)
     .then(({ data }) => {
-      const paymentType = preparePaymentType({ payment: data.companyPaymentTypes[0], cards: data.paymentCards });
-
-      dispatch(changeFields(paymentTypeToAttrs(paymentType)))
-
       dispatch({ type: TYPES.getPassengerDataSuccess, payload: data });
 
       return data;
