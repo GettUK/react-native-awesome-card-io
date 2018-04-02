@@ -12,7 +12,7 @@ import {
   TimePickerAndroid
 } from 'react-native';
 import moment from 'moment';
-import { every, find, first, has } from 'lodash';
+import { every, find, first, has, isEmpty } from 'lodash';
 
 import { Icon, Button, Modal, Alert } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -162,9 +162,15 @@ class Map extends Component {
   };
 
   getPassenger = () => {
-    const { map: { fields: { passengerId } }, bookings: { formData: { passenger, passengers } } } = this.props;
+    const {
+      map: { fields: { passengerId } },
+      bookings: { formData: { passenger, passengers } },
+      passenger: { data: { passenger: passengerData } }
+    } = this.props;
 
-    return passenger || find(passengers, { id: +passengerId });
+    return (!isEmpty(passengerData) && passengerData)
+      || passenger
+      || find(passengers, { id: +passengerId });
   };
 
   toggleAddressModal = () => {
@@ -514,7 +520,7 @@ Map.propTypes = {
 Map.defaultProps = {
 };
 
-const mapState = ({ app, ui, bookings, session }) => ({
+const mapState = ({ app, ui, bookings, session, passenger }) => ({
   app,
   map: ui.map,
   session,
@@ -522,7 +528,8 @@ const mapState = ({ app, ui, bookings, session }) => ({
   bookings,
   status: (bookings.orderState || {}).status || 'connected',
   canceledByExternal: bookings.canceledByExternal,
-  canceledByUser: bookings.canceledByUser
+  canceledByUser: bookings.canceledByUser,
+  passenger
 });
 
 const mapDispatch = {

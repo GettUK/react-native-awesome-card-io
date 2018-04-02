@@ -67,8 +67,10 @@ const RoutesConfig = {
       const address = navigation.state.params && navigation.state.params.address;
       return {
         headerLeft: <BackBtn navigation={navigation} field="address" />,
-        headerTitle: address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
-        headerRight: address.passengerId ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} /> : null
+        headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
+        headerRight: address && address.passengerId
+          ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} />
+          : null
       };
     }
   },

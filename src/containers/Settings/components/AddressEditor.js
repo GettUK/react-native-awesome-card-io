@@ -10,13 +10,15 @@ import { Button, Input, DismissKeyboardView } from 'components';
 import AddressModal from 'containers/Map/AddressModal';
 import { strings } from 'locales';
 
+import { emptyAddress } from '../utils';
+
 import styles from './AddressStyles';
 
 class AddressEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: props.navigation.state.params.address,
+      address: props.navigation.state.params.address || emptyAddress,
       isAddressModalOpened: false,
       touched: false
     };
@@ -86,6 +88,7 @@ class AddressEditor extends Component {
 
   render() {
     const { address, isAddressModalOpened } = this.state;
+
     return (
       <View style={[styles.flex, styles.container]}>
         <DismissKeyboardView style={styles.flex}>
@@ -105,7 +108,7 @@ class AddressEditor extends Component {
               this.renderInput({
                 inputRef: (el) => { this.addressInput = el; },
                 label: 'Address',
-                value: this.isPredefinedAddress ? address.line : address.address.line || '',
+                value: this.isPredefinedAddress ? address.line || '' : address.address.line || '',
                 onFocus: this.toggleAddressModal,
                 allowClear: false
               })

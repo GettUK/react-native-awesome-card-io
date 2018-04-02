@@ -173,7 +173,7 @@ class BookingFooter extends Component {
         {passenger && !isNull(passenger.workAddress) &&
           this.renderAddressItem(passenger.workAddress, strings('label.work'))
         }
-        {passenger && passenger.favoriteAddresses.map(address =>
+        {passenger && (passenger.favoriteAddresses || []).map(address =>
           this.renderAddressItem(address.address, address.name))
         }
       </ScrollView>

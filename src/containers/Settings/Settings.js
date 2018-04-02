@@ -13,7 +13,8 @@ import {
   prepareSwitchersBlock,
   prepareHistoryBlock,
   prepareInfoBlock,
-  prepareLogoutBlock
+  prepareLogoutBlock,
+  emptyAddress
 } from './utils';
 
 import SettingsListItem from './SettingsListItem';
@@ -42,7 +43,7 @@ class Settings extends Component {
 
   goToAddressEditor = (predefinedType) => {
     const { navigation, passengerData } = this.props;
-    const address = passengerData.passenger[`${predefinedType}Address`];
+    const address = passengerData.passenger[`${predefinedType}Address`] || emptyAddress;
     navigation.navigate('AddressEditor', { address, predefinedType });
   };
 
