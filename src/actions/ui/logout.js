@@ -11,8 +11,11 @@ import { addressesEmpty } from 'actions/ui/addresses';
 import { geocodeEmpty } from 'actions/ui/geocode';
 
 const TYPES = createTypes('ui/logout', [
+  'logoutStart',
   'logoutSuccess'
 ]);
+
+export const logoutStart = () => ({ type: TYPES.logoutStart });
 
 export const logoutSuccess = () => ({ type: TYPES.logoutSuccess });
 
@@ -27,7 +30,9 @@ export const logout = () => (dispatch, getState) => {
     return Promise.resolve();
   }
 
-  dispatch(batchActions([userLogout(), logoutSuccess(), navigationReset()]));
+  dispatch(logoutStart());
+
+  dispatch(batchActions([userLogout(), navigationReset()]));
 
   dispatch(batchActions([
     clearList(),
@@ -36,7 +41,8 @@ export const logout = () => (dispatch, getState) => {
     passegerViewEmpty(),
     clearMap(),
     geocodeEmpty(),
-    addressesEmpty()
+    addressesEmpty(),
+    logoutSuccess()
   ]));
 
   return Promise.resolve();

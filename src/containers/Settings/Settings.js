@@ -26,10 +26,12 @@ class Settings extends Component {
   }
 
   handleLogout = async () => {
-    // TODO: uncommit when API update (route - /user-devices)
-    // await this.props.deleteToken();
+    if (!this.props.logoutProgress) {
+      // TODO: uncommit when API update (route - /user-devices)
+      // await this.props.deleteToken();
 
-    this.props.logout();
+      this.props.logout();
+    }
   };
 
   goToEditProfile = () => {
@@ -61,7 +63,7 @@ class Settings extends Component {
   );
 
   render() {
-    const { passengerData: data, changeToggleValue } = this.props;
+    const { passengerData: data, changeToggleValue, logoutProgress } = this.props;
 
     const settingsBlocks = [
       prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
@@ -72,7 +74,7 @@ class Settings extends Component {
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
       prepareHistoryBlock(data, { goToMyRides: this.goToMyRides }),
       prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
-      prepareLogoutBlock(data, { onLogout: this.handleLogout })
+      prepareLogoutBlock({ isLoading: logoutProgress }, { onLogout: this.handleLogout })
     ];
 
     return (
@@ -91,8 +93,9 @@ Settings.propTypes = {
 
 Settings.defaultProps = {};
 
-const select = ({ passenger }) => ({
-  passengerData: passenger.data
+const select = ({ passenger, ui }) => ({
+  passengerData: passenger.data,
+  logoutProgress: ui.logout.busy
 });
 
 const bindActions = {
