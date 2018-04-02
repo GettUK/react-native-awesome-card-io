@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import { ScreenHeader } from 'components';
@@ -17,7 +16,7 @@ const routeConfiguration = {
       headerStyle: {
         backgroundColor: '#fff'
       },
-      header: <View style={{ marginTop: 20, height: 0 }} />
+      header: null
     })
   },
   Settings: {

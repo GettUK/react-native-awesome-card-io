@@ -9,7 +9,6 @@ import {
   concat,
   isEqual
 } from 'lodash/fp';
-import update from 'update-js';
 
 import { nullAddress, LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 
@@ -38,18 +37,7 @@ const initialState = {
     timeout: 5000,
     maximumAge: 1000
   },
-  regionPosition: {
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: LATTITIDE_DELTA,
-    longitudeDelta: LONGTITUDE_DELTA
-  },
-  currentPosition: {
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: LATTITIDE_DELTA,
-    longitudeDelta: LONGTITUDE_DELTA
-  }
+  currentPosition: null
 };
 
 const removeFields = (state, { payload }) => ({
@@ -121,24 +109,6 @@ const addressVisibleModal = (state, { payload }) => ({
   addressModal: payload
 });
 
-const initialRegionPosition = (state, { payload: { coords } }) => ({
-  ...state,
-  regionPosition: has('latitude', coords) && has('longitude', coords) ?
-    {
-      latitude: parseFloat(coords.latitude),
-      longitude: parseFloat(coords.longitude),
-      latitudeDelta: LATTITIDE_DELTA,
-      longitudeDelta: LONGTITUDE_DELTA
-    } : state.regionPosition,
-  errors: null
-});
-
-const changeRegionPosition = (state, { payload }) => ({
-  ...state,
-  regionPosition: payload,
-  errors: null
-});
-
 const changePosition = (state, { payload: { coords } }) => ({
   ...state,
   currentPosition: has('latitude', coords) && has('longitude', coords) ?
@@ -168,8 +138,6 @@ export default composeReducer(
     changeAddressTyping,
     changeAddress,
     addressVisibleModal,
-    initialRegionPosition,
-    changeRegionPosition,
     changePosition,
     errorPosition,
     clearMap

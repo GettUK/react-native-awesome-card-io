@@ -4,8 +4,6 @@ import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { changeRegionPosition } from 'actions/ui/map';
-
 import config from 'config';
 
 import { Icon } from 'components';
@@ -27,16 +25,13 @@ class MapView extends Component {
       this.resizeMapToCoordinates([source, dest, ...stops]);
     }
 
-    if (fields.pickupAddress !== fieldsProps.pickupAddress && !fields.destinationAddress
+    if ((fields.pickupAddress !== fieldsProps.pickupAddress
+      && !fields.destinationAddress && fieldsProps.pickupAddress)
       || (!fields.destinationAddress && fieldsProps.destinationAddress)
       || (isActiveOrder && !isActiveOrderProps)) {
       const source = this.prepareCoordinates(fields.pickupAddress);
 
-      this.map.animateToRegion({
-        ...source,
-        latitudeDelta: LATTITIDE_DELTA,
-        longitudeDelta: LONGTITUDE_DELTA
-      });
+      this.animateToRegion(source);
     }
 
     // TODO: check after driverLocation channel listen
@@ -50,6 +45,14 @@ class MapView extends Component {
     //   this.resizeMapToCoordinates([source, dest], { top: 100, left: 50, right: 50 });
     // }
   }
+
+  animateToRegion = (source) => {
+    this.map.animateToRegion({
+      ...source,
+      latitudeDelta: LATTITIDE_DELTA,
+      longitudeDelta: LONGTITUDE_DELTA
+    });
+  };
 
   isPathChanged = (fields, fieldsProps) => (
     (fields.destinationAddress &&
@@ -65,7 +68,7 @@ class MapView extends Component {
       edgePadding: { top: 200, bottom: 300, left: 100, right: 100, ...params },
       animated: true
     });
-  }
+  };
 
   prepareCoordinates = address => (
     address && address.lat && address.lng
@@ -84,11 +87,11 @@ class MapView extends Component {
   renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
 
   renderMarker = ({ address, type = 'current' }) => {
-    return !this.props.isActiveOrder &&
+    return !this.props.isActiveOrder && address &&
       <Map.Marker key={address.line} coordinate={this.prepareCoordinates(address)}>
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>;
-  }
+  };
 
   // renderPath = () => { // TODO: render after driverLocation channel listen
   //   const { fields, driverLocation, isActiveOrder, status } = this.props;
@@ -120,12 +123,11 @@ class MapView extends Component {
         apikey={config.googleAPIKey}
         strokeWidth={4}
         strokeColor="#2b4983"
-      />
-  }
+      />;
+  };
 
   render() {
-    const { fields, currentPosition, regionPosition, changeRegionPosition,
-      driverLocation, isActiveOrder, status } = this.props;
+    const { fields, currentPosition, driverLocation, isActiveOrder, status } = this.props;
 
     const isRideInProgress = status === ACTIVE_STATUS;
     const destinationAddress = isRideInProgress || !isActiveOrder ? fields.destinationAddress : driverLocation;
@@ -136,8 +138,7 @@ class MapView extends Component {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         zoomEnabled
-        onRegionChangeComplete={changeRegionPosition}
-        region={regionPosition}
+        showsCompass={false}
       >
         {this.renderRidePath()}
 
@@ -177,13 +178,8 @@ MapView.defaultProps = {};
 const mapState = ({ ui, bookings }) => ({
   fields: ui.map.fields,
   currentPosition: ui.map.currentPosition,
-  regionPosition: ui.map.regionPosition,
   driverLocation: bookings.currentOrder.driverDetails ? bookings.currentOrder.driverDetails.location : {},
   status: bookings.currentOrder.status || 'connected'
 });
 
-const mapDispatch = {
-  changeRegionPosition
-};
-
-export default connect(mapState, mapDispatch)(MapView);
+export default connect(mapState, null, null, { withRef: true })(MapView);
