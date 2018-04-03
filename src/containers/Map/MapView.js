@@ -11,6 +11,7 @@ import { Icon } from 'components';
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 import { ACTIVE_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
+import MapStyle from './MapStyle';
 import styles from './style';
 
 class MapView extends Component {
@@ -139,6 +140,7 @@ class MapView extends Component {
         provider={PROVIDER_GOOGLE}
         zoomEnabled
         showsCompass={false}
+        customMapStyle={MapStyle}
       >
         {this.renderRidePath()}
 
