@@ -9,8 +9,6 @@ const TYPES = createTypes('ui/map', [
   'changeAddressTyping',
   'changeAddress',
   'addressVisibleModal',
-  'initialRegionPosition',
-  'changeRegionPosition',
   'changePosition',
   'errorPosition'
 ]);
@@ -36,12 +34,8 @@ export const changeAddress = value => ({ type: TYPES.changeAddress, payload: val
 
 export const addressVisibleModal = bool => ({ type: TYPES.addressVisibleModal, payload: bool });
 
-export const initialRegionPosition = obq => ({ type: TYPES.initialRegionPosition, payload: obq });
-
-export const changeRegionPosition = obq => ({ type: TYPES.changeRegionPosition, payload: obq });
-
 export const changePosition = obq => ({ type: TYPES.changePosition, payload: obq });
 
-export const errorPosition = e => ({ type: TYPES.changePosition, payload: e });
+export const errorPosition = e => ({ type: TYPES.errorPosition, payload: e });
 
 export const clearMap = () => ({ type: TYPES.clearMap });

@@ -27,14 +27,18 @@ export const requestPermissions = curry((perm, type) => dispatch => Permissions.
 
 export const openSettingsPermissions = () => Permissions.openSettings();
 
-export const requestLocation = () => (dispatch) => {
-  try {
-    if (Platform.OS === 'ios') {
-      navigator.geolocation.requestAuthorization();
+export const requestLocation = () => (dispatch, getState) => {
+  const { app: { statuses } } = getState();
+  if (!(statuses.permissions &&
+    statuses.permissions.location === PERMISSION_STATUS.authorized)) {
+    try {
+      if (Platform.OS === 'ios') {
+        navigator.geolocation.requestAuthorization();
+      }
+      dispatch(requestPermissions('location', { type: 'always' }));
+    } catch (e) {
+      console.log('Cannot request authorization location', e);
     }
-    dispatch(requestPermissions('location', { type: 'always' }));
-  } catch (e) {
-    console.log('Cannot request authorization location', e);
+    dispatch(checkMultiplePermissions(['location']));
   }
-  dispatch(checkMultiplePermissions(['location']));
 };

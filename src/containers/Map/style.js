@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
@@ -8,7 +8,15 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent',
     paddingHorizontal: 15,
-    paddingVertical: 10
+    ...Platform.select({
+      ios: {
+        paddingTop: 20,
+      },
+      android: {
+        paddingTop: 10
+      }
+    }),
+    paddingBottom: 10
   },
   headerBack: {
     shadowColor: '#000',

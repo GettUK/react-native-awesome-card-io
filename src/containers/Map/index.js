@@ -27,7 +27,6 @@ import {
   changeAddressType,
   changeAddress,
   addressVisibleModal,
-  initialRegionPosition,
   changePosition,
   errorPosition
 } from 'actions/ui/map';
@@ -135,7 +134,10 @@ class Map extends Component {
     if (this.isAuthorizedPermission('location')) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          this.props.initialRegionPosition(position);
+          this.mapView.wrappedInstance.animateToRegion({
+            latitude: parseFloat(position.coords.latitude),
+            longitude: parseFloat(position.coords.longitude)
+          });
           this.props.changePosition(position);
         },
         this.props.errorPosition,
@@ -462,7 +464,10 @@ class Map extends Component {
         {isActiveOrder && <ActiveOrderScene />}
         {isCompletedOrder && <CompletedOrderScene />}
 
-        <MapView isActiveOrder={isActiveOrder} />
+        <MapView
+          isActiveOrder={isActiveOrder}
+          ref={(map) => { this.mapView = map; }}
+        />
 
         {this.renderTimeDatePicker()}
 
@@ -497,7 +502,6 @@ Map.propTypes = {
   changeAddressType: PropTypes.func.isRequired,
   changeAddress: PropTypes.func.isRequired,
   addressVisibleModal: PropTypes.func.isRequired,
-  initialRegionPosition: PropTypes.func.isRequired,
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
   toggleVisibleModal: PropTypes.func.isRequired,
@@ -526,7 +530,6 @@ const mapDispatch = {
   changeAddressType,
   changeAddress,
   addressVisibleModal,
-  initialRegionPosition,
   changePosition,
   errorPosition,
   createBooking,
