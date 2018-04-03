@@ -1,5 +1,9 @@
 import { StyleSheet, Platform } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
+const iPhoneHeaderPadding = isIphoneX() ? 49 : 35;
+
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
@@ -8,15 +12,8 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent',
     paddingHorizontal: 15,
-    ...Platform.select({
-      ios: {
-        paddingTop: 20,
-      },
-      android: {
-        paddingTop: 10
-      }
-    }),
-    paddingBottom: 10
+    paddingVertical: 10,
+    paddingTop: Platform.OS === 'ios' ? iPhoneHeaderPadding : 15
   },
   headerBack: {
     shadowColor: '#000',
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: '100%',
     width: '100%',
-    paddingTop: 75,
+    paddingTop: 50 + (Platform.OS === 'ios' ? iPhoneHeaderPadding : 15),
     justifyContent: 'space-between'
   },
   map: {

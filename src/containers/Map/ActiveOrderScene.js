@@ -57,7 +57,7 @@ class ActiveOrderScene extends Component {
         <View style={screenStyles.separator} />
 
         <FadeInView>
-          <View style={{ paddingBottom: this.isDriverExist ? 140 : 75 }}>
+          <View style={{ paddingBottom: this.isDriverExist ? 140 : 90 }}>
             <View style={screenStyles.actionsRow}>
               {!isTripActive
                 ?

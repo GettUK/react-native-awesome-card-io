@@ -1,11 +1,13 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+
 import { ScreenHeader } from 'components';
 
 import { Map, Orders, MessageToDriver, RateDriver, ReasonForTravel, PaymentsOptions } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
+
 import SettingsNavigator from './navigatorSettings';
 
 const routeConfiguration = {

@@ -1,14 +1,5 @@
 import { Platform, StatusBar, StyleSheet, Dimensions } from 'react-native';
-
-function isIphoneX() {
-  const dimen = Dimensions.get('window');
-  return (
-    Platform.OS === 'ios' &&
-    !Platform.isPad &&
-    !Platform.isTVOS &&
-    (dimen.height === 812 || dimen.width === 812)
-  );
-}
+import { isIphoneX } from 'utils';
 
 const iPhoneSpace = isIphoneX() ? 40 : 20;
 const topSpace = (Platform.OS === 'ios' ? iPhoneSpace : StatusBar.currentHeight) + 5;
