@@ -35,7 +35,8 @@ import {
   getVehicles,
   toggleVisibleModal,
   completeOrder,
-  cancelOrder
+  cancelOrder,
+  initializeOrderCreation
 } from 'actions/booking';
 import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
@@ -316,6 +317,14 @@ class Map extends Component {
     });
   };
 
+  goToInitialization = () => {
+    this.clearFields();
+
+    this.props.initializeOrderCreation();
+
+    this.getCurrentPosition();
+  }
+
   showAlert = () => {
     this.alert.show();
   };
@@ -410,7 +419,7 @@ class Map extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, initializeOrderCreation } = this.props;
     const isPreordered = this.isActiveSceneIs('preorder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
@@ -422,7 +431,7 @@ class Map extends Component {
         <Header
           customStyles={[styles.header]}
           leftButton={
-            !this.shouldRequestVehicles() || isActiveOrder ? (
+            (!this.shouldRequestVehicles() || isActiveOrder) && !isCompletedOrder ? (
               <NavImageButton
                 onClick={this.goToSettings}
                 styleContainer={{ justifyContent: 'center' }}
@@ -430,7 +439,7 @@ class Map extends Component {
               />
             ) : (
               <NavImageButton
-                onClick={this.cancelOrderCreation}
+                onClick={isCompletedOrder ? this.goToInitialization : this.cancelOrderCreation}
                 styleContainer={styles.headerBack}
                 icon={<Icon width={10} height={18} name="back" color="#284784" />}
               />
@@ -546,7 +555,8 @@ const mapDispatch = {
   cancelOrder,
   checkMultiplePermissions,
   requestLocation,
-  getPassengerData
+  getPassengerData,
+  initializeOrderCreation
 };
 
 export default connect(mapState, mapDispatch)(Map);
