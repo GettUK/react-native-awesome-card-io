@@ -34,18 +34,18 @@ class BookingEditor extends Component {
     if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
         !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
-        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress)||
+        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress) ||
         !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod)) {
       requestVehicles();
     }
   }
 
   loadBooking = () => {
-    this.props.getFormData()
+    const { getFormData, memberId, changeFields } = this.props;
+    getFormData()
       .then((data) => {
-        const { passenger: dataPassenger, booking, passengers } = data;
-        const passenger = dataPassenger ||
-            (booking && booking.passengerId && find(passengers, { id: +booking.passengerId }));
+        const { passenger: dataPassenger, passengers } = data;
+        const passenger = dataPassenger || (memberId && find(passengers, { id: memberId }));
 
         let attrs = {
           pickupAddress: data.defaultPickupAddress,
@@ -73,7 +73,7 @@ class BookingEditor extends Component {
           };
         }
 
-        this.props.changeFields(attrs);
+        changeFields(attrs);
       });
   };
 
