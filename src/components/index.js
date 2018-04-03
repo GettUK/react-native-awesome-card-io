@@ -11,3 +11,4 @@ export { default as CarItem } from './CarItem';
 export { default as JourneyDetails } from './JourneyDetails';
 export { default as PointList } from './PointList';
 export { default as FadeInView } from './Animated/FadeInView';
+export { default as InformView } from './InformView';

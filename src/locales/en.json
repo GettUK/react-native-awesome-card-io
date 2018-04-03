@@ -1,4 +1,7 @@
 {
+  "information": {
+    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy"
+  },
   "alerts": {
     "success": "Success",
     "info": "Information",
