@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -32,7 +32,7 @@ import { LoaderLayer } from './components';
 
 import styles from './style';
 
-class BookingFooter extends Component {
+class BookingFooter extends PureComponent {
   getEarliestAvailableTime = (vehicle) => {
     const { map: { fields: { vehicleName } } } = this.props;
     let shift = 60;
@@ -218,6 +218,7 @@ class BookingFooter extends Component {
     } = this.props;
 
     const availableVehicles = vehicles.data.filter(v => v.available);
+    const isOrderBtnDisabled = busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
 
@@ -288,16 +289,14 @@ class BookingFooter extends Component {
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
                 <Button
-                  style={styles.orderRideBtn}
-                  disabled={busy || vehicles.loading || !this.shouldOrderRide()}
+                  style={[styles.orderRideBtn, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
+                  disabled={isOrderBtnDisabled}
                   onPress={() => createBooking(fields)}
                 >
-                  {
-                    busy && (
-                      <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />
-                    )
-                  }
-                  <Text style={styles.orderBtnBottomText}>Order Ride</Text>
+                  {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />}
+                  <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
+                    Order Ride
+                  </Text>
                 </Button>
                 <Button
                   style={styles.settingsBtn}

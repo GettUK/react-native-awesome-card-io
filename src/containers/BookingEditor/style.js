@@ -10,15 +10,16 @@ export default StyleSheet.create({
     marginRight: 10,
     marginLeft: 10
   },
-  informText: {
-    textAlign: 'center',
-    fontSize: 14,
-    lineHeight: 21
+  orderRideBtnDisabled: {
+    backgroundColor: '#e4e4e4'
   },
-  orderBtnBottomText: {
+  orderBtnText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18
+  },
+  orderBtnTextDisabled: {
+    color: '#acabab'
   },
   carItems: {
     paddingHorizontal: 15
@@ -113,5 +114,10 @@ export default StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#bcbbc1',
     marginLeft: 15
-  }
+  },
+  informText: {
+    textAlign: 'center',
+    fontSize: 14,
+    lineHeight: 21
+  },
 });

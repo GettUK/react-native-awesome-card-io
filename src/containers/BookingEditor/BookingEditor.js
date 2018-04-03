@@ -40,38 +40,6 @@ class BookingEditor extends Component {
     }
   }
 
-  selectCurrentMemberAsPassenger = () => {
-    const { memberId, passenger: { id: passengerId } } = this.props;
-
-    if (passengerId === memberId) {
-      this.clearPassenger();
-    } else {
-      this.selectPassenger(memberId);
-    }
-  };
-
-  clearPassenger = () => {
-    this.props.changeFields({
-      passengerId: null,
-      passengerName: '',
-      passengerPhone: ''
-    });
-  };
-
-  selectPassenger = (id) => {
-    const { bookings: { formData: { passengers } } } = this.props;
-    const passenger = find(passengers, { id: +id });
-    const { firstName, lastName, phone } = passenger;
-
-    this.props.changeFields({
-      passengerId: id,
-      passengerName: `${firstName} ${lastName}`,
-      passengerPhone: phone
-    });
-
-    this.props.requestVehicles();
-  };
-
   loadBooking = () => {
     this.props.getFormData()
       .then((data) => {
@@ -106,7 +74,6 @@ class BookingEditor extends Component {
         }
 
         this.props.changeFields(attrs);
-        this.selectCurrentMemberAsPassenger();
       });
   };
 

@@ -149,7 +149,8 @@ export const getFormData = () => (dispatch, getState) => (
     .then(({ data }) => {
       if (!getState().ui.map.fields.paymentMethod) {
         const memberId = getState().session.result.memberId;
-        const cards = (data.passengers.find(passenger => passenger.id === memberId) || {}).paymentCards || [];
+        const passenger = data.passenger || data.passengers.find(passenger => passenger.id === memberId);
+        const cards = (passenger || {}).paymentCards || [];
 
         const paymentType = preparePaymentType({ payment: data.paymentTypes[0], cards });
 
