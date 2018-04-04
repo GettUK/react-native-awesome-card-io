@@ -11,10 +11,12 @@ export default StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingVertical: 15
+    paddingHorizontal: 7,
+    paddingVertical: 7
   },
   closeText: {
+    paddingVertical: 8,
+    paddingHorizontal: 13,
     fontSize: 14,
     color: '#284784'
   }

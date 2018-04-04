@@ -4,11 +4,15 @@ import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
   orderRideBtn: {
+    alignSelf: 'stretch',
+    flex: 1,
+    padding: 5
+  },
+  orderRideBtnView: {
+    alignSelf: 'stretch',
     backgroundColor: '#284784',
     flex: 1,
-    height: 50,
-    marginRight: 10,
-    marginLeft: 10
+    height: 50
   },
   orderRideBtnDisabled: {
     backgroundColor: '#e4e4e4'
@@ -44,37 +48,42 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: isIphoneX() ? 15 : 0,
-    paddingBottom: 15
+    paddingBottom: 10
   },
   settingsBtn: {
+    marginRight: 15,
+    padding: 5
+  },
+  settingsBtnView: {
     width: 50,
-    height: 50,
-    marginRight: 20
+    height: 50
   },
   rowActions: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 5
+    justifyContent: 'space-between'
+  },
+  padding: {
+    padding: 5
   },
   timeBtn: {
+    marginLeft: 15,
+    padding: 5
+  },
+  timeBtnView: {
     width: 50,
-    height: 50,
-    marginLeft: 20
+    height: 50
   },
   currentPositionBtn: {
     width: 50,
     height: 50,
-    marginBottom: 20,
+    marginBottom: 15,
     marginLeft: 15
   },
   destinationBtns: {
     flexDirection: 'row',
-    paddingHorizontal: 15
-  },
-  destinationBtn: {
-    marginRight: 10
+    paddingHorizontal: 10
   },
   searchIcon: {
     marginRight: 15

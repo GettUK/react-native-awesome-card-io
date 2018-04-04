@@ -12,17 +12,12 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import { has, isNull, compose } from 'lodash/fp';
-import Modal from 'react-native-modal';
 
-import { Icon, Input } from 'components';
-import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
+import { Icon, Input, Modal } from 'components';
 import { geocodeEmpty, geocode } from 'actions/ui/geocode';
 import { addressesEmpty, getAddresses } from 'actions/ui/addresses';
-import { strings } from 'locales';
 import { nullAddress } from 'utils';
 import styles from './style';
-
-const DismissKeyboardView = DismissKeyboardHOC(View);
 
 class AddressModal extends Component {
   componentDidMount() {
@@ -124,66 +119,57 @@ class AddressModal extends Component {
     const { isVisible, value, addresses: { results }, defaultValues } = this.props;
     return (
       <Modal
-        style={styles.bottomModal}
         isVisible={isVisible}
-        backdropColor="#284784"
-        backdropOpacity={0.6}>
-        <DismissKeyboardView style={styles.modalContent}>
-          <View style={styles.modalView}>
-            <TouchableOpacity
-              onPress={compose(
-                this.props.addressesEmpty,
-                this.props.geocodeEmpty,
-                this.props.toggleModal
-              )}>
-              <Text style={styles.closeModalText}>
-                {strings('map.label.close')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-            <Icon
-              style={styles.pickUpAddress}
-              name="pickUpField"
-              color="#FF0000"
-              size={18}
+        contentStyles={styles.modalContent}
+        onClose={compose(
+          this.props.addressesEmpty,
+          this.props.geocodeEmpty,
+          this.props.toggleModal
+        )}
+      >
+        <View style={styles.row}>
+          <Icon
+            style={styles.pickUpAddress}
+            name="pickUpField"
+            color="#f00"
+            size={18}
+          />
+          <View style={{ flex: 1 }}>
+            <Input
+              value={(value && value.line) || ''}
+              onChangeText={this.onChangeText}
+              style={styles.input}
+              autoCorrect={false}
+              autoFocus
+              inputStyle={styles.inputStyle}
+              keyboardType="email-address"
+              selectionColor="#000"
+              clearIconStyle={{ top: 6 }}
+              clearIcon={<Icon name="close" size={16} color="#8D8D8D" />}
             />
-            <View style={{ flex: 1 }}>
-              <Input
-                value={(value && value.line) || ''}
-                onChangeText={this.onChangeText}
-                style={styles.input}
-                autoCorrect={false}
-                autoFocus
-                inputStyle={styles.inputStyle}
-                keyboardType="email-address"
-                selectionColor="#000"
-                clearIcon={<Icon name="close" size={16} color="#8D8D8D" />}
-              />
-              <View style={styles.delimiter} />
-            </View>
+            <View style={styles.delimiter} />
           </View>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
-            style={{ flex: 1 }}>
-            <FlatList
-              style={{}}
-              keyboardShouldPersistTaps="always"
-              contentContainerStyle={{ flexGrow: 1 }}
-              removeClippedSubviews={Platform.OS !== 'ios'}
-              data={
-                !isNull(results) &&
-                has('list', results) &&
-                results.list.length > 0
-                  ? results.list
-                  : defaultValues
-              }
-              renderItem={this.renderItem}
-              keyExtractor={item => item.text || item.name || String(item.id)}
-              ListFooterComponent={this.renderFooter}
-            />
-          </KeyboardAvoidingView>
-        </DismissKeyboardView>
+        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          style={{ flex: 1 }}
+        >
+          <FlatList
+            keyboardShouldPersistTaps="always"
+            contentContainerStyle={{ flexGrow: 1 }}
+            removeClippedSubviews={Platform.OS !== 'ios'}
+            data={
+              !isNull(results) &&
+              has('list', results) &&
+              results.list.length > 0
+                ? results.list
+                : defaultValues
+            }
+            renderItem={this.renderItem}
+            keyExtractor={item => item.text || item.name || String(item.id)}
+            ListFooterComponent={this.renderFooter}
+          />
+        </KeyboardAvoidingView>
       </Modal>
     );
   }

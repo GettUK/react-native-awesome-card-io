@@ -94,6 +94,7 @@ class PointList extends PureComponent {
 
           {allowAddingStops && (!data.stops || data.stops.length < 5) &&
             <TouchableOpacity
+              style={styles.btnPlus}
               onPress={() => {
                 onChangeAddressType('stops', [], null);
                 toggleModal();

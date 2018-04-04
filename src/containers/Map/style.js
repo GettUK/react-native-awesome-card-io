@@ -70,23 +70,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000'
   },
-  closeModalText: {
-    fontSize: 14,
-    color: '#284784',
-    textAlign: 'right'
-  },
   modalContent: {
     width: '100%',
     height: '88%',
-    backgroundColor: '#fff',
-    paddingTop: 15
-  },
-  modalView: {
-    paddingHorizontal: 20
-  },
-  bottomModal: {
-    justifyContent: 'flex-end',
-    margin: 0
+    backgroundColor: '#fff'
   },
   orderBtn: {
     backgroundColor: '#284784'

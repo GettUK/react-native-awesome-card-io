@@ -48,7 +48,7 @@ class MessageToDriver extends Component {
             />
             <Button
               raised={false}
-              style={styles.submitBtn}
+              styleContent={styles.submitBtn}
               onPress={this.onSubmit}
             >
               <Text style={styles.submitBtnText}>Send Message</Text>

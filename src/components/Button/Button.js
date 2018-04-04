@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Button = ({ style, children, size, raised, ...rest }) => {
+const Button = ({ styleContent, children, size, raised, ...rest }) => {
   let computedStyles = {
     borderRadius: 10,
     paddingVertical: 15,
@@ -49,9 +49,11 @@ const Button = ({ style, children, size, raised, ...rest }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={[styles.btn, computedStyles, style]}
       {...rest}>
-      {children}
+      <View style={[styles.btn, computedStyles, styleContent]}>
+        {children}
+      </View>
+
     </TouchableOpacity>
   );
 };
@@ -61,11 +63,8 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  style: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.number
-  ]),
+  styleContent: ViewPropTypes.style,
+  style: ViewPropTypes.style,
   children: PropTypes.node,
   size: PropTypes.string,
   raised: PropTypes.bool
