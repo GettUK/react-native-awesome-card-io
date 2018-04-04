@@ -7,6 +7,7 @@ import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStat
 
 import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
+import { getPassengerData } from 'actions/passenger';
 
 import {
   preparePaymentType,
@@ -152,7 +153,19 @@ export const getFormData = () => (dispatch, getState) => (
         const passenger = data.passenger || data.passengers.find(passenger => passenger.id === memberId);
         const cards = (passenger || {}).paymentCards || [];
 
-        const paymentType = preparePaymentType({ payment: data.paymentTypes[0], cards });
+        const availablePayments = data.paymentTypes.filter(type => (
+          type !== 'passenger_payment_card' && type !== 'passenger_payment_card_periodic'
+        ));
+
+        let paymentType = '';
+
+        if (!availablePayments.length) {
+          const paymentCard = passenger.paymentCards.find(card => card.default) || passenger.paymentCards[0];
+
+          paymentType = `${paymentCard.type}_payment_card:${paymentCard.id}`;
+        } else {
+          paymentType = preparePaymentType({ payment: availablePayments[0], cards });
+        }
 
         dispatch(changeFields(paymentTypeToAttrs(paymentType)));
       }

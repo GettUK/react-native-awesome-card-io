@@ -30,25 +30,10 @@ export function preparePaymentLabel({ payment, cards }) {
 }
 
 export function preparePaymentType({ payment, cards }) {
+  const card = find(cards, 'default') || cards[0];
   return payment.includes('payment_card')
-    ? `${payment}:${(find(cards, 'default') || cards[0] || {}).id}`
+    ? `${payment}${card ? `:${card.id}` : ''}`
     : payment;
-}
-
-export function selectedPaymentType({ passenger, paymentTypes, defaultPaymentType } = {}) {
-  if ((defaultPaymentType === 'passenger_payment_card') && passenger) {
-    const cards = passenger.paymentCards;
-
-    if (cards && cards.length > 0) {
-      const card = find(cards, 'default') || cards[0];
-      return `${card.type}_payment_card:${card.id}`;
-    }
-  }
-
-  // if there is no passenger selected, pre-populate with one of the available
-  // payment types, even if default payment type for company is `passenger_payment_card`.
-  const availableType = without(paymentTypes, 'passenger_payment_card')[0];
-  return defaultPaymentType === 'passenger_payment_card' ? availableType : defaultPaymentType;
 }
 
 export function isCashAllowed(vehicleName) {
