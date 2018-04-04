@@ -264,7 +264,7 @@ class BookingFooter extends PureComponent {
                   >
                     {
                       availableVehicles.map((vehicle) => {
-                        const vehicleData = vehiclesData[vehicle.name];
+                        const vehicleData = vehiclesData[vehicle.name] || { label: 'Unknown' };
                         return (
                           <CarItem
                             onChange={this.selectVehicle}
