@@ -36,7 +36,7 @@ import {
   toggleVisibleModal,
   completeOrder,
   cancelOrder,
-  initializeOrderCreation
+  clearCurrentOrder
 } from 'actions/booking';
 import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
@@ -46,7 +46,6 @@ import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
 import PN from 'utils/notifications';
 
-import { COMPLETED_STATUS, CANCELLED_STATUS } from 'utils/orderStatuses';
 import ActiveOrderScene from './ActiveOrderScene';
 import CompletedOrderScene from './CompletedOrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
@@ -171,7 +170,7 @@ class Map extends Component {
 
   watchID = null;
 
-  isActiveSceneIs = (name = 'preorder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
+  isActiveSceneIs = (name = 'preOrder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
   handleDateChange = (date) => {
     this.setState({ date });
@@ -211,8 +210,7 @@ class Map extends Component {
 
   isPassengerPresent = () => {
     const { map: { fields } } = this.props;
-    return this.getPassenger() ||
-      (fields.passengerName && fields.passengerPhone);
+    return !!fields.passengerId;
   };
 
   destinationFields = () => {
@@ -320,10 +318,10 @@ class Map extends Component {
   goToInitialization = () => {
     this.clearFields();
 
-    this.props.initializeOrderCreation();
+    this.props.clearCurrentOrder();
 
     this.getCurrentPosition();
-  }
+  };
 
   showAlert = () => {
     this.alert.show();
@@ -331,6 +329,20 @@ class Map extends Component {
 
   cancelOrderCreation = () => {
     showConfirmationAlert({ title: strings('order.cancelOrderCreation'), handler: this.clearFields });
+  };
+
+  handleBackBtnPress = () => {
+    const isPreOrder = this.isActiveSceneIs('preOrder');
+    const { navigation, clearCurrentOrder } = this.props;
+    const params = navigation.state.params;
+    if (isPreOrder) {
+      this.cancelOrderCreation();
+    } else if (params && params.fromOrderList) {
+      navigation.goBack(null);
+      setTimeout(clearCurrentOrder); // needed for smooth navigation animation
+    } else {
+      this.goToInitialization();
+    }
   };
 
   renderTimeDatePicker() {
@@ -419,8 +431,8 @@ class Map extends Component {
   }
 
   render() {
-    const { navigation, initializeOrderCreation } = this.props;
-    const isPreordered = this.isActiveSceneIs('preorder');
+    const { navigation } = this.props;
+    const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
 
@@ -430,22 +442,21 @@ class Map extends Component {
         {this.state.isHeaderEnable &&
         <Header
           customStyles={[styles.header]}
-          leftButton={
-            (!this.shouldRequestVehicles() || isActiveOrder) && !isCompletedOrder ? (
-              <NavImageButton
-                onClick={this.goToSettings}
-                styleContainer={{ justifyContent: 'center' }}
-                icon={<Icon size={30} name="burger" color="#000" />}
-              />
-            ) : (
-              <NavImageButton
-                onClick={isCompletedOrder ? this.goToInitialization : this.cancelOrderCreation}
-                styleContainer={styles.headerBack}
-                icon={<Icon width={10} height={18} name="back" color="#284784" />}
-              />
-            )
+          leftButton={isPreOrder && !this.shouldRequestVehicles()
+            ?
+            <NavImageButton
+              onClick={this.goToSettings}
+              styleContainer={{ justifyContent: 'center' }}
+              icon={<Icon size={30} name="burger" color="#000" />}
+            />
+            :
+            <NavImageButton
+              onClick={this.handleBackBtnPress}
+              styleContainer={styles.headerBack}
+              icon={<Icon width={10} height={18} name="back" color="#284784" />}
+            />
           }
-          rightButton={
+          rightButton={isPreOrder && !this.shouldRequestVehicles() &&
             <Button
               style={styles.orderBtn}
               raised={false}
@@ -457,7 +468,7 @@ class Map extends Component {
           }
         />
         }
-        {isPreordered &&
+        {isPreOrder &&
           <BookingEditor
             navigation={navigation}
             passenger={this.getPassenger()}
@@ -465,7 +476,7 @@ class Map extends Component {
             requestVehicles={this.goToRequestVehicles}
           />
         }
-        {isPreordered &&
+        {isPreOrder &&
           <BookingFooter
             navigation={navigation}
             getCurrentPosition={this.getCurrentPosition}
@@ -556,7 +567,7 @@ const mapDispatch = {
   checkMultiplePermissions,
   requestLocation,
   getPassengerData,
-  initializeOrderCreation
+  clearCurrentOrder
 };
 
 export default connect(mapState, mapDispatch)(Map);
