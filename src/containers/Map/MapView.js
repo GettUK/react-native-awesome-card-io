@@ -15,36 +15,45 @@ import MapStyle from './MapStyle';
 import styles from './style';
 
 class MapView extends Component {
-  componentWillReceiveProps({ fields, isActiveOrder }) {
-    const { fields: fieldsProps, isActiveOrder: isActiveOrderProps } = this.props;
+  componentWillReceiveProps({ fields, isActiveOrder, currentOrder, isCompletedOrder }) {
+    const {
+      fields: fieldsProps,
+      isActiveOrder: isActiveOrderProps,
+      isCompletedOrder: isCompletedOrderProps
+    } = this.props;
 
-    if (this.isPathChanged(fields, fieldsProps) || (!isActiveOrder && isActiveOrderProps)) {
-      const source = this.prepareCoordinates(fields.pickupAddress);
-      const dest = this.prepareCoordinates(fields.destinationAddress);
-      const stops = (fields.stops || []).map(stop => (this.prepareCoordinates(stop.address)));
+    if (isCompletedOrder && !isCompletedOrderProps) {
+      const { source, dest, stops } = this.preparePointsList(currentOrder);
 
-      this.resizeMapToCoordinates([source, dest, ...stops]);
+      this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 });
+    } else if (!isCompletedOrder) {
+      if (this.isPathChanged(fields, fieldsProps) ||
+        (!isActiveOrder && isActiveOrderProps && fields.destinationAddress)) {
+        const { source, dest, stops } = this.preparePointsList(fields);
+
+        this.resizeMapToCoordinates([source, dest, ...stops]);
+      }
+
+      if ((fields.pickupAddress !== fieldsProps.pickupAddress
+        && !fields.destinationAddress && fieldsProps.pickupAddress)
+        || (!fields.destinationAddress && fieldsProps.destinationAddress)
+        || (isActiveOrder && !isActiveOrderProps)) {
+        const source = this.prepareCoordinates(fields.pickupAddress);
+
+        this.animateToRegion(source);
+      }
+
+      // TODO: check after driverLocation channel listen
+
+      // if (driverLocation && driverLocation !== driverLocationProps) {
+      //   console.warn(driverLocation)
+
+      //   const dest = this.prepareCoordinates(fields.pickupAddress);
+      //   const source = this.prepareCoordinates(driverLocation);
+
+      //   this.resizeMapToCoordinates([source, dest], { top: 100, left: 50, right: 50 });
+      // }
     }
-
-    if ((fields.pickupAddress !== fieldsProps.pickupAddress
-      && !fields.destinationAddress && fieldsProps.pickupAddress)
-      || (!fields.destinationAddress && fieldsProps.destinationAddress)
-      || (isActiveOrder && !isActiveOrderProps)) {
-      const source = this.prepareCoordinates(fields.pickupAddress);
-
-      this.animateToRegion(source);
-    }
-
-    // TODO: check after driverLocation channel listen
-
-    // if (driverLocation && driverLocation !== driverLocationProps) {
-    //   console.warn(driverLocation)
-
-    //   const dest = this.prepareCoordinates(fields.pickupAddress);
-    //   const source = this.prepareCoordinates(driverLocation);
-
-    //   this.resizeMapToCoordinates([source, dest], { top: 100, left: 50, right: 50 });
-    // }
   }
 
   animateToRegion = (source) => {
@@ -76,6 +85,14 @@ class MapView extends Component {
       ? { latitude: address.lat, longitude: address.lng }
       : address
   );
+
+  preparePointsList = (order) => {
+    const source = this.prepareCoordinates(order.pickupAddress);
+    const dest = this.prepareCoordinates(order.destinationAddress);
+    const stops = (order.stops || []).map(stop => (this.prepareCoordinates(stop.address)));
+
+    return { source, dest, stops };
+  }
 
   renderCurrentMarker = () => <Icon name="currentLocation" size={24} />;
 
@@ -113,26 +130,44 @@ class MapView extends Component {
 
   renderRidePath = () => {
     // eslint-disable-next-line
-    const { fields, driverLocation, isActiveOrder, status } = this.props;
+    const { fields: currentFields, isActiveOrder, status, currentOrder, isCurrentOrder } = this.props;
+
+    const fields = isCurrentOrder ? currentOrder : currentFields;
 
     const isRideInProgress = status === ACTIVE_STATUS;
+
+    const locations = [
+      fields.pickupAddress,
+      ...(fields.stops || []).map(stop => stop.address),
+      fields.destinationAddress
+    ];
+
+    const pathes = locations.map((location, index) => {
+      const nextIndex = index + 1;
+
+      if (nextIndex < locations.length) return { source: location, destination: locations[nextIndex] };
+
+      return null;
+    }).filter(location => location);
 
     return (isRideInProgress || !isActiveOrder) && fields.destinationAddress && fields.pickupAddress &&
-      <MapViewDirections
-        origin={this.prepareCoordinates(fields.pickupAddress)}
-        destination={this.prepareCoordinates(fields.destinationAddress)}
-        apikey={config.googleAPIKey}
-        strokeWidth={4}
-        strokeColor="#2b4983"
-      />;
+      pathes.map(this.renderSinglePath);
   };
 
-  render() {
-    const { fields, currentPosition, driverLocation, isActiveOrder, status } = this.props;
+  renderSinglePath = fields => (
+    <MapViewDirections
+      origin={this.prepareCoordinates(fields.source)}
+      destination={this.prepareCoordinates(fields.destination)}
+      apikey={config.googleAPIKey}
+      strokeWidth={4}
+      strokeColor="#2b4983"
+    />
+  );
 
-    const isRideInProgress = status === ACTIVE_STATUS;
-    // eslint-disable-next-line
-    const destinationAddress = isRideInProgress || !isActiveOrder ? fields.destinationAddress : driverLocation;
+  render() {
+    const { fields: currentFields, currentPosition, currentOrder, isCurrentOrder } = this.props;
+
+    const fields = isCurrentOrder ? currentOrder : currentFields;
 
     return (
       <Map
@@ -173,13 +208,16 @@ class MapView extends Component {
 }
 
 MapView.propTypes = {
-  isActiveOrder: PropTypes.bool.isRequired
+  isActiveOrder: PropTypes.bool.isRequired,
+  isCompletedOrder: PropTypes.bool.isRequired,
+  isCurrentOrder: PropTypes.bool.isRequired
 };
 
 MapView.defaultProps = {};
 
 const mapState = ({ ui, bookings }) => ({
   fields: ui.map.fields,
+  currentOrder: bookings.currentOrder,
   currentPosition: ui.map.currentPosition,
   driverLocation: bookings.currentOrder.driverDetails ? bookings.currentOrder.driverDetails.location : {},
   status: bookings.currentOrder.status || 'connected'

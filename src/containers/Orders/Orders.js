@@ -6,24 +6,25 @@ import { clearList } from 'actions/orders';
 import { OrdersList } from './components';
 import styles from './styles';
 
-function getTitleCount(params) {
-  return params ? `(${params.count})` : '';
+function getTitleCount(params, type) {
+  return params && params.count ? `(${params.count[type] || ''})` : '';
+}
+
+function getScreenParams(type) {
+  const tabTitle = `${type[0].toUpperCase()}${type.substring(1)}`;
+
+  return {
+    screen: props => <OrdersList type={type} {...props} />,
+    navigationOptions: ({ navigation }) => ({
+      title: `${tabTitle} ${getTitleCount(navigation.state.params, type)}`
+    })
+  };
 }
 
 const OrdersTabNavigator = TabNavigator(
   {
-    Previous: {
-      screen: props => <OrdersList type="previous" {...props} />,
-      navigationOptions: ({ navigation }) => ({
-        title: `Previous ${getTitleCount(navigation.state.params)}`
-      })
-    },
-    Active: {
-      screen: props => <OrdersList type="active" {...props} />,
-      navigationOptions: ({ navigation }) => ({
-        title: `Active ${getTitleCount(navigation.state.params)}`
-      })
-    }
+    Previous: getScreenParams('previous'),
+    Active: getScreenParams('active')
   },
   {
     ...TabNavigator.Presets.AndroidTopTabs,
