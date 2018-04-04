@@ -33,7 +33,9 @@ class FayeClient {
   }
 
   closeConnection() {
-    this.subscription.cancel();
+    if (this.subscription) {
+      this.subscription.cancel();
+    }
   }
 }
 

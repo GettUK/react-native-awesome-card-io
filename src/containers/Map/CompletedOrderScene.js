@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { initializeOrderCreation } from 'actions/booking';
+import { clearCurrentOrder } from 'actions/booking';
 
 import { FadeInView, Button } from 'components';
 
@@ -11,32 +11,16 @@ import { strings } from 'locales';
 
 import { screenStyles } from './ActiveOrderScene/styles';
 
-class ActiveOrderScene extends Component {
-  state = {
-    isVisible: false
-  };
-
-  handleCancelOrder = () => {
-    this.props.cancelOrder();
-  };
-
-  handleOpenModal = () => {
-    this.setState({ isVisible: true });
-  };
-
-  handleCloseModal = () => {
-    this.setState({ isVisible: false });
-  };
-
+class CompletedOrderScene extends PureComponent {
   render() {
-    const { status, initializeOrderCreation } = this.props;
+    const { status, clearCurrentOrder } = this.props;
 
     return (
       <View style={screenStyles.container}>
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
-            <Button size="sm" style={screenStyles.createNewBtn} onPress={initializeOrderCreation}>
+            <Button size="sm" style={screenStyles.createNewBtn} onPress={clearCurrentOrder}>
               <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
             </Button>
           </View>
@@ -46,12 +30,12 @@ class ActiveOrderScene extends Component {
   }
 }
 
-ActiveOrderScene.propTypes = {
-  initializeOrderCreation: PropTypes.func.isRequired,
+CompletedOrderScene.propTypes = {
+  clearCurrentOrder: PropTypes.func.isRequired,
   busy: PropTypes.bool
 };
 
-ActiveOrderScene.defaultProps = {};
+CompletedOrderScene.defaultProps = {};
 
 const mapState = ({ bookings }) => ({
   status: bookings.currentOrder.status || 'connected',
@@ -59,7 +43,7 @@ const mapState = ({ bookings }) => ({
 });
 
 const mapDispatch = {
-  initializeOrderCreation
+  clearCurrentOrder
 };
 
-export default connect(mapState, mapDispatch)(ActiveOrderScene);
+export default connect(mapState, mapDispatch)(CompletedOrderScene);

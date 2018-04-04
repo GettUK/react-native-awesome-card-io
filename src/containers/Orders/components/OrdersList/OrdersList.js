@@ -45,8 +45,8 @@ class OrdersList extends PureComponent {
 
   goToOrderDetails = (id) => {
     const { setActiveBooking, screenProps: { rootNavigation } } = this.props;
-    setActiveBooking(id);
-    rootNavigation.navigate('MapView');
+    setActiveBooking(id)
+      .then(() => rootNavigation.navigate('MapView', { fromOrderList: true }));
   };
 
   getOrders = () => {

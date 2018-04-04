@@ -32,13 +32,14 @@ class Header extends React.Component {
             </Text>
           </View>
 
-          <View>
-            {typeof rightButton === 'string' ? (
-              <Text style={styles.rightHeaderButton}>{rightButton}</Text>
-            ) : (
-              rightButton
-            )}
-          </View>
+          {rightButton &&
+            <View>
+              {typeof rightButton === 'string'
+                ? <Text style={styles.rightHeaderButton}>{rightButton}</Text>
+                : rightButton
+              }
+            </View>
+          }
         </View>
       </View>
     );
@@ -65,6 +66,7 @@ Header.propTypes = {
     PropTypes.number
   ]),
   rightButton: PropTypes.oneOfType([
+    PropTypes.bool,
     PropTypes.array,
     PropTypes.object,
     PropTypes.number

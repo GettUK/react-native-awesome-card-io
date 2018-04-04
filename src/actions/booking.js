@@ -5,7 +5,7 @@ import { get, post, put } from 'utils';
 import faye from 'utils/faye';
 import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
-import { goToActiveOrderScene, goToPreorderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
+import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
 
 import {
@@ -105,7 +105,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
   if (currentOrder.id !== id) {
-    get(`/bookings/${id}`)
+    return get(`/bookings/${id}`)
       .then(({ data }) => {
         dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
@@ -122,9 +122,9 @@ export const setActiveBooking = id => (dispatch, getState) => {
   }
 };
 
-export const initializeOrderCreation = () => (dispatch) => {
-  dispatch(goToPreorderScene());
-
+export const clearCurrentOrder = () => (dispatch) => {
+  removeOrderStatusSubscription();
+  dispatch(goToPreOrderScene());
   dispatch({ type: TYPES.clearCurrentOrder });
 };
 
