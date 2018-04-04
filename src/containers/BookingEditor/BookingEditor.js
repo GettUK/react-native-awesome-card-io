@@ -23,14 +23,12 @@ import { prepareDefaultValues } from './utils';
 import styles from './style';
 
 class BookingEditor extends Component {
-  componentDidMount() {
-    if (isEmpty(this.props.passenger)) {
-      this.loadBooking();
-    }
+  state = {
+    loadBookingRequested: false
   }
 
   componentWillReceiveProps({ bookings: { formData }, map }) {
-    const { map: propsMap, requestVehicles } = this.props;
+    const { map: propsMap, requestVehicles, memberId, passenger } = this.props;
     if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
         !isEqual(map.fields.stops, propsMap.fields.stops) ||
         !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
@@ -38,10 +36,17 @@ class BookingEditor extends Component {
         !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod)) {
       requestVehicles();
     }
+
+    if (memberId && !this.state.loadBookingRequested && isEmpty(passenger)) {
+      this.loadBooking();
+
+      this.setState({ loadBookingRequested: true });
+    }
   }
 
   loadBooking = () => {
     const { getFormData, memberId, changeFields } = this.props;
+
     getFormData()
       .then((data) => {
         const { passenger: dataPassenger, passengers } = data;
