@@ -1,0 +1,13 @@
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-4"
+    config:
+      config: .eslintrc.js
+      extensions:
+      - .js
+
+exclude_paths:
+- android/
+- ios/
+- storybook/
