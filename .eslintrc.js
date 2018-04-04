@@ -26,7 +26,7 @@ module.exports = {
 
   rules: {
     'arrow-body-style': [1, 'as-needed'],
-    'class-methods-use-this': [2, { exceptMethods: ['render'] }],
+    'class-methods-use-this': [2, { exceptMethods: ['render', 'componentDidMount'] }],
     'class-property/class-property-semicolon': [1, 'always'],
     'comma-dangle': [2, 'never'],
     'jsx-quotes': [2, 'prefer-double'],

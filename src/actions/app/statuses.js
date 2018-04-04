@@ -37,6 +37,7 @@ export const requestLocation = () => (dispatch, getState) => {
       }
       dispatch(requestPermissions('location', { type: 'always' }));
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log('Cannot request authorization location', e);
     }
     dispatch(checkMultiplePermissions(['location']));

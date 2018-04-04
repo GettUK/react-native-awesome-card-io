@@ -25,7 +25,7 @@ import styles from './style';
 class BookingEditor extends Component {
   state = {
     loadBookingRequested: false
-  }
+  };
 
   componentWillReceiveProps({ bookings: { formData }, map }) {
     const { map: propsMap, requestVehicles, memberId, passenger } = this.props;

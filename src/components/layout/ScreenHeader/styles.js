@@ -1,4 +1,4 @@
-import { Platform, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'utils';
 
 const iPhoneSpace = isIphoneX() ? 40 : 20;

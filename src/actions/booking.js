@@ -7,7 +7,6 @@ import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStat
 
 import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 import { changeFields } from 'actions/ui/map';
-import { getPassengerData } from 'actions/passenger';
 
 import {
   preparePaymentType,
@@ -105,22 +104,22 @@ export const createBooking = order => (dispatch) => {
 export const setActiveBooking = id => (dispatch, getState) => {
   const { bookings: { currentOrder } } = getState();
 
-  if (currentOrder.id !== id) {
-    return get(`/bookings/${id}`)
-      .then(({ data }) => {
-        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+  if (currentOrder.id === id) return Promise.resolve();
 
-        if (FINAL_STATUSES.includes(data.status)) {
-          dispatch(goToCompletedOrderScene());
-        } else {
-          dispatch(goToActiveOrderScene());
+  return get(`/bookings/${id}`)
+    .then(({ data }) => {
+      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-          dispatch(orderStatusSubscribe(data.channel));
-        }
+      if (FINAL_STATUSES.includes(data.status)) {
+        dispatch(goToCompletedOrderScene());
+      } else {
+        dispatch(goToActiveOrderScene());
 
-        return data;
-      });
-  }
+        dispatch(orderStatusSubscribe(data.channel));
+      }
+
+      return data;
+    });
 };
 
 export const clearCurrentOrder = () => (dispatch) => {

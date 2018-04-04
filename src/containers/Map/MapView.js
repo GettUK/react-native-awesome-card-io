@@ -9,16 +9,16 @@ import config from 'config';
 import { Icon } from 'components';
 
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
-import { ACTIVE_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
+import { ACTIVE_STATUS } from 'utils/orderStatuses';
 
 import MapStyle from './MapStyle';
 import styles from './style';
 
 class MapView extends Component {
-  componentWillReceiveProps({ fields, isActiveOrder, driverLocation }) {
-    const { fields: fieldsProps, isActiveOrder: isActiveOrderProps, driverLocation: driverLocationProps } = this.props;
+  componentWillReceiveProps({ fields, isActiveOrder }) {
+    const { fields: fieldsProps, isActiveOrder: isActiveOrderProps } = this.props;
 
-    if (this.isPathChanged(fields, fieldsProps) || !isActiveOrder && isActiveOrderProps) {
+    if (this.isPathChanged(fields, fieldsProps) || (!isActiveOrder && isActiveOrderProps)) {
       const source = this.prepareCoordinates(fields.pickupAddress);
       const dest = this.prepareCoordinates(fields.destinationAddress);
       const stops = (fields.stops || []).map(stop => (this.prepareCoordinates(stop.address)));
@@ -87,12 +87,11 @@ class MapView extends Component {
 
   renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
 
-  renderMarker = ({ address, type = 'current' }) => {
-    return !this.props.isActiveOrder && address &&
+  renderMarker = ({ address, type = 'current' }) =>
+    !this.props.isActiveOrder && address &&
       <Map.Marker key={address.line} coordinate={this.prepareCoordinates(address)}>
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>;
-  };
 
   // renderPath = () => { // TODO: render after driverLocation channel listen
   //   const { fields, driverLocation, isActiveOrder, status } = this.props;
@@ -113,6 +112,7 @@ class MapView extends Component {
   // }
 
   renderRidePath = () => {
+    // eslint-disable-next-line
     const { fields, driverLocation, isActiveOrder, status } = this.props;
 
     const isRideInProgress = status === ACTIVE_STATUS;
@@ -131,6 +131,7 @@ class MapView extends Component {
     const { fields, currentPosition, driverLocation, isActiveOrder, status } = this.props;
 
     const isRideInProgress = status === ACTIVE_STATUS;
+    // eslint-disable-next-line
     const destinationAddress = isRideInProgress || !isActiveOrder ? fields.destinationAddress : driverLocation;
 
     return (

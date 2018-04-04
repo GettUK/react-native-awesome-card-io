@@ -24,7 +24,8 @@ class ReasonForTravel extends Component {
       } else if (paymentCards) {
         return paymentCards.map(card => ({ value: `${card.type}_payment_card:${card.id}`, label: card.title }));
       }
-    });
+      return null;
+    }).filter(Boolean);
   };
 
   renderItem = ({ item }) => {
