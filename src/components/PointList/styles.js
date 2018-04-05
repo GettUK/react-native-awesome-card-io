@@ -41,5 +41,9 @@ export default StyleSheet.create({
     borderWidth: 0,
     backgroundColor: '#D8D8D8',
     height: 1
+  },
+  btnPlus: {
+    paddingVertical: 1,
+    paddingHorizontal: 10
   }
 });

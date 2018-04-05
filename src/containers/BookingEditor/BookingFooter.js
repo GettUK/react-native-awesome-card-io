@@ -125,7 +125,8 @@ class BookingFooter extends PureComponent {
           changeAddressType('destinationAddress', {}, null);
           addAddressPoint();
         }}
-        style={styles.destinationBtn}
+        styleContent={styles.destinationBtn}
+        style={styles.padding}
       >
         <Text style={styles.customDestinationText}>{label}</Text>
       </Button>
@@ -155,7 +156,8 @@ class BookingFooter extends PureComponent {
             changeAddressType('destinationAddress', {}, null);
             toggleModal();
           }}
-          style={styles.destinationBtn}
+          styleContent={styles.destinationBtn}
+          style={styles.padding}
         >
           <Icon
             style={styles.searchIcon}
@@ -234,7 +236,7 @@ class BookingFooter extends PureComponent {
           !toOrder && (
             <View pointerEvents="box-none">
               <Button
-                style={styles.currentPositionBtn}
+                styleContent={styles.currentPositionBtn}
                 onPress={getCurrentPosition}
               >
                 <Icon name="myLocation" height={22} color="#284784" />
@@ -284,12 +286,14 @@ class BookingFooter extends PureComponent {
               <View style={styles.rowActions}>
                 <Button
                   style={styles.timeBtn}
+                  styleContent={styles.timeBtnView}
                   onPress={() => toggleVisibleModal('picker')}
                 >
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
                 <Button
-                  style={[styles.orderRideBtn, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
+                  style={styles.orderRideBtn}
+                  styleContent={[styles.orderRideBtnView, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
                   disabled={isOrderBtnDisabled}
                   onPress={() => createBooking(fields)}
                 >
@@ -300,6 +304,7 @@ class BookingFooter extends PureComponent {
                 </Button>
                 <Button
                   style={styles.settingsBtn}
+                  styleContent={styles.settingsBtnView}
                   onPress={this.toggleSettingsModal}
                 >
                   <Icon name="settings" size={20} color="#d8d8d8" />

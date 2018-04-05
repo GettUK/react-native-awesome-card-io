@@ -23,7 +23,7 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
     <View style={[fbStyles.container, style]}>
       <TouchableHighlight
         onPress={handlePress}
-        style={fbStyles.button}
+        style={fbStyles.buttonArea}
         underlayColor="rgba(135, 206, 235, 0.3)"
       >
         <View style={fbStyles.button}>

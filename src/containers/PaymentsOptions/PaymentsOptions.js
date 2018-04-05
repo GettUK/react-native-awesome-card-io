@@ -14,7 +14,7 @@ import {
 
 import styles from './styles';
 
-class ReasonForTravel extends Component {
+class PaymentsOptions extends Component {
   preparePaymentTypes = () => {
     const { companyPaymentTypes, paymentCards } = this.props;
 
@@ -79,4 +79,4 @@ const mapDispatch = ({
   changeFields
 });
 
-export default connect(mapState, mapDispatch)(ReasonForTravel);
+export default connect(mapState, mapDispatch)(PaymentsOptions);

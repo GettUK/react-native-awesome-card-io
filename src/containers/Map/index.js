@@ -433,7 +433,7 @@ class Map extends Component {
           />
         </View>
         }
-        <Button raised={false} style={styles.TDButton} onPress={this.handleDateSubmit}>
+        <Button raised={false} styleContent={styles.TDButton} onPress={this.handleDateSubmit}>
           <Text style={styles.TDButtonText}>Set the Time</Text>
         </Button>
       </Modal>
@@ -468,7 +468,7 @@ class Map extends Component {
           }
           rightButton={isPreOrder && !this.shouldRequestVehicles() &&
             <Button
-              style={styles.orderBtn}
+              styleContent={styles.orderBtn}
               raised={false}
               size="sm"
               onPress={this.goToOrders}

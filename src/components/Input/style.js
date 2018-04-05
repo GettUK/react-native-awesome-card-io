@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: '50%',
-    marginTop: -8
+    marginTop: -16,
+    padding: 8
   },
   clearIcon: {
     width: 16,

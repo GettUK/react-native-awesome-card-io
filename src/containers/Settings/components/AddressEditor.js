@@ -130,7 +130,7 @@ class AddressEditor extends Component {
               })
             }
             <View style={styles.flex}/>
-            <Button raised={false} style={styles.submitBtn} onPress={this.handleSubmit}>
+            <Button raised={false} styleContent={styles.submitBtn} onPress={this.handleSubmit}>
               <Text style={styles.submitBtnText}>{strings('settings.save')}</Text>
             </Button>
           </KeyboardAvoidingView>

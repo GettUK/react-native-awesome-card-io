@@ -45,10 +45,10 @@ export default class RateDriver extends Component {
           onChangeText={text => this.setState({ text })}
           value={this.state.text}
         />
-        <Button raised={false} style={styles.sendBtn}>
+        <Button raised={false} styleContent={styles.sendBtn}>
           <Text style={styles.sendBtnText}>Send Feedback</Text>
         </Button>
-        <Button raised={false} style={styles.cancelBtn} onPress={this.handleCancel}>
+        <Button raised={false} styleContent={styles.cancelBtn} onPress={this.handleCancel}>
           <Text style={styles.cancelBtnText}>Cancel</Text>
         </Button>
       </View>

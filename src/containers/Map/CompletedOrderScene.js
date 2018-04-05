@@ -20,7 +20,7 @@ class CompletedOrderScene extends PureComponent {
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
-            <Button size="sm" style={screenStyles.createNewBtn} onPress={clearCurrentOrder}>
+            <Button size="sm" styleContent={screenStyles.createNewBtn} onPress={clearCurrentOrder}>
               <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
             </Button>
           </View>
