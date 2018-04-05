@@ -85,6 +85,9 @@ export const allVehicles = [{
 }, {
   name: 'Special',
   label: 'Special'
+}, {
+  name: 'Porsche',
+  label: 'Porsche'
 }];
 
 export const vehiclesData = keyBy(allVehicles, 'name');
