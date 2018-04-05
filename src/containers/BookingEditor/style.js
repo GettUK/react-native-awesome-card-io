@@ -119,5 +119,5 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     lineHeight: 21
-  },
+  }
 });

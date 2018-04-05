@@ -1,4 +1,4 @@
-import { find, keyBy, without } from 'lodash';
+import { find, keyBy } from 'lodash';
 
 // Payment Types, available for booking in 'app' realm. Array to ensure order
 export const paymentTypes = [
@@ -16,18 +16,6 @@ export const paymentTypeLabels = {
   cash: 'Cash',
   company_payment_card: 'Company Payment Card'
 };
-
-export function preparePaymentLabel({ payment, cards }) {
-  let label = paymentTypeLabels[payment];
-
-  if (payment.includes('payment_card')) {
-    const currentCard = find(cards, 'default') || cards[0];
-
-    label = `${label} ends with ${currentCard.last4}`;
-  }
-
-  return label;
-}
 
 export function preparePaymentType({ payment, cards }) {
   const card = find(cards, 'default') || cards[0];
