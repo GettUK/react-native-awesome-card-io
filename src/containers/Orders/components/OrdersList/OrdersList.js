@@ -40,23 +40,46 @@ class OrdersList extends PureComponent {
   };
 
   componentDidMount() {
-    this.getOrders();
+    if (!this.props.items.length) {
+      this.getOrders();
+    } else {
+      this.updateCounter(this.props.meta);
+    }
+  }
+
+  componentWillReceiveProps({ meta }) {
+    const { meta: metaProps } = this.props;
+
+    if (meta && (!metaProps || meta.total !== metaProps.total)) {
+      this.updateCounter(meta);
+    }
   }
 
   goToOrderDetails = (id) => {
     const { setActiveBooking, screenProps: { rootNavigation } } = this.props;
     setActiveBooking(id)
-      .then(() => rootNavigation.navigate('MapView', { fromOrderList: true }));
+      .then(() => {
+        rootNavigation.state.params.onBack();
+
+        rootNavigation.goBack();
+      });
+  };
+
+  updateCounter = (meta) => {
+    const { type, navigation } = this.props;
+
+    navigation.setParams({ count: { [type]: meta.total } });
   };
 
   getOrders = () => {
-    const { getOrders, type, items } = this.props;
-    const { pagination, loading } = this.state;
-    if (!loading && (items.length < pagination.total || !pagination.total)) {
+    const { getOrders, type, items, meta } = this.props;
+    const { loading } = this.state;
+
+    if (!loading && (!items.length || (items.length < meta.total))) {
       this.setState({ loading: true });
 
       const params = {
-        page: pagination.current + 1,
+        page: meta.current + 1,
         status: getOrdersStatuses(type),
         order: 'scheduledAt'
       };
@@ -65,14 +88,7 @@ class OrdersList extends PureComponent {
         params.reverse = true;
       }
 
-      getOrders(params)
-        .then((res) => {
-          this.setState({ pagination: res.pagination, loading: false });
-          this.props.navigation.setParams({ count: res.pagination.total });
-        })
-        .catch(() => {
-          this.setState({ loading: false });
-        });
+      getOrders(params, type);
     }
   };
 
@@ -150,7 +166,8 @@ class OrdersList extends PureComponent {
 }
 
 const mapState = (state, props) => ({
-  items: state.orders.items.filter(i => getOrdersStatuses(props.type).includes(i.status))
+  items: state.orders[props.type].items,
+  meta: state.orders[props.type].meta
 });
 
 const mapDispatch = ({

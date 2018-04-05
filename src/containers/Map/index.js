@@ -59,7 +59,8 @@ class Map extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      isHeaderEnable: true
+      isHeaderEnable: true,
+      fromOrderList: false
     };
   }
 
@@ -106,6 +107,7 @@ class Map extends Component {
 
   watchPosition = () => {
     const { map: { options } } = this.props;
+
     if (this.isAuthorizedPermission('location')) {
       this.watchID = navigator.geolocation.watchPosition(
         this.props.changePosition,
@@ -284,6 +286,10 @@ class Map extends Component {
     return vehicle;
   };
 
+  handleBackFromOrderList = () => {
+    this.setState({ fromOrderList: true });
+  };
+
   handleHideHeader = () => {
     this.setState({ isHeaderEnable: false });
   };
@@ -297,7 +303,7 @@ class Map extends Component {
   };
 
   goToOrders = () => {
-    this.props.navigation.navigate('OrdersView', {});
+    this.props.navigation.navigate('OrdersView', { onBack: this.handleBackFromOrderList });
   };
 
   togglePickerModal = () => {
@@ -333,13 +339,17 @@ class Map extends Component {
 
   handleBackBtnPress = () => {
     const isPreOrder = this.isActiveSceneIs('preOrder');
-    const { navigation, clearCurrentOrder } = this.props;
-    const params = navigation.state.params;
+    const { clearCurrentOrder } = this.props;
+
     if (isPreOrder) {
       this.cancelOrderCreation();
-    } else if (params && params.fromOrderList) {
-      navigation.goBack(null);
+    } else if (this.state.fromOrderList) {
+      this.goToOrders();
       setTimeout(clearCurrentOrder); // needed for smooth navigation animation
+
+      this.getCurrentPosition();
+
+      this.setState({ fromOrderList: false });
     } else {
       this.goToInitialization();
     }
@@ -492,6 +502,8 @@ class Map extends Component {
 
         <MapView
           isActiveOrder={isActiveOrder}
+          isCompletedOrder={isCompletedOrder}
+          isCurrentOrder={this.state.fromOrderList}
           ref={(map) => { this.mapView = map; }}
         />
 
