@@ -67,13 +67,15 @@ class PaymentsOptions extends Component {
   }
 }
 
-const mapState = ({ bookings, ui, session }) => ({
-  companyPaymentTypes: bookings.formData.paymentTypes,
-  paymentCards: (bookings.formData.passengers
-    .find(passenger => passenger.id === session.result.memberId) || {}).paymentCards,
-  paymentMethod: ui.map.fields.paymentMethod || '',
-  paymentCardId: ui.map.fields.paymentCardId || ''
-});
+const mapState = ({ bookings, ui, session }) => {
+  const { passenger, passengers, paymentTypes } = bookings.formData;
+  return {
+    companyPaymentTypes: paymentTypes,
+    paymentCards: (passenger || passengers.find(passenger => passenger.id === session.result.memberId)).paymentCards,
+    paymentMethod: ui.map.fields.paymentMethod || '',
+    paymentCardId: ui.map.fields.paymentCardId || ''
+  };
+};
 
 const mapDispatch = ({
   changeFields
