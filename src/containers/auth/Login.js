@@ -132,7 +132,6 @@ class Login extends Component {
             inputStyle={styles.inputStyle}
             labelStyle={styles.label}
             label={strings('login.password')}
-            keyboardType="email-address"
             secureTextEntry
           />
 
