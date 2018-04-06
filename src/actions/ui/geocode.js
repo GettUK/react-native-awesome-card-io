@@ -21,7 +21,7 @@ const processLocation = (location) => {
   const {
     lat,
     lng,
-    postcode,
+    postalCode,
     name,
     formattedAddress,
     countryCode,
@@ -32,7 +32,7 @@ const processLocation = (location) => {
   const processedLocation = {
     lat,
     lng,
-    postalCode: postcode,
+    postalCode,
     countryCode,
     line:
       name && !includes(name, formattedAddress) ?
@@ -46,7 +46,7 @@ const processLocation = (location) => {
     !processedLocation.line ||
     !lat ||
     !lng ||
-    (!postcode && countryCode === 'GB')
+    (!postalCode && countryCode === 'GB')
   ) {
     throw new Error(processedLocation.line);
   }
