@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry, isNull } from 'lodash';
-import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
 import update from 'update-js';
 
 import { sendAddress, touchField } from 'actions/passenger';
@@ -97,39 +97,44 @@ class AddressEditor extends Component {
             behavior={Platform.OS === 'ios' ? 'padding' : null}
             style={styles.flex}
           >
-            {!this.isPredefinedAddress &&
-              this.renderInput({
-                label: 'Address Name',
-                value: address.name || '',
-                onChangeText: this.handleInputChange('name')
-              })
-            }
-            {
-              this.renderInput({
-                inputRef: (el) => { this.addressInput = el; },
-                label: 'Address',
-                value: this.isPredefinedAddress ? address.line || '' : address.address.line || '',
-                onFocus: this.toggleAddressModal,
-                allowClear: false
-              })
-            }
-            {!this.isPredefinedAddress &&
-              this.renderInput({
-                label: `Pick Up Message (${this.getFieldLength(address.pickupMessage)}/100)`,
-                value: address.pickupMessage || '',
-                onChangeText: this.handleInputChange('pickupMessage'),
-                maxLength: 100
-              })
-            }
-            {!this.isPredefinedAddress &&
-              this.renderInput({
-                label: `Destination Message (${this.getFieldLength(address.destinationMessage)}/100)`,
-                value: address.destinationMessage || '',
-                onChangeText: this.handleInputChange('destinationMessage'),
-                maxLength: 100
-              })
-            }
-            <View style={styles.flex}/>
+            <View style={styles.flex}>
+              <ScrollView>
+                {!this.isPredefinedAddress &&
+                  this.renderInput({
+                    label: `Address Name (${this.getFieldLength(address.name)}/32)`,
+                    value: address.name || '',
+                    onChangeText: this.handleInputChange('name'),
+                    maxLength: 32
+                  })
+                }
+                {
+                  this.renderInput({
+                    inputRef: (el) => { this.addressInput = el; },
+                    label: 'Address',
+                    value: this.isPredefinedAddress ? address.line || '' : address.address.line || '',
+                    onFocus: this.toggleAddressModal,
+                    allowClear: false
+                  })
+                }
+                {!this.isPredefinedAddress &&
+                  this.renderInput({
+                    label: `Pick Up Message (${this.getFieldLength(address.pickupMessage)}/100)`,
+                    value: address.pickupMessage || '',
+                    onChangeText: this.handleInputChange('pickupMessage'),
+                    maxLength: 100
+                  })
+                }
+                {!this.isPredefinedAddress &&
+                  this.renderInput({
+                    label: `Destination Message (${this.getFieldLength(address.destinationMessage)}/100)`,
+                    value: address.destinationMessage || '',
+                    onChangeText: this.handleInputChange('destinationMessage'),
+                    maxLength: 100
+                  })
+                }
+              </ScrollView>
+            </View>
+
             <Button raised={false} styleContent={styles.submitBtn} onPress={this.handleSubmit}>
               <Text style={styles.submitBtnText}>{strings('settings.save')}</Text>
             </Button>
