@@ -183,7 +183,7 @@ class Map extends Component {
     this.togglePickerModal();
     this.props.changeFields({
       scheduledType: 'later',
-      scheduledAt: Platform.OS === 'ios' ? moment(date) : date
+      scheduledAt: moment(date)
     });
     this.goToRequestVehicles();
   };
@@ -242,6 +242,11 @@ class Map extends Component {
     } = this.props.map.fields;
     const passenger = this.getPassenger();
 
+    let scheduledAtTime = null;
+    if (scheduledType === 'later') {
+      scheduledAtTime = scheduledAt.format();
+    }
+
     this.props.getVehicles({
       fromPostalCode: pickupAddress.postalCode,
       fromLat: pickupAddress.lat,
@@ -251,7 +256,7 @@ class Map extends Component {
       fromTimezone: pickupAddress.timezone,
       fromPlaceId: pickupAddress.placeId,
       ...this.destinationFields(),
-      scheduledAt: scheduledType === 'now' ? null : scheduledAt.format(),
+      scheduledAt: scheduledAtTime,
       passengerName: passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName,
       passengerPhone: passenger ? passenger.phone : passengerPhone,
       passengerId,
