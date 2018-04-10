@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f00'
   },
   withClearBtn: {
-    paddingRight: 20
+    paddingRight: 25
   },
   label: {
     position: 'absolute'

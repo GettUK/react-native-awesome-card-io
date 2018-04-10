@@ -54,7 +54,7 @@ export default StyleSheet.create({
     marginRight: 15,
     padding: 5
   },
-  settingsBtnView: {
+  btnView: {
     width: 50,
     height: 50
   },
@@ -71,13 +71,7 @@ export default StyleSheet.create({
     marginLeft: 15,
     padding: 5
   },
-  timeBtnView: {
-    width: 50,
-    height: 50
-  },
   currentPositionBtn: {
-    width: 50,
-    height: 50,
     marginBottom: 15,
     marginLeft: 15
   },

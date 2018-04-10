@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { has, find, isNull } from 'lodash';
-import { Icon, Button, Modal, JourneyDetails, CarItem, InformView } from 'components';
+import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
 import { strings } from 'locales';
 import {
   changeFields,
@@ -33,6 +33,10 @@ import { LoaderLayer } from './components';
 import styles from './style';
 
 class BookingFooter extends PureComponent {
+  state = {
+    message: ''
+  };
+
   getEarliestAvailableTime = (vehicle) => {
     const { map: { fields: { vehicleName } } } = this.props;
     let shift = 60;
@@ -133,6 +137,27 @@ class BookingFooter extends PureComponent {
     );
   };
 
+  showAlert = () => {
+    const { data: { orderCreateError: { response: { data } } } } = this.props;
+
+    if (data.errors && data.errors.scheduledAt) {
+      this.setState({ message: 'Wrong pick-up time' }, () => this.alert.show());
+    }
+  };
+
+  createBooking = () => {
+    const { map: { fields }, createBooking } = this.props;
+
+    createBooking(fields)
+      .catch(this.showAlert);
+  };
+
+  togglePickerModal = () => {
+    const { toggleVisibleModal } = this.props;
+
+    toggleVisibleModal('picker');
+  };
+
   renderAddressesSelector() {
     const {
       map: { fields },
@@ -214,9 +239,7 @@ class BookingFooter extends PureComponent {
       map: { fields },
       data: { formData: { vehicles }, currentOrder: { busy } },
       toOrder,
-      getCurrentPosition,
-      createBooking,
-      toggleVisibleModal
+      getCurrentPosition
     } = this.props;
 
     const availableVehicles = vehicles.data.filter(v => v.available);
@@ -236,7 +259,8 @@ class BookingFooter extends PureComponent {
           !toOrder && (
             <View pointerEvents="box-none">
               <Button
-                styleContent={styles.currentPositionBtn}
+                style={styles.currentPositionBtn}
+                styleContent={styles.btnView}
                 onPress={getCurrentPosition}
               >
                 <Icon name="myLocation" height={22} color="#284784" />
@@ -286,8 +310,8 @@ class BookingFooter extends PureComponent {
               <View style={styles.rowActions}>
                 <Button
                   style={styles.timeBtn}
-                  styleContent={styles.timeBtnView}
-                  onPress={() => toggleVisibleModal('picker')}
+                  styleContent={styles.btnView}
+                  onPress={this.togglePickerModal}
                 >
                   <Icon name="time" size={24} color="#d8d8d8" />
                 </Button>
@@ -295,7 +319,7 @@ class BookingFooter extends PureComponent {
                   style={styles.orderRideBtn}
                   styleContent={[styles.orderRideBtnView, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
                   disabled={isOrderBtnDisabled}
-                  onPress={() => createBooking(fields)}
+                  onPress={this.createBooking}
                 >
                   {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />}
                   <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
@@ -304,12 +328,18 @@ class BookingFooter extends PureComponent {
                 </Button>
                 <Button
                   style={styles.settingsBtn}
-                  styleContent={styles.settingsBtnView}
+                  styleContent={styles.btnView}
                   onPress={this.toggleSettingsModal}
                 >
                   <Icon name="settings" size={20} color="#d8d8d8" />
                 </Button>
               </View>
+              <Alert
+                ref={(alert) => { this.alert = alert; }}
+                message={this.state.message}
+                type="failed"
+                position="bottom"
+              />
             </View>
           )
         }

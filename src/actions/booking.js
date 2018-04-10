@@ -98,6 +98,7 @@ export const createBooking = order => (dispatch) => {
     })
     .catch((errors) => {
       dispatch({ type: TYPES.createBookingFailure, payload: errors });
+      return Promise.reject(errors);
     });
 };
 
