@@ -57,11 +57,13 @@ export default StyleSheet.create({
     borderBottomColor: '#bcbbc1',
     borderBottomWidth: StyleSheet.hairlineWidth,
     paddingRight: 20,
-    marginVertical: 15
+    marginBottom: 15,
+    marginTop: 5,
+    paddingTop: 8
   },
   inputLabel: {
     color: '#7f7f7f',
-    marginTop: -5
+    marginTop: 5
   },
   clearIcon: {
     marginRight: 20
