@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
+
 import { Icon } from 'components';
+
 import { strings } from 'locales';
+
 import { showConfirmationAlert } from 'utils';
 
 const styles = StyleSheet.create({
@@ -42,7 +45,7 @@ class BackBtn extends Component {
     return (
       <TouchableOpacity onPress={this.handlePress} style={styles.container}>
         <Icon size={21} name="back" color="#284784" />
-        <Text style={styles.text}>{strings('back')}</Text>
+        {Platform.OS === 'ios' && <Text style={styles.text}>{strings('back')}</Text>}
       </TouchableOpacity>
     );
   }
