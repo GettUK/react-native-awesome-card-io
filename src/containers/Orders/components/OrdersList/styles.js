@@ -91,6 +91,22 @@ const styles = StyleSheet.create({
   goToDetailsIcon: {
     marginLeft: 12,
     transform: [{ rotate: '-90deg' }]
+  },
+  loaderWrapper: {
+    position: 'absolute',
+    bottom: 40,
+    width: '100%',
+    alignItems: 'center'
+  },
+  loader: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 4,
+    backgroundColor: '#284784'
+  },
+  loaderLabel: {
+    textAlign: 'center',
+    color: '#fff'
   }
 });
 

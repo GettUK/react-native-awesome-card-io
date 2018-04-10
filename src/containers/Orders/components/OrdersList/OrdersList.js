@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import assets from 'assets';
@@ -88,7 +88,7 @@ class OrdersList extends PureComponent {
         params.reverse = true;
       }
 
-      getOrders(params, type);
+      getOrders(params, type).then(() => this.setState({ loading: false }));
     }
   };
 
@@ -150,17 +150,30 @@ class OrdersList extends PureComponent {
 
   render() {
     const { loading } = this.state;
+
     return (
-      <FlatList
-        data={this.props.items}
-        style={styles.orders}
-        keyExtractor={this.keyExtractor}
-        renderItem={this.renderItem}
-        onEndReachedThreshold={0}
-        onEndReached={this.getOrders}
-        ListFooterComponent={loading && <Text style={{ textAlign: 'center' }}>Loading...</Text>}
-        refreshing={loading}
-      />
+      <View style={styles.flex}>
+        <FlatList
+          data={this.props.items}
+          style={styles.orders}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+          onEndReachedThreshold={0}
+          onEndReached={this.getOrders}
+          ListFooterComponent={loading && Platform.OS === 'ios' &&
+            <Text style={{ textAlign: 'center' }}>Loading...</Text>
+          }
+          refreshing={loading}
+        />
+
+        {loading && Platform.OS === 'android' &&
+          <View style={styles.loaderWrapper}>
+            <View style={styles.loader}>
+              <Text style={styles.loaderLabel}>Loading...</Text>
+            </View>
+          </View>
+        }
+      </View>
     );
   }
 }
