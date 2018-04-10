@@ -9,7 +9,8 @@ import {
   Platform,
   DatePickerIOS,
   DatePickerAndroid,
-  TimePickerAndroid
+  TimePickerAndroid,
+  BackHandler
 } from 'react-native';
 import moment from 'moment';
 import { every, find, first, has, isEmpty } from 'lodash';
@@ -56,6 +57,8 @@ const geoLocationOptions = {
   maximumAge: 1000
 };
 
+const CURRENT_ROUTE = 'MapView';
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -68,7 +71,23 @@ class Map extends Component {
 
   componentWillMount() {
     this.props.requestLocation();
+
     setTimeout(this.setCurrentPosition, 1000);
+
+    this.backListener = BackHandler.addEventListener('hardwareBack', () => {
+      const isPreOrder = this.isActiveSceneIs('preOrder');
+      const { map: { fields }, router } = this.props;
+
+      if (!(isPreOrder && !this.shouldRequestVehicles())) {
+        this.handleBackBtnPress();
+        return true;
+      } else if (!isPreOrder || fields.destinationAddress || router.routes[router.index].routeName !== CURRENT_ROUTE) {
+        this.goBack();
+        return true;
+      }
+
+      return false;
+    });
   }
 
   componentDidMount() {
@@ -98,6 +117,10 @@ class Map extends Component {
     this.clearWatchPosition();
 
     PN.clearNotificationListener();
+
+    this.backListener.remove();
+
+    BackHandler.removeEventListener('hardwareBack');
   }
 
   setCurrentPosition = () => {
@@ -105,6 +128,12 @@ class Map extends Component {
       if (location === PERMISSION_STATUS.authorized) {
         this.getCurrentPosition();
       }
+    });
+  };
+
+  goBack = () => {
+    this.props.navigation.dispatch({
+      type: 'Navigation/BACK'
     });
   };
 
@@ -534,7 +563,7 @@ Map.propTypes = {
 Map.defaultProps = {
 };
 
-const mapState = ({ app, ui, bookings, session, passenger }) => ({
+const mapState = ({ app, ui, bookings, session, passenger, router }) => ({
   app,
   map: ui.map,
   session,
@@ -543,7 +572,8 @@ const mapState = ({ app, ui, bookings, session, passenger }) => ({
   status: bookings.currentOrder.status || 'connected',
   canceledByExternal: bookings.canceledByExternal,
   canceledByUser: bookings.canceledByUser,
-  passenger
+  passenger,
+  router: router.navigatorApp
 });
 
 const mapDispatch = {

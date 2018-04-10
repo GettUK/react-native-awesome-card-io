@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, BackHandler } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { Input, Icon } from 'components';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { setInitialProfileValues, changeProfileFieldValue } from 'actions/passenger';
+import { strings } from 'locales';
+
+import { showConfirmationAlert } from 'utils';
+
+import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
 import { prepareInitials } from '../utils';
 import styles from './EditProfileStyles';
 
@@ -43,7 +47,29 @@ class EditProfile extends Component {
 
   componentWillMount() {
     this.props.setInitialProfileValues();
+
+    this.backListener = BackHandler.addEventListener('backPress', () => {
+      const { touched } = this.props;
+
+      if (touched) {
+        showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
+        return true;
+      }
+
+      this.goBack();
+      return true;
+    });
   }
+
+  componentWillUnmount() {
+    this.props.touchField('profile', false);
+
+    this.backListener.remove();
+
+    BackHandler.removeEventListener('backPress');
+  }
+
+  goBack = () => this.props.navigation.goBack(null);
 
   openAvatarPicker = () => {
     ImagePicker.openPicker(avatarPickerConfig).then((image) => {
@@ -100,14 +126,16 @@ const mapState = ({ passenger }) => ({
   firstName: passenger.temp.firstName,
   lastName: passenger.temp.lastName,
   avatarUrl: passenger.temp.avatarUrl,
-  avatar: passenger.temp.avatar
+  avatar: passenger.temp.avatar,
+  touched: passenger.temp.profileTouched
 });
 
 const mapDispatch = {
   setInitialProfileValues,
   handleFirstNameChange: changeProfileFieldValue('firstName'),
   handleLastNameChange: changeProfileFieldValue('lastName'),
-  handleAvatarChange: changeProfileFieldValue('avatar')
+  handleAvatarChange: changeProfileFieldValue('avatar'),
+  touchField
 };
 
 export default connect(mapState, mapDispatch)(EditProfile);

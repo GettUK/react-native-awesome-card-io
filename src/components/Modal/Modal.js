@@ -14,6 +14,8 @@ export default function Modal({
       backdropColor="#284784"
       backdropOpacity={0.6}
       style={[styles.modal, style]}
+      onBackButtonPress={onClose}
+      onBackdropPress={onClose}
       {...rest}
     >
       <DismissKeyboardView style={[styles.content, contentStyles]}>

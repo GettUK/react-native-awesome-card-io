@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry, isNull } from 'lodash';
-import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView, BackHandler } from 'react-native';
 import update from 'update-js';
+
+import { showConfirmationAlert } from 'utils';
 
 import { sendAddress, touchField } from 'actions/passenger';
 import { Button, Input, DismissKeyboardView, AddressModal } from 'components';
@@ -29,13 +31,31 @@ class AddressEditor extends Component {
   };
 
   componentDidMount() {
-    this.props.touchField('address', false);
+    this.backListener = BackHandler.addEventListener('backPress', () => {
+      const { touched } = this.props;
+
+      if (touched) {
+        showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
+        return true;
+      }
+
+      this.goBack();
+      return true;
+    });
   }
 
   componentWillUpdate(_, nextState) {
     if (this.state.touched !== nextState.touched) {
       this.props.touchField('address');
     }
+  }
+
+  componentWillUnmount() {
+    this.props.touchField('address', false);
+
+    this.backListener.remove();
+
+    BackHandler.removeEventListener('backPress');
   }
 
   get isPredefinedAddress() {
@@ -148,9 +168,13 @@ class AddressEditor extends Component {
   }
 }
 
+const mapState = ({ passenger }) => ({
+  touched: passenger.temp.addressTouched
+});
+
 const mapDispatch = {
   sendAddress,
   touchField
 };
 
-export default connect(null, mapDispatch)(AddressEditor);
+export default connect(mapState, mapDispatch)(AddressEditor);
