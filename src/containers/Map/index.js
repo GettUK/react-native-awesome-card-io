@@ -157,10 +157,10 @@ class Map extends Component {
     const {
       map: { fields: { passengerId } },
       bookings: { formData: { passenger, passengers } },
-      passenger: { data: { passenger: passengerData } }
+      passenger: { data: { passenger: passengerData, favoriteAddresses } }
     } = this.props;
 
-    return (!isEmpty(passengerData) && passengerData)
+    return (!isEmpty(passengerData) && { ...passengerData, favoriteAddresses })
       || passenger
       || find(passengers, { id: +passengerId });
   };
