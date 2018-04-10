@@ -15,13 +15,14 @@ export default class Pointer extends Component {
   }
 
   cycleBlinking = () => {
-    this.blinkAnim.setValue(0);
+    this.blinkAnim.setValue(0.2);
 
     Animated.timing(
       this.blinkAnim,
       {
         toValue: 2,
-        duration: 1500
+        duration: 1500,
+        delay: 10
       }
     ).start(this.cycleBlinking);
   };
