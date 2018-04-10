@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
+
 import { Icon } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
+
 import { Settings } from 'containers';
 import {
   EditProfile,
@@ -18,14 +20,18 @@ import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
 import { strings } from 'locales';
 
+const headerStyle = {
+  backgroundColor: '#fff',
+  paddingTop: Platform.OS === 'android' ? 20 : 0,
+  height: Platform.OS === 'android' ? 80 : 50
+};
+
 const RoutesConfig = {
   Settings: {
     screen: Settings,
     navigationOptions: ({ screenProps }) => ({
       headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      },
+      headerStyle,
       title: strings('settings.headerTitle'),
       headerBackTitle: strings('back'),
       headerLeft: (
@@ -42,6 +48,7 @@ const RoutesConfig = {
   EditProfile: {
     screen: EditProfile,
     navigationOptions: ({ navigation }) => ({
+      headerStyle,
       headerTitle: strings('settings.editProfile'),
       headerLeft: <BackBtn navigation={navigation} field="profile" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
@@ -50,6 +57,7 @@ const RoutesConfig = {
   AddressesList: {
     screen: AddressesList,
     navigationOptions: ({ navigation }) => ({
+      headerStyle,
       headerTitle: strings('settings.myAddresses'),
       headerLeft: <BackBtn navigation={navigation} />,
       headerRight: (
@@ -66,6 +74,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => {
       const address = navigation.state.params && navigation.state.params.address;
       return {
+        headerStyle,
         headerLeft: <BackBtn navigation={navigation} field="address" />,
         headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
         headerRight: address && address.passengerId
@@ -75,7 +84,8 @@ const RoutesConfig = {
     }
   },
   InfoPages: {
-    screen: InfoPages
+    screen: InfoPages,
+    navigationOptions: () => ({ headerStyle })
   }
 };
 

@@ -3,5 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/login_bg"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:fitsSystemWindows="true">
 </LinearLayout>

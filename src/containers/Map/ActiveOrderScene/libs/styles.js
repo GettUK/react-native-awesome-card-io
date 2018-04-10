@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { isIphoneX } from 'utils';
 
@@ -20,12 +20,12 @@ export default StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 16 + (Platform.OS === 'ios' ? topIPhone : 0),
+    top: 16 + topIPhone,
     left: 16
   },
   header: {
     position: 'absolute',
-    top: 44 + (Platform.OS === 'ios' ? topIPhone : 0),
+    top: 44 + topIPhone,
     left: 16
   }
 });

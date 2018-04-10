@@ -451,7 +451,7 @@ class Map extends Component {
         <StatusBar barStyle="default" />
         {this.state.isHeaderEnable &&
         <Header
-          customStyles={[styles.header]}
+          customStyles={styles.header}
           leftButton={isPreOrder && !this.shouldRequestVehicles()
             ?
             <NavImageButton
