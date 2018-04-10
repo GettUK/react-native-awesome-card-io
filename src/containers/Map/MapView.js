@@ -89,10 +89,10 @@ class MapView extends Component {
   preparePointsList = (order) => {
     const source = this.prepareCoordinates(order.pickupAddress);
     const dest = this.prepareCoordinates(order.destinationAddress);
-    const stops = (order.stops || []).map(stop => (this.prepareCoordinates(stop.address)));
+    const stops = (order.stops || []).map(this.prepareCoordinates);
 
     return { source, dest, stops };
-  }
+  };
 
   renderCurrentMarker = () => <Icon name="currentLocation" size={24} />;
 
@@ -104,9 +104,9 @@ class MapView extends Component {
 
   renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
 
-  renderMarker = ({ address, type = 'current' }) =>
+  renderMarker = ({ address, type = 'current', index = '' }) =>
     !this.props.isActiveOrder && address &&
-      <Map.Marker key={address.line} coordinate={this.prepareCoordinates(address)}>
+      <Map.Marker key={address.line + index} coordinate={this.prepareCoordinates(address)}>
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>;
 
@@ -138,7 +138,7 @@ class MapView extends Component {
 
     const locations = [
       fields.pickupAddress,
-      ...(fields.stops || []).map(stop => stop.address),
+      ...(fields.stops || []),
       fields.destinationAddress
     ];
 
@@ -154,10 +154,11 @@ class MapView extends Component {
       pathes.map(this.renderSinglePath);
   };
 
-  renderSinglePath = fields => (
+  renderSinglePath = ({ source, destination }) => (
     <MapViewDirections
-      origin={this.prepareCoordinates(fields.source)}
-      destination={this.prepareCoordinates(fields.destination)}
+      key={source.line + destination.line}
+      origin={this.prepareCoordinates(source)}
+      destination={this.prepareCoordinates(destination)}
       apikey={config.googleAPIKey}
       strokeWidth={4}
       strokeColor="#2b4983"
@@ -189,9 +190,9 @@ class MapView extends Component {
           })
         }
 
-        {fields.stops && fields.stops.map(stop => (
-          stop.address && this.renderMarker({ address: stop.address, type: 'stop' })
-        ))}
+        {fields.stops && fields.stops.length > 0 &&
+          fields.stops.map((address, index) => this.renderMarker({ address, type: 'stop', index }))
+        }
 
         {fields.destinationAddress &&
           this.renderMarker({ address: fields.destinationAddress, type: 'destination' })

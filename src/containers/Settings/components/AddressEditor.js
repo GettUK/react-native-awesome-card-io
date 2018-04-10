@@ -6,8 +6,7 @@ import { View, Text, Platform, KeyboardAvoidingView, ScrollView } from 'react-na
 import update from 'update-js';
 
 import { sendAddress, touchField } from 'actions/passenger';
-import { Button, Input, DismissKeyboardView } from 'components';
-import AddressModal from 'containers/Map/AddressModal';
+import { Button, Input, DismissKeyboardView, AddressModal } from 'components';
 import { strings } from 'locales';
 
 import { emptyAddress } from '../utils';
@@ -19,7 +18,6 @@ class AddressEditor extends Component {
     super(props);
     this.state = {
       address: props.navigation.state.params.address || emptyAddress,
-      isAddressModalOpened: false,
       touched: false
     };
   }
@@ -61,7 +59,8 @@ class AddressEditor extends Component {
   };
 
   toggleAddressModal = () => {
-    this.setState({ isAddressModalOpened: !this.state.isAddressModalOpened });
+    const { address } = this.state;
+    this.addressModal.open(this.isPredefinedAddress ? address : address.address);
     this.addressInput.blur();
   };
 
@@ -87,7 +86,7 @@ class AddressEditor extends Component {
   getFieldLength = field => ((!isNull(field) && field.length) || 0);
 
   render() {
-    const { address, isAddressModalOpened } = this.state;
+    const { address } = this.state;
 
     return (
       <View style={[styles.flex, styles.container]}>
@@ -141,11 +140,7 @@ class AddressEditor extends Component {
           </KeyboardAvoidingView>
         </DismissKeyboardView>
         <AddressModal
-          isVisible={isAddressModalOpened}
-          isTyping={false}
-          onChangeTyping={() => {}}
-          toggleModal={this.toggleAddressModal}
-          value={this.isPredefinedAddress ? address : address.address}
+          ref={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />
       </View>

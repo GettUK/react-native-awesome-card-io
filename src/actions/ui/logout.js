@@ -7,8 +7,6 @@ import { clearMap } from 'actions/ui/map';
 import { clearList } from 'actions/orders';
 import { clearBooking } from 'actions/booking';
 import { passegerViewEmpty } from 'actions/ui/passenger-view';
-import { addressesEmpty } from 'actions/ui/addresses';
-import { geocodeEmpty } from 'actions/ui/geocode';
 
 const TYPES = createTypes('ui/logout', [
   'logoutStart',
@@ -40,8 +38,6 @@ export const logout = () => (dispatch, getState) => {
     clearBooking(),
     passegerViewEmpty(),
     clearMap(),
-    geocodeEmpty(),
-    addressesEmpty(),
     logoutSuccess()
   ]));
 

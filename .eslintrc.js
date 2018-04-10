@@ -22,12 +22,11 @@ module.exports = {
     es6: true
   },
 
-  plugins: ['react', 'react-native', 'class-property'],
+  plugins: ['react', 'react-native', 'babel'],
 
   rules: {
     'arrow-body-style': [1, 'as-needed'],
     'class-methods-use-this': [2, { exceptMethods: ['render', 'componentDidMount'] }],
-    'class-property/class-property-semicolon': [1, 'always'],
     'comma-dangle': [2, 'never'],
     'jsx-quotes': [2, 'prefer-double'],
     'lines-between-class-members': [1, 'always'],

@@ -1,23 +1,8 @@
 import { composeReducer } from 'redux-compose-reducer';
-import {
-  get,
-  map,
-  has,
-  omit,
-  uniqWith,
-  isNull,
-  concat,
-  isEqual
-} from 'lodash/fp';
+import { has, omit, isUndefined } from 'lodash/fp';
+import update from 'update-js';
 
-import { nullAddress, LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
-
-const defaultAddress = {
-  value: nullAddress(''),
-  type: {},
-  isTyping: false,
-  typingTimeout: 700
-};
+import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 
 const initialFields = {
   scheduledAt: null,
@@ -28,9 +13,7 @@ const initialFields = {
 
 const initialState = {
   fields: initialFields,
-  address: defaultAddress,
   user: {},
-  addressModal: false,
   errors: null,
   options: {
     enableHighAccuracy: true,
@@ -53,61 +36,18 @@ const changeFields = (state, { payload }) => ({
   }
 });
 
-const setTypeNameModel = (field, type, object) => {
-  if (!Array.isArray(type.value)) {
-    return { ...object };
+const changeAddress = (state, { payload: { address, meta } }) => {
+  if (meta.type !== 'stops') {
+    return update(state, `fields.${meta.type}`, address);
+  } else if (isUndefined(meta.index)) {
+    let processedState = state;
+    if (!state.fields.stops) {
+      processedState = update(state, 'fields.stops', []);
+    }
+    return update.push(processedState, 'fields.stops', address);
   }
-  if (Array.isArray(type.value) && isNull(type.object)) {
-    return uniqWith(isEqual, concat({ ...object }, field || []));
-  }
-  return map(
-    item => (!isEqual(item, object) ? { ...object } : { ...item }),
-    field || []
-  );
+  return update.with(state, 'fields.stops', old => old.map((s, i) => (i === meta.index ? address : s)));
 };
-const addAddressPoint = state => ({
-  ...state,
-  fields: {
-    ...state.fields,
-    [state.address.type.name]: setTypeNameModel(
-      get(state.address.type.name, state.fields),
-      state.address.type,
-      Array.isArray(state.address.type.value) ?
-        { address: state.address.value, ...state.user } :
-        state.address.value
-    )
-  },
-  address: defaultAddress
-});
-
-const changeAddressType = (state, { payload }) => ({
-  ...state,
-  address: {
-    ...state.address,
-    type: { ...payload }
-  }
-});
-
-const changeAddressTyping = (state, { payload }) => ({
-  ...state,
-  address: {
-    ...state.address,
-    isTyping: payload
-  }
-});
-
-const changeAddress = (state, { payload }) => ({
-  ...state,
-  address: {
-    ...state.address,
-    value: payload
-  }
-});
-
-const addressVisibleModal = (state, { payload }) => ({
-  ...state,
-  addressModal: payload
-});
 
 const changePosition = (state, { payload: { coords } }) => ({
   ...state,
@@ -133,11 +73,7 @@ export default composeReducer(
   {
     removeFields,
     changeFields,
-    addAddressPoint,
-    changeAddressType,
-    changeAddressTyping,
     changeAddress,
-    addressVisibleModal,
     changePosition,
     errorPosition,
     clearMap

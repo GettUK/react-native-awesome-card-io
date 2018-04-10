@@ -1,6 +1,7 @@
 {
   "information": {
-    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy"
+    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
+    "notSupportedAddress": "Sorry, this address is not supported"
   },
   "alerts": {
     "success": "Success",
@@ -11,6 +12,7 @@
   "label": {
     "home": "Home",
     "work": "Work",
+    "selectDestination": "Select Destination",
     "journeyTime": "Journey Time",
     "distance": "Distance"
   },

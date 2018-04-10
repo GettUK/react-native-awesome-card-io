@@ -35,7 +35,7 @@ export function nullAddress(line = null) {
     line,
     lat: null,
     lng: null,
-    postal_code: null,
+    postalCode: null,
     timezone: 'Europe/London'
   };
 }
