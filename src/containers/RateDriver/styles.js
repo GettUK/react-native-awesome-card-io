@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
 export default StyleSheet.create({
   flex: {
     flex: 1
+  },
+  wrapper: {
+    backgroundColor: '#fff'
   },
   content: {
     alignItems: 'center',
@@ -71,5 +76,10 @@ export default StyleSheet.create({
     color: '#000',
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  footer: {
+    paddingTop: 8,
+    paddingHorizontal: 20,
+    paddingBottom: isIphoneX() ? 16 : 8
   }
 });
