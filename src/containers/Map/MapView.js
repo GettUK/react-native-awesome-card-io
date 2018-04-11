@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
@@ -25,7 +26,9 @@ class MapView extends Component {
     if (isCompletedOrder && !isCompletedOrderProps) {
       const { source, dest, stops } = this.preparePointsList(currentOrder);
 
-      this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 });
+      const multiplier = this.getMultiplier();
+
+      this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
     } else if (!isCompletedOrder) {
       if (this.isPathChanged(fields, fieldsProps) ||
         (!isActiveOrder && isActiveOrderProps && fields.destinationAddress)) {
@@ -74,11 +77,15 @@ class MapView extends Component {
   );
 
   resizeMapToCoordinates = (coordinates, params) => {
+    const multiplier = this.getMultiplier();
+
     this.map.fitToCoordinates(coordinates, {
-      edgePadding: { top: 200, bottom: 300, left: 100, right: 100, ...params },
+      edgePadding: { top: 200 * multiplier, bottom: 300 * multiplier, left: 100, right: 100, ...params },
       animated: true
     });
   };
+
+  getMultiplier = () => (Platform.OS === 'android' ? 2.5 : 1);
 
   prepareCoordinates = address => (
     address && address.lat && address.lng
