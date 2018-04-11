@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { Button, DismissKeyboardHOC } from 'components';
 import { changeFields } from 'actions/ui/map';
 import styles from './styles';
@@ -16,6 +16,10 @@ class MessageToDriver extends Component {
   componentWillMount() {
     this.onChangeText(this.props.message);
   }
+
+  handleFocusInput = () => {
+    this.input.focus();
+  };
 
   onChangeText = (message) => {
     this.setState({ message });
@@ -35,17 +39,23 @@ class MessageToDriver extends Component {
       <View style={[styles.flex, styles.bg]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={55}
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
+            keyboardVerticalOffset={60}
+            behavior="padding"
             style={styles.flex}
           >
-            <TextInput
-              style={[styles.flex, styles.input]}
-              value={message}
-              onChangeText={this.onChangeText}
-              maxLength={250}
-              multiline
-            />
+            <TouchableWithoutFeedback onPress={this.handleFocusInput}>
+              <View style={styles.flex}>
+                <TextInput
+                  ref={(input) => { this.input = input; }}
+                  style={ styles.input}
+                  value={message}
+                  onChangeText={this.onChangeText}
+                  maxLength={250}
+                  multiline
+                />
+              </View>
+            </TouchableWithoutFeedback>
+
             <Button
               raised={false}
               styleContent={styles.submitBtn}

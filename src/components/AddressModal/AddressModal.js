@@ -217,7 +217,7 @@ export default class AddressModal extends PureComponent {
 
     return (
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        behavior="padding"
         style={styles.flex}
       >
         <FlatList
