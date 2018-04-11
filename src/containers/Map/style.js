@@ -28,52 +28,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 6
   },
-  layout: {
-    position: 'absolute',
-    top: 50,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    paddingHorizontal: 15,
-    paddingVertical: 10
-  },
-  itemAddressView: {
-    marginLeft: 46,
-    paddingVertical: 5
-  },
-  itemAddressText: {
-    fontSize: 18,
-    color: '#000'
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center'
-  },
-  pickUpAddress: {
-    marginHorizontal: 12
-  },
-  indicatorView: {
-    paddingVertical: 20
-  },
-  delimiter: {
-    alignSelf: 'stretch',
-    margin: 0,
-    padding: 0,
-    borderWidth: 0,
-    backgroundColor: '#D8D8D8',
-    height: 1
-  },
-  input: {
-    marginRight: 20
-  },
-  inputStyle: {
-    fontSize: 18,
-    color: '#000'
-  },
-  modalContent: {
-    width: '100%',
-    height: '88%',
-    backgroundColor: '#fff'
   },
   orderBtn: {
     backgroundColor: '#284784'
@@ -98,43 +55,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     alignSelf: 'stretch',
     justifyContent: 'flex-start'
-  },
-  pickUpIcon: {
-    marginRight: 15
-  },
-  pickUpText: {
-    flex: 1,
-    fontSize: 16
-  },
-  footer: {
-    paddingBottom: 15
-  },
-  currentPositionBtn: {
-    width: 50,
-    height: 50,
-    marginBottom: 20,
-    marginLeft: 15
-  },
-  destinationBtns: {
-    flexDirection: 'row',
-    paddingHorizontal: 15
-  },
-  destinationBtn: {
-    marginRight: 10
-  },
-  searchIcon: {
-    marginRight: 15
-  },
-  selectDestinationText: {
-    color: '#8794a0',
-    fontSize: 16
-  },
-  customDestinationText: {
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  selectedWrapper: {
-    paddingHorizontal: 20
   },
   time: {
     fontSize: 36,

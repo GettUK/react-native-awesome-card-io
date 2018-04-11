@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  btn: {
+  wrapper: {
     flexDirection: 'column',
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     marginRight: 0,
     padding: 0,
     borderWidth: 0,
-    backgroundColor: '#D8D8D8',
+    backgroundColor: '#d8d8d8',
     height: 1
   },
   btnPlus: {

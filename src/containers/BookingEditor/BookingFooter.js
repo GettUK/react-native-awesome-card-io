@@ -12,16 +12,8 @@ import moment from 'moment';
 import { has, find, isNull } from 'lodash';
 import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
 import { strings } from 'locales';
-import {
-  changeFields,
-  addAddressPoint,
-  changeAddressType,
-  changeAddress
-} from 'actions/ui/map';
-import {
-  createBooking,
-  toggleVisibleModal
-} from 'actions/booking';
+import { changeFields, changeAddress } from 'actions/ui/map';
+import { createBooking, toggleVisibleModal } from 'actions/booking';
 import {
   paymentTypeToAttrs,
   vehiclesData,
@@ -114,21 +106,17 @@ class BookingFooter extends PureComponent {
     this.props.toggleVisibleModal('settings');
   };
 
+  handleCustomDestinationPress = () => {
+    this.props.openAddressModal(null, { type: 'destinationAddress' });
+  };
+
   renderAddressItem = (address, label) => {
-    const {
-      changeAddress,
-      changeAddressType,
-      addAddressPoint
-    } = this.props;
+    const handlerPress = () => this.props.changeAddress({ ...address, label }, { type: 'destinationAddress' });
 
     return (
       <Button
         key={address.id || label}
-        onPress={() => {
-          changeAddress({ ...address, label });
-          changeAddressType('destinationAddress', {}, null);
-          addAddressPoint();
-        }}
+        onPress={handlerPress}
         styleContent={styles.destinationBtn}
         style={styles.padding}
       >
@@ -159,13 +147,7 @@ class BookingFooter extends PureComponent {
   };
 
   renderAddressesSelector() {
-    const {
-      map: { fields },
-      changeAddress,
-      changeAddressType,
-      toggleModal,
-      passenger
-    } = this.props;
+    const { passenger } = this.props;
 
     return (
       <ScrollView
@@ -174,13 +156,7 @@ class BookingFooter extends PureComponent {
         showsHorizontalScrollIndicator={false}
       >
         <Button
-          onPress={() => {
-            if (has(fields, 'destinationAddress')) {
-              changeAddress(fields.destinationAddress);
-            }
-            changeAddressType('destinationAddress', {}, null);
-            toggleModal();
-          }}
+          onPress={this.handleCustomDestinationPress}
           styleContent={styles.destinationBtn}
           style={styles.padding}
         >
@@ -190,14 +166,12 @@ class BookingFooter extends PureComponent {
             color="#284784"
             size={18}
           />
-          <Text style={styles.selectDestinationText}>
-            Select Destination
-          </Text>
+          <Text style={styles.selectDestinationText}>{strings('label.selectDestination')}</Text>
         </Button>
-        {passenger && !isNull(passenger.homeAddress) &&
+        {passenger && passenger.homeAddress &&
           this.renderAddressItem(passenger.homeAddress, strings('label.home'))
         }
-        {passenger && !isNull(passenger.workAddress) &&
+        {passenger && passenger.workAddress &&
           this.renderAddressItem(passenger.workAddress, strings('label.work'))
         }
         {passenger && (passenger.favoriteAddresses || []).map(address =>
@@ -246,7 +220,6 @@ class BookingFooter extends PureComponent {
     const isOrderBtnDisabled = busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
-
       <View style={styles.footer} pointerEvents="box-none">
         {
           toOrder && availableVehicles.length === 0 && (
@@ -260,10 +233,10 @@ class BookingFooter extends PureComponent {
             <View pointerEvents="box-none">
               <Button
                 style={styles.currentPositionBtn}
-                styleContent={styles.btnView}
+                styleContent={[styles.currentPositionBtnContent, styles.btnView]}
                 onPress={getCurrentPosition}
               >
-                <Icon name="myLocation" height={22} color="#284784" />
+                <Icon name="myLocation" size={22} color="#284784" />
               </Button>
               {this.renderAddressesSelector()}
             </View>
@@ -348,9 +321,7 @@ class BookingFooter extends PureComponent {
   }
 
   render() {
-    const {
-      data: { formData: { vehicles } }
-    } = this.props;
+    const { data: { formData: { vehicles } } } = this.props;
 
     return (
       vehicles.loading
@@ -367,16 +338,11 @@ BookingFooter.propTypes = {
   getCurrentPosition: PropTypes.func.isRequired,
   createBooking: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
-  addAddressPoint: PropTypes.func.isRequired,
-  changeAddressType: PropTypes.func.isRequired,
   changeAddress: PropTypes.func.isRequired,
+  toggleVisibleModal: PropTypes.func.isRequired,
   passenger: PropTypes.object,
-  toggleModal: PropTypes.func.isRequired,
   requestVehicles: PropTypes.func.isRequired,
-  toOrder: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool]),
-  toggleVisibleModal: PropTypes.func.isRequired
+  toOrder: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 };
 
 BookingFooter.defaultProps = {};
@@ -389,8 +355,6 @@ const select = ({ ui, bookings }) => ({
 const bindActions = {
   createBooking,
   changeFields,
-  addAddressPoint,
-  changeAddressType,
   changeAddress,
   toggleVisibleModal
 };

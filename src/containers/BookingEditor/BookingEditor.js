@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import moment from 'moment';
 import { isEmpty, find, isEqual, has } from 'lodash';
-import { compose } from 'lodash/fp';
-import AddressModal from 'containers/Map/AddressModal';
-import {
-  getFormData
-} from 'actions/booking';
-import {
-  changeFields,
-  addAddressPoint,
-  changeAddressType,
-  changeAddressTyping,
-  changeAddress
-} from 'actions/ui/map';
-import { PointList } from 'components';
+import { getFormData } from 'actions/booking';
+import { changeFields, changeAddress } from 'actions/ui/map';
+import { PointList, AddressModal } from 'components';
+import BookingFooter from './BookingFooter';
 import { prepareDefaultValues } from './utils';
 import styles from './style';
 
@@ -82,33 +71,40 @@ class BookingEditor extends Component {
       });
   };
 
+  openAddressModal = (address, meta) => {
+    this.addressModal.open(address, meta);
+  };
+
   render() {
     const {
-      passenger, changeAddressTyping, addAddressPoint, toggleModal, changeAddress, changeAddressType,
-      map: { addressModal, address, fields }
+      navigation,
+      getCurrentPosition,
+      toOrder,
+      requestVehicles,
+      passenger,
+      map: { fields },
+      changeAddress
     } = this.props;
 
     return (
-      <View style={{}}>
+      <View style={styles.wrapper} pointerEvents="box-none">
         <AddressModal
-          isVisible={addressModal}
-          toggleModal={compose(
-            addAddressPoint,
-            toggleModal
-          )}
-          value={address.value}
+          ref={(el) => { this.addressModal = el; }}
           defaultValues={prepareDefaultValues(passenger)}
           onChange={changeAddress}
-          isTyping={address.isTyping}
-          onChangeTyping={changeAddressTyping}
-          typingTimeout={address.typingTimeout}
         />
         <PointList
           style={styles.pointList}
-          onChangeAddress={changeAddress}
-          onChangeAddressType={changeAddressType}
-          toggleModal={toggleModal}
-          data={{ ...fields }}
+          onAddressPress={this.openAddressModal}
+          data={fields}
+        />
+        <BookingFooter
+          navigation={navigation}
+          getCurrentPosition={getCurrentPosition}
+          passenger={passenger}
+          requestVehicles={requestVehicles}
+          toOrder={toOrder}
+          openAddressModal={this.openAddressModal}
         />
       </View>
     );
@@ -122,12 +118,7 @@ BookingEditor.propTypes = {
   bookings: PropTypes.object,
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
-  addAddressPoint: PropTypes.func.isRequired,
-  changeAddressType: PropTypes.func.isRequired,
-  changeAddressTyping: PropTypes.func.isRequired,
-  changeAddress: PropTypes.func.isRequired,
   passenger: PropTypes.object,
-  toggleModal: PropTypes.func.isRequired,
   requestVehicles: PropTypes.func.isRequired
 };
 
@@ -144,9 +135,6 @@ const select = ({ ui, session, bookings }) => ({
 const bindActions = {
   getFormData,
   changeFields,
-  addAddressPoint,
-  changeAddressType,
-  changeAddressTyping,
   changeAddress
 };
 

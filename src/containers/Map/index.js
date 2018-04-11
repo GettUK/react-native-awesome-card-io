@@ -18,15 +18,11 @@ import { Icon, Button, Modal, Alert } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 
-import { BookingEditor, BookingFooter } from 'containers/BookingEditor';
+import { BookingEditor } from 'containers/BookingEditor';
 
 import {
   removeFields,
   changeFields,
-  addAddressPoint,
-  changeAddressType,
-  changeAddress,
-  addressVisibleModal,
   changePosition,
   errorPosition
 } from 'actions/ui/map';
@@ -165,11 +161,6 @@ class Map extends Component {
       || find(passengers, { id: +passengerId });
   };
 
-  toggleAddressModal = () => {
-    const { map: { addressModal } } = this.props;
-    this.props.addressVisibleModal(!addressModal);
-  };
-
   watchID = null;
 
   isActiveSceneIs = (name = 'preOrder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
@@ -207,7 +198,7 @@ class Map extends Component {
 
   allStopsValid = () => {
     const { map: { fields: { stops } } } = this.props;
-    return every(stops, stop => typeof stop.address.countryCode !== 'undefined');
+    return every(stops, stop => typeof stop.countryCode !== 'undefined');
   };
 
   isPassengerPresent = () => {
@@ -447,6 +438,7 @@ class Map extends Component {
 
   render() {
     const { navigation } = this.props;
+    const { isHeaderEnable, fromOrderList } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
@@ -454,61 +446,51 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="default" />
-        {this.state.isHeaderEnable &&
-        <Header
-          customStyles={styles.header}
-          leftButton={isPreOrder && !this.shouldRequestVehicles()
-            ?
-            <NavImageButton
-              onClick={this.goToSettings}
-              styleContainer={{ justifyContent: 'center' }}
-              icon={<Icon size={30} name="burger" color="#000" />}
-            />
-            :
-            <NavImageButton
-              onClick={this.handleBackBtnPress}
-              styleContainer={styles.headerBack}
-              icon={<Icon width={10} height={18} name="back" color="#284784" />}
-            />
-          }
-          rightButton={isPreOrder && !this.shouldRequestVehicles() &&
-            <Button
-              styleContent={styles.orderBtn}
-              raised={false}
-              size="sm"
-              onPress={this.goToOrders}
-            >
-              <Text style={styles.orderBtnText}>Orders</Text>
-            </Button>
-          }
-        />
+        {isHeaderEnable &&
+          <Header
+            customStyles={styles.header}
+            leftButton={isPreOrder && !this.shouldRequestVehicles()
+              ?
+              <NavImageButton
+                onClick={this.goToSettings}
+                styleContainer={{ justifyContent: 'center' }}
+                icon={<Icon size={30} name="burger" color="#000" />}
+              />
+              :
+              <NavImageButton
+                onClick={this.handleBackBtnPress}
+                styleContainer={styles.headerBack}
+                icon={<Icon width={10} height={18} name="back" color="#284784" />}
+              />
+            }
+            rightButton={isPreOrder && !this.shouldRequestVehicles() &&
+              <Button
+                styleContent={styles.orderBtn}
+                raised={false}
+                size="sm"
+                onPress={this.goToOrders}
+              >
+                <Text style={styles.orderBtnText}>Orders</Text>
+              </Button>
+            }
+          />
         }
         {isPreOrder &&
           <BookingEditor
             navigation={navigation}
             passenger={this.getPassenger()}
-            toggleModal={this.toggleAddressModal}
             requestVehicles={this.goToRequestVehicles}
-          />
-        }
-        {isPreOrder &&
-          <BookingFooter
-            navigation={navigation}
             getCurrentPosition={this.getCurrentPosition}
-            passenger={this.getPassenger()}
-            toggleModal={this.toggleAddressModal}
-            requestVehicles={this.goToRequestVehicles}
-            toOrder={this.shouldRequestVehicles()}
+            toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
           />
         }
-
         {isActiveOrder && <ActiveOrderScene />}
         {isCompletedOrder && <CompletedOrderScene />}
 
         <MapView
           isActiveOrder={isActiveOrder}
           isCompletedOrder={isCompletedOrder}
-          isCurrentOrder={this.state.fromOrderList}
+          isCurrentOrder={fromOrderList}
           ref={(map) => { this.mapView = map; }}
         />
 
@@ -519,7 +501,7 @@ class Map extends Component {
             navigation={navigation}
             onActivate={this.handleHideHeader}
             onClose={this.handleShowHeader}
-            visible={!this.state.isHeaderEnable}
+            visible={!isHeaderEnable}
           />
         }
 
@@ -541,10 +523,6 @@ Map.propTypes = {
   getVehicles: PropTypes.func.isRequired,
   removeFields: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
-  addAddressPoint: PropTypes.func.isRequired,
-  changeAddressType: PropTypes.func.isRequired,
-  changeAddress: PropTypes.func.isRequired,
-  addressVisibleModal: PropTypes.func.isRequired,
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
   toggleVisibleModal: PropTypes.func.isRequired,
@@ -570,10 +548,6 @@ const mapState = ({ app, ui, bookings, session, passenger }) => ({
 const mapDispatch = {
   removeFields,
   changeFields,
-  addAddressPoint,
-  changeAddressType,
-  changeAddress,
-  addressVisibleModal,
   changePosition,
   errorPosition,
   createBooking,

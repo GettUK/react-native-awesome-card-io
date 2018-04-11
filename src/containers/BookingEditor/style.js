@@ -3,6 +3,10 @@ import { StyleSheet } from 'react-native';
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
+  wrapper: {
+    justifyContent: 'space-between',
+    flex: 1
+  },
   orderRideBtn: {
     alignSelf: 'stretch',
     flex: 1,
@@ -72,8 +76,12 @@ export default StyleSheet.create({
     padding: 5
   },
   currentPositionBtn: {
+    alignSelf: 'flex-start',
     marginBottom: 15,
     marginLeft: 15
+  },
+  currentPositionBtnContent: {
+    paddingHorizontal: 15
   },
   destinationBtns: {
     flexDirection: 'row',
