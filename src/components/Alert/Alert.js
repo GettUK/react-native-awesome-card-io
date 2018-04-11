@@ -50,7 +50,7 @@ class Alert extends PureComponent {
             transform: [{
               translateY: this.alertAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [position === 'bottom' ? 70 : -70, 0]
+                outputRange: [position === 'bottom' ? 120 : -120, 0]
               })
             }]
           }
