@@ -158,7 +158,6 @@ class OrdersList extends PureComponent {
           style={styles.orders}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
-          onEndReachedThreshold={0}
           onEndReached={this.getOrders}
           ListFooterComponent={loading && Platform.OS === 'ios' &&
             <Text style={{ textAlign: 'center' }}>Loading...</Text>
