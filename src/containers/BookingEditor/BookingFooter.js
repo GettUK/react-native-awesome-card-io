@@ -213,7 +213,8 @@ class BookingFooter extends PureComponent {
       map: { fields },
       data: { formData: { vehicles }, currentOrder: { busy } },
       toOrder,
-      getCurrentPosition
+      getCurrentPosition,
+      isAuthorizedPermission
     } = this.props;
 
     const availableVehicles = vehicles.data.filter(v => v.available);
@@ -231,13 +232,15 @@ class BookingFooter extends PureComponent {
         {
           !toOrder && (
             <View pointerEvents="box-none">
-              <Button
-                style={styles.currentPositionBtn}
-                styleContent={[styles.currentPositionBtnContent, styles.btnView]}
-                onPress={getCurrentPosition}
-              >
-                <Icon name="myLocation" size={22} color="#284784" />
-              </Button>
+              {isAuthorizedPermission('location') &&
+                <Button
+                  style={styles.currentPositionBtn}
+                  styleContent={[styles.currentPositionBtnContent, styles.btnView]}
+                  onPress={getCurrentPosition}
+                >
+                  <Icon name="myLocation" size={22} color="#284784" />
+                </Button>
+              }
               {this.renderAddressesSelector()}
             </View>
           )
@@ -336,6 +339,7 @@ BookingFooter.propTypes = {
   map: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   getCurrentPosition: PropTypes.func.isRequired,
+  isAuthorizedPermission: PropTypes.func.isRequired,
   createBooking: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   changeAddress: PropTypes.func.isRequired,
