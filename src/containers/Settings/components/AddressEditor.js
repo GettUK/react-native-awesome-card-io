@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry, isNull } from 'lodash';
-import { View, Text, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import update from 'update-js';
 
 import { sendAddress, touchField } from 'actions/passenger';
@@ -92,8 +92,8 @@ class AddressEditor extends Component {
       <View style={[styles.flex, styles.container]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={70}
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
+            keyboardVerticalOffset={80}
+            behavior="padding"
             style={styles.flex}
           >
             <View style={styles.flex}>

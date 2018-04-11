@@ -5,7 +5,6 @@ import {
   KeyboardAvoidingView,
   TouchableHighlight,
   StatusBar,
-  Platform,
   Image,
   View,
   Text
@@ -111,7 +110,7 @@ class Login extends Component {
         <Image style={styles.image} source={assets.loginBg} />
 
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          behavior="padding"
           style={styles.container}>
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
