@@ -83,7 +83,8 @@ class BookingEditor extends Component {
       requestVehicles,
       passenger,
       map: { fields },
-      changeAddress
+      changeAddress,
+      isAuthorizedPermission
     } = this.props;
 
     return (
@@ -105,6 +106,7 @@ class BookingEditor extends Component {
           requestVehicles={requestVehicles}
           toOrder={toOrder}
           openAddressModal={this.openAddressModal}
+          isAuthorizedPermission={isAuthorizedPermission}
         />
       </View>
     );
@@ -119,7 +121,8 @@ BookingEditor.propTypes = {
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   passenger: PropTypes.object,
-  requestVehicles: PropTypes.func.isRequired
+  requestVehicles: PropTypes.func.isRequired,
+  isAuthorizedPermission: PropTypes.func.isRequired
 };
 
 BookingEditor.defaultProps = {
