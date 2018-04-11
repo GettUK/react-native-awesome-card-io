@@ -7,7 +7,8 @@ import {
   StatusBar,
   Image,
   View,
-  Text
+  Text,
+  BackHandler
 } from 'react-native';
 import validate from 'validate.js';
 
@@ -31,11 +32,27 @@ import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
+const CURRENT_ROUTE = 'Login';
+
 class Login extends Component {
   state = {
     isResetSuccess: false,
     error: ''
   };
+
+  componentWillMount() {
+    this.backListener = BackHandler.addEventListener('backPress', () => {
+      const { router } = this.props;
+
+      if (router.routes[router.index].routeName !== CURRENT_ROUTE) {
+        this.props.navigation.dispatch({ type: 'Navigation/BACK' });
+
+        return true;
+      }
+
+      return false;
+    });
+  }
 
   componentWillUpdate({ login }, nextState) {
     if (nextState.isResetSuccess && !this.state.isResetSuccess) {
@@ -47,6 +64,12 @@ class Login extends Component {
 
       this.setState({ error }, this.showError);
     }
+  }
+
+  componentWillUnmount() {
+    this.backListener.remove();
+
+    BackHandler.removeEventListener('backPress');
   }
 
   handleSubmit = () => {
@@ -174,8 +197,9 @@ Login.propTypes = {
 
 Login.defaultProps = {};
 
-const select = ({ ui }) => ({
-  login: ui.login
+const select = ({ ui, router }) => ({
+  login: ui.login,
+  router: router.navigatorLogin
 });
 
 const bindActions = {
