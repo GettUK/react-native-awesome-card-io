@@ -31,7 +31,7 @@ export default class PointList extends PureComponent {
 
   handleDestinationAddressPress = () => this.handleAddressPress('destinationAddress');
 
-  hasAddressType = type => has(this.props.data, type);
+  hasAddressType = type => has(this.props.data, type) && !!this.props.data[type];
 
   renderAddressLabel(name) {
     const { data } = this.props;
