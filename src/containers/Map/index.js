@@ -50,6 +50,12 @@ import MapView from './MapView';
 
 import styles from './style';
 
+const geoLocationOptions = {
+  enableHighAccuracy: false,
+  timeout: 3000,
+  maximumAge: 1000
+};
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -62,12 +68,10 @@ class Map extends Component {
 
   componentWillMount() {
     this.props.requestLocation();
+    setTimeout(this.setCurrentPosition, 1000);
   }
 
   componentDidMount() {
-    this.getCurrentPosition();
-    this.watchPosition();
-
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
@@ -82,12 +86,7 @@ class Map extends Component {
       statuses.permissions.location !== statusesProps.permissions.location &&
       statuses.permissions.location === PERMISSION_STATUS.authorized
     ) {
-      this.props.checkMultiplePermissions(['location']).then(({ location }) => {
-        if (location === PERMISSION_STATUS.authorized) {
-          this.getCurrentPosition();
-          this.watchPosition();
-        }
-      });
+      this.setCurrentPosition();
     }
 
     if (canceledByUser && !canceledByUserProps) {
@@ -101,16 +100,20 @@ class Map extends Component {
     PN.clearNotificationListener();
   }
 
-  watchPosition = () => {
-    const { map: { options } } = this.props;
+  setCurrentPosition = () => {
+    this.props.checkMultiplePermissions(['location']).then(({ location }) => {
+      if (location === PERMISSION_STATUS.authorized) {
+        this.getCurrentPosition();
+      }
+    });
+  };
 
-    if (this.isAuthorizedPermission('location')) {
-      this.watchID = navigator.geolocation.watchPosition(
-        this.props.changePosition,
-        this.props.errorPosition,
-        options
-      );
-    }
+  watchPosition = () => {
+    this.watchID = navigator.geolocation.watchPosition(
+      this.props.changePosition,
+      this.props.errorPosition,
+      geoLocationOptions
+    );
   };
 
   clearWatchPosition = () => {
@@ -128,20 +131,17 @@ class Map extends Component {
   };
 
   getCurrentPosition = () => {
-    const { map: { options } } = this.props;
-    if (this.isAuthorizedPermission('location')) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.mapView.wrappedInstance.animateToRegion({
-            latitude: parseFloat(position.coords.latitude),
-            longitude: parseFloat(position.coords.longitude)
-          });
-          this.props.changePosition(position);
-        },
-        this.props.errorPosition,
-        options
-      );
-    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.mapView.wrappedInstance.animateToRegion({
+          latitude: parseFloat(position.coords.latitude),
+          longitude: parseFloat(position.coords.longitude)
+        });
+        this.props.changePosition(position);
+      },
+      this.props.errorPosition,
+      geoLocationOptions
+    );
   };
 
   getAvailableVehicles = () => {
@@ -482,6 +482,7 @@ class Map extends Component {
             requestVehicles={this.goToRequestVehicles}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
+            isAuthorizedPermission={this.isAuthorizedPermission}
           />
         }
         {isActiveOrder && <ActiveOrderScene />}
