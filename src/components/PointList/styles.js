@@ -4,6 +4,7 @@ export default StyleSheet.create({
   wrapper: {
     flexDirection: 'column',
     backgroundColor: '#fff',
+    minHeight: 50,
     borderRadius: 10,
     paddingVertical: 7,
     paddingHorizontal: 20,
