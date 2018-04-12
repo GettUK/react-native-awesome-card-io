@@ -40,9 +40,9 @@ class OrdersList extends PureComponent {
   };
 
   componentDidMount() {
-    if (!this.props.items.length) {
-      this.getOrders();
-    } else {
+    this.getOrders();
+
+    if (this.props.meta) {
       this.updateCounter(this.props.meta);
     }
   }
