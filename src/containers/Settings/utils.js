@@ -1,5 +1,7 @@
 import { strings } from 'locales';
 
+import { vehiclesData } from 'containers/shared/bookings/data';
+
 import styles from './style';
 
 function prepareName({ firstName = '', lastName = '' }) {
@@ -21,15 +23,18 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
     },
     {
       title: strings('settings.label.phone'),
-      rightTitle: passenger.phone || ''
+      rightTitle: passenger.phone || '',
+      onPress: handlers.goToPhoneEditor
     },
     {
       title: strings('settings.label.email'),
-      rightTitle: passenger.email || ''
+      rightTitle: passenger.email || '',
+      onPress: handlers.goToEmailEditor
     },
     {
       title: strings('settings.label.cartype'),
-      rightTitle: passenger.defaultVehicle || strings('settings.none')
+      rightTitle: passenger.defaultVehicle ? vehiclesData[passenger.defaultVehicle].label : strings('settings.none'),
+      onPress: handlers.goToCarTypesEditor
     }
   ];
 }
@@ -153,4 +158,34 @@ export const emptyFavouriteAddress = {
   pickupMessage: '',
   destinationMessage: '',
   address: emptyAddress
+};
+
+export const validationRules = {
+  firstName: {
+    presence: {
+      allowEmpty: false
+    }
+  },
+  lastName: {
+    presence: {
+      allowEmpty: false
+    }
+  },
+  email: {
+    presence: {
+      allowEmpty: false
+    },
+    email: {
+      message: strings('validation.email.format')
+    }
+  },
+  phone: {
+    presence: {
+      allowEmpty: false
+    },
+    length: {
+      is: 10,
+      message: strings('validation.phone.length')
+    }
+  }
 };

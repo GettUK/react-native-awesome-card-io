@@ -9,7 +9,9 @@ export const initialState = {
   },
   busy: false,
   errors: null,
-  temp: {}
+  temp: {
+    validationError: null
+  }
 };
 
 const getPassengerDataStart = state => update(state, { busy: true, errors: null });
@@ -21,12 +23,15 @@ const getPassengerDataFailure = (state, { payload }) => update(state, { busy: fa
 const setInitialProfileValues = state => update(state, 'temp', state.data.passenger);
 
 const changeProfileFieldValue = (state, { payload: { field, value } }) =>
-  update(state, { 'temp.profileTouched': true, [`temp.${field}`]: value });
+  update(state, { 'temp.profileTouched': true, [`temp.${field}`]: value, 'temp.validationError': null });
 
 const sendProfileDataSuccess = state => update.assign(state, 'data.passenger', {
   firstName: state.temp.firstName,
   lastName: state.temp.lastName,
-  avatar: state.temp.avatar
+  avatar: state.temp.avatar,
+  defaultVehicle: state.temp.defaultVehicle,
+  email: state.temp.email,
+  phone: state.temp.phone
 });
 
 const updatePredefinedAddress = (state, { payload: { predefinedAddressType, address } }) =>
@@ -54,6 +59,9 @@ const touchField = (state, { payload: { field, value } }) => update(state, `temp
 
 const clearPassenger = () => initialState;
 
+const setValidationError = (state, { payload: { error } }) =>
+  update(state, 'temp.validationError', error);
+
 export default composeReducer('passenger', {
   getPassengerDataStart,
   getPassengerDataSuccess,
@@ -69,5 +77,6 @@ export default composeReducer('passenger', {
   changeToggleValueSuccess,
   changeToggleValueFailure,
   touchField,
-  clearPassenger
+  clearPassenger,
+  setValidationError
 }, initialState);

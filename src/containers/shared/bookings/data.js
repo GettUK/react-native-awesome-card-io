@@ -79,3 +79,8 @@ export const allVehicles = [{
 }];
 
 export const vehiclesData = keyBy(allVehicles, 'name');
+
+export const backOfficeBaseVehicles = allVehicles.filter(v =>
+  !['Courier', 'OTBlackTaxi', 'OTBlackTaxiXL'].includes(v.name));
+export const baseVehicles = backOfficeBaseVehicles.filter(v => v.name !== 'Special');
+

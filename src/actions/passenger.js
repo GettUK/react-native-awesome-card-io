@@ -21,7 +21,8 @@ const TYPES = createTypes('passenger', [
   'changeToggleValueSuccess',
   'changeToggleValueFailure',
   'touchField',
-  'clearPassenger'
+  'clearPassenger',
+  'setValidationError'
 ]);
 
 export const getPassengerData = () => (dispatch, getState) => {
@@ -52,6 +53,10 @@ export const setInitialProfileValues = () => (dispatch) => {
 export const changeProfileFieldValue = curry((field, value) => (dispatch) => {
   dispatch({ type: TYPES.changeProfileFieldValue, payload: { field, value } });
 });
+
+export const setValidationError = error => (dispatch) => {
+  dispatch({ type: TYPES.setValidationError, payload: { error } });
+};
 
 export const sendProfileData = () => (dispatch, getState) => {
   dispatch({ type: TYPES.sendProfileDataStart });

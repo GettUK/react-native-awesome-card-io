@@ -16,6 +16,7 @@ import distance from './distance';
 import editAndroid from './editAndroid';
 import email from './email';
 import home from './home';
+import vehicleInfo from './info';
 import journeyTime from './journeyTime';
 import logo from './logo';
 import myLocation from './myLocation';
@@ -26,6 +27,7 @@ import pointer from './pointer';
 import plus from './plus';
 import push from './push';
 import search from './search';
+import selected from './selected';
 import settings from './settings';
 import sms from './sms';
 import sourceMarker from './sourceMarker';
@@ -61,6 +63,7 @@ export default {
   editAndroid,
   email,
   home,
+  vehicleInfo,
   journeyTime,
   logo,
   myLocation,
@@ -71,6 +74,7 @@ export default {
   pointer,
   push,
   search,
+  selected,
   settings,
   sms,
   sourceMarker,
