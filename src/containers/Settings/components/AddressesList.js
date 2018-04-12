@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { View, ScrollView, Text, TouchableOpacity, FlatList } from 'react-native';
 import capitalize from 'lodash/capitalize';
 
+
 import { Icon } from 'components';
+import { throttledAction } from 'utils';
 import { emptyAddress } from '../utils';
 import styles from './AddressStyles';
 
@@ -16,9 +18,9 @@ class AddressesList extends Component {
     favoriteAddresses: PropTypes.array
   };
 
-  goToAddressEditor = (address, predefinedType) => {
+  goToAddressEditor = throttledAction((address, predefinedType) => {
     this.props.navigation.navigate('AddressEditor', { address, predefinedType });
-  };
+  });
 
   renderExistPredefinedAddress = (type, data) => (
       <View style={styles.predefinedAddress}>

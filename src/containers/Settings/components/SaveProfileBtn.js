@@ -4,19 +4,20 @@ import { connect } from 'react-redux';
 import { Text, TouchableOpacity } from 'react-native';
 import { sendProfileData } from 'actions/passenger';
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
 
 class SaveProfileBtn extends Component {
   static propTypes = {
     touched: PropTypes.bool
   };
 
-  handleSave = () => {
+  handleSave = throttledAction(() => {
     if (this.props.touched) {
       const { sendProfileData, navigation } = this.props;
       sendProfileData()
         .then(() => navigation.goBack(null));
     }
-  };
+  });
 
   render() {
     return (

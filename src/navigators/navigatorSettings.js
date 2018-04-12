@@ -19,6 +19,10 @@ import {
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
+
+const addNewAddress = throttledAction(navigation =>
+  navigation.navigate('AddressEditor', { address: emptyFavouriteAddress }));
 
 const headerStyle = {
   backgroundColor: '#fff',
@@ -35,13 +39,13 @@ const RoutesConfig = {
       title: strings('settings.headerTitle'),
       headerBackTitle: strings('back'),
       headerLeft: (
-          <View style={{ flexDirection: 'row' }}>
-            <NavImageButton
-              onClick={() => screenProps.rootNavigation.goBack(null)}
-              styleView={{ marginLeft: 10 }}
-              icon={<Icon size={30} name="close" color="#000" />}
-            />
-          </View>
+        <View style={{ flexDirection: 'row' }}>
+          <NavImageButton
+            onClick={() => screenProps.rootNavigation.goBack(null)}
+            styleView={{ marginLeft: 10 }}
+            icon={<Icon size={30} name="close" color="#000" />}
+          />
+        </View>
       )
     })
   },
@@ -62,7 +66,7 @@ const RoutesConfig = {
       headerLeft: <BackBtn navigation={navigation} />,
       headerRight: (
         <NavImageButton
-          onClick={() => navigation.navigate('AddressEditor', { address: emptyFavouriteAddress })}
+          onClick={() => addNewAddress(navigation)}
           styleView={{ marginRight: 10 }}
           icon={<Icon size={24} name="plus" color="#284784" />}
         />
