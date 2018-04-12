@@ -238,6 +238,15 @@ class Map extends Component {
       scheduledAtTime = scheduledAt.format();
     }
 
+    const processedPassengerName = passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName;
+    const processedPassengerPhone = passenger ? passenger.phone : passengerPhone;
+    const processedStops = stops && stops.map(s => ({
+      address: s,
+      name: processedPassengerName,
+      phone: processedPassengerPhone,
+      passengerId
+    }));
+
     this.props.getVehicles({
       fromPostalCode: pickupAddress.postalCode,
       fromLat: pickupAddress.lat,
@@ -248,14 +257,14 @@ class Map extends Component {
       fromPlaceId: pickupAddress.placeId,
       ...this.destinationFields(),
       scheduledAt: scheduledAtTime,
-      passengerName: passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName,
-      passengerPhone: passenger ? passenger.phone : passengerPhone,
+      passengerName: processedPassengerName,
+      passengerPhone: processedPassengerPhone,
       passengerId,
       paymentMethod,
       paymentType,
       paymentCardId,
       scheduledType,
-      stops
+      stops: processedStops
     }).then(() => {
       const vehicle = this.lookupVehicle();
       this.props.changeFields({
