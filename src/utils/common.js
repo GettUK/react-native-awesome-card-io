@@ -9,6 +9,7 @@ import {
   isString,
   isUndefined
 } from 'lodash/fp';
+import { throttle } from 'lodash';
 
 export const capitalize = ([first, ...rest]) =>
   (!isUndefined(first) ? first.toUpperCase() + rest.join('').toLowerCase() : '');
@@ -42,4 +43,8 @@ export function nullAddress(line = null) {
 
 export function formatPrice(value) {
   return `£${(value / 100).toFixed(2)}`;
+}
+
+export function throttledAction(fn) {
+  return throttle(fn, 1000, { trailing: false });
 }

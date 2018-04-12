@@ -6,6 +6,7 @@ import { ScrollView, View } from 'react-native';
 import { getPassengerData, changeToggleValue } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
 import { deleteToken } from 'actions/app/pushNotifications';
+import { throttledAction } from 'utils';
 
 import {
   prepareProfileBlock,
@@ -35,27 +36,27 @@ class Settings extends Component {
     }
   };
 
-  goToEditProfile = () => {
+  goToEditProfile = throttledAction(() => {
     this.props.navigation.navigate('EditProfile');
-  };
+  });
 
-  goToAddressesList = () => {
+  goToAddressesList = throttledAction(() => {
     this.props.navigation.navigate('AddressesList');
-  };
+  });
 
-  goToAddressEditor = (predefinedType) => {
+  goToAddressEditor = throttledAction((predefinedType) => {
     const { navigation, passengerData } = this.props;
     const address = passengerData.passenger[`${predefinedType}Address`] || emptyAddress;
     navigation.navigate('AddressEditor', { address, predefinedType });
-  };
+  });
 
-  goToMyRides = () => {
+  goToMyRides = throttledAction(() => {
     this.props.screenProps.rootNavigation.navigate('OrdersView');
-  };
+  });
 
-  goToInfoPage = (page) => {
+  goToInfoPage = throttledAction((page) => {
     this.props.navigation.navigate('InfoPages', { page });
-  };
+  });
 
   renderBlock = (data, index) => (
     <View key={index} style={styles.blockItems}>
@@ -87,7 +88,7 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  // navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
   getPassengerData: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired
 };

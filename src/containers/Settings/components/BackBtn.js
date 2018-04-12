@@ -6,6 +6,8 @@ import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import { Icon } from 'components';
 
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
+
 
 import { showConfirmationAlert } from 'utils';
 
@@ -37,9 +39,9 @@ class BackBtn extends Component {
     }
   };
 
-  goBack = () => {
+  goBack = throttledAction(() => {
     this.props.navigation.goBack(null);
-  };
+  });
 
   render() {
     return (

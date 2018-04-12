@@ -8,6 +8,7 @@ import update from 'update-js';
 import { sendAddress, touchField } from 'actions/passenger';
 import { Button, Input, DismissKeyboardView, AddressModal } from 'components';
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
 
 import { emptyAddress } from '../utils';
 
@@ -45,7 +46,7 @@ class AddressEditor extends Component {
 
   addressInput = null;
 
-  goBack = () => this.props.navigation.goBack(null);
+  goBack = throttledAction(() => this.props.navigation.goBack(null));
 
   handleInputChange = curry((field, value) => {
     this.setState(state => update(state, { [`address.${field}`]: value, touched: true }));
