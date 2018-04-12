@@ -74,20 +74,7 @@ class Map extends Component {
 
     setTimeout(this.setCurrentPosition, 1000);
 
-    this.backListener = BackHandler.addEventListener('hardwareBack', () => {
-      const isPreOrder = this.isActiveSceneIs('preOrder');
-      const { map: { fields }, router } = this.props;
-
-      if (!(isPreOrder && !this.shouldRequestVehicles())) {
-        this.handleBackBtnPress();
-        return true;
-      } else if (!isPreOrder || fields.destinationAddress || router.routes[router.index].routeName !== CURRENT_ROUTE) {
-        this.goBack();
-        return true;
-      }
-
-      return false;
-    });
+    this.registerBackListener();
   }
 
   componentDidMount() {
@@ -121,6 +108,26 @@ class Map extends Component {
     this.backListener.remove();
 
     BackHandler.removeEventListener('hardwareBack');
+  }
+
+  registerBackListener = () => {
+    this.backListener = BackHandler.addEventListener('hardwareBack', () => {
+      const isPreOrder = this.isActiveSceneIs('preOrder');
+      const { map: { fields }, router } = this.props;
+
+      if (router.routes[router.index].routeName !== CURRENT_ROUTE) {
+        this.goBack();
+        return true;
+      } else if (!(isPreOrder && !this.shouldRequestVehicles())) {
+        this.handleBackBtnPress();
+        return true;
+      } else if (!isPreOrder || fields.destinationAddress) {
+        this.goBack();
+        return true;
+      }
+
+      return false;
+    });
   }
 
   setCurrentPosition = () => {
