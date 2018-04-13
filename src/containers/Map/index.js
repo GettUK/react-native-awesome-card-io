@@ -10,10 +10,12 @@ import {
   DatePickerIOS,
   DatePickerAndroid,
   TimePickerAndroid,
-  BackHandler
+  BackHandler,
+  NativeModules,
+  DeviceEventEmitter
 } from 'react-native';
 import moment from 'moment';
-import { every, find, first, has, isEmpty } from 'lodash';
+import { every, find, first, has, isNull, isEmpty } from 'lodash';
 
 import { Icon, Button, Modal, Alert } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -51,10 +53,11 @@ import MapView from './MapView';
 
 import styles from './style';
 
+const { RNLocation: Location } = NativeModules;
+
 const geoLocationOptions = {
-  enableHighAccuracy: false,
-  timeout: 3000,
-  maximumAge: 1000
+  timeout: 2500,
+  highAccuracy: true
 };
 
 const CURRENT_ROUTE = 'MapView';
@@ -72,7 +75,7 @@ class Map extends Component {
   componentWillMount() {
     this.props.requestLocation();
 
-    setTimeout(this.setCurrentPosition, 1000);
+    this.setCurrentPosition();
 
     this.registerBackListener();
   }
@@ -81,11 +84,16 @@ class Map extends Component {
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
-  componentWillReceiveProps({ app: { statuses }, canceledByUser }) {
+  componentWillReceiveProps({ map: { currentPosition }, app: { statuses }, canceledByUser }) {
     const {
+      map: { currentPosition: currentPositionProps },
       app: { statuses: statusesProps },
       canceledByUser: canceledByUserProps
     } = this.props;
+
+    if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
+      setTimeout(this.getCurrentPosition, 250);
+    }
 
     if (
       statuses.permissions && statusesProps.permissions &&
@@ -101,8 +109,6 @@ class Map extends Component {
   }
 
   componentWillUnmount() {
-    this.clearWatchPosition();
-
     PN.clearNotificationListener();
 
     this.backListener.remove();
@@ -128,12 +134,18 @@ class Map extends Component {
 
       return false;
     });
-  }
+  };
 
   setCurrentPosition = () => {
     this.props.checkMultiplePermissions(['location']).then(({ location }) => {
       if (location === PERMISSION_STATUS.authorized) {
-        this.getCurrentPosition();
+        if (Platform.OS === 'ios') {
+          Location.startUpdatingLocation();
+        } else {
+          Location.startUpdatingLocation(geoLocationOptions);
+        }
+
+        DeviceEventEmitter.addListener('locationUpdated', this.props.changePosition);
       }
     });
   };
@@ -144,20 +156,6 @@ class Map extends Component {
     });
   };
 
-  watchPosition = () => {
-    this.watchID = navigator.geolocation.watchPosition(
-      this.props.changePosition,
-      this.props.errorPosition,
-      geoLocationOptions
-    );
-  };
-
-  clearWatchPosition = () => {
-    if (this.isAuthorizedPermission('location')) {
-      navigator.geolocation.clearWatch(this.watchID);
-    }
-  };
-
   isAuthorizedPermission = (permission) => {
     const { app: { statuses } } = this.props;
     return (
@@ -166,18 +164,18 @@ class Map extends Component {
     );
   };
 
+  animateToRegion = ({ latitude, longitude }) => {
+    this.mapView.wrappedInstance.animateToRegion({
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude)
+    });
+  };
+
   getCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.mapView.wrappedInstance.animateToRegion({
-          latitude: parseFloat(position.coords.latitude),
-          longitude: parseFloat(position.coords.longitude)
-        });
-        this.props.changePosition(position);
-      },
-      this.props.errorPosition,
-      geoLocationOptions
-    );
+    const { map: { currentPosition } } = this.props;
+    if (!isNull(currentPosition)) {
+      this.animateToRegion(currentPosition);
+    }
   };
 
   getAvailableVehicles = () => {

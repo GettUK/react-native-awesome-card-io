@@ -210,7 +210,7 @@ class BookingFooter extends PureComponent {
 
   renderFooter() {
     const {
-      map: { fields },
+      map: { fields, currentPosition },
       data: { formData: { vehicles }, currentOrder: { busy } },
       toOrder,
       getCurrentPosition,
@@ -232,7 +232,7 @@ class BookingFooter extends PureComponent {
         {
           !toOrder && (
             <View pointerEvents="box-none">
-              {isAuthorizedPermission('location') &&
+              {isAuthorizedPermission('location') && !isNull(currentPosition) &&
                 <Button
                   style={styles.currentPositionBtn}
                   styleContent={[styles.currentPositionBtnContent, styles.btnView]}

@@ -29,6 +29,7 @@
 		7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1DC2041B920009D2E2B /* libRCTGeolocation.a */; };
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
+		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
@@ -278,6 +279,13 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		927644582081143600946644 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 927644362081143500946644 /* RNLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLocation;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -313,6 +321,7 @@
 		7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "login-bg.jpg"; path = "oteApp/login-bg.jpg"; sourceTree = "<group>"; };
 		7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
+		927644362081143500946644 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-gps/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -329,6 +338,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9276445B2081147500946644 /* libRNLocation.a in Frameworks */,
 				7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */,
 				7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */,
 				7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */,
@@ -499,6 +509,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				927644362081143500946644 /* RNLocation.xcodeproj */,
 				7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */,
 				7D7ACDC0204D5FCC00298C96 /* SplashScreen.xcodeproj */,
 				7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */,
@@ -535,6 +546,14 @@
 				00E356EE1AD99517003FC87E /* oteAppTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* oteApp-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* oteApp-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		927644372081143500946644 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				927644592081143600946644 /* libRNLocation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -735,6 +754,10 @@
 				{
 					ProductGroup = 7D8BC13F2041ACA9009D2E2B /* Products */;
 					ProjectRef = 7D8BC13E2041ACA9009D2E2B /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 927644372081143500946644 /* Products */;
+					ProjectRef = 927644362081143500946644 /* RNLocation.xcodeproj */;
 				},
 				{
 					ProductGroup = 7D7ACDC1204D5FCC00298C96 /* Products */;
@@ -974,6 +997,13 @@
 			fileType = archive.ar;
 			path = libRCTAnimation.a;
 			remoteRef = 7DB89A1F206D3E4100BF652B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		927644592081143600946644 /* libRNLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLocation.a;
+			remoteRef = 927644582081143600946644 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1371,6 +1401,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gps",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1403,6 +1434,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gps",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
