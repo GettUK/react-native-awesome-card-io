@@ -13,7 +13,8 @@ export default class PointList extends PureComponent {
       PropTypes.number
     ]),
     data: PropTypes.object.isRequired,
-    onAddressPress: PropTypes.func
+    onAddressPress: PropTypes.func,
+    onStopAdd: PropTypes.func
   };
 
   static defaultProps = {
@@ -42,6 +43,12 @@ export default class PointList extends PureComponent {
         </Text>
     );
   }
+
+  renderStopsCount = count => (
+    <Text style={[styles.pickUpText, { fontWeight: '600' }]} numberOfLines={1}>
+      {`${count} Stops Points`}
+    </Text>
+  )
 
   renderPickUpItem = () => (
     <TouchableOpacity
@@ -85,7 +92,8 @@ export default class PointList extends PureComponent {
   };
 
   renderDestinationItem = () => {
-    const { data, allowAddingStops, onAddressPress } = this.props;
+    const { data, allowAddingStops, onStopAdd } = this.props;
+
     return (
       this.hasAddressType('destinationAddress') &&
       <View style={styles.row}>
@@ -99,13 +107,16 @@ export default class PointList extends PureComponent {
             color="#f00"
             size={18}
           />
-          {this.renderAddressLabel('destinationAddress')}
+          {allowAddingStops && data.stops && data.stops.length
+            ? this.renderStopsCount(data.stops.length + 1)
+            : this.renderAddressLabel('destinationAddress')
+          }
         </TouchableOpacity>
 
         {allowAddingStops && (!data.stops || data.stops.length < 4) &&
           <TouchableOpacity
             style={styles.btnPlus}
-            onPress={() => { onAddressPress(null, { type: 'stops' }); }}>
+            onPress={onStopAdd}>
             <Icon name="plus" color="#8d8d8d" size={18} />
           </TouchableOpacity>
         }
@@ -114,12 +125,12 @@ export default class PointList extends PureComponent {
   };
 
   render() {
-    const { style } = this.props;
+    const { style, allowAddingStops } = this.props;
 
     return (
       <View style={[styles.wrapper, style]}>
         {this.renderPickUpItem()}
-        {this.renderStopsItem()}
+        {!allowAddingStops && this.renderStopsItem()}
         {this.hasAddressType('destinationAddress') && this.hasAddressType('pickupAddress') &&
           <View style={styles.delimiter} />
         }

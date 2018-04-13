@@ -6,23 +6,27 @@ import moment from 'moment';
 import { isEmpty, find, isEqual, has } from 'lodash';
 import { getFormData } from 'actions/booking';
 import { changeFields, changeAddress } from 'actions/ui/map';
-import { PointList, AddressModal } from 'components';
+import { PointList, AddressModal, StopPointsModal } from 'components';
 import BookingFooter from './BookingFooter';
 import { prepareDefaultValues } from './utils';
 import styles from './style';
 
 class BookingEditor extends Component {
   state = {
-    loadBookingRequested: false
+    loadBookingRequested: false,
+    isStopPointsModalVisible: false
   };
 
-  componentWillReceiveProps({ bookings: { formData }, map }) {
+  componentWillReceiveProps({ bookings: { formData }, map }, { isStopPointsModalVisible }) {
     const { map: propsMap, requestVehicles, memberId, passenger } = this.props;
-    if ((!formData.vehicles.loaded && !formData.vehicles.loading) ||
-        !isEqual(map.fields.stops, propsMap.fields.stops) ||
-        !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
-        !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress) ||
-        !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod)) {
+
+    const isDriveChanged = (!formData.vehicles.loaded && !formData.vehicles.loading) ||
+      !isEqual(map.fields.stops, propsMap.fields.stops) ||
+      !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
+      !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress) ||
+      !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod);
+
+    if (!isStopPointsModalVisible && isDriveChanged) {
       requestVehicles();
     }
 
@@ -75,6 +79,38 @@ class BookingEditor extends Component {
     this.addressModal.open(address, meta);
   };
 
+  handleEditPoint = (address, meta) => {
+    this.setState({ isStopPointsModalVisible: false }, () => {
+      setTimeout(() => this.openAddressModal(address, meta), 500);
+    });
+  }
+
+  handleAddStop = () => {
+    this.handleEditPoint(null, { type: 'stops' });
+  }
+
+  showStopPointsModal = () => {
+    this.setState({ isStopPointsModalVisible: true });
+  };
+
+  hideStopPointsModal = () => {
+    this.setState({ isStopPointsModalVisible: false });
+  };
+
+  prepareStopsData = () => {
+    const { map: { fields: { destinationAddress, stops } } } = this.props;
+
+    const stopsObject = (stops || []).reduce((stop, item, index) => ({
+      ...stop,
+      [`stop${index}`]: item
+    }), {});
+
+    return {
+      ...stopsObject,
+      [`stop${(stops || []).length}`]: destinationAddress
+    };
+  }
+
   render() {
     const {
       navigation,
@@ -84,6 +120,7 @@ class BookingEditor extends Component {
       passenger,
       map: { fields },
       changeAddress,
+      changeFields,
       isAuthorizedPermission
     } = this.props;
 
@@ -94,11 +131,24 @@ class BookingEditor extends Component {
           defaultValues={prepareDefaultValues(passenger)}
           onChange={changeAddress}
         />
+
         <PointList
           style={styles.pointList}
           onAddressPress={this.openAddressModal}
+          onStopAdd={this.showStopPointsModal}
           data={fields}
         />
+
+        <StopPointsModal
+          data={this.prepareStopsData()}
+          isVisible={this.state.isStopPointsModalVisible}
+          onAddPoint={this.handleAddStop}
+          onEditAddress={this.handleEditPoint}
+          onRowMoved={requestVehicles}
+          onChangeAddress={changeFields}
+          onClose={this.hideStopPointsModal}
+        />
+
         <BookingFooter
           navigation={navigation}
           getCurrentPosition={getCurrentPosition}
