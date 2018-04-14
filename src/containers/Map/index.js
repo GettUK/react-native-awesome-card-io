@@ -391,6 +391,10 @@ class Map extends Component {
       this.getCurrentPosition();
 
       this.setState({ fromOrderList: false });
+    } else if (this.props.navigation.state.params.fromSettings) {
+      this.props.navigation.goBack();
+
+      setTimeout(clearCurrentOrder); // needed for smooth navigation animation
     } else {
       this.goToInitialization();
     }
