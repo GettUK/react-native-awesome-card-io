@@ -5,12 +5,10 @@ import { curry, isNull } from 'lodash';
 import { View, Text, KeyboardAvoidingView, ScrollView, BackHandler } from 'react-native';
 import update from 'update-js';
 
-import { showConfirmationAlert } from 'utils';
-
 import { sendAddress, touchField } from 'actions/passenger';
 import { Button, Input, DismissKeyboardView, AddressModal } from 'components';
 import { strings } from 'locales';
-import { throttledAction } from 'utils';
+import { throttledAction, showConfirmationAlert } from 'utils';
 
 import { emptyAddress } from '../utils';
 

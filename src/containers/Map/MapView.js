@@ -29,7 +29,7 @@ class MapView extends Component {
       const multiplier = this.getMultiplier();
 
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
-    } else if (!isCompletedOrder) {
+    } else if (!isCompletedOrder && !currentOrder) {
       if (this.isPathChanged(fields, fieldsProps) ||
         (!isActiveOrder && isActiveOrderProps && fields.destinationAddress)) {
         const { source, dest, stops } = this.preparePointsList(fields);

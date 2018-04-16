@@ -65,7 +65,8 @@ class Map extends Component {
     this.state = {
       date: new Date(),
       isHeaderEnable: true,
-      fromOrderList: false
+      fromOrderList: false,
+      fromSettings: false
     };
   }
 
@@ -327,8 +328,8 @@ class Map extends Component {
     return vehicle;
   };
 
-  handleBackFromOrderList = () => {
-    this.setState({ fromOrderList: true });
+  handleBackFromOrderList = ({ fromSettings = false }) => {
+    this.setState({ fromOrderList: true, fromSettings });
   };
 
   handleHideHeader = () => {
@@ -340,11 +341,15 @@ class Map extends Component {
   };
 
   goToSettings = () => {
-    this.props.navigation.navigate('Settings', {});
+    this.props.navigation.navigate('Settings', { onGoToRides: this.goToOrders });
   };
 
-  goToOrders = () => {
-    this.props.navigation.navigate('OrdersView', { onBack: this.handleBackFromOrderList });
+  goToOrders = ({ fromSettings = false }) => {
+    this.props.navigation.navigate('OrdersView', {
+      onBack: this.handleBackFromOrderList,
+      fromSettings,
+      onGoToRides: this.goToOrders
+    });
   };
 
   togglePickerModal = () => {
@@ -385,16 +390,12 @@ class Map extends Component {
     if (isPreOrder) {
       this.cancelOrderCreation();
     } else if (this.state.fromOrderList) {
-      this.goToOrders();
+      this.goToOrders({ fromSettings: this.state.fromSettings });
       setTimeout(clearCurrentOrder); // needed for smooth navigation animation
 
       this.getCurrentPosition();
 
-      this.setState({ fromOrderList: false });
-    } else if (this.props.navigation.state.params.fromSettings) {
-      this.props.navigation.goBack();
-
-      setTimeout(clearCurrentOrder); // needed for smooth navigation animation
+      this.setState({ fromOrderList: false, fromSettings: false });
     } else {
       this.goToInitialization();
     }

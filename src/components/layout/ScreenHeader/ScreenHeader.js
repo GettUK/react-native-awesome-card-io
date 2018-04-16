@@ -26,7 +26,7 @@ export default function ScreenHeader(props) {
         end={gradientEnd}
         colors={gradientColors}
       >
-        <TouchableOpacity activeOpacity={backBtnOpacity} onPress={goBack} style={styles.backBtn}>
+        <TouchableOpacity activeOpacity={backBtnOpacity} onPress={props.onBackPress || goBack} style={styles.backBtn}>
           <Icon style={styles.backIcon} name="back" size={backIconSize} color={backIconColor} />
           <Text style={styles.text}>Back</Text>
         </TouchableOpacity>

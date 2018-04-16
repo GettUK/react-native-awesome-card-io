@@ -6,10 +6,7 @@ import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import { Icon } from 'components';
 
 import { strings } from 'locales';
-import { throttledAction } from 'utils';
-
-
-import { showConfirmationAlert } from 'utils';
+import { throttledAction, showConfirmationAlert } from 'utils';
 
 const styles = StyleSheet.create({
   container: {
