@@ -118,7 +118,7 @@ class AddressEditor extends Component {
             style={styles.flex}
           >
             <View style={styles.flex}>
-              <ScrollView>
+              <ScrollView keyboardShouldPersistTaps="handled">
                 {!this.isPredefinedAddress &&
                   this.renderInput({
                     label: `Address Name (${this.getFieldLength(address.name)}/32)`,
