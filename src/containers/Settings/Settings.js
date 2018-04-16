@@ -51,7 +51,7 @@ class Settings extends Component {
   });
 
   goToMyRides = throttledAction(() => {
-    this.props.screenProps.rootNavigation.navigate('OrdersView');
+    this.props.screenProps.rootNavigation.navigate('OrdersView', { fromSettings: true });
   });
 
   goToInfoPage = throttledAction((page) => {
