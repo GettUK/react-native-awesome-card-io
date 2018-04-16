@@ -78,7 +78,9 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
     {
       leftIconName: 'push',
       title: strings('settings.label.notification'),
-      switchButton: true
+      switchButton: true,
+      switched: passenger.notifyWithPush || false,
+      onSwitch: v => handlers.handleToggleChange('notifyWithPush', v)
     },
     {
       leftIconName: 'calendar',
