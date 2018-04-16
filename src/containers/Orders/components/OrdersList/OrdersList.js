@@ -59,13 +59,9 @@ class OrdersList extends PureComponent {
     const { setActiveBooking, screenProps: { rootNavigation } } = this.props;
     setActiveBooking(id)
       .then(() => {
-        if (rootNavigation.state.params.fromSettings) {
-          rootNavigation.navigate('MapView', { fromSettings: true });
-        } else {
-          rootNavigation.state.params.onBack();
+        rootNavigation.state.params.onBack({ fromSettings: rootNavigation.state.params.fromSettings });
 
-          rootNavigation.goBack();
-        }
+        rootNavigation.goBack();
       });
   };
 

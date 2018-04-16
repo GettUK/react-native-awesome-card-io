@@ -36,6 +36,13 @@ const routeConfiguration = {
           title="Your Orders"
           headerStyle={ordersStyles.header}
           headerContainerStyle={ordersStyles.headerContainer}
+          onBackPress={navigation.state.params && navigation.state.params.fromSettings
+            ? () => {
+              navigation.goBack();
+              navigation.navigate('Settings', { onGoToRides: navigation.state.params.onGoToRides });
+            }
+            : null
+          }
         />
       )
     })
