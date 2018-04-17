@@ -6,6 +6,10 @@ import { camelizeKeys, snakeizeKeys } from './transform';
 const axios = Axios.create({
   baseURL: config.url,
   headers: config.headers,
+  // proxy: {
+  //   host: 'localhost',
+  //   port: 3128
+  // },
   responseType: 'json',
   transformRequest(data) {
     if (isPlainObject(data)) {

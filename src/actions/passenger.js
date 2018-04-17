@@ -1,4 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
+import { batchActions } from 'redux-batched-actions';
 import curry from 'lodash/curry';
 
 import { get, put, post, destroy } from 'utils';
@@ -17,12 +18,19 @@ const TYPES = createTypes('passenger', [
   'updateFavouriteAddress',
   'addFavouriteAddress',
   'destroyFavoriteAddress',
+  'makeDefaultPayment',
+  'deactivatePayment',
   'changeToggleValueStart',
   'changeToggleValueSuccess',
   'changeToggleValueFailure',
   'touchField',
   'clearPassenger',
-  'setValidationError'
+  'setValidationError',
+  'changePaymentField',
+  'changePaymentFields',
+  'setDefaultPaymentFields',
+  'addPaymentCardType',
+  'clearPassenger'
 ]);
 
 export const getPassengerData = () => (dispatch, getState) => {
@@ -54,9 +62,8 @@ export const changeProfileFieldValue = curry((field, value) => (dispatch) => {
   dispatch({ type: TYPES.changeProfileFieldValue, payload: { field, value } });
 });
 
-export const setValidationError = error => (dispatch) => {
-  dispatch({ type: TYPES.setValidationError, payload: { error } });
-};
+export const setValidationError = (path, error) =>
+  ({ type: TYPES.setValidationError, payload: { path, error } });
 
 export const sendProfileData = () => (dispatch, getState) => {
   dispatch({ type: TYPES.sendProfileDataStart });
@@ -120,6 +127,26 @@ export const destroyFavoriteAddress = id => (dispatch, getState) => {
     .then(() => dispatch({ type: TYPES.destroyFavoriteAddress, payload: id }));
 };
 
+export const makeDefault = id => ({ type: TYPES.makeDefaultPayment, payload: id });
+
+export const makeDefaultPayment = id => (dispatch, getState) => {
+  const {
+    session: { result: { memberId: passengerId } }
+  } = getState();
+
+  return put(`/passengers/${passengerId}/payment_cards/${id}/make_default`)
+    .then(() => dispatch(makeDefault(id)));
+};
+
+export const deactivate = id => ({ type: TYPES.deactivatePayment, payload: id });
+
+export const deactivatePayment = id => (dispatch, getState) => {
+  const passengerId = getState().session.result.memberId;
+
+  return destroy(`/passengers/${passengerId}/payment_cards/${id}`)
+    .then(() => dispatch(deactivate(id)));
+};
+
 export const changeToggleValue = curry((field, value) => (dispatch, getState) => {
   if (getState().passenger.busy) {
     return Promise.resolve();
@@ -141,6 +168,29 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
 
 export const touchField = (field, value = true) => (dispatch) => {
   dispatch({ type: TYPES.touchField, payload: { field, value } });
+};
+
+export const changePaymentField = (field, value) => ({ type: TYPES.changePaymentField, payload: { field, value } });
+
+export const changePaymentFields = fields => ({ type: TYPES.changePaymentFields, payload: fields });
+
+export const setDefaultPaymentFields = () => ({ type: TYPES.setDefaultPaymentFields });
+
+export const addPaymentCardType = data => ({ type: TYPES.addPaymentCardType, payload: data });
+
+export const addPaymentCard = () => (dispatch, getState) => {
+  const {
+    session: { result: { memberId: passengerId } },
+    passenger: { newPaymentData }
+  } = getState();
+
+  return post(`/passengers/${passengerId}/payment_cards`, { paymentCard: newPaymentData })
+    .then((res) => {
+      dispatch(batchActions([
+        addPaymentCardType(res.data),
+        setDefaultPaymentFields()
+      ]));
+    });
 };
 
 export const clearPassenger = () => ({ type: TYPES.clearPassenger });

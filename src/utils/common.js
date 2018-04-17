@@ -10,6 +10,7 @@ import {
   isUndefined
 } from 'lodash/fp';
 import { throttle } from 'lodash';
+import validate from './validate';
 
 export const capitalize = ([first, ...rest]) =>
   (!isUndefined(first) ? first.toUpperCase() + rest.join('').toLowerCase() : '');
@@ -48,3 +49,22 @@ export function formatPrice(value) {
 export function throttledAction(fn) {
   return throttle(fn, 1000, { trailing: false });
 }
+
+export const isInputsValid = (keys, data, validationRules, fn) => {
+  if (keys) {
+    let results = null;
+
+    (keys).forEach((key) => {
+      if (key in validationRules) {
+        const result = validate(data, { [key]: validationRules[key] });
+
+        if (result) results = { ...results, ...result };
+      }
+    });
+    if (results) fn(results);
+
+    return !results;
+  }
+
+  return true;
+};

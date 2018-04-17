@@ -104,16 +104,21 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
   ];
 }
 
-export function prepareHistoryBlock(_, handlers = {}) {
-  return [
-    {
-      title: strings('settings.label.payments')
-    },
-    {
-      title: strings('settings.label.rides'),
-      onPress: handlers.goToMyRides
-    }
-  ];
+export function prepareHistoryBlock(data = {}, handlers = {}) {
+  const { paymentCards } = data;
+  const items = [{
+    title: strings('settings.label.rides'),
+    onPress: handlers.goToMyRides
+  }];
+
+  if (paymentCards && paymentCards.length) {
+    items.unshift({
+      title: strings('settings.label.payments'),
+      onPress: handlers.goToMyPayments
+    });
+  }
+
+  return items;
 }
 
 export function prepareInfoBlock(_, handlers = {}) {

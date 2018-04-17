@@ -64,6 +64,10 @@ class Settings extends Component {
     this.props.screenProps.rootNavigation.state.params.onGoToRides({ fromSettings: true });
   });
 
+  goToMyPayments = throttledAction(() => {
+    this.props.navigation.navigate('PaymentCardsList', {});
+  });
+
   goToInfoPage = throttledAction((page) => {
     this.props.navigation.navigate('InfoPages', { page });
   });
@@ -89,7 +93,10 @@ class Settings extends Component {
         goToAddressEditor: this.goToAddressEditor
       }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
-      prepareHistoryBlock(data, { goToMyRides: this.goToMyRides }),
+      prepareHistoryBlock(data, {
+        goToMyRides: this.goToMyRides,
+        goToMyPayments: this.goToMyPayments
+      }),
       prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
       prepareLogoutBlock({ isLoading: logoutProgress }, { onLogout: this.handleLogout })
     ];

@@ -151,6 +151,7 @@ android {
 
 dependencies {
     compile project(':RNLocation')
+    compile project(':react-native-text-input-mask')
     compile project(':react-native-fcm')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-splash-screen')

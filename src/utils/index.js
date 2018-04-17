@@ -1,4 +1,9 @@
 export {
+  showConfirmationAlert,
+  showMessageAlert,
+  showRemovalAlert
+} from './alerts';
+export {
   capitalize,
   trimZero,
   firstOne,
@@ -7,9 +12,10 @@ export {
   toArrayItems,
   nullAddress,
   formatPrice,
-  throttledAction
+  throttledAction,
+  isInputsValid
 } from './common';
 export * from './requests';
 export * from './map';
 export { default as isIphoneX } from './ui';
-export { default as showConfirmationAlert } from './showConfirmationAlert';
+export { default as validate } from './validate';
