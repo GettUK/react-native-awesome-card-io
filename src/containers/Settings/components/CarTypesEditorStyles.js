@@ -39,5 +39,34 @@ export default StyleSheet.create({
     fontSize: 17,
     lineHeight: 28,
     color: '#000'
+  },
+  modalWrapper: {
+    height: 320,
+    paddingHorizontal: 16
+  },
+  modalHeader: {
+    fontSize: 20,
+    marginTop: 8
+  },
+  modalCarImage: {
+    height: 70,
+    width: 160,
+    marginVertical: 8
+  },
+  modalDesc: { fontSize: 14 },
+  featuresBlock: { paddingVertical: 8 },
+  featuresItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4
+  },
+  featuresLabel: {
+    fontSize: 14,
+    paddingLeft: 12
+  },
+  feesDesc: {
+    color: 'grey',
+    fontSize: 11,
+    marginTop: 8
   }
 });
