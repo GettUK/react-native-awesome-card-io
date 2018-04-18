@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import assets from 'assets';
 import findKey from 'lodash/findKey';
-import { getOrders } from 'actions/orders';
+import { getOrders, clearList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
 import { Icon } from 'components';
@@ -53,6 +53,10 @@ class OrdersList extends PureComponent {
     if (meta && (!metaProps || meta.total !== metaProps.total)) {
       this.updateCounter(meta);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearList();
   }
 
   goToOrderDetails = (id) => {
@@ -184,7 +188,8 @@ const mapState = (state, props) => ({
 
 const mapDispatch = ({
   getOrders,
-  setActiveBooking
+  setActiveBooking,
+  clearList
 });
 
 export default connect(mapState, mapDispatch)(OrdersList);
