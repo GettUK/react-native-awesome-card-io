@@ -5,6 +5,7 @@ import burger from './burger';
 import calendar from './calendar';
 import camera from './camera';
 import check from './check';
+import checkmark from './checkmark';
 import chevron from './chevron';
 import clear from './clear';
 import clock from './clock';
@@ -52,6 +53,7 @@ export default {
   calendar,
   camera,
   check,
+  checkmark,
   chevron,
   clear,
   clock,

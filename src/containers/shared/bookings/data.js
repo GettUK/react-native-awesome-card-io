@@ -84,3 +84,55 @@ export const backOfficeBaseVehicles = allVehicles.filter(v =>
   !['Courier', 'OTBlackTaxi', 'OTBlackTaxiXL'].includes(v.name));
 export const baseVehicles = backOfficeBaseVehicles.filter(v => v.name !== 'Special');
 
+/* eslint-disable max-len */
+export const baseVehiclesDescriptions = {
+  Standard: {
+    description: 'Safe and reliable saloon vehicle that is perfect for your everyday ground transport needs.',
+    features: [
+      '15 minutes free waiting time',
+      '30 minutes free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  },
+  BlackTaxi: {
+    description: 'A Comfortable ride that takes bus lanes to get you there quicker',
+    features: [
+      '2 minutes free waiting time and then 50p/min',
+      '15 mins free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  },
+  BlackTaxiXL: {
+    description: 'A comfortable ride that takes bus lanes to get you there quicker.',
+    features: [
+      '2 minutes free waiting time and then 50p/min',
+      '15 mins free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  },
+  Exec: {
+    description: 'The perfect balance between luxury and reliability, our executive services will ensure you arrive in style.',
+    features: [
+      '5 minutes free waiting time',
+      '30 minutes free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  },
+  MPV: {
+    description: 'Spacious and comfortable with ample space for luggage. The People Carrier is ideal for long distance journeys.',
+    features: [
+      '15 minutes free waiting time',
+      '30 minutes free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  },
+  Porsche: {
+    description: 'The perfect balance between luxury and reliability',
+    features: [
+      '15 minutes free waiting time',
+      '30 minutes free waiting time for airport pickups'
+    ],
+    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+  }
+};
+/* eslint-enable */
