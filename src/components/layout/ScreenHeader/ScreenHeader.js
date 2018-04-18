@@ -14,7 +14,10 @@ const backBtnOpacity = 0.6;
 
 export default function ScreenHeader(props) {
   const goBack = () => {
-    props.navigation.goBack();
+    if (props.handleBackBtnPress) {
+      return props.handleBackBtnPress();
+    }
+    return props.navigation.goBack();
   };
 
   return (
@@ -54,5 +57,6 @@ ScreenHeader.propTypes = {
   ]),
   navigation: PropTypes.object,
   title: PropTypes.string,
-  rightContent: PropTypes.node
+  rightContent: PropTypes.node,
+  handleBackBtnPress: PropTypes.func
 };

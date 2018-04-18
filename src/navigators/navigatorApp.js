@@ -4,9 +4,19 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 
 import { ScreenHeader } from 'components';
 
-import { Map, Orders, MessageToDriver, RateDriver, ReasonForTravel, PaymentsOptions } from 'containers';
+import {
+  Map,
+  Orders,
+  MessageToDriver,
+  RateDriver,
+  ReasonForTravel,
+  PaymentsOptions,
+  References,
+  ReferenceValueSelector
+} from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
+import { ReferencesHeader } from 'containers/References';
 
 import SettingsNavigator from './navigatorSettings';
 
@@ -74,6 +84,26 @@ const routeConfiguration = {
         />
       )
     })
+  },
+  References: {
+    screen: References,
+    navigationOptions: ({ navigation }) => ({
+      header: <ReferencesHeader navigation={navigation} />
+    })
+  },
+  ReferenceValueSelector: {
+    screen: ReferenceValueSelector,
+    navigationOptions: ({ navigation }) => {
+      const reference = navigation.state.params && navigation.state.params.reference;
+      return {
+        header: (
+          <ScreenHeader
+            navigation={navigation}
+            title={reference.name}
+          />
+        )
+      };
+    }
   },
   RateDriver: {
     screen: RateDriver,

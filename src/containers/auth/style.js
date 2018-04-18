@@ -95,6 +95,10 @@ const styles = StyleSheet.create({
 
   errorImage: {
     display: 'none'
+  },
+
+  error: {
+    paddingLeft: 0
   }
 });
 

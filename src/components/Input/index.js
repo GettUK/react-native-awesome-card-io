@@ -75,6 +75,7 @@ export default class Input extends PureComponent {
       clearIconColor,
       clearIconStyle,
       selectionColor,
+      errorStyle,
       underlineColorAndroid,
       inputRef,
       ...rest
@@ -118,7 +119,7 @@ export default class Input extends PureComponent {
         </View>
 
         {error
-          ? <Text style={styles.errorMessage}>{error[0]}</Text>
+          ? <Text style={[styles.errorMessage, errorStyle]}>{error[0]}</Text>
           : <View style={styles.errorPlaceholder} />
         }
       </View>
