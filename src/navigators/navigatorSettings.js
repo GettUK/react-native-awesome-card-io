@@ -9,12 +9,14 @@ import NavImageButton from 'components/Common/NavImageButton';
 import { Settings } from 'containers';
 import {
   EditProfile,
+  SingleInputEditor,
   SaveProfileBtn,
   AddressesList,
   AddressEditor,
   DestroyFavouriteAddressBtn,
   InfoPages,
-  BackBtn
+  BackBtn,
+  CarTypesEditor
 } from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
@@ -54,6 +56,24 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerTitle: strings('settings.editProfile'),
+      headerLeft: <BackBtn navigation={navigation} field="profile" />,
+      headerRight: <SaveProfileBtn navigation={navigation} />
+    })
+  },
+  SingleInputEditor: {
+    screen: SingleInputEditor,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings(`settings.${navigation.state.params.page}`),
+      headerLeft: <BackBtn navigation={navigation} field="profile" />,
+      headerRight: <SaveProfileBtn navigation={navigation} />
+    })
+  },
+  CarTypesEditor: {
+    screen: CarTypesEditor,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('settings.carType'),
       headerLeft: <BackBtn navigation={navigation} field="profile" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })

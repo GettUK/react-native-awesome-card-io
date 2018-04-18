@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Text, TouchableOpacity } from 'react-native';
-import { sendProfileData } from 'actions/passenger';
+import validate from 'validate.js';
+
+import { sendProfileData, setValidationError } from 'actions/passenger';
 import { strings } from 'locales';
 import { throttledAction } from 'utils';
+
+import { validationRules } from '../utils';
 
 class SaveProfileBtn extends Component {
   static propTypes = {
@@ -12,12 +16,36 @@ class SaveProfileBtn extends Component {
   };
 
   handleSave = throttledAction(() => {
-    if (this.props.touched) {
+    if (this.props.touched && this.isInputValid()) {
       const { sendProfileData, navigation } = this.props;
       sendProfileData()
         .then(() => navigation.goBack(null));
     }
   });
+
+  isInputValid = () => {
+    const { navigation, data } = this.props;
+
+    if (navigation.state.params) {
+      const { page, keys } = navigation.state.params;
+
+      let results = null;
+
+      (keys || [page]).forEach((key) => {
+        if (key in validationRules) {
+          const result = validate(data, { [key]: validationRules[key] });
+
+          if (result) results = { ...results, ...result };
+        }
+      });
+
+      if (results) this.props.setValidationError(results);
+
+      return !results;
+    }
+
+    return true;
+  }
 
   render() {
     return (
@@ -31,7 +59,8 @@ class SaveProfileBtn extends Component {
 }
 
 const mapState = ({ passenger }) => ({
+  data: passenger.temp,
   touched: passenger.temp.profileTouched
 });
 
-export default connect(mapState, { sendProfileData })(SaveProfileBtn);
+export default connect(mapState, { sendProfileData, setValidationError })(SaveProfileBtn);

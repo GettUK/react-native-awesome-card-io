@@ -37,12 +37,20 @@ class Settings extends Component {
   };
 
   goToEditProfile = throttledAction(() => {
-    this.props.navigation.navigate('EditProfile');
+    this.props.navigation.navigate('EditProfile', { keys: ['firstName', 'lastName'] });
   });
 
   goToAddressesList = throttledAction(() => {
     this.props.navigation.navigate('AddressesList');
   });
+
+  goToCarTypesEditor = throttledAction(() => {
+    this.props.navigation.navigate('CarTypesEditor');
+  });
+
+  goToSingleInputEditor = throttledAction((page) => {
+    this.props.navigation.navigate('SingleInputEditor', { page });
+  })
 
   goToAddressEditor = throttledAction((predefinedType) => {
     const { navigation, passengerData } = this.props;
@@ -70,7 +78,12 @@ class Settings extends Component {
     const { passengerData: data, changeToggleValue, logoutProgress } = this.props;
 
     const settingsBlocks = [
-      prepareProfileBlock(data, { goToEditProfile: this.goToEditProfile }),
+      prepareProfileBlock(data, {
+        goToEditProfile: this.goToEditProfile,
+        goToEmailEditor: this.goToSingleInputEditor.bind(null, 'email'),
+        goToPhoneEditor: this.goToSingleInputEditor.bind(null, 'phone'),
+        goToCarTypesEditor: this.goToCarTypesEditor
+      }),
       prepareAddressesBlock(data, {
         goToAddressesList: this.goToAddressesList,
         goToAddressEditor: this.goToAddressEditor

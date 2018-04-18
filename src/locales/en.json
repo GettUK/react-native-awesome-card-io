@@ -49,6 +49,9 @@
       "logout": "Log Out"
     },
     "editProfile": "Edit Profile",
+    "email": "Email",
+    "phone": "Phone",
+    "carType": "Default Cartype",
     "myAddresses": "My Addresses",
     "editAddress": "Edit Address",
     "newAddress": "New Addresses",
@@ -64,6 +67,9 @@
     },
     "password": {
       "length": "must be at least 6 characters"
+    },
+    "phone": {
+      "length": "must be 10 numbers"
     }
   },
   "back": "Back",

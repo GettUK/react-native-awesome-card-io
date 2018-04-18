@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TextInput, View, Animated, TouchableOpacity } from 'react-native';
+import { TextInput, View, Animated, TouchableOpacity, Text } from 'react-native';
 import { Icon } from 'components';
 import styles from './style';
 
@@ -94,26 +94,33 @@ export default class Input extends PureComponent {
     if (error) inputStyles.push(styles.error);
 
     return (
-      <View style={[styles.container, style]}>
-        {label && <Animated.Text style={labelStyles}>{label}</Animated.Text>}
-        <TextInput
-          {...rest}
-          ref={inputRef}
-          style={inputStyles}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          underlineColorAndroid={underlineColorAndroid || 'transparent'}
-          selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
-        />
-        {allowClear &&
-          rest.value.length > 0 && (
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={[styles.clearBtn, clearIconStyle]}
-              onPress={this.handleClear}>
-              {clearIcon || <Icon name="clear" size={16} color={clearIconColor} />}
-            </TouchableOpacity>
-          )}
+      <View>
+        <View style={[styles.container, style]}>
+          {label && <Animated.Text style={labelStyles}>{label}</Animated.Text>}
+          <TextInput
+            {...rest}
+            ref={inputRef}
+            style={inputStyles}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            underlineColorAndroid={underlineColorAndroid || 'transparent'}
+            selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
+          />
+          {allowClear &&
+            rest.value.length > 0 && (
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={[styles.clearBtn, clearIconStyle]}
+                onPress={this.handleClear}>
+                {clearIcon || <Icon name="clear" size={16} color={clearIconColor} />}
+              </TouchableOpacity>
+            )}
+        </View>
+
+        {error
+          ? <Text style={styles.errorMessage}>{error[0]}</Text>
+          : <View style={styles.errorPlaceholder} />
+        }
       </View>
     );
   }

@@ -77,15 +77,36 @@ class EditProfile extends Component {
     });
   };
 
+  renderInput = ({ item, label, onChangeText }) => {
+    const { error } = this.props;
+
+    return (
+      <Input
+        value={this.props[item]}
+        error={error && error[item]}
+        onChangeText={onChangeText}
+        placeholder={label}
+        inputStyle={styles.input}
+        clearIconColor="#d2d0dc"
+        clearIconStyle={styles.clearIcon}
+        selectionColor="#494949"
+      />
+    );
+  }
+
   render() {
     const {
-      firstName,
-      lastName,
       avatarUrl,
       avatar,
       handleFirstNameChange,
       handleLastNameChange
     } = this.props;
+
+    const inputs = [
+      { item: 'firstName', label: 'First Name', onChangeText: handleFirstNameChange },
+      { item: 'lastName', label: 'Last Name', onChangeText: handleLastNameChange }
+    ];
+
     return (
       <View style={[styles.flex, styles.container]}>
         <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
@@ -99,24 +120,8 @@ class EditProfile extends Component {
           <View style={styles.avatarBackDrop} />
           <Icon style={styles.cameraIcon} size={32} color="#fff" name="camera" />
         </TouchableOpacity>
-        <Input
-          value={firstName}
-          onChangeText={handleFirstNameChange}
-          placeholder="First Name"
-          inputStyle={styles.input}
-          clearIconColor="#d2d0dc"
-          clearIconStyle={styles.clearIcon}
-          selectionColor="#494949"
-        />
-        <Input
-          value={lastName}
-          onChangeText={handleLastNameChange}
-          placeholder="Last Name"
-          inputStyle={styles.input}
-          clearIconColor="#d2d0dc"
-          clearIconStyle={styles.clearIcon}
-          selectionColor="#494949"
-        />
+
+        {inputs.map(this.renderInput)}
       </View>
     );
   }
@@ -127,7 +132,8 @@ const mapState = ({ passenger }) => ({
   lastName: passenger.temp.lastName,
   avatarUrl: passenger.temp.avatarUrl,
   avatar: passenger.temp.avatar,
-  touched: passenger.temp.profileTouched
+  touched: passenger.temp.profileTouched,
+  error: passenger.temp.validationError
 });
 
 const mapDispatch = {

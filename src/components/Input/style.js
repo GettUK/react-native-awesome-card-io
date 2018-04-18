@@ -26,6 +26,14 @@ const styles = StyleSheet.create({
   clearIcon: {
     width: 16,
     height: 16
+  },
+  errorMessage: {
+    paddingLeft: 16,
+    paddingTop: 4,
+    color: 'red'
+  },
+  errorPlaceholder: {
+    height: 14
   }
 });
 
