@@ -1,3 +1,4 @@
+import add from './add';
 import arrow from './arrow';
 import arrowDown from './arrowDown';
 import back from './back';
@@ -14,6 +15,7 @@ import closeThick from './closeThick';
 import currentLocation from './currentLocation';
 import dots from './dots';
 import distance from './distance';
+import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
 import home from './home';
@@ -46,6 +48,7 @@ import success from './alerts/success';
 import informWarning from './inform/warning';
 
 export default {
+  add,
   arrow,
   arrowDown,
   back,
@@ -62,6 +65,7 @@ export default {
   currentLocation,
   dots,
   distance,
+  drag,
   editAndroid,
   email,
   home,
