@@ -102,6 +102,11 @@ class BookingFooter extends PureComponent {
     this.props.navigation.navigate('PaymentsOptions');
   };
 
+  goToReferencesList = () => {
+    this.toggleSettingsModal();
+    this.props.navigation.navigate('References');
+  };
+
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('settings');
   };
@@ -194,7 +199,7 @@ class BookingFooter extends PureComponent {
   }
 
   renderSettings() {
-    const { data: { formData: { travelReasons }, modals: { settings } },
+    const { data: { formData: { travelReasons, bookingReferences }, modals: { settings } },
       map: { fields: { message, travelReasonId, paymentMethod, passengerName } } } = this.props;
 
     const renderMenuItem = (title, value, handler) => (
@@ -216,6 +221,8 @@ class BookingFooter extends PureComponent {
         {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), this.goToTravelReasons)}
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], this.goToPaymentsList)}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Booking References', `${bookingReferences.length} References`, this.goToReferencesList)}
       </Modal>
     );
   }

@@ -8,7 +8,8 @@ const initialFields = {
   scheduledAt: null,
   scheduledType: 'now',
   travelReasonId: '',
-  bookerReferences: []
+  bookerReferences: [],
+  bookerReferencesErrors: {}
 };
 
 const initialState = {
@@ -61,6 +62,15 @@ const errorPosition = (state, { payload }) => ({
   errors: payload
 });
 
+const changeReference = (state, { payload }) =>
+  update(state, {
+    [`fields.bookerReferences.{id:${payload.id}}.value`]: payload.value,
+    'fields.bookerReferencesErrors': {}
+  });
+
+const setReferenceErrors = (state, { payload }) =>
+  update(state, 'fields.bookerReferencesErrors', payload);
+
 const clearMap = () => initialState;
 
 export default composeReducer(
@@ -71,6 +81,8 @@ export default composeReducer(
     changeAddress,
     changePosition,
     errorPosition,
+    changeReference,
+    setReferenceErrors,
     clearMap
   },
   initialState

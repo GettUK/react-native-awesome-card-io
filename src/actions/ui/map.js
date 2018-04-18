@@ -1,4 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
+import { post } from 'utils';
 
 const TYPES = createTypes('ui/map', [
   'removeFields',
@@ -6,6 +7,8 @@ const TYPES = createTypes('ui/map', [
   'changeAddress',
   'changePosition',
   'errorPosition',
+  'changeReference',
+  'setReferenceErrors',
   'clearMap'
 ]);
 
@@ -18,5 +21,12 @@ export const changeAddress = (address, meta) => ({ type: TYPES.changeAddress, pa
 export const changePosition = obq => ({ type: TYPES.changePosition, payload: obq });
 
 export const errorPosition = e => ({ type: TYPES.errorPosition, payload: e });
+
+export const changeReference = reference => ({ type: TYPES.changeReference, payload: reference });
+
+export const validateReferences = () => (_, getState) =>
+  post('bookings/validate_references', { bookerReferences: getState().ui.map.fields.bookerReferences });
+
+export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
 
 export const clearMap = () => ({ type: TYPES.clearMap });

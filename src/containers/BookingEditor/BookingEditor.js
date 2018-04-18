@@ -47,7 +47,8 @@ class BookingEditor extends Component {
 
         let attrs = {
           pickupAddress: data.defaultPickupAddress,
-          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`
+          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
+          bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
 
         if (!isEmpty(data.booking)) {
@@ -61,13 +62,14 @@ class BookingEditor extends Component {
         }
 
         if (passenger) {
-          const { id, firstName, lastName, phone } = passenger;
+          const { id, firstName, lastName, phone, costCentre } = passenger;
 
           attrs = {
             ...attrs,
             passengerId: id,
             passengerName: `${firstName} ${lastName}`,
-            passengerPhone: phone
+            passengerPhone: phone,
+            costCentre
           };
         }
 

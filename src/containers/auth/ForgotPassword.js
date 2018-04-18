@@ -29,11 +29,11 @@ const DismissKeyboardView = DismissKeyboardHOC(View);
 class ForgotPassword extends PureComponent {
   state = {
     email: '',
-    error: ''
+    error: null
   };
 
   handleEmailChange = (value) => {
-    this.setState({ email: value, error: '' });
+    this.setState({ email: value, error: null });
     this.alert.hide();
   };
 
@@ -53,7 +53,7 @@ class ForgotPassword extends PureComponent {
     const err = validate({ email: this.state.email }, resetPasswordRules);
 
     if (err) {
-      this.setState({ error: err.email[0] }, this.showError);
+      this.setState({ error: err.email }, this.showError);
     } else {
       this.resetError();
     }
@@ -66,7 +66,7 @@ class ForgotPassword extends PureComponent {
   };
 
   resetError = () => {
-    this.setState({ error: '' });
+    this.setState({ error: null });
   };
 
   goToLogIn = () => {
@@ -98,6 +98,7 @@ class ForgotPassword extends PureComponent {
             label="Email"
             keyboardType="email-address"
             error={error}
+            errorStyle={styles.error}
           />
 
           <TextButton
@@ -114,7 +115,7 @@ class ForgotPassword extends PureComponent {
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type="failed"
-          message={this.state.error}
+          message={error && error[0]}
           onClose={this.resetError}
         />
       </DismissKeyboardView>
