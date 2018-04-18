@@ -7,7 +7,8 @@ const imagesApp = {
     BlackTaxiXL: require('./png/application/BlackTaxiXL.png'),
     Exec: require('./png/application/Exec.png'),
     MPV: require('./png/application/MPV.png'),
-    Porsche: require('./png/application/Porsche.png')
+    Porsche: require('./png/application/Porsche.png'),
+    Special: require('./png/application/Special.png')
   },
   clear: require('./png/application/clear-icon.png'),
   loginBg: require('./png/application/login-bg.jpg'),
