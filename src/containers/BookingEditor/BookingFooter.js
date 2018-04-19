@@ -9,10 +9,10 @@ import {
   ActivityIndicator
 } from 'react-native';
 import moment from 'moment';
-import { has, find, isNull } from 'lodash';
+import { has, find, isNull, pickBy, isEmpty } from 'lodash';
 import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
 import { strings } from 'locales';
-import { changeFields, changeAddress } from 'actions/ui/map';
+import { changeFields, changeAddress, setReferenceErrors } from 'actions/ui/map';
 import { createBooking, toggleVisibleModal } from 'actions/booking';
 import {
   paymentTypeToAttrs,
@@ -131,10 +131,18 @@ class BookingFooter extends PureComponent {
   };
 
   showAlert = () => {
-    const { data: { orderCreateError: { response: { data } } } } = this.props;
+    const { data: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
 
     if (data.errors && data.errors.scheduledAt) {
       this.setState({ message: 'Wrong pick-up time' }, () => this.alert.show());
+    }
+
+    if (data.errors) {
+      const referenceErrors = pickBy(data.errors, (_, key) => key.startsWith('bookerReferences'));
+      if (!isEmpty(referenceErrors)) {
+        setReferenceErrors(referenceErrors);
+        this.setState({ message: 'Please, fill required references' }, () => this.alert.show());
+      }
     }
   };
 
@@ -379,7 +387,8 @@ const bindActions = {
   createBooking,
   changeFields,
   changeAddress,
-  toggleVisibleModal
+  toggleVisibleModal,
+  setReferenceErrors
 };
 
 export default connect(select, bindActions)(BookingFooter);
