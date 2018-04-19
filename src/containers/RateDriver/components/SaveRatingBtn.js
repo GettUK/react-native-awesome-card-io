@@ -6,7 +6,7 @@ import { rateDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
 import { throttledAction } from 'utils';
 
-function SaveRatingBtn({ rating, rateDriver, navigation, rateable }) {
+function SaveRatingBtn({ rating, rateDriver, navigation, rateable = true }) {
   const handleSave = throttledAction(() => {
     if (rating) {
       rateDriver()
