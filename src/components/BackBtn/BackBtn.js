@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 
 import { Icon } from 'components';
@@ -24,12 +25,13 @@ class BackBtn extends Component {
   static propTypes = {
     field: PropTypes.string,
     touched: PropTypes.bool,
+    touchedPath: PropTypes.string,
     navigation: PropTypes.object
   };
 
   handlePress = () => {
-    const { field, touched } = this.props;
-    if (field && touched) {
+    const { touchedPath, touched } = this.props;
+    if (touchedPath && touched) {
       showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
     } else {
       this.goBack();
@@ -50,8 +52,8 @@ class BackBtn extends Component {
   }
 }
 
-const mapState = ({ passenger }, props) => ({
-  touched: passenger.temp[`${props.field}Touched`]
+const mapState = (state, props) => ({
+  touched: !!get(state, props.touchedPath)
 });
 
 export default connect(mapState)(BackBtn);

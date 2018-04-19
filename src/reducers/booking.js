@@ -108,6 +108,14 @@ const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])
 );
 
+const changeDriverRating = (state, { payload }) => (
+  update(state, 'currentOrder.tempDriverRating', payload)
+);
+
+const changeDriverRatingSuccess = state => (
+  update(state, 'currentOrder.rateable', false)
+);
+
 const clearCurrentOrder = state => (
   update(state, 'currentOrder', initialState.currentOrder)
 );
@@ -129,6 +137,8 @@ export default composeReducer('booking', {
   canceledByUser,
   changeOrderStatus,
   setDriver,
+  changeDriverRating,
+  changeDriverRatingSuccess,
   clearCurrentOrder,
   clearBooking
 }, initialState);
