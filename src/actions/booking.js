@@ -28,6 +28,8 @@ const TYPES = createTypes('booking', [
   'getVehiclesFailure',
   'toggleVisibleModal',
   'setDriver',
+  'changeDriverRating',
+  'changeDriverRatingSuccess',
   'clearCurrentOrder',
   'clearBooking'
 ]);
@@ -191,5 +193,13 @@ export const getVehicles = params => (dispatch) => {
 };
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
+
+export const changeDriverRating = rating => ({ type: TYPES.changeDriverRating, payload: rating });
+
+export const rateDriver = () => (dispatch, getState) => {
+  const { id, tempDriverRating } = getState().bookings.currentOrder;
+  return put(`/bookings/${id}/rate`, { rating: tempDriverRating })
+    .then(() => dispatch({ type: TYPES.changeDriverRatingSuccess }));
+};
 
 export const clearBooking = () => ({ type: TYPES.clearBooking });

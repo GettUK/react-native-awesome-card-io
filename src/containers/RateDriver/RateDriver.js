@@ -1,65 +1,52 @@
-import React, { Component } from 'react';
-import { View, StatusBar, Text, TextInput, ScrollView } from 'react-native';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { View, Text, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { Button } from 'components';
-import Rating from './Rating';
+import { changeDriverRating } from 'actions/booking';
+import Rating from './components/Rating';
 
 import styles from './styles';
 
-export default class RateDriver extends Component {
-  state = {
-    rating: 0,
-    text: ''
-  };
-
-  handleCancel = () => {
-    this.props.navigation.goBack();
-  };
-
-  onRatingChange = (value) => {
-    this.setState({ rating: value });
-  };
+class RateDriver extends PureComponent {
+  goBack = () => this.props.navigation.goBack();
 
   render() {
+    const { order: { driverDetails, rateable, tempDriverRating }, changeDriverRating } = this.props;
+    const avatar = driverDetails.info.imageUrl;
     return (
       <View style={[styles.flex, styles.wrapper]}>
-        <StatusBar barStyle="dark-content" />
-
-        <View style={styles.flex}>
-          <ScrollView contentContainerStyle={[styles.content]}>
-            <View>
-              <Avatar
-                rounded
-                width={120}
-                height={120}
-                source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg' }}
-              />
-              <View style={styles.ratingValueContainer}>
-                <Text style={styles.ratingValue}>4.4</Text>
-              </View>
-            </View>
-            <Text style={styles.name}>Kevin Willis</Text>
-            <Text style={styles.greyText}>Mercedes-Benz E350</Text>
-            <Rating value={this.state.rating} onChange={this.onRatingChange} />
-            <Text style={styles.greyText}>Rate your driver</Text>
-            <TextInput
-              multiline
-              style={styles.message}
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
+        <ScrollView contentContainerStyle={styles.content}>
+          <View>
+            <Avatar
+              rounded
+              width={120}
+              height={120}
+              icon={{ name: 'user', type: 'font-awesome' }}
+              source={avatar && { uri: avatar }}
             />
-          </ScrollView>
-        </View>
-
-        <View style={styles.footer}>
-          <Button raised={false} styleContent={styles.sendBtn}>
-            <Text style={styles.sendBtnText}>Send Feedback</Text>
-          </Button>
-          <Button raised={false} styleContent={styles.cancelBtn} onPress={this.handleCancel}>
-            <Text style={styles.cancelBtnText}>Cancel</Text>
-          </Button>
-        </View>
+            <View style={styles.ratingValueContainer}>
+              <Text style={styles.ratingValue}>{driverDetails.info.rating}</Text>
+            </View>
+          </View>
+          <Text style={styles.name}>{driverDetails.info.name}</Text>
+          <Text style={styles.greyText}>{driverDetails.info.vehicle.model}</Text>
+          <Rating
+            value={rateable ? tempDriverRating : driverDetails.tripRating}
+            disabled={!rateable}
+            onChange={changeDriverRating}
+          />
+        </ScrollView>
       </View>
     );
   }
 }
+
+const mapState = ({ bookings }) => ({
+  order: bookings.currentOrder
+});
+
+const mapDispatch = {
+  changeDriverRating
+};
+
+export default connect(mapState, mapDispatch)(RateDriver);

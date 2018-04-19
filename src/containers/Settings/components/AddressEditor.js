@@ -154,7 +154,7 @@ class AddressEditor extends Component {
             </View>
 
             <Button raised={false} styleContent={styles.submitBtn} onPress={this.handleSubmit}>
-              <Text style={styles.submitBtnText}>{strings('settings.save')}</Text>
+              <Text style={styles.submitBtnText}>{strings('save')}</Text>
             </Button>
           </KeyboardAvoidingView>
         </DismissKeyboardView>

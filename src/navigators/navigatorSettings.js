@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation';
 import { View, Platform } from 'react-native';
 
-import { Icon } from 'components';
+import { Icon, BackBtn } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 
 import { Settings } from 'containers';
@@ -15,7 +15,6 @@ import {
   AddressEditor,
   DestroyFavouriteAddressBtn,
   InfoPages,
-  BackBtn,
   CarTypesEditor
 } from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
@@ -56,7 +55,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerTitle: strings('settings.editProfile'),
-      headerLeft: <BackBtn navigation={navigation} field="profile" />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
   },
@@ -65,7 +64,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerTitle: strings(`settings.${navigation.state.params.page}`),
-      headerLeft: <BackBtn navigation={navigation} field="profile" />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
   },
@@ -74,7 +73,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerTitle: strings('settings.carType'),
-      headerLeft: <BackBtn navigation={navigation} field="profile" />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
   },
@@ -99,7 +98,7 @@ const RoutesConfig = {
       const address = navigation.state.params && navigation.state.params.address;
       return {
         headerStyle,
-        headerLeft: <BackBtn navigation={navigation} field="address" />,
+        headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
         headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
         headerRight: address && address.passengerId
           ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} />

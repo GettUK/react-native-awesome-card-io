@@ -82,6 +82,7 @@ class EditProfile extends Component {
 
     return (
       <Input
+        key={item}
         value={this.props[item]}
         error={error && error[item]}
         onChangeText={onChangeText}
@@ -92,7 +93,7 @@ class EditProfile extends Component {
         selectionColor="#494949"
       />
     );
-  }
+  };
 
   render() {
     const {

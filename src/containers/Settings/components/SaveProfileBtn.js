@@ -1,31 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Text, TouchableOpacity } from 'react-native';
 import validate from 'validate.js';
 
 import { sendProfileData, setValidationError } from 'actions/passenger';
-import { strings } from 'locales';
+import { SaveBtn } from 'components';
 import { throttledAction } from 'utils';
 
 import { validationRules } from '../utils';
 
-class SaveProfileBtn extends Component {
-  static propTypes = {
-    touched: PropTypes.bool
-  };
-
-  handleSave = throttledAction(() => {
-    if (this.props.touched && this.isInputValid()) {
-      const { sendProfileData, navigation } = this.props;
-      sendProfileData()
-        .then(() => navigation.goBack(null));
-    }
-  });
-
-  isInputValid = () => {
-    const { navigation, data } = this.props;
-
+function SaveProfileBtn({ touched, navigation, data, sendProfileData, setValidationError }) {
+  const isInputValid = () => {
     if (navigation.state.params) {
       const { page, keys } = navigation.state.params;
 
@@ -39,24 +24,33 @@ class SaveProfileBtn extends Component {
         }
       });
 
-      if (results) this.props.setValidationError(results);
+      if (results) setValidationError(results);
 
       return !results;
     }
 
     return true;
-  }
+  };
 
-  render() {
-    return (
-      <TouchableOpacity onPress={this.handleSave} style={{ paddingRight: 14 }}>
-        <Text style={{ fontSize: 17, color: this.props.touched ? '#284784' : '#bcbbc1' }}>
-          {strings('settings.save')}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
+  const handleSave = throttledAction(() => {
+    if (touched && isInputValid()) {
+      sendProfileData()
+        .then(() => navigation.goBack(null));
+    }
+  });
+
+  return (
+    <SaveBtn onPress={handleSave} enabled={touched} />
+  );
 }
+
+SaveProfileBtn.propTypes = {
+  touched: PropTypes.bool,
+  navigation: PropTypes.object,
+  data: PropTypes.object,
+  sendProfileData: PropTypes.func,
+  setValidationError: PropTypes.func
+};
 
 const mapState = ({ passenger }) => ({
   data: passenger.temp,

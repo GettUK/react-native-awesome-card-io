@@ -1,8 +1,9 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import { Platform } from 'react-native';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
-import { ScreenHeader } from 'components';
+import { ScreenHeader, BackBtn } from 'components';
 
 import {
   Map,
@@ -17,6 +18,8 @@ import {
 import ordersStyles from 'containers/Orders/styles';
 import { MessageToDriverHeader } from 'containers/MessageToDriver';
 import { ReferencesHeader } from 'containers/References';
+import { SaveRatingBtn } from 'containers/RateDriver';
+import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
 
@@ -107,9 +110,16 @@ const routeConfiguration = {
   },
   RateDriver: {
     screen: RateDriver,
-    navigationOptions: {
-      header: null
-    }
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#fff',
+        paddingTop: Platform.OS === 'android' ? 20 : 0,
+        height: Platform.OS === 'android' ? 80 : 50
+      },
+      headerTitle: strings('rateYourDriver'),
+      headerLeft: <BackBtn navigation={navigation} touchedPath="bookings.currentOrder.tempDriverRating" />,
+      headerRight: <SaveRatingBtn navigation={navigation} />
+    })
   }
 };
 

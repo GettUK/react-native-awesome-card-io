@@ -59,7 +59,6 @@
     "newAddress": "New Addresses",
     "headerTitle": "Settings",
     "none": "None",
-    "save": "Save",
     "delete": "Delete",
     "deleteAddress": "Delete Address"
   },
@@ -75,10 +74,12 @@
     }
   },
   "back": "Back",
+  "save": "Save",
   "no": "No",
   "yes": "Yes",
   "areYouSure": "Are you sure?",
   "goBack": "Go Back",
+  "rateYourDriver": "Rate your driver",
   "order": {
     "cancelOrderCreation": "Cancel Order Creation",
     "createNew": "Create New",
