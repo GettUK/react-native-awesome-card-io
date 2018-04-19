@@ -3,8 +3,6 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { clearCurrentOrder } from 'actions/booking';
-
 import { FadeInView, Button } from 'components';
 
 import { strings } from 'locales';
@@ -13,14 +11,14 @@ import { screenStyles } from './ActiveOrderScene/styles';
 
 class CompletedOrderScene extends PureComponent {
   render() {
-    const { status, clearCurrentOrder } = this.props;
+    const { status, goToInitialization } = this.props;
 
     return (
       <View style={screenStyles.container}>
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
-            <Button size="sm" styleContent={screenStyles.createNewBtn} onPress={clearCurrentOrder}>
+            <Button size="sm" styleContent={screenStyles.createNewBtn} onPress={goToInitialization}>
               <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
             </Button>
           </View>
@@ -31,7 +29,7 @@ class CompletedOrderScene extends PureComponent {
 }
 
 CompletedOrderScene.propTypes = {
-  clearCurrentOrder: PropTypes.func.isRequired,
+  goToInitialization: PropTypes.func.isRequired,
   busy: PropTypes.bool
 };
 
@@ -42,8 +40,4 @@ const mapState = ({ bookings }) => ({
   busy: bookings.currentOrder.busy
 });
 
-const mapDispatch = {
-  clearCurrentOrder
-};
-
-export default connect(mapState, mapDispatch)(CompletedOrderScene);
+export default connect(mapState)(CompletedOrderScene);

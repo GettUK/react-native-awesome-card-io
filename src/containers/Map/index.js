@@ -25,7 +25,8 @@ import {
   removeFields,
   changeFields,
   changePosition,
-  errorPosition
+  errorPosition,
+  resetReferenceValues
 } from 'actions/ui/map';
 import {
   createBooking,
@@ -365,6 +366,7 @@ class Map extends Component {
       scheduledType: 'now',
       scheduledAt: null
     });
+    this.props.resetReferenceValues();
   };
 
   goToInitialization = () => {
@@ -536,7 +538,7 @@ class Map extends Component {
           />
         }
         {isActiveOrder && <ActiveOrderScene />}
-        {isCompletedOrder && <CompletedOrderScene />}
+        {isCompletedOrder && <CompletedOrderScene goToInitialization={this.goToInitialization} />}
 
         <MapView
           isActiveOrder={isActiveOrder}
@@ -610,7 +612,8 @@ const mapDispatch = {
   checkMultiplePermissions,
   requestLocation,
   getPassengerData,
-  clearCurrentOrder
+  clearCurrentOrder,
+  resetReferenceValues
 };
 
 export default connect(mapState, mapDispatch)(Map);
