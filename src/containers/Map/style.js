@@ -56,6 +56,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start'
   },
+  selectedWrapper: {
+    marginHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 20
+  },
   time: {
     fontSize: 36,
     color: '#000',
@@ -67,7 +72,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   TDPickerWrapper: {
-    marginTop: 20,
+    borderColor: '#cdcdcd',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
     shadowColor: '#cdcdcd',
     shadowOffset: {
       width: 0,
@@ -80,7 +87,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#284784',
     alignSelf: 'stretch',
     marginHorizontal: 15,
-    marginVertical: 20
+    marginBottom: 20,
+    marginTop: 8
   },
   TDButtonText: {
     fontSize: 18,

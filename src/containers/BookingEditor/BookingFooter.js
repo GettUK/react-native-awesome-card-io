@@ -324,7 +324,7 @@ class BookingFooter extends PureComponent {
                   disabled={isOrderBtnDisabled}
                   onPress={this.createBooking}
                 >
-                  {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />}
+                  {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#acabab" />}
                   <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
                     Order Ride
                   </Text>

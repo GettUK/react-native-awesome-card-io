@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 22
   },
   listItemContainer: {
+    paddingLeft: 6,
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',

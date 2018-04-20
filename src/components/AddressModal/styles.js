@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   modalContent: {
@@ -17,6 +19,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12
   },
   inputStyle: {
+    width: width - 60,
     fontSize: 18,
     color: '#000'
   },
@@ -38,7 +41,8 @@ const styles = StyleSheet.create({
   },
   indicatorView: {
     paddingVertical: 20
-  }
+  },
+  clearIcon: { paddingHorizontal: 16 }
 });
 
 export default styles;
