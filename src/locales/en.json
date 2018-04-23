@@ -91,7 +91,9 @@
     "none": "None",
     "delete": "Delete",
     "cancel": "Cancel",
-    "deleteAddress": "Delete Address"
+    "deleteAddress": "Delete Address",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   },
   "validation": {
     "email": {

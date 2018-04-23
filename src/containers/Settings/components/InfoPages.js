@@ -1,31 +1,60 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { View, WebView, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
-const pages = {
-  privacy: 'https://gett.com/uk/legal/privacy/',
-  terms: 'https://gett.com/uk/legal/terms/',
-  contactUs: 'https://gett.com/uk/contact/'
-};
+import services from './data';
 
-export default class InfoPages extends PureComponent {
-  static propTypes = {
-    navigation: PropTypes.object
-  };
+import styles from './InfoPagesStyles';
 
-  renderLoading = () => (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color="#284784" />
+class InfoPages extends PureComponent {
+  goBack = () => this.props.navigation.goBack();
+
+  renderListItem = (item, disableMarker = false) => (
+    <View style={styles.listItemWrapper}>
+      {!disableMarker &&
+        <View style={styles.listMarker}>
+          {item.marker ? this.renderText({ value: item.marker, inner: true }) : <View style={styles.bullet} />}
+        </View>
+      }
+
+      <View style={styles.listLabelContainer}>
+        {item.title &&
+          <View style={{ marginBottom: 16 }}>
+            {this.renderText({ value: item.title })}
+          </View>
+        }
+
+        {this.renderItem(item, true)}
       </View>
-  );
+    </View>
+  )
+
+  renderList = (item, inner = false) => (
+    <View style={!inner && styles.listWrapper}>
+      {item.value.map(listItem => this.renderListItem(listItem, item.disableMarker))}
+    </View>
+  )
+
+  renderText = ({ type = 'plain', value, inner = false }) => (
+    <Text style={[styles[type], inner && { marginBottom: 0 }]} key={value}>{value}</Text>
+  )
+
+  renderItem = (item, inner = false) => (
+    item.type === 'list'
+      ? this.renderList(item, inner)
+      : this.renderText(item)
+  )
 
   render() {
+    const page = this.props.navigation.state.params.page;
+
     return (
-      <WebView
-        startInLoadingState
-        source={{ uri: pages[this.props.navigation.state.params.page] }}
-        renderLoading={this.renderLoading}
-      />
+      <View style={[styles.flex, styles.wrapper]}>
+        <ScrollView>
+          {services[page].map(this.renderItem)}
+        </ScrollView>
+      </View>
     );
   }
 }
+
+export default InfoPages;

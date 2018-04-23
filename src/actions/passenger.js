@@ -33,8 +33,15 @@ const TYPES = createTypes('passenger', [
   'changePaymentFields',
   'setDefaultPaymentFields',
   'addPaymentCardType',
-  'clearPassenger'
+  'clearPassenger',
+  'getCompanySettings'
 ]);
+
+export const getCompanySettings = () => (dispatch) => {
+  get('company/settings').then(({ data }) => {
+    dispatch({ type: TYPES.getCompanySettings, payload: data.data });
+  });
+};
 
 export const getPassengerData = () => (dispatch, getState) => {
   if (getState().passenger.busy) {
@@ -44,6 +51,8 @@ export const getPassengerData = () => (dispatch, getState) => {
   dispatch({ type: TYPES.getPassengerDataStart });
 
   const id = getState().session.result.memberId;
+
+  dispatch(getCompanySettings());
 
   return get(`/passengers/${id}/edit`)
     .then(({ data }) => {

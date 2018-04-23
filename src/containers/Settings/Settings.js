@@ -77,7 +77,7 @@ class Settings extends Component {
   });
 
   getSettingsBlocks() {
-    const { passengerData: data, changeToggleValue, logoutProgress } = this.props;
+    const { passengerData: data, companySettings, changeToggleValue, logoutProgress } = this.props;
 
     return [
       prepareProfileBlock(data, {
@@ -95,7 +95,7 @@ class Settings extends Component {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
       }),
-      prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
+      prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage }),
       prepareLogoutBlock({ isLoading: logoutProgress }, { onLogout: this.handleLogout })
     ];
   }
@@ -131,6 +131,7 @@ Settings.defaultProps = {};
 
 const select = ({ passenger, ui }) => ({
   passengerData: passenger.data,
+  companySettings: passenger.companySettings,
   logoutProgress: ui.logout.busy
 });
 

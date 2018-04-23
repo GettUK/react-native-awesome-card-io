@@ -19,8 +19,11 @@ export const initialState = {
   },
   newPaymentData: initPaymentCardType,
   validationPaymentError: null,
-  touched: false
+  touched: false,
+  companySettings: {}
 };
+
+const getCompanySettings = (state, { payload }) => update(state, 'companySettings', payload);
 
 const getPassengerDataStart = state => update(state, { busy: true, errors: null });
 
@@ -121,5 +124,6 @@ export default composeReducer('passenger', {
   changePaymentField,
   changePaymentFields,
   setDefaultPaymentFields,
-  addPaymentCardType
+  addPaymentCardType,
+  getCompanySettings
 }, initialState);

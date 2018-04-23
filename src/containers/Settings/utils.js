@@ -1,3 +1,5 @@
+import { Linking } from 'react-native';
+
 import { strings } from 'locales';
 
 import { vehiclesData } from 'containers/shared/bookings/data';
@@ -121,7 +123,7 @@ export function prepareHistoryBlock(data = {}, handlers = {}) {
   return items;
 }
 
-export function prepareInfoBlock(_, handlers = {}) {
+export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
   return [
     {
       title: strings('settings.label.privacy'),
@@ -133,7 +135,7 @@ export function prepareInfoBlock(_, handlers = {}) {
     },
     {
       title: strings('settings.label.contactUs'),
-      onPress: () => handlers.goToInfoPage('contactUs')
+      onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
     }
   ];
 }
