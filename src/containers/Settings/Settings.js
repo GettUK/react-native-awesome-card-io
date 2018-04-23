@@ -29,8 +29,7 @@ class Settings extends Component {
 
   handleLogout = async () => {
     if (!this.props.logoutProgress) {
-      // TODO: uncommit when API update (route - /user-devices)
-      // await this.props.deleteToken();
+      await this.props.deleteToken();
 
       this.props.logout();
     }
