@@ -9,6 +9,7 @@ const TYPES = createTypes('ui/map', [
   'errorPosition',
   'changeReference',
   'setReferenceErrors',
+  'resetReferenceValues',
   'clearMap'
 ]);
 
@@ -28,5 +29,7 @@ export const validateReferences = () => (_, getState) =>
   post('bookings/validate_references', { bookerReferences: getState().ui.map.fields.bookerReferences });
 
 export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
+
+export const resetReferenceValues = () => ({ type: TYPES.resetReferenceValues });
 
 export const clearMap = () => ({ type: TYPES.clearMap });
