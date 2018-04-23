@@ -96,7 +96,7 @@ class MapView extends Component {
   preparePointsList = (order) => {
     const source = this.prepareCoordinates(order.pickupAddress);
     const dest = this.prepareCoordinates(order.destinationAddress);
-    const stops = (order.stops || []).map(this.prepareCoordinates);
+    const stops = (order.stops || order.stopAddresses || []).map(this.prepareCoordinates);
 
     return { source, dest, stops };
   };
@@ -145,7 +145,7 @@ class MapView extends Component {
 
     const locations = [
       fields.pickupAddress,
-      ...(fields.stops || []),
+      ...(fields.stops || fields.stopAddresses || []),
       fields.destinationAddress
     ];
 
@@ -176,6 +176,7 @@ class MapView extends Component {
     const { fields: currentFields, currentPosition, currentOrder, isCurrentOrder } = this.props;
 
     const fields = isCurrentOrder ? currentOrder : currentFields;
+    const stops = fields.stops || fields.stopAddresses;
 
     return (
       <Map
@@ -197,8 +198,8 @@ class MapView extends Component {
           })
         }
 
-        {fields.stops && fields.stops.length > 0 &&
-          fields.stops.map((address, index) => this.renderMarker({ address, type: 'stop', index }))
+        {stops && stops.length > 0 &&
+          stops.map((address, index) => this.renderMarker({ address, type: 'stop', index }))
         }
 
         {fields.destinationAddress &&
