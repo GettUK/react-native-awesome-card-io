@@ -11,7 +11,7 @@ class RateDriver extends PureComponent {
   goBack = () => this.props.navigation.goBack();
 
   render() {
-    const { order: { driverDetails, rateable, tempDriverRating }, changeDriverRating } = this.props;
+    const { order: { driverDetails, rateable = true, tempDriverRating }, changeDriverRating } = this.props;
     const avatar = driverDetails.info.imageUrl;
     return (
       <View style={[styles.flex, styles.wrapper]}>
