@@ -243,24 +243,13 @@ class Map extends Component {
     return !!fields.passengerId;
   };
 
-  destinationFields = () => {
-    const { map: { fields: { destinationAddress } } } = this.props;
-    return {
-      toPostalCode: destinationAddress.postalCode,
-      toLat: destinationAddress.lat,
-      toLng: destinationAddress.lng,
-      toLine: destinationAddress.line,
-      toCountryCode: destinationAddress.countryCode,
-      toPlaceId: destinationAddress.placeId
-    };
-  };
-
   requestVehicles = () => {
     const {
       passengerName,
       passengerPhone,
       passengerId,
       pickupAddress,
+      destinationAddress,
       scheduledAt,
       scheduledType,
       paymentMethod,
@@ -285,14 +274,8 @@ class Map extends Component {
     }));
 
     this.props.getVehicles({
-      fromPostalCode: pickupAddress.postalCode,
-      fromLat: pickupAddress.lat,
-      fromLng: pickupAddress.lng,
-      fromLine: pickupAddress.line,
-      fromCountryCode: pickupAddress.countryCode,
-      fromTimezone: pickupAddress.timezone,
-      fromPlaceId: pickupAddress.placeId,
-      ...this.destinationFields(),
+      pickupAddress,
+      destinationAddress,
       scheduledAt: scheduledAtTime,
       passengerName: processedPassengerName,
       passengerPhone: processedPassengerPhone,
