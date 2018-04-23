@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Dimensions, Image, TouchableWithoutFeedback, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import assets from 'assets';
 

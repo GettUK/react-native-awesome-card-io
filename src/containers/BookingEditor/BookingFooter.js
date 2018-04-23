@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
 import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
 import { strings } from 'locales';
@@ -151,6 +151,7 @@ class BookingFooter extends PureComponent {
 
     const order = {
       ...fields,
+      scheduledAt: fields.scheduledType === 'later' ? fields.scheduledAt.format() : null,
       stops: fields.stops
         ? fields.stops.map(stop => ({
           address: stop,

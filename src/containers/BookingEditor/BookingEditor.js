@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
 import { getFormData } from 'actions/booking';
 import { changeFields, changeAddress } from 'actions/ui/map';

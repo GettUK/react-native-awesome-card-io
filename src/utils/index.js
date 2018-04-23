@@ -17,5 +17,6 @@ export {
 } from './common';
 export * from './requests';
 export * from './map';
+export * from './moment';
 export { default as isIphoneX } from './ui';
 export { default as validate } from './validate';

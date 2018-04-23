@@ -14,7 +14,6 @@ import {
   NativeModules,
   DeviceEventEmitter
 } from 'react-native';
-import moment from 'moment';
 import { every, find, first, has, isNull, isEmpty } from 'lodash';
 
 import { Icon, Button, Modal, Alert } from 'components';
@@ -43,7 +42,7 @@ import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { getPassengerData } from 'actions/passenger';
 
 import { strings } from 'locales';
-import { showConfirmationAlert } from 'utils';
+import { showConfirmationAlert, hourForward, setDefaultTimezone, convertToZone, momentDate } from 'utils';
 import PN from 'utils/notifications';
 
 import ActiveOrderScene from './ActiveOrderScene';
@@ -67,7 +66,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
+      date: hourForward.toDate(),
       isHeaderEnable: true,
       fromOrderList: false,
       fromSettings: false
@@ -86,12 +85,14 @@ class Map extends Component {
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
-  componentWillReceiveProps({ map: { currentPosition }, app: { statuses }, canceledByUser }) {
-    const {
-      map: { currentPosition: currentPositionProps },
-      app: { statuses: statusesProps },
-      canceledByUser: canceledByUserProps
-    } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { map: { currentPosition, fields: { pickupAddress } }, app: { statuses }, canceledByUser } = nextProps;
+    const { map: mapProps, app: { statuses: statusesProps }, canceledByUser: canceledByUserProps } = this.props;
+    const { currentPosition: currentPositionProps, fields: { pickupAddress: pickupAddressProps } } = mapProps;
+
+    if (pickupAddress !== pickupAddressProps) {
+      setDefaultTimezone(pickupAddress.timezone);
+    }
 
     if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
       setTimeout(this.getCurrentPosition, 250);
@@ -207,10 +208,11 @@ class Map extends Component {
 
   handleDateSubmit = () => {
     const { date } = this.state;
+
     this.togglePickerModal();
     this.props.changeFields({
       scheduledType: 'later',
-      scheduledAt: moment(date)
+      scheduledAt: momentDate(date)
     });
     this.goToRequestVehicles();
   };
@@ -386,17 +388,18 @@ class Map extends Component {
 
   renderTimeDatePicker() {
     const { date } = this.state;
-    const { bookings: { modals: { picker } } } = this.props;
-    const momentDate = moment(date);
+    const { bookings: { modals: { picker } }, map: { fields: { pickupAddress } } } = this.props;
+    const moment = momentDate(date);
+    const timezoneDate = (pickupAddress && convertToZone(moment, pickupAddress.timezone)) || moment;
 
     const openDatePickerAndroid = async () => {
       try {
         const { action, year, month, day } = await DatePickerAndroid.open({
           date,
-          minDate: new Date()
+          minDate: hourForward.toDate()
         });
         if (action !== DatePickerAndroid.dismissedAction) {
-          this.handleDateChange(momentDate.set({ year, month, date: day }).toDate());
+          this.handleDateChange(moment.set({ year, month, date: day }).toDate());
         }
       } catch ({ code, message }) {
         // eslint-disable-next-line no-console
@@ -407,12 +410,12 @@ class Map extends Component {
     const openTimePickerAndroid = async () => {
       try {
         const { action, hour, minute } = await TimePickerAndroid.open({
-          hour: momentDate.get('hour'),
-          minute: momentDate.get('minute'),
+          hour: moment.get('hour'),
+          minute: moment.get('minute'),
           is24Hour: true
         });
         if (action !== DatePickerAndroid.dismissedAction) {
-          this.handleDateChange(momentDate.set({ hour, minute }).toDate());
+          this.handleDateChange(moment.set({ hour, minute }).toDate());
         }
       } catch ({ code, message }) {
         // eslint-disable-next-line no-console
@@ -433,8 +436,8 @@ class Map extends Component {
     };
 
     const renderSelected = () => {
-      const time = <Text style={styles.time}>{momentDate.format('H:mm')}</Text>;
-      const date = <Text style={styles.date}>{momentDate.format('dddd, MMMM D, YYYY')}</Text>;
+      const time = <Text style={styles.time}>{moment.format('H:mm')}</Text>;
+      const date = <Text style={styles.date}>{moment.format('dddd, MMMM D, YYYY')}</Text>;
 
       return (
         <View style={styles.selectedWrapper}>
@@ -458,7 +461,8 @@ class Map extends Component {
           <DatePickerIOS
             date={date}
             onDateChange={this.handleDateChange}
-            minimumDate={new Date()}
+            minimumDate={hourForward.toDate()}
+            timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
           />
         </View>
         }
