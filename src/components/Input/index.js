@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { TextInput, View, Animated, TouchableOpacity, Text } from 'react-native';
+import TextInputMask from 'react-native-text-input-mask';
 import { Icon } from 'components';
 import styles from './style';
 
@@ -19,22 +20,18 @@ export default class Input extends PureComponent {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.value.length && !!nextProps.value.length) {
+    if ((!this.props.value.length && !!nextProps.value.length) ||
+        (nextProps.placeholder && nextProps.placeholder.length)
+    ) {
       this.moveLabelUp();
     }
   }
 
   moveLabelUp() {
-    Animated.parallel([
-      Animated.spring(this.labelFontSize, {
-        toValue: labelFontSizeValues[1],
-        duration: 500
-      }),
-      Animated.spring(this.labelTop, {
-        toValue: labelTopValues[1],
-        duration: 500
-      })
-    ]).start();
+    this.labelAnimated({
+      toValues: { labelFontSize: labelFontSizeValues[1], labelTop: labelTopValues[1] },
+      duration: 500
+    });
   }
 
   handleFocus = () => {
@@ -44,18 +41,25 @@ export default class Input extends PureComponent {
     }
   };
 
+  labelAnimated = ({ toValues, duration }) => {
+    Animated.parallel([
+      Animated.spring(this.labelFontSize, {
+        toValue: toValues.labelFontSize,
+        duration
+      }),
+      Animated.spring(this.labelTop, {
+        toValue: toValues.labelTop,
+        duration
+      })
+    ]).start();
+  };
+
   handleBlur = () => {
-    if (!this.props.value) {
-      Animated.parallel([
-        Animated.spring(this.labelFontSize, {
-          toValue: labelFontSizeValues[0],
-          duration: 300
-        }),
-        Animated.spring(this.labelTop, {
-          toValue: labelTopValues[0],
-          duration: 300
-        })
-      ]).start();
+    if (!this.props.value && !this.props.placeholder) {
+      this.labelAnimated({
+        toValues: { labelFontSize: labelFontSizeValues[0], labelTop: labelTopValues[0] },
+        duration: 300
+      });
     }
   };
 
@@ -63,22 +67,64 @@ export default class Input extends PureComponent {
     this.props.onChangeText('');
   };
 
-  render() {
+  renderHelpOption = () => {
     const {
-      style,
-      inputStyle,
-      label,
-      labelStyle,
+      allowmask,
+      allowHelp,
+      helpIcon,
+      helpIconColor,
+      helpPress,
+      helpIconStyle
+    } = this.props;
+
+    return allowmask && allowHelp && (
+      <TouchableOpacity
+        activeOpacity={0.6}
+        style={[styles.clearBtn, helpIconStyle]}
+        onPress={helpPress}
+      >
+        {helpIcon || <Icon name="help" size={22} color={helpIconColor} />}
+      </TouchableOpacity>
+    );
+  };
+
+  renderClearOption = () => {
+    const {
+      allowmask,
       allowClear,
-      error,
       clearIcon,
       clearIconColor,
       clearIconStyle,
-      selectionColor,
-      errorStyle,
-      underlineColorAndroid,
-      inputRef,
       ...rest
+    } = this.props;
+
+    return !allowmask && allowClear &&
+      rest.value.length > 0 && (
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={[styles.clearBtn, clearIconStyle]}
+          onPress={this.handleClear}
+        >
+          {clearIcon || <Icon name="clear" size={16} color={clearIconColor} />}
+        </TouchableOpacity>
+    );
+  };
+
+  renderError = () => {
+    const {
+      error,
+      errorStyle
+    } = this.props;
+
+    return error
+      ? <Text style={[styles.errorMessage, errorStyle]}>{error[0]}</Text>
+      : <View style={styles.errorPlaceholder} />;
+  };
+
+  renderLabel = () => {
+    const {
+      label,
+      labelStyle
     } = this.props;
 
     const labelStyles = [
@@ -89,39 +135,43 @@ export default class Input extends PureComponent {
         transform: [{ translateY: this.labelTop }]
       }
     ];
+    return label && <Animated.Text style={labelStyles}>{label}</Animated.Text>;
+  };
+
+  render() {
+    const {
+      allowmask,
+      style,
+      inputStyle,
+      allowClear,
+      error,
+      selectionColor,
+      underlineColorAndroid,
+      inputRef,
+      ...rest
+    } = this.props;
 
     const inputStyles = [styles.input, inputStyle];
     if (allowClear) inputStyles.push(styles.withClearBtn);
     if (error) inputStyles.push(styles.error);
 
-    return (
-      <View>
-        <View style={[styles.container, style]}>
-          {label && <Animated.Text style={labelStyles}>{label}</Animated.Text>}
-          <TextInput
-            {...rest}
-            ref={inputRef}
-            style={inputStyles}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-            underlineColorAndroid={underlineColorAndroid || 'transparent'}
-            selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
-          />
-          {allowClear &&
-            rest.value.length > 0 && (
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={[styles.clearBtn, clearIconStyle]}
-                onPress={this.handleClear}>
-                {clearIcon || <Icon name="clear" size={16} color={clearIconColor} />}
-              </TouchableOpacity>
-            )}
-        </View>
+    const Input = allowmask ? TextInputMask : TextInput;
 
-        {error
-          ? <Text style={[styles.errorMessage, errorStyle]}>{error[0]}</Text>
-          : <View style={styles.errorPlaceholder} />
-        }
+    return (
+      <View style={[styles.container, style]}>
+        {this.renderLabel()}
+        <Input
+          {...rest}
+          ref={inputRef}
+          style={inputStyles}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          underlineColorAndroid={underlineColorAndroid || 'transparent'}
+          selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
+        />
+        {this.renderClearOption()}
+        {this.renderHelpOption()}
+        {this.renderError()}
       </View>
     );
   }

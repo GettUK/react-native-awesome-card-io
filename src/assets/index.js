@@ -10,6 +10,8 @@ const imagesApp = {
     Porsche: require('./png/application/Porsche.png'),
     Special: require('./png/application/Special.png')
   },
+  expirationDate: require('./png/application/expirationDate.png'),
+  cvv: require('./png/application/cvv.png'),
   clear: require('./png/application/clear-icon.png'),
   loginBg: require('./png/application/login-bg.jpg'),
   orderMap: require('./png/application/orderTempMap.jpg'),

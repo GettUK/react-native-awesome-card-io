@@ -1,6 +1,11 @@
 import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
 
+const initPaymentCardType = {
+  kind: 'business',
+  personal: false
+};
+
 export const initialState = {
   data: {
     favoriteAddresses: [],
@@ -11,7 +16,10 @@ export const initialState = {
   errors: null,
   temp: {
     validationError: null
-  }
+  },
+  newPaymentData: initPaymentCardType,
+  validationPaymentError: null,
+  touched: false
 };
 
 const getPassengerDataStart = state => update(state, { busy: true, errors: null });
@@ -46,6 +54,12 @@ const addFavouriteAddress = (state, { payload }) =>
 const destroyFavoriteAddress = (state, { payload }) =>
   update.remove(state, `data.favoriteAddresses.{id:${payload}}`);
 
+const makeDefaultPayment = (state, { payload }) =>
+  update.with(state, 'data.paymentCards', old => old.map(item => ({ ...item, default: (item.id === payload) })));
+
+const deactivatePayment = (state, { payload }) =>
+  update.remove(state, `data.paymentCards.{id:${payload}}`);
+
 const changeToggleValueStart = (state, { payload: { field, value } }) =>
   update(state, { busy: true, [`data.passenger.${field}`]: value });
 
@@ -57,10 +71,22 @@ const changeToggleValueFailure = (state, { payload: { field, errors } }) =>
 
 const touchField = (state, { payload: { field, value } }) => update(state, `temp.${field}Touched`, value);
 
+const changePaymentField = (state, { payload: { field, value } }) =>
+  update(state, { [`newPaymentData.${field}`]: value, touched: true });
+
+const changePaymentFields = (state, { payload }) =>
+  update(state, { newPaymentData: { ...state.newPaymentData, ...payload }, touched: true });
+
+const setDefaultPaymentFields = state =>
+  update(state, { newPaymentData: initPaymentCardType, touched: false });
+
+const addPaymentCardType = (state, { payload }) =>
+  update.push(state, 'data.paymentCards', payload);
+
 const clearPassenger = () => initialState;
 
-const setValidationError = (state, { payload: { error } }) =>
-  update(state, 'temp.validationError', error);
+const setValidationError = (state, { payload: { path, error } }) =>
+  update(state, path, error);
 
 export default composeReducer('passenger', {
   getPassengerDataStart,
@@ -73,10 +99,16 @@ export default composeReducer('passenger', {
   updateFavouriteAddress,
   addFavouriteAddress,
   destroyFavoriteAddress,
+  makeDefaultPayment,
+  deactivatePayment,
   changeToggleValueStart,
   changeToggleValueSuccess,
   changeToggleValueFailure,
   touchField,
   clearPassenger,
-  setValidationError
+  setValidationError,
+  changePaymentField,
+  changePaymentFields,
+  setDefaultPaymentFields,
+  addPaymentCardType
 }, initialState);

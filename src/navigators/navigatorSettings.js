@@ -10,11 +10,16 @@ import { Settings } from 'containers';
 import {
   EditProfile,
   SingleInputEditor,
-  SaveProfileBtn,
   AddressesList,
   AddressEditor,
   DestroyFavouriteAddressBtn,
   InfoPages,
+  SaveProfileBtn,
+  PaymentCardDetails,
+  PaymentCardEditor,
+  PaymentCardsList,
+  PaymentCardTypes,
+  SavePaymentBtn,
   CarTypesEditor
 } from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
@@ -24,6 +29,12 @@ import { throttledAction } from 'utils';
 
 const addNewAddress = throttledAction(navigation =>
   navigation.navigate('AddressEditor', { address: emptyFavouriteAddress }));
+
+const onAddPaymentCard = throttledAction(navigation =>
+  navigation.navigate(
+    'PaymentCardEditor',
+    { keys: ['cardNumber', 'cvv', 'holderName', 'expirationMonth', 'expirationYear'] }
+  ));
 
 const headerStyle = {
   backgroundColor: '#fff',
@@ -57,6 +68,46 @@ const RoutesConfig = {
       headerTitle: strings('settings.editProfile'),
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
+    })
+  },
+  PaymentCardDetails: {
+    screen: PaymentCardDetails,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('settings.cardDetails'),
+      headerLeft: <BackBtn navigation={navigation} />
+    })
+  },
+  PaymentCardsList: {
+    screen: PaymentCardsList,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('settings.paymentCards'),
+      headerLeft: <BackBtn navigation={navigation} />,
+      headerRight: (
+        <NavImageButton
+          onClick={() => onAddPaymentCard(navigation)}
+          styleView={{ marginRight: 10 }}
+          icon={<Icon size={24} name="plus" color="#284784" />}
+        />
+      )
+    })
+  },
+  PaymentCardEditor: {
+    screen: PaymentCardEditor,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerLeft: <BackBtn navigation={navigation} />,
+      headerTitle: strings('settings.newPaymentCard'),
+      headerRight: <SavePaymentBtn navigation={navigation} />
+    })
+  },
+  PaymentCardTypes: {
+    screen: PaymentCardTypes,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('settings.cardType'),
+      headerLeft: <BackBtn navigation={navigation} />
     })
   },
   SingleInputEditor: {

@@ -1,39 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import validate from 'validate.js';
 
 import { sendProfileData, setValidationError } from 'actions/passenger';
 import { SaveBtn } from 'components';
-import { throttledAction } from 'utils';
+import { throttledAction, isInputsValid } from 'utils';
 
 import { validationRules } from '../utils';
 
 function SaveProfileBtn({ touched, navigation, data, sendProfileData, setValidationError }) {
-  const isInputValid = () => {
-    if (navigation.state.params) {
-      const { page, keys } = navigation.state.params;
-
-      let results = null;
-
-      (keys || [page]).forEach((key) => {
-        if (key in validationRules) {
-          const result = validate(data, { [key]: validationRules[key] });
-
-          if (result) results = { ...results, ...result };
-        }
-      });
-
-      if (results) setValidationError(results);
-
-      return !results;
-    }
-
-    return true;
-  };
-
   const handleSave = throttledAction(() => {
-    if (touched && isInputValid()) {
+    const { page, keys } = navigation.state.params;
+    if (touched &&
+        isInputsValid(keys || [page], data, validationRules, error => setValidationError('temp.validationError', error))
+    ) {
       sendProfileData()
         .then(() => navigation.goBack(null));
     }

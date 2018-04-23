@@ -12,6 +12,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNLocation(),
+            new RNTextInputMaskPackage(),
             new FIRMessagingPackage(),
             new PickerPackage(),
             new SplashScreenReactPackage(),

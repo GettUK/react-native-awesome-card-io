@@ -34,6 +34,32 @@
     }
   },
   "settings": {
+    "validation": {
+      "common": "is invalid",
+      "cardNumber": {
+        "length": "must be 13-19 numbers"
+      },
+      "expirationYear": {
+        "length": "must be 4 numbers"
+      },
+      "cvv": {
+        "length": "must be 3-4 numbers"
+      },
+      "cardHolder": {
+        "format": "must be only characters"
+      }
+    },
+    "payment": {
+      "cardType": "Card type",
+      "cardNumber": "Card number",
+      "expirationDate": "Expiration date",
+      "expirationDateFormat": "MM / YYYY",
+      "cvv": "CVV",
+      "cardHolder":"Cardholder",
+      "cardDelete": "Deactivate",
+      "confirmDelete": "Do you want to delete the card?",
+      "enterValidCard": "Please enter a valid credit card"
+    },
     "label": {
       "phone": "Phone",
       "email": "Email",
@@ -43,7 +69,7 @@
       "notification": "Push Notifications",
       "invites": "Calendar Invites",
       "wheelchair": "Wheelchair Access",
-      "payments": "Payments",
+      "payments": "Payment Cards",
       "rides": "My Rides",
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions",
@@ -54,12 +80,17 @@
     "email": "Email",
     "phone": "Phone",
     "carType": "Default Cartype",
+    "cardType": "Card type",
+    "cardDetails": "Card Details",
+    "paymentCards": "Payment Cards",
+    "newPaymentCard": "Add Credit Card",
     "myAddresses": "My Addresses",
     "editAddress": "Edit Address",
     "newAddress": "New Addresses",
     "headerTitle": "Settings",
     "none": "None",
     "delete": "Delete",
+    "cancel": "Cancel",
     "deleteAddress": "Delete Address"
   },
   "validation": {
@@ -77,7 +108,11 @@
   "save": "Save",
   "no": "No",
   "yes": "Yes",
+  "ok": "Ok",
+  "delete": "Delete",
+  "cancel": "Cancel",
   "areYouSure": "Are you sure?",
+  "confirmDelete": "Do you want to delete?",
   "goBack": "Go Back",
   "rateYourDriver": "Rate your driver",
   "order": {

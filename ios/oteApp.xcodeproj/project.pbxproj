@@ -18,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* oteAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* oteAppTests.m */; };
 		3CD4FA0824D56A974214C8B6 /* libPods-oteAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D6AAA0E037AF57C3991C43 /* libPods-oteAppTests.a */; };
 		4251E8B05496CC6C423C9FEE /* libPods-oteApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 506114E7CB4CE1CE5EB0FE68 /* libPods-oteApp.a */; };
+		431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */; };
 		7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0722AD2061373600C06D82 /* GoogleService-Info.plist */; };
 		7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7ACDC5204D5FCC00298C96 /* libSplashScreen.a */; };
 		7D8BC1AD2041B39B009D2E2B /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1A62041B397009D2E2B /* libRCTWebSocket.a */; };
@@ -30,6 +31,8 @@
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
+		92A2291E20865F2D00209D73 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; };
+		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
@@ -286,7 +289,28 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNLocation;
 		};
+		92A2291B20865EFB00209D73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 00278A001F2F25CE0023E794;
+			remoteInfo = RNTextInputMask;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92A2292020865F2D00209D73 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -322,7 +346,10 @@
 		7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
 		927644362081143500946644 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-gps/RNLocation.xcodeproj"; sourceTree = "<group>"; };
+		92A2291D20865F2D00209D73 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextInputMask.a; sourceTree = "<group>"; };
+		ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTextInputMask.xcodeproj; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -349,6 +376,8 @@
 				7D8BC1B82041B5A3009D2E2B /* libRCTLinking.a in Frameworks */,
 				7D8BC1AD2041B39B009D2E2B /* libRCTWebSocket.a in Frameworks */,
 				7D8BC1AE2041B4EF009D2E2B /* libReact.a in Frameworks */,
+				431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */,
+				92A2291E20865F2D00209D73 /* InputMask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +547,7 @@
 				7D8BC1B92041B736009D2E2B /* RCTImage.xcodeproj */,
 				7D8BC1AF2041B59C009D2E2B /* RCTLinking.xcodeproj */,
 				7D8BC19E2041B396009D2E2B /* RCTWebSocket.xcodeproj */,
+				ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -525,6 +555,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				92A2291D20865F2D00209D73 /* InputMask.framework */,
 				13B07FAE1A68108700A75B9A /* oteApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* oteAppTests */,
@@ -561,8 +592,17 @@
 		929B12F82020BA8800788ABA /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		92A2291820865EFB00209D73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92A2291C20865EFB00209D73 /* libRNTextInputMask.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		92D34FB121C2E73014B29D59 /* Frameworks */ = {
@@ -624,6 +664,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native Resources */,
 				39C044F3834ACBC8BFFE31A9 /* [CP] Embed Pods Frameworks */,
 				D73C64018EF553EA47B45916 /* [CP] Copy Pods Resources */,
+				92A2292020865F2D00209D73 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -758,6 +799,10 @@
 				{
 					ProductGroup = 927644372081143500946644 /* Products */;
 					ProjectRef = 927644362081143500946644 /* RNLocation.xcodeproj */;
+				},
+				{
+					ProductGroup = 92A2291820865EFB00209D73 /* Products */;
+					ProjectRef = ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */;
 				},
 				{
 					ProductGroup = 7D7ACDC1204D5FCC00298C96 /* Products */;
@@ -1004,6 +1049,13 @@
 			fileType = archive.ar;
 			path = libRNLocation.a;
 			remoteRef = 927644582081143600946644 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		92A2291C20865EFB00209D73 /* libRNTextInputMask.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNTextInputMask.a;
+			remoteRef = 92A2291B20865EFB00209D73 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1343,11 +1395,17 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
+				);
 				INFOPLIST_FILE = oteAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1369,11 +1427,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = S4RTY2P4MM;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
+				);
 				INFOPLIST_FILE = oteAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1402,6 +1466,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gps",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1435,6 +1500,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gps",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1468,10 +1534,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 				);
 				INFOPLIST_FILE = "oteApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1499,10 +1569,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 				);
 				INFOPLIST_FILE = "oteApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1528,7 +1602,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "oteApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.oteApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1550,7 +1627,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "oteApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.oteApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;

@@ -18,6 +18,7 @@ import distance from './distance';
 import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
+import help from './help';
 import home from './home';
 import vehicleInfo from './info';
 import journeyTime from './journeyTime';
@@ -47,6 +48,9 @@ import success from './alerts/success';
 
 import informWarning from './inform/warning';
 
+import checkOn from './checkbox/checkOn';
+import checkOff from './checkbox/checkOff';
+
 export default {
   add,
   arrow,
@@ -68,6 +72,7 @@ export default {
   drag,
   editAndroid,
   email,
+  help,
   home,
   vehicleInfo,
   journeyTime,
@@ -93,5 +98,7 @@ export default {
   success,
   warning,
   failed,
-  informWarning
+  informWarning,
+  checkOn,
+  checkOff
 };
