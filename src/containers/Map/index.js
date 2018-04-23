@@ -455,8 +455,8 @@ class Map extends Component {
 
       return (
         <View style={styles.selectedWrapper}>
-          {renderSelectedValue(date, openDatePickerAndroid, <Icon size={20} name="editAndroid" />)}
           {renderSelectedValue(time, openTimePickerAndroid, <Icon style={styles.TDEditIcon} name="editAndroid" />)}
+          {renderSelectedValue(date, openDatePickerAndroid, <Icon size={20} name="editAndroid" />)}
         </View>
       );
     };

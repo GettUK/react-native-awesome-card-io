@@ -204,7 +204,7 @@ export default class AddressModal extends PureComponent {
             autoFocus
             inputStyle={styles.inputStyle}
             selectionColor="#000"
-            clearIcon={<Icon name="close" size={16} color="#8d8d8d" />}
+            clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color="#8d8d8d" />}
           />
           <View style={styles.delimiter} />
         </View>
