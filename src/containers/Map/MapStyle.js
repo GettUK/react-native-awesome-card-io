@@ -11,7 +11,7 @@ export default [
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'off'
+        visibility: 'on'
       }
     ]
   },
@@ -90,7 +90,7 @@ export default [
     elementType: 'geometry.fill',
     stylers: [
       {
-        color: '#e0e4ed'
+        color: '#d1e9c0'
       }
     ]
   },
@@ -288,7 +288,7 @@ export default [
     elementType: 'geometry.fill',
     stylers: [
       {
-        color: '#d2d8e5'
+        color: '#c2dcee'
       }
     ]
   },
