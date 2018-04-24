@@ -20,6 +20,7 @@ import editAndroid from './editAndroid';
 import email from './email';
 import help from './help';
 import home from './home';
+import id from './id';
 import vehicleInfo from './info';
 import journeyTime from './journeyTime';
 import logo from './logo';
@@ -74,6 +75,7 @@ export default {
   email,
   help,
   home,
+  id,
   vehicleInfo,
   journeyTime,
   logo,

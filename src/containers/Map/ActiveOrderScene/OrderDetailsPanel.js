@@ -71,20 +71,22 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
     );
   };
 
-  const renderOption = ({ title, value, onPress }) => (<View key={title} style={orderPanelStyles.activeContainer}>
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
-        <Icon name="pickUpField" color="#c6c5cd" />
+  const renderOption = ({ title, value, icon, onPress, chevron = true }) => (
+    <View key={title} style={orderPanelStyles.activeContainer}>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
+          <Icon name={icon || 'pickUpField'} color="#c6c5cd" />
 
-        <View style={orderPanelStyles.titleContainer}>
-          <Text style={orderPanelStyles.title}>{title}</Text>
-          <Text style={orderPanelStyles.name}>{value}</Text>
+          <View style={orderPanelStyles.titleContainer}>
+            <Text style={orderPanelStyles.title}>{title}</Text>
+            <Text style={orderPanelStyles.name}>{value}</Text>
+          </View>
+
+          {chevron && <Icon name="chevron" color="#c6c5cd" width={10} />}
         </View>
-
-        <Icon name="chevron" color="#c6c5cd" width={10} />
-      </View>
-    </TouchableWithoutFeedback>
-  </View>);
+      </TouchableWithoutFeedback>
+    </View>
+  );
 
   const renderDriverRating = () => (
     <View style={orderPanelStyles.activeContainer}>
@@ -138,6 +140,8 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
     return (
       <View style={{ paddingBottom: 120 }}>
         {isDriverExist && renderDriverRating()}
+
+        {renderOption({ title: 'Service ID', value: order.serviceId, icon: 'id', chevron: false })}
 
         <View style={orderPanelStyles.activeContainer}>
           {renderPointList()}
