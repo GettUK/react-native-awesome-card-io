@@ -12,7 +12,7 @@ import {
   SingleInputEditor,
   AddressesList,
   AddressEditor,
-  DestroyFavouriteAddressBtn,
+  SaveAddressBtn,
   InfoPages,
   SaveProfileBtn,
   PaymentCardDetails,
@@ -133,7 +133,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerTitle: strings('settings.myAddresses'),
-      headerLeft: <BackBtn navigation={navigation} />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
       headerRight: (
         <NavImageButton
           onClick={() => addNewAddress(navigation)}
@@ -151,9 +151,7 @@ const RoutesConfig = {
         headerStyle,
         headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
         headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
-        headerRight: address && address.passengerId
-          ? <DestroyFavouriteAddressBtn navigation={navigation} id={address.id} />
-          : null
+        headerRight: <SaveAddressBtn navigation={navigation} />
       };
     }
   },

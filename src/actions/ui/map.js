@@ -10,6 +10,8 @@ const TYPES = createTypes('ui/map', [
   'changeReference',
   'setReferenceErrors',
   'resetReferenceValues',
+  'changeMessageToDriver',
+  'saveMessageToDriver',
   'clearMap'
 ]);
 
@@ -31,5 +33,11 @@ export const validateReferences = () => (_, getState) =>
 export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
 
 export const resetReferenceValues = () => ({ type: TYPES.resetReferenceValues });
+
+export const changeMessageToDriver = (message, touched = false) =>
+  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
+
+export const saveMessageToDriver = () => (dispatch, getState) =>
+  dispatch(changeFields({ message: getState().ui.map.tempMessageToDriver }));
 
 export const clearMap = () => ({ type: TYPES.clearMap });

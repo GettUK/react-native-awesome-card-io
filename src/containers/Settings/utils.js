@@ -47,13 +47,13 @@ export function prepareAddressesBlock(data = {}, handlers = {}) {
       leftIconName: 'home',
       title: strings('label.home'),
       rightTitle: (passenger.homeAddress && passenger.homeAddress.line) || strings('settings.none'),
-      onPress: () => handlers.goToAddressEditor('home')
+      onPress: () => handlers.openAddressModal('home')
     },
     {
       leftIconName: 'work',
       title: strings('label.work'),
       rightTitle: (passenger.workAddress && passenger.workAddress.line) || strings('settings.none'),
-      onPress: () => handlers.goToAddressEditor('work')
+      onPress: () => handlers.openAddressModal('work')
     },
     {
       title: strings('settings.label.addresses'),
@@ -195,4 +195,18 @@ export const validationRules = {
       message: strings('validation.phone.length')
     }
   }
+};
+
+export const addressValidationRules = {
+  name: {
+    presence: { allowEmpty: false },
+    length: { maximum: 32 }
+  },
+  'address.line': { presence: { allowEmpty: false } },
+  'address.lat': { presence: { allowEmpty: false, message: 'Address not found. Please check the address entered.' } },
+  'address.countryCode': {
+    presence: { allowEmpty: false, message: 'Sorry, this address is not supported by our system' }
+  },
+  pickupMessage: { length: { maximum: 100 } },
+  destinationMessage: { length: { maximum: 100 } }
 };

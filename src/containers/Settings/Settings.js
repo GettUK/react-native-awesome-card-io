@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 
-import { getPassengerData, changeToggleValue } from 'actions/passenger';
+import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
 import { deleteToken } from 'actions/app/pushNotifications';
+import { AddressModal } from 'components';
 import { throttledAction } from 'utils';
 
 import {
@@ -40,7 +41,7 @@ class Settings extends Component {
   });
 
   goToAddressesList = throttledAction(() => {
-    this.props.navigation.navigate('AddressesList');
+    this.props.navigation.navigate('AddressesList', { openAddressModal: this.openAddressModal });
   });
 
   goToCarTypesEditor = throttledAction(() => {
@@ -49,13 +50,17 @@ class Settings extends Component {
 
   goToSingleInputEditor = throttledAction((page) => {
     this.props.navigation.navigate('SingleInputEditor', { page });
-  })
-
-  goToAddressEditor = throttledAction((predefinedType) => {
-    const { navigation, passengerData } = this.props;
-    const address = passengerData.passenger[`${predefinedType}Address`] || emptyAddress;
-    navigation.navigate('AddressEditor', { address, predefinedType });
   });
+
+  openAddressModal = throttledAction((predefinedType) => {
+    const { passengerData } = this.props;
+    const address = passengerData.passenger[`${predefinedType}Address`] || emptyAddress;
+    this.addressModal.open(address, { predefinedType });
+  });
+
+  handleAddressChange = (address, meta) => {
+    this.props.sendPredefinedAddress(address, meta.predefinedType);
+  };
 
   goToMyRides = throttledAction(() => {
     this.props.screenProps.rootNavigation.goBack();
@@ -71,16 +76,10 @@ class Settings extends Component {
     this.props.navigation.navigate('InfoPages', { page });
   });
 
-  renderBlock = (data, index) => (
-    <View key={index} style={styles.blockItems}>
-      {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
-    </View>
-  );
-
-  render() {
+  getSettingsBlocks() {
     const { passengerData: data, changeToggleValue, logoutProgress } = this.props;
 
-    const settingsBlocks = [
+    return [
       prepareProfileBlock(data, {
         goToEditProfile: this.goToEditProfile,
         goToEmailEditor: this.goToSingleInputEditor.bind(null, 'email'),
@@ -89,7 +88,7 @@ class Settings extends Component {
       }),
       prepareAddressesBlock(data, {
         goToAddressesList: this.goToAddressesList,
-        goToAddressEditor: this.goToAddressEditor
+        openAddressModal: this.openAddressModal
       }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
       prepareHistoryBlock(data, {
@@ -99,11 +98,25 @@ class Settings extends Component {
       prepareInfoBlock(data, { goToInfoPage: this.goToInfoPage }),
       prepareLogoutBlock({ isLoading: logoutProgress }, { onLogout: this.handleLogout })
     ];
+  }
 
+  renderBlock = (data, index) => (
+    <View key={index} style={styles.blockItems}>
+      {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
+    </View>
+  );
+
+  render() {
     return (
-      <ScrollView style={styles.container}>
-        {settingsBlocks.map(this.renderBlock)}
-      </ScrollView>
+      <View style={styles.container}>
+        <ScrollView style={styles.container}>
+          {this.getSettingsBlocks().map(this.renderBlock)}
+        </ScrollView>
+        <AddressModal
+          ref={(el) => { this.addressModal = el; }}
+          onChange={this.handleAddressChange}
+        />
+      </View>
     );
   }
 }
@@ -125,7 +138,8 @@ const bindActions = {
   logout,
   getPassengerData,
   changeToggleValue,
-  deleteToken
+  deleteToken,
+  sendPredefinedAddress
 };
 
 export default connect(select, bindActions)(Settings);

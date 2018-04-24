@@ -20,6 +20,13 @@ export default function ScreenHeader(props) {
     return props.navigation.goBack();
   };
 
+  const renderBackBtn = () => (
+    <TouchableOpacity activeOpacity={backBtnOpacity} onPress={props.onBackPress || goBack} style={styles.backBtn}>
+      <Icon style={styles.backIcon} name="back" size={backIconSize} color={backIconColor} />
+      <Text style={styles.text}>Back</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={props.headerContainerStyle}>
       <StatusBar translucent barStyle="light-content" />
@@ -29,10 +36,7 @@ export default function ScreenHeader(props) {
         end={gradientEnd}
         colors={gradientColors}
       >
-        <TouchableOpacity activeOpacity={backBtnOpacity} onPress={props.onBackPress || goBack} style={styles.backBtn}>
-          <Icon style={styles.backIcon} name="back" size={backIconSize} color={backIconColor} />
-          <Text style={styles.text}>Back</Text>
-        </TouchableOpacity>
+        {props.leftContent ? props.leftContent : renderBackBtn()}
         <View style={styles.flex}>
           <Text style={styles.text}>{props.title}</Text>
         </View>

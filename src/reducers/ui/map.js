@@ -77,6 +77,9 @@ const setReferenceErrors = (state, { payload }) =>
 const resetReferenceValues = state =>
   update.with(state, 'fields.bookerReferences', old => old.map(r => omit('value', r)));
 
+const changeMessageToDriver = (state, { payload }) =>
+  update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
+
 const clearMap = () => initialState;
 
 export default composeReducer(
@@ -90,6 +93,7 @@ export default composeReducer(
     changeReference,
     setReferenceErrors,
     resetReferenceValues,
+    changeMessageToDriver,
     clearMap
   },
   initialState

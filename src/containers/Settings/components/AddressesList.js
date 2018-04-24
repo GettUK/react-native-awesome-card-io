@@ -7,7 +7,6 @@ import capitalize from 'lodash/capitalize';
 
 import { Icon } from 'components';
 import { throttledAction } from 'utils';
-import { emptyAddress } from '../utils';
 import styles from './AddressStyles';
 
 class AddressesList extends Component {
@@ -18,8 +17,8 @@ class AddressesList extends Component {
     favoriteAddresses: PropTypes.array
   };
 
-  goToAddressEditor = throttledAction((address, predefinedType) => {
-    this.props.navigation.navigate('AddressEditor', { address, predefinedType });
+  goToAddressEditor = throttledAction((address) => {
+    this.props.navigation.navigate('AddressEditor', { address });
   });
 
   renderExistPredefinedAddress = (type, data) => (
@@ -48,7 +47,7 @@ class AddressesList extends Component {
     const data = this.props[`${type}Address`];
 
     return (
-      <TouchableOpacity activeOpacity={0.6} onPress={() => this.goToAddressEditor(data || emptyAddress, type)}>
+      <TouchableOpacity activeOpacity={0.6} onPress={() => this.props.navigation.state.params.openAddressModal(type)}>
         {data
           ? this.renderExistPredefinedAddress(type, data)
           : this.renderEmptyPredefinedAddress(type)

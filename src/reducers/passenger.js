@@ -42,8 +42,16 @@ const sendProfileDataSuccess = state => update.assign(state, 'data.passenger', {
   phone: state.temp.phone
 });
 
-const updatePredefinedAddress = (state, { payload: { predefinedAddressType, address } }) =>
-  update(state, `data.passenger.${predefinedAddressType}Address`, address);
+const setTempAddress = (state, { payload }) => update(state, 'temp.address', payload);
+
+const changeTempAddressField = (state, { payload }) =>
+  update(state, { [`temp.address.${payload.field}`]: payload.value, 'temp.addressTouched': true });
+
+const changeTempAddress = (state, { payload }) =>
+  update(state, { 'temp.address.address': payload, 'temp.addressTouched': true });
+
+const updatePredefinedAddress = (state, { payload: { type, address } }) =>
+  update(state, `data.passenger.${type}Address`, address);
 
 const updateFavouriteAddress = (state, { payload }) =>
   update(state, `data.favoriteAddresses.{id:${payload.id}}`, payload);
@@ -104,6 +112,9 @@ export default composeReducer('passenger', {
   changeToggleValueStart,
   changeToggleValueSuccess,
   changeToggleValueFailure,
+  setTempAddress,
+  changeTempAddressField,
+  changeTempAddress,
   touchField,
   clearPassenger,
   setValidationError,
