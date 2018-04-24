@@ -4,10 +4,10 @@ import { Text, TouchableOpacity } from 'react-native';
 
 import { strings } from 'locales';
 
-export default function SaveBtn({ onPress, enabled }) {
+export default function SaveBtn({ onPress, enabled, enabledColor, style }) {
   return (
-    <TouchableOpacity onPress={onPress} style={{ paddingRight: 14 }}>
-      <Text style={{ fontSize: 17, color: enabled ? '#284784' : '#bcbbc1' }}>
+    <TouchableOpacity onPress={onPress} style={[{ paddingRight: 14 }, style]}>
+      <Text style={{ fontSize: 17, color: enabled ? enabledColor || '#284784' : '#bcbbc1' }}>
         {strings('save')}
       </Text>
     </TouchableOpacity>
@@ -16,5 +16,7 @@ export default function SaveBtn({ onPress, enabled }) {
 
 SaveBtn.propTypes = {
   onPress: PropTypes.func,
-  enabled: PropTypes.bool
+  enabled: PropTypes.bool,
+  enabledColor: PropTypes.string,
+  style: Text.propTypes.style
 };

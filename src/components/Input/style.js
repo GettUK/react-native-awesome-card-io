@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     height: 16
   },
   errorMessage: {
-    paddingLeft: 16,
     paddingTop: 4,
     color: 'red'
   },

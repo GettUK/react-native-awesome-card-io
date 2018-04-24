@@ -8,24 +8,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   input: {
-    marginVertical: 11,
+    marginVertical: 14,
     paddingHorizontal: 16,
     color: '#7f7f7f'
   },
-  submitBtn: {
-    backgroundColor: '#244c8a',
-    borderRadius: 0,
-    alignSelf: 'stretch'
-  },
-  submitBtnText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  lengthTitle: {
-    color: '#dae1e3',
-    fontSize: 17,
-    backgroundColor: 'transparent'
+  messageLength: {
+    color: '#8794a0',
+    backgroundColor: 'transparent',
+    marginLeft: 16,
+    marginBottom: 13
   }
 });
 

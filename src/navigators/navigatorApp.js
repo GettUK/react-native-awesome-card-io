@@ -16,7 +16,7 @@ import {
   ReferenceValueSelector
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
-import { MessageToDriverHeader } from 'containers/MessageToDriver';
+import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { ReferencesHeader } from 'containers/References';
 import { SaveRatingBtn } from 'containers/RateDriver';
 import { strings } from 'locales';
@@ -63,7 +63,14 @@ const routeConfiguration = {
   MessageToDriver: {
     screen: MessageToDriver,
     navigationOptions: ({ navigation }) => ({
-      header: <MessageToDriverHeader navigation={navigation} />
+      header: (
+        <ScreenHeader
+          navigation={navigation}
+          title="Message to Driver"
+          leftContent={<BackMessageBtn navigation={navigation} />}
+          rightContent={<SaveMessageBtn navigation={navigation} />}
+        />
+      )
     })
   },
   ReasonForTravel: {

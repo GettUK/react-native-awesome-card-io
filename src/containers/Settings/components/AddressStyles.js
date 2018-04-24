@@ -50,12 +50,12 @@ export default StyleSheet.create({
     fontSize: 17
   },
   input: {
-    fontSize: 17
+    fontSize: 17,
+    borderBottomColor: '#bcbbc1',
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   inputContainer: {
     marginLeft: 15,
-    borderBottomColor: '#bcbbc1',
-    borderBottomWidth: StyleSheet.hairlineWidth,
     paddingRight: 20,
     marginBottom: 15,
     marginTop: 5,

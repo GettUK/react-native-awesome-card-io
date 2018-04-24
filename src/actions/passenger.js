@@ -24,6 +24,9 @@ const TYPES = createTypes('passenger', [
   'changeToggleValueSuccess',
   'changeToggleValueFailure',
   'touchField',
+  'setTempAddress',
+  'changeTempAddressField',
+  'changeTempAddress',
   'clearPassenger',
   'setValidationError',
   'changePaymentField',
@@ -81,12 +84,27 @@ export const sendProfileData = () => (dispatch, getState) => {
     });
 };
 
-const sendPredefinedAddress = ({ passengerId, address, predefinedAddressType }) => dispatch =>
-  put(`/passengers/${passengerId}`, { passenger: { [`${predefinedAddressType}Address`]: address } })
+export const setTempAddress = address => (dispatch) => {
+  dispatch({ type: TYPES.setTempAddress, payload: address });
+};
+
+export const changeTempAddressField = (field, value) => (dispatch) => {
+  dispatch({ type: TYPES.changeTempAddressField, payload: { field, value } });
+};
+
+export const changeTempAddress = address => (dispatch) => {
+  dispatch({ type: TYPES.changeTempAddress, payload: address });
+};
+
+export const sendPredefinedAddress = (address, type) => (dispatch, getState) => {
+  const passengerId = getState().session.result.memberId;
+
+  return put(`/passengers/${passengerId}`, { passenger: { [`${type}Address`]: address } })
     .then((res) => {
-      dispatch({ type: TYPES.updatePredefinedAddress, payload: { predefinedAddressType, address } });
+      dispatch({ type: TYPES.updatePredefinedAddress, payload: { type, address } });
       return res;
     });
+};
 
 const sendFavouriteAddress = ({ passengerId, address }) => dispatch =>
   put(`/passengers/${passengerId}/addresses/${address.id}`, { passengerAddress: address })
@@ -102,13 +120,12 @@ const createFavouriteAddress = ({ passengerId, address }) => dispatch =>
       return res;
     });
 
-export const sendAddress = (address, predefinedAddressType) => (dispatch, getState) => {
+export const sendAddress = () => (dispatch, getState) => {
   const passengerId = getState().session.result.memberId;
+  const address = getState().passenger.temp.address;
   let req;
 
-  if (predefinedAddressType) {
-    req = dispatch(sendPredefinedAddress({ passengerId, address, predefinedAddressType }));
-  } else if (address.id) {
+  if (address.id) {
     req = dispatch(sendFavouriteAddress({ passengerId, address }));
   } else {
     req = dispatch(createFavouriteAddress({ passengerId, address }));

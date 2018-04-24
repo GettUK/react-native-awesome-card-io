@@ -1,70 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
-import { Button, DismissKeyboardHOC } from 'components';
-import { changeFields } from 'actions/ui/map';
+import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
+import { changeMessageToDriver } from 'actions/ui/map';
 import styles from './styles';
 
-const DismissKeyboardView = DismissKeyboardHOC(View);
-
 class MessageToDriver extends Component {
-  state = {
-    message: ''
-  };
-
   componentWillMount() {
-    this.onChangeText(this.props.message);
+    const { changeMessageToDriver, navigation } = this.props;
+    changeMessageToDriver(navigation.state.params.message);
   }
 
-  handleFocusInput = () => {
-    this.input.focus();
-  };
-
   onChangeText = (message) => {
-    this.setState({ message });
-    this.props.navigation.setParams({ message });
-  };
-
-  onSubmit = () => {
-    const { message } = this.state;
-    const { changeFields, navigation } = this.props;
-    changeFields({ message });
-    navigation.goBack();
+    this.props.changeMessageToDriver(message, true);
   };
 
   render() {
-    const { message } = this.state;
+    const { message } = this.props;
     return (
       <View style={[styles.flex, styles.bg]}>
-        <DismissKeyboardView style={styles.flex}>
-          <KeyboardAvoidingView
-            keyboardVerticalOffset={60}
-            behavior="padding"
-            style={styles.flex}
-          >
-            <TouchableWithoutFeedback onPress={this.handleFocusInput}>
-              <View style={styles.flex}>
-                <TextInput
-                  ref={(input) => { this.input = input; }}
-                  style={ styles.input}
-                  value={message}
-                  onChangeText={this.onChangeText}
-                  maxLength={250}
-                  multiline
-                />
-              </View>
-            </TouchableWithoutFeedback>
-
-            <Button
-              raised={false}
-              styleContent={styles.submitBtn}
-              onPress={this.onSubmit}
-            >
-              <Text style={styles.submitBtnText}>Send Message</Text>
-            </Button>
-          </KeyboardAvoidingView>
-        </DismissKeyboardView>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={65}
+          behavior="padding"
+          style={styles.flex}
+        >
+          <TextInput
+            style={[styles.input, styles.flex]}
+            value={message}
+            placeholder="Start type your message"
+            onChangeText={this.onChangeText}
+            maxLength={250}
+            textAlignVertical="top"
+            underlineColorAndroid="transparent"
+            multiline
+          />
+          <Text style={styles.messageLength}>{message.length}/250</Text>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -73,7 +44,7 @@ class MessageToDriver extends Component {
 MessageToDriver.propTypes = {
   navigation: PropTypes.object.isRequired,
   message: PropTypes.string,
-  changeFields: PropTypes.func.isRequired
+  changeMessageToDriver: PropTypes.func.isRequired
 };
 
 MessageToDriver.defaultProps = {
@@ -81,11 +52,11 @@ MessageToDriver.defaultProps = {
 };
 
 const mapState = ({ ui }) => ({
-  message: ui.map.fields.message
+  message: ui.map.tempMessageToDriver
 });
 
 const mapDispatch = ({
-  changeFields
+  changeMessageToDriver
 });
 
 export default connect(mapState, mapDispatch)(MessageToDriver);

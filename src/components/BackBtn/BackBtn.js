@@ -26,7 +26,9 @@ class BackBtn extends Component {
     field: PropTypes.string,
     touched: PropTypes.bool,
     touchedPath: PropTypes.string,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    containerStyle: Text.propTypes.style,
+    color: PropTypes.string
   };
 
   handlePress = () => {
@@ -43,10 +45,11 @@ class BackBtn extends Component {
   });
 
   render() {
+    const { containerStyle, color } = this.props;
     return (
-      <TouchableOpacity onPress={this.handlePress} style={styles.container}>
-        <Icon size={21} name="back" color="#284784" />
-        {Platform.OS === 'ios' && <Text style={styles.text}>{strings('back')}</Text>}
+      <TouchableOpacity onPress={this.handlePress} style={[styles.container, containerStyle]}>
+        <Icon size={21} name="back" color={color || '#284784'} />
+        {Platform.OS === 'ios' && <Text style={[styles.text, color ? { color } : {}]}>{strings('back')}</Text>}
       </TouchableOpacity>
     );
   }
