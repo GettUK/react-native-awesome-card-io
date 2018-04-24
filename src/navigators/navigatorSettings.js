@@ -157,7 +157,10 @@ const RoutesConfig = {
   },
   InfoPages: {
     screen: InfoPages,
-    navigationOptions: () => ({ headerStyle })
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings(`settings.${navigation.state.params.page}`)
+    })
   }
 };
 
