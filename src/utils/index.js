@@ -18,5 +18,6 @@ export {
 export * from './requests';
 export * from './map';
 export * from './moment';
+export * from './addresses';
 export { default as isIphoneX } from './ui';
 export { default as validate } from './validate';

@@ -5,11 +5,13 @@ import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { changeAddress } from 'actions/ui/map';
+
 import config from 'config';
 
 import { Icon } from 'components';
 
-import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
+import { LATTITIDE_DELTA, LONGTITUDE_DELTA, geocode, processLocation } from 'utils';
 import { ACTIVE_STATUS } from 'utils/orderStatuses';
 
 import MapStyle from './MapStyle';
@@ -111,11 +113,16 @@ class MapView extends Component {
 
   renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
 
-  renderMarker = ({ address, type = 'current', index = '' }) =>
+  renderMarker = ({ address, type = 'current', index = '', draggable = false, onDragEnd }) =>
     !this.props.isActiveOrder && address &&
-      <Map.Marker key={address.line + index} coordinate={this.prepareCoordinates(address)}>
+      (<Map.Marker
+        key={address.line + index}
+        coordinate={this.prepareCoordinates(address)}
+        draggable={draggable}
+        onDragEnd={onDragEnd}
+      >
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
-      </Map.Marker>;
+      </Map.Marker>);
 
   // renderPath = () => { // TODO: render after driverLocation channel listen
   //   const { fields, driverLocation, isActiveOrder, status } = this.props;
@@ -172,11 +179,36 @@ class MapView extends Component {
     />
   );
 
+  getGeocode = (e) => {
+    const { isActiveOrder, isCompletedOrder } = this.props;
+    const { latitude, longitude } = e.nativeEvent.coordinate;
+    const coordinates = { lat: latitude, lng: longitude };
+
+    const isPreorder = !isActiveOrder && !isCompletedOrder;
+
+    if (isPreorder) {
+      geocode(coordinates)
+        .then(processLocation)
+        .then((data) => {
+          this.props.changeAddress(data, { type: 'pickupAddress' });
+        });
+    }
+  }
+
   render() {
-    const { fields: currentFields, currentPosition, currentOrder, isCurrentOrder } = this.props;
+    const {
+      fields: currentFields,
+      currentPosition,
+      currentOrder,
+      isCurrentOrder,
+      isActiveOrder,
+      isCompletedOrder
+    } = this.props;
 
     const fields = isCurrentOrder ? currentOrder : currentFields;
     const stops = fields.stops || fields.stopAddresses;
+
+    const isPreorder = !isActiveOrder && !isCompletedOrder;
 
     return (
       <Map
@@ -186,6 +218,7 @@ class MapView extends Component {
         zoomEnabled
         showsCompass={false}
         customMapStyle={MapStyle}
+        onPress={this.getGeocode}
       >
         {this.renderRidePath()}
 
@@ -194,7 +227,9 @@ class MapView extends Component {
         {fields.pickupAddress &&
           this.renderMarker({
             address: fields.pickupAddress,
-            type: fields.destinationAddress ? 'sourceActive' : 'source'
+            type: !fields.destinationAddress && isPreorder ? 'source' : 'sourceActive',
+            draggable: !fields.destinationAddress && isPreorder,
+            onDragEnd: this.getGeocode
           })
         }
 
@@ -232,4 +267,4 @@ const mapState = ({ ui, bookings }) => ({
   status: bookings.currentOrder.status || 'connected'
 });
 
-export default connect(mapState, null, null, { withRef: true })(MapView);
+export default connect(mapState, { changeAddress }, null, { withRef: true })(MapView);
