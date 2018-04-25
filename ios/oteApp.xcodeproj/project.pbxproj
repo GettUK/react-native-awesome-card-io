@@ -20,6 +20,7 @@
 		4251E8B05496CC6C423C9FEE /* libPods-oteApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 506114E7CB4CE1CE5EB0FE68 /* libPods-oteApp.a */; };
 		431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */; };
 		7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0722AD2061373600C06D82 /* GoogleService-Info.plist */; };
+		7D4589D4208F8253004495E4 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; };
 		7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7ACDC5204D5FCC00298C96 /* libSplashScreen.a */; };
 		7D8BC1AD2041B39B009D2E2B /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1A62041B397009D2E2B /* libRCTWebSocket.a */; };
 		7D8BC1AE2041B4EF009D2E2B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1522041ACAA009D2E2B /* libReact.a */; };
@@ -31,7 +32,6 @@
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
-		92A2291E20865F2D00209D73 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
@@ -368,6 +368,7 @@
 				9276445B2081147500946644 /* libRNLocation.a in Frameworks */,
 				7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */,
 				7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */,
+				7D4589D4208F8253004495E4 /* InputMask.framework in Frameworks */,
 				7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */,
 				7D8BC1D62041B8E1009D2E2B /* libRCTNetwork.a in Frameworks */,
 				7D8BC1CC2041B7F8009D2E2B /* libRCTText.a in Frameworks */,
@@ -377,7 +378,6 @@
 				7D8BC1AD2041B39B009D2E2B /* libRCTWebSocket.a in Frameworks */,
 				7D8BC1AE2041B4EF009D2E2B /* libReact.a in Frameworks */,
 				431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */,
-				92A2291E20865F2D00209D73 /* InputMask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,11 +665,11 @@
 				39C044F3834ACBC8BFFE31A9 /* [CP] Embed Pods Frameworks */,
 				D73C64018EF553EA47B45916 /* [CP] Copy Pods Resources */,
 				92A2292020865F2D00209D73 /* Embed Frameworks */,
+				7D4589D920907C13004495E4 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7D8BC18B2041B1A6009D2E2B /* PBXTargetDependency */,
 				7D8BC1752041AD29009D2E2B /* PBXTargetDependency */,
 			);
 			name = oteApp;
@@ -1188,6 +1188,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost 8081 ; then\n    if ! curl -s \"http://localhost:8081/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port 8081 already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi";
 		};
+		7D4589D920907C13004495E4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "EXTRA_DIR=\"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Frameworks/InputMask.framework/Frameworks\"\n\nif [[ -d \"${EXTRA_DIR}\" ]]; then\nrm -rf \"${EXTRA_DIR}\"\nfi";
+		};
 		7DAD780B647935B2FC32A6D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1363,10 +1376,6 @@
 			name = React;
 			targetProxy = 7D8BC1742041AD29009D2E2B /* PBXContainerItemProxy */;
 		};
-		7D8BC18B2041B1A6009D2E2B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SplashScreen;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1453,6 +1462,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5390128D3161A784A34416DC /* Pods-oteApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = oteApp/oteApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1489,6 +1499,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = oteApp/oteApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
