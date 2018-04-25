@@ -202,6 +202,7 @@ export default class AddressModal extends PureComponent {
             style={styles.input}
             autoCorrect={false}
             autoFocus
+            allowedError={false}
             inputStyle={styles.inputStyle}
             selectionColor="#000"
             clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color="#8d8d8d" />}
