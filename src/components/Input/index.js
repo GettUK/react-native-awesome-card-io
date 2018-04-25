@@ -16,7 +16,8 @@ export default class Input extends PureComponent {
 
   static defaultProps = {
     allowClear: true,
-    clearIconColor: '#fff'
+    clearIconColor: '#fff',
+    allowedError: true
   };
 
   componentWillReceiveProps(nextProps) {
@@ -113,12 +114,15 @@ export default class Input extends PureComponent {
   renderError = () => {
     const {
       error,
+      allowedError,
       errorStyle
     } = this.props;
 
+    const placeholder = allowedError ? (<View style={styles.errorPlaceholder} />) : null;
+
     return error
       ? <Text style={[styles.errorMessage, errorStyle]}>{error[0]}</Text>
-      : <View style={styles.errorPlaceholder} />;
+      : placeholder;
   };
 
   renderLabel = () => {
