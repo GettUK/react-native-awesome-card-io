@@ -155,9 +155,9 @@ class BookingFooter extends PureComponent {
       stops: fields.stops
         ? fields.stops.map(stop => ({
           address: stop,
-          name: fields.passenger_name,
-          passenger_id: fields.passenger_id, // TODO: add posibility to select another passenger for stop
-          phone: fields.passenger_phone
+          name: fields.passengerName,
+          passengerId: fields.passengerId, // TODO: add posibility to select another passenger for stop
+          phone: fields.passengerPhone
         }))
         : null
     };
