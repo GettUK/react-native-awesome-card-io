@@ -19,6 +19,8 @@
     "usePassengerCostCentre": "Use passenger's Cost Centre"
   },
   "login": {
+    "acceptTermsConditions": "Accept Terms and Conditions",
+    "acceptPrivacyPolicy": "Accept Privacy Policy",
     "email": "Email",
     "password": "Password",
     "forgot_password": "Forgot your password?",

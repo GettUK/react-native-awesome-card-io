@@ -13,9 +13,11 @@ import {
 import validate from 'validate.js';
 
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { Icon, Input, Alert } from 'components';
+import { Icon, Input, Alert, SwitchItem } from 'components';
 
 import {
+  termsConditionsSwitch,
+  privacyPolicySwitch,
   changePassword,
   changeEmail,
   login as onSubmitLogin
@@ -73,7 +75,9 @@ class Login extends Component {
   }
 
   handleSubmit = () => {
-    if (this.validateInputs()) {
+    const { login: { checkboxes: { termsConditions, privacyPolicy } } } = this.props;
+
+    if (termsConditions && privacyPolicy && this.validateInputs()) {
       this.props.onSubmitLogin();
     }
   };
@@ -123,7 +127,7 @@ class Login extends Component {
   };
 
   render() {
-    const { login: { fields, busy } } = this.props;
+    const { login: { fields, busy, checkboxes: { termsConditions, privacyPolicy } } } = this.props;
     const { isResetSuccess, error } = this.state;
 
     return (
@@ -137,7 +141,7 @@ class Login extends Component {
           style={styles.container}>
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
-            value={fields.email}
+            value={fields.email || ''}
             onChangeText={this.props.changeEmail}
             style={styles.input}
             autoCorrect={false}
@@ -147,7 +151,7 @@ class Login extends Component {
             keyboardType="email-address"
           />
           <Input
-            value={fields.password}
+            value={fields.password || ''}
             onChangeText={this.props.changePassword}
             style={styles.input}
             autoCorrect={false}
@@ -156,9 +160,19 @@ class Login extends Component {
             label={strings('login.password')}
             secureTextEntry
           />
-
+          <SwitchItem
+            label={strings('login.acceptTermsConditions')}
+            value={termsConditions || false}
+            onValueChange={this.props.termsConditionsSwitch}
+          />
+          <SwitchItem
+            label={strings('login.acceptPrivacyPolicy')}
+            value={privacyPolicy || false}
+            onValueChange={this.props.privacyPolicySwitch}
+          />
           <TextButton
             title={strings('login.login_button')}
+            disabled={!termsConditions || !privacyPolicy}
             loading={busy}
             onPress={this.handleSubmit}
           />
@@ -189,10 +203,11 @@ class Login extends Component {
 Login.propTypes = {
   navigation: PropTypes.object.isRequired,
   login: PropTypes.object.isRequired,
+  termsConditionsSwitch: PropTypes.func.isRequired,
+  privacyPolicySwitch: PropTypes.func.isRequired,
   changePassword: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,
   onSubmitLogin: PropTypes.func.isRequired
-  // onSubmitLogout: PropTypes.func.isRequired
 };
 
 Login.defaultProps = {};
@@ -203,6 +218,8 @@ const select = ({ ui, router }) => ({
 });
 
 const bindActions = {
+  termsConditionsSwitch,
+  privacyPolicySwitch,
   changePassword,
   changeEmail,
   onSubmitLogin

@@ -8,7 +8,7 @@ const TextButton = props => (
   <Button
     {...props}
 
-    disabled={props.loading}
+    disabled={props.loading || props.disabled}
     disabledStyle={styles.disabledBtn}
 
     containerViewStyle={styles.btnContainer}

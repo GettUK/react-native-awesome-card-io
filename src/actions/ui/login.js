@@ -4,21 +4,28 @@ import { get, post } from 'utils';
 import { userLogin, userData } from 'actions/session';
 import { authSuccess, authFailure } from 'actions/ui/auth';
 import { registerToken } from 'actions/app/pushNotifications';
+import { curry } from 'lodash';
 
 const TYPES = createTypes('ui/login', [
-  'changeEmail',
-  'changePassword',
-  'setShowPassword',
+  'changeField',
   'loginStart',
   'loginSuccess',
   'loginFailure'
 ]);
 
-export const changeEmail = value => ({ type: TYPES.changeEmail, payload: value });
+const changeField = curry((path, field, value) => ({ type: TYPES.changeField, payload: { path, field, value } }));
 
-export const changePassword = value => ({ type: TYPES.changePassword, payload: value });
+const changeFields = changeField('fields');
 
-export const setShowPassword = () => ({ type: TYPES.setShowPassword });
+export const changeEmail = changeFields('email');
+
+export const changePassword = changeFields('password');
+
+const changeCheckboxes = changeField('checkboxes');
+
+export const termsConditionsSwitch = changeCheckboxes('termsConditions');
+
+export const privacyPolicySwitch = changeCheckboxes('privacyPolicy');
 
 export const loginStart = () => ({ type: TYPES.loginStart });
 

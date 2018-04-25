@@ -1,59 +1,29 @@
 import { composeReducer } from 'redux-compose-reducer';
+import update from 'update-js';
 
 const initialState = {
   fields: {
     email: 'artem@fakemail.com',
     password: 'qwqwqwQ@'
   },
-  showPassword: false,
+  checkboxes: {},
   busy: false,
   errors: null
 };
 
-const changeEmail = (state, { payload }) => ({
-  ...state,
-  fields: {
-    ...state.fields,
-    email: payload
-  },
-  errors: null
-});
+const changeField = (state, { payload: { path, field, value } }) =>
+  update(state, { [(path && `${path}.${field}`) || field]: value, errors: null });
 
-const changePassword = (state, { payload }) => ({
-  ...state,
-  fields: {
-    ...state.fields,
-    password: payload
-  },
-  errors: null
-});
-
-const setShowPassword = state => ({
-  ...state,
-  showPassword: !state.showPassword,
-  errors: null
-});
-
-const loginStart = state => ({
-  ...state,
-  busy: true,
-  errors: null
-});
+const loginStart = state => update(state, { busy: true, errors: null });
 
 const loginSuccess = () => initialState;
 
-const loginFailure = (state, { payload }) => ({
-  ...state,
-  busy: false,
-  errors: payload
-});
+const loginFailure = (state, { payload }) => update(state, { busy: false, errors: payload });
 
 export default composeReducer(
   'ui/login',
   {
-    changeEmail,
-    changePassword,
-    setShowPassword,
+    changeField,
     loginStart,
     loginSuccess,
     loginFailure
