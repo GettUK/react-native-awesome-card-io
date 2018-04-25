@@ -14,7 +14,7 @@ import { debounce, isArray } from 'lodash';
 import axios from 'axios';
 
 import { Icon, Input, Modal, Alert } from 'components';
-import { nullAddress, get } from 'utils';
+import { nullAddress, get, processLocation, geocode } from 'utils';
 import { strings } from 'locales';
 import styles from './styles';
 
@@ -23,38 +23,9 @@ const CancelToken = axios.CancelToken;
 const searchDebounce = 700;
 let cancelRequest;
 
-const processLocation = (location) => {
-  const { lat, lng, postalCode, name, formattedAddress, countryCode, timezone, city, placeId } = location;
-
-  const processedLocation = {
-    lat,
-    lng,
-    postalCode,
-    countryCode,
-    line: name && !formattedAddress.includes(name) ? [name, formattedAddress].join(', ') : formattedAddress,
-    timezone,
-    city,
-    placeId
-  };
-
-  if (
-    !processedLocation.line ||
-    !lat ||
-    !lng ||
-    (!postalCode && countryCode === 'GB')
-  ) {
-    throw new Error(processedLocation.line);
-  }
-  return processedLocation;
-};
-
 function getAddresses(params) {
   return get('/addresses', params, { cancelToken: new CancelToken((c) => { cancelRequest = c; }) })
     .then(res => res.data.list);
-}
-
-function geocode(params) {
-  return get('/addresses/geocode', params).then(res => res.data);
 }
 
 export default class AddressModal extends PureComponent {
