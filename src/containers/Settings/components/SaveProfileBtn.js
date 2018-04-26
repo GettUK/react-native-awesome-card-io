@@ -9,13 +9,22 @@ import { throttledAction, isInputsValid } from 'utils';
 import { validationRules } from '../utils';
 
 function SaveProfileBtn({ touched, navigation, data, sendProfileData, setValidationError }) {
+  const handleError = error => setValidationError('temp.validationError', error);
+
+  const handleSendData = () => {
+    sendProfileData()
+      .then(() => navigation.goBack(null));
+  };
+
   const handleSave = throttledAction(() => {
-    const { page, keys } = navigation.state.params;
-    if (touched &&
-        isInputsValid(keys || [page], data, validationRules, error => setValidationError('temp.validationError', error))
-    ) {
-      sendProfileData()
-        .then(() => navigation.goBack(null));
+    if (navigation.state.params) {
+      const { page, keys } = navigation.state.params;
+
+      if (touched && isInputsValid(keys || [page], data, validationRules, handleError)) {
+        handleSendData();
+      }
+    } else {
+      handleSendData();
     }
   });
 
