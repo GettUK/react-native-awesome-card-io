@@ -11,6 +11,7 @@ import {
 import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
 import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
+import { hourForward } from 'utils';
 import { strings } from 'locales';
 import { changeFields, changeAddress, setReferenceErrors } from 'actions/ui/map';
 import { createBooking, toggleVisibleModal } from 'actions/booking';
@@ -167,9 +168,10 @@ class BookingFooter extends PureComponent {
   };
 
   togglePickerModal = () => {
-    const { toggleVisibleModal } = this.props;
+    const { toggleVisibleModal, onDateChange } = this.props;
 
     toggleVisibleModal('picker');
+    onDateChange(hourForward());
   };
 
   renderAddressesSelector() {
