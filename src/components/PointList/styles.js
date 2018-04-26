@@ -29,6 +29,9 @@ export default StyleSheet.create({
   pickUpIcon: {
     marginRight: 15
   },
+  stopPosition: {
+    marginLeft: 2
+  },
   pickUpText: {
     flex: 1,
     fontSize: 16
@@ -46,5 +49,14 @@ export default StyleSheet.create({
   btnPlus: {
     paddingVertical: 1,
     paddingHorizontal: 10
-  }
+  },
+  iconContainer: {
+    position: 'relative'
+  },
+  connecter: {
+    position: 'absolute',
+    top: 17,
+    left: -3
+  },
+  pickUpConnecter: { top: 20 }
 });

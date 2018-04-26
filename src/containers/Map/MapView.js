@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, ImageBackground } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import assets from 'assets';
 
 import { changeAddress } from 'actions/ui/map';
 
@@ -133,15 +135,18 @@ class MapView extends Component {
     return { source, dest, stops };
   };
 
-  renderCurrentMarker = () => <Icon name="currentLocation" size={24} />;
+  renderCurrentMarker = () =>
+    <ImageBackground source={assets.pointerShadow} style={styles.iconShadow}>
+      <Icon name="currentLocation" size={18} />
+    </ImageBackground>;
 
   renderSourceMarker = () => <Icon name="sourceMarker" width={32} height={52} />;
 
-  renderSourceActiveMarker = () => <Icon name="pickUpField" size={32} />;
+  renderSourceActiveMarker = () => <Icon name="pickUpField" size={16} />;
 
-  renderStopMarker = () => <Icon name="pickUpField" color="#74818f" size={32} />;
+  renderStopMarker = () => <Icon name="pickUpField" color="#74818f" size={12} />;
 
-  renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
+  renderDestinationMarker = () => <Icon name="destinationMarker" width={16} height={19} />;
 
   renderDriverMarker = () => <Icon name="carFacet" size={32} />;
 
@@ -223,7 +228,7 @@ class MapView extends Component {
       origin={this.prepareCoordinates(source)}
       destination={this.prepareCoordinates(destination)}
       apikey={config.googleAPIKey}
-      strokeWidth={4}
+      strokeWidth={3}
       strokeColor="#2b4983"
     />
   );

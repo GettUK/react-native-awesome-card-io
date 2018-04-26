@@ -116,24 +116,30 @@ class OrdersList extends PureComponent {
         <View style={styles.orderDetails}>
           <Text style={styles.orderDate}>{moment(item.scheduledAt).format('lll')}</Text>
           <View style={[styles.orderAddress, styles.orderAddressGap]}>
-            <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />
+            <View style={styles.iconContainer}>
+              <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />
+              <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
+            </View>
             <Text numberOfLines={1} style={styles.flex}>{item.pickupAddress.line}</Text>
           </View>
           {item.stopAddresses && item.stopAddresses.length > 0 &&
             item.stopAddresses.map((address, i) => (
               <View key={i} style={[styles.orderAddress, styles.orderAddressGap]}>
-                <Icon
-                  name="pickUpField"
-                  color="#74818f"
-                  size={10}
-                  style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
-                />
+                <View style={styles.iconContainer}>
+                  <Icon
+                    name="pickUpField"
+                    color="#74818f"
+                    size={12}
+                    style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
+                  />
+                  <Icon style={styles.connecter} height={12} name="dottedLine" />
+                </View>
                 <Text numberOfLines={1} style={styles.flex}>{address.line}</Text>
               </View>
             ))
           }
           <View style={styles.orderAddress}>
-            <Icon name="pickUpField" color="#f00" size={16} style={styles.orderAddressIcon} />
+            <Icon name="destinationMarker" width={16} style={styles.orderAddressIcon} />
             <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress && item.destinationAddress.line}</Text>
           </View>
         </View>
