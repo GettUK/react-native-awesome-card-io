@@ -46,11 +46,8 @@ export default StyleSheet.create({
     marginTop: 2,
     alignSelf: 'center'
   },
-  delimiter: {
-    alignSelf: 'stretch',
-    margin: 0,
-    padding: 0,
-    borderWidth: 0,
+  divider: {
+    marginVertical: 0,
     marginLeft: 10,
     marginRight: 20,
     backgroundColor: '#D8D8D8',

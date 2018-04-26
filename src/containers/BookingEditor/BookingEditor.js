@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
+
 import { getFormData } from 'actions/booking';
 import { changeFields, changeAddress } from 'actions/ui/map';
+import { onLayoutPointList } from 'actions/app/statuses';
+
 import { PointList, AddressModal, StopPointsModal } from 'components';
+
+import { isIphoneX } from 'utils';
 import BookingFooter from './BookingFooter';
 import { prepareDefaultValues } from './utils';
 import styles from './style';
@@ -85,11 +90,11 @@ class BookingEditor extends Component {
     this.setState({ isStopPointsModalVisible: false }, () => {
       setTimeout(() => this.openAddressModal(address, meta), 500);
     });
-  }
+  };
 
   handleAddStop = () => {
     this.handleEditPoint(null, { type: 'stops' });
-  }
+  };
 
   showStopPointsModal = () => {
     this.setState({ isStopPointsModalVisible: true });
@@ -111,7 +116,23 @@ class BookingEditor extends Component {
       ...stopsObject,
       [`stop${(stops || []).length}`]: destinationAddress
     };
-  }
+  };
+
+  getHeight = (type) => {
+    const { app: { statuses: { params } } } = this.props;
+    return (params[type] && params[type].height) || 0;
+  };
+
+  movingPointList = () => {
+    const { height } = Dimensions.get('window');
+    const header = ((isIphoneX() ? 49 : 30) + 55);
+
+    if (!!this.getHeight('footer') && !!this.getHeight('pointList')) {
+      return { top: (height - this.getHeight('footer') - this.getHeight('pointList') - header) };
+    }
+
+    return { top: 0 };
+  };
 
   render() {
     const {
@@ -121,9 +142,11 @@ class BookingEditor extends Component {
       requestVehicles,
       passenger,
       map: { fields },
+      bookings: { formData: { vehicles } },
       changeAddress,
       changeFields,
       isAuthorizedPermission,
+      onLayoutPointList,
       onDateChange
     } = this.props;
 
@@ -134,13 +157,15 @@ class BookingEditor extends Component {
           defaultValues={prepareDefaultValues(passenger)}
           onChange={changeAddress}
         />
-
-        <PointList
-          style={styles.pointList}
-          onAddressPress={this.openAddressModal}
-          onStopAdd={this.showStopPointsModal}
-          data={fields}
-        />
+        {toOrder && !vehicles.loading && (
+          <PointList
+            onLayout={onLayoutPointList}
+            style={[styles.pointList, this.movingPointList()]}
+            onAddressPress={this.openAddressModal}
+            onStopAdd={this.showStopPointsModal}
+            data={fields}
+          />
+        )}
 
         <StopPointsModal
           data={this.prepareStopsData()}
@@ -183,13 +208,15 @@ BookingEditor.defaultProps = {
   passenger: {}
 };
 
-const select = ({ ui, session, bookings }) => ({
+const select = ({ ui, session, bookings, app }) => ({
   map: ui.map,
   memberId: has(session.result, 'memberId') ? session.result.memberId : undefined,
-  bookings
+  bookings,
+  app
 });
 
 const bindActions = {
+  onLayoutPointList,
   getFormData,
   changeFields,
   changeAddress
