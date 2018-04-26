@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView, Button } from 'components';
+import { FadeInView } from 'components';
 
 import { strings } from 'locales';
-import { ACTIVE_STATUS, ARRIVED_STATUS, COMPLETED_STATUS } from 'utils/orderStatuses';
+import { ACTIVE_STATUS, ARRIVED_STATUS, PREORDER_STATUSES } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
@@ -43,21 +43,20 @@ class ActiveOrderScene extends Component {
 
     const isTripActive = status === ACTIVE_STATUS;
     const isDriverArrived = status === ARRIVED_STATUS;
-    const isCompletedStatus = status === COMPLETED_STATUS;
+    const isPreOrderStatus = PREORDER_STATUSES.includes(status);
 
     return (
-      <View style={screenStyles.container}>
+      <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
-            {isCompletedStatus && <Button size="sm"><Text>Create new</Text></Button>}
           </View>
         </FadeInView>
 
         <View style={screenStyles.separator} />
 
         <FadeInView>
-          <View style={{ paddingBottom: this.isDriverExist ? 140 : 90 }}>
+          <View style={{ paddingBottom: this.isDriverExist ? 150 : 90 }}>
             <View style={screenStyles.actionsRow}>
               {!isTripActive
                 ?
@@ -84,7 +83,7 @@ class ActiveOrderScene extends Component {
           </View>
         </FadeInView>
 
-        <Pointer />
+        {isPreOrderStatus && <Pointer />}
 
         <OnMyWayModal isVisible={this.state.isVisible} onClose={this.handleCloseModal} />
       </View>

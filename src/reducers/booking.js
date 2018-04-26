@@ -104,6 +104,10 @@ const changeOrderStatus = (state, { data }) => (
   update(state, { 'currentOrder.serviceId': data.serviceId, 'currentOrder.status': data.status })
 );
 
+const changeDriverPosition = (state, { payload }) => (
+  update(state, { 'currentOrder.driverDetails.location': payload })
+);
+
 const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])
 );
@@ -136,6 +140,7 @@ export default composeReducer('booking', {
   canceledByExternal,
   canceledByUser,
   changeOrderStatus,
+  changeDriverPosition,
   setDriver,
   changeDriverRating,
   changeDriverRatingSuccess,

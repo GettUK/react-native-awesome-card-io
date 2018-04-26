@@ -475,7 +475,7 @@ class Map extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { isHeaderEnable, fromOrderList } = this.state;
+    const { isHeaderEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
@@ -528,7 +528,7 @@ class Map extends Component {
         <MapView
           isActiveOrder={isActiveOrder}
           isCompletedOrder={isCompletedOrder}
-          isCurrentOrder={fromOrderList}
+          isPreOrder={isPreOrder}
           ref={(map) => { this.mapView = map; }}
         />
 
