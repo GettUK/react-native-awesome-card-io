@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
   label: {
     position: 'absolute'
   },
+  rightBtn: {
+    position: 'absolute',
+    right: 16
+  },
   clearBtn: {
     position: 'absolute',
     right: 0,

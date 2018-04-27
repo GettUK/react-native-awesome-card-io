@@ -82,6 +82,9 @@ const resetBookingValues = state =>
 const changeMessageToDriver = (state, { payload }) =>
   update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
 
+const changeFlight = (state, { payload }) =>
+  update(state, { tempFlight: payload.data, flightTouched: payload.touched });
+
 
 const getVehiclesStart = state => (
   update.assign(state, 'vehicles', {
@@ -199,6 +202,7 @@ export default composeReducer('booking', {
   setReferenceErrors,
   resetBookingValues,
   changeMessageToDriver,
+  changeFlight,
   getVehiclesStart,
   getVehiclesSuccess,
   getVehiclesFailure,

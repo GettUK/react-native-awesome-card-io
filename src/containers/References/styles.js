@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
     color: 'red',
     bottom: 0,
     left: 15
+  },
+  toggleLabel: {
+    color: '#284784'
   }
 });
 

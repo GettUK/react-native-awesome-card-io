@@ -14,8 +14,18 @@ import { has, find, isNull, pickBy, isEmpty } from 'lodash';
 import { Icon, Button, Modal, CarItem, InformView, Alert, Divider } from 'components';
 import { hourForward } from 'utils';
 import { strings } from 'locales';
+
 import { onLayoutFooter } from 'actions/app/statuses';
-import { createBooking, toggleVisibleModal, changeFields, changeAddress, setReferenceErrors } from 'actions/booking';
+
+import {
+  createBooking,
+  toggleVisibleModal,
+  changeFields,
+  changeAddress,
+  setReferenceErrors,
+  saveFlight,
+  changeFlight
+} from 'actions/booking';
 import {
   paymentTypeToAttrs,
   vehiclesData,
@@ -23,13 +33,16 @@ import {
   paymentTypeLabels,
   isEqualAddress
 } from 'containers/shared/bookings/data';
+import { FlightModal } from 'containers/FlightSettings';
+
 import { LoaderLayer } from './components';
 
 import styles from './style';
 
 class BookingFooter extends PureComponent {
   state = {
-    message: ''
+    message: '',
+    flightModal: false
   };
 
   onLayout = (e) => {
@@ -104,6 +117,11 @@ class BookingFooter extends PureComponent {
     this.props.navigation.navigate(page, payload);
   };
 
+  goToFlightSettings = () => {
+    this.toggleSettingsModal();
+    this.props.navigation.navigate('FlightSettings');
+  }
+
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('settings');
   };
@@ -151,6 +169,14 @@ class BookingFooter extends PureComponent {
     }
   };
 
+  showFlightModal = () => {
+    this.setState({ flightModal: true });
+  }
+
+  hideFlightModal = () => {
+    this.setState({ flightModal: false });
+  }
+
   areAddressesUnique() {
     const { booking: { bookingForm: { pickupAddress, stops, destinationAddress } } } = this.props;
     const addresses = [pickupAddress, ...(stops || []), destinationAddress];
@@ -172,6 +198,34 @@ class BookingFooter extends PureComponent {
     }
 
     return unique;
+  }
+
+  isPathContainAirport = () => {
+    const { booking: { bookingForm: { pickupAddress, destinationAddress, stops, flight } } } = this.props;
+
+    const airports = [
+      pickupAddress.airport,
+      ...(stops || []).filter(stop => stop.airport),
+      destinationAddress.airport
+    ];
+
+    return airports.find(Boolean) && !flight;
+  }
+
+  checkAirport = () => {
+    if (this.isPathContainAirport()) {
+      return this.showFlightModal();
+    }
+
+    return this.createBooking();
+  }
+
+  setAirport = () => {
+    this.props.saveFlight();
+
+    this.props.changeFlight({ flight: '', flightType: '' }, false);
+
+    this.createBooking();
   }
 
   createBooking = () => {
@@ -305,7 +359,7 @@ class BookingFooter extends PureComponent {
       booking: {
         formData: { travelReasons, bookingReferences },
         modals: { settings },
-        bookingForm: { message, travelReasonId, paymentMethod, passengerName }
+        bookingForm: { message, flight, travelReasonId, paymentMethod, passengerName }
       }
     } = this.props;
 
@@ -333,6 +387,8 @@ class BookingFooter extends PureComponent {
         {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], () => this.goTo('PaymentsOptions'))}
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Booking References', `${bookingReferences.length} References`, () => this.goTo('References'))}
+        <View style={styles.settingsMenuSeparator} />
+        {renderMenuItem('Flight number', flight, this.goToFlightSettings)}
       </Modal>
     );
   }
@@ -423,7 +479,7 @@ class BookingFooter extends PureComponent {
                   style={styles.orderRideBtn}
                   styleContent={[styles.orderRideBtnView, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
                   disabled={isOrderBtnDisabled}
-                  onPress={this.createBooking}
+                  onPress={this.checkAirport}
                 >
                   {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#acabab" />}
                   <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
@@ -436,6 +492,12 @@ class BookingFooter extends PureComponent {
                 message={this.state.message}
                 type="failed"
                 position="bottom"
+              />
+
+              <FlightModal
+                isVisible={this.state.flightModal}
+                onClose={this.createBooking}
+                onSubmit={this.setAirport}
               />
             </View>
           )
@@ -483,7 +545,9 @@ const bindActions = {
   changeFields,
   changeAddress,
   toggleVisibleModal,
-  setReferenceErrors
+  setReferenceErrors,
+  saveFlight,
+  changeFlight
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingFooter);

@@ -1,4 +1,5 @@
 import add from './add';
+import arriving from './arriving';
 import arrow from './arrow';
 import arrowDown from './arrowDown';
 import avatar from './avatar';
@@ -18,6 +19,7 @@ import closeThick from './closeThick';
 import currentLocation from './currentLocation';
 import destinationMarker from './destinationMarker';
 import distance from './distance';
+import departing from './departing';
 import dots from './dots';
 import dottedLine from './dottedLine';
 import drag from './drag';
@@ -67,6 +69,7 @@ import checkOff from './checkbox/checkOff';
 
 export default {
   add,
+  arriving,
   arrow,
   arrowDown,
   avatar,
@@ -89,6 +92,7 @@ export default {
   dots,
   dottedLine,
   drag,
+  departing,
   editAndroid,
   email,
   futureOrder,

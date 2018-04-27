@@ -5,6 +5,7 @@ export { default as Map } from './Map';
 export { default as Settings } from './Settings';
 export { default as Orders } from './Orders';
 export { default as MessageToDriver } from './MessageToDriver';
+export { default as FlightSettings } from './FlightSettings';
 export { default as ReasonForTravel } from './ReasonForTravel';
 export { default as RateDriver } from './RateDriver';
 export { default as PaymentsOptions } from './PaymentsOptions';

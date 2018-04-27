@@ -1,7 +1,7 @@
 import { get } from 'utils';
 
 export const processLocation = (location) => {
-  const { lat, lng, postalCode, name, formattedAddress, countryCode, timezone, city, placeId } = location;
+  const { lat, lng, postalCode, name, formattedAddress, countryCode, timezone, city, placeId, airport } = location;
 
   const processedLocation = {
     lat,
@@ -11,7 +11,8 @@ export const processLocation = (location) => {
     line: name && !formattedAddress.includes(name) ? [name, formattedAddress].join(', ') : formattedAddress,
     timezone,
     city,
-    placeId
+    placeId,
+    airport
   };
 
   if (

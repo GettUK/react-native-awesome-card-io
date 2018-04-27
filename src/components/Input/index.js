@@ -111,6 +111,16 @@ export default class Input extends PureComponent {
     );
   };
 
+  renderRightButton = () => {
+    const { rightButtonStyle, rightButton } = this.props;
+
+    return (
+      <View style={[styles.rightBtn, rightButtonStyle]}>
+        {rightButton}
+      </View>
+    );
+  }
+
   renderError = () => {
     const {
       error,
@@ -153,6 +163,7 @@ export default class Input extends PureComponent {
       selectionColor,
       underlineColorAndroid,
       inputRef,
+      rightButton,
       ...rest
     } = this.props;
 
@@ -174,6 +185,7 @@ export default class Input extends PureComponent {
           underlineColorAndroid={underlineColorAndroid || 'transparent'}
           selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
         />
+        {rightButton && this.renderRightButton()}
         {this.renderClearOption()}
         {this.renderHelpOption()}
         {this.renderError()}

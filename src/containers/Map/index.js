@@ -376,7 +376,7 @@ class Map extends Component {
     removeFields([
       'stops', 'destinationAddress',
       'vehiclePrice', 'vehicleValue', 'vehicleName',
-      'travelReasonId'
+      'travelReasonId', 'flight', 'flightType'
     ]);
     resetBookingValues();
   };
