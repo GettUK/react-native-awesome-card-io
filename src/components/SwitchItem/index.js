@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Platform, Switch } from 'react-native';
+import { View, Text, Platform, Switch, TouchableWithoutFeedback } from 'react-native';
 import { noop } from 'lodash';
 import styles from './style';
 
 export default class SwitchItem extends PureComponent {
   static defaultProps = {
     value: false,
+    onLabelPress: () => noop,
     onValueChange: () => noop,
     onTintColor: '#4cd964',
     tintColor: 'rgba(255,255,255,0.2)',
@@ -17,12 +18,17 @@ export default class SwitchItem extends PureComponent {
       style,
       labelStyle,
       label,
+      onLabelPress,
       ...rest
     } = this.props;
 
     return (
       <View style={[styles.container, style]}>
-        {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+        {label &&
+          <TouchableWithoutFeedback onPress={onLabelPress}>
+            <View><Text style={[styles.label, labelStyle]}>{label}</Text></View>
+          </TouchableWithoutFeedback>
+        }
         <Switch {...rest} />
       </View>
     );
