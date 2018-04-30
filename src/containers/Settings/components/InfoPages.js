@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StatusBar } from 'react-native';
 
 import services from './data';
 
@@ -49,6 +49,8 @@ class InfoPages extends PureComponent {
 
     return (
       <View style={[styles.flex, styles.wrapper]}>
+        <StatusBar barStyle="default" />
+
         <ScrollView>
           {services[page].map(this.renderItem)}
         </ScrollView>

@@ -27,6 +27,8 @@ import { strings } from 'locales';
 
 import assets from 'assets';
 
+import { throttledAction } from 'utils';
+
 import { loginRules } from './validatorRules';
 import TextButton from './TextButton';
 
@@ -126,6 +128,10 @@ class Login extends Component {
     this.resetError();
   };
 
+  goToInfoPage = throttledAction((page) => {
+    this.props.navigation.navigate('InfoPages', { page });
+  });
+
   render() {
     const { login: { fields, busy, checkboxes: { termsConditions, privacyPolicy } } } = this.props;
     const { isResetSuccess, error } = this.state;
@@ -164,11 +170,13 @@ class Login extends Component {
             label={strings('login.acceptTermsConditions')}
             value={termsConditions || false}
             onValueChange={this.props.termsConditionsSwitch}
+            onLabelPress={() => this.goToInfoPage('terms')}
           />
           <SwitchItem
             label={strings('login.acceptPrivacyPolicy')}
             value={privacyPolicy || false}
             onValueChange={this.props.privacyPolicySwitch}
+            onLabelPress={() => this.goToInfoPage('privacy')}
           />
           <TextButton
             title={strings('login.login_button')}
