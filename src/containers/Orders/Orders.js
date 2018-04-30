@@ -11,21 +11,20 @@ function getTitleCount(params, type) {
   return params && params.count ? `(${params.count[type] || '0'})` : '';
 }
 
-function getScreenParams(type) {
-  const tabTitle = `${type[0].toUpperCase()}${type.substring(1)}`;
-
+function getScreenParams({ type, idsType, title }) {
   return {
-    screen: props => <OrdersList type={type} {...props} />,
+    screen: props => <OrdersList type={type} idsType={idsType} {...props} />,
     navigationOptions: ({ navigation }) => ({
-      title: `${tabTitle} ${getTitleCount(navigation.state.params, type)}`
+      title: `${title} ${getTitleCount(navigation.state.params, type)}`
     })
   };
 }
 
 const OrdersTabNavigator = TabNavigator(
   {
-    Previous: getScreenParams('previous'),
-    Active: getScreenParams('active')
+    Personal: getScreenParams({ idsType: 'include', title: 'Personal' }),
+    Business: getScreenParams({ idsType: 'exclude', title: 'Business' }),
+    Previous: getScreenParams({ type: 'previous', title: 'Previous' })
   },
   {
     ...TabNavigator.Presets.AndroidTopTabs,
@@ -36,6 +35,7 @@ const OrdersTabNavigator = TabNavigator(
       indicatorStyle: {
         backgroundColor: '#7ae4ff'
       },
+      labelStyle: { fontSize: 12 },
       inactiveTintColor: 'rgba(255, 255, 255, 0.6)',
       pressColor: 'rgba(255, 255, 255, 0.4)',
       pressOpacity: 0.8

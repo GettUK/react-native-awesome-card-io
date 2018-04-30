@@ -11,7 +11,8 @@ const initialList = {
 };
 
 export const initialState = {
-  active: initialList,
+  include: initialList,
+  exclude: initialList,
   previous: initialList
 };
 
