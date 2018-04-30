@@ -123,7 +123,8 @@ class BookingEditor extends Component {
       map: { fields },
       changeAddress,
       changeFields,
-      isAuthorizedPermission
+      isAuthorizedPermission,
+      onDateChange
     } = this.props;
 
     return (
@@ -159,6 +160,7 @@ class BookingEditor extends Component {
           toOrder={toOrder}
           openAddressModal={this.openAddressModal}
           isAuthorizedPermission={isAuthorizedPermission}
+          onDateChange={onDateChange}
         />
       </View>
     );

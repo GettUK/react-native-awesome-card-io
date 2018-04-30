@@ -42,7 +42,7 @@ import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { getPassengerData } from 'actions/passenger';
 
 import { strings } from 'locales';
-import { showConfirmationAlert, hourForward, setDefaultTimezone, convertToZone, momentDate } from 'utils';
+import { showConfirmationAlert, setDefaultTimezone, convertToZone, momentDate, hourForward } from 'utils';
 import PN from 'utils/notifications';
 
 import ActiveOrderScene from './ActiveOrderScene';
@@ -66,7 +66,8 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: hourForward.toDate(),
+      date: hourForward(),
+      minDate: hourForward(),
       isHeaderEnable: true,
       fromOrderList: false,
       fromSettings: false
@@ -203,7 +204,7 @@ class Map extends Component {
   isActiveSceneIs = (name = 'preOrder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
   handleDateChange = (date) => {
-    this.setState({ date });
+    this.setState({ date, minDate: hourForward() });
   };
 
   handleDateSubmit = () => {
@@ -387,7 +388,7 @@ class Map extends Component {
   };
 
   renderTimeDatePicker() {
-    const { date } = this.state;
+    const { date, minDate } = this.state;
     const { bookings: { modals: { picker } }, map: { fields: { pickupAddress } } } = this.props;
     const moment = momentDate(date);
     const timezoneDate = (pickupAddress && convertToZone(moment, pickupAddress.timezone)) || moment;
@@ -396,7 +397,7 @@ class Map extends Component {
       try {
         const { action, year, month, day } = await DatePickerAndroid.open({
           date,
-          minDate: hourForward.toDate()
+          minDate
         });
         if (action !== DatePickerAndroid.dismissedAction) {
           this.handleDateChange(moment.set({ year, month, date: day }).toDate());
@@ -461,7 +462,7 @@ class Map extends Component {
           <DatePickerIOS
             date={date}
             onDateChange={this.handleDateChange}
-            minimumDate={hourForward.toDate()}
+            minimumDate={minDate}
             timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
           />
         </View>
@@ -520,6 +521,7 @@ class Map extends Component {
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
+            onDateChange={this.handleDateChange}
           />
         }
         {isActiveOrder && <ActiveOrderScene />}
