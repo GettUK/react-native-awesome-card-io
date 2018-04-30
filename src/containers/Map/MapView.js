@@ -160,6 +160,7 @@ class MapView extends Component {
         onDragEnd={onDragEnd}
         onPress={movable && this.handleParsePickUpToAddress}
         stopPropagation
+        tracksViewChanges={false}
       >
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>
