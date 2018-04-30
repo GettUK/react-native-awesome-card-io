@@ -76,7 +76,7 @@ class OrdersList extends PureComponent {
   };
 
   getOrders = () => {
-    const { getOrders, type, items, meta } = this.props;
+    const { getOrders, type, idsType, items, meta, passengerId } = this.props;
     const { loading } = this.state;
 
     if (!loading && (!items.length || (items.length < meta.total))) {
@@ -84,15 +84,16 @@ class OrdersList extends PureComponent {
 
       const params = {
         page: meta.current + 1,
-        status: getOrdersStatuses(type),
-        order: 'scheduledAt'
+        order: 'scheduledAt',
+        status: getOrdersStatuses(type || 'active'),
+        reverse: true
       };
 
-      if (type === 'previous') {
-        params.reverse = true;
+      if (idsType) {
+        params[`${idsType}PassengerIds`] = [passengerId];
       }
 
-      getOrders(params, type).then(() => this.setState({ loading: false }));
+      getOrders(params, idsType || type).then(() => this.setState({ loading: false }));
     }
   };
 
@@ -182,8 +183,9 @@ class OrdersList extends PureComponent {
 }
 
 const mapState = (state, props) => ({
-  items: state.orders[props.type].items,
-  meta: state.orders[props.type].meta
+  items: state.orders[props.idsType || props.type].items,
+  meta: state.orders[props.idsType || props.type].meta,
+  passengerId: state.session.result.memberId
 });
 
 const mapDispatch = ({
