@@ -3,7 +3,6 @@ import { Platform, ImageBackground } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
-import { noop } from 'lodash';
 import PropTypes from 'prop-types';
 
 import assets from 'assets';
@@ -75,9 +74,7 @@ class MapView extends Component {
 
   isPathChanged = (fields, fieldsProps) => (
     (fields.destinationAddress &&
-      (fields.destinationAddress !== fieldsProps.destinationAddress ||
-        fields.pickupAddress !== fieldsProps.pickupAddress
-      )
+      (fields.destinationAddress !== fieldsProps.destinationAddress)
     )
     || (fields.stops && fields.stops !== fieldsProps.stops)
   );
@@ -92,8 +89,7 @@ class MapView extends Component {
   };
 
   shouldAnimateToPickUp = ({ order, oldOrder, isActiveOrder, isActiveOrderProps }) => (
-    (order.pickupAddress !== oldOrder.pickupAddress && !order.destinationAddress && oldOrder.pickupAddress)
-    || (!order.destinationAddress && oldOrder.destinationAddress)
+    (!order.destinationAddress && oldOrder.destinationAddress)
     || (isActiveOrder && !isActiveOrderProps)
   );
 
@@ -151,15 +147,12 @@ class MapView extends Component {
 
   renderDriverMarker = () => <Icon name="carFacet" size={32} />;
 
-  renderMarker = ({ address, type = 'current', index = '', movable = false, onDragEnd }) =>
+  renderMarker = ({ address, type = 'current', index = '' }) =>
     address &&
       (<Map.Marker
         key={type + index}
         coordinate={this.prepareCoordinates(address)}
-        draggable={movable}
         anchor={{ x: 0.5, y: 0.5 }}
-        onDragEnd={onDragEnd}
-        onPress={(movable && this.handleParsePickUpToAddress) || noop}
         stopPropagation
         tracksViewChanges={false}
       >
@@ -241,23 +234,29 @@ class MapView extends Component {
     const order = this.getOrder();
 
     this.getGeocode({ coordinates: this.prepareCoordinates(order.pickupAddress) });
-  }
+  };
 
-  getGeocode = (e) => {
-    if ((e.coordinates || e.nativeEvent.coordinate) && this.props.isPreorder) {
-      const { latitude, longitude } = e.coordinates || e.nativeEvent.coordinate;
-      const coordinates = { lat: latitude, lng: longitude };
+  getGeocode = (region) => {
+    const { isPreOrder, dragEnable, changeAddress, onEndLoadingPickup, onStartLoadingPickup } = this.props;
+
+    if (region && isPreOrder && dragEnable) {
+      const coordinates = { lat: region.latitude, lng: region.longitude };
+
+      onStartLoadingPickup();
 
       geocode(coordinates)
         .then(processLocation)
         .then((data) => {
+          onEndLoadingPickup();
+
           changeAddress(data, { type: 'pickupAddress' });
-        });
+        })
+        .catch(() => onEndLoadingPickup());
     }
   };
 
   shouldShowPickupMarkers = ({ order, stops, isPreOrder }) => !!order.pickupAddress && (
-    isPreOrder
+    (isPreOrder && order.destinationAddress)
     || ACTIVE_DRIVER_STATUSES.includes(order.status)
     || (order.status === IN_PROGRESS_STATUS && stops && stops.length > 0)
     || FINAL_STATUSES.includes(order.status)
@@ -276,7 +275,7 @@ class MapView extends Component {
   );
 
   render() {
-    const { currentPosition, isPreOrder } = this.props;
+    const { currentPosition, isPreOrder, dragEnable } = this.props;
 
     const order = this.getOrder();
     const stops = this.getStops();
@@ -288,8 +287,10 @@ class MapView extends Component {
         provider={PROVIDER_GOOGLE}
         zoomEnabled
         showsCompass={false}
+        scrollEnabled={dragEnable}
         customMapStyle={MapStyle}
-        onPress={this.getGeocode}
+        onPanDrag={this.handleStartDrag}
+        onRegionChangeComplete={this.getGeocode}
       >
         {this.renderRidePath()}
 
@@ -300,9 +301,7 @@ class MapView extends Component {
         {this.shouldShowPickupMarkers({ order, stops, isPreOrder }) &&
           this.renderMarker({
             address: order.pickupAddress,
-            type: !order.destinationAddress && isPreOrder ? 'source' : 'sourceActive',
-            movable: !order.destinationAddress && isPreOrder,
-            onDragEnd: this.getGeocode
+            type: !order.destinationAddress && isPreOrder ? 'source' : 'sourceActive'
           })
         }
 

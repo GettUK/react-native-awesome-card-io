@@ -40,6 +40,9 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 16
   },
+  pickUpTextLoading: {
+    color: '#8794a0'
+  },
   btnPlus: {
     paddingVertical: 1,
     paddingHorizontal: 10

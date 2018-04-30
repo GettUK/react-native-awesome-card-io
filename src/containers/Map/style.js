@@ -1,6 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 import { isIphoneX } from 'utils';
+
+const { height, width } = Dimensions.get('window');
 
 const iPhoneHeaderPadding = isIphoneX() ? 49 : 30;
 
@@ -103,6 +105,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 24,
     width: 24
+  },
+  pickUpMarker: {
+    position: 'absolute',
+    left: (width / 2) - 16,
+    top: (height / 2) - 26
   }
 });
 
