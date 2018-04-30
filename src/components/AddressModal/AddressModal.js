@@ -187,10 +187,13 @@ export default class AddressModal extends PureComponent {
   renderAddressList() {
     const { values, loading } = this.state;
 
+    const Container = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+
     return (
-      <KeyboardAvoidingView
+      <Container
         behavior="padding"
         style={styles.flex}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
         <FlatList
           keyboardShouldPersistTaps="always"
@@ -201,7 +204,7 @@ export default class AddressModal extends PureComponent {
           keyExtractor={this.keyExtractor}
           ListFooterComponent={loading && this.renderFooter}
         />
-      </KeyboardAvoidingView>
+      </Container>
     );
   }
 
