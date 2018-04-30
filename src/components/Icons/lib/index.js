@@ -5,6 +5,8 @@ import back from './back';
 import burger from './burger';
 import calendar from './calendar';
 import camera from './camera';
+import car from './car';
+import carFacet from './carFacet';
 import check from './check';
 import checkmark from './checkmark';
 import chevron from './chevron';
@@ -13,23 +15,22 @@ import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
 import currentLocation from './currentLocation';
-import dots from './dots';
 import distance from './distance';
+import dots from './dots';
 import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
 import help from './help';
 import home from './home';
 import id from './id';
-import vehicleInfo from './info';
 import journeyTime from './journeyTime';
 import logo from './logo';
 import myLocation from './myLocation';
+import phone from './phone';
 import pickUpCenter from './pickUpCenter';
 import pickUpField from './pickUpField';
-import phone from './phone';
-import pointer from './pointer';
 import plus from './plus';
+import pointer from './pointer';
 import push from './push';
 import search from './search';
 import selected from './selected';
@@ -38,6 +39,7 @@ import sms from './sms';
 import sourceMarker from './sourceMarker';
 import star from './star';
 import time from './time';
+import vehicleInfo from './info';
 import walker from './walker';
 import wheelchair from './wheelchair';
 import work from './work';
@@ -60,6 +62,8 @@ export default {
   burger,
   calendar,
   camera,
+  car,
+  carFacet,
   check,
   checkmark,
   chevron,
@@ -68,21 +72,20 @@ export default {
   close,
   closeThick,
   currentLocation,
-  dots,
   distance,
+  dots,
   drag,
   editAndroid,
   email,
   help,
   home,
   id,
-  vehicleInfo,
   journeyTime,
   logo,
   myLocation,
+  phone,
   pickUpCenter,
   pickUpField,
-  phone,
   plus,
   pointer,
   push,
@@ -93,6 +96,7 @@ export default {
   sourceMarker,
   star,
   time,
+  vehicleInfo,
   walker,
   wheelchair,
   work,

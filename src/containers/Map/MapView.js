@@ -12,53 +12,54 @@ import config from 'config';
 import { Icon } from 'components';
 
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA, geocode, processLocation } from 'utils';
-import { ACTIVE_STATUS } from 'utils/orderStatuses';
+import {
+  IN_PROGRESS_STATUS,
+  ARRIVED_STATUS,
+  DRIVER_ON_WAY,
+  ACTIVE_DRIVER_STATUSES,
+  FINAL_STATUSES,
+  PREORDER_STATUSES
+} from 'utils/orderStatuses';
 
 import MapStyle from './MapStyle';
 import styles from './style';
 
 class MapView extends Component {
-  componentWillReceiveProps({ fields, isActiveOrder, currentOrder, isCompletedOrder }) {
-    const {
-      fields: fieldsProps,
-      isActiveOrder: isActiveOrderProps,
-      isCompletedOrder: isCompletedOrderProps
-    } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { isActiveOrder, isCompletedOrder } = nextProps;
+    const { isActiveOrder: isActiveOrderProps, isCompletedOrder: isCompletedOrderProps } = this.props;
+
+    const order = this.getOrder(nextProps);
+    const oldOrder = this.getOrder();
 
     if (isCompletedOrder && !isCompletedOrderProps) {
-      const { source, dest, stops } = this.preparePointsList(currentOrder);
-
+      const { source, dest, stops } = this.preparePointsList(order);
       const multiplier = this.getMultiplier();
-
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
     } else if (!isCompletedOrder) {
-      if (this.isPathChanged(fields, fieldsProps) ||
-        (!isActiveOrder && isActiveOrderProps && fields.destinationAddress)) {
-        const { source, dest, stops } = this.preparePointsList(fields);
-
-        this.resizeMapToCoordinates([source, dest, ...stops]);
+      if (this.shouldResizeMapToPointsList({ oldOrder, order, oldIsActiveOrder: isActiveOrderProps, isActiveOrder })) {
+        const { source, dest, stops } = this.preparePointsList(order);
+        setTimeout(() => this.resizeMapToCoordinates([source, dest, ...stops]));
       }
 
-      if ((fields.pickupAddress !== fieldsProps.pickupAddress
-        && !fields.destinationAddress && fieldsProps.pickupAddress)
-        || (!fields.destinationAddress && fieldsProps.destinationAddress)
-        || (isActiveOrder && !isActiveOrderProps)) {
-        const source = this.prepareCoordinates(fields.pickupAddress);
-
+      if (this.shouldAnimateToPickUp({ order, oldOrder, isActiveOrder, isActiveOrderProps })) {
+        const source = this.prepareCoordinates(order.pickupAddress);
         this.animateToRegion(source);
       }
 
-      // TODO: check after driverLocation channel listen
-
-      // if (driverLocation && driverLocation !== driverLocationProps) {
-      //   console.warn(driverLocation)
-
-      //   const dest = this.prepareCoordinates(fields.pickupAddress);
-      //   const source = this.prepareCoordinates(driverLocation);
-
-      //   this.resizeMapToCoordinates([source, dest], { top: 100, left: 50, right: 50 });
-      // }
+      if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
+        this.resizeMapToDriverAndPickupAddress(order);
+      }
     }
+  }
+
+  getOrder(props = this.props) {
+    return props.isPreOrder ? props.fields : props.currentOrder;
+  }
+
+  getStops() {
+    const order = this.getOrder();
+    return order.stops || order.stopAddresses;
   }
 
   animateToRegion = (source) => {
@@ -87,6 +88,35 @@ class MapView extends Component {
     });
   };
 
+  shouldAnimateToPickUp = ({ order, oldOrder, isActiveOrder, isActiveOrderProps }) => (
+    (order.pickupAddress !== oldOrder.pickupAddress && !order.destinationAddress && oldOrder.pickupAddress)
+    || (!order.destinationAddress && oldOrder.destinationAddress)
+    || (isActiveOrder && !isActiveOrderProps)
+  );
+
+  gotNewStatus = (oldOrder, order, status) =>
+    oldOrder.status !== status && order.status === status;
+
+  shouldResizeMapToDriverAndPickupAddress = ({ oldOrder, order }) =>
+    order.pickupAddress && order.driverDetails && order.driverDetails.location &&
+    ((this.gotNewStatus(oldOrder, order, DRIVER_ON_WAY))
+      || (this.gotNewStatus(oldOrder, order, ARRIVED_STATUS)));
+
+  shouldResizeMapToPointsList = ({ oldOrder, order, oldIsActiveOrder, isActiveOrder }) =>
+    order.pickupAddress && order.destinationAddress && !PREORDER_STATUSES.includes(order.status) && (
+      (!isActiveOrder && oldIsActiveOrder)
+      || this.isPathChanged(order, oldOrder)
+      || this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS)
+      || (order.driverDetails && !order.driverDetails.location)
+    );
+
+  resizeMapToDriverAndPickupAddress = (order) => {
+    const dest = this.prepareCoordinates(order.pickupAddress);
+    const source = this.prepareCoordinates(order.driverDetails.location);
+
+    setTimeout(() => this.resizeMapToCoordinates([source, dest]));
+  };
+
   getMultiplier = () => (Platform.OS === 'android' ? 2.5 : 1);
 
   prepareCoordinates = address => (
@@ -98,7 +128,7 @@ class MapView extends Component {
   preparePointsList = (order) => {
     const source = this.prepareCoordinates(order.pickupAddress);
     const dest = this.prepareCoordinates(order.destinationAddress);
-    const stops = (order.stops || order.stopAddresses || []).map(this.prepareCoordinates);
+    const stops = (this.getStops() || []).map(this.prepareCoordinates);
 
     return { source, dest, stops };
   };
@@ -113,59 +143,78 @@ class MapView extends Component {
 
   renderDestinationMarker = () => <Icon name="pickUpField" color="#ff0000" size={32} />;
 
+  renderDriverMarker = () => <Icon name="carFacet" size={32} />;
+
   renderMarker = ({ address, type = 'current', index = '', draggable = false, onDragEnd }) =>
-    !this.props.isActiveOrder && address &&
-      (<Map.Marker
-        key={address.line + index}
+    address && (
+      <Map.Marker
+        key={type + index}
         coordinate={this.prepareCoordinates(address)}
         draggable={draggable}
+        anchor={{ x: 0.5, y: 0.5 }}
         onDragEnd={onDragEnd}
       >
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
-      </Map.Marker>);
+      </Map.Marker>
+    );
 
-  // renderPath = () => { // TODO: render after driverLocation channel listen
-  //   const { fields, driverLocation, isActiveOrder, status } = this.props;
-
-  //   const isRideInProgress = status === ACTIVE_STATUS;
-  //   const isDriverOnWay = status === DRIVER_ON_WAY;
-  //   const source = isRideInProgress ? driverLocation : fields.pickupAddress;
-  //   const dest = isRideInProgress || !isActiveOrder ? fields.destinationAddress : driverLocation;
-
-  //   return (isDriverOnWay || isRideInProgress || !isActiveOrder) && source && dest &&
-  //     <MapViewDirections
-  //       origin={this.prepareCoordinates(source)}
-  //       destination={this.prepareCoordinates(dest)}
-  //       apikey={config.googleAPIKey}
-  //       strokeWidth={4}
-  //       strokeColor="#2b4983"
-  //     />
-  // }
-
-  renderRidePath = () => {
-    // eslint-disable-next-line
-    const { fields: currentFields, isActiveOrder, status, currentOrder, isCurrentOrder } = this.props;
-
-    const fields = isCurrentOrder ? currentOrder : currentFields;
-
-    const isRideInProgress = status === ACTIVE_STATUS;
-
-    const locations = [
-      fields.pickupAddress,
-      ...(fields.stops || fields.stopAddresses || []),
-      fields.destinationAddress
-    ];
-
-    const pathes = locations.map((location, index) => {
+  getPathes = locations => (
+    locations.map((location, index) => {
       const nextIndex = index + 1;
 
       if (nextIndex < locations.length) return { source: location, destination: locations[nextIndex] };
 
       return null;
-    }).filter(location => location);
+    }).filter(Boolean)
+  );
 
-    return (isRideInProgress || !isActiveOrder) && fields.destinationAddress && fields.pickupAddress &&
-      pathes.map(this.renderSinglePath);
+  renderRidePath = () => {
+    // eslint-disable-next-line
+    const { isPreOrder } = this.props;
+
+    const order = this.getOrder();
+    const stops = this.getStops();
+
+    const shouldShowPath = order.destinationAddress && order.pickupAddress && (
+      isPreOrder
+      || FINAL_STATUSES.includes(order.status)
+      || (order.status === IN_PROGRESS_STATUS && stops && stops.length > 0)
+      || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location)
+    );
+
+    if (!shouldShowPath) return null;
+
+    const locations = [
+      order.pickupAddress,
+      ...(stops || []),
+      order.destinationAddress
+    ];
+
+    return this.getPathes(locations).map(this.renderSinglePath);
+  };
+
+  renderDriverPath = () => {
+    const order = this.getOrder();
+    const stops = this.getStops();
+
+    const isDriverOnTheWay = order.status === DRIVER_ON_WAY;
+    const isInProgressStatus = order.status === IN_PROGRESS_STATUS;
+
+    const shouldShowPath = order.pickupAddress
+      && order.driverDetails && order.driverDetails.location
+      && (isDriverOnTheWay || (isInProgressStatus && (!stops || !stops.length)));
+
+    if (!shouldShowPath) return null;
+
+    const locations = [order.driverDetails.location];
+
+    if (isDriverOnTheWay) {
+      locations.push(order.pickupAddress);
+    } else {
+      locations.push(order.destinationAddress);
+    }
+
+    return this.getPathes(locations).map(this.renderSinglePath);
   };
 
   renderSinglePath = ({ source, destination }) => (
@@ -180,35 +229,43 @@ class MapView extends Component {
   );
 
   getGeocode = (e) => {
-    const { isActiveOrder, isCompletedOrder } = this.props;
+    const { isPreOrder, changeAddress } = this.props;
     const { latitude, longitude } = e.nativeEvent.coordinate;
     const coordinates = { lat: latitude, lng: longitude };
 
-    const isPreorder = !isActiveOrder && !isCompletedOrder;
-
-    if (isPreorder) {
+    if (isPreOrder) {
       geocode(coordinates)
         .then(processLocation)
         .then((data) => {
-          this.props.changeAddress(data, { type: 'pickupAddress' });
+          changeAddress(data, { type: 'pickupAddress' });
         });
     }
-  }
+  };
+
+  shouldShowPickupMarkers = ({ order, stops, isPreOrder }) => !!order.pickupAddress && (
+    isPreOrder
+    || ACTIVE_DRIVER_STATUSES.includes(order.status)
+    || (order.status === IN_PROGRESS_STATUS && stops && stops.length > 0)
+    || FINAL_STATUSES.includes(order.status)
+  );
+
+  shouldShowDestinationMarkers = ({ order, isPreOrder }) => (
+    isPreOrder
+    || order.status === IN_PROGRESS_STATUS
+    || FINAL_STATUSES.includes(order.status)
+    || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location)
+  );
+
+  shouldShowDriverMarker = ({ order }) => (
+    order.driverDetails && order.driverDetails.location
+    && (ACTIVE_DRIVER_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
+  );
 
   render() {
-    const {
-      fields: currentFields,
-      currentPosition,
-      currentOrder,
-      isCurrentOrder,
-      isActiveOrder,
-      isCompletedOrder
-    } = this.props;
+    const { currentPosition, isPreOrder } = this.props;
 
-    const fields = isCurrentOrder ? currentOrder : currentFields;
-    const stops = fields.stops || fields.stopAddresses;
-
-    const isPreorder = !isActiveOrder && !isCompletedOrder;
+    const order = this.getOrder();
+    const stops = this.getStops();
 
     return (
       <Map
@@ -222,30 +279,30 @@ class MapView extends Component {
       >
         {this.renderRidePath()}
 
+        {this.renderDriverPath()}
+
         {this.renderMarker({ address: currentPosition })}
 
-        {fields.pickupAddress &&
+        {this.shouldShowPickupMarkers({ order, stops, isPreOrder }) &&
           this.renderMarker({
-            address: fields.pickupAddress,
-            type: !fields.destinationAddress && isPreorder ? 'source' : 'sourceActive',
-            draggable: !fields.destinationAddress && isPreorder,
+            address: order.pickupAddress,
+            type: !order.destinationAddress && isPreOrder ? 'source' : 'sourceActive',
+            draggable: !order.destinationAddress && isPreOrder,
             onDragEnd: this.getGeocode
           })
         }
 
-        {stops && stops.length > 0 &&
+        {stops && stops.length > 0 && this.shouldShowDestinationMarkers({ order, isPreOrder }) &&
           stops.map((address, index) => this.renderMarker({ address, type: 'stop', index }))
         }
 
-        {fields.destinationAddress &&
-          this.renderMarker({ address: fields.destinationAddress, type: 'destination' })
+        {order.destinationAddress && this.shouldShowDestinationMarkers({ order, isPreOrder }) &&
+          this.renderMarker({ address: order.destinationAddress, type: 'destination' })
         }
 
-        {/* TODO: show after driverLocation channel listen
-
-        driverLocation &&
-          this.renderMarker({ address: driverLocation, type: 'destination' })
-        */}
+        {this.shouldShowDriverMarker({ order }) &&
+          this.renderMarker({ address: order.driverDetails.location, type: 'driver' })
+        }
       </Map>
     );
   }
@@ -254,7 +311,7 @@ class MapView extends Component {
 MapView.propTypes = {
   isActiveOrder: PropTypes.bool.isRequired,
   isCompletedOrder: PropTypes.bool.isRequired,
-  isCurrentOrder: PropTypes.bool.isRequired
+  isPreOrder: PropTypes.bool.isRequired
 };
 
 MapView.defaultProps = {};

@@ -18,6 +18,7 @@ const TYPES = createTypes('booking', [
   'updateCurrentOrder',
   'createBookingFailure',
   'changeOrderStatus',
+  'changeDriverPosition',
   'cancelOrderStart',
   'cancelOrderSuccess',
   'canceledByExternal',
@@ -81,6 +82,8 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
       } else {
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
+    } else if (data.status === DRIVER_ON_WAY && data.driver.lat) {
+      dispatch({ type: TYPES.changeDriverPosition, payload: data.driver });
     }
   });
 };
