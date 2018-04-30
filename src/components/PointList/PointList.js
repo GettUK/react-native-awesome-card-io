@@ -55,7 +55,12 @@ export default class PointList extends PureComponent {
       style={styles.row}
       onPress={this.handlePickupAddressPress}
     >
-      <Icon style={styles.pickUpIcon} name="pickUpField" size={18} />
+      <View style={styles.iconContainer}>
+        <Icon style={styles.pickUpIcon} name="pickUpField" size={16} />
+        {this.hasAddressType('destinationAddress') &&
+          <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
+        }
+      </View>
       {this.renderAddressLabel('pickupAddress')}
     </TouchableOpacity>
   );
@@ -73,12 +78,15 @@ export default class PointList extends PureComponent {
               style={styles.row}
               onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
             >
-              <Icon
-                style={[styles.pickUpIcon, { marginLeft: 3 }]}
-                name="pickUpField"
-                size={12}
-                color="#8d8d8d"
-              />
+              <View style={styles.iconContainer}>
+                <Icon
+                  style={[styles.pickUpIcon, styles.stopPosition]}
+                  name="pickUpField"
+                  size={12}
+                  color="#8d8d8d"
+                />
+                <Icon style={styles.connecter} height={12} name="dottedLine" />
+              </View>
               {!isNull(address.line) &&
                 <Text style={styles.pickUpText} numberOfLines={1}>
                   {address.label || address.line}
@@ -103,9 +111,9 @@ export default class PointList extends PureComponent {
         >
           <Icon
             style={styles.pickUpIcon}
-            name="pickUpField"
-            color="#f00"
-            size={18}
+            name="destinationMarker"
+            width={16}
+            height={19}
           />
           {allowAddingStops && data.stops && data.stops.length
             ? this.renderStopsCount(data.stops.length + 1)

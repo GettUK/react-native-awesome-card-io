@@ -66,14 +66,15 @@ const styles = StyleSheet.create({
   },
   orderAddress: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    minHeight: 20
   },
   orderAddressIcon: {
     alignItems: 'center',
     marginRight: 14
   },
   orderStopAddressIcon: {
-    marginLeft: 3,
+    marginLeft: 2,
     marginRight: 17
   },
   orderAddressGap: {
@@ -107,7 +108,16 @@ const styles = StyleSheet.create({
   loaderLabel: {
     textAlign: 'center',
     color: '#fff'
-  }
+  },
+  iconContainer: {
+    position: 'relative'
+  },
+  connecter: {
+    position: 'absolute',
+    top: 15,
+    left: -3
+  },
+  pickUpConnecter: { top: 18 }
 });
 
 export default styles;

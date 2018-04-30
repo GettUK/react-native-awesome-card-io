@@ -15,8 +15,10 @@ import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
 import currentLocation from './currentLocation';
+import destinationMarker from './destinationMarker';
 import distance from './distance';
 import dots from './dots';
+import dottedLine from './dottedLine';
 import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
@@ -72,8 +74,10 @@ export default {
   close,
   closeThick,
   currentLocation,
+  destinationMarker,
   distance,
   dots,
+  dottedLine,
   drag,
   editAndroid,
   email,
