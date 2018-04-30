@@ -150,18 +150,20 @@ class MapView extends Component {
 
   renderDriverMarker = () => <Icon name="carFacet" size={32} />;
 
-  renderMarker = ({ address, type = 'current', index = '', draggable = false, onDragEnd }) =>
-    address && (
-      <Map.Marker
+  renderMarker = ({ address, type = 'current', index = '', movable = false, onDragEnd }) =>
+    address &&
+      (<Map.Marker
         key={type + index}
         coordinate={this.prepareCoordinates(address)}
-        draggable={draggable}
+        draggable={movable}
         anchor={{ x: 0.5, y: 0.5 }}
         onDragEnd={onDragEnd}
+        onPress={movable && this.handleParsePickUpToAddress}
+        stopPropagation
       >
         {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
       </Map.Marker>
-    );
+      );
 
   getPathes = locations => (
     locations.map((location, index) => {
@@ -233,12 +235,17 @@ class MapView extends Component {
     />
   );
 
-  getGeocode = (e) => {
-    const { isPreOrder, changeAddress } = this.props;
-    const { latitude, longitude } = e.nativeEvent.coordinate;
-    const coordinates = { lat: latitude, lng: longitude };
+  handleParsePickUpToAddress = () => {
+    const order = this.getOrder();
 
-    if (isPreOrder) {
+    this.getGeocode({ coordinates: this.prepareCoordinates(order.pickupAddress) });
+  }
+
+  getGeocode = (e) => {
+    if ((e.coordinates || e.nativeEvent.coordinate) && this.props.isPreorder) {
+      const { latitude, longitude } = e.coordinates || e.nativeEvent.coordinate;
+      const coordinates = { lat: latitude, lng: longitude };
+
       geocode(coordinates)
         .then(processLocation)
         .then((data) => {
@@ -292,7 +299,7 @@ class MapView extends Component {
           this.renderMarker({
             address: order.pickupAddress,
             type: !order.destinationAddress && isPreOrder ? 'source' : 'sourceActive',
-            draggable: !order.destinationAddress && isPreOrder,
+            movable: !order.destinationAddress && isPreOrder,
             onDragEnd: this.getGeocode
           })
         }
