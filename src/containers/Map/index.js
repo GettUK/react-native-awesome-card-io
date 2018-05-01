@@ -66,8 +66,8 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: hourForward(),
-      minDate: hourForward(),
+      date: hourForward().toDate(),
+      minDate: hourForward().toDate(),
       isHeaderEnable: true,
       fromOrderList: false,
       fromSettings: false
@@ -204,7 +204,7 @@ class Map extends Component {
   isActiveSceneIs = (name = 'preOrder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
   handleDateChange = (date) => {
-    this.setState({ date, minDate: hourForward() });
+    this.setState({ date, minDate: hourForward().toDate() });
   };
 
   handleDateSubmit = () => {
@@ -213,7 +213,7 @@ class Map extends Component {
     this.togglePickerModal();
     this.props.changeFields({
       scheduledType: 'later',
-      scheduledAt: momentDate(date)
+      scheduledAt: (hourForward().isBefore(momentDate(date)) && momentDate(date)) || hourForward()
     });
     this.goToRequestVehicles();
   };
@@ -408,15 +408,25 @@ class Map extends Component {
       }
     };
 
+    const setTimePickerTime = (time) => {
+      const toTime = time ? moment.set({ ...time }) : moment;
+      if (hourForward().isBefore(toTime)) {
+        this.handleDateChange(toTime.toDate());
+      } else {
+        this.handleDateChange(hourForward().toDate());
+      }
+    };
+
     const openTimePickerAndroid = async () => {
       try {
+        setTimePickerTime();
         const { action, hour, minute } = await TimePickerAndroid.open({
           hour: moment.get('hour'),
           minute: moment.get('minute'),
           is24Hour: true
         });
         if (action !== DatePickerAndroid.dismissedAction) {
-          this.handleDateChange(moment.set({ hour, minute }).toDate());
+          setTimePickerTime({ hour, minute });
         }
       } catch ({ code, message }) {
         // eslint-disable-next-line no-console
