@@ -433,4 +433,4 @@ const bindActions = {
   setReferenceErrors
 };
 
-export default connect(select, bindActions)(BookingFooter);
+export default connect(select, bindActions, null, { withRef: true })(BookingFooter);

@@ -85,17 +85,32 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     shadowOpacity: 1
   },
+  buttonContainer: {
+    flex: 1
+  },
+  button: {
+    alignSelf: 'stretch',
+    marginBottom: 20,
+    marginTop: 10
+  },
+  NowButton: {
+    marginLeft: 16,
+    marginRight: 10
+  },
   TDButton: {
     backgroundColor: '#284784',
-    alignSelf: 'stretch',
-    marginHorizontal: 15,
-    marginBottom: 20,
-    marginTop: 8
+    marginLeft: 10,
+    marginRight: 16
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   TDButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: '#fff'
+  },
+  NowButtonText: {
+    color: '#7f7f7f'
   },
   TDEditIcon: {
     marginBottom: -5

@@ -208,6 +208,17 @@ class Map extends Component {
     this.setState({ date, minDate: hourForward().toDate() });
   };
 
+  handleNowSubmit = () => {
+    this.togglePickerModal();
+    this.props.changeFields({
+      scheduledType: 'now',
+      scheduledAt: null
+    });
+    if (this.editorView) {
+      this.editorView.wrappedInstance.footerInstance().createBooking();
+    }
+  };
+
   handleDateSubmit = () => {
     const { date } = this.state;
 
@@ -307,9 +318,9 @@ class Map extends Component {
 
     if (availableVehicles.length) {
       vehicle =
-          (vehicleName && availableVehicles.find(v => v.name === vehicleName)) ||
-          (passenger && availableVehicles.find(v => v.name === passenger.defaultVehicle)) ||
-          first(availableVehicles);
+        (vehicleName && availableVehicles.find(v => v.name === vehicleName)) ||
+        (passenger && availableVehicles.find(v => v.name === passenger.defaultVehicle)) ||
+        first(availableVehicles);
     }
     return vehicle;
   };
@@ -467,6 +478,23 @@ class Map extends Component {
       );
     };
 
+    const renderButton = ({ style, styleText, title, onClick }, index) => (
+      <Button
+        key={index}
+        raised
+        style={styles.buttonContainer}
+        styleContent={[styles.button, style]}
+        onPress={onClick}
+      >
+        <Text style={[styles.buttonText, styleText]}>{title || ''}</Text>
+      </Button>
+    );
+
+    const buttons = [
+      { title: 'Now', style: styles.NowButton, styleText: styles.NowButtonText, onClick: this.handleNowSubmit },
+      { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
+    ];
+
     return (
       <Modal
         style={styles.bottomModal}
@@ -486,9 +514,9 @@ class Map extends Component {
           />
         </View>
         }
-        <Button raised={false} styleContent={styles.TDButton} onPress={this.handleDateSubmit}>
-          <Text style={styles.TDButtonText}>Set the Time</Text>
-        </Button>
+        <View style={styles.row}>
+          {buttons.map(renderButton)}
+        </View>
       </Modal>
     );
   }
@@ -546,6 +574,7 @@ class Map extends Component {
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
             onDateChange={this.handleDateChange}
+            ref={(editor) => { this.editorView = editor; }}
           />
         }
         {isActiveOrder && <ActiveOrderScene />}
