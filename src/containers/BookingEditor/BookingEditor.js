@@ -123,7 +123,7 @@ class BookingEditor extends Component {
     return (params[type] && params[type].height) || 0;
   };
 
-  movingPointList = () => {
+  getPointListPosition = () => {
     const { height } = Dimensions.get('window');
     const header = ((isIphoneX() ? 49 : 30) + 55);
 
@@ -133,6 +133,8 @@ class BookingEditor extends Component {
 
     return { top: 0 };
   };
+
+  footerInstance = () => this.footerView && this.footerView.wrappedInstance;
 
   render() {
     const {
@@ -162,7 +164,7 @@ class BookingEditor extends Component {
         {toOrder && !vehicles.loading &&
           <PointList
             onLayout={onLayoutPointList}
-            style={styles.pointList}
+            tyle={[styles.pointList, this.getPointListPosition()]}
             onAddressPress={this.openAddressModal}
             onStopAdd={this.showStopPointsModal}
             data={fields}
@@ -189,6 +191,7 @@ class BookingEditor extends Component {
           openAddressModal={this.openAddressModal}
           isAuthorizedPermission={isAuthorizedPermission}
           onDateChange={onDateChange}
+          ref={(footer) => { this.footerView = footer; }}
         />
       </View>
     );
@@ -225,4 +228,4 @@ const bindActions = {
   changeAddress
 };
 
-export default connect(select, bindActions)(BookingEditor);
+export default connect(select, bindActions, null, { withRef: true })(BookingEditor);
