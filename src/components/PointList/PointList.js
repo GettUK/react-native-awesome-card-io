@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
-import { has, isNull } from 'lodash';
-import { Icon } from 'components';
+import { has, isNull, noop } from 'lodash';
+import { Icon, Divider } from 'components';
 import styles from './styles';
 
 export default class PointList extends PureComponent {
@@ -14,13 +14,18 @@ export default class PointList extends PureComponent {
     ]),
     data: PropTypes.object.isRequired,
     onAddressPress: PropTypes.func,
-    onStopAdd: PropTypes.func
+    onStopAdd: PropTypes.func,
+    onLayout: PropTypes.func
   };
 
   static defaultProps = {
     style: {},
-    onAddressPress: () => {},
+    onAddressPress: () => noop,
     allowAddingStops: true
+  };
+
+  onLayout = (e) => {
+    this.props.onLayout(e.nativeEvent.layout);
   };
 
   handleAddressPress = (type) => {
@@ -48,7 +53,7 @@ export default class PointList extends PureComponent {
     <Text style={[styles.pickUpText, { fontWeight: '600' }]} numberOfLines={1}>
       {`${count} Stops Points`}
     </Text>
-  )
+  );
 
   renderPickUpItem = () => (
     <TouchableOpacity
@@ -73,7 +78,7 @@ export default class PointList extends PureComponent {
         const address = item.address ? item.address : item;
         return (
           <View key={address.line + i}>
-            <View style={styles.delimiter} />
+            <Divider />
             <TouchableOpacity
               style={styles.row}
               onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
@@ -136,11 +141,14 @@ export default class PointList extends PureComponent {
     const { style, allowAddingStops } = this.props;
 
     return (
-      <View style={[styles.wrapper, style]}>
+      <View
+        onLayout={this.onLayout}
+        style={[styles.wrapper, style]}
+      >
         {this.renderPickUpItem()}
         {!allowAddingStops && this.renderStopsItem()}
         {this.hasAddressType('destinationAddress') && this.hasAddressType('pickupAddress') &&
-          <View style={styles.delimiter} />
+          <Divider />
         }
         {this.renderDestinationItem()}
       </View>

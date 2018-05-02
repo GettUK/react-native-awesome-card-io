@@ -3,6 +3,7 @@ import { Platform, ImageBackground } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
+import { noop } from 'lodash';
 import PropTypes from 'prop-types';
 
 import assets from 'assets';
@@ -158,7 +159,7 @@ class MapView extends Component {
         draggable={movable}
         anchor={{ x: 0.5, y: 0.5 }}
         onDragEnd={onDragEnd}
-        onPress={movable && this.handleParsePickUpToAddress}
+        onPress={(movable && this.handleParsePickUpToAddress) || noop}
         stopPropagation
         tracksViewChanges={false}
       >

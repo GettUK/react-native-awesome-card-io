@@ -28,7 +28,7 @@ const JourneyDetails = ({ style, time, distance, loading }) => {
           icon: <Icon style={styles.icon} name="journeyTime" width={20} height={24} color="rgb(216,216,216)" />
         })
       }
-      <View style={styles.delimiter} />
+      <View style={styles.divider} />
       {
         renderBlockItem({
           label: strings('label.distance'),

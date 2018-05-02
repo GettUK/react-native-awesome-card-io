@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   wrapper: {
+    position: 'absolute',
+    elevation: 2,
+    left: 0,
+    right: 0,
     flexDirection: 'column',
     backgroundColor: '#fff',
     minHeight: 50,
@@ -35,16 +39,6 @@ export default StyleSheet.create({
   pickUpText: {
     flex: 1,
     fontSize: 16
-  },
-  delimiter: {
-    alignSelf: 'stretch',
-    marginVertical: 0,
-    marginLeft: 33,
-    marginRight: 0,
-    padding: 0,
-    borderWidth: 0,
-    backgroundColor: '#d8d8d8',
-    height: 1
   },
   btnPlus: {
     paddingVertical: 1,

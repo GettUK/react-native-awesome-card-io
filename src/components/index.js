@@ -8,6 +8,7 @@ export { default as LinearGradientButton } from './LinearGradientButton';
 export { default as DismissKeyboardHOC } from './HOC/DismissKeyboardHOC';
 export { default as ScreenHeader } from './layout/ScreenHeader';
 export { default as DismissKeyboardView } from './DismissKeyboardView';
+export { default as Divider } from './Divider';
 export { default as Modal } from './Modal';
 export { default as StopPointsModal } from './StopPointsModal';
 export { default as CarItem } from './CarItem';

@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
-import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert } from 'components';
+import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert, Divider } from 'components';
 import { hourForward } from 'utils';
 import { strings } from 'locales';
+import { onLayoutFooter } from 'actions/app/statuses';
 import { changeFields, changeAddress, setReferenceErrors } from 'actions/ui/map';
 import { createBooking, toggleVisibleModal } from 'actions/booking';
 import {
@@ -28,6 +29,10 @@ import styles from './style';
 class BookingFooter extends PureComponent {
   state = {
     message: ''
+  };
+
+  onLayout = (e) => {
+    this.props.onLayoutFooter(e.nativeEvent.layout);
   };
 
   getEarliestAvailableTime = (vehicle) => {
@@ -116,6 +121,11 @@ class BookingFooter extends PureComponent {
     this.props.openAddressModal(null, { type: 'destinationAddress' });
   };
 
+  handlePickupAddressPress = () => {
+    const { map: { fields: { pickupAddress } } } = this.props;
+    this.props.openAddressModal(pickupAddress, { type: 'pickupAddress' });
+  };
+
   renderAddressItem = (address, label) => {
     const handlerPress = () => this.props.changeAddress({ ...address, label }, { type: 'destinationAddress' });
 
@@ -174,38 +184,62 @@ class BookingFooter extends PureComponent {
     onDateChange(hourForward());
   };
 
+  renderPickUpDestination = () => {
+    const { map: { fields } } = this.props;
+
+    return (
+      <View style={styles.selectAddressView}>
+        <TouchableOpacity
+          onPress={this.handlePickupAddressPress}
+          style={styles.rowItem}
+        >
+          <View style={styles.iconContainer}>
+            <Icon style={styles.iconItem} name="pickUpField" size={16} />
+            <Icon style={styles.iconDottedLine} height={12} name="dottedLine" />
+          </View>
+          {has(fields, 'pickupAddress') && !isNull(fields.pickupAddress.line) && (
+            <Text style={styles.labelText} numberOfLines={1}>
+              {fields.pickupAddress.label || fields.pickupAddress.line}
+            </Text>
+          )}
+        </TouchableOpacity>
+        <Divider />
+        <TouchableOpacity
+          onPress={this.handleCustomDestinationPress}
+          style={styles.rowItem}
+        >
+          <Icon style={styles.iconItem} name="destinationMarker" width={16} height={19} />
+          <Text style={styles.selectDestinationText} numberOfLines={1}>
+            {strings('label.selectDestination')}
+          </Text>
+        </TouchableOpacity>
+        <Divider />
+      </View>
+    );
+  };
+
   renderAddressesSelector() {
     const { passenger } = this.props;
 
     return (
-      <ScrollView
-        horizontal
-        contentContainerStyle={styles.destinationBtns}
-        showsHorizontalScrollIndicator={false}
-      >
-        <Button
-          onPress={this.handleCustomDestinationPress}
-          styleContent={styles.destinationBtn}
-          style={styles.padding}
+      <View style={styles.selectAddress}>
+        {this.renderPickUpDestination()}
+        <ScrollView
+          horizontal
+          contentContainerStyle={styles.destinationBtns}
+          showsHorizontalScrollIndicator={false}
         >
-          <Icon
-            style={styles.searchIcon}
-            name="search"
-            color="#284784"
-            size={18}
-          />
-          <Text style={styles.selectDestinationText}>{strings('label.selectDestination')}</Text>
-        </Button>
-        {passenger && passenger.homeAddress &&
-          this.renderAddressItem(passenger.homeAddress, strings('label.home'))
-        }
-        {passenger && passenger.workAddress &&
-          this.renderAddressItem(passenger.workAddress, strings('label.work'))
-        }
-        {passenger && (passenger.favoriteAddresses || []).map(address =>
-          this.renderAddressItem(address.address, address.name))
-        }
-      </ScrollView>
+          {passenger && passenger.homeAddress &&
+            this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+          }
+          {passenger && passenger.workAddress &&
+            this.renderAddressItem(passenger.workAddress, strings('label.work'))
+          }
+          {passenger && (passenger.favoriteAddresses || []).map(address =>
+            this.renderAddressItem(address.address, address.name))
+          }
+        </ScrollView>
+      </View>
     );
   }
 
@@ -251,10 +285,14 @@ class BookingFooter extends PureComponent {
     const isOrderBtnDisabled = busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
-      <View style={styles.footer} pointerEvents="box-none">
+      <View
+        onLayout={this.onLayout}
+        style={styles.footer}
+        pointerEvents="box-none"
+      >
         {
           toOrder && availableVehicles.length === 0 && (
-            <InformView>
+            <InformView style={styles.footerOrderInfo}>
               <Text style={styles.informText}>{strings('information.notVehicles')}</Text>
             </InformView>
           )
@@ -277,7 +315,7 @@ class BookingFooter extends PureComponent {
         }
         {
           toOrder && availableVehicles.length > 0 && (
-            <View pointerEvents="box-none">
+            <View style={styles.footerOrder} pointerEvents="box-none">
               {this.renderSettings()}
               <JourneyDetails
                 loading={vehicles.loading}
@@ -387,6 +425,7 @@ const select = ({ ui, bookings }) => ({
 });
 
 const bindActions = {
+  onLayoutFooter,
   createBooking,
   changeFields,
   changeAddress,

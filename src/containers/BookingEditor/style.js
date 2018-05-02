@@ -51,8 +51,25 @@ export default StyleSheet.create({
     elevation: 2,
     left: 0,
     right: 0,
-    bottom: isIphoneX() ? 15 : 0,
-    paddingBottom: 10
+    bottom: 0
+  },
+  footerOrderInfo: {
+    marginBottom: isIphoneX() ? 25 : 10,
+    marginTop: 5
+  },
+  footerOrder: {
+    paddingBottom: isIphoneX() ? 25 : 10
+  },
+  selectAddress: {
+    backgroundColor: '#fff',
+    paddingTop: 11,
+    paddingBottom: 31,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    }
   },
   settingsBtn: {
     marginRight: 15,
@@ -85,6 +102,7 @@ export default StyleSheet.create({
   },
   destinationBtns: {
     flexDirection: 'row',
+    minHeight: 59,
     paddingHorizontal: 10
   },
   searchIcon: {
@@ -130,5 +148,31 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     lineHeight: 21
+  },
+  rowItem: {
+    flexDirection: 'row',
+    marginVertical: 11,
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  iconItem: {
+    marginRight: 15
+  },
+  labelText: {
+    flex: 1,
+    fontSize: 16
+  },
+  selectAddressView: {
+    marginHorizontal: 16,
+    marginVertical: 15
+  },
+  iconContainer: {
+    position: 'relative'
+  },
+  iconDottedLine: {
+    position: 'absolute',
+    top: 22,
+    left: -3
   }
 });
