@@ -147,7 +147,8 @@ class BookingEditor extends Component {
       changeFields,
       isAuthorizedPermission,
       onLayoutPointList,
-      onDateChange
+      onDateChange,
+      isLoadingPickup
     } = this.props;
 
     return (
@@ -157,15 +158,17 @@ class BookingEditor extends Component {
           defaultValues={prepareDefaultValues(passenger)}
           onChange={changeAddress}
         />
-        {toOrder && !vehicles.loading && (
+
+        {toOrder && !vehicles.loading &&
           <PointList
             onLayout={onLayoutPointList}
-            style={[styles.pointList, this.movingPointList()]}
+            style={styles.pointList}
             onAddressPress={this.openAddressModal}
             onStopAdd={this.showStopPointsModal}
             data={fields}
+            isLoadingPickup={isLoadingPickup}
           />
-        )}
+        }
 
         <StopPointsModal
           data={this.prepareStopsData()}

@@ -70,7 +70,8 @@ class Map extends Component {
       minDate: hourForward(),
       isHeaderEnable: true,
       fromOrderList: false,
-      fromSettings: false
+      fromSettings: false,
+      isLoadingPickup: false
     };
   }
 
@@ -369,6 +370,14 @@ class Map extends Component {
     showConfirmationAlert({ title: strings('order.cancelOrderCreation'), handler: this.clearFields });
   };
 
+  startLoadingPickup = () => {
+    this.setState({ isLoadingPickup: true });
+  }
+
+  endLoadingPickup = () => {
+    this.setState({ isLoadingPickup: false });
+  }
+
   handleBackBtnPress = () => {
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const { clearCurrentOrder } = this.props;
@@ -474,6 +483,10 @@ class Map extends Component {
     );
   }
 
+  renderPickUpMarker = () => (
+    <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />
+  )
+
   render() {
     const { navigation } = this.props;
     const { isHeaderEnable } = this.state;
@@ -518,6 +531,7 @@ class Map extends Component {
             navigation={navigation}
             passenger={this.getPassenger()}
             requestVehicles={this.goToRequestVehicles}
+            isLoadingPickup={this.state.isLoadingPickup}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
@@ -531,8 +545,13 @@ class Map extends Component {
           isActiveOrder={isActiveOrder}
           isCompletedOrder={isCompletedOrder}
           isPreOrder={isPreOrder}
+          dragEnable={!this.state.isLoadingPickup}
           ref={(map) => { this.mapView = map; }}
+          onStartLoadingPickup={this.startLoadingPickup}
+          onEndLoadingPickup={this.endLoadingPickup}
         />
+
+        {isPreOrder && this.renderPickUpMarker()}
 
         {this.renderTimeDatePicker()}
 

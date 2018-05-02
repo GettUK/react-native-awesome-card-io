@@ -66,7 +66,10 @@ export default class PointList extends PureComponent {
           <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
         }
       </View>
-      {this.renderAddressLabel('pickupAddress')}
+      {this.props.isLoadingPickup
+        ? <Text style={[styles.pickUpText, styles.pickUpTextLoading]} numberOfLines={1}>Locating...</Text>
+        : this.renderAddressLabel('pickupAddress')
+      }
     </TouchableOpacity>
   );
 
