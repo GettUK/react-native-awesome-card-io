@@ -30,6 +30,7 @@
 		7D8BC1D62041B8E1009D2E2B /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1D32041B8DC009D2E2B /* libRCTNetwork.a */; };
 		7D8BC1DD2041B929009D2E2B /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8BC1DC2041B920009D2E2B /* libRCTGeolocation.a */; };
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
+		7D954E592099C2A300E9AB56 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D954E582099C2A300E9AB56 /* login_bg.png */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -343,6 +344,7 @@
 		7D8BC1CD2041B8DB009D2E2B /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "login-bg.jpg"; path = "oteApp/login-bg.jpg"; sourceTree = "<group>"; };
+		7D954E582099C2A300E9AB56 /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_bg.png; path = oteApp/login_bg.png; sourceTree = "<group>"; };
 		7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
 		927644362081143500946644 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-gps/RNLocation.xcodeproj"; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				7D954E582099C2A300E9AB56 /* login_bg.png */,
 				7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				7D8BC13E2041ACA9009D2E2B /* React.xcodeproj */,
@@ -1074,6 +1077,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */,
+				7D954E592099C2A300E9AB56 /* login_bg.png in Resources */,
 				CC2FF042204DB270008351CA /* (null) in Resources */,
 				7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
