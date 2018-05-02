@@ -183,6 +183,7 @@ class Login extends Component {
             disabled={!termsConditions || !privacyPolicy}
             loading={busy}
             onPress={this.handleSubmit}
+            disabledContainerStyle={styles.disabledBtnContainer}
           />
         </KeyboardAvoidingView>
 
