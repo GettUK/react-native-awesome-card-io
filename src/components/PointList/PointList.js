@@ -56,21 +56,23 @@ export default class PointList extends PureComponent {
   );
 
   renderPickUpItem = () => (
-    <TouchableOpacity
-      style={styles.row}
-      onPress={this.handlePickupAddressPress}
-    >
+    <View style={styles.row}>
       <View style={styles.iconContainer}>
         <Icon style={styles.pickUpIcon} name="pickUpField" size={16} />
         {this.hasAddressType('destinationAddress') &&
           <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
         }
       </View>
-      {this.props.isLoadingPickup
-        ? <Text style={[styles.pickUpText, styles.pickUpTextLoading]} numberOfLines={1}>Locating...</Text>
-        : this.renderAddressLabel('pickupAddress')
-      }
-    </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.rowView}
+        onPress={this.handlePickupAddressPress}
+      >
+        {this.props.isLoadingPickup
+          ? <Text style={[styles.pickUpText, styles.pickUpTextLoading]} numberOfLines={1}>Locating...</Text>
+          : this.renderAddressLabel('pickupAddress')
+        }
+      </TouchableOpacity>
+    </View>
   );
 
   renderStopsItem = () => {
@@ -82,10 +84,7 @@ export default class PointList extends PureComponent {
         return (
           <View key={address.line + i}>
             <Divider />
-            <TouchableOpacity
-              style={styles.row}
-              onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
-            >
+            <View style={styles.row}>
               <View style={styles.iconContainer}>
                 <Icon
                   style={[styles.pickUpIcon, styles.stopPosition]}
@@ -95,12 +94,17 @@ export default class PointList extends PureComponent {
                 />
                 <Icon style={styles.connecter} height={12} name="dottedLine" />
               </View>
-              {!isNull(address.line) &&
-                <Text style={styles.pickUpText} numberOfLines={1}>
-                  {address.label || address.line}
-                </Text>
-              }
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.rowView}
+                onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
+              >
+                {!isNull(address.line) &&
+                  <Text style={styles.pickUpText} numberOfLines={1}>
+                    {address.label || address.line}
+                  </Text>
+                }
+              </TouchableOpacity>
+            </View>
           </View>
         );
       })
