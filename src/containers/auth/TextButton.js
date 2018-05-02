@@ -11,7 +11,10 @@ const TextButton = props => (
     disabled={props.loading || props.disabled}
     disabledStyle={styles.disabledBtn}
 
-    containerViewStyle={styles.btnContainer}
+    containerViewStyle={[
+      styles.btnContainer,
+      props.loading || props.disabled ? props.disabledContainerStyle : {}
+    ]}
     buttonStyle={styles.btn}
     textStyle={styles.btnText}
   />

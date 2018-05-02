@@ -61,8 +61,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
+  disabledBtnContainer: {
+    borderColor: 'rgba(255, 255, 255, 0.2)'
+  },
+
   disabledBtn: {
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    opacity: 0.5
   },
 
   footer: {
