@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   pickUpMarker: {
     position: 'absolute',
     left: (width / 2) - 16,
-    top: (height / 2) - 26
+    top: (height / 2) - 40
   }
 });
 

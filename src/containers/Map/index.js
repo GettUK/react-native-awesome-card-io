@@ -527,7 +527,7 @@ class Map extends Component {
   )
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, map: { fields } } = this.props;
     const { isHeaderEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
@@ -591,7 +591,7 @@ class Map extends Component {
           onEndLoadingPickup={this.endLoadingPickup}
         />
 
-        {isPreOrder && this.renderPickUpMarker()}
+        {isPreOrder && !fields.destinationAddress && this.renderPickUpMarker()}
 
         {this.renderTimeDatePicker()}
 
