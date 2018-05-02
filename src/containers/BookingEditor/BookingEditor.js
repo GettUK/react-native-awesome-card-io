@@ -163,7 +163,7 @@ class BookingEditor extends Component {
         {toOrder && !vehicles.loading &&
           <PointList
             onLayout={onLayoutPointList}
-            tyle={[styles.pointList, this.getPointListPosition()]}
+            style={[styles.pointList, this.getPointListPosition()]}
             onAddressPress={this.openAddressModal}
             onStopAdd={this.showStopPointsModal}
             data={fields}

@@ -42,6 +42,10 @@ export default StyleSheet.create({
     alignSelf: 'stretch'
   },
   pointList: {
+    position: 'absolute',
+    elevation: 2,
+    left: 0,
+    right: 0,
     marginHorizontal: 15,
     alignSelf: 'stretch',
     justifyContent: 'flex-start'
@@ -148,6 +152,10 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     lineHeight: 21
+  },
+  rowView: {
+    flex: 1,
+    flexDirection: 'row'
   },
   rowItem: {
     flexDirection: 'row',
