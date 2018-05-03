@@ -189,30 +189,34 @@ class BookingFooter extends PureComponent {
 
     return (
       <View style={styles.selectAddressView}>
-        <TouchableOpacity
-          onPress={this.handlePickupAddressPress}
-          style={styles.rowItem}
-        >
+        <View style={styles.rowItem}>
           <View style={styles.iconContainer}>
             <Icon style={styles.iconItem} name="pickUpField" size={16} />
             <Icon style={styles.iconDottedLine} height={12} name="dottedLine" />
           </View>
+          <TouchableOpacity
+            style={styles.rowView}
+            onPress={this.handlePickupAddressPress}
+          >
           {has(fields, 'pickupAddress') && !isNull(fields.pickupAddress.line) && (
             <Text style={styles.labelText} numberOfLines={1}>
               {fields.pickupAddress.label || fields.pickupAddress.line}
             </Text>
           )}
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
         <Divider />
-        <TouchableOpacity
-          onPress={this.handleCustomDestinationPress}
-          style={styles.rowItem}
-        >
+        <View style={styles.rowItem}>
           <Icon style={styles.iconItem} name="destinationMarker" width={16} height={19} />
-          <Text style={styles.selectDestinationText} numberOfLines={1}>
-            {strings('label.selectDestination')}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.rowView}
+            onPress={this.handleCustomDestinationPress}
+          >
+            <Text style={styles.selectDestinationText} numberOfLines={1}>
+              {strings('label.selectDestination')}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Divider />
       </View>
     );

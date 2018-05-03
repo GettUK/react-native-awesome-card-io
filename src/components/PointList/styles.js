@@ -2,10 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   wrapper: {
-    position: 'absolute',
-    elevation: 2,
-    left: 0,
-    right: 0,
     flexDirection: 'column',
     backgroundColor: '#fff',
     minHeight: 50,
