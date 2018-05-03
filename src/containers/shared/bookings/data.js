@@ -1,4 +1,4 @@
-import { find, keyBy } from 'lodash';
+import { find, keyBy, includes, isEqual, pick, map, round } from 'lodash';
 
 // Payment Types, available for booking in 'app' realm. Array to ensure order
 export const paymentTypes = [
@@ -136,3 +136,25 @@ export const baseVehiclesDescriptions = {
   }
 };
 /* eslint-enable */
+
+// comparing looked-up address with saved address can sometimes yield different
+// results for lat and lng e.g. 3.413240000000001 and 3.41324
+const precision = 6;
+
+function comparableProps(address) {
+  const props = ['line', 'lat', 'lng', 'postalCode'];
+  const toRoundProps = ['lat', 'lng'];
+  const addressProps = pick(address, props);
+
+  return map(addressProps, (value, key) => (
+    includes(toRoundProps, key) ? round(value, precision) : value
+  ));
+}
+
+function haveSameProps(address, otherAddress) {
+  return isEqual(comparableProps(address), comparableProps(otherAddress));
+}
+
+export function isEqualAddress(address, otherAddress) {
+  return address && otherAddress && haveSameProps(address, otherAddress);
+}
