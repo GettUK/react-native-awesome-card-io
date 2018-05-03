@@ -1,6 +1,7 @@
 import add from './add';
 import arrow from './arrow';
 import arrowDown from './arrowDown';
+import avatar from './avatar';
 import back from './back';
 import burger from './burger';
 import calendar from './calendar';
@@ -22,12 +23,15 @@ import dottedLine from './dottedLine';
 import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
+import futureOrder from './futureOrder';
 import help from './help';
 import home from './home';
 import id from './id';
 import journeyTime from './journeyTime';
 import logo from './logo';
+import message from './message';
 import myLocation from './myLocation';
+import paymentMethod from './paymentMethod';
 import phone from './phone';
 import pickUpCenter from './pickUpCenter';
 import pickUpField from './pickUpField';
@@ -41,6 +45,7 @@ import sms from './sms';
 import sourceMarker from './sourceMarker';
 import star from './star';
 import time from './time';
+import tripReason from './tripReason';
 import vehicleInfo from './info';
 import walker from './walker';
 import wheelchair from './wheelchair';
@@ -60,6 +65,7 @@ export default {
   add,
   arrow,
   arrowDown,
+  avatar,
   back,
   burger,
   calendar,
@@ -81,12 +87,15 @@ export default {
   drag,
   editAndroid,
   email,
+  futureOrder,
   help,
   home,
   id,
   journeyTime,
   logo,
+  message,
   myLocation,
+  paymentMethod,
   phone,
   pickUpCenter,
   pickUpField,
@@ -100,6 +109,7 @@ export default {
   sourceMarker,
   star,
   time,
+  tripReason,
   vehicleInfo,
   walker,
   wheelchair,

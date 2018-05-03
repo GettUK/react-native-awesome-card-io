@@ -6,12 +6,13 @@ import moment from 'moment-timezone';
 
 import assets from 'assets';
 
-import { Icon, PointList, JourneyDetails } from 'components';
+import { Icon, PointList, JourneyDetails, Divider } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS } from 'utils/orderStatuses';
 import { formatPrice, isIphoneX } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
+import { strings } from 'locales';
 
 import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
 
@@ -32,52 +33,21 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
     navigation.navigate('RateDriver');
   };
 
-  const renderHeader = () => <Text style={orderPanelStyles.header}>Order Details</Text>;
-
-  const renderJourneyDetails = () => (
-    <View key="journey" style={orderPanelStyles.activeContainer}>
-      <JourneyDetails
-        loading={vehicles.loading}
-        time={driver.eta ? `${driver.eta} min` : vehicles.duration}
-        distance={driver.distance
-          ? `${driver.distance.value || '0.00'} ${driver.distance.unit || 'mi'}`
-          : order.travelDistance
-        }
-      />
+  const renderHeader = () => (
+    <View>
+      <Text style={orderPanelStyles.header}>Order Details</Text>
+      <View style={orderPanelStyles.subHeader}>
+        <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
+        {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
+      </View>
     </View>
   );
 
-  const renderCarItem = () => {
-    const vehicleType = order.vehicleType;
-    const vehicleData = vehiclesData[vehicleType] || { label: 'Unknown' };
-
-    const vehicle = vehicles.data.find(item => item.name === vehicleType) || {};
-
-    return (<View key="car" style={orderPanelStyles.activeContainer}>
-        <View style={[orderPanelStyles.listItem, orderPanelStyles.listContainer, orderPanelStyles.row]}>
-          <Text style={[orderPanelStyles.title, { width: 100 }]}>
-            {vehicleData.label}
-          </Text>
-
-          <Image
-            style={{ width: 90 }}
-            source={assets.carTypes[vehicleData.name]}
-            resizeMode="contain"
-          />
-
-          <Text style={[orderPanelStyles.name, { width: 100, textAlign: 'right' }]}>
-            {vehicle.price ? formatPrice(vehicle.price) : 'By meter'}
-          </Text>
-        </View>
-      </View>
-    );
-  };
-
-  const renderOption = ({ title, value, icon, onPress, chevron = true }) => (
-    <View key={title} style={orderPanelStyles.activeContainer}>
+  const renderOption = ({ title, value, icon, onPress, chevron }, i, arr) => (
+    <View key={title} style={orderPanelStyles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
-        <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { paddingVertical: 10 }]}>
-          <Icon name={icon || 'pickUpField'} color="#c6c5cd" />
+        <View style={orderPanelStyles.row}>
+          <Icon name={icon} color="#c6c5cd" />
 
           <View style={orderPanelStyles.titleContainer}>
             <Text style={orderPanelStyles.title}>{title}</Text>
@@ -87,6 +57,95 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
           {chevron && <Icon name="chevron" color="#c6c5cd" width={10} />}
         </View>
       </TouchableWithoutFeedback>
+      {i + 1 < arr.length && <Divider style={orderPanelStyles.divider} />}
+    </View>
+  );
+
+  const renderAdditionalDetails = () => {
+    const options = [{ title: 'Order for', value: order.passenger, icon: 'avatar' }];
+
+    if (!order.asap && order.scheduledAt) {
+      const scheduledAt = moment(order.scheduledAt).format('D MMM YYYY HH:mm a');
+      options.push({ title: 'Future order', value: scheduledAt, icon: 'futureOrder' });
+    }
+
+    if (order.messageToDriver) {
+      options.push({ title: 'Message for driver', value: order.messageToDriver, icon: 'message' });
+    }
+
+    if (order.travelReason) {
+      options.push({ title: 'Trip reason', value: order.travelReason, icon: 'tripReason' });
+    }
+
+    if (order.paymentMethod) {
+      options.push({ title: 'Payment method', value: paymentTypeLabels[order.paymentMethod], icon: 'paymentMethod' });
+    }
+
+    return (
+      <View key="details" style={orderPanelStyles.activeContainer}>
+        <View style={orderPanelStyles.listItem}>
+          {options.map(renderOption)}
+        </View>
+      </View>
+    );
+  };
+
+  const renderCarItem = () => {
+    const vehicleType = order.vehicleType;
+    const vehicleData = vehiclesData[vehicleType] || { label: 'Unknown' };
+
+    const vehicle = vehicles.data.find(item => item.name === vehicleType) || {};
+
+    return (
+      <View key="car" style={orderPanelStyles.row}>
+        <Text style={[orderPanelStyles.title, { width: 100 }]}>{vehicleData.label}</Text>
+
+        <Image
+          style={{ width: 90 }}
+          source={assets.carTypes[vehicleData.name]}
+          resizeMode="contain"
+        />
+
+        <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel]}>
+          {vehicle.price ? formatPrice(vehicle.price) : strings('label.byMeter')}
+        </Text>
+      </View>
+    );
+  };
+
+  const renderPointList = () => {
+    const data = {
+      pickupAddress: order.pickupAddress,
+      destinationAddress: order.destinationAddress,
+      stops: order.stopAddresses
+    };
+    return (
+      <PointList
+        onLayout={onLayoutPointList}
+        allowAddingStops={false}
+        style={orderPanelStyles.pointList}
+        data={data}
+      />
+    );
+  };
+
+  const renderJourneyDetails = () => (
+    <View key="journey" style={orderPanelStyles.activeContainer}>
+      <View style={orderPanelStyles.listItem}>
+        {renderPointList()}
+        <Divider style={orderPanelStyles.divider} />
+        <JourneyDetails
+          style={orderPanelStyles.journeyDetails}
+          loading={vehicles.loading}
+          time={driver.eta ? `${driver.eta} min` : vehicles.duration}
+          distance={driver.distance
+            ? `${driver.distance.value || '0.00'} ${driver.distance.unit || 'mi'}`
+            : order.travelDistance
+          }
+        />
+        <Divider style={orderPanelStyles.divider} />
+        {renderCarItem()}
+      </View>
     </View>
   );
 
@@ -99,64 +158,20 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
         </View>
 
         <View style={orderPanelStyles.rating}>
-          <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating}</Text>
+          <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating.toFixed(1)}</Text>
+          <Icon name="star" size={12} color="#fff"/>
         </View>
       </View>
     </View>
   );
 
-  const renderPointList = () => {
-    const data = {
-      pickupAddress: order.pickupAddress,
-      destinationAddress: order.destinationAddress,
-      stops: order.stopAddresses
-    };
-    return (
-      <PointList
-        onLayout={onLayoutPointList}
-        allowAddingStops={false}
-        style={[orderPanelStyles.pickUpBtn, !isDriverExist ? orderPanelStyles.shadowLessPointList : {}]}
-        data={data}
-      />
-    );
-  };
-
-  const renderBackdropComponent = () => {
-    const options = [{ title: 'Order for', value: order.passenger }];
-
-    if (!order.asap && order.scheduledAt) {
-      options.push({ title: 'Future order', value: moment(order.scheduledAt).format('D MMM YYYY HH:mm a') });
-    }
-
-    if (order.messageToDriver) {
-      options.push({ title: 'Message for driver', value: order.messageToDriver });
-    }
-
-    if (order.travelReason) {
-      options.push({ title: 'Trip reason', value: order.travelReason });
-    }
-
-    if (order.paymentMethod) {
-      options.push({ title: 'Payment method', value: paymentTypeLabels[order.paymentMethod] });
-    }
-
-    return (
-      <View style={{ paddingBottom: 120 }}>
-        {isDriverExist && renderDriverRating()}
-
-        {renderOption({ title: 'Service ID', value: order.serviceId, icon: 'id', chevron: false })}
-
-        <View style={orderPanelStyles.activeContainer}>
-          {renderPointList()}
-        </View>
-
-        {renderJourneyDetails()}
-        {renderCarItem()}
-
-        {options.map(renderOption)}
-      </View>
-    );
-  };
+  const renderBackdropComponent = () => (
+    <View style={{ paddingBottom: isDriverExist ? 150 : 155 }}>
+      {isDriverExist && renderDriverRating()}
+      {renderJourneyDetails()}
+      {renderAdditionalDetails()}
+    </View>
+  );
 
   const renderCallBtn = () => (
     <TouchableWithoutFeedback onPress={callDriver}>
@@ -200,7 +215,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
 
   const renderActiveItem = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 108 : 'auto' }]}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 100 : 'auto' }]}>
         <Icon
           style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
           name="arrowDown"
@@ -220,10 +235,10 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
       visible
       showBackdrop={false}
       draggableRange={{
-        top: height - 60 - (60 + topIPhone),
-        bottom: isDriverExist ? 148 : 80
+        top: height - 60 - (70 + topIPhone),
+        bottom: isDriverExist ? 120 : 59
       }}
-      height={ isDriverExist ? 116 : 54}
+      height={isDriverExist ? 112 : 54}
       backdropComponent={renderBackdropComponent()}
       header={renderHeader()}
       closeButton={<Icon name="arrow" />}

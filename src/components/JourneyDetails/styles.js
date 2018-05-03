@@ -2,8 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: 5,
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -47,7 +46,7 @@ export default StyleSheet.create({
     alignSelf: 'center'
   },
   divider: {
-    marginVertical: 0,
+    marginVertical: 5,
     marginLeft: 10,
     marginRight: 20,
     backgroundColor: '#D8D8D8',

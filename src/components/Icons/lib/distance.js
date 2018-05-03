@@ -1,14 +1,16 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, G, Circle } from 'react-native-svg';
 
 export default function Distance({ color, ...rest }) {
   return (
-    <Svg viewBox="0 0 24 14" {...rest} >
-      <Path
-        fill={color}
-        fillRule="evenodd"
-        d="M24 2.182c0 1.2-.982 2.182-2.182 2.182-.196 0-.382-.022-.556-.077L17.378 8.16c.055.175.077.37.077.567 0 1.2-.982 2.182-2.182 2.182s-2.182-.982-2.182-2.182c0-.196.022-.392.076-.567l-2.782-2.782c-.174.055-.37.077-.567.077-.196 0-.393-.022-.567-.077l-4.964 4.975c.055.174.077.36.077.556 0 1.2-.982 2.182-2.182 2.182S0 12.109 0 10.909s.982-2.182 2.182-2.182c.196 0 .382.022.556.077L7.713 3.84a1.927 1.927 0 0 1-.077-.567c0-1.2.982-2.182 2.182-2.182S12 2.073 12 3.273c0 .196-.022.392-.076.567l2.781 2.782c.175-.055.371-.077.568-.077.196 0 .392.022.567.077l3.873-3.884a1.854 1.854 0 0 1-.077-.556c0-1.2.982-2.182 2.182-2.182S24 .982 24 2.182z"
-      />
+    <Svg viewBox="0 0 26 14" {...rest} >
+      <G fill="none" fillRule="evenodd">
+        <Path stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M2.62 11.894l8.432-8.432 5.602 5.602 6.631-6.632"/>
+        <Circle cx="2" cy="12" r="2" fill={color}/>
+        <Circle cx="11" cy="4" r="2" fill={color}/>
+        <Circle cx="17" cy="9" r="2" fill={color}/>
+        <Circle cx="24" cy="2" r="2" fill={color}/>
+      </G>
     </Svg>
   );
 }
