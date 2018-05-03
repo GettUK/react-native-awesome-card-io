@@ -11,13 +11,15 @@ import { Icon, PointList, JourneyDetails } from 'components';
 import { FINAL_STATUSES, IN_PROGRESS_STATUS } from 'utils/orderStatuses';
 import { formatPrice, isIphoneX } from 'utils';
 
+import { onLayoutPointList } from 'actions/app/statuses';
+
 import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
 
 import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
-const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, navigation }) => {
+const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList }) => {
   const height = Dimensions.get('window').height;
 
   const isDriverExist = driver && driver.info && !!driver.info.name;
@@ -111,6 +113,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
     };
     return (
       <PointList
+        onLayout={onLayoutPointList}
         allowAddingStops={false}
         style={[orderPanelStyles.pickUpBtn, !isDriverExist ? orderPanelStyles.shadowLessPointList : {}]}
         data={data}
@@ -255,4 +258,4 @@ const mapState = ({ bookings }) => ({
   driver: bookings.currentOrder.driverDetails
 });
 
-export default connect(mapState)(OrderDetails);
+export default connect(mapState, { onLayoutPointList })(OrderDetails);
