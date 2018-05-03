@@ -3,15 +3,13 @@ import Permissions from 'react-native-permissions';
 import { createTypes } from 'redux-compose-reducer';
 import { curry } from 'lodash/fp';
 
-const TYPES = createTypes('app/statuses', ['changeKeyboardStatus', 'changePermissions', 'changeParamsField']);
+const TYPES = createTypes('app/statuses', ['changePermissions', 'changeParamsField']);
 
 const changeParamsField = curry((field, value) => ({ type: TYPES.changeParamsField, payload: { field, value } }));
 
 export const onLayoutFooter = changeParamsField('footer');
 
 export const onLayoutPointList = changeParamsField('pointList');
-
-export const changeKeyboardStatus = value => ({ type: TYPES.changeKeyboardStatus, payload: value });
 
 export const changePermissions = perms => ({ type: TYPES.changePermissions, payload: perms });
 
