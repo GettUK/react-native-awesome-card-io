@@ -151,10 +151,18 @@ class Map extends Component {
           Location.startUpdatingLocation(geoLocationOptions);
         }
 
-        DeviceEventEmitter.addListener('locationUpdated', this.props.changePosition);
+        DeviceEventEmitter.addListener('locationUpdated', this.changePosition);
       }
     });
   };
+
+  changePosition = (coordinates) => {
+    const { currentPosition } = this.props.map;
+    const { latitude, longitude } = currentPosition || {};
+    if (coordinates.latitude !== latitude || coordinates.longitude !== longitude) {
+      this.props.changePosition(coordinates);
+    }
+  }
 
   goBack = () => {
     this.props.navigation.dispatch({
