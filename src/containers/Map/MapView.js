@@ -88,7 +88,7 @@ class MapView extends Component {
     const multiplier = this.getMultiplier();
 
     this.map.fitToCoordinates(coordinates, {
-      edgePadding: { top: 200 * multiplier, bottom: 300 * multiplier, left: 100, right: 100, ...params },
+      edgePadding: { top: 80 * multiplier, bottom: 420 * multiplier, left: 100, right: 100, ...params },
       animated: true
     });
   };
