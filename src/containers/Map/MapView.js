@@ -28,8 +28,12 @@ import styles from './style';
 
 class MapView extends Component {
   componentWillReceiveProps(nextProps) {
-    const { isActiveOrder, isCompletedOrder } = nextProps;
-    const { isActiveOrder: isActiveOrderProps, isCompletedOrder: isCompletedOrderProps } = this.props;
+    const { isActiveOrder, isCompletedOrder, dragEnable } = nextProps;
+    const {
+      isActiveOrder: isActiveOrderProps,
+      isCompletedOrder: isCompletedOrderProps,
+      dragEnable: oldDragEnable
+    } = this.props;
 
     const order = this.getOrder(nextProps);
     const oldOrder = this.getOrder();
@@ -44,10 +48,7 @@ class MapView extends Component {
         setTimeout(() => this.resizeMapToCoordinates([source, dest, ...stops]));
       }
 
-      if (this.shouldAnimateToPickUp({ order, oldOrder, isActiveOrder, isActiveOrderProps })) {
-        const source = this.prepareCoordinates(order.pickupAddress);
-        this.animateToRegion(source);
-      }
+      this.handleAnimateToRegion({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps });
 
       if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
         this.resizeMapToDriverAndPickupAddress(order);
@@ -72,6 +73,10 @@ class MapView extends Component {
     });
   };
 
+  isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (
+    !dragEnable && !oldDragEnable && order.pickupAddress !== oldOrder.pickupAddress
+  )
+
   isPathChanged = (fields, fieldsProps) => (
     (fields.destinationAddress &&
       (fields.destinationAddress !== fieldsProps.destinationAddress)
@@ -89,7 +94,8 @@ class MapView extends Component {
   };
 
   shouldAnimateToPickUp = ({ order, oldOrder, isActiveOrder, isActiveOrderProps }) => (
-    (!order.destinationAddress && oldOrder.destinationAddress)
+    (order.pickupAddress !== oldOrder.pickupAddress && !order.destinationAddress && oldOrder.pickupAddress)
+    || (!order.destinationAddress && oldOrder.destinationAddress)
     || (isActiveOrder && !isActiveOrderProps)
   );
 
@@ -108,6 +114,15 @@ class MapView extends Component {
       || this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS)
       || (order.driverDetails && !order.driverDetails.location)
     );
+
+  handleAnimateToRegion = ({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps }) => {
+    if (this.isPickupAddressWasUpdatedByMapDrag({ order, oldOrder, dragEnable, oldDragEnable })) {
+      this.props.onEndLoadingPickup();
+    } else if (this.shouldAnimateToPickUp({ order, oldOrder, isActiveOrder, isActiveOrderProps })) {
+      const source = this.prepareCoordinates(order.pickupAddress);
+      this.animateToRegion(source);
+    }
+  }
 
   resizeMapToDriverAndPickupAddress = (order) => {
     const dest = this.prepareCoordinates(order.pickupAddress);
@@ -230,27 +245,19 @@ class MapView extends Component {
     />
   );
 
-  handleParsePickUpToAddress = () => {
-    const order = this.getOrder();
-
-    this.getGeocode({ coordinates: this.prepareCoordinates(order.pickupAddress) });
-  };
-
   getGeocode = (region) => {
     const { isPreOrder, dragEnable, changeAddress, onEndLoadingPickup, onStartLoadingPickup } = this.props;
 
-    if (region && isPreOrder && dragEnable) {
+    const order = this.getOrder();
+
+    if (region && isPreOrder && dragEnable && !order.destinationAddress) {
       const coordinates = { lat: region.latitude, lng: region.longitude };
 
       onStartLoadingPickup();
 
       geocode(coordinates)
         .then(processLocation)
-        .then((data) => {
-          onEndLoadingPickup();
-
-          changeAddress(data, { type: 'pickupAddress' });
-        })
+        .then(data => changeAddress(data, { type: 'pickupAddress' }))
         .catch(() => onEndLoadingPickup());
     }
   };
@@ -289,7 +296,6 @@ class MapView extends Component {
         showsCompass={false}
         scrollEnabled={dragEnable}
         customMapStyle={MapStyle}
-        onPanDrag={this.handleStartDrag}
         onRegionChangeComplete={this.getGeocode}
       >
         {this.renderRidePath()}
