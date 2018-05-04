@@ -20,7 +20,8 @@ import {
   paymentTypeToAttrs,
   vehiclesData,
   isCashAllowed,
-  paymentTypeLabels
+  paymentTypeLabels,
+  isEqualAddress
 } from 'containers/shared/bookings/data';
 import { LoaderLayer } from './components';
 
@@ -92,25 +93,18 @@ class BookingFooter extends PureComponent {
       (fields.vehicleName && !isNull(fields.vehiclePrice));
   };
 
-  goToMessageToDriver = () => {
-    const { map: { fields: { message } } } = this.props;
-    this.toggleSettingsModal();
-    this.props.navigation.navigate('MessageToDriver', { message });
-  };
+  goTo = (page) => {
+    let payload = {};
 
-  goToTravelReasons = () => {
-    this.toggleSettingsModal();
-    this.props.navigation.navigate('ReasonForTravel');
-  };
+    if (page === 'MessageToDriver') {
+      const { map: { fields: { message } } } = this.props;
 
-  goToPaymentsList = () => {
-    this.toggleSettingsModal();
-    this.props.navigation.navigate('PaymentsOptions');
-  };
+      payload = { message };
+    }
 
-  goToReferencesList = () => {
     this.toggleSettingsModal();
-    this.props.navigation.navigate('References');
+
+    this.props.navigation.navigate(page, payload);
   };
 
   toggleSettingsModal = () => {
@@ -157,24 +151,49 @@ class BookingFooter extends PureComponent {
     }
   };
 
+  areAddressesUnique() {
+    const { map: { fields: { pickupAddress, stops, destinationAddress } } } = this.props;
+    const addresses = [pickupAddress, ...(stops || []), destinationAddress];
+
+    let unique = true;
+
+    addresses.forEach((address, index) => {
+      const previous = index ? addresses[index - 1] : null;
+
+      if (isEqualAddress(address, previous)) {
+        unique = false;
+      }
+    });
+
+    if (!unique) {
+      const message = 'Path contains duplications of points. Please, check all addresses.';
+
+      this.setState({ message }, () => this.alert.show());
+    }
+
+    return unique;
+  }
+
   createBooking = () => {
     const { map: { fields }, createBooking } = this.props;
 
-    const order = {
-      ...fields,
-      scheduledAt: fields.scheduledType === 'later' ? fields.scheduledAt.format() : null,
-      stops: fields.stops
-        ? fields.stops.map(stop => ({
-          address: stop,
-          name: fields.passengerName,
-          passengerId: fields.passengerId, // TODO: add posibility to select another passenger for stop
-          phone: fields.passengerPhone
-        }))
-        : null
-    };
+    if (this.areAddressesUnique()) {
+      const order = {
+        ...fields,
+        scheduledAt: fields.scheduledType === 'later' ? fields.scheduledAt.format() : null,
+        stops: fields.stops
+          ? fields.stops.map(stop => ({
+            address: stop,
+            name: fields.passengerName,
+            passengerId: fields.passengerId, // TODO: add posibility to select another passenger for stop
+            phone: fields.passengerPhone
+          }))
+          : null
+      };
 
-    createBooking(order)
-      .catch(this.showAlert);
+      createBooking(order)
+        .catch(this.showAlert);
+    }
   };
 
   togglePickerModal = () => {
@@ -265,13 +284,13 @@ class BookingFooter extends PureComponent {
       <Modal isVisible={settings} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
         {renderMenuItem('Order for', passengerName, () => {})}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Message to driver', message, this.goToMessageToDriver)}
+        {renderMenuItem('Message to driver', message, () => this.goTo('MessageToDriver'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), this.goToTravelReasons)}
+        {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), () => this.goTo('ReasonForTravel'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], this.goToPaymentsList)}
+        {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], () => this.goTo('PaymentsOptions'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Booking References', `${bookingReferences.length} References`, this.goToReferencesList)}
+        {renderMenuItem('Booking References', `${bookingReferences.length} References`, () => this.goTo('References'))}
       </Modal>
     );
   }
