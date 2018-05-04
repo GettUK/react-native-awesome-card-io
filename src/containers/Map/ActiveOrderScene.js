@@ -8,7 +8,7 @@ import { cancelOrder } from 'actions/booking';
 import { FadeInView } from 'components';
 
 import { strings } from 'locales';
-import { ACTIVE_STATUS, ARRIVED_STATUS, PREORDER_STATUSES } from 'utils/orderStatuses';
+import { ACTIVE_STATUS, PREORDER_STATUSES } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
@@ -42,7 +42,7 @@ class ActiveOrderScene extends Component {
     const { status, busy } = this.props;
 
     const isTripActive = status === ACTIVE_STATUS;
-    const isDriverArrived = status === ARRIVED_STATUS;
+    // const isDriverArrived = status === ARRIVED_STATUS;
     const isPreOrderStatus = PREORDER_STATUSES.includes(status);
 
     return (
@@ -70,7 +70,7 @@ class ActiveOrderScene extends Component {
                 : <FloatButton key="actions" label="Actions" iconName="dots" />
               }
 
-              {isDriverArrived &&
+              {/* isDriverArrived &&
                 <FloatButton
                   key="way"
                   label={'I\'m on my way'}
@@ -78,7 +78,7 @@ class ActiveOrderScene extends Component {
                   onPress={this.handleOpenModal}
                   style={{ marginLeft: 40 }}
                 />
-              }
+              */}
             </View>
           </View>
         </FadeInView>
