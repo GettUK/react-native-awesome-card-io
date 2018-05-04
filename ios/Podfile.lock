@@ -2,7 +2,10 @@ PODS:
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.4.0):
     - React
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
   - DoubleConversion (1.1.5)
+  - Fabric (1.7.6)
   - Firebase/Core (4.11.0):
     - FirebaseAnalytics (= 4.1.0)
     - FirebaseCore (= 4.0.18)
@@ -101,6 +104,10 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - ReactNativeFabric (0.5.1):
+    - Crashlytics
+    - Fabric
+    - React
   - ReactNativePermissions (1.1.1):
     - React
   - RNI18n (2.0.12):
@@ -140,6 +147,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - ReactNativeFabric (from `../node_modules/react-native-fabric`)
   - ReactNativePermissions (from `../node_modules/react-native-permissions`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -164,6 +172,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-maps
   react-native-maps:
     :path: ../node_modules/react-native-maps
+  ReactNativeFabric:
+    :path: ../node_modules/react-native-fabric
   ReactNativePermissions:
     :path: ../node_modules/react-native-permissions
   RNI18n:
@@ -180,7 +190,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 4b3f3bdf1ac1a52a5ef5e65c9585d793a7c3f825
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
+  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
   Firebase: cc13dfab1038c8b45d7903e01fc690451d6d0b24
   FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
   FirebaseCore: b981f47e5254cbcfdeb483355300d743f6fcab2c
@@ -197,6 +209,7 @@ SPEC CHECKSUMS:
   react-native-fcm: 7de3ba1108aba709c3d2b4237594554eb5f6f026
   react-native-google-maps: 963fc78a5ac32dad3a726e4fa08b5307faa5cab2
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  ReactNativeFabric: 3912bf9c714d7cc98110eadf06ca6dedef219322
   ReactNativePermissions: 9f2d9c45c98800795e6c2ed330e25d11a66a8169
   RNI18n: db9be06a40336f04d136f24dd5de3f5eb9f3207c
   RNImageCropPicker: a637beb8f4c76bf9fe8a89d404ad65a33c4215ac
@@ -205,6 +218,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: 50d5a3e4160f0309b14d75b89d5ae2f496d56e0d
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 1eb02f15ba7a9be27d5834eb329a6b0999549678
+PODFILE CHECKSUM: 0d18c4bb98a1a1140f3269e22f38d8a9d267d4f6
 
 COCOAPODS: 1.4.0

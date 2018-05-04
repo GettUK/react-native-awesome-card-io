@@ -9,6 +9,9 @@
 
 #import "AppDelegate.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
@@ -43,6 +46,8 @@
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
 
   [SplashScreen show];
+  
+  [Fabric with:@[[Crashlytics class]]];
 
   return YES;
 }

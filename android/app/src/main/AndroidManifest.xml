@@ -23,6 +23,11 @@
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme"
       tools:replace="android:allowBackup">
+      <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="8de8f5891824f6f389db96b622f1b7488b850012"
+      />
+
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification"/>
       <meta-data android:name="com.google.firebase.messaging.default_notification_color"
         android:resource="@color/google_blue" />

@@ -2,8 +2,10 @@ import React, { PureComponent } from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import assets from 'assets';
 import findKey from 'lodash/findKey';
+
+import assets from 'assets';
+
 import { getOrders, clearList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
