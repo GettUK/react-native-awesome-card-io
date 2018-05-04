@@ -11,7 +11,6 @@ import reducer from 'reducers';
 import { isEmpty } from 'lodash/fp';
 import { auth } from 'actions/ui/auth';
 import {
-  changeKeyboardStatus,
   checkMultiplePermissions
 } from 'actions/app/statuses';
 
@@ -54,14 +53,11 @@ export function createStore() {
     // getPreloadedState(),
     composeWithDevTools(getEnhancer())
   );
-  // const persistor = persistStore(store, {}, () => {
-  // store.dispatch(changeKeyboardStatus(false));
-  // }).purge([]);
+
   const persistor = persistStore(store, null, () => {
     if (!isEmpty(store.getState().session.token)) {
       store.dispatch(auth());
     }
-    store.dispatch(changeKeyboardStatus(false));
     store.dispatch(checkMultiplePermissions(['location', 'camera', 'photo']));
   });
   return { store, persistor };

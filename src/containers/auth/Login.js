@@ -31,6 +31,7 @@ import { throttledAction } from 'utils';
 
 import { loginRules } from './validatorRules';
 import TextButton from './TextButton';
+import KeyboardHide from './KeyboardHide';
 
 import styles from './style';
 
@@ -145,7 +146,9 @@ class Login extends Component {
         <KeyboardAvoidingView
           behavior="padding"
           style={styles.container}>
-          <Icon name="logo" style={styles.logo} width={240} height={70} />
+          <KeyboardHide>
+            <Icon name="logo" style={styles.logo} width={240} height={70} />
+          </KeyboardHide>
           <Input
             value={fields.email || ''}
             onChangeText={this.props.changeEmail}
@@ -166,18 +169,20 @@ class Login extends Component {
             label={strings('login.password')}
             secureTextEntry
           />
-          <SwitchItem
-            label={strings('login.acceptTermsConditions')}
-            value={termsConditions || false}
-            onValueChange={this.props.termsConditionsSwitch}
-            onLabelPress={() => this.goToInfoPage('terms')}
-          />
-          <SwitchItem
-            label={strings('login.acceptPrivacyPolicy')}
-            value={privacyPolicy || false}
-            onValueChange={this.props.privacyPolicySwitch}
-            onLabelPress={() => this.goToInfoPage('privacy')}
-          />
+          <KeyboardHide>
+            <SwitchItem
+              label={strings('login.acceptTermsConditions')}
+              value={termsConditions || false}
+              onValueChange={this.props.termsConditionsSwitch}
+              onLabelPress={() => this.goToInfoPage('terms')}
+            />
+            <SwitchItem
+              label={strings('login.acceptPrivacyPolicy')}
+              value={privacyPolicy || false}
+              onValueChange={this.props.privacyPolicySwitch}
+              onLabelPress={() => this.goToInfoPage('privacy')}
+            />
+          </KeyboardHide>
           <TextButton
             title={strings('login.login_button')}
             disabled={!termsConditions || !privacyPolicy}

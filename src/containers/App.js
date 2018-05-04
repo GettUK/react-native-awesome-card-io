@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, View } from 'react-native';
+import { View } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash/fp';
@@ -13,19 +13,8 @@ import { saveToken } from 'actions/app/pushNotifications';
 
 import PN from 'utils/notifications';
 
-import { changeKeyboardStatus } from 'actions/app/statuses';
-
 class AppContainer extends Component {
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide
-    );
-
     PN.getNotificationsPermissions();
     PN.registerFCMToken().then((token) => {
       this.props.dispatch(saveToken(token));
@@ -35,15 +24,6 @@ class AppContainer extends Component {
   componentDidMount() {
     setTimeout(SplashScreen.hide, 500); // Avoiding flicker
   }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  keyboardDidShow = () => this.props.dispatch(changeKeyboardStatus(true));
-
-  keyboardDidHide = () => this.props.dispatch(changeKeyboardStatus(false));
 
   loginFlow = () => (
     <NavigatorLogin
