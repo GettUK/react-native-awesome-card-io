@@ -6,7 +6,8 @@ import { ScrollView, View } from 'react-native';
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
 import { logout } from 'actions/ui/logout';
 import { deleteToken } from 'actions/app/pushNotifications';
-import { AddressModal } from 'components';
+import { AddressModal, Divider } from 'components';
+import { has } from 'lodash';
 import { throttledAction } from 'utils';
 
 import {
@@ -102,7 +103,20 @@ class Settings extends Component {
 
   renderBlock = (data, index) => (
     <View key={index} style={styles.blockItems}>
-      {data.map((listItem, indexItem) => <SettingsListItem key={indexItem} {...listItem} />)}
+      {data.map((listItem, indexItem, arr) => (
+        <View key={indexItem} style={styles.listItemWrapper}>
+          <SettingsListItem {...listItem} />
+          {indexItem + 1 < arr.length &&
+            <Divider
+              style={[
+                styles.divider,
+                has(listItem, 'avatar') ? styles.avatarDivider : {},
+                has(listItem, 'leftIconName') ? styles.iconDivider : {}
+              ]}
+            />
+          }
+        </View>
+      ))}
     </View>
   );
 
