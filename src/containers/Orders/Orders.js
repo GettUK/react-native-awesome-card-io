@@ -15,7 +15,7 @@ function getScreenParams({ type, idsType, title }) {
   return {
     screen: props => <OrdersList type={type} idsType={idsType} {...props} />,
     navigationOptions: ({ navigation }) => ({
-      title: `${title} ${getTitleCount(navigation.state.params, type)}`
+      title: `${title}\n${getTitleCount(navigation.state.params, type)}`
     })
   };
 }

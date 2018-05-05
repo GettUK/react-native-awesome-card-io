@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
     zIndex: 100
   },
   header: {
-    paddingBottom: 50
+    paddingBottom: 60
   },
   headerContainer: {
     zIndex: -1
   },
   content: {
-    marginTop: Platform.OS === 'ios' ? -47 : -50,
+    marginTop: Platform.OS === 'ios' ? -61 : -64,
     zIndex: 1000
   }
 });
