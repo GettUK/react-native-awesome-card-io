@@ -9,6 +9,7 @@ import { compact, upperFirst } from 'lodash';
 import assets from 'assets';
 
 import { changeAddress } from 'actions/booking';
+import { subscribeToDriversLocations, getDriversLocations } from 'actions/ui/map';
 
 import config from 'config';
 
@@ -24,8 +25,11 @@ import {
   PREORDER_STATUSES
 } from 'utils/orderStatuses';
 
+import DriverMarker from './DriverMarker';
 import MapStyle from './MapStyle';
 import styles from './style';
+
+const pollingInterval = 45 * 1000;
 
 class MapView extends Component {
   componentDidUpdate(prevProps) {
@@ -69,6 +73,14 @@ class MapView extends Component {
     if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
       this.resizeMapToDriverAndPickupAddress(order);
     }
+
+    if (this.shouldGetDriversLocations({ order, oldOrder })) {
+      this.getDriversLocations(order.pickupAddress);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.getDriversInterval);
   }
 
   getOrder(props = this.props) {
@@ -78,6 +90,19 @@ class MapView extends Component {
   getStops(order = this.getOrder()) {
     return order.stops || order.stopAddresses;
   }
+
+  getDriversLocations = (pickupAddress) => {
+    clearInterval(this.getDriversInterval);
+
+    this.props.getDriversLocations(pickupAddress);
+    this.props.subscribeToDriversLocations(pickupAddress);
+
+    this.getDriversInterval = setInterval(() => {
+      const pickUpAddress = this.getOrder().pickupAddress;
+
+      this.props.subscribeToDriversLocations(pickUpAddress);
+    }, pollingInterval);
+  };
 
   animateToRegion = (source) => {
     if (source) {
@@ -129,6 +154,9 @@ class MapView extends Component {
       || this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS)
       || (order.driverDetails && !order.driverDetails.location)
     );
+
+  shouldGetDriversLocations = ({ order, oldOrder }) =>
+    order.pickupAddress !== oldOrder.pickupAddress;
 
   handleAnimateToRegion = ({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps }) => {
     if (this.isPickupAddressWasUpdatedByMapDrag({ order, oldOrder, dragEnable, oldDragEnable })) {
@@ -211,6 +239,8 @@ class MapView extends Component {
         </View>
       </Map.Marker>
     );
+
+  renderDriversMarkers = () => this.props.drivers.map(d => <DriverMarker key={d.id} driver={d} />);
 
   getPathes = locations => (
     locations.map((location, index) => {
@@ -337,6 +367,7 @@ class MapView extends Component {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         zoomEnabled
+        rotateEnabled={false}
         showsCompass={false}
         mapPadding={{ bottom: !order.destinationAddress && isPreOrder ? 190 : 0 }}
         scrollEnabled={dragEnable}
@@ -388,6 +419,8 @@ class MapView extends Component {
           value: `${order.driverDetails.eta} min`,
           icon: 'journeyTime'
         })}
+
+        {isPreOrder && !order.destinationAddress && this.renderDriversMarkers()}
       </Map>
     );
   }
@@ -407,7 +440,14 @@ const mapState = ({ ui, booking }) => ({
   currentOrder: booking.currentOrder,
   currentPosition: ui.map.currentPosition,
   driverLocation: booking.currentOrder.driverDetails ? booking.currentOrder.driverDetails.location : {},
-  status: booking.currentOrder.status || 'connected'
+  status: booking.currentOrder.status || 'connected',
+  drivers: ui.map.drivers
 });
 
-export default connect(mapState, { changeAddress }, null, { withRef: true })(MapView);
+const mapDispatch = {
+  changeAddress,
+  subscribeToDriversLocations,
+  getDriversLocations
+};
+
+export default connect(mapState, mapDispatch, null, { withRef: true })(MapView);

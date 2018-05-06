@@ -5,7 +5,8 @@ import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
 
 const initialState = {
   errors: null,
-  currentPosition: null
+  currentPosition: null,
+  drivers: []
 };
 
 const changePosition = (state, { payload }) => {
@@ -30,12 +31,16 @@ const errorPosition = (state, { payload }) => ({
 
 const clearMap = () => initialState;
 
+const setDrivers = (state, { payload }) =>
+  update(state, 'drivers', payload.drivers);
+
 export default composeReducer(
   'ui/map',
   {
     changePosition,
     errorPosition,
-    clearMap
+    clearMap,
+    setDrivers
   },
   initialState
 );

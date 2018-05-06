@@ -20,7 +20,7 @@ class FayeClient {
   }
 
   on(channel, handler) {
-    this.subscription = this.getConnection().subscribe(ch(channel), message => handler(camelizeKeys(message)));
+    return this.getConnection().subscribe(ch(channel), message => handler(camelizeKeys(message)));
   }
 
   once(channel, handler) {
@@ -32,9 +32,9 @@ class FayeClient {
     return subscription;
   }
 
-  closeConnection() {
-    if (this.subscription) {
-      this.subscription.cancel();
+  cancelSubscription = (subscription) => {
+    if (subscription) {
+      subscription.cancel();
     }
   }
 }
