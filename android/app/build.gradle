@@ -149,7 +149,23 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+      maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+     // The Fabric Gradle plugin uses an open ended version to react
+     // quickly to Android tooling updates
+      classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+repositories {
+   maven { url 'https://maven.fabric.io/public' }
+}
+
 dependencies {
+    compile project(':react-native-fabric')
     compile project(':RNLocation')
     compile project(':react-native-text-input-mask')
     compile project(':react-native-fcm')
@@ -160,6 +176,9 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-i18n')
     compile project(':react-native-maps')
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
@@ -180,3 +199,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'io.fabric'

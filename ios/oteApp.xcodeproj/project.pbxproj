@@ -669,6 +669,7 @@
 				D73C64018EF553EA47B45916 /* [CP] Copy Pods Resources */,
 				92A2292020865F2D00209D73 /* Embed Frameworks */,
 				7D4589D920907C13004495E4 /* ShellScript */,
+				7D307EC9209C6DE400E83C25 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1192,6 +1193,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost 8081 ; then\n    if ! curl -s \"http://localhost:8081/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port 8081 already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi";
 		};
+		7D307EC9209C6DE400E83C25 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 8de8f5891824f6f389db96b622f1b7488b850012 4fbfd52434b1e8fddfc40323180d676b5a5df736e434f2b0b161f168e45aaa29";
+		};
 		7D4589D920907C13004495E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1474,6 +1488,7 @@
 				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = S4RTY2P4MM;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1510,6 +1525,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = S4RTY2P4MM;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

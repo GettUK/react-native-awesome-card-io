@@ -35,6 +35,8 @@ pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
 
 pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
 
+pod 'ReactNativeFabric', :path => '../node_modules/react-native-fabric'
+
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
 
