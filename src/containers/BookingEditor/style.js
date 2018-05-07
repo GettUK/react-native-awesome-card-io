@@ -67,7 +67,6 @@ export default StyleSheet.create({
   selectAddress: {
     backgroundColor: '#fff',
     paddingTop: 11,
-    paddingBottom: 31,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -107,7 +106,8 @@ export default StyleSheet.create({
   destinationBtns: {
     flexDirection: 'row',
     minHeight: 59,
-    paddingHorizontal: 10
+    padding: 10,
+    marginBottom: isIphoneX() ? 15 : 0
   },
   searchIcon: {
     marginRight: 15
@@ -173,7 +173,7 @@ export default StyleSheet.create({
   },
   selectAddressView: {
     marginHorizontal: 16,
-    marginVertical: 15
+    marginTop: 15
   },
   iconContainer: {
     position: 'relative'
