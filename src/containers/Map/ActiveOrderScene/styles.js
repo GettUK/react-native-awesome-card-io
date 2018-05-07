@@ -25,7 +25,9 @@ export const screenStyles = StyleSheet.create({
   },
   createNewBtn: {
     alignSelf: 'center',
-    marginTop: 12
+    marginTop: 12,
+    marginHorizontal: 2,
+    marginBottom: 2
   },
   createNewText: {
     color: '#284784',
@@ -45,6 +47,8 @@ export const fbStyles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 2,
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,

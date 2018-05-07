@@ -19,6 +19,7 @@ export default StyleSheet.create({
   messageContainer: {
     width: width - 32,
     minHeight: 70,
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,

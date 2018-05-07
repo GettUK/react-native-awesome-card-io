@@ -23,6 +23,7 @@ const Button = ({ styleContent, children, size, raised, ...rest }) => {
     case 'sm': {
       computedStyles = {
         ...computedStyles,
+        elevation: 1,
         borderRadius: 6,
         paddingVertical: 10,
         paddingHorizontal: 15
@@ -37,6 +38,7 @@ const Button = ({ styleContent, children, size, raised, ...rest }) => {
   if (raised) {
     computedStyles = {
       ...computedStyles,
+      elevation: 2,
       shadowColor: '#000',
       shadowOpacity: 0.2,
       shadowRadius: 5,
