@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     paddingTop: iPhoneHeaderPadding
   },
   headerBack: {
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,

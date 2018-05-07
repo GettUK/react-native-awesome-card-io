@@ -38,6 +38,7 @@ export default StyleSheet.create({
     margin: 5
   },
   journeyDetails: {
+    elevation: 2,
     marginHorizontal: 20,
     alignSelf: 'stretch'
   },
@@ -52,7 +53,6 @@ export default StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    elevation: 2,
     left: 0,
     right: 0,
     bottom: 0
@@ -65,6 +65,7 @@ export default StyleSheet.create({
     paddingBottom: isIphoneX() ? 25 : 10
   },
   selectAddress: {
+    elevation: 2,
     backgroundColor: '#fff',
     paddingTop: 11,
     shadowColor: '#000',
@@ -101,7 +102,8 @@ export default StyleSheet.create({
     marginLeft: 15
   },
   currentPositionBtnContent: {
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    margin: 2
   },
   destinationBtns: {
     flexDirection: 'row',

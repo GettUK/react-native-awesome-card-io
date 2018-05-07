@@ -12,6 +12,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 14,
     paddingHorizontal: 15,
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowRadius: 6,
