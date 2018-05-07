@@ -8,7 +8,8 @@ export const initialState = {
       loading: false,
       loaded: false,
       data: []
-    }
+    },
+    busy: false
   },
   modals: {
     settings: false,
@@ -20,8 +21,12 @@ export const initialState = {
   orderCreateError: null
 };
 
+const getFormDataStart = state => (
+  update(state, 'formData.busy', true)
+);
+
 const getFormDataSuccess = (state, { payload }) => (
-  update(state, 'formData', { ...initialState.formData, ...payload })
+  update(state, 'formData', { ...initialState.formData, ...payload, busy: false })
 );
 
 const getVehiclesStart = state => (
@@ -127,6 +132,7 @@ const clearCurrentOrder = state => (
 const clearBooking = () => initialState;
 
 export default composeReducer('booking', {
+  getFormDataStart,
   getFormDataSuccess,
   getVehiclesStart,
   getVehiclesSuccess,

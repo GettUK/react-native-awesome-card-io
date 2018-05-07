@@ -105,11 +105,17 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     margin: 2
   },
+  destinationBtnsContainer: {
+    minHeight: 80,
+    marginBottom: isIphoneX() ? 15 : 0,
+    justifyContent: 'center'
+  },
   destinationBtns: {
     flexDirection: 'row',
-    minHeight: 59,
-    padding: 10,
-    marginBottom: isIphoneX() ? 15 : 0
+    padding: 10
+  },
+  destinationBtnsSpinner: {
+    alignSelf: 'center'
   },
   searchIcon: {
     marginRight: 15

@@ -241,27 +241,38 @@ class BookingFooter extends PureComponent {
     );
   };
 
-  renderAddressesSelector() {
+  renderFavouriteAddresses() {
     const { passenger } = this.props;
 
     return (
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.destinationBtns}
+        showsHorizontalScrollIndicator={false}
+      >
+        {passenger && passenger.homeAddress &&
+        this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+        }
+        {passenger && passenger.workAddress &&
+        this.renderAddressItem(passenger.workAddress, strings('label.work'))
+        }
+        {passenger && (passenger.favoriteAddresses || []).map(address =>
+          this.renderAddressItem(address.address, address.name))
+        }
+      </ScrollView>
+    );
+  }
+
+  renderAddressesSelector() {
+    return (
       <View style={styles.selectAddress}>
         {this.renderPickUpDestination()}
-        <ScrollView
-          horizontal
-          contentContainerStyle={styles.destinationBtns}
-          showsHorizontalScrollIndicator={false}
-        >
-          {passenger && passenger.homeAddress &&
-            this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+        <View style={styles.destinationBtnsContainer}>
+          {this.props.data.formData.busy
+            ? <ActivityIndicator style={styles.destinationBtnsSpinner} size="small" color="#8794a0" />
+            : this.renderFavouriteAddresses()
           }
-          {passenger && passenger.workAddress &&
-            this.renderAddressItem(passenger.workAddress, strings('label.work'))
-          }
-          {passenger && (passenger.favoriteAddresses || []).map(address =>
-            this.renderAddressItem(address.address, address.name))
-          }
-        </ScrollView>
+        </View>
       </View>
     );
   }
