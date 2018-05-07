@@ -2,11 +2,10 @@ import { composeReducer } from 'redux-compose-reducer';
 
 const initialState = {
   token: null,
-  realms: null,
   result: {}
 };
 
-const userLogin = (state, { payload: { token, realms } }) => ({ ...state, token, realms });
+const userLogin = (state, { payload: { token } }) => ({ ...state, token });
 
 const userData = (state, { payload }) => ({ ...state, result: payload });
 

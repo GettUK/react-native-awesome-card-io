@@ -23,6 +23,7 @@ const TYPES = createTypes('booking', [
   'cancelOrderSuccess',
   'canceledByExternal',
   'canceledByUser',
+  'getFormDataStart',
   'getFormDataSuccess',
   'getVehiclesStart',
   'getVehiclesSuccess',
@@ -150,8 +151,10 @@ export const cancelOrder = () => (dispatch, getState) => {
     });
 };
 
-export const getFormData = () => (dispatch, getState) => (
-  get('/bookings/new')
+export const getFormData = () => (dispatch, getState) => {
+  dispatch({ type: TYPES.getFormDataStart });
+
+  return get('/bookings/new')
     .then(({ data }) => {
       if (!getState().ui.map.fields.paymentMethod) {
         const memberId = getState().session.result.memberId;
@@ -177,8 +180,8 @@ export const getFormData = () => (dispatch, getState) => (
 
       dispatch({ type: TYPES.getFormDataSuccess, payload: data });
       return data;
-    })
-);
+    });
+};
 
 export const getVehicles = params => (dispatch) => {
   dispatch({ type: TYPES.getVehiclesStart });

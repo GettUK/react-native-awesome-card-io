@@ -43,7 +43,7 @@ export const login = () => (dispatch, getState) => {
   dispatch(loginStart());
 
   return post('/session', { user: { ...ui.login.fields } })
-    .then(({ data: { token, realms } }) => {
+    .then(({ data: { token } }) => {
       get('/session')
         .then(({ data }) => {
           dispatch(batchActions([authSuccess(), userData(data)]));
@@ -54,7 +54,7 @@ export const login = () => (dispatch, getState) => {
 
       dispatch(batchActions([
         loginSuccess(),
-        userLogin(token, realms)
+        userLogin(token)
       ]));
 
       dispatch(registerToken());
