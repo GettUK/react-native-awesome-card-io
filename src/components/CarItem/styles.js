@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     margin: 5,
+    marginTop: 10,
     width: 110,
     height: 140,
     flex: 1,
@@ -18,6 +19,20 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
+  },
+  activeContainer: {
+    width: 114,
+    height: 144,
+    margin: 0,
+    marginTop: 0,
+    shadowRadius: 0
+  },
+  activeBackground: {
+    width: 124,
+    height: 154,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 5
   },
   label: {
     paddingLeft: 2,

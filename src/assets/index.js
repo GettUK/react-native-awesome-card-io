@@ -15,7 +15,8 @@ const imagesApp = {
   clear: require('./png/application/clear-icon.png'),
   loginBg: require('./png/application/login-bg.jpg'),
   orderMap: require('./png/application/orderTempMap.jpg'),
-  pointerShadow: require('./png/circle_shadow.png')
+  pointerShadow: require('./png/circle_shadow.png'),
+  carShadow: require('./png/car_shadow.png')
 };
 /* eslint-enable global-require */
 
