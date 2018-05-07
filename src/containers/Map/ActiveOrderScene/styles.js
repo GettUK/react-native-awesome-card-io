@@ -98,9 +98,6 @@ export const orderPanelStyles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 16
   },
-  listContainer: {
-    width: width - 32
-  },
   activeItem: {
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -110,6 +107,7 @@ export const orderPanelStyles = StyleSheet.create({
     }
   },
   row: {
+    alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -117,8 +115,19 @@ export const orderPanelStyles = StyleSheet.create({
   header: {
     fontSize: 32,
     fontWeight: '600',
-    paddingVertical: 16,
+    paddingVertical: 12,
     color: '#fff'
+  },
+  subHeader: {
+    flexDirection: 'row'
+  },
+  subHeaderTitle: {
+    color: '#fff'
+  },
+  serviceId: {
+    color: '#fff',
+    fontWeight: '900',
+    paddingLeft: 5
   },
   driverContainer: {
     flexDirection: 'row',
@@ -157,31 +166,53 @@ export const orderPanelStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '900'
   },
+  priceLabel: {
+    width: 100,
+    textAlign: 'right'
+  },
   rating: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#6ebe2d',
+    borderRadius: 6,
+    height: 21,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#f6b530'
   },
   ratingLabel: {
-    fontSize: 20,
+    fontSize: 12,
     fontWeight: '600',
-    color: '#6ebe2d'
+    color: '#fff',
+    paddingRight: 3
   },
-  pickUpBtn: {
+  pointList: {
     alignSelf: 'stretch',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    shadowRadius: 0,
+    shadowColor: 'transparent'
+  },
+  journeyDetails: {
+    shadowRadius: 0,
+    shadowColor: 'transparent',
+    marginVertical: 0,
+    paddingHorizontal: 0,
+    paddingTop: 0,
+    paddingBottom: 0
   },
   titleContainer: {
     flex: 1,
     paddingHorizontal: 12
   },
-  shadowLessPointList: {
-    shadowRadius: 0,
-    shadowColor: 'transparent'
+  divider: {
+    marginLeft: -16,
+    marginRight: -16,
+    marginVertical: 8
+  },
+  listOption: {
+    alignSelf: 'stretch',
+    marginVertical: 4
   }
 });
 

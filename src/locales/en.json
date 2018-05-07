@@ -16,6 +16,7 @@
     "selectDestination": "Select Destination",
     "journeyTime": "ETA",
     "distance": "Distance",
+    "byMeter": "By meter",
     "usePassengerCostCentre": "Use passenger's Cost Centre"
   },
   "login": {
