@@ -37,8 +37,20 @@ const styles = StyleSheet.create({
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    borderBottomColor: 'rgba(155, 155, 155, 0.3)'
+    borderBottomColor: 'transparent',
+    borderBottomWidth: 0
+  },
+  listItemWrapper: {
+    backgroundColor: '#fff'
+  },
+  divider: {
+    marginLeft: 21
+  },
+  avatarDivider: {
+    marginLeft: 85
+  },
+  iconDivider: {
+    marginLeft: 60
   },
   avatarContainer: {
     height: 80,
