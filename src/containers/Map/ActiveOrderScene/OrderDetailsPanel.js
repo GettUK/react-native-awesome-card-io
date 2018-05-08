@@ -8,7 +8,7 @@ import assets from 'assets';
 
 import { Icon, PointList, JourneyDetails, Divider } from 'components';
 
-import { FINAL_STATUSES, IN_PROGRESS_STATUS } from 'utils/orderStatuses';
+import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 import { formatPrice, isIphoneX } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
@@ -134,16 +134,17 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
       <View style={orderPanelStyles.listItem}>
         {renderPointList()}
         <Divider style={orderPanelStyles.divider} />
-        <JourneyDetails
-          style={orderPanelStyles.journeyDetails}
-          loading={vehicles.loading}
-          time={driver.eta ? `${driver.eta} min` : vehicles.duration}
-          distance={driver.distance
-            ? `${driver.distance.value || '0.00'} ${driver.distance.unit || 'mi'}`
-            : order.travelDistance
-          }
-        />
-        <Divider style={orderPanelStyles.divider} />
+        {order.status === DRIVER_ON_WAY && [
+            <JourneyDetails
+              key="journeyDetails"
+              style={orderPanelStyles.journeyDetails}
+              time={`${driver.eta || 'N/A'} min`}
+              timeLabel="eta"
+              distance={`${driver.distance.value || '0.00'} ${driver.distance.unit || 'mi'}`}
+            />,
+            <Divider key="divider" style={orderPanelStyles.divider} />
+          ]
+        }
         {renderCarItem()}
       </View>
     </View>

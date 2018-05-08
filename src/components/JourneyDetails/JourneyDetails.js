@@ -5,7 +5,7 @@ import { Icon } from 'components';
 import { strings } from 'locales';
 import styles from './styles';
 
-const JourneyDetails = ({ style, time, distance, loading, label }) => {
+const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
   const renderBlockItem = ({ label, text, icon }) => (
     <View style={styles.blockItem}>
       {icon}
@@ -23,7 +23,7 @@ const JourneyDetails = ({ style, time, distance, loading, label }) => {
     <View style={[styles.container, style]}>
       {
         renderBlockItem({
-          label: strings(`label.${label || 'estimatedJourneyTime'}`),
+          label: strings(`label.${timeLabel || 'estimatedJourneyTime'}`),
           text: time,
           icon: <Icon style={styles.icon} name="journeyTime" width={20} height={24} color="rgb(216,216,216)" />
         })
