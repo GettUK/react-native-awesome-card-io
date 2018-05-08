@@ -46,6 +46,8 @@ export function formatPrice(value) {
   return `£${(value / 100).toFixed(2)}`;
 }
 
+export const getFormatPrice = price => price && formatPrice(price);
+
 export function throttledAction(fn) {
   return throttle(fn, 1000, { trailing: false });
 }

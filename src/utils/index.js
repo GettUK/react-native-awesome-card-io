@@ -12,6 +12,7 @@ export {
   toArrayItems,
   nullAddress,
   formatPrice,
+  getFormatPrice,
   throttledAction,
   isInputsValid
 } from './common';
