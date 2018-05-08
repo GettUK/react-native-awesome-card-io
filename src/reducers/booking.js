@@ -122,7 +122,11 @@ const changeDriverRating = (state, { payload }) => (
 );
 
 const changeDriverRatingSuccess = state => (
-  update(state, 'currentOrder.rateable', false)
+  update(state, {
+    'currentOrder.rateable': false,
+    'currentOrder.driverDetails.tripRating': state.currentOrder.tempDriverRating,
+    'currentOrder.tempDriverRating': null
+  })
 );
 
 const clearCurrentOrder = state => (
