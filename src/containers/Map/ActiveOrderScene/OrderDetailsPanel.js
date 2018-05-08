@@ -157,10 +157,12 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
           <Text style={orderPanelStyles.name}>{driver.info.name}</Text>
         </View>
 
-        <View style={orderPanelStyles.rating}>
-          <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating.toFixed(1)}</Text>
-          <Icon name="star" size={12} color="#fff"/>
-        </View>
+        {driver.info.rating &&
+          <View style={orderPanelStyles.rating}>
+            <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating.toFixed(1)}</Text>
+            <Icon name="star" size={12} color="#fff"/>
+          </View>
+        }
       </View>
     </View>
   );
