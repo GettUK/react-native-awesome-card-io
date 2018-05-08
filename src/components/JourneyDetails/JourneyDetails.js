@@ -23,7 +23,7 @@ const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
     <View style={[styles.container, style]}>
       {
         renderBlockItem({
-          label: strings(`label.${timeLabel || 'estimatedJourneyTime'}`),
+          label: strings(`label.${timeLabel || 'journeyTime'}`),
           text: time,
           icon: <Icon style={styles.icon} name="journeyTime" width={20} height={24} color="rgb(216,216,216)" />
         })
