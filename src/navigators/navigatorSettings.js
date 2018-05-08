@@ -20,7 +20,8 @@ import {
   PaymentCardsList,
   PaymentCardTypes,
   SavePaymentBtn,
-  CarTypesEditor
+  CarTypesEditor,
+  AddressEditorBackBtn
 } from 'containers/Settings';
 import { emptyFavouriteAddress } from 'containers/Settings/utils';
 
@@ -149,7 +150,7 @@ const RoutesConfig = {
       const address = navigation.state.params && navigation.state.params.address;
       return {
         headerStyle,
-        headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
+        headerLeft: <AddressEditorBackBtn navigation={navigation} />,
         headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
         headerRight: <SaveAddressBtn navigation={navigation} />
       };
