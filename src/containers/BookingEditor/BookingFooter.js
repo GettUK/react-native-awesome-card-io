@@ -179,6 +179,7 @@ class BookingFooter extends PureComponent {
 
     if (this.areAddressesUnique()) {
       const order = {
+        sourceType: 'mobile_app',
         ...fields,
         scheduledAt: fields.scheduledType === 'later' ? fields.scheduledAt.format() : null,
         stops: fields.stops
