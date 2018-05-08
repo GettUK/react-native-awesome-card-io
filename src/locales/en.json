@@ -14,7 +14,7 @@
     "home": "Home",
     "work": "Work",
     "selectDestination": "Select Destination",
-    "journeyTime": "ETA",
+    "eta": "ETA",
     "estimatedJourneyTime": "Estimated Journey Time",
     "distance": "Distance",
     "byMeter": "By meter",
