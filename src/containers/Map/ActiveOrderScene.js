@@ -58,16 +58,14 @@ class ActiveOrderScene extends Component {
         <FadeInView>
           <View style={{ paddingBottom: this.isDriverExist ? 150 : 90 }}>
             <View style={screenStyles.actionsRow}>
-              {!isTripActive
-                ?
-                  <FloatButton
-                    key="cancel"
-                    label="Cancel Order"
-                    iconName="cancel"
-                    loading={busy}
-                    onPress={this.handleCancelOrder}
-                  />
-                : <FloatButton key="actions" label="Actions" iconName="dots" />
+              {!isTripActive &&
+                <FloatButton
+                  key="cancel"
+                  label="Cancel Order"
+                  iconName="cancel"
+                  loading={busy}
+                  onPress={this.handleCancelOrder}
+                />
               }
 
               {/* isDriverArrived &&
@@ -78,6 +76,8 @@ class ActiveOrderScene extends Component {
                   onPress={this.handleOpenModal}
                   style={{ marginLeft: 40 }}
                 />
+
+                isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
               */}
             </View>
           </View>
