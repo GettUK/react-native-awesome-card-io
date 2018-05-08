@@ -11,7 +11,7 @@ import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
 
 import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
-import { prepareInitials } from '../utils';
+
 import styles from './EditProfileStyles';
 
 const avatarPickerConfig = {
@@ -108,14 +108,15 @@ class EditProfile extends Component {
       { item: 'lastName', label: 'Last Name', onChangeText: handleLastNameChange }
     ];
 
+    const userAvatar = avatar || avatarUrl;
+
     return (
       <View style={[styles.flex, styles.container]}>
         <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
           <Avatar
             rounded
             xlarge
-            source={{ uri: avatar || avatarUrl }}
-            title={prepareInitials(this.props)}
+            source={userAvatar && { uri: userAvatar }}
             containerStyle={styles.avatar}
           />
           <View style={styles.avatarBackDrop} />
