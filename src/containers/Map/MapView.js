@@ -4,6 +4,7 @@ import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compact } from 'lodash';
 
 import assets from 'assets';
 
@@ -87,7 +88,7 @@ class MapView extends Component {
   resizeMapToCoordinates = (coordinates, params) => {
     const multiplier = this.getMultiplier();
 
-    this.map.fitToCoordinates(coordinates, {
+    this.map.fitToCoordinates(compact(coordinates), {
       edgePadding: { top: 80 * multiplier, bottom: 420 * multiplier, left: 100, right: 100, ...params },
       animated: true
     });
