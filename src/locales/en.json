@@ -15,6 +15,7 @@
     "work": "Work",
     "selectDestination": "Select Destination",
     "journeyTime": "ETA",
+    "estimatedJourneyTime": "Estimated Journey Time",
     "distance": "Distance",
     "byMeter": "By meter",
     "usePassengerCostCentre": "Use passenger's Cost Centre"
