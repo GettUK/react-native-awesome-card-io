@@ -95,19 +95,6 @@ export default StyleSheet.create({
   clearIcon: {
     marginRight: 20
   },
-  buttonView: {
-    paddingHorizontal: 15,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#bcbbc1'
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14
-  },
   infoView: {
     marginTop: 18,
     marginBottom: 41,
