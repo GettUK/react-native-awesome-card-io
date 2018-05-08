@@ -137,5 +137,18 @@ export default StyleSheet.create({
     width: 96,
     height: 55,
     marginLeft: 28
-  }
+  },
+  emptyPayments: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff'
+  },
+  emptyPaymentsLabel: {
+    color: '#8e8e93',
+    lineHeight: 24,
+    fontSize: 15,
+    textAlign: 'center'
+  },
+  emptyPaymentsLabelSpace: { marginBottom: 8 }
 });
