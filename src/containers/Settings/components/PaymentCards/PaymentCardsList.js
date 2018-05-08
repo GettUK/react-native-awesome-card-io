@@ -101,12 +101,23 @@ class PaymentCardsList extends Component {
     />
   );
 
+  renderEmptyContent = () => (
+    <View style={styles.emptyPayments}>
+      <Text style={[styles.emptyPaymentsLabel, styles.emptyPaymentsLabelSpace]}>You have no payment cards yet</Text>
+      <Text style={styles.emptyPaymentsLabel}>{'Try to add some by pressing "plus" button'}</Text>
+    </View>
+  )
+
   render() {
-    return (
-      <ScrollView style={[styles.flex, styles.container]}>
-         {this.renderPaymentCards()}
-      </ScrollView>
-    );
+    const { paymentCards } = this.props;
+
+    return paymentCards && paymentCards.length
+      ? (
+        <ScrollView style={[styles.flex, styles.container]}>
+          {this.renderPaymentCards()}
+        </ScrollView>
+      )
+      : this.renderEmptyContent();
   }
 }
 
