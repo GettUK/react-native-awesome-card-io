@@ -197,10 +197,10 @@ class BookingFooter extends PureComponent {
   };
 
   togglePickerModal = () => {
-    const { toggleVisibleModal, onDateChange } = this.props;
+    const { toggleVisibleModal, onDateChange, map: { fields } } = this.props;
 
     toggleVisibleModal('picker');
-    onDateChange(hourForward().toDate());
+    onDateChange((fields.scheduledAt || hourForward()).toDate());
   };
 
   renderPickUpDestination = () => {

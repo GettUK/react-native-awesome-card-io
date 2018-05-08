@@ -514,14 +514,14 @@ class Map extends Component {
         {renderSelected()}
 
         {Platform.OS === 'ios' &&
-        <View style={styles.TDPickerWrapper}>
-          <DatePickerIOS
-            date={date}
-            onDateChange={this.handleDateChange}
-            minimumDate={minDate}
-            timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
-          />
-        </View>
+          <View style={styles.TDPickerWrapper}>
+            <DatePickerIOS
+              date={date}
+              onDateChange={this.handleDateChange}
+              minimumDate={minDate}
+              timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
+            />
+          </View>
         }
         <View style={styles.row}>
           {buttons.map(renderButton)}
@@ -532,7 +532,7 @@ class Map extends Component {
 
   renderPickUpMarker = () => (
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />
-  )
+  );
 
   render() {
     const { navigation, map: { fields } } = this.props;
