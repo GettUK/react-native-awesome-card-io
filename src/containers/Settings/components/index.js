@@ -13,3 +13,4 @@ export { default as AddressesList } from './AddressesList';
 export { default as AddressEditor } from './AddressEditor';
 export { default as InfoPages } from './InfoPages';
 export { default as SaveAddressBtn } from './SaveAddressBtn';
+export { default as AddressEditorBackBtn } from './AddressEditorBackBtn';

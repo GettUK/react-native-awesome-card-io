@@ -41,7 +41,9 @@ class BackBtn extends Component {
   };
 
   goBack = throttledAction(() => {
-    this.props.navigation.goBack(null);
+    const { backAction, navigation } = this.props;
+    if (backAction) { backAction(); }
+    navigation.goBack(null);
   });
 
   render() {
