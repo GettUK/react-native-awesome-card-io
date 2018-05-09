@@ -98,6 +98,7 @@ class ForgotPassword extends PureComponent {
             label="Email"
             keyboardType="email-address"
             error={error}
+            allowedError={false}
             errorStyle={styles.error}
           />
 
