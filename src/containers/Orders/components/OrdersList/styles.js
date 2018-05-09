@@ -109,9 +109,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff'
   },
-  iconContainer: {
-    position: 'relative'
-  },
   connecter: {
     position: 'absolute',
     top: 15,

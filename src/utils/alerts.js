@@ -24,13 +24,18 @@ export function showMessageAlert({ title = '', message = '' }) {
   );
 }
 
-export function showRemovalAlert({ title = '', message = strings('confirmDelete'), handler = () => {} }) {
+export function showRemovalAlert({
+  title = '',
+  message = strings('confirmDelete'),
+  deleteLabel = strings('delete'),
+  handler = () => {}
+}) {
   return Alert.alert(
     title,
     message,
     [
       { text: strings('cancel'), style: 'cancel' },
-      { text: strings('delete'), style: 'destructive', onPress: handler }
+      { text: deleteLabel, style: 'destructive', onPress: handler }
     ],
     { cancelable: false }
   );

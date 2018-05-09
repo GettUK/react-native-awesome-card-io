@@ -48,7 +48,7 @@ export const prepareCardEditor = (data = {}, handlers = {}) => (
   [
     {
       label: strings('settings.payment.cardType'),
-      text: getValue(capitalize(data.kind)),
+      text: capitalize(data.kind),
       onPress: handlers.goToPaymentCardTypes
     }
   ]

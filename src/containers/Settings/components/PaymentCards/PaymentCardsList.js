@@ -7,7 +7,7 @@ import Swipeout from 'react-native-swipeout';
 
 import { makeDefaultPayment, deactivatePayment } from 'actions/passenger';
 
-import { Icon, CheckBox } from 'components';
+import { Icon, CheckBox, Divider } from 'components';
 import { throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 import { getValue } from './utils';
@@ -39,6 +39,7 @@ class PaymentCardsList extends Component {
   deactivateCard = (id) => {
     showRemovalAlert({
       message: strings('settings.payment.confirmDelete'),
+      deleteLabel: strings('settings.payment.deactivate'),
       handler: () => this.props.deactivatePayment(id)
     });
   };
@@ -52,14 +53,14 @@ class PaymentCardsList extends Component {
       backgroundColor="#fff"
       buttonWidth={100}
       onOpen={() => this.onChangeSelectedID(item.id)}
-      onClose={() => noop}
-      scroll={() => noop}
+      onClose={noop}
+      scroll={noop}
       right={[
         {
           component: (
             <View style={styles.buttonView}>
               <Text style={styles.buttonText}>
-                {strings('settings.payment.cardDelete')}
+                {strings('settings.payment.deactivate')}
               </Text>
             </View>
           ),
@@ -68,26 +69,26 @@ class PaymentCardsList extends Component {
         }
       ]}
     >
-      <View
-        key={item.id}
-        style={[styles.commonContainer, styles.paymentWrapper]}
-      >
-        <CheckBox
-          status={item.default}
-          onPress={() => this.makeDefaultPayment(item.id)}
-        />
-        <TouchableOpacity
-          style={styles.paymentView}
-          activeOpacity={0.6}
-          onPress={() => this.goToPaymentDetails(item)}
-        >
-          <View style={[styles.flex, styles.viewItem]}>
-            <Text style={styles.paymentText}>{getValue(item.kind)}</Text>
-            <Text style={styles.paymentText}>****</Text>
-            <Text style={styles.paymentText}>{getValue(item.last4)}</Text>
-          </View>
-          <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
-        </TouchableOpacity>
+      <View key={item.id}>
+        <View style={[styles.commonContainer, styles.paymentWrapper]}>
+          <CheckBox
+            status={item.default}
+            onPress={() => this.makeDefaultPayment(item.id)}
+          />
+          <TouchableOpacity
+            style={styles.paymentView}
+            activeOpacity={0.6}
+            onPress={() => this.goToPaymentDetails(item)}
+          >
+            <View style={[styles.flex, styles.viewItem]}>
+              <Text style={styles.paymentText}>{getValue(item.kind)}</Text>
+              <Text style={styles.paymentText}>****</Text>
+              <Text style={styles.paymentText}>{getValue(item.last4)}</Text>
+            </View>
+            <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
+          </TouchableOpacity>
+        </View>
+        <Divider />
       </View>
     </Swipeout>
   );
@@ -106,7 +107,7 @@ class PaymentCardsList extends Component {
       <Text style={[styles.emptyPaymentsLabel, styles.emptyPaymentsLabelSpace]}>You have no payment cards yet</Text>
       <Text style={styles.emptyPaymentsLabel}>{'Try to add some by pressing "plus" button'}</Text>
     </View>
-  )
+  );
 
   render() {
     const { paymentCards } = this.props;

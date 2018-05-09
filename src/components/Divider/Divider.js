@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import styles from './styles';
 
-const Divider = ({ style }) => (<View style={[styles.container, style]} />);
+const Divider = ({ style, left }) => (
+  <View style={[styles.container, { marginLeft: left }, style]} />
+);
 
 Divider.propTypes = {
-  style: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.number
-  ])
+  style: View.propTypes.style,
+  left: PropTypes.number
 };
 
 Divider.defaultProps = {
-  style: {}
+  style: {},
+  left: 15
 };
 
 export default Divider;

@@ -107,13 +107,7 @@ class Settings extends Component {
         <View key={indexItem} style={styles.listItemWrapper}>
           <SettingsListItem {...listItem} />
           {indexItem + 1 < arr.length &&
-            <Divider
-              style={[
-                styles.divider,
-                has(listItem, 'avatar') ? styles.avatarDivider : {},
-                has(listItem, 'leftIconName') ? styles.iconDivider : {}
-              ]}
-            />
+            <Divider left={(has(listItem, 'avatar') && 85) || (has(listItem, 'leftIconName') && 60) || 21} />
           }
         </View>
       ))}

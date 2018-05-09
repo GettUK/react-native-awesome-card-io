@@ -11,17 +11,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  containerCardDetails: {
-    paddingTop: 10
-  },
   container: {
     backgroundColor: '#fff',
     paddingTop: 10
-  },
-  btnDelete: {
-    textAlign: 'center',
-    color: '#fd6c5a',
-    fontWeight: '600'
   },
   paymentView: {
     flexDirection: 'row',
@@ -29,8 +21,15 @@ export default StyleSheet.create({
     flex: 1,
     paddingVertical: 10
   },
-  btnContainer: {
-    marginTop: 15
+  deactivateBtn: {
+    marginTop: 30,
+    paddingVertical: 18,
+    backgroundColor: '#fff'
+  },
+  deactivateBtnLabel: {
+    textAlign: 'center',
+    color: '#FF2600',
+    fontSize: 17
   },
   block: {
     backgroundColor: '#fff',
@@ -65,9 +64,7 @@ export default StyleSheet.create({
     paddingVertical: 17
   },
   commonContainer: {
-    marginLeft: 15,
-    borderBottomColor: '#bcbbc1',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    marginLeft: 15
   },
   paymentWrapper: {
     paddingTop: 5,
@@ -97,9 +94,6 @@ export default StyleSheet.create({
   },
   clearIcon: {
     marginRight: 20
-  },
-  bold: {
-    fontWeight: 'bold'
   },
   buttonView: {
     paddingHorizontal: 15,
