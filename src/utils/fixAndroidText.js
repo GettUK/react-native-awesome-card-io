@@ -7,7 +7,7 @@ if (Platform.OS === 'android') {
   Text.prototype.render = function render(...args) {
     const origin = oldRender.call(this, ...args);
     return React.cloneElement(origin, {
-      style: [{ fontFamily: 'Roboto' }, origin.props.style]
+      style: [{ fontFamily: 'Roboto', color: 'rgba(0,0,0,0.87)' }, origin.props.style]
     });
   };
 }
