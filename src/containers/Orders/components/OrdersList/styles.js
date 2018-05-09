@@ -109,12 +109,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff'
   },
-  connecter: {
+  connector: {
     position: 'absolute',
     top: 15,
     left: -3
   },
-  pickUpConnecter: { top: 18 }
+  pickUpConnector: {
+    top: 18
+  }
 });
 
 export default styles;

@@ -71,7 +71,8 @@ class Map extends Component {
       isHeaderEnable: true,
       fromOrderList: false,
       fromSettings: false,
-      isLoadingPickup: false
+      isLoadingPickup: false,
+      dragEnable: true
     };
   }
 
@@ -162,7 +163,7 @@ class Map extends Component {
     if (coordinates.latitude !== latitude || coordinates.longitude !== longitude) {
       this.props.changePosition(coordinates);
     }
-  }
+  };
 
   goBack = () => {
     this.props.navigation.dispatch({
@@ -390,11 +391,19 @@ class Map extends Component {
 
   startLoadingPickup = () => {
     this.setState({ isLoadingPickup: true });
-  }
+  };
 
   endLoadingPickup = () => {
     this.setState({ isLoadingPickup: false });
-  }
+  };
+
+  disableDrag = () => {
+    this.setState({ dragEnable: false });
+  };
+
+  enableDrag = () => {
+    this.setState({ dragEnable: true });
+  };
 
   handleBackBtnPress = () => {
     const isPreOrder = this.isActiveSceneIs('preOrder');
@@ -534,7 +543,7 @@ class Map extends Component {
 
   render() {
     const { navigation, map: { fields } } = this.props;
-    const { isHeaderEnable } = this.state;
+    const { isHeaderEnable, isLoadingPickup, dragEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
@@ -576,7 +585,7 @@ class Map extends Component {
             navigation={navigation}
             passenger={this.getPassenger()}
             requestVehicles={this.goToRequestVehicles}
-            isLoadingPickup={this.state.isLoadingPickup}
+            isLoadingPickup={isLoadingPickup}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
@@ -591,10 +600,12 @@ class Map extends Component {
           isActiveOrder={isActiveOrder}
           isCompletedOrder={isCompletedOrder}
           isPreOrder={isPreOrder}
-          dragEnable={!this.state.isLoadingPickup}
+          dragEnable={!isLoadingPickup && dragEnable}
           ref={(map) => { this.mapView = map; }}
           onStartLoadingPickup={this.startLoadingPickup}
           onEndLoadingPickup={this.endLoadingPickup}
+          disableDrag={this.disableDrag}
+          enableDrag={this.enableDrag}
         />
 
         {isPreOrder && !fields.destinationAddress && this.renderPickUpMarker()}

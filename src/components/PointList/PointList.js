@@ -60,7 +60,7 @@ export default class PointList extends PureComponent {
       <View style={styles.iconContainer}>
         <Icon style={styles.pickUpIcon} name="pickUpField" size={16} />
         {this.hasAddressType('destinationAddress') &&
-          <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
+          <Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" />
         }
       </View>
       <TouchableOpacity
@@ -92,7 +92,7 @@ export default class PointList extends PureComponent {
                   size={12}
                   color="#8d8d8d"
                 />
-                <Icon style={styles.connecter} height={12} name="dottedLine" />
+                <Icon style={styles.connector} height={12} name="dottedLine" />
               </View>
               <TouchableOpacity
                 style={styles.rowView}
