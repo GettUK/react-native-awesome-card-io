@@ -1,8 +1,9 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, quotes */
 const terms = [
   { type: 'header', value: 'ONE TRANSPORT TERMS AND CONDITIONS' },
   { type: 'important', value: 'IMPORTANT' },
-  { type: 'important', value: 'THESE TERMS AND CONDITIONS (“Conditions”) DEFINE THE BASIS UPON WHICH GETT WILL PROVIDE YOU WITH ACCESS TO THE GETT MOBILE APPLICATION PLATFORM, PURSUANT TO WHICH YOU WILL BE ABLE TO REQUEST CERTAIN TRANSPORTATION SERVICES FROM THIRD PARTY DRIVERS BY PLACING ORDERS THROUGH GETT’S MOBILE APPLICATION PLATFORM. THESE CONDITIONS (TOGETHER WITH THE DOCUMENTS REFERRED TO HEREIN) SET OUT THE TERMS OF USE ON WHICH YOU MAY, AS A CUSTOMER, USE THE APP AND REQUEST TRANSPORTATION SERVICES. BY USING THE APP AND TICKING THE ACCEPTANCE BOX, YOU INDICATE THAT YOU ACCEPT THESE TERMS OF USE WHICH APPLY, AMONG OTHER THINGS, TO ALL SERVICES HEREINUNDER TO BE RENDERED TO OR BY YOU VIA THE APP WITHIN THE UK AND THAT YOU AGREE TO ABIDE BY THEM. PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE YOU START TO USE THE APP AND/OR REQUEST TRANSPORTATION SERVICES. IF YOU DO NOT AGREE TO THESE TERMS OF USE, YOU MUST NOT USE THE APP OR REQUEST THE TRANSPORTATION SERVICES.' },
+  { type: 'important', value: `THESE TERMS AND CONDITIONS ("Conditions") DEFINE THE BASIS UPON WHICH YOU WILL BE PROVIDED WITH ACCESS TO THE GETT MOBILE APPLICATION PLATFORM, PURSUANT TO WHICH YOU WILL BE ABLE TO REQUEST CERTAIN TRANSPORTATION SERVICES FROM THIRD PARTY DRIVERS BY PLACING ORDERS THROUGH ONE TRANSPORT'S MOBILE APPLICATION PLATFORM. ONE TRANSPORT IS PART OF THE GETT GROUP.  THESE CONDITIONS (TOGETHER WITH THE DOCUMENTS REFERRED TO HEREIN) SET OUT THE TERMS OF USE ON WHICH YOU MAY, USE THE APP AND REQUEST TRANSPORTATION SERVICES. BY USING THE APP AND TICKING THE ACCEPTANCE BOX, YOU INDICATE THAT YOU ACCEPT THESE TERMS OF USE WHICH APPLY, AMONG OTHER THINGS, TO ALL SERVICES HEREINUNDER TO BE RENDERED TO OR BY YOU VIA THE APP AND THAT YOU AGREE TO ABIDE BY THEM. PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE YOU START TO USE THE APP AND/OR REQUEST TRANSPORTATION SERVICES. IF YOU DO NOT AGREE TO THESE TERMS OF USE, YOU MUST NOT USE THE APP OR REQUEST THE TRANSPORTATION SERVICES.` },
+  { type: 'important', value: "YOUR ATTENTION IS PARTICULARLY DRAWN TO CONDITION 9 WHICH LIMITS ONE TRANSPORT'S LIABILITY TO YOU." },
 
   { type: 'subheader', value: '1. DEFINITIONS AND INTERPRETATION' },
   {
@@ -13,20 +14,23 @@ const terms = [
         title: 'In these Conditions (unless the context otherwise requires), the following words and phrases shall have the following meanings:',
         disableMarker: true,
         value: [
-          { type: 'plain', value: '“Advanced Technology Fee” means the charge levied by Gett for the provision of the Services, including for the convenience of accessing Transportation Services via the App but not from the provision of Transportation Services;' },
-          { type: 'plain', value: '“App” means the mobile application which provides a platform for placing Orders and is owned by Gett;' },
+          { type: 'plain', value: '“Advanced Technology Fee” means the charge levied by One Transport for the provision of the Services, including for the convenience of accessing Transportation Services via the App but not from the provision of Transportation Services;' },
+          { type: 'plain', value: '“App” means the mobile application which provides a platform for placing Orders and is owned by One Transport;' },
           { type: 'plain', value: '“Cancellation Fee” means the fee charged for cancellation of an Order as outlined in Condition 4.7;' },
           { type: 'plain', value: '“Collection Location” means the location notified by you via the App to be picked up by a Driver;' },
-          { type: 'plain', value: '“Customer” means the individual making a request via Gett’s mobile application platform for Transportation Services. A reference to “you” or “your” shall be construed as a reference to the Customer;' },
-          { type: 'plain', value: '“Customer Account” means the Customer’s account with Gett which contains the Customer’s personal information including their name, address, email address, phone number and payment information;' },
+          { type: 'plain', value: '“Customer” means the individual making a request via One Transport’s mobile application platform for Transportation Services. A reference to “you” or “your” shall be construed as a reference to the Customer;' },
+          { type: 'plain', value: '“Customer Account” means the Customer’s account with One Transport which contains the Customer’s personal information including their name, address, email address, phone number and payment information;' },
+          { type: 'plain', value: '"Data Controller" and "Data Processor" have the meaning set out in the Data Protection Laws;' },
           { type: 'plain', value: '“Data Protection Laws” means (until 25 May 2018) the Data Protection Act 1998 and (from 25 May 2018) the General Data Protection Regulation, together with all legislation made thereunder and any other laws relating to the processing of Personal Data, in each case as amended, superseded or replaced from time to time;' },
-          { type: 'plain', value: '“Driver” means a driver who is an independent contractor and has entered into a driver agreement with Gett to provide transportation services to users of the App, including Customers;' },
+          { type: 'plain', value: '“Driver” means a driver who is an independent contractor and has entered into a driver agreement with One Transport to provide transportation services to users of the App, including Customers;' },
           { type: 'plain', value: '“Fees” means the fare charges payable by the Customer in connection with the Transportation Services and the Advanced Technology Fee as further outlined in Condition 4;' },
           { type: 'plain', value: '“Final Location” means the location notified by the Customer using the App as the final destination for the Transportation Services;' },
-          { type: 'plain', value: '“Gett” means GT Gettaxi (UK) Limited a company established under the laws of England and Wales with company number 07603404 whose registered office is at Seal House, 3rd Floor, 1 Swan Lane, London, EC4R 3TN and references to “us” or “we” shall be construed accordingly;' },
+          { type: 'plain', value: '"Gett" means GT GETTAXI (UK) LIMITED a company established under the laws of England and Wales with company number 07603404 whose registered office is at Seal House, 3rd Floor, 1 Swan Lane, London, EC4R 3TN;' },
           { type: 'plain', value: '“Intellectual Property Rights” means any and all patents, trademarks and service marks, registered designs, design rights and copyright, moral rights, rights in data and databases and other protectable lists of information, rights in confidential information, trade secrets, inventions and know how, trade and business names, domain names, get ups, logos and trade dress (including all extensions, revivals and renewals, where relevant) in each case whether registered or unregistered and application for any of them and the goodwill attaching to any of them and any rights or forms of protection of a similar nature and having equivalent or similar effect to any of them which may subsist anywhere in the world;' },
+          { type: 'plain', value: '"One Transport" means One Transport Limited a company established under the laws of England and Wales with company number 04254912 whose registered office is at Seal House, 3rd Floor, 1 Swan Lane, London, EC4R 3TN and references to "us" or "we" shall be construed accordingly;' },
+          { type: 'plain', value: '"Operator" means a licensed operator of private vehicles services (or equivalent under any local laws) who has entered into an agreement with One Transport to provide sub-contracted Transportation Services;' },
           { type: 'plain', value: '“Order” means a request for Transportation Services by the Customer via the App;' },
-          { type: 'plain', value: '“Privacy Policy” means Gett’s privacy policy available on the Gett website or on Settings menu of current application' },
+          { type: 'plain', value: '“Privacy Policy” means One Transport’s privacy policy available on the One Transport website or on Settings menu of current application' },
           { type: 'plain', value: '“Personal Data” has the meaning set out in the Data Protection Laws;' },
           { type: 'plain', value: '“Services” means the platform for ordering Drivers, through the App, for performance of Transportation Services;' },
           { type: 'plain', value: '“Standby Fee” means the sum of £0.50 for each minute a Driver is waiting to collect you or such other sum as notified to you from time to time via the App;' },
@@ -51,10 +55,11 @@ const terms = [
   {
     type: 'list',
     value: [
+      { type: 'plain', value: 'One Transport is an affiliate of One Transport and a permitted user and operator of the App.' },
       { type: 'plain', value: 'You must be 18 years of age or older to use the App and place Orders. Access to the App is permitted for personal use only.' },
-      { type: 'plain', value: 'The App provides a means to enable Customers who seek transportation to certain destinations to be connected with Drivers. Gett do not provide transportation services, rather we are a technological service provider that uses an electronic platform to provide the Services.' },
-      { type: 'plain', value: 'Access to, and use of, the App is free of charge. You will need to set up a Customer Account and provide your payment details in order to access the Services. Any notice or other communication permitted or required in accordance with these Conditions by Gett will be in writing and sent to the email address that you provided when setting up your Customer Account and/or the App.' },
-      { type: 'plain', value: 'Notwithstanding the provisions of Condition 1, Gett does not guarantee availability nor uninterrupted or error free use of the App and shall not be liable for any damage, loss, claims, costs or expenses resulting from or as a consequence of scheduled or unscheduled downtime, unavailability or slowness.' }
+      { type: 'plain', value: 'The App provides a means to enable Customers who seek transportation to certain destinations to be connected with Drivers. One Transport do not directly provide transportation services, rather they are a technological service provider. One Transport has provided One Transport with the right to use its electronic platform and other centralised services to enable One Transport to provide the Services and take Orders.' },
+      { type: 'plain', value: 'Access to, and use of, the App is free of charge. You will need to set up a Customer Account and provide your payment details in order to access the Services. Any notice or other communication permitted or required in accordance with these Conditions by One Transport will be in writing and sent to the email address that you provided when setting up your Customer Account and/or the App.' },
+      { type: 'plain', value: 'Notwithstanding the provisions of Condition 2.3, One Transport does not guarantee availability nor uninterrupted or error free use of the App and shall not be liable for any damage, loss, claims, costs or expenses resulting from or as a consequence of scheduled or unscheduled downtime, unavailability or slowness.' }
     ]
   },
 
@@ -62,10 +67,11 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', marker: '3.1', value: 'In order to connect you to Drivers, you will be required to enter your Collection Location into the App. Where you enter your Final Location, we will provide you with an estimated Fee for the journey, based on the information provided, and provide you with the availability of Drivers. If you wish to proceed with your request for Transportation Services, you should select the order button and you will be connected with a Driver for Transportation Services and this shall constitute an Order. By selecting the order button, you will enter into a contract for Transportation Services with a Driver and be provided with their details via the App. For the avoidance of any doubt, your contract for Transportation Services will be with the Driver selected and will not be with Gett. You acknowledge and agree that Gett is not a party to your contract for Transportation Services.' },
-      { type: 'plain', marker: '3.2', value: 'You acknowledge that your geo-location information must be provided by your device in order to enable us to provide the Services. You acknowledge and agree that your geo-location information will be accessible by the App and when you are logged-in your location will be displayed to Gett and Drivers.' },
-      { type: 'plain', marker: '3.3', value: 'Transportation Services may be cancelled by you prior to the Driver arriving at the Collection Location, subject to the payment of a Cancellation Fee. If you are not at the Collection Location when the Driver arrives, you may be charged the Standby Fee. Drivers may cancel their provision of Transportation Services at any time.' },
-      { type: 'plain', marker: '3.4', value: 'Following a Driver completing an Order, you will be able to rate your Driver via the App. Where you chose to rate your Driver, you must provide accurate feedback on the Driver in order to allow us to monitor the quality of the Transportation Services they provide to users of the App. Drivers may also be permitted to rate you as a Customer and such information may be used by Drivers when deciding whether to accept or reject your future Orders. Customers must (and where appropriate Customer’s must ensure their guests) at all times act in a polite and courteous manner towards Drivers and any other passengers of the vehicle.' }
+      { type: 'plain', marker: '3.1', value: 'One Transport is a licenced operator of private hire vehicles in the local authority area of Barnet, London. In order to provide you with Transportation Services, One Transport will sub-contract the Transportation Services to the Operator. For the avoidance of doubt, One Transport will not provide you with the Transportation Services and all Transportation Services will be completed by the Operator.' },
+      { type: 'plain', marker: '3.2', value: 'In order to connect you to Drivers, you will be required to enter your Collection Location into the App. Where you enter your Final Location, we will provide you with an estimated Fee for the journey, based on the information provided, and provide you with the availability of Drivers. If you wish to proceed with your request for Transportation Services, you should select the order button and you will be connected with a Driver for Transportation Services and this shall constitute an Order. By selecting the order button, you will enter into a contract for Transportation Services with a Driver and be provided with their details via the App. For the avoidance of any doubt, your contract for Transportation Services will be with the Driver selected and will not be with One Transport. You acknowledge and agree that One Transport is not a party to your contract for Transportation Services.' },
+      { type: 'plain', marker: '3.3', value: 'You acknowledge that your geo-location information must be provided by your device in order to enable us to provide the Services. You acknowledge and agree that your geo-location information will be accessible by the App and when you are logged-in your location will be displayed to One Transport and Drivers.' },
+      { type: 'plain', marker: '3.4', value: 'Transportation Services may be cancelled by you prior to the Driver arriving at the Collection Location, subject to the payment of a Cancellation Fee. If you are not at the Collection Location when the Driver arrives, you may be charged the Standby Fee. Drivers may cancel their provision of Transportation Services at any time.' },
+      { type: 'plain', marker: '3.5', value: 'Following a Driver completing an Order, you will be able to rate your Driver via the App. Where you chose to rate your Driver, you must provide accurate feedback on the Driver in order to allow us to monitor the quality of the Transportation Services they provide to users of the App. Drivers may also be permitted to rate you as a Customer and such information may be used by Drivers when deciding whether to accept or reject your future Orders. Customers must (and where appropriate Customer’s must ensure their guests) at all times act in a polite and courteous manner towards Drivers and any other passengers of the vehicle.' }
     ]
   },
 
@@ -73,56 +79,12 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', marker: '4.1', value: 'In consideration of the Transportation Services, you will be charged the Fees. The Fees may be calculated on either a fixed fee or a metered basis and an additional Advanced Technology Fee may be added. Where the Fees are paid on a fixed fee basis, the amount of the Fee will be notified via the App and you will have the opportunity to place the Order at your sole discretion at such fixed fees. If you chose to pay on a metered basis, the Fee will be calculated in accordance with the published hackney carriage fees. As a provider of Transportation Services, all Drivers are required by Gett to provide the Transportation Services in an effective, efficient and safe manner. Once the Transportation Services have been completed and payment made, we will send you an electronic receipt. Details of past journeys are available via the App.' },
-      { type: 'plain', marker: '4.2', value: 'As part of the booking process, for every Order you place, you agree to Gett making a pre-authorisation payment on your payment card provided on your Customer Account (“Pre-Authorisation Payment”). The amount of the Pre-Authorised Payment will either be: (i) the fixed fee; (ii) where you select a metered fare and provide a Final Location, the estimated Fee; or (iii) in all other cases, the Fee estimated by Gett acting reasonably. This amount will not be debited from your account at the time of placing your Order, but is ring-fenced for payment of the Fee. A request will be made against the card you provided for payment of the Fee following completion of your Order. If, after fulfilment of your Order, full payment is not successfully made by you, the Pre-Authorised Payment may be used to settle, or as part payment, towards the outstanding Fee. If payment is received in full, the Pre-Authorisation Payment will be released by Gett. Please note that this may take your bank up to 5 working days to process.' },
-      { type: 'plain', marker: '4.3', value: 'If you fail to make payment of the Fee in full, Gett may suspend your access to the Services and/or permanently delete your Customer Account and access to the Services. If you select to make payment of the Fee by cash and then fail to do so, you authorise Gett to charge your payment card to recover such unpaid Fees.' },
-      { type: 'plain', marker: '4.4', value: 'If you select a fixed fee payment and then, during the course of the Transportation Services, require the Driver to change his route in any matter whatsoever, including making any unscheduled stops or using an alternative route, the fixed fee may be recalculated to take account of such changes. Fees will be recalculated based on the meter and such changes to the fixed fee will be notified to you via the App.' },
-      { type: 'plain', marker: '4.5', value: 'If you are not waiting at the Collection Location when the Driver arrives, you will be charged the Standby Fee. If you do not arrive in 5 minutes, your Order will be cancelled and you will be charged the Cancellation Fee and the Standby Fee.' },
-      { type: 'plain', marker: '4.6', value: 'If during the provision of the Transportation Service you soil the Driver’s vehicle, you will be charged an additional soiling fee in the sum of £40.' },
-      {
-        type: 'list',
-        marker: '4.7',
-        title: 'If after placing an Order you decide to cancel your Order, you will be charged a Cancellation Fee as follows:',
-        value: [
-          {
-            type: 'list',
-            marker: '4.7.1',
-            title: 'for Orders placed for Transportation Services in central London:',
-            value: [
-              { type: 'plain', marker: '4.7.1.1', value: '£3 if the Driver has started his journey to Collection Location; or' },
-              { type: 'plain', marker: '4.7.1.2', value: '£5 if the Driver has arrived at the Collection Location.' }
-            ]
-          },
-          {
-            type: 'list',
-            marker: '4.7.2',
-            title: 'for Orders placed for Transportation Services outside of central London:',
-            value: [
-              { type: 'plain', marker: '4.7.2.1', value: '£3 if the Driver has started his journey to Collection Location; or' },
-              { type: 'plain', marker: '4.7.2.2', value: '£5 if the Driver has arrived at the Collection Location.' }
-            ]
-          },
-          {
-            type: 'list',
-            marker: '4.7.3',
-            title: 'for Orders for Transportation Services from London Heathrow airport, London Gatwick airport, Luton airport or Stanstead airport:',
-            value: [
-              { type: 'plain', marker: '4.7.3.1', value: '£25 if the journey is cancelled 10 minutes or less before the booked time; or' },
-              { type: 'plain', marker: '4.7.3.2', value: '£25 if the Driver is unable to perform the Transportation Services because the Customer has not arrived on time at the Collection Location.' }
-            ]
-          },
-          {
-            type: 'list',
-            marker: '4.7.4',
-            title: 'for Orders pre-booked in advance:',
-            value: [
-              { type: 'plain', marker: '4.7.4.1', value: '£3 if the Order is cancelled 10 minutes prior to the booked time; or' },
-              { type: 'plain', marker: '4.7.4.2', value: '£5 if the Order to cancelled less than 10 minutes prior to the booked time or the Driver has arrived at the Collection Location and the Customer does not show as per the Order.' }
-            ]
-          },
-          { type: 'plain', disableMarker: true, value: 'or such other Cancellation Fee as Gett may notify from time to time.' }
-        ]
-      }
+      { type: 'plain', marker: '4.1', value: 'In consideration of the Services and the Transportation Services, you will be charged the Fees. The Fees will be calculated based on a number of factors including distance travelled, traffic, length of journey, etc., and an additional Advanced Technology Fee may be added .The amount of the Fee will be notified to you via the App and you will have the opportunity to accept and place the Order at your sole discretion. As a provider of Transportation Services, the Operator is required to ensure that all Drivers provide the Transportation Services in an effective, efficient and safe manner. Once the Transportation Services have been completed and payment made, we will send you an electronic receipt. Details of past journeys are available via the App.' },
+      { type: 'plain', marker: '4.2', value: 'As part of the booking process, for every Order you place, you agree to One Transport making a pre-authorisation payment on your payment card provided on your Customer Account ("Pre-Authorisation Payment"). The amount of the Pre-Authorisation Payment will be the Fee or, if a fixed fee is not selected, such other amount that One Transport (acting reasonably) determines as an estimate of the Fee. This amount will not be debited from your account at the time of placing your Order, but is ring-fenced for payment of the Fee. A request will be made against the card you provided for payment of the Fee following completion of your Order. If, after fulfilment of your Order, full payment is not successfully made by you, the Pre-Authorisation Payment may be used to settle, or as part payment, towards the outstanding Fee. If payment is received in full, the Pre-Authorisation Payment will be released by One Transport. Please note that this may take your bank up to 5 working days to process.' },
+      { type: 'plain', marker: '4.3', value: 'If you fail to make payment of the Fee in full, Gett and/or One Transport may suspend your access to the Services and/or permanently delete your Customer Account and access to the Services. Further Gett and/or One Transport will notify the One Transport customer to obtain the Fees ' },
+      { type: 'plain', marker: '4.4', value: 'If, during the course of the Transportation Services, you require the Driver to change his route in any matter whatsoever, including making any unscheduled stops or using an alternative route, the estimated fee [or fixed fee (if applicable)] may be recalculated to take account of such changes. Fees will be recalculated based on the meter and such changes to the fixed fee will be notified to you via the App.' },
+      { type: 'plain', marker: '4.5', value: 'If you are not waiting at the Collection Location when the Driver arrives, you will be charged the Standby Fee. If you do not arrive within 5 minutes, your Order will be cancelled and you will be charged the Cancellation Fee and the Standby Fee.' },
+      { type: 'plain', marker: '4.6', value: 'If after placing an Order you decide to cancel your Order, you will be charged such other Cancellation Fee as One Transport may notify from time to time.' }
     ]
   },
 
@@ -130,8 +92,8 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'From time to time, Gett may run promotional offers or bonuses for using the Services and details of such promotions and bonuses shall be made available via the App, text message or email. Gett will notify you of offers that you are eligible to accept from time to time and any additional promotional terms and conditions. Where a promotion offers Customers or Drivers a bonus for submitting or completing a set numbers of Orders, you must not do anything in fulfilment of this promotion which may be deemed fraudulent. All Orders must involve the provision of Transportation Services to bone fide Customers and you must not collude with Drivers and/or create any fake or fictitious Customer profiles and/or submit fictitious journeys in order to qualify for any promotional or bonus payment. Gett reserves the right to report any fraudulent activities to relevant law enforcement authorities.' },
-      { type: 'plain', value: 'Where it is reasonably considered by Gett that you have acted in a manner that is otherwise than in accordance with Condition 1 above, Gett will notify you and, at its sole discretion, may withhold any promotional payment or discount and/or suspend or terminate your access to the App. If you receive such a notification and you believe that you have not breached the requirements of Condition 5.1, you can appeal this decision by writing to customercare.uk@Gett.com within 48 hours of receipt of such notification and providing full reasons for your dispute.' }
+      { type: 'plain', value: 'From time to time, One Transport may run promotional offers or bonuses for using the Services and details of such promotions and bonuses shall be made available via the App, text message or email. One Transport will notify you of offers that you are eligible to accept from time to time and any additional promotional terms and conditions. Where a promotion offers Customers or Drivers a bonus for submitting or completing a set numbers of Orders, you must not do anything in fulfilment of this promotion which may be deemed fraudulent. All Orders must involve the provision of Transportation Services to bone fide Customers and you must not collude with Drivers and/or create any fake or fictitious Customer profiles and/or submit fictitious journeys in order to qualify for any promotional or bonus payment. One Transport reserves the right to report any fraudulent activities to relevant law enforcement authorities.' },
+      { type: 'plain', value: 'Where it is reasonably considered by One Transport that you have acted in a manner that is otherwise than in accordance with Condition 5.1 above, One Transport will notify you and, at its sole discretion, may withhold any promotional payment or discount and/or suspend and/or terminate your access to the App. If you receive such a notification and you believe that you have not breached the requirements of Condition 5.1, you can appeal this decision by writing to customercare.uk@gett.com within 48 hours of receipt of such notification and providing full reasons for your dispute.' }
     ]
   },
 
@@ -139,26 +101,26 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'By downloading and/or using the App you consent to Gett processing your Personal Data. Gett will process your Personal Data for purposes connected with the Services. From time to time, Gett may process your Personal Data in order to notify you of opportunities connected with the Services either directly or by an affiliate of Gett. When processing your Personal Data, Gett will take appropriate technological measures to protect and keep your Personal Data secure and shall process your information in accordance with Data Protection Laws. Your Personal Data may be processed outside of the EEA.' },
-      { type: 'plain', value: 'In order to allow us to provide you with the Services and for Drivers to provide you with Transportation Services, your Personal Data may be transferred by Gett to Drivers as well as other data such as your telephone number. As an independent contractor, Gett advises all Drivers that they must ensure that they keep your Personal Data safe and secure at all times and not allow access to any third parties to such information. Drivers are advised that they are not permitted to store your Personal Data on their mobile device or any other mobile telephone (other than on the App) unless you provide them with express permission.' },
-      { type: 'plain', value: 'We also process your Personal Data in accordance with Gett’s Privacy Policy, please ensure that you read this document before using the App. By using the App, you acknowledge and confirm that you have understood the use of your Personal Data set out in the Privacy Policy.' },
-      { type: 'plain', value: 'Gett does not guarantee that the App will be secure or free from bugs or viruses. You must not misuse the App by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. You must not attempt to gain unauthorised access to the App, the server on which the App is stored or any server, device or database connected to the App. You must not attack the App via a denial-of-service attack or a distributed denial-of service attack. By breaching this provision, you may commit a criminal offence under the Computer Misuse Act 1990. Gett will report any such breach to the relevant law enforcement authorities and Gett will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use the App will cease immediately.' },
-      { type: 'plain', value: 'The App may include links to other websites, apps or material which is beyond Gett’s control and which are owned and controlled by third parties. Gett is not responsible for the content on these links, the internet or World Wide Web pages or any other site or app outside the App. Where the App contain links to other sites or apps or materials provided by third parties, these links are provided for your information only. These links are provided as a courtesy to Gett’s users and are not administered or verified in any way by Gett. Such links are accessed by you at your own risk and Gett makes no representations or warranties about the content of such websites or apps and cannot be held liable for the content and activities of these websites or any losses you suffer as a result of using such third party websites. Gett may provide links to third party websites or apps that use cookies on users to collect data and/or to solicit personal information. As a result, Gett strongly recommends that you read the privacy policies and terms of use of any third party websites or apps prior to using them.' },
-      { type: 'plain', value: 'Electronic Communications. When you use the App or send us emails or use pop-ups or make calls, you may be communicating with Gett electronically. Gett will communicate with you by email, pop-up, phone, text or by posting notices on the Gett website. You agree that all agreements, notices, disclosures and other communications sent to you electronically satisfy any legal requirement that such communications should be in writing.' }
+      { type: 'plain', value: 'By downloading and/or using the App you consent to One Transport processing your Personal Data. One Transport will process your Personal Data for purposes connected with the Services and Transportation Services. From time to time, One Transport may process your Personal Data in order to notify you of opportunities connected with the Services either directly or by an affiliate of One Transport. When processing your Personal Data, One Transport will take appropriate technological measures to protect and keep your Personal Data secure and shall process your information in accordance with Data Protection Laws. Your Personal Data may be processed outside of the EEA.' },
+      { type: 'plain', value: 'In order to allow us to provide you with the Services and/or access to Transportation Services, your Personal Data may be transferred by One Transport to the Operator and Drivers as well as other data such as your telephone number. One Transport advises all Operators that they must ensure that they keep your Personal Data safe and secure at all times and not allow access to any third parties to such information, other than Drivers.' },
+      { type: 'plain', value: 'We also process your Personal Data in accordance with One Transport’s Privacy Policy, please ensure that you read this document before using the App. By using the App, you acknowledge and confirm that you have understood the use of your Personal Data set out in the Privacy Policy.' },
+      { type: 'plain', value: 'One Transport and/or Gett does not guarantee that the App will be secure or free from bugs or viruses. You must not misuse the App by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. You must not attempt to gain unauthorised access to the App, the server on which the App is stored or any server, device or database connected to the App. You must not attack the App via a denial-of-service attack or a distributed denial-of service attack. By breaching this provision, you may commit a criminal offence under the Computer Misuse Act 1990. One Transport will report any such breach to the relevant law enforcement authorities and One Transport will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use the App will cease immediately.' },
+      { type: 'plain', value: 'The App may include links to other websites, apps or material which is beyond One Transport’s control and which are owned and controlled by third parties. We are not responsible for the content on these links, the internet or World Wide Web pages or any other site or app outside the App. Where the App contain links to other sites or apps or materials provided by third parties, these links are provided for your information only. These links are provided as a courtesy to One Transport’s users and are not administered or verified in any way by One Transport. Such links are accessed by you at your own risk and One Transport makes no representations or warranties about the content of such websites or apps and cannot be held liable for the content and activities of these websites or any losses you suffer as a result of using such third party websites. One Transport may provide links to third party websites or apps that use cookies on users to collect data and/or to solicit personal information. As a result, One Transport strongly recommends that you read the privacy policies and terms of use of any third party websites or apps prior to using them.' },
+      { type: 'plain', value: 'Electronic Communications. When you use the App or send us emails or use pop-ups or make calls, you may be communicating with One Transport electronically.  One Transport will communicate with you by email, pop-up, phone, text or by posting notices on the One Transport website. You agree that all agreements, notices, disclosures and other communications sent to you electronically satisfy any legal requirement that such communications should be in writing.' }
     ]
   },
 
   { type: 'subheader', value: '7. INTELLECTUAL PROPERTY' },
-  { type: 'plain', value: 'You acknowledge that all Intellectual Property Rights and all other rights in the App are owned by Gett and remain vested in Gett at all times and you do not acquire any rights in or to the App under these Conditions.' },
+  { type: 'plain', value: 'You acknowledge that all Intellectual Property Rights and all other rights in the App are owned by Gett and licensed to One Transport and remain vested in Gett and One Transport at all times. You do not acquire any rights in or to the App under these Conditions.' },
 
   { type: 'subheader', value: '8. SUSPENSION OR MODIFICATION' },
-  { type: 'plain', value: 'Gett reserves the right, at its sole discretion, to change, alter, suspend or indefinitely close the App and/or your access to the Services. From time to time, Gett may also restrict access to some or all parts of the Services and/or the App.' },
+  { type: 'plain', value: 'One Transport reserves the right, at its sole discretion, to change, alter, suspend or indefinitely close the App and/or your access to the Services. From time to time, One Transport may also restrict access to some or all parts of the Services and/or the App.' },
 
-  { type: 'subheader', value: '9. GETT’S LIABILITY' },
+  { type: 'subheader', value: '9. ONE TRANSPORT’S LIABILITY' },
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'Nothing in these Conditions excludes or limits Gett’s liability for death or personal injury arising from Gett’s negligence, or its fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by English law.' },
+      { type: 'plain', value: 'Nothing in these Conditions excludes or limits One Transport’s liability for death or personal injury arising from One Transport’s negligence, or its fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by English law.' },
       { type: 'plain', value: 'The material displayed on the App is provided without any guarantees, conditions or warranties as to its accuracy. You must bear the risks associated with the use of the App, the Services and the internet.' },
       {
         type: 'list',
@@ -177,16 +139,11 @@ const terms = [
           }
         ]
       },
-      {
-        type: 'list',
-        title: 'Gett shall not be liable to the Customer for the actions or omissions of any Driver or in connection with the Transportation Services. Your contract for the Transportation Services is with the Driver directly and therefore any claim that you may have in relation to the Transportation Services should be directed to the Driver. If you are unclear as to who provided you with the Transportation Services, you can contact us at customercare.uk@Gett.com and ask us to provide you with the Driver details.',
-        value: [
-          { type: 'plain', value: 'If we fail to comply with these Conditions, we are responsible for loss or damage you suffer that is a foreseeable result of our breaking of our contract with you or our failing to use reasonable care and skill, but we are not responsible for any loss or damage that is not foreseeable. Loss or damage is foreseeable if either it is obvious that it will happen or, if at the time these Conditions were accepted, both we and you knew it might happen. We only provide access to the App and/or Services for domestic and private use. You agree not to use the App and/or Services for any commercial, business or re-sale purposes and we have no liability to you for any loss of profit or revenue, loss of business, business interruption or loss of business opportunity.' },
-          { type: 'plain', value: 'Gett will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other technologically harmful material that may infect your electronic and/or mobile equipment, computer programs, data or other proprietary material due to your use of the App and/or the Services or to your downloading of any content on it, or on any website linked to it.' },
-          { type: 'plain', value: 'Gett shall not be in breach of these Conditions nor liable for any delay in performing, or failure to perform, any of its obligations under these Conditions if such delay or failure results from events, circumstances or causes beyond its reasonable control.' },
-          { type: 'plain', value: 'Subject to the remainder of this Condition 9, Gett’s total liability to you in connection with these Conditions and the Services, however arising whether caused by tort (including negligence), breach of contract or otherwise, shall be limited to the Fees payable by you in relation to the Order in which the liability arose.' }
-        ]
-      }
+      { type: 'plain', value: 'One Transport shall not be liable to the Customer for the actions or omissions of any Driver or in connection with the Transportation Services. Your contract for the Transportation Services is with the Driver directly and therefore any claim that you may have in relation to the Transportation Services should be directed to the Driver. If you are unclear as to who provided you with the Transportation Services, you can contact us at customercare.uk@Gett.com and ask us to provide you with the Driver details.' },
+      { type: 'plain', value: 'If we fail to comply with these Conditions, we are responsible for loss or damage you suffer that is a foreseeable result of our breaking of our contract with you or our failing to use reasonable care and skill, but we are not responsible for any loss or damage that is not foreseeable. Loss or damage is foreseeable if either it is obvious that it will happen or, if at the time these Conditions were accepted, both we and you knew it might happen. We only provide access to the App and/or Services for domestic and private use. You agree not to use the App and/or Services for any commercial, business or re-sale purposes and we have no liability to you for any loss of profit or revenue, loss of business, business interruption or loss of business opportunity.' },
+      { type: 'plain', value: 'One Transport will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other technologically harmful material that may infect your electronic and/or mobile equipment, computer programs, data or other proprietary material due to your use of the App and/or the Services or to your downloading of any content on it, or on any website linked to it.' },
+      { type: 'plain', value: 'One Transport shall not be in breach of these Conditions nor liable for any delay in performing, or failure to perform, any of its obligations under these Conditions if such delay or failure results from events, circumstances or causes beyond its reasonable control.' },
+      { type: 'plain', value: 'Subject to the remainder of this Condition 9, One Transport’s total liability to you in connection with these Conditions and the Services, however arising whether caused by tort (including negligence), breach of contract or otherwise, shall be limited to the Fees payable by you in relation to the Order in which the liability arose.' }
     ]
   },
 
@@ -195,7 +152,7 @@ const terms = [
     type: 'list',
     value: [
       { type: 'plain', marker: '10.1', value: 'These Conditions shall exist for an indefinite period of time. However, you may terminate your agreement with us at any time by permanently deleting the App installed on any device and deactivating your account.' },
-      { type: 'plain', marker: '10.2', value: 'Gett is entitled to terminate its provision of the Services to you or your licence to use the App, with immediate effect, by disabling your account or otherwise preventing you from accessing or using the App, at its sole discretion.' }
+      { type: 'plain', marker: '10.2', value: 'One Transport is entitled to terminate its provision of the Services to you or your licence to use the App, with immediate effect, by disabling your account or otherwise preventing you from accessing or using the App, at its sole discretion.' }
     ]
   },
 
@@ -203,13 +160,13 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', marker: '11.1', value: 'Gett reserves the right, in its sole discretion, to vary these Conditions at any time. We will notify you of any changes by emails and/or through the App and the date of the most recent revisions will appear at the bottom of this page.' },
-      { type: 'plain', marker: '11.2', value: 'If there is any inconsistency between Gett’s Privacy Policy and these Conditions, the Privacy Policy shall prevail.' }
+      { type: 'plain', marker: '11.1', value: 'One Transport reserves the right, in its sole discretion, to vary these Conditions at any time. We will notify you of any changes by emails and/or through the App and the date of the most recent revisions will appear at the bottom of this page.' },
+      { type: 'plain', marker: '11.2', value: 'If there is any inconsistency between One Transport’s Privacy Policy and these Conditions, the Privacy Policy shall prevail.' }
     ]
   },
 
   { type: 'subheader', value: '12. ASSIGNMENT' },
-  { type: 'plain', value: 'Your Customer Account and the Services are personal to you, and therefore you may not assign, sub-licence or transfer in any other way your rights and obligations under these Conditions of use to any third party. However, if necessary, Gett may freely assign its rights and obligations without your consent and without the need to notify you before assigning them.' },
+  { type: 'plain', value: 'Your Customer Account and the Services are personal to you, and therefore you may not assign, sub-licence or transfer in any other way your rights and obligations under these Conditions of use to any third party. However, if necessary, One Transport may freely assign its rights and obligations without your consent and without the need to notify you before assigning them.' },
 
   { type: 'subheader', value: '13. INVALIDITY' },
   { type: 'plain', value: 'If any part of these Conditions are disallowed or found to be ineffective by any court or regulator, the other provisions shall continue to apply to the maximum extent permitted by law.' },
@@ -218,18 +175,21 @@ const terms = [
   { type: 'plain', value: 'Rights under these Conditions only accrue to a person party to these Conditions. Accordingly a person who is not a party to these Conditions shall have no rights under the Contracts (Rights of Third Parties) Act 1999 to enforce any of its Conditions, but this does not affect any right or remedy of a third party which exists or is available apart from that Act.' },
 
   { type: 'subheader', value: '15. WAIVER' },
-  { type: 'plain', value: 'No failure or delay by Gett to exercise any right or remedy provided in these Conditions or by law shall constitute a waiver of that or any right or remedy, nor shall it preclude or restrict the further exercise of that or any right or remedy. No single or partial exercise of such remedy shall preclude or restrict the further exercise of that or any other right or remedy.' },
+  { type: 'plain', value: 'No failure or delay by One Transport to exercise any right or remedy provided in these Conditions or by law shall constitute a waiver of that or any right or remedy, nor shall it preclude or restrict the further exercise of that or any right or remedy. No single or partial exercise of such remedy shall preclude or restrict the further exercise of that or any other right or remedy.' },
 
   { type: 'subheader', value: '16. CONTACTING US AND COMPLAINTS' },
-  { type: 'plain', value: 'If you have any concerns, or wish to contact us for any reason, you can do so by emailing us at customercare.uk@Gett.com. You can also contact us by writing to us at our registered address.' },
+  { type: 'plain', value: 'If you have any concerns, or wish to contact us for any reason,  you can do so by emailing us at customercare.uk@gett.com. You can also contact us by writing to us at our registered address.' },
 
-  { type: 'subheader', value: '17. JURISDICTION AND APPLICABLE LAW' },
+  { type: 'subheader', value: '17. LOCAL LAWS' },
+  { type: 'plain', value: 'These Conditions apply to all Customers regardless of where the Transportation Services are provided. In so far as any provision of these Conditions is not permitted under any local law where the Transportation Services are provided, these Conditions shall be varied solely to the extent required by such local laws and all other Conditions shall remain unchanged.' },
+
+  { type: 'subheader', value: '18. JURISDICTION AND APPLICABLE LAW' },
   { type: 'plain', value: 'These Conditions, and any non-contractual obligations arising out of them, are governed and construed in accordance with the law of England and Wales and any proceedings resulting out of these terms of use, and any non-contractual obligations arising out of them, the Privacy Policy, Services and/or the use of the App shall be held in the Courts of England and Wales.' },
 
-  { type: 'subheader', value: '18. NO AGENCY' },
-  { type: 'plain', value: 'Nothing in these Conditions shall be construed as creating, in any form, an agency relationship between Gett and Customers under the laws of England and Wales.' },
+  { type: 'subheader', value: '19. NO AGENCY' },
+  { type: 'plain', value: 'Nothing in these Conditions shall be construed as creating, in any form, an agency relationship between One Transport and Customers under the laws of England and Wales.' },
 
-  { type: 'subheader', value: '19. YOUR STATUTORY RIGHTS' },
+  { type: 'subheader', value: '20. YOUR STATUTORY RIGHTS' },
   { type: 'plain', value: 'These Conditions are without prejudice to your statutory rights.' }
 ];
 
