@@ -108,6 +108,9 @@
     },
     "phone": {
       "length": "must be 10 numbers"
+    },
+    "name": {
+      "length": "must be 30 characters"
     }
   },
   "back": "Back",

@@ -91,6 +91,7 @@ class EditProfile extends Component {
         clearIconColor="#d2d0dc"
         clearIconStyle={styles.clearIcon}
         selectionColor="#494949"
+        maxLength={30}
       />
     );
   };

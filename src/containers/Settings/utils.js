@@ -165,17 +165,19 @@ export const emptyFavouriteAddress = {
   address: emptyAddress
 };
 
+const validateName = {
+  presence: {
+    allowEmpty: false
+  },
+  length: {
+    maximum: 30,
+    message: strings('validation.name.length')
+  }
+};
+
 export const validationRules = {
-  firstName: {
-    presence: {
-      allowEmpty: false
-    }
-  },
-  lastName: {
-    presence: {
-      allowEmpty: false
-    }
-  },
+  firstName: validateName,
+  lastName: validateName,
   email: {
     presence: {
       allowEmpty: false
