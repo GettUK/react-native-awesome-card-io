@@ -118,11 +118,11 @@ export default class Input extends PureComponent {
       errorStyle
     } = this.props;
 
-    const placeholder = allowedError ? (<View style={styles.errorPlaceholder} />) : null;
+    if (!allowedError) return null;
 
     return error
       ? <Text style={[styles.errorMessage, errorStyle]}>{error[0]}</Text>
-      : placeholder;
+      : <View style={styles.errorPlaceholder} />;
   };
 
   renderLabel = () => {
