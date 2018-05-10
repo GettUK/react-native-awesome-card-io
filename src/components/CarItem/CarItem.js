@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Image, Text, View } from 'react-native';
+import { TouchableOpacity, Image, Text, View, ImageBackground } from 'react-native';
 import { isNull } from 'lodash';
 import { Icon } from 'components';
 import assets from 'assets';
@@ -11,8 +11,9 @@ const CarItem = ({
   style, name, label, price, eta, active, onChange
 }) => {
   const vehiclePrice = cost => (cost ? formatPrice(cost) : 'By meter');
+
   const renderContainer = () => (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style, active ? styles.activeContainer : {}]}>
       <View style={styles.top}>
         {label && (<Text numberOfLines={1} style={styles.label}>{label}</Text>)}
         {!isNull(price) && (<Text numberOfLines={1} style={styles.labelPrice}>{vehiclePrice(price)}</Text>)}
@@ -28,15 +29,21 @@ const CarItem = ({
         source={assets.carTypes[name]}
         resizeMode="contain"
       />
-      {!active && (<View style={styles.mask} />)}
     </View>
   );
+
+  const renderActiveContainer = children => (
+    <ImageBackground source={assets.carShadow} style={styles.activeBackground}>
+      {children}
+    </ImageBackground>
+  );
+
+  const content = renderContainer();
+
   return (
-    active ? renderContainer() : (
-      <TouchableOpacity onPress={() => onChange(name)}>
-        {renderContainer()}
-      </TouchableOpacity>
-    )
+    <TouchableOpacity onPress={() => !active && onChange(name)}>
+      {active ? renderActiveContainer(content) : content}
+    </TouchableOpacity>
   );
 };
 

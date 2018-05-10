@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
   carLoading: {
     alignSelf: 'center',
-    height: 140,
+    height: 144,
     margin: 5
   },
   journeyDetails: {
