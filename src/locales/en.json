@@ -54,15 +54,15 @@
       }
     },
     "payment": {
-      "cardType": "Card type",
-      "cardNumber": "Card number",
-      "expirationDate": "Expiration date",
-      "expirationDateFormat": "MM / YYYY",
-      "cvv": "CVV",
+      "deactivate": "Deactivate",
       "cardHolder":"Cardholder",
-      "cardDelete": "Deactivate",
-      "confirmDelete": "Do you want to delete the card?",
-      "enterValidCard": "Please enter a valid credit card"
+      "cardNumber": "Card number",
+      "cardType": "Card type",
+      "confirmDelete": "Do you want to deactivate the card?",
+      "cvv": "CVV",
+      "enterValidCard": "Please enter a valid credit card",
+      "expirationDate": "Expiration date",
+      "expirationDateFormat": "MM / YYYY"
     },
     "label": {
       "phone": "Phone",

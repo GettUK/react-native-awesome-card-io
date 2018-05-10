@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { capitalize } from 'lodash';
-import { View, ScrollView, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 
 import { changePaymentFields } from 'actions/passenger';
 
-import { Icon } from 'components';
-import { getValue, cardTypes } from './utils';
+import { Icon, Divider } from 'components';
+import { cardTypes } from './utils';
 import styles from './styles';
 
 class PaymentCardTypes extends Component {
@@ -24,25 +24,24 @@ class PaymentCardTypes extends Component {
     });
   };
 
-  renderItem = ({ item }) => {
+  renderItem = (item) => {
     const { paymentCard } = this.props;
     const isActive = paymentCard.kind === item.name;
     return (
-      <View
-        key={item.id}
-        style={[styles.commonContainer, styles.paymentWrapper]}
-      >
-        <TouchableOpacity
-          style={styles.paymentView}
-          activeOpacity={0.6}
-          onPress={() => this.changePaymentCardType(item.name)}
-        >
-          <View style={[styles.flex, styles.viewItem]}>
-            <Text style={[styles.paymentCardText, styles.bold]}>{getValue(capitalize(item.name))}</Text>
-          </View>
-          {isActive && <Icon style={styles.checkIcon} name="check" width={12} height={9} color="#007AFF" />
-          }
-        </TouchableOpacity>
+      <View key={item.id}>
+        <View style={[styles.commonContainer, styles.paymentWrapper]}>
+          <TouchableOpacity
+            style={styles.paymentView}
+            activeOpacity={0.6}
+            onPress={() => this.changePaymentCardType(item.name)}
+          >
+            <View style={[styles.flex, styles.viewItem]}>
+              <Text style={styles.paymentCardText}>{capitalize(item.name)}</Text>
+            </View>
+            {isActive && <Icon style={styles.checkIcon} name="check" width={12} height={9} color="#007AFF" />}
+          </TouchableOpacity>
+        </View>
+        <Divider />
       </View>
     );
   };
@@ -50,12 +49,7 @@ class PaymentCardTypes extends Component {
   render() {
     return (
       <ScrollView style={[styles.flex, styles.container]}>
-        <FlatList
-          shouldItemUpdate={(props, nextProps) => (props.item !== nextProps.item)}
-          data={cardTypes}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-        />
+        {cardTypes.map(this.renderItem)}
       </ScrollView>
     );
   }

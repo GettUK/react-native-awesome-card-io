@@ -7,7 +7,7 @@ import { View, KeyboardAvoidingView, ScrollView, Text, Image, TouchableOpacity }
 import { changePaymentField, changePaymentFields } from 'actions/passenger';
 import { throttledAction } from 'utils';
 
-import { Input, DismissKeyboardView, Modal, Icon } from 'components';
+import { Input, DismissKeyboardView, Modal, Icon, Divider } from 'components';
 
 import { extractedDate, getValue, helpInfo, prepareCardEditor, prepareCardEditorInputs } from './utils';
 import styles from './styles';
@@ -96,10 +96,7 @@ class PaymentCardEditor extends Component {
   );
 
   renderItem = ({ label, text, onPress }) => (
-    <View
-      key={label}
-      style={[styles.commonContainer, styles.paymentCardWrapper]}
-    >
+    <View key={label} style={[styles.commonContainer, styles.paymentCardWrapper]}>
       <TouchableOpacity
         style={styles.paymentView}
         activeOpacity={0.6}
@@ -111,6 +108,7 @@ class PaymentCardEditor extends Component {
         </View>
         <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
       </TouchableOpacity>
+      <Divider left={0} />
     </View>
   );
 
@@ -119,15 +117,15 @@ class PaymentCardEditor extends Component {
     return (
       <ScrollView>
         {prepareCardEditor(paymentCard, {
-          goToPaymentCardTypes: this.goToPaymentCardTypes
-        }).map(this.renderItem)
+            goToPaymentCardTypes: this.goToPaymentCardTypes
+          }).map(this.renderItem)
         }
         {prepareCardEditorInputs({ ...paymentCard, error }, {
-          handleMaskInputChange: this.handleMaskInputChange,
-          handleInputChange: this.handleInputChange,
-          handleExpirationDate: this.handleExpirationDate,
-          onHelpPress: this.onHelpPress
-        }).map(this.renderInput)
+            handleMaskInputChange: this.handleMaskInputChange,
+            handleInputChange: this.handleInputChange,
+            handleExpirationDate: this.handleExpirationDate,
+            onHelpPress: this.onHelpPress
+          }).map(this.renderInput)
         }
       </ScrollView>
     );

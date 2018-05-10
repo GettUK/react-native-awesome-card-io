@@ -83,9 +83,9 @@ export default class PointList extends PureComponent {
         const address = item.address ? item.address : item;
         return (
           <View key={address.line + i}>
-            <Divider />
+            <Divider left={31} />
             <View style={styles.row}>
-              <View style={styles.iconContainer}>
+              <View>
                 <Icon
                   style={[styles.pickUpIcon, styles.stopPosition]}
                   name="pickUpField"
@@ -155,7 +155,7 @@ export default class PointList extends PureComponent {
         {this.renderPickUpItem()}
         {!allowAddingStops && this.renderStopsItem()}
         {this.hasAddressType('destinationAddress') && this.hasAddressType('pickupAddress') &&
-          <Divider />
+          <Divider left={31} />
         }
         {this.renderDestinationItem()}
       </View>

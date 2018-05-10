@@ -225,7 +225,7 @@ class BookingFooter extends PureComponent {
           )}
           </TouchableOpacity>
         </View>
-        <Divider />
+        <Divider left={31} />
         <View style={styles.rowItem}>
           <Icon style={styles.iconItem} name="destinationMarker" width={16} height={19} />
           <TouchableOpacity
@@ -237,7 +237,7 @@ class BookingFooter extends PureComponent {
             </Text>
           </TouchableOpacity>
         </View>
-        <Divider />
+        <Divider left={31} />
       </View>
     );
   };

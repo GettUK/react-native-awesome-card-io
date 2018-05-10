@@ -12,7 +12,7 @@ const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidati
   const handleSave = throttledAction(() => {
     const { keys } = navigation.state.params;
     if (touched &&
-        isInputsValid(keys, data, validationRules, error => setValidationError('validationPaymentError', error))
+      isInputsValid(keys, data, validationRules, error => setValidationError('validationPaymentError', error))
     ) {
       addPaymentCard()
         .then(() => navigation.goBack(null))
@@ -23,9 +23,7 @@ const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidati
     }
   });
 
-  return (
-      <SaveBtn onPress={handleSave} enabled={touched} />
-  );
+  return <SaveBtn onPress={handleSave} enabled={touched} />;
 };
 
 SavePaymentBtn.propTypes = {
