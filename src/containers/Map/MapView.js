@@ -61,8 +61,7 @@ class MapView extends Component {
     return props.isPreOrder ? props.fields : props.currentOrder;
   }
 
-  getStops() {
-    const order = this.getOrder();
+  getStops(order = this.getOrder()) {
     return order.stops || order.stopAddresses;
   }
 
@@ -79,9 +78,8 @@ class MapView extends Component {
   )
 
   isPathChanged = (fields, fieldsProps) => (
-    (fields.destinationAddress &&
-      (fields.destinationAddress !== fieldsProps.destinationAddress)
-    )
+    (fields.pickupAddress && (fields.pickupAddress !== fieldsProps.pickupAddress))
+    || (fields.destinationAddress && (fields.destinationAddress !== fieldsProps.destinationAddress))
     || (fields.stops && fields.stops !== fieldsProps.stops)
   );
 
@@ -143,7 +141,7 @@ class MapView extends Component {
   preparePointsList = (order) => {
     const source = this.prepareCoordinates(order.pickupAddress);
     const dest = this.prepareCoordinates(order.destinationAddress);
-    const stops = (this.getStops() || []).map(this.prepareCoordinates);
+    const stops = (this.getStops(order) || []).map(this.prepareCoordinates);
 
     return { source, dest, stops };
   };
