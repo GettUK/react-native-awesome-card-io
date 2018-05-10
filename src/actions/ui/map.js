@@ -9,7 +9,7 @@ const TYPES = createTypes('ui/map', [
   'errorPosition',
   'changeReference',
   'setReferenceErrors',
-  'resetReferenceValues',
+  'resetBookingValues',
   'changeMessageToDriver',
   'saveMessageToDriver',
   'clearMap'
@@ -32,7 +32,7 @@ export const validateReferences = () => (_, getState) =>
 
 export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
 
-export const resetReferenceValues = () => ({ type: TYPES.resetReferenceValues });
+export const resetBookingValues = () => ({ type: TYPES.resetBookingValues });
 
 export const changeMessageToDriver = (message, touched = false) =>
   ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });

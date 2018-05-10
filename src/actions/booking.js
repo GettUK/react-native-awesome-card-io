@@ -175,7 +175,9 @@ export const getFormData = () => (dispatch, getState) => {
           paymentType = preparePaymentType({ payment: availablePayments[0], cards });
         }
 
-        dispatch(changeFields(paymentTypeToAttrs(paymentType)));
+        const paymentAttrs = paymentTypeToAttrs(paymentType);
+
+        dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
       }
 
       dispatch({ type: TYPES.getFormDataSuccess, payload: data });
