@@ -63,7 +63,9 @@ class SingleInputEditor extends Component {
           value={data}
           error={error && error[key]}
           label={label}
-          labelStyle={{ paddingLeft: 16, color: '#8e8e93' }}
+          style={styles.inputContainer}
+          allowClearStyle={styles.allowClearStyle}
+          labelStyle={styles.labelStyle}
           onChangeText={changeProfileFieldValue.bind(null, key)}
           inputStyle={styles.input}
           clearIconColor="#d2d0dc"
