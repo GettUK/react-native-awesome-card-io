@@ -295,6 +295,7 @@ class MapView extends Component {
         provider={PROVIDER_GOOGLE}
         zoomEnabled
         showsCompass={false}
+        mapPadding={{ bottom: !order.destinationAddress && isPreOrder ? 190 : 0 }}
         scrollEnabled={dragEnable}
         customMapStyle={MapStyle}
         onRegionChangeComplete={this.getGeocode}
