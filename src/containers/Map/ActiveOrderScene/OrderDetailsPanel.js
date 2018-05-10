@@ -9,7 +9,7 @@ import assets from 'assets';
 import { Icon, PointList, JourneyDetails, Divider } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
-import { formatPrice, isIphoneX } from 'utils';
+import { getFormatPrice, isIphoneX } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
 import { strings } from 'locales';
@@ -107,7 +107,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
         />
 
         <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel]}>
-          {vehicle.price ? formatPrice(vehicle.price) : strings('label.byMeter')}
+          {getFormatPrice(order.fareQuote) || getFormatPrice(vehicle.price) || strings('label.byMeter')}
         </Text>
       </View>
     );
