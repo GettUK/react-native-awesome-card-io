@@ -11,6 +11,7 @@ import { Icon, CheckBox, Divider } from 'components';
 import { throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 import { getValue } from './utils';
+import settingsStyles from '../../style';
 import styles from './styles';
 
 class PaymentCardsList extends Component {
@@ -58,8 +59,8 @@ class PaymentCardsList extends Component {
       right={[
         {
           component: (
-            <View style={styles.buttonView}>
-              <Text style={styles.buttonText}>
+            <View style={settingsStyles.buttonView}>
+              <Text style={settingsStyles.buttonText}>
                 {strings('settings.payment.deactivate')}
               </Text>
             </View>

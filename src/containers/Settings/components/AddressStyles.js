@@ -77,5 +77,8 @@ export default StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  buttonIcon: {
+    marginLeft: 11
   }
 });

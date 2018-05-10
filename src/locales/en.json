@@ -64,6 +64,10 @@
       "expirationDate": "Expiration date",
       "expirationDateFormat": "MM / YYYY"
     },
+    "address": {
+      "addressDelete": "Delete",
+      "confirmDelete": "Do you want to delete the address?"
+    },
     "label": {
       "phone": "Phone",
       "email": "Email",

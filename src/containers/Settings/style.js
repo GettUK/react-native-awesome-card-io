@@ -57,6 +57,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  buttonView: {
+    paddingHorizontal: 15,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#bcbbc1'
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14
   }
 });
 

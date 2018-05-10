@@ -251,11 +251,11 @@ class BookingFooter extends PureComponent {
         contentContainerStyle={styles.destinationBtns}
         showsHorizontalScrollIndicator={false}
       >
-        {passenger && passenger.homeAddress &&
-        this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+        {passenger && passenger.homeAddress && passenger.homeAddress.line &&
+          this.renderAddressItem(passenger.homeAddress, strings('label.home'))
         }
-        {passenger && passenger.workAddress &&
-        this.renderAddressItem(passenger.workAddress, strings('label.work'))
+        {passenger && passenger.workAddress && passenger.workAddress.line &&
+          this.renderAddressItem(passenger.workAddress, strings('label.work'))
         }
         {passenger && (passenger.favoriteAddresses || []).map(address =>
           this.renderAddressItem(address.address, address.name))

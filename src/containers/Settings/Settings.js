@@ -55,8 +55,9 @@ class Settings extends Component {
 
   openAddressModal = throttledAction((predefinedType) => {
     const { passengerData } = this.props;
-    const address = passengerData.passenger[`${predefinedType}Address`] || emptyAddress;
-    this.addressModal.open(address, { predefinedType });
+    const address = passengerData.passenger[`${predefinedType}Address`];
+
+    this.addressModal.open(address && address.line ? address : emptyAddress, { predefinedType });
   });
 
   handleAddressChange = (address, meta) => {
