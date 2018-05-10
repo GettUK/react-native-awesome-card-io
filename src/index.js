@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { createStore } from 'store';
 import { withNetworkConnectivity } from 'react-native-offline';
-import 'utils/fixTextCutOff';
+import 'utils/fixAndroidText';
 import App from 'containers/App';
 import axios from 'utils/axios';
 
