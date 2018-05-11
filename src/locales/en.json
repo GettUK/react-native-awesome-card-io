@@ -116,7 +116,10 @@
     },
     "name": {
       "length": "must be 30 characters"
-    }
+    },
+    "scheduledAt": "Wrong pick-up time",
+    "reference": "Please, fill required references",
+    "paymentMethod": "Sorry, you have no Credit/Debit cards added in your profile"
   },
   "back": "Back",
   "save": "Save",

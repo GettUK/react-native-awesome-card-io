@@ -169,8 +169,7 @@ export const getFormData = () => (dispatch, getState) => {
 
         if (!availablePayments.length) {
           const paymentCard = passenger.paymentCards.find(card => card.default) || passenger.paymentCards[0];
-
-          paymentType = `${paymentCard.type}_payment_card:${paymentCard.id}`;
+          if (paymentCard) paymentType = `${paymentCard.type}_payment_card:${paymentCard.id}`;
         } else {
           paymentType = preparePaymentType({ payment: availablePayments[0], cards });
         }
