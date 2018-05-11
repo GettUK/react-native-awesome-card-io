@@ -8,7 +8,7 @@ const Divider = ({ style, left }) => (
 );
 
 Divider.propTypes = {
-  style: ViewPropTypes,
+  style: ViewPropTypes.style,
   left: PropTypes.number
 };
 
