@@ -148,6 +148,7 @@ export default class Input extends PureComponent {
       style,
       inputStyle,
       allowClear,
+      allowClearStyle,
       error,
       selectionColor,
       underlineColorAndroid,
@@ -156,7 +157,7 @@ export default class Input extends PureComponent {
     } = this.props;
 
     const inputStyles = [styles.input, inputStyle];
-    if (allowClear) inputStyles.push(styles.withClearBtn);
+    if (allowClear) inputStyles.push(styles.withClearBtn, allowClearStyle);
     if (error) inputStyles.push(styles.error);
 
     const Input = allowmask ? TextInputMask : TextInput;

@@ -69,6 +69,7 @@ class AddressEditor extends Component {
       multiline
       inputStyle={styles.input}
       style={styles.inputContainer}
+      allowClearStyle={styles.allowClearStyle}
       clearIconColor="#d2d0dc"
       clearIconStyle={styles.clearIcon}
       selectionColor="#494949"

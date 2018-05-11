@@ -87,7 +87,9 @@ class EditProfile extends Component {
         error={error && error[item]}
         onChangeText={onChangeText}
         placeholder={label}
+        style={styles.inputContainer}
         inputStyle={styles.input}
+        allowClearStyle={styles.allowClearStyle}
         clearIconColor="#d2d0dc"
         clearIconStyle={styles.clearIcon}
         selectionColor="#494949"

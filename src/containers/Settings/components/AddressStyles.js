@@ -54,9 +54,11 @@ export default StyleSheet.create({
     borderBottomColor: '#bcbbc1',
     borderBottomWidth: StyleSheet.hairlineWidth
   },
+  allowClearStyle: {
+    paddingRight: 47
+  },
   inputContainer: {
     marginLeft: 15,
-    paddingRight: 20,
     marginBottom: 15,
     marginTop: 5,
     paddingTop: 8

@@ -15,12 +15,21 @@ export default StyleSheet.create({
   input: {
     borderBottomColor: '#bcbbc1',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    fontSize: 17,
-    marginLeft: 15,
-    paddingVertical: 17
+    fontSize: 17
+  },
+  inputContainer: {
+    marginLeft: 16,
+    paddingTop: 8
+  },
+  allowClearStyle: {
+    paddingRight: 47
   },
   clearIcon: {
     marginRight: 20
+  },
+  labelStyle: {
+    marginTop: 5,
+    color: '#8e8e93'
   },
   cameraWrapper: {
     alignSelf: 'center',
