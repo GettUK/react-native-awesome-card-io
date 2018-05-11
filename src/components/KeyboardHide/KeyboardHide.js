@@ -35,7 +35,7 @@ export default class KeyboardHide extends Component {
 
   render() {
     return this.state.keyboardUp
-      ? <View />
+      ? <View style={this.props.style || {}} />
       : this.props.children;
   }
 }

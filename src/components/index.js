@@ -19,3 +19,4 @@ export { default as InformView } from './InformView';
 export { default as AddressModal } from './AddressModal';
 export { default as BackBtn } from './BackBtn';
 export { default as SaveBtn } from './SaveBtn';
+export { default as KeyboardHide } from './KeyboardHide';
