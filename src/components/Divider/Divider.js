@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, ViewPropTypes } from 'react-native';
 import styles from './styles';
 
 const Divider = ({ style, left }) => (
@@ -8,7 +8,7 @@ const Divider = ({ style, left }) => (
 );
 
 Divider.propTypes = {
-  style: View.propTypes.style,
+  style: ViewPropTypes,
   left: PropTypes.number
 };
 
