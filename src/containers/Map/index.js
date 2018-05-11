@@ -27,7 +27,7 @@ import {
   changeFields,
   changePosition,
   errorPosition,
-  resetReferenceValues
+  resetBookingValues
 } from 'actions/ui/map';
 import {
   createBooking,
@@ -363,15 +363,13 @@ class Map extends Component {
   };
 
   clearFields = () => {
-    this.props.removeFields([
+    const { removeFields, resetBookingValues } = this.props;
+    removeFields([
       'stops', 'destinationAddress',
-      'vehiclePrice', 'vehicleValue', 'vehicleName'
+      'vehiclePrice', 'vehicleValue', 'vehicleName',
+      'travelReasonId'
     ]);
-    this.props.changeFields({
-      scheduledType: 'now',
-      scheduledAt: null
-    });
-    this.props.resetReferenceValues();
+    resetBookingValues();
   };
 
   goToInitialization = () => {
@@ -667,7 +665,7 @@ const mapDispatch = {
   requestLocation,
   getPassengerData,
   clearCurrentOrder,
-  resetReferenceValues
+  resetBookingValues
 };
 
 export default connect(mapState, mapDispatch)(Map);

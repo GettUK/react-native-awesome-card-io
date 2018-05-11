@@ -74,8 +74,16 @@ const changeReference = (state, { payload }) =>
 const setReferenceErrors = (state, { payload }) =>
   update(state, 'fields.bookerReferencesErrors', payload);
 
-const resetReferenceValues = state =>
-  update.with(state, 'fields.bookerReferences', old => old.map(r => omit('value', r)));
+const resetBookingValues = state =>
+  update(state, {
+    fields: update.assign({
+      ...state.fields.defaultPaymentType,
+      bookerReferences: state.fields.bookerReferences.map(r => omit('value', r)),
+      scheduledType: 'now',
+      scheduledAt: null,
+      message: state.fields.defaultDriverMessage
+    })
+  });
 
 const changeMessageToDriver = (state, { payload }) =>
   update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
@@ -92,7 +100,7 @@ export default composeReducer(
     errorPosition,
     changeReference,
     setReferenceErrors,
-    resetReferenceValues,
+    resetBookingValues,
     changeMessageToDriver,
     clearMap
   },

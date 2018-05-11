@@ -18,6 +18,7 @@
     "journeyTime": "Journey Time",
     "distance": "Distance",
     "byMeter": "By meter",
+    "other": "Other",
     "usePassengerCostCentre": "Use passenger's Cost Centre"
   },
   "login": {

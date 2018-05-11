@@ -290,7 +290,10 @@ class BookingFooter extends PureComponent {
       </TouchableOpacity>
     );
 
-    const getReasonsName = id => ((travelReasons && travelReasons.find(r => r.id === +id)) || {}).name;
+    const getReasonsName = id => (
+      (travelReasons && travelReasons.find(r => r.id === +id))
+      || { name: strings('label.other') }
+    ).name;
 
     return (
       <Modal isVisible={settings} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>

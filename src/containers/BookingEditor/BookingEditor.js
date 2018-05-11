@@ -52,6 +52,7 @@ class BookingEditor extends Component {
 
         let attrs = {
           message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
+          defaultDriverMessage: `Pick up: ${data.defaultDriverMessage}`,
           bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
 
