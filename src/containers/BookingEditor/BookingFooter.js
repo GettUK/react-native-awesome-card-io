@@ -139,15 +139,18 @@ class BookingFooter extends PureComponent {
     const { data: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
 
     if (data.errors && data.errors.scheduledAt) {
-      this.setState({ message: 'Wrong pick-up time' }, () => this.alert.show());
+      this.setState({ message: strings('validation.scheduledAt') }, () => this.alert.show());
     }
 
     if (data.errors) {
       const referenceErrors = pickBy(data.errors, (_, key) => key.startsWith('bookerReferences'));
       if (!isEmpty(referenceErrors)) {
         setReferenceErrors(referenceErrors);
-        this.setState({ message: 'Please, fill required references' }, () => this.alert.show());
+        this.setState({ message: strings('validation.reference') }, () => this.alert.show());
       }
+    }
+    if (data.errors && data.errors.paymentMethod) {
+      this.setState({ message: strings('validation.paymentMethod') }, () => this.alert.show());
     }
   };
 
