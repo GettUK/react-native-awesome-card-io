@@ -1,15 +1,22 @@
 import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
+import { isUndefined, omit } from 'lodash';
 
 export const initialState = {
-  validatedReferences: [],
   formData: {
-    vehicles: {
-      loading: false,
-      loaded: false,
-      data: []
-    },
     busy: false
+  },
+  bookingForm: {
+    scheduledAt: null,
+    scheduledType: 'now',
+    travelReasonId: '',
+    bookerReferences: [],
+    bookerReferencesErrors: {}
+  },
+  vehicles: {
+    loading: false,
+    loaded: false,
+    data: []
   },
   modals: {
     settings: false,
@@ -26,18 +33,64 @@ const getFormDataStart = state => (
 );
 
 const getFormDataSuccess = (state, { payload }) => (
-  update(state, 'formData', { ...initialState.formData, ...payload, busy: false })
+  update.assign(state, 'formData', { ...payload, busy: false })
 );
 
+const removeFields = (state, { payload }) => (
+  update(state, 'bookingForm', omit(state.bookingForm, payload))
+);
+
+const changeFields = (state, { payload }) => (
+  update.assign(state, 'bookingForm', payload)
+);
+
+const changeAddress = (state, { payload: { address, meta } }) => {
+  if (meta.type !== 'stops') {
+    return update(state, `bookingForm.${meta.type}`, address);
+  } else if (isUndefined(meta.index)) {
+    let processedState = state;
+    if (!state.bookingForm.stops) {
+      processedState = update(state, 'bookingForm.stops', []);
+    }
+    return update.push(processedState, 'bookingForm.stops', address);
+  }
+  return update.with(state, 'bookingForm.stops', old => old.map((s, i) => (i === meta.index ? address : s)));
+};
+
+const changeReference = (state, { payload }) =>
+  update(state, {
+    [`bookingForm.bookerReferences.{id:${payload.id}}.value`]: payload.value,
+    'bookingForm.bookerReferencesErrors': {}
+  });
+
+const setReferenceErrors = (state, { payload }) =>
+  update(state, 'bookingForm.bookerReferencesErrors', payload);
+
+const resetBookingValues = state =>
+  update(state, {
+    bookingForm: update.assign({
+      // todo use initial state
+      ...state.bookingForm.defaultPaymentType,
+      bookerReferences: state.formData.bookerReferences,
+      scheduledType: 'now',
+      scheduledAt: null,
+      message: state.formData.defaultDriverMessage
+    })
+  });
+
+const changeMessageToDriver = (state, { payload }) =>
+  update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
+
+
 const getVehiclesStart = state => (
-  update.assign(state, 'formData.vehicles', {
+  update.assign(state, 'vehicles', {
     loading: true,
     loaded: false
   })
 );
 
 const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }) => (
-  update(state, 'formData.vehicles', {
+  update(state, 'vehicles', {
     data: vehicles,
     loading: false,
     loaded: true,
@@ -48,7 +101,7 @@ const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }
 );
 
 const getVehiclesFailure = state => (
-  update(state, 'formData.vehicles', { data: [], loading: false, loaded: true, failed: true })
+  update(state, 'vehicles', { data: [], loading: false, loaded: true, failed: true })
 );
 
 const createBookingStart = state => (
@@ -138,6 +191,13 @@ const clearBooking = () => initialState;
 export default composeReducer('booking', {
   getFormDataStart,
   getFormDataSuccess,
+  removeFields,
+  changeFields,
+  changeAddress,
+  changeReference,
+  setReferenceErrors,
+  resetBookingValues,
+  changeMessageToDriver,
   getVehiclesStart,
   getVehiclesSuccess,
   getVehiclesFailure,

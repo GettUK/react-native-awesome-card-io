@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
-import { logout } from 'actions/ui/logout';
+import { logout } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
 import { AddressModal, Divider } from 'components';
 import { has } from 'lodash';
@@ -25,16 +25,23 @@ import SettingsListItem from './SettingsListItem';
 import styles from './style';
 
 class Settings extends Component {
+  state = {
+    logoutLoading: false
+  };
+
   componentDidMount() {
     this.props.getPassengerData();
   }
 
   handleLogout = async () => {
-    if (!this.props.logoutProgress) {
-      await this.props.deleteToken();
+    if (!this.state.logoutLoading) {
+      const { deleteToken, logout, navigation } = this.props;
 
-      this.props.logout()
-        .then(() => this.props.navigation.navigate('Login'));
+      this.setState({ logoutLoading: true });
+      await deleteToken();
+
+      logout();
+      navigation.navigate('Login');
     }
   };
 
@@ -80,7 +87,8 @@ class Settings extends Component {
   });
 
   getSettingsBlocks() {
-    const { passengerData: data, companySettings, changeToggleValue, logoutProgress } = this.props;
+    const { passengerData: data, companySettings, changeToggleValue } = this.props;
+    const { logoutLoading } = this.state;
 
     return [
       prepareProfileBlock(data, {
@@ -99,7 +107,7 @@ class Settings extends Component {
         goToMyPayments: this.goToMyPayments
       }),
       prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage }),
-      prepareLogoutBlock({ isLoading: logoutProgress }, { onLogout: this.handleLogout })
+      prepareLogoutBlock({ isLoading: logoutLoading }, { onLogout: this.handleLogout })
     ];
   }
 
@@ -139,10 +147,9 @@ Settings.propTypes = {
 
 Settings.defaultProps = {};
 
-const select = ({ passenger, ui }) => ({
+const select = ({ passenger }) => ({
   passengerData: passenger.data,
-  companySettings: passenger.companySettings,
-  logoutProgress: ui.logout.busy
+  companySettings: passenger.companySettings
 });
 
 const bindActions = {

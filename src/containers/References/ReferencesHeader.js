@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ScreenHeader } from 'components';
 import { BackHandler } from 'react-native';
-import { setReferenceErrors, validateReferences } from 'actions/ui/map';
+import { setReferenceErrors, validateReferences } from 'actions/booking';
 import { showConfirmationAlert } from 'utils';
 import { some, isEmpty } from 'lodash';
 import { strings } from 'locales';
@@ -74,8 +74,8 @@ class ReferencesHeader extends PureComponent {
   }
 }
 
-const mapState = ({ ui }) => ({
-  bookerReferences: ui.map.fields.bookerReferences
+const mapState = ({ booking }) => ({
+  bookerReferences: booking.bookingForm.bookerReferences
 });
 
 const mapDispatch = ({

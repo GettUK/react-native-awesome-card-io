@@ -22,16 +22,19 @@
     "usePassengerCostCentre": "Use passenger's Cost Centre"
   },
   "login": {
-    "acceptTermsConditions": "Accept Terms and Conditions",
     "acceptPrivacyPolicy": "Accept Privacy Policy",
+    "acceptTermsConditions": "Accept Terms and Conditions",
     "email": "Email",
+    "forgotPassword": "Forgot your password?",
+    "loginButton": "Log in",
     "password": "Password",
-    "forgot_password": "Forgot your password?",
-    "login_button": "Log in",
-    "logout_button": "LOGOUT",
     "reset": "Reset",
-    "reset_button": "Reset Password",
-    "success_reset": "Password was reset. Please, check your email"
+    "resetButton": "Reset Password",
+    "successReset": "Password was reset. Please, check your email",
+    "errors": {
+      "commonError": "User can't be logged in now",
+      "credentialsError": "The email or password you entered is incorrect"
+    }
   },
   "map": {
     "label": {

@@ -124,7 +124,7 @@ const routeConfiguration = {
         height: Platform.OS === 'android' ? 80 : 50
       },
       headerTitle: strings('rateYourDriver'),
-      headerLeft: <BackBtn navigation={navigation} touchedPath="bookings.currentOrder.tempDriverRating" />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="booking.currentOrder.tempDriverRating" />,
       headerRight: <SaveRatingBtn navigation={navigation} />
     })
   }

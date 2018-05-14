@@ -5,7 +5,7 @@ import { flatMap } from 'lodash';
 
 import { Icon } from 'components';
 
-import { changeFields } from 'actions/ui/map';
+import { changeFields } from 'actions/booking';
 
 import {
   paymentTypeLabels,
@@ -67,13 +67,13 @@ class PaymentsOptions extends Component {
   }
 }
 
-const mapState = ({ bookings, ui, session }) => {
-  const { passenger, passengers, paymentTypes } = bookings.formData;
+const mapState = ({ booking, session }) => {
+  const { passenger, passengers, paymentTypes } = booking.formData;
   return {
     companyPaymentTypes: paymentTypes,
-    paymentCards: (passenger || passengers.find(passenger => passenger.id === session.result.memberId)).paymentCards,
-    paymentMethod: ui.map.fields.paymentMethod || '',
-    paymentCardId: ui.map.fields.paymentCardId || ''
+    paymentCards: (passenger || passengers.find(passenger => passenger.id === session.user.memberId)).paymentCards,
+    paymentMethod: booking.bookingForm.paymentMethod || '',
+    paymentCardId: booking.bookingForm.paymentCardId || ''
   };
 };
 

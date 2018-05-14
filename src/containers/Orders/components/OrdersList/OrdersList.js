@@ -6,7 +6,7 @@ import findKey from 'lodash/findKey';
 
 import assets from 'assets';
 
-import { getOrders, clearList } from 'actions/orders';
+import { getOrders, clearOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
 import { Icon } from 'components';
@@ -58,7 +58,7 @@ class OrdersList extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.clearList();
+    this.props.clearOrdersList();
   }
 
   goToOrderDetails = (id) => {
@@ -193,13 +193,13 @@ class OrdersList extends PureComponent {
 const mapState = (state, props) => ({
   items: state.orders[props.idsType || props.type].items,
   meta: state.orders[props.idsType || props.type].meta,
-  passengerId: state.session.result.memberId
+  passengerId: state.session.user.memberId
 });
 
 const mapDispatch = ({
   getOrders,
   setActiveBooking,
-  clearList
+  clearOrdersList
 });
 
 export default connect(mapState, mapDispatch)(OrdersList);

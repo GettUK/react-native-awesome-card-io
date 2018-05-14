@@ -5,8 +5,7 @@ import { View, Dimensions } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
 
-import { getFormData } from 'actions/booking';
-import { changeFields, changeAddress } from 'actions/ui/map';
+import { getFormData, changeFields, changeAddress } from 'actions/booking';
 import { onLayoutPointList } from 'actions/app/statuses';
 
 import { PointList, AddressModal, StopPointsModal } from 'components';
@@ -22,15 +21,15 @@ class BookingEditor extends Component {
     isStopPointsModalVisible: false
   };
 
-  componentDidUpdate({ map: propsMap, requestVehicles, memberId, passenger }) {
-    const { bookings: { formData }, map } = this.props;
+  componentDidUpdate({ booking: { bookingForm: bookingFormProps }, requestVehicles, memberId, passenger }) {
+    const { booking: { vehicles, bookingForm } } = this.props;
     const { isStopPointsModalVisible } = this.state;
 
-    const isDriveChanged = (!formData.vehicles.loaded && !formData.vehicles.loading) ||
-      !isEqual(map.fields.stops, propsMap.fields.stops) ||
-      !isEqual(map.fields.pickupAddress, propsMap.fields.pickupAddress) ||
-      !isEqual(map.fields.destinationAddress, propsMap.fields.destinationAddress) ||
-      !isEqual(map.fields.paymentMethod, propsMap.fields.paymentMethod);
+    const isDriveChanged = (!vehicles.loaded && !vehicles.loading) ||
+      !isEqual(bookingForm.stops, bookingFormProps.stops) ||
+      !isEqual(bookingForm.pickupAddress, bookingFormProps.pickupAddress) ||
+      !isEqual(bookingForm.destinationAddress, bookingFormProps.destinationAddress) ||
+      !isEqual(bookingForm.paymentMethod, bookingFormProps.paymentMethod);
 
     if (!isStopPointsModalVisible && isDriveChanged) {
       requestVehicles();
@@ -53,7 +52,6 @@ class BookingEditor extends Component {
 
         let attrs = {
           message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
-          defaultDriverMessage: `Pick up: ${data.defaultDriverMessage}`,
           bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
 
@@ -107,7 +105,7 @@ class BookingEditor extends Component {
   };
 
   prepareStopsData = () => {
-    const { map: { fields: { destinationAddress, stops } } } = this.props;
+    const { booking: { bookingForm: { destinationAddress, stops } } } = this.props;
 
     const stopsObject = (stops || []).reduce((stop, item, index) => ({
       ...stop,
@@ -145,8 +143,7 @@ class BookingEditor extends Component {
       toOrder,
       requestVehicles,
       passenger,
-      map: { fields },
-      bookings: { formData: { vehicles } },
+      booking: { vehicles, bookingForm },
       changeAddress,
       changeFields,
       isAuthorizedPermission,
@@ -169,7 +166,7 @@ class BookingEditor extends Component {
             style={[styles.pointList, this.getPointListPosition()]}
             onAddressPress={this.openAddressModal}
             onStopAdd={this.showStopPointsModal}
-            data={fields}
+            data={bookingForm}
             isLoadingPickup={isLoadingPickup}
           />
         }
@@ -202,9 +199,8 @@ class BookingEditor extends Component {
 
 BookingEditor.propTypes = {
   navigation: PropTypes.object.isRequired,
-  map: PropTypes.object.isRequired,
   memberId: PropTypes.number,
-  bookings: PropTypes.object,
+  booking: PropTypes.object,
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   passenger: PropTypes.object,
@@ -216,10 +212,9 @@ BookingEditor.defaultProps = {
   passenger: {}
 };
 
-const select = ({ ui, session, bookings, app }) => ({
-  map: ui.map,
-  memberId: has(session.result, 'memberId') ? session.result.memberId : undefined,
-  bookings,
+const select = ({ session, booking, app }) => ({
+  memberId: has(session.user, 'memberId') ? session.user.memberId : undefined,
+  booking,
   app
 });
 

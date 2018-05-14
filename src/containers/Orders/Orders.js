@@ -39,6 +39,7 @@ export default createMaterialTopTabNavigator(
     Previous: { screen: props => <OrdersList type="previous" {...props} /> }
   },
   {
-    tabBarComponent: renderTabBar
+    tabBarComponent: renderTabBar,
+    backBehavior: 'none'
   }
 );

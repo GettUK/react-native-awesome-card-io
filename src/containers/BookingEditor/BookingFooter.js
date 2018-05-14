@@ -14,8 +14,7 @@ import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert, Divide
 import { hourForward } from 'utils';
 import { strings } from 'locales';
 import { onLayoutFooter } from 'actions/app/statuses';
-import { changeFields, changeAddress, setReferenceErrors } from 'actions/ui/map';
-import { createBooking, toggleVisibleModal } from 'actions/booking';
+import { createBooking, toggleVisibleModal, changeFields, changeAddress, setReferenceErrors } from 'actions/booking';
 import {
   paymentTypeToAttrs,
   vehiclesData,
@@ -37,11 +36,11 @@ class BookingFooter extends PureComponent {
   };
 
   getEarliestAvailableTime = (vehicle) => {
-    const { map: { fields: { vehicleName } } } = this.props;
+    const { booking: { bookingForm: { vehicleName } } } = this.props;
     let shift = 60;
 
     if (!vehicle) {
-      const { vehicles: { data } } = this.props.data.formData;
+      const { data } = this.props.booking.vehicles;
       // eslint-disable-next-line no-param-reassign
       vehicle = find(data, { name: vehicleName });
     }
@@ -54,10 +53,7 @@ class BookingFooter extends PureComponent {
   };
 
   selectVehicle = (vehicleName) => {
-    const {
-      map: { fields: { scheduledType, scheduledAt, paymentType } },
-      data: { formData: { vehicles } }
-    } = this.props;
+    const { booking: { vehicles, bookingForm: { scheduledType, scheduledAt, paymentType } } } = this.props;
     const vehicle = vehicles.data.find(v => (v.available && v.name === vehicleName));
 
     if (!vehicle) return;
@@ -86,18 +82,18 @@ class BookingFooter extends PureComponent {
   };
 
   shouldOrderRide = () => {
-    const { map: { fields } } = this.props;
-    return (has(fields, 'pickupAddress') && fields.pickupAddress.countryCode) &&
-      (has(fields, 'destinationAddress') && fields.destinationAddress.countryCode) &&
-      (fields.passengerName && fields.passengerPhone) &&
-      (fields.vehicleName && !isNull(fields.vehiclePrice));
+    const { booking: { bookingForm } } = this.props;
+    return (has(bookingForm, 'pickupAddress') && bookingForm.pickupAddress.countryCode) &&
+      (has(bookingForm, 'destinationAddress') && bookingForm.destinationAddress.countryCode) &&
+      (bookingForm.passengerName && bookingForm.passengerPhone) &&
+      (bookingForm.vehicleName && !isNull(bookingForm.vehiclePrice));
   };
 
   goTo = (page) => {
     let payload = {};
 
     if (page === 'MessageToDriver') {
-      const { map: { fields: { message } } } = this.props;
+      const { booking: { bookingForm: { message } } } = this.props;
 
       payload = { message };
     }
@@ -116,7 +112,7 @@ class BookingFooter extends PureComponent {
   };
 
   handlePickupAddressPress = () => {
-    const { map: { fields: { pickupAddress } } } = this.props;
+    const { booking: { bookingForm: { pickupAddress } } } = this.props;
     this.props.openAddressModal(pickupAddress, { type: 'pickupAddress' });
   };
 
@@ -136,7 +132,7 @@ class BookingFooter extends PureComponent {
   };
 
   showAlert = () => {
-    const { data: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
+    const { booking: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
 
     if (data.errors && data.errors.scheduledAt) {
       this.setState({ message: strings('validation.scheduledAt') }, () => this.alert.show());
@@ -155,7 +151,7 @@ class BookingFooter extends PureComponent {
   };
 
   areAddressesUnique() {
-    const { map: { fields: { pickupAddress, stops, destinationAddress } } } = this.props;
+    const { booking: { bookingForm: { pickupAddress, stops, destinationAddress } } } = this.props;
     const addresses = [pickupAddress, ...(stops || []), destinationAddress];
 
     let unique = true;
@@ -178,19 +174,19 @@ class BookingFooter extends PureComponent {
   }
 
   createBooking = () => {
-    const { map: { fields }, createBooking } = this.props;
+    const { booking: { bookingForm }, createBooking } = this.props;
 
     if (this.areAddressesUnique()) {
       const order = {
         sourceType: 'mobile_app',
-        ...fields,
-        scheduledAt: fields.scheduledType === 'later' ? fields.scheduledAt.format() : null,
-        stops: fields.stops
-          ? fields.stops.map(stop => ({
+        ...bookingForm,
+        scheduledAt: bookingForm.scheduledType === 'later' ? bookingForm.scheduledAt.format() : null,
+        stops: bookingForm.stops
+          ? bookingForm.stops.map(stop => ({
             address: stop,
-            name: fields.passengerName,
-            passengerId: fields.passengerId, // TODO: add posibility to select another passenger for stop
-            phone: fields.passengerPhone
+            name: bookingForm.passengerName,
+            passengerId: bookingForm.passengerId, // TODO: add posibility to select another passenger for stop
+            phone: bookingForm.passengerPhone
           }))
           : null
       };
@@ -201,14 +197,14 @@ class BookingFooter extends PureComponent {
   };
 
   togglePickerModal = () => {
-    const { toggleVisibleModal, onDateChange, map: { fields } } = this.props;
+    const { toggleVisibleModal, onDateChange, booking: { bookingForm } } = this.props;
 
     toggleVisibleModal('picker');
-    onDateChange((fields.scheduledAt || hourForward()).toDate());
+    onDateChange((bookingForm.scheduledAt || hourForward()).toDate());
   };
 
   renderPickUpDestination = () => {
-    const { map: { fields } } = this.props;
+    const { booking: { bookingForm } } = this.props;
 
     return (
       <View style={styles.selectAddressView}>
@@ -221,9 +217,9 @@ class BookingFooter extends PureComponent {
             style={styles.rowView}
             onPress={this.handlePickupAddressPress}
           >
-          {has(fields, 'pickupAddress') && !isNull(fields.pickupAddress.line) && (
+          {has(bookingForm, 'pickupAddress') && !isNull(bookingForm.pickupAddress.line) && (
             <Text style={styles.labelText} numberOfLines={1}>
-              {fields.pickupAddress.label || fields.pickupAddress.line}
+              {bookingForm.pickupAddress.label || bookingForm.pickupAddress.line}
             </Text>
           )}
           </TouchableOpacity>
@@ -272,7 +268,7 @@ class BookingFooter extends PureComponent {
       <View style={styles.selectAddress}>
         {this.renderPickUpDestination()}
         <View style={styles.destinationBtnsContainer}>
-          {this.props.data.formData.busy
+          {this.props.booking.formData.busy
             ? <ActivityIndicator style={styles.destinationBtnsSpinner} size="small" color="#8794a0" />
             : this.renderFavouriteAddresses()
           }
@@ -282,8 +278,14 @@ class BookingFooter extends PureComponent {
   }
 
   renderSettings() {
-    const { data: { formData: { travelReasons, bookingReferences }, modals: { settings } },
-      map: { fields: { message, travelReasonId, paymentMethod, passengerName } } } = this.props;
+    const {
+      booking: {
+        formData: { travelReasons, bookingReferences },
+        modals: { settings },
+        bookingForm: { message, travelReasonId, paymentMethod, passengerName }
+      }
+    } = this.props;
+
 
     const renderMenuItem = (title, value, handler) => (
       <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
@@ -315,8 +317,8 @@ class BookingFooter extends PureComponent {
 
   renderFooter() {
     const {
-      map: { fields, currentPosition },
-      data: { formData: { vehicles }, currentOrder: { busy } },
+      map: { currentPosition },
+      booking: { vehicles, currentOrder: { busy }, bookingForm },
       toOrder,
       getCurrentPosition,
       isAuthorizedPermission
@@ -384,7 +386,7 @@ class BookingFooter extends PureComponent {
                             eta={vehicle.eta}
                             label={vehicleData.label}
                             price={vehicle.price}
-                            active={vehicle.name === fields.vehicleName}
+                            active={vehicle.name === bookingForm.vehicleName}
                           />
                         );
                       })
@@ -433,7 +435,7 @@ class BookingFooter extends PureComponent {
   }
 
   render() {
-    const { data: { formData: { vehicles } } } = this.props;
+    const { booking: { vehicles } } = this.props;
 
     return (
       vehicles.loading
@@ -446,7 +448,7 @@ class BookingFooter extends PureComponent {
 BookingFooter.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
+  booking: PropTypes.object.isRequired,
   getCurrentPosition: PropTypes.func.isRequired,
   isAuthorizedPermission: PropTypes.func.isRequired,
   createBooking: PropTypes.func.isRequired,
@@ -460,9 +462,9 @@ BookingFooter.propTypes = {
 
 BookingFooter.defaultProps = {};
 
-const select = ({ ui, bookings }) => ({
+const select = ({ ui, booking }) => ({
   map: ui.map,
-  data: bookings
+  booking
 });
 
 const bindActions = {

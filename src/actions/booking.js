@@ -6,7 +6,6 @@ import faye from 'utils/faye';
 import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
 import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
-import { changeFields } from 'actions/ui/map';
 
 import {
   preparePaymentType,
@@ -25,6 +24,13 @@ const TYPES = createTypes('booking', [
   'canceledByUser',
   'getFormDataStart',
   'getFormDataSuccess',
+  'removeFields',
+  'changeFields',
+  'changeAddress',
+  'changeReference',
+  'setReferenceErrors',
+  'resetBookingValues',
+  'changeMessageToDriver',
   'getVehiclesStart',
   'getVehiclesSuccess',
   'getVehiclesFailure',
@@ -36,8 +42,29 @@ const TYPES = createTypes('booking', [
   'clearBooking'
 ]);
 
+export const removeFields = fields => ({ type: TYPES.removeFields, payload: fields });
+
+export const changeFields = fields => ({ type: TYPES.changeFields, payload: fields });
+
+export const changeAddress = (address, meta) => ({ type: TYPES.changeAddress, payload: { address, meta } });
+
+export const changeReference = reference => ({ type: TYPES.changeReference, payload: reference });
+
+export const validateReferences = () => (_, getState) =>
+  post('bookings/validate_references', { bookerReferences: getState().booking.bookingForm.bookerReferences });
+
+export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
+
+export const resetBookingValues = () => ({ type: TYPES.resetBookingValues });
+
+export const changeMessageToDriver = (message, touched = false) =>
+  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
+
+export const saveMessageToDriver = () => (dispatch, getState) =>
+  dispatch(changeFields({ message: getState().booking.bookingForm.tempMessageToDriver }));
+
 const getAuthorOfCancellation = () => (dispatch, getState) => {
-  const { bookings: { currentOrder } } = getState();
+  const { booking: { currentOrder } } = getState();
 
   return get(`/bookings/${currentOrder.id}`)
     .then(({ data }) => {
@@ -55,7 +82,7 @@ const removeOrderStatusSubscription = () => {
 };
 
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
-  const { bookings: { currentOrder } } = getState();
+  const { booking: { currentOrder } } = getState();
 
   faye.on(channel, ({ data }) => {
     if (data.indicator) {
@@ -109,7 +136,7 @@ export const createBooking = order => (dispatch) => {
 };
 
 export const setActiveBooking = id => (dispatch, getState) => {
-  const { bookings: { currentOrder } } = getState();
+  const { booking: { currentOrder } } = getState();
 
   if (currentOrder.id === id) return Promise.resolve();
 
@@ -136,7 +163,7 @@ export const clearCurrentOrder = () => (dispatch) => {
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
-  const { bookings: { currentOrder } } = getState();
+  const { booking: { currentOrder } } = getState();
 
   dispatch({ type: TYPES.cancelOrderStart });
 
@@ -156,8 +183,8 @@ export const getFormData = () => (dispatch, getState) => {
 
   return get('/bookings/new')
     .then(({ data }) => {
-      if (!getState().ui.map.fields.paymentMethod) {
-        const memberId = getState().session.result.memberId;
+      if (!getState().booking.bookingForm.paymentMethod) {
+        const memberId = getState().session.user.memberId;
         const passenger = data.passenger || data.passengers.find(passenger => passenger.id === memberId);
         const cards = (passenger || {}).paymentCards || [];
 
@@ -204,7 +231,7 @@ export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, pay
 export const changeDriverRating = rating => ({ type: TYPES.changeDriverRating, payload: rating });
 
 export const rateDriver = () => (dispatch, getState) => {
-  const { id, tempDriverRating } = getState().bookings.currentOrder;
+  const { id, tempDriverRating } = getState().booking.currentOrder;
   return put(`/bookings/${id}/rate`, { rating: tempDriverRating })
     .then(() => dispatch({ type: TYPES.changeDriverRatingSuccess }));
 };

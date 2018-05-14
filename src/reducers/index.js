@@ -4,7 +4,7 @@ import router from './router';
 import app from './app';
 import ui from './ui';
 import session from './session';
-import bookings from './booking';
+import booking from './booking';
 import passenger from './passenger';
 import orders from './orders';
 
@@ -14,7 +14,7 @@ export default combineReducers({
   app,
   ui,
   session,
-  bookings,
+  booking,
   passenger,
   orders
 });

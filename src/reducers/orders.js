@@ -21,13 +21,13 @@ const getOrders = (state, { data, orderType }) => update(state, orderType, {
   meta: data.pagination
 });
 
-const clearList = () => initialState;
+const clearOrdersList = () => initialState;
 
 export default composeReducer(
   'orders',
   {
     getOrders,
-    clearList
+    clearOrdersList
   },
   initialState
 );

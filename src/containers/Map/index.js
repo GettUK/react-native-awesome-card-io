@@ -22,18 +22,15 @@ import Header from 'components/Common/Header';
 
 import { BookingEditor } from 'containers/BookingEditor';
 
-import {
-  removeFields,
-  changeFields,
-  changePosition,
-  errorPosition,
-  resetBookingValues
-} from 'actions/ui/map';
+import { changePosition, errorPosition } from 'actions/ui/map';
 import {
   createBooking,
+  removeFields,
+  changeFields,
   getVehicles,
   toggleVisibleModal,
   completeOrder,
+  resetBookingValues,
   cancelOrder,
   clearCurrentOrder
 } from 'actions/booking';
@@ -87,9 +84,18 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { map: { currentPosition, fields: { pickupAddress } }, app: { statuses }, canceledByUser } = this.props;
-    const { map: mapProps, app: { statuses: statusesProps }, canceledByUser: canceledByUserProps } = prevProps;
-    const { currentPosition: currentPositionProps, fields: { pickupAddress: pickupAddressProps } } = mapProps;
+    const {
+      map: { currentPosition },
+      booking: { bookingForm: { pickupAddress } },
+      app: { statuses },
+      canceledByUser
+    } = this.props;
+    const {
+      map: { currentPositionProps },
+      booking: { bookingForm: { pickupAddress: pickupAddressProps } },
+      app: { statuses: statusesProps },
+      canceledByUser: canceledByUserProps
+    } = prevProps;
 
     if (pickupAddress !== pickupAddressProps && pickupAddress) {
       setDefaultTimezone(pickupAddress.timezone);
@@ -128,7 +134,7 @@ class Map extends Component {
   registerBackListener = () => {
     this.backListener = BackHandler.addEventListener('hardwareBack', () => {
       const isPreOrder = this.isActiveSceneIs('preOrder');
-      const { map: { fields }, router } = this.props;
+      const { booking: { bookingForm }, router } = this.props;
 
       if (router.routes[router.index].routeName !== CURRENT_ROUTE) {
         this.goBack();
@@ -136,7 +142,7 @@ class Map extends Component {
       } else if (!(isPreOrder && !this.shouldRequestVehicles())) {
         this.handleBackBtnPress();
         return true;
-      } else if (!isPreOrder || fields.destinationAddress) {
+      } else if (!isPreOrder || bookingForm.destinationAddress) {
         this.goBack();
         return true;
       }
@@ -196,14 +202,13 @@ class Map extends Component {
   };
 
   getAvailableVehicles = () => {
-    const { bookings: { formData: { vehicles } } } = this.props;
+    const { booking: { vehicles } } = this.props;
     return ((vehicles && vehicles.data) || []).filter(vehicle => vehicle.available);
   };
 
   getPassenger = () => {
     const {
-      map: { fields: { passengerId } },
-      bookings: { formData: { passenger, passengers } },
+      booking: { formData: { passenger, passengers }, bookingForm: { passengerId } },
       passenger: { data: { passenger: passengerData, favoriteAddresses } }
     } = this.props;
 
@@ -251,22 +256,22 @@ class Map extends Component {
   };
 
   shouldRequestVehicles = () => {
-    const { map: { fields } } = this.props;
-    return has(fields, 'pickupAddress') &&
-      fields.pickupAddress.countryCode &&
-      has(fields, 'destinationAddress') &&
-      fields.destinationAddress.countryCode &&
+    const { booking: { bookingForm } } = this.props;
+    return has(bookingForm, 'pickupAddress') &&
+      bookingForm.pickupAddress.countryCode &&
+      has(bookingForm, 'destinationAddress') &&
+      bookingForm.destinationAddress.countryCode &&
       this.isPassengerPresent();
   };
 
   allStopsValid = () => {
-    const { map: { fields: { stops } } } = this.props;
+    const { booking: { bookingForm: { stops } } } = this.props;
     return every(stops, stop => typeof stop.countryCode !== 'undefined');
   };
 
   isPassengerPresent = () => {
-    const { map: { fields } } = this.props;
-    return !!fields.passengerId;
+    const { booking: { bookingForm } } = this.props;
+    return !!bookingForm.passengerId;
   };
 
   requestVehicles = () => {
@@ -282,7 +287,7 @@ class Map extends Component {
       paymentType,
       paymentCardId,
       stops
-    } = this.props.map.fields;
+    } = this.props.booking.bookingForm;
     const passenger = this.getPassenger();
 
     let scheduledAtTime = null;
@@ -323,7 +328,7 @@ class Map extends Component {
   };
 
   lookupVehicle = () => {
-    const { map: { fields: { vehicleName } } } = this.props;
+    const { booking: { bookingForm: { vehicleName } } } = this.props;
     const availableVehicles = this.getAvailableVehicles();
     const passenger = this.getPassenger();
     let vehicle = { quoteId: undefined, name: undefined, value: undefined };
@@ -427,7 +432,7 @@ class Map extends Component {
 
   renderTimeDatePicker() {
     const { date, minDate } = this.state;
-    const { bookings: { modals: { picker } }, map: { fields: { pickupAddress } } } = this.props;
+    const { booking: { modals: { picker }, bookingForm: { pickupAddress } } } = this.props;
     const moment = momentDate(date);
     const timezoneDate = (pickupAddress && convertToZone(moment, pickupAddress.timezone)) || moment;
 
@@ -544,7 +549,7 @@ class Map extends Component {
   );
 
   render() {
-    const { navigation, map: { fields } } = this.props;
+    const { navigation, booking: { bookingForm } } = this.props;
     const { isHeaderEnable, isLoadingPickup, dragEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
@@ -610,7 +615,7 @@ class Map extends Component {
           enableDrag={this.enableDrag}
         />
 
-        {isPreOrder && !fields.destinationAddress && this.renderPickUpMarker()}
+        {isPreOrder && !bookingForm.destinationAddress && this.renderPickUpMarker()}
 
         {this.renderTimeDatePicker()}
 
@@ -637,7 +642,7 @@ class Map extends Component {
 Map.propTypes = {
   navigation: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  bookings: PropTypes.object.isRequired,
+  booking: PropTypes.object.isRequired,
   getVehicles: PropTypes.func.isRequired,
   removeFields: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
@@ -651,15 +656,15 @@ Map.propTypes = {
 Map.defaultProps = {
 };
 
-const mapState = ({ app, ui, bookings, session, passenger, router }) => ({
+const mapState = ({ app, ui, booking, session, passenger, router }) => ({
   app,
   map: ui.map,
   session,
   activeScene: ui.navigation.activeScene,
-  bookings,
-  status: bookings.currentOrder.status || 'connected',
-  canceledByExternal: bookings.canceledByExternal,
-  canceledByUser: bookings.canceledByUser,
+  booking,
+  status: booking.currentOrder.status || 'connected',
+  canceledByExternal: booking.canceledByExternal,
+  canceledByUser: booking.canceledByUser,
   passenger,
   router: router.navigatorApp
 });

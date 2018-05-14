@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { Icon } from 'components';
-import { changeReference } from 'actions/ui/map';
+import { changeReference } from 'actions/booking';
 import { debounce } from 'lodash';
 import { get } from 'utils';
 import styles from './styles';
@@ -84,8 +84,8 @@ class ReferenceValueSelector extends PureComponent {
   }
 }
 
-const mapState = ({ ui }, props) => ({
-  bookerReference: ui.map.fields.bookerReferences.find(r => r.id === props.navigation.state.params.reference.id)
+const mapState = ({ booking }, props) => ({
+  bookerReference: booking.bookingForm.bookerReferences.find(r => r.id === props.navigation.state.params.reference.id)
 });
 
 const mapDispatch = ({

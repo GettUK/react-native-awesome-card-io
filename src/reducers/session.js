@@ -1,22 +1,39 @@
 import { composeReducer } from 'redux-compose-reducer';
+import update from 'update-js';
 
 const initialState = {
   token: null,
-  result: {}
+  user: {},
+  loading: false,
+  errors: null
 };
 
-const userLogin = (state, { payload: { token } }) => ({ ...state, token });
+const loginSuccess = (state, { payload }) => (
+  update(state, 'token', payload)
+);
 
-const userData = (state, { payload }) => ({ ...state, result: payload });
+const getCurrentUserStart = state => (
+  update(state, { loading: true, errors: null })
+);
 
-const userLogout = () => initialState;
+const getCurrentUserSuccess = (state, { payload }) => (
+  update(state, { user: payload, loading: false, errors: null })
+);
+
+const getCurrentUserFailure = (state, { payload }) => (
+  update(state, { loading: false, errors: payload })
+);
+
+const logout = () => initialState;
 
 export default composeReducer(
   'session',
   {
-    userLogin,
-    userData,
-    userLogout
+    loginSuccess,
+    getCurrentUserSuccess,
+    getCurrentUserStart,
+    getCurrentUserFailure,
+    logout
   },
   initialState
 );
