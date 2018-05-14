@@ -1,7 +1,7 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import { ScreenHeader, BackBtn } from 'components';
 
@@ -47,7 +47,7 @@ const routeConfiguration = {
         <ScreenHeader
           navigation={navigation}
           title="Your Orders"
-          headerStyle={ordersStyles.header}
+          half
           headerContainerStyle={ordersStyles.headerContainer}
           onBackPress={navigation.state.params && navigation.state.params.fromSettings
             ? () => {
@@ -133,11 +133,11 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   headerMode: 'screen',
   transitionConfig: () => ({
-    screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid
+    screenInterpolator: StackViewStyleInterpolator.forFadeFromBottomAndroid
   })
 };
 
-const NavigatorApp = StackNavigator(
+const NavigatorApp = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration
 );

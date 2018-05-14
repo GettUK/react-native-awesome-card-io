@@ -80,7 +80,7 @@ class Login extends Component {
     const { login: { checkboxes: { termsConditions, privacyPolicy } } } = this.props;
 
     if (termsConditions && privacyPolicy && this.validateInputs()) {
-      this.props.onSubmitLogin();
+      this.props.onSubmitLogin().then(() => this.props.navigation.navigate('App'));
     }
   };
 

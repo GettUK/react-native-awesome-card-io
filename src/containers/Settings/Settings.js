@@ -33,7 +33,8 @@ class Settings extends Component {
     if (!this.props.logoutProgress) {
       await this.props.deleteToken();
 
-      this.props.logout();
+      this.props.logout()
+        .then(() => this.props.navigation.navigate('Login'));
     }
   };
 
@@ -65,9 +66,9 @@ class Settings extends Component {
   };
 
   goToMyRides = throttledAction(() => {
-    this.props.screenProps.rootNavigation.goBack();
+    this.props.navigation.goBack(null);
 
-    this.props.screenProps.rootNavigation.state.params.onGoToRides({ fromSettings: true });
+    this.props.navigation.state.params.onGoToRides({ fromSettings: true });
   });
 
   goToMyPayments = throttledAction(() => {

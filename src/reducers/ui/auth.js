@@ -1,16 +1,15 @@
 import { composeReducer } from 'redux-compose-reducer';
-import { Just, Nothing } from 'data.maybe';
 
 const initialState = {
   busy: false,
-  errors: Nothing()
+  errors: null
 };
 
-const authStart = state => ({ ...state, busy: true, errors: Nothing() });
+const authStart = state => ({ ...state, busy: true, errors: null });
 
 const authSuccess = () => initialState;
 
-const authFailure = (state, { payload }) => ({ ...state, busy: false, errors: Just(payload) });
+const authFailure = (state, { payload }) => ({ ...state, busy: false, errors: payload });
 
 export default composeReducer(
   'ui/auth',

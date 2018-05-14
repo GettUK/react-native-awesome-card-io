@@ -7,12 +7,10 @@ import storage from 'redux-persist/lib/storage';
 import { createFilter } from 'redux-persist-transform-filter';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+
 import reducer from 'reducers';
-import { isEmpty } from 'lodash/fp';
-import { auth } from 'actions/ui/auth';
-import {
-  checkMultiplePermissions
-} from 'actions/app/statuses';
+
+import { checkMultiplePermissions } from 'actions/app/statuses';
 
 export function getMiddlewares() {
   const middlewares = [thunk, createNetworkMiddleware()];
@@ -55,9 +53,6 @@ export function createStore() {
   );
 
   const persistor = persistStore(store, null, () => {
-    if (!isEmpty(store.getState().session.token)) {
-      store.dispatch(auth());
-    }
     store.dispatch(checkMultiplePermissions(['location', 'camera', 'photo']));
   });
   return { store, persistor };
