@@ -4,6 +4,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:timePickerDialogTheme">@style/Dialog.Theme</item>
+        <item name="android:datePickerDialogTheme">@style/Dialog.Theme</item>
+        <item name="colorControlActivated">#fff</item>
+        <item name="colorSwitchThumbNormal">#fff</item>
+        <item name="android:colorForeground">#33000000</item>
     </style>
 
+    <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#284784</item>
+        <item name="android:textColorPrimary">#284784</item>
+    </style>
 </resources>
