@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, BackHandler } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { Input, Icon } from 'components';
+import { Input, Icon, KeyboardHide } from 'components';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import { strings } from 'locales';
@@ -115,16 +115,18 @@ class EditProfile extends Component {
 
     return (
       <View style={[styles.flex, styles.container]}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
-          <Avatar
-            rounded
-            xlarge
-            source={userAvatar && { uri: userAvatar }}
-            containerStyle={styles.avatar}
-          />
-          <View style={styles.avatarBackDrop} />
-          <Icon style={styles.cameraIcon} size={32} color="#fff" name="camera" />
-        </TouchableOpacity>
+        <KeyboardHide style={styles.cameraWrapper}>
+          <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
+            <Avatar
+              rounded
+              xlarge
+              source={userAvatar && { uri: userAvatar }}
+              containerStyle={styles.avatar}
+            />
+            <View style={styles.avatarBackDrop} />
+            <Icon style={styles.cameraIcon} size={32} color="#fff" name="camera" />
+          </TouchableOpacity>
+        </KeyboardHide>
 
         {inputs.map(this.renderInput)}
       </View>

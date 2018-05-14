@@ -13,7 +13,7 @@ import {
 import validate from 'validate.js';
 
 import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { Icon, Input, Alert, SwitchItem } from 'components';
+import { Icon, Input, Alert, SwitchItem, KeyboardHide } from 'components';
 
 import {
   termsConditionsSwitch,
@@ -31,7 +31,6 @@ import { throttledAction } from 'utils';
 
 import { loginRules } from './validatorRules';
 import TextButton from './TextButton';
-import KeyboardHide from './KeyboardHide';
 
 import styles from './style';
 
