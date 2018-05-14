@@ -46,10 +46,10 @@ export default StyleSheet.create({
   iconContainer: {
     position: 'relative'
   },
-  connecter: {
+  connector: {
     position: 'absolute',
     top: 17,
     left: -3
   },
-  pickUpConnecter: { top: 20 }
+  pickUpConnector: { top: 20 }
 });

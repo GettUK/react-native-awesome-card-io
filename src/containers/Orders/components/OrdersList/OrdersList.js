@@ -121,7 +121,7 @@ class OrdersList extends PureComponent {
           <View style={[styles.orderAddress, styles.orderAddressGap]}>
             <View style={styles.iconContainer}>
               <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />
-              <Icon style={[styles.connecter, styles.pickUpConnecter]} height={12} name="dottedLine" />
+              <Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" />
             </View>
             <Text numberOfLines={1} style={styles.flex}>{item.pickupAddress.line}</Text>
           </View>
@@ -135,7 +135,7 @@ class OrdersList extends PureComponent {
                     size={12}
                     style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
                   />
-                  <Icon style={styles.connecter} height={12} name="dottedLine" />
+                  <Icon style={styles.connector} height={12} name="dottedLine" />
                 </View>
                 <Text numberOfLines={1} style={styles.flex}>{address.line}</Text>
               </View>

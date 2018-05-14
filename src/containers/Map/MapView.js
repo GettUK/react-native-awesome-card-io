@@ -75,7 +75,7 @@ class MapView extends Component {
 
   isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (
     !dragEnable && !oldDragEnable && order.pickupAddress !== oldOrder.pickupAddress
-  )
+  );
 
   isPathChanged = (fields, fieldsProps) => (
     (fields.pickupAddress && (fields.pickupAddress !== fieldsProps.pickupAddress))
@@ -119,9 +119,10 @@ class MapView extends Component {
       this.props.onEndLoadingPickup();
     } else if (this.shouldAnimateToPickUp({ order, oldOrder, isActiveOrder, isActiveOrderProps })) {
       const source = this.prepareCoordinates(order.pickupAddress);
+      this.props.disableDrag();
       this.animateToRegion(source);
     }
-  }
+  };
 
   resizeMapToDriverAndPickupAddress = (order) => {
     const dest = this.prepareCoordinates(order.pickupAddress);
@@ -244,8 +245,11 @@ class MapView extends Component {
     />
   );
 
+  // eslint-disable-next-line consistent-return
   getGeocode = (region) => {
-    const { isPreOrder, dragEnable, changeAddress, onEndLoadingPickup, onStartLoadingPickup } = this.props;
+    const { isPreOrder, dragEnable, changeAddress, onEndLoadingPickup, onStartLoadingPickup, enableDrag } = this.props;
+
+    if (!dragEnable) { return enableDrag(); }
 
     const order = this.getOrder();
 
@@ -257,7 +261,7 @@ class MapView extends Component {
       geocode(coordinates)
         .then(processLocation)
         .then(data => changeAddress(data, { type: 'pickupAddress' }))
-        .catch(() => onEndLoadingPickup());
+        .catch(onEndLoadingPickup);
     }
   };
 
