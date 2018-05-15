@@ -1,8 +1,0 @@
-printWidth: 80
-trailingComma: 'none'
-semi: true
-singleQuote: true
-bracketSpacing: true
-jsxBracketSameLine: true
-arrowParens: "avoid"
-proseWrap: "preserve"

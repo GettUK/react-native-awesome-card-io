@@ -10,4 +10,3 @@ engines:
 exclude_paths:
 - android/
 - ios/
-- storybook/
