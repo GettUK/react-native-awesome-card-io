@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import { Login, ForgotPassword } from 'containers';
 import { InfoPages } from 'containers/Settings';
@@ -36,7 +36,7 @@ const stackNavigatorConfiguration = {
   headerMode: 'screen'
 };
 
-const NavigatorLogin = StackNavigator(
+const NavigatorLogin = createStackNavigator(
   routeConfiguration,
   stackNavigatorConfiguration
 );

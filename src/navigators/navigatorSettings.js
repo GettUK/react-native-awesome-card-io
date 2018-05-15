@@ -1,6 +1,5 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { StackNavigator } from 'react-navigation';
+import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 import { View, Platform } from 'react-native';
 
 import { Icon, BackBtn } from 'components';
@@ -46,7 +45,7 @@ const headerStyle = {
 const RoutesConfig = {
   Settings: {
     screen: Settings,
-    navigationOptions: ({ screenProps }) => ({
+    navigationOptions: ({ navigation }) => ({
       headerTintColor: '#000',
       headerStyle,
       title: strings('settings.headerTitle'),
@@ -54,7 +53,7 @@ const RoutesConfig = {
       headerLeft: (
         <View style={{ flexDirection: 'row' }}>
           <NavImageButton
-            onClick={() => screenProps.rootNavigation.goBack(null)}
+            onClick={() => navigation.goBack(null)}
             styleView={{ marginLeft: 10 }}
             icon={<Icon size={30} name="close" color="#000" />}
           />
@@ -165,40 +164,9 @@ const RoutesConfig = {
   }
 };
 
-const SettingsNavigator = StackNavigator(
+export default createStackNavigator(
   RoutesConfig,
   {
     initialRouteName: 'Settings'
   }
 );
-
-export default class SettingsNavigation extends PureComponent {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired
-  };
-
-  state = {
-    currentRoute: 'Settings'
-  };
-
-  handleStateChange = (prevState, currentState) => {
-    const currentRoute = currentState.routes[currentState.index];
-
-    this.setState({ currentRoute: currentRoute.routeName });
-  };
-
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <SettingsNavigator
-          onNavigationStateChange={this.handleStateChange}
-          screenProps={{
-            rootNavigation: this.props.navigation,
-            values: Object.keys(RoutesConfig),
-            currentRoute: this.state.currentRoute
-          }}
-        />
-      </View>
-    );
-  }
-}

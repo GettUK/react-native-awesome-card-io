@@ -62,19 +62,19 @@ class OrdersList extends PureComponent {
   }
 
   goToOrderDetails = (id) => {
-    const { setActiveBooking, screenProps: { rootNavigation } } = this.props;
+    const { setActiveBooking, navigation } = this.props;
     setActiveBooking(id)
       .then(() => {
-        rootNavigation.state.params.onBack({ fromSettings: rootNavigation.state.params.fromSettings });
+        navigation.state.params.onBack({ fromSettings: navigation.state.params.fromSettings });
 
-        rootNavigation.goBack();
+        navigation.goBack(null);
       });
   };
 
   updateCounter = (meta) => {
-    const { type, navigation } = this.props;
+    const { navigation } = this.props;
 
-    navigation.setParams({ count: { [type]: meta.total } });
+    navigation.setParams({ count: meta.total });
   };
 
   getOrders = () => {

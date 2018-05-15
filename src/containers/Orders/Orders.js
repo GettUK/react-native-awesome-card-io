@@ -1,66 +1,44 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import React from 'react';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
-import { clearList } from 'actions/orders';
+import { GradientWrapper } from 'components';
+
 import { OrdersList } from './components';
+
 import styles from './styles';
 
-function getTitleCount(params, type) {
-  return params && params.count ? `(${params.count[type] || '0'})` : '';
+function renderTab(route, index, isActive, onPress) {
+  return <TouchableWithoutFeedback key={route.routeName} onPress={onPress}>
+    <View style={[
+        styles.tab,
+        { borderColor: isActive ? '#7AE4FF' : 'transparent' }
+      ]}
+    >
+      <Text style={[styles.tabLabel, { opacity: isActive ? 1 : 0.6 }]}>
+        {`${route.routeName.toUpperCase()}\n(${route.params.count || 0})`}
+      </Text>
+    </View>
+  </TouchableWithoutFeedback>;
 }
 
-function getScreenParams({ type, idsType, title }) {
-  return {
-    screen: props => <OrdersList type={type} idsType={idsType} {...props} />,
-    navigationOptions: ({ navigation }) => ({
-      title: `${title}\n${getTitleCount(navigation.state.params, type)}`
-    })
-  };
+function renderTabBar({ navigationState, navigation }) {
+  return (
+    <GradientWrapper style={styles.gradient}>
+      {navigationState.routes.map((route, index) =>
+        renderTab(route, index, index === navigationState.index, () => navigation.navigate(route.routeName)))
+      }
+    </GradientWrapper>
+  );
 }
 
-const OrdersTabNavigator = TabNavigator(
+export default createMaterialTopTabNavigator(
   {
-    Personal: getScreenParams({ idsType: 'include', title: 'Personal' }),
-    Business: getScreenParams({ idsType: 'exclude', title: 'Business' }),
-    Previous: getScreenParams({ type: 'previous', title: 'Previous' })
+    Personal: { screen: props => <OrdersList idsType="include" {...props} /> },
+    Business: { screen: props => <OrdersList idsType="exclude" {...props} /> },
+    Previous: { screen: props => <OrdersList type="previous" {...props} /> }
   },
   {
-    ...TabNavigator.Presets.AndroidTopTabs,
-    tabBarOptions: {
-      style: {
-        backgroundColor: 'transparent'
-      },
-      indicatorStyle: {
-        backgroundColor: '#7ae4ff'
-      },
-      labelStyle: { fontSize: 12 },
-      inactiveTintColor: 'rgba(255, 255, 255, 0.6)',
-      pressColor: 'rgba(255, 255, 255, 0.4)',
-      pressOpacity: 0.8
-    }
+    tabBarComponent: renderTabBar
   }
 );
-
-class Orders extends Component {
-  componentWillMount() {
-    this.props.clearList();
-  }
-
-  render() {
-    return (
-      <View style={[styles.flex, styles.content]}>
-        <OrdersTabNavigator screenProps={{ rootNavigation: this.props.navigation }} />
-      </View>
-    );
-  }
-}
-
-const mapDispatch = dispatch => ({
-  clearList() {
-    return clearList(dispatch);
-  }
-});
-
-export default connect(null, mapDispatch)(Orders);
