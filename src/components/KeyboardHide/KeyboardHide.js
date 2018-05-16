@@ -6,7 +6,7 @@ export default class KeyboardHide extends Component {
     keyboardUp: false
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.keyboardDidShowListener = this.getListener('Show');
 
     this.keyboardDidHideListener = this.getListener('Hide');

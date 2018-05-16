@@ -7,8 +7,7 @@ import {
   StatusBar,
   Image,
   View,
-  Text,
-  BackHandler
+  Text
 } from 'react-native';
 import validate from 'validate.js';
 
@@ -36,51 +35,37 @@ import styles from './style';
 
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
-const CURRENT_ROUTE = 'Login';
-
 class Login extends Component {
   state = {
     isResetSuccess: false,
     error: ''
   };
 
-  componentWillMount() {
-    this.backListener = BackHandler.addEventListener('backPress', () => {
-      const { router } = this.props;
+  componentDidUpdate({ login: loginProps }, { isResetSuccess }) {
+    const { login } = this.props;
 
-      if (router.routes[router.index].routeName !== CURRENT_ROUTE) {
-        this.props.navigation.dispatch({ type: 'Navigation/BACK' });
-
-        return true;
-      }
-
-      return false;
-    });
-  }
-
-  componentWillUpdate({ login }, nextState) {
-    if (nextState.isResetSuccess && !this.state.isResetSuccess) {
+    if (this.state.isResetSuccess && !isResetSuccess) {
       this.showResetSuccess();
-    } else if (login.errors && !this.props.login.errors) {
-      const error = login.errors.response && login.errors.response.status === 401
-        ? 'The email or password you entered is incorrect'
-        : "User can't be logged in now";
-
-      this.setState({ error }, this.showError);
+    } else if (login.errors && !loginProps.errors) {
+      this.showLoginErrors(login);
+    } else if (!login.busy && loginProps.busy && !login.errors) {
+      this.props.navigation.navigate('App');
     }
   }
 
-  componentWillUnmount() {
-    this.backListener.remove();
+  showLoginErrors(login) {
+    const error = login.errors.response && login.errors.response.status === 401
+      ? 'The email or password you entered is incorrect'
+      : "User can't be logged in now";
 
-    BackHandler.removeEventListener('backPress');
+    this.setState({ error }, this.showError);
   }
 
   handleSubmit = () => {
     const { login: { checkboxes: { termsConditions, privacyPolicy } } } = this.props;
 
     if (termsConditions && privacyPolicy && this.validateInputs()) {
-      this.props.onSubmitLogin().then(() => this.props.navigation.navigate('App'));
+      this.props.onSubmitLogin();
     }
   };
 

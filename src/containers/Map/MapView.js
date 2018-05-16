@@ -28,32 +28,36 @@ import MapStyle from './MapStyle';
 import styles from './style';
 
 class MapView extends Component {
-  componentWillReceiveProps(nextProps) {
-    const { isActiveOrder, isCompletedOrder, dragEnable } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { isActiveOrder, isCompletedOrder, dragEnable } = this.props;
     const {
       isActiveOrder: isActiveOrderProps,
       isCompletedOrder: isCompletedOrderProps,
       dragEnable: oldDragEnable
-    } = this.props;
+    } = prevProps;
 
-    const order = this.getOrder(nextProps);
-    const oldOrder = this.getOrder();
+    const order = this.getOrder();
+    const oldOrder = this.getOrder(prevProps);
 
     if (isCompletedOrder && !isCompletedOrderProps) {
       const { source, dest, stops } = this.preparePointsList(order);
       const multiplier = this.getMultiplier();
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
     } else if (!isCompletedOrder) {
-      if (this.shouldResizeMapToPointsList({ oldOrder, order, oldIsActiveOrder: isActiveOrderProps, isActiveOrder })) {
-        const { source, dest, stops } = this.preparePointsList(order);
-        setTimeout(() => this.resizeMapToCoordinates([source, dest, ...stops]));
-      }
+      this.changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, isActiveOrder, dragEnable, oldDragEnable });
+    }
+  }
 
-      this.handleAnimateToRegion({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps });
+  changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, isActiveOrder, dragEnable, oldDragEnable }) {
+    if (this.shouldResizeMapToPointsList({ oldOrder, order, oldIsActiveOrder: isActiveOrderProps, isActiveOrder })) {
+      const { source, dest, stops } = this.preparePointsList(order);
+      setTimeout(() => this.resizeMapToCoordinates([source, dest, ...stops]));
+    }
 
-      if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
-        this.resizeMapToDriverAndPickupAddress(order);
-      }
+    this.handleAnimateToRegion({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps });
+
+    if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
+      this.resizeMapToDriverAndPickupAddress(order);
     }
   }
 

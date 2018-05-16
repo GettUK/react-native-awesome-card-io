@@ -22,8 +22,9 @@ class BookingEditor extends Component {
     isStopPointsModalVisible: false
   };
 
-  componentWillReceiveProps({ bookings: { formData }, map }, { isStopPointsModalVisible }) {
-    const { map: propsMap, requestVehicles, memberId, passenger } = this.props;
+  componentDidUpdate({ map: propsMap, requestVehicles, memberId, passenger }) {
+    const { bookings: { formData }, map } = this.props;
+    const { isStopPointsModalVisible } = this.state;
 
     const isDriveChanged = (!formData.vehicles.loaded && !formData.vehicles.loading) ||
       !isEqual(map.fields.stops, propsMap.fields.stops) ||
@@ -57,12 +58,13 @@ class BookingEditor extends Component {
         };
 
         if (!isEmpty(data.booking)) {
+          const { scheduledAt, pickupAddress, destinationAddress } = data.booking;
           attrs = {
             ...attrs,
             ...data.booking,
-            scheduledAt: moment(data.booking.scheduledAt).tz(data.booking.pickupAddress.timezone),
+            scheduledAt: moment(scheduledAt).tz(pickupAddress && pickupAddress.timezone),
             schedule: this.getScheduleParams(data.booking),
-            asDirected: !data.booking.destinationAddress
+            asDirected: !destinationAddress
           };
         }
 

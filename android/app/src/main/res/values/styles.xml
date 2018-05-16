@@ -9,6 +9,7 @@
         <item name="colorControlActivated">#fff</item>
         <item name="colorSwitchThumbNormal">#fff</item>
         <item name="android:colorForeground">#33000000</item>
+        <item name="android:textColorPrimary">#000</item>
     </style>
 
     <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">

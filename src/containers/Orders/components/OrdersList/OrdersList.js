@@ -49,8 +49,8 @@ class OrdersList extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ meta }) {
-    const { meta: metaProps } = this.props;
+  componentDidUpdate({ meta: metaProps }) {
+    const { meta } = this.props;
 
     if (meta && (!metaProps || meta.total !== metaProps.total)) {
       this.updateCounter(meta);

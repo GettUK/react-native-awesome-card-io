@@ -20,13 +20,11 @@ class AddressEditor extends Component {
     changeTempAddress: PropTypes.func
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { navigation, setTempAddress } = this.props;
     const { address } = navigation.state.params;
     setTempAddress(address);
-  }
 
-  componentDidMount() {
     this.backListener = BackHandler.addEventListener('backPress', () => {
       const { touched } = this.props;
 

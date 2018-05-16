@@ -22,8 +22,8 @@ export default class StopPointsModal extends PureComponent {
     isVisible: false
   }
 
-  componentWillUpdate({ data }) {
-    const { data: dataProps } = this.props;
+  componentDidUpdate({ data: dataProps }) {
+    const { data } = this.props;
 
     if (data !== dataProps) {
       this.order = Object.keys(data);
