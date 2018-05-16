@@ -191,7 +191,7 @@ export const validationRules = {
       allowEmpty: false
     },
     length: {
-      is: 10,
+      minimum: 10,
       message: strings('validation.phone.length')
     }
   }

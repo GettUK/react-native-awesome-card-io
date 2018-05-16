@@ -112,7 +112,7 @@
       "length": "must be at least 6 characters"
     },
     "phone": {
-      "length": "must be 10 numbers"
+      "length": "is to short"
     },
     "name": {
       "length": "must be 30 characters"
