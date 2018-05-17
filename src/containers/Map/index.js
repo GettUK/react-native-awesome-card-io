@@ -42,8 +42,7 @@ import { strings } from 'locales';
 import { showConfirmationAlert, setDefaultTimezone, convertToZone, momentDate, hourForward } from 'utils';
 import PN from 'utils/notifications';
 
-import ActiveOrderScene from './ActiveOrderScene';
-import CompletedOrderScene from './CompletedOrderScene';
+import OrderScene from './OrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 
 import MapView from './MapView';
@@ -600,8 +599,7 @@ class Map extends Component {
             ref={(editor) => { this.editorView = editor; }}
           />
         }
-        {isActiveOrder && <ActiveOrderScene />}
-        {isCompletedOrder && <CompletedOrderScene goToInitialization={this.goToInitialization} />}
+        {(isActiveOrder || isCompletedOrder) && <OrderScene goToInitialization={this.goToInitialization} />}
 
         <MapView
           isActiveOrder={isActiveOrder}

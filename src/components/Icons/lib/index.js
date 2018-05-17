@@ -38,6 +38,10 @@ import pickUpField from './pickUpField';
 import plus from './plus';
 import pointer from './pointer';
 import push from './push';
+import reasonDriver from './reasonDriver';
+import reasonSadMan from './reasonSadMan';
+import reasonTaxi from './reasonTaxi';
+import reasonTimer from './reasonTimer';
 import search from './search';
 import selected from './selected';
 import settings from './settings';
@@ -102,6 +106,10 @@ export default {
   plus,
   pointer,
   push,
+  reasonDriver,
+  reasonSadMan,
+  reasonTaxi,
+  reasonTimer,
   search,
   selected,
   settings,
