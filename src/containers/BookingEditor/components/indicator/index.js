@@ -83,10 +83,8 @@ export default class Indicator extends PureComponent {
     this.mounted = false;
   }
 
-  componentWillReceiveProps(props) {
-    const { animating } = this.props;
-
-    if (animating !== props.animating) {
+  componentDidUpdate({ animating }) {
+    if (animating !== this.props.animating) {
       if (animating) {
         this.stopAnimation();
       } else {

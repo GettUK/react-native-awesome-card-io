@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { auth } from 'actions/ui/auth';
 
 class AuthLoading extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { session: { token }, auth, navigation } = this.props;
 
     if (token) {
@@ -14,8 +14,8 @@ class AuthLoading extends Component {
     }
   }
 
-  componentWillReceiveProps({ authBusy, authErrors }) {
-    const { authBusy: authBusyProp, navigation } = this.props;
+  componentDidUpdate({ authBusy: authBusyProp }) {
+    const { authBusy, authErrors, navigation } = this.props;
 
     if (!authBusy && authBusyProp && !authErrors) {
       navigation.navigate('App');

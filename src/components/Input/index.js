@@ -20,9 +20,9 @@ export default class Input extends PureComponent {
     allowedError: true
   };
 
-  componentWillReceiveProps(nextProps) {
-    if ((!this.props.value.length && !!nextProps.value.length) ||
-        (nextProps.placeholder && nextProps.placeholder.length)
+  componentDidUpdate(prevProps) {
+    if ((!prevProps.value.length && !!this.props.value.length) ||
+        (this.props.placeholder && this.props.placeholder.length)
     ) {
       this.moveLabelUp();
     }

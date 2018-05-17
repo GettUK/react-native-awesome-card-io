@@ -76,24 +76,22 @@ class Map extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.requestLocation();
 
     this.setCurrentPosition();
 
     this.registerBackListener();
-  }
 
-  componentDidMount() {
     PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { map: { currentPosition, fields: { pickupAddress } }, app: { statuses }, canceledByUser } = nextProps;
-    const { map: mapProps, app: { statuses: statusesProps }, canceledByUser: canceledByUserProps } = this.props;
+  componentDidUpdate(prevProps) {
+    const { map: { currentPosition, fields: { pickupAddress } }, app: { statuses }, canceledByUser } = this.props;
+    const { map: mapProps, app: { statuses: statusesProps }, canceledByUser: canceledByUserProps } = prevProps;
     const { currentPosition: currentPositionProps, fields: { pickupAddress: pickupAddressProps } } = mapProps;
 
-    if (pickupAddress !== pickupAddressProps) {
+    if (pickupAddress !== pickupAddressProps && pickupAddress) {
       setDefaultTimezone(pickupAddress.timezone);
     }
 
@@ -102,13 +100,7 @@ class Map extends Component {
       setTimeout(this.getCurrentPosition, 250);
     }
 
-    if (
-      statuses.permissions && statusesProps.permissions &&
-      statuses.permissions.location !== statusesProps.permissions.location &&
-      statuses.permissions.location === PERMISSION_STATUS.authorized
-    ) {
-      this.setCurrentPosition();
-    }
+    this.getLocation(statuses, statusesProps);
 
     if (canceledByUser && !canceledByUserProps) {
       this.showAlert();
@@ -121,6 +113,16 @@ class Map extends Component {
     this.backListener.remove();
 
     BackHandler.removeEventListener('hardwareBack');
+  }
+
+  getLocation(statuses, statusesProps) {
+    if (
+      statuses.permissions && statusesProps.permissions &&
+      statuses.permissions.location !== statusesProps.permissions.location &&
+      statuses.permissions.location === PERMISSION_STATUS.authorized
+    ) {
+      this.setCurrentPosition();
+    }
   }
 
   registerBackListener = () => {

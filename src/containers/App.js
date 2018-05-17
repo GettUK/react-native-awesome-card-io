@@ -10,14 +10,12 @@ import { saveToken } from 'actions/app/pushNotifications';
 import PN from 'utils/notifications';
 
 class AppContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     PN.getNotificationsPermissions();
     PN.registerFCMToken().then((token) => {
       this.props.dispatch(saveToken(token));
     });
-  }
 
-  componentDidMount() {
     setTimeout(SplashScreen.hide, 500); // Avoiding flicker
   }
 

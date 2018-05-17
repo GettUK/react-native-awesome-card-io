@@ -45,7 +45,7 @@ class EditProfile extends Component {
     lastName: ''
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {

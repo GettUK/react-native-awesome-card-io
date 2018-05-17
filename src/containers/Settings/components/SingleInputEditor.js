@@ -20,7 +20,7 @@ class SingleInputEditor extends Component {
     input: ''
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {

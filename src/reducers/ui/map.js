@@ -9,8 +9,7 @@ const initialFields = {
   scheduledType: 'now',
   travelReasonId: '',
   bookerReferences: [],
-  bookerReferencesErrors: {},
-  pickupAddress: {}
+  bookerReferencesErrors: {}
 };
 
 const initialState = {

@@ -6,7 +6,7 @@ import { changeMessageToDriver } from 'actions/ui/map';
 import styles from './styles';
 
 class MessageToDriver extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { changeMessageToDriver, navigation } = this.props;
     changeMessageToDriver(navigation.state.params.message);
   }

@@ -31,7 +31,7 @@ class CarTypesEditor extends Component {
     currentCar: ''
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {

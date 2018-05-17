@@ -22,9 +22,7 @@ class SlidingUpPanel extends Component {
     this.state = {
       backdropAvailable: this.props.showBackdrop
     };
-  }
 
-  componentWillMount() {
     const { top, bottom } = this.props.draggableRange;
 
     this.animatedValueY = -bottom;
@@ -40,7 +38,9 @@ class SlidingUpPanel extends Component {
       onPanResponderTerminationRequest: () => false,
       onShouldBlockNativeResponder: () => false
     });
+  }
 
+  componentDidMount() {
     this.translateYAnimation.addListener(this.onDrag);
 
     if (this.props.visible) {
@@ -48,26 +48,33 @@ class SlidingUpPanel extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { top, bottom } = nextProps.draggableRange;
+  componentDidUpdate({ visible, draggableRange }) {
+    const { bottom } = this.props.draggableRange;
 
-    if (nextProps.visible && !this.props.visible) {
-      this.transitionTo(-this.props.draggableRange.top);
-    }
+    this.openPanel({ visible, draggableRange });
 
-    if (bottom !== this.props.draggableRange.bottom) {
+    if (bottom !== draggableRange.bottom) {
       this.animatedValueY = -bottom;
     }
 
-    if (top !== this.props.draggableRange.top || bottom !== this.props.draggableRange.bottom) {
-      this.flick = new FlickAnimation(this.translateYAnimation, -top, -bottom);
+    this.animatePanelOnSliding(draggableRange);
+
+    if (this.animatedValueY !== -bottom && !this.props.visible) {
+      this.translateYAnimation.setValue(-bottom);
     }
   }
 
-  componentDidUpdate() {
-    const { bottom } = this.props.draggableRange;
-    if (this.animatedValueY !== -bottom && !this.props.visible) {
-      this.translateYAnimation.setValue(-bottom);
+  openPanel({ visible, draggableRange }) {
+    if (this.props.visible && !visible) {
+      this.transitionTo(-draggableRange.top);
+    }
+  }
+
+  animatePanelOnSliding(draggableRange) {
+    const { bottom, top } = this.props.draggableRange;
+
+    if (top !== draggableRange.top || bottom !== draggableRange.bottom) {
+      this.flick = new FlickAnimation(this.translateYAnimation, -top, -bottom);
     }
   }
 

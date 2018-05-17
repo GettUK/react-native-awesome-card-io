@@ -8,7 +8,7 @@ import { some, isEmpty } from 'lodash';
 import { strings } from 'locales';
 
 class ReferencesHeader extends PureComponent {
-  componentWillMount() {
+  componentDidMount() {
     this.backListener = BackHandler.addEventListener('backPress', async () => {
       await this.handleBackBtnPress();
       return false;

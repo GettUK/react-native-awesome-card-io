@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* oteAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* oteAppTests.m */; };
 		3CD4FA0824D56A974214C8B6 /* libPods-oteAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D6AAA0E037AF57C3991C43 /* libPods-oteAppTests.a */; };
+		3D7983C8DC7640AD994B8702 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35A4186827B0428DA8353D02 /* Feather.ttf */; };
 		4251E8B05496CC6C423C9FEE /* libPods-oteApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 506114E7CB4CE1CE5EB0FE68 /* libPods-oteApp.a */; };
 		431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */; };
 		7D0722AE2061373700C06D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0722AD2061373600C06D82 /* GoogleService-Info.plist */; };
@@ -34,6 +35,7 @@
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CAA8EEAFA0F14A10A6A4CE48 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
@@ -327,6 +329,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = oteApp/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* oteApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "oteApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* oteApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "oteApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		35A4186827B0428DA8353D02 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		4E91C7FDD1390BDA3DB61C34 /* Pods-oteAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		506114E7CB4CE1CE5EB0FE68 /* libPods-oteApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-oteApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5390128D3161A784A34416DC /* Pods-oteApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -350,6 +353,7 @@
 		927644362081143500946644 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-gps/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		92A2291D20865F2D00209D73 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextInputMask.a; sourceTree = "<group>"; };
 		ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTextInputMask.xcodeproj; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -439,6 +443,8 @@
 		2F5BF23E72E045AEBC934C17 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				35A4186827B0428DA8353D02 /* Feather.ttf */,
+				D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1082,6 +1088,8 @@
 				CC2FF042204DB270008351CA /* (null) in Resources */,
 				7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				3D7983C8DC7640AD994B8702 /* Feather.ttf in Resources */,
+				CAA8EEAFA0F14A10A6A4CE48 /* MaterialCommunityIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
