@@ -21,9 +21,9 @@ SaveRatingBtn.propTypes = {
   rating: PropTypes.number
 };
 
-const mapState = ({ bookings }) => ({
-  rating: bookings.currentOrder.tempDriverRating,
-  rateable: bookings.currentOrder.rateable
+const mapState = ({ booking }) => ({
+  rating: booking.currentOrder.tempDriverRating,
+  rateable: booking.currentOrder.rateable
 });
 
 export default connect(mapState, { rateDriver })(SaveRatingBtn);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -9,7 +9,7 @@ import { saveToken } from 'actions/app/pushNotifications';
 
 import PN from 'utils/notifications';
 
-class AppContainer extends Component {
+class AppContainer extends PureComponent {
   componentDidMount() {
     PN.getNotificationsPermissions();
     PN.registerFCMToken().then((token) => {
@@ -20,9 +20,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    return (
-      <NavigatorRoot />
-    );
+    return <NavigatorRoot />;
   }
 }
 AppContainer.propTypes = {

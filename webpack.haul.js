@@ -7,6 +7,7 @@ module.exports = ({ root }, defaults) => ({
     alias: {
       ...defaults.resolve.alias,
       actions: path.join(root, 'src', 'actions'),
+      api: path.join(root, 'src', 'api'),
       assets: path.join(root, 'src', 'assets'),
       components: path.join(root, 'src', 'components'),
       config: path.join(root, 'src', 'config'),

@@ -24,6 +24,7 @@ class Alert extends PureComponent {
   hide = () => {
     this.animate(0);
 
+    if (this.props.onClose) this.props.onClose();
     clearTimeout(this.timeout);
   };
 

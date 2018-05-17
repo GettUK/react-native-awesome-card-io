@@ -41,8 +41,8 @@ class RateDriver extends PureComponent {
   }
 }
 
-const mapState = ({ bookings }) => ({
-  order: bookings.currentOrder
+const mapState = ({ booking }) => ({
+  order: booking.currentOrder
 });
 
 const mapDispatch = {

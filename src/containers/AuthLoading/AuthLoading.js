@@ -1,25 +1,17 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { auth } from 'actions/ui/auth';
+import { getCurrentUser } from 'actions/session';
 
-class AuthLoading extends Component {
+class AuthLoading extends PureComponent {
   componentDidMount() {
-    const { session: { token }, auth, navigation } = this.props;
+    const { session: { token }, getCurrentUser, navigation } = this.props;
 
     if (token) {
-      auth();
+      getCurrentUser()
+        .then(() => navigation.navigate('App'))
+        .catch(() => navigation.navigate('Login'));
     } else {
-      navigation.navigate('Login');
-    }
-  }
-
-  componentDidUpdate({ authBusy: authBusyProp }) {
-    const { authBusy, authErrors, navigation } = this.props;
-
-    if (!authBusy && authBusyProp && !authErrors) {
-      navigation.navigate('App');
-    } else if (!authBusy && authBusyProp && authErrors) {
       navigation.navigate('Login');
     }
   }
@@ -29,14 +21,12 @@ class AuthLoading extends Component {
   }
 }
 
-const mapState = ({ session, ui }) => ({
-  session,
-  authBusy: ui.auth.busy,
-  authErrors: ui.auth.errors
+const mapState = ({ session }) => ({
+  session
 });
 
 const mapDispatch = ({
-  auth
+  getCurrentUser
 });
 
 export default connect(mapState, mapDispatch)(AuthLoading);

@@ -27,7 +27,6 @@ const TYPES = createTypes('passenger', [
   'setTempAddress',
   'changeTempAddressField',
   'changeTempAddress',
-  'clearPassenger',
   'setValidationError',
   'changePaymentField',
   'changePaymentFields',
@@ -50,7 +49,7 @@ export const getPassengerData = () => (dispatch, getState) => {
 
   dispatch({ type: TYPES.getPassengerDataStart });
 
-  const id = getState().session.result.memberId;
+  const id = getState().session.user.memberId;
 
   dispatch(getCompanySettings());
 
@@ -81,7 +80,7 @@ export const sendProfileData = () => (dispatch, getState) => {
   dispatch({ type: TYPES.sendProfileDataStart });
 
   const { session, passenger: { temp } } = getState();
-  const id = session.result.memberId;
+  const id = session.user.memberId;
 
   return put(`/passengers/${id}`, temp)
     .then(() => {
@@ -106,7 +105,7 @@ export const changeTempAddress = address => (dispatch) => {
 };
 
 export const sendPredefinedAddress = (address, type) => (dispatch, getState) => {
-  const passengerId = getState().session.result.memberId;
+  const passengerId = getState().session.user.memberId;
 
   return put(`/passengers/${passengerId}`, { passenger: { [`${type}Address`]: address } })
     .then((res) => {
@@ -130,7 +129,7 @@ const createFavouriteAddress = ({ passengerId, address }) => dispatch =>
     });
 
 export const sendAddress = () => (dispatch, getState) => {
-  const passengerId = getState().session.result.memberId;
+  const passengerId = getState().session.user.memberId;
   const address = getState().passenger.temp.address;
   let req;
 
@@ -147,7 +146,7 @@ export const sendAddress = () => (dispatch, getState) => {
 };
 
 export const destroyFavoriteAddress = id => (dispatch, getState) => {
-  const passengerId = getState().session.result.memberId;
+  const passengerId = getState().session.user.memberId;
 
   return destroy(`/passengers/${passengerId}/addresses/${id}`)
     .then(() => dispatch({ type: TYPES.destroyFavoriteAddress, payload: id }));
@@ -157,7 +156,7 @@ export const makeDefault = id => ({ type: TYPES.makeDefaultPayment, payload: id 
 
 export const makeDefaultPayment = id => (dispatch, getState) => {
   const {
-    session: { result: { memberId: passengerId } }
+    session: { user: { memberId: passengerId } }
   } = getState();
 
   return put(`/passengers/${passengerId}/payment_cards/${id}/make_default`)
@@ -167,7 +166,7 @@ export const makeDefaultPayment = id => (dispatch, getState) => {
 export const deactivate = id => ({ type: TYPES.deactivatePayment, payload: id });
 
 export const deactivatePayment = id => (dispatch, getState) => {
-  const passengerId = getState().session.result.memberId;
+  const passengerId = getState().session.user.memberId;
 
   return destroy(`/passengers/${passengerId}/payment_cards/${id}`)
     .then(() => dispatch(deactivate(id)));
@@ -180,7 +179,7 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
 
   dispatch({ type: TYPES.changeToggleValueStart, payload: { field, value } });
 
-  const id = getState().session.result.memberId;
+  const id = getState().session.user.memberId;
 
   return put(`/passengers/${id}`, { [field]: value })
     .then(() => {
@@ -206,7 +205,7 @@ export const addPaymentCardType = data => ({ type: TYPES.addPaymentCardType, pay
 
 export const addPaymentCard = () => (dispatch, getState) => {
   const {
-    session: { result: { memberId: passengerId } },
+    session: { user: { memberId: passengerId } },
     passenger: { newPaymentData }
   } = getState();
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Input, DismissKeyboardView, Icon } from 'components';
-import { changeReference } from 'actions/ui/map';
+import { changeReference } from 'actions/booking';
 import { strings } from 'locales';
 import styles from './styles';
 
@@ -88,10 +88,10 @@ class References extends PureComponent {
   }
 }
 
-const mapState = ({ ui }) => ({
-  bookerReferences: ui.map.fields.bookerReferences,
-  bookerReferencesErrors: ui.map.fields.bookerReferencesErrors,
-  costCentreValue: ui.map.fields.costCentre
+const mapState = ({ booking }) => ({
+  bookerReferences: booking.bookingForm.bookerReferences,
+  bookerReferencesErrors: booking.bookingForm.bookerReferencesErrors,
+  costCentreValue: booking.bookingForm.costCentre
 });
 
 const mapDispatch = ({

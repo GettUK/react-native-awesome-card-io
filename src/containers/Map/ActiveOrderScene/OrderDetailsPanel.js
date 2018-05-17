@@ -270,10 +270,10 @@ OrderDetails.defaultProps = {
   onClose: () => {}
 };
 
-const mapState = ({ bookings }) => ({
-  order: bookings.currentOrder,
-  vehicles: bookings.formData.vehicles,
-  driver: bookings.currentOrder.driverDetails
+const mapState = ({ booking }) => ({
+  order: booking.currentOrder,
+  vehicles: booking.vehicles,
+  driver: booking.currentOrder.driverDetails
 });
 
 export default connect(mapState, { onLayoutPointList })(OrderDetails);

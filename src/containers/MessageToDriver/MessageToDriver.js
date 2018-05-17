@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
-import { changeMessageToDriver } from 'actions/ui/map';
+import { changeMessageToDriver } from 'actions/booking';
 import styles from './styles';
 
 class MessageToDriver extends Component {

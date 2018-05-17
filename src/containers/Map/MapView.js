@@ -8,7 +8,7 @@ import { compact } from 'lodash';
 
 import assets from 'assets';
 
-import { changeAddress } from 'actions/ui/map';
+import { changeAddress } from 'actions/booking';
 
 import config from 'config';
 
@@ -62,7 +62,7 @@ class MapView extends Component {
   }
 
   getOrder(props = this.props) {
-    return props.isPreOrder ? props.fields : props.currentOrder;
+    return props.isPreOrder ? props.bookingForm : props.currentOrder;
   }
 
   getStops(order = this.getOrder()) {
@@ -81,10 +81,10 @@ class MapView extends Component {
     !dragEnable && !oldDragEnable && order.pickupAddress !== oldOrder.pickupAddress
   );
 
-  isPathChanged = (fields, fieldsProps) => (
-    (fields.pickupAddress && (fields.pickupAddress !== fieldsProps.pickupAddress))
-    || (fields.destinationAddress && (fields.destinationAddress !== fieldsProps.destinationAddress))
-    || (fields.stops && fields.stops !== fieldsProps.stops)
+  isPathChanged = (bookingForm, bookingFormProps) => (
+    (bookingForm.pickupAddress && (bookingForm.pickupAddress !== bookingFormProps.pickupAddress))
+    || (bookingForm.destinationAddress && (bookingForm.destinationAddress !== bookingFormProps.destinationAddress))
+    || (bookingForm.stops && bookingForm.stops !== bookingFormProps.stops)
   );
 
   resizeMapToCoordinates = (coordinates, params) => {
@@ -343,12 +343,12 @@ MapView.propTypes = {
 
 MapView.defaultProps = {};
 
-const mapState = ({ ui, bookings }) => ({
-  fields: ui.map.fields,
-  currentOrder: bookings.currentOrder,
+const mapState = ({ ui, booking }) => ({
+  bookingForm: booking.bookingForm,
+  currentOrder: booking.currentOrder,
   currentPosition: ui.map.currentPosition,
-  driverLocation: bookings.currentOrder.driverDetails ? bookings.currentOrder.driverDetails.location : {},
-  status: bookings.currentOrder.status || 'connected'
+  driverLocation: booking.currentOrder.driverDetails ? booking.currentOrder.driverDetails.location : {},
+  status: booking.currentOrder.status || 'connected'
 });
 
 export default connect(mapState, { changeAddress }, null, { withRef: true })(MapView);

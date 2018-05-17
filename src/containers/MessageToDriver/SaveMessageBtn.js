@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { saveMessageToDriver } from 'actions/ui/map';
+import { saveMessageToDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
 import { throttledAction } from 'utils';
 

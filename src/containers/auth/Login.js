@@ -11,16 +11,10 @@ import {
 } from 'react-native';
 import validate from 'validate.js';
 
-import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
-import { Icon, Input, Alert, SwitchItem, KeyboardHide } from 'components';
+import { Icon, Input, Alert, SwitchItem, KeyboardHide, DismissKeyboardView } from 'components';
+import update from 'update-js/fp';
 
-import {
-  termsConditionsSwitch,
-  privacyPolicySwitch,
-  changePassword,
-  changeEmail,
-  login as onSubmitLogin
-} from 'actions/ui/login';
+import { login } from 'actions/session';
 
 import { strings } from 'locales';
 
@@ -33,40 +27,53 @@ import TextButton from './TextButton';
 
 import styles from './style';
 
-const DismissKeyboardView = DismissKeyboardHOC(View);
-
 class Login extends Component {
   state = {
     isResetSuccess: false,
-    error: ''
+    loading: false,
+    error: '',
+    form: {
+      email: 'artem@fakemail.com',
+      password: 'qwqwqwQ@',
+      termsConditions: false,
+      privacyPolicy: false
+    }
   };
 
-  componentDidUpdate({ login: loginProps }, { isResetSuccess }) {
-    const { login } = this.props;
-
+  componentDidUpdate(_, { isResetSuccess }) {
     if (this.state.isResetSuccess && !isResetSuccess) {
       this.showResetSuccess();
-    } else if (login.errors && !loginProps.errors) {
-      this.showLoginErrors(login);
-    } else if (!login.busy && loginProps.busy && !login.errors) {
-      this.props.navigation.navigate('App');
     }
   }
 
-  showLoginErrors(login) {
-    const error = login.errors.response && login.errors.response.status === 401
-      ? 'The email or password you entered is incorrect'
-      : "User can't be logged in now";
+  handleInputChange = (input, value) => {
+    this.setState(update(`form.${input}`, value));
+  };
 
-    this.setState({ error }, this.showError);
-  }
+  handleEmailChange = v => this.handleInputChange('email', v);
+
+  handlePasswordChange = v => this.handleInputChange('password', v);
+
+  handleTermsConditionsChange = v => this.handleInputChange('termsConditions', v);
+
+  handlePrivacyPolicyChange = v => this.handleInputChange('privacyPolicy', v);
 
   handleSubmit = () => {
-    const { login: { checkboxes: { termsConditions, privacyPolicy } } } = this.props;
-
-    if (termsConditions && privacyPolicy && this.validateInputs()) {
-      this.props.onSubmitLogin();
+    if (this.validateInputs()) {
+      this.setState({ loading: true });
+      this.props.login(this.state.form)
+        .then(() => this.setState({ loading: false }))
+        .then(() => this.props.navigation.navigate('App'))
+        .catch(this.handleLoginError);
     }
+  };
+
+  handleLoginError = (res) => {
+    const error = res.response.status === 401
+      ? strings('login.errors.credentialsError')
+      : strings('login.errors.commonError');
+
+    this.setState({ loading: false, error }, this.showError);
   };
 
   handleActivation = (data) => {
@@ -74,12 +81,7 @@ class Login extends Component {
   };
 
   validateInputs() {
-    const { login: { fields } } = this.props;
-
-    const err = validate(
-      { email: fields.email, password: fields.password },
-      loginRules
-    );
+    const err = validate(this.state.form, loginRules);
 
     if (err) {
       const errorMessage = (err.email && err.email[0]) || (err.password && err.password[0]);
@@ -118,8 +120,7 @@ class Login extends Component {
   });
 
   render() {
-    const { login: { fields, busy, checkboxes: { termsConditions, privacyPolicy } } } = this.props;
-    const { isResetSuccess, error } = this.state;
+    const { isResetSuccess, error, form, loading } = this.state;
 
     return (
       <DismissKeyboardView style={styles.screen}>
@@ -134,8 +135,8 @@ class Login extends Component {
             <Icon name="logo" style={styles.logo} width={240} height={70} />
           </KeyboardHide>
           <Input
-            value={fields.email || ''}
-            onChangeText={this.props.changeEmail}
+            value={form.email}
+            onChangeText={this.handleEmailChange}
             style={styles.input}
             autoCorrect={false}
             inputStyle={styles.inputStyle}
@@ -144,8 +145,8 @@ class Login extends Component {
             keyboardType="email-address"
           />
           <Input
-            value={fields.password || ''}
-            onChangeText={this.props.changePassword}
+            value={form.password}
+            onChangeText={this.handlePasswordChange}
             style={styles.input}
             autoCorrect={false}
             inputStyle={styles.inputStyle}
@@ -156,21 +157,21 @@ class Login extends Component {
           <KeyboardHide>
             <SwitchItem
               label={strings('login.acceptTermsConditions')}
-              value={termsConditions || false}
-              onValueChange={this.props.termsConditionsSwitch}
+              value={form.termsConditions}
+              onValueChange={this.handleTermsConditionsChange}
               onLabelPress={() => this.goToInfoPage('terms')}
             />
             <SwitchItem
               label={strings('login.acceptPrivacyPolicy')}
-              value={privacyPolicy || false}
-              onValueChange={this.props.privacyPolicySwitch}
+              value={form.privacyPolicy}
+              onValueChange={this.handlePrivacyPolicyChange}
               onLabelPress={() => this.goToInfoPage('privacy')}
             />
           </KeyboardHide>
           <TextButton
-            title={strings('login.login_button')}
-            disabled={!termsConditions || !privacyPolicy}
-            loading={busy}
+            title={strings('login.loginButton')}
+            disabled={!form.termsConditions || !form.privacyPolicy}
+            loading={loading}
             onPress={this.handleSubmit}
             disabledContainerStyle={styles.disabledBtnContainer}
           />
@@ -178,7 +179,7 @@ class Login extends Component {
 
         <View style={styles.footer}>
           <Text style={[styles.footerText, styles.footerTextGap]}>
-            {strings('login.forgot_password')}
+            {strings('login.forgotPassword')}
           </Text>
           <TouchableHighlight onPress={this.goToForgot}>
             <Text style={[styles.footerText, styles.footerLink]}>
@@ -190,7 +191,7 @@ class Login extends Component {
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type={isResetSuccess ? 'success' : 'failed' }
-          message={isResetSuccess ? strings('login.success_reset') : error}
+          message={isResetSuccess ? strings('login.successReset') : error}
           onClose={this.onCloseAlert}
         />
       </DismissKeyboardView>
@@ -200,27 +201,13 @@ class Login extends Component {
 
 Login.propTypes = {
   navigation: PropTypes.object.isRequired,
-  login: PropTypes.object.isRequired,
-  termsConditionsSwitch: PropTypes.func.isRequired,
-  privacyPolicySwitch: PropTypes.func.isRequired,
-  changePassword: PropTypes.func.isRequired,
-  changeEmail: PropTypes.func.isRequired,
-  onSubmitLogin: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 };
 
 Login.defaultProps = {};
 
-const select = ({ ui, router }) => ({
-  login: ui.login,
-  router: router.navigatorLogin
-});
-
-const bindActions = {
-  termsConditionsSwitch,
-  privacyPolicySwitch,
-  changePassword,
-  changeEmail,
-  onSubmitLogin
+const mapDispatch = {
+  login
 };
 
-export default connect(select, bindActions)(Login);
+export default connect(null, mapDispatch)(Login);

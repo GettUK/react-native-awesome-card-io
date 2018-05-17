@@ -1,19 +1,16 @@
 import React, { PureComponent } from 'react';
 import {
-  View,
   StatusBar,
   Image,
   TouchableHighlight,
   Text,
   KeyboardAvoidingView
 } from 'react-native';
-import { connect } from 'react-redux';
 import validate from 'validate.js';
 
-import { resetPassword } from 'actions/ui/resetPassword';
+import { auth } from 'api';
 
-import { Icon, Input, Alert } from 'components';
-import DismissKeyboardHOC from 'components/HOC/DismissKeyboardHOC';
+import { Icon, Input, Alert, DismissKeyboardView } from 'components';
 
 import { strings } from 'locales';
 
@@ -24,11 +21,10 @@ import { resetPasswordRules } from './validatorRules';
 
 import styles from './style';
 
-const DismissKeyboardView = DismissKeyboardHOC(View);
-
-class ForgotPassword extends PureComponent {
+export default class ForgotPassword extends PureComponent {
   state = {
     email: '',
+    loading: false,
     error: null
   };
 
@@ -39,12 +35,14 @@ class ForgotPassword extends PureComponent {
 
   handleSubmit = () => {
     if (this.validateEmail()) {
-      this.props.resetPassword({ email: this.state.email })
+      this.setState({ loading: true });
+      auth.forgotPassword({ email: this.state.email })
         .then(this.handleSuccessReset);
     }
   };
 
   handleSuccessReset = () => {
+    this.setState({ loading: false });
     this.goToLogIn();
     this.props.navigation.state.params.onReturn({ isResetSuccess: true });
   };
@@ -75,8 +73,7 @@ class ForgotPassword extends PureComponent {
   };
 
   render() {
-    const { busy } = this.props;
-    const { email, error } = this.state;
+    const { email, error, loading } = this.state;
 
     return (
       <DismissKeyboardView style={styles.screen}>
@@ -86,7 +83,8 @@ class ForgotPassword extends PureComponent {
 
         <KeyboardAvoidingView
           behavior="padding"
-          style={styles.container}>
+          style={styles.container}
+        >
           <Icon name="logo" style={styles.logo} width={240} height={70} />
           <Input
             value={email}
@@ -103,8 +101,8 @@ class ForgotPassword extends PureComponent {
           />
 
           <TextButton
-            title={strings('login.reset_button')}
-            loading={busy}
+            title={strings('login.resetButton')}
+            loading={loading}
             onPress={this.handleSubmit}
           />
         </KeyboardAvoidingView>
@@ -123,13 +121,3 @@ class ForgotPassword extends PureComponent {
     );
   }
 }
-
-const select = ({ ui }) => ({
-  busy: ui.resetPassword.busy
-});
-
-const mapDispatch = {
-  resetPassword
-};
-
-export default connect(select, mapDispatch)(ForgotPassword);

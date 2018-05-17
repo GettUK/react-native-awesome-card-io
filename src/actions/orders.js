@@ -3,7 +3,7 @@ import { get } from 'utils';
 
 const TYPES = createTypes('orders', [
   'getOrders',
-  'clearList'
+  'clearOrdersList'
 ]);
 
 export const getOrders = (query, type) => dispatch =>
@@ -14,5 +14,5 @@ export const getOrders = (query, type) => dispatch =>
       return res.data;
     });
 
-export const clearList = () => ({ type: TYPES.clearList });
+export const clearOrdersList = () => ({ type: TYPES.clearOrdersList });
 
