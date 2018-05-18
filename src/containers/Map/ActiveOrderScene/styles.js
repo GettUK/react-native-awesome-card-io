@@ -242,3 +242,60 @@ export const pointerStyles = StyleSheet.create({
     left: 85
   }
 });
+
+export const cancelReasonStyles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    margin: 0,
+    backgroundColor: '#fff'
+  },
+  container: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 15
+  },
+  closeIcon: {
+    alignSelf: 'flex-end'
+  },
+  content: {
+    alignItems: 'center',
+    marginTop: 50
+  },
+  header: {
+    fontSize: 30,
+    color: '#fff',
+    marginBottom: 10
+  },
+  subHeader: {
+    fontSize: 14,
+    color: '#fff'
+  },
+  title: {
+    marginTop: 50,
+    marginBottom: 25,
+    fontSize: 22,
+    color: '#fff'
+  },
+  reason: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: '#fff',
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 17,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: {
+      height: 0
+    }
+  },
+  reasonTitle: {
+    fontSize: 17,
+    color: '#284784',
+    fontWeight: 'bold',
+    marginLeft: 15
+  }
+});

@@ -1,4 +1,4 @@
-export const PREORDER_STATUSES = ['creating', 'connected', 'order_received', 'locating'];
+export const PREORDER_STATUSES = ['creating', 'processing', 'connected', 'order_received', 'locating'];
 export const ARRIVED_STATUS = 'arrived';
 export const ACTIVE_STATUS = 'in_progress';
 export const DRIVER_ON_WAY = 'on_the_way';

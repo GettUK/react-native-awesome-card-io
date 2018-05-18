@@ -138,6 +138,11 @@
   "order": {
     "cancelOrderCreation": "Cancel Order Creation",
     "createNew": "Create New",
+    "yourRideWasCancelled": "Your Ride Was Cancelled",
+    "seeYouNextTime": "See you next time!",
+    "whyDidYouCancel": "Why did you cancel?",
+    "confirmCancel": "Do you really want to cancel you order?",
+    "confirmCancelDescription": "Сancellations charges may apply when you cancel this order",
     "statuses": {
       "connected": "Creating...",
       "creating": "Creating...",

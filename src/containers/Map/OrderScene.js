@@ -5,20 +5,23 @@ import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView } from 'components';
+import { FadeInView, Button } from 'components';
 
 import { strings } from 'locales';
-import { ACTIVE_STATUS, PREORDER_STATUSES } from 'utils/orderStatuses';
+import { showConfirmationAlert } from 'utils';
+import { ACTIVE_DRIVER_STATUSES, PREORDER_STATUSES, CUSTOMER_CARE_STATUS, FINAL_STATUSES } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
 import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
+import CancelReasonModal from './ActiveOrderScene/CancelReasonModal';
 
 import { screenStyles } from './ActiveOrderScene/styles';
 
 class ActiveOrderScene extends Component {
   state = {
-    isVisible: false
+    isVisible: false,
+    cancelModalVisible: false
   };
 
   get isDriverExist() {
@@ -27,7 +30,16 @@ class ActiveOrderScene extends Component {
   }
 
   handleCancelOrder = () => {
-    this.props.cancelOrder();
+    showConfirmationAlert({
+      title: strings('order.confirmCancel'),
+      message: strings('order.confirmCancelDescription'),
+      handler: this.cancelOrder
+    });
+  };
+
+  cancelOrder = () => {
+    this.props.cancelOrder()
+      .then(() => this.setState({ cancelModalVisible: true }));
   };
 
   handleOpenModal = () => {
@@ -38,18 +50,31 @@ class ActiveOrderScene extends Component {
     this.setState({ isVisible: false });
   };
 
-  render() {
-    const { status, busy } = this.props;
+  handleCloseCancelModal = () => {
+    this.setState({ cancelModalVisible: false });
+  };
 
-    const isTripActive = status === ACTIVE_STATUS;
+  render() {
+    const { status, busy, goToInitialization, order } = this.props;
+    const { cancelModalVisible, isVisible } = this.state;
+
+    // const isTripActive = status === ACTIVE_STATUS;
     // const isDriverArrived = status === ARRIVED_STATUS;
     const isPreOrderStatus = PREORDER_STATUSES.includes(status);
+    const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
+    const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
+    const isFinalStatus = FINAL_STATUSES.includes(status);
 
     return (
       <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
         <FadeInView reverse>
           <View style={screenStyles.headerContainer}>
             <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
+            {isFinalStatus && !isCustomerCareStatus &&
+              <Button size="sm" styleContent={screenStyles.createNewBtn} onPress={goToInitialization}>
+                <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
+              </Button>
+            }
           </View>
         </FadeInView>
 
@@ -58,7 +83,7 @@ class ActiveOrderScene extends Component {
         <FadeInView>
           <View style={{ paddingBottom: this.isDriverExist ? 150 : 90 }}>
             <View style={screenStyles.actionsRow}>
-              {!isTripActive &&
+              {(isPreOrderStatus || isActiveDriverStatus || isCustomerCareStatus) &&
                 <FloatButton
                   key="cancel"
                   label="Cancel Order"
@@ -85,7 +110,12 @@ class ActiveOrderScene extends Component {
 
         {isPreOrderStatus && <Pointer />}
 
-        <OnMyWayModal isVisible={this.state.isVisible} onClose={this.handleCloseModal} />
+        <OnMyWayModal isVisible={isVisible} onClose={this.handleCloseModal} />
+        <CancelReasonModal
+          isVisible={cancelModalVisible}
+          onClose={this.handleCloseCancelModal}
+          reasons={order.bookingCancellationReasons}
+        />
       </View>
     );
   }
