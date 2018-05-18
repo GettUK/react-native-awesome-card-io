@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, BackHandler } from 'react-native';
 import { Input } from 'components';
+import { upperFirst } from 'lodash';
 
 import { strings } from 'locales';
 
@@ -55,14 +56,22 @@ class SingleInputEditor extends Component {
     } = this.props;
 
     const key = navigation.state.params.page;
-    const label = `${key[0].toUpperCase()}${key.substring(1)}`;
+    let additionalProps = {};
+
+    if (key === 'phone') {
+      additionalProps = {
+        keyboardType: 'phone-pad',
+        allowmask: true,
+        mask: '[000000000099999]'
+      };
+    }
 
     return (
       <View style={[styles.flex, styles.container, { paddingTop: 24 }]}>
         <Input
           value={data}
           error={error && error[key]}
-          label={label}
+          label={upperFirst(key)}
           style={styles.inputContainer}
           allowClearStyle={styles.allowClearStyle}
           labelStyle={styles.labelStyle}
@@ -71,6 +80,7 @@ class SingleInputEditor extends Component {
           clearIconColor="#d2d0dc"
           clearIconStyle={styles.clearIcon}
           selectionColor="#494949"
+          {...additionalProps}
         />
       </View>
     );
