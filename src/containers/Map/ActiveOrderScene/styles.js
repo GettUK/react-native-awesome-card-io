@@ -14,17 +14,30 @@ export const screenStyles = StyleSheet.create({
     marginTop: 60
   },
   header: {
-    fontSize: 26,
-    fontWeight: '600'
+    marginTop: 22,
+    fontSize: 22,
+    fontWeight: '500'
   },
   separator: {
     flex: 1
   },
+  footer: {
+    width: '100%'
+  },
+  actionContainer: {
+    alignItems: 'center',
+    paddingTop: 50
+  },
   actionsRow: {
     flexDirection: 'row'
   },
+  createBtnWrapper: {
+    position: 'absolute',
+    top: -60,
+    right: 16,
+    zIndex: 100
+  },
   createNewBtn: {
-    alignSelf: 'center',
     marginTop: 12,
     marginHorizontal: 2,
     marginBottom: 2

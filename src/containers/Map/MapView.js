@@ -42,7 +42,7 @@ class MapView extends Component {
     if (isCompletedOrder && !isCompletedOrderProps) {
       const { source, dest, stops } = this.preparePointsList(order);
       const multiplier = this.getMultiplier();
-      this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
+      this.resizeMapToCoordinates([source, dest, ...stops], { top: 100 * multiplier, bottom: 170 * multiplier });
     } else if (!isCompletedOrder) {
       this.changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, isActiveOrder, dragEnable, oldDragEnable });
     }
