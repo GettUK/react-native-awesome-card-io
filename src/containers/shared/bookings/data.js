@@ -73,9 +73,6 @@ export const allVehicles = [{
 }, {
   name: 'Special',
   label: 'Special'
-}, {
-  name: 'Porsche',
-  label: 'Porsche'
 }];
 
 export const vehiclesData = keyBy(allVehicles, 'name');
@@ -120,14 +117,6 @@ export const baseVehiclesDescriptions = {
   },
   MPV: {
     description: 'Spacious and comfortable with ample space for luggage. The People Carrier is ideal for long distance journeys.',
-    features: [
-      '15 minutes free waiting time',
-      '30 minutes free waiting time for airport pickups'
-    ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
-  },
-  Porsche: {
-    description: 'The perfect balance between luxury and reliability',
     features: [
       '15 minutes free waiting time',
       '30 minutes free waiting time for airport pickups'

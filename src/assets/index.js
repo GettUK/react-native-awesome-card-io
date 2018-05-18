@@ -7,7 +7,6 @@ const imagesApp = {
     BlackTaxiXL: require('./png/application/BlackTaxiXL.png'),
     Exec: require('./png/application/Exec.png'),
     MPV: require('./png/application/MPV.png'),
-    Porsche: require('./png/application/Porsche.png'),
     Special: require('./png/application/Special.png')
   },
   expirationDate: require('./png/application/expirationDate.png'),
