@@ -29,11 +29,12 @@ import styles from './style';
 
 class MapView extends Component {
   componentDidUpdate(prevProps) {
-    const { isActiveOrder, isCompletedOrder, dragEnable } = this.props;
+    const { isCompletedOrder } = this.props;
     const {
       isActiveOrder: isActiveOrderProps,
       isCompletedOrder: isCompletedOrderProps,
-      dragEnable: oldDragEnable
+      dragEnable: oldDragEnable,
+      currentPosition: oldCurrentPosition
     } = prevProps;
 
     const order = this.getOrder();
@@ -44,11 +45,20 @@ class MapView extends Component {
       const multiplier = this.getMultiplier();
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 300 * multiplier, bottom: 100 * multiplier });
     } else if (!isCompletedOrder) {
-      this.changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, isActiveOrder, dragEnable, oldDragEnable });
+      this.changeMapForActiveOrder({
+        oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition
+      });
     }
   }
 
-  changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, isActiveOrder, dragEnable, oldDragEnable }) {
+  changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition }) {
+    const { dragEnable, currentPosition, isActiveOrder } = this.props;
+
+    if (!oldCurrentPosition && currentPosition) {
+      const source = this.prepareCoordinates(currentPosition || {});
+      this.animateToRegion(source);
+    }
+
     if (this.shouldResizeMapToPointsList({ oldOrder, order, oldIsActiveOrder: isActiveOrderProps, isActiveOrder })) {
       const { source, dest, stops } = this.preparePointsList(order);
       setTimeout(() => this.resizeMapToCoordinates([source, dest, ...stops]));
@@ -70,11 +80,13 @@ class MapView extends Component {
   }
 
   animateToRegion = (source) => {
-    this.map.animateToRegion({
-      ...source,
-      latitudeDelta: LATTITIDE_DELTA,
-      longitudeDelta: LONGTITUDE_DELTA
-    });
+    if (source) {
+      this.map.animateToRegion({
+        ...source,
+        latitudeDelta: LATTITIDE_DELTA,
+        longitudeDelta: LONGTITUDE_DELTA
+      });
+    }
   };
 
   isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (

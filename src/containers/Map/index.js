@@ -168,7 +168,8 @@ class Map extends Component {
   changePosition = (coordinates) => {
     const { currentPosition } = this.props.map;
     const { latitude, longitude } = currentPosition || {};
-    if (coordinates.latitude !== latitude || coordinates.longitude !== longitude) {
+
+    if (coordinates && (coordinates.latitude !== latitude || coordinates.longitude !== longitude)) {
       this.props.changePosition(coordinates);
     }
   };
@@ -196,6 +197,7 @@ class Map extends Component {
 
   getCurrentPosition = () => {
     const { map: { currentPosition } } = this.props;
+
     if (!isNull(currentPosition)) {
       this.animateToRegion(currentPosition);
     }
