@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, Image, FlatList, TouchableWithoutFeedback, Platform, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import findKey from 'lodash/findKey';
-
-import assets from 'assets';
 
 import { getOrders, clearOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
@@ -77,6 +75,17 @@ class OrdersList extends PureComponent {
     navigation.setParams({ count: meta.total });
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  get mapSize() {
+    const width = Dimensions.get('window').width - 30;
+    const height = 140;
+    return {
+      size: `${width}x${height}`,
+      width,
+      height
+    };
+  }
+
   getOrders = () => {
     const { getOrders, type, idsType, items, meta, passengerId } = this.props;
     const { loading } = this.state;
@@ -88,7 +97,8 @@ class OrdersList extends PureComponent {
         page: meta.current + 1,
         order: 'scheduledAt',
         status: getOrdersStatuses(type || 'active'),
-        reverse: true
+        reverse: true,
+        mapSize: this.mapSize.size
       };
 
       if (idsType) {
@@ -100,10 +110,14 @@ class OrdersList extends PureComponent {
   };
 
   renderItem = ({ item }) => (
-      <View key={item.id} style={styles.orderWrapper}>
+    <TouchableWithoutFeedback key={item.id} onPress={() => this.goToOrderDetails(item.id)}>
+      <View style={styles.orderWrapper}>
         <View>
           <View style={styles.orderMap}>
-            <Image source={assets.orderMap} />
+            <Image
+              source={{ uri: item.staticMap }}
+              style={{ width: this.mapSize.width, height: this.mapSize.height }}
+            />
           </View>
           <View style={styles.orderLabels}>
             <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
@@ -146,17 +160,8 @@ class OrdersList extends PureComponent {
             <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress && item.destinationAddress.line}</Text>
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => this.goToOrderDetails(item.id)}
-          activeOpacity={0.6}
-          style={styles.goToDetailsBtn}
-        >
-          <Text style={styles.goToDetailsText}>Details</Text>
-          <View style={styles.goToDetailsIcon}>
-            <Icon name="arrow" size={14} color="#5389df" />
-          </View>
-        </TouchableOpacity>
       </View>
+    </TouchableWithoutFeedback>
   );
 
   keyExtractor = item => String(item.id);
