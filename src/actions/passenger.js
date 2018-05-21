@@ -4,6 +4,8 @@ import curry from 'lodash/curry';
 
 import { get, put, post, destroy } from 'utils';
 
+import { changeFields } from './booking';
+
 const TYPES = createTypes('passenger', [
   'getPassengerDataStart',
   'getPassengerDataSuccess',
@@ -85,6 +87,10 @@ export const sendProfileData = () => (dispatch, getState) => {
   return put(`/passengers/${id}`, temp)
     .then(() => {
       dispatch({ type: TYPES.sendProfileDataSuccess });
+      dispatch(changeFields({
+        passengerName: `${temp.firstName} ${temp.lastName}`,
+        passengerPhone: temp.phone
+      }));
     })
     .catch((err) => {
       dispatch({ type: TYPES.sendProfileDataFailure, payload: err.data, error: true });
