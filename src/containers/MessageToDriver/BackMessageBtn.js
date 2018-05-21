@@ -6,7 +6,7 @@ import { BackBtn } from 'components';
 const BackMessageBtn = ({ navigation }) => (
   <BackBtn
     navigation={navigation}
-    touchedPath="ui.map.messageToDriverTouched"
+    touchedPath="booking.messageToDriverTouched"
     color="#fff"
     containerStyle={{ paddingLeft: 0 }}
   />
