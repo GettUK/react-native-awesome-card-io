@@ -6,11 +6,12 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ActivityIndicator
 } from 'react-native';
 import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
-import { Icon, Button, Modal, JourneyDetails, CarItem, InformView, Alert, Divider } from 'components';
+import { Icon, Button, Modal, CarItem, InformView, Alert, Divider } from 'components';
 import { hourForward } from 'utils';
 import { strings } from 'locales';
 import { onLayoutFooter } from 'actions/app/statuses';
@@ -277,6 +278,28 @@ class BookingFooter extends PureComponent {
     );
   }
 
+  renderPickUpTime() {
+    const { booking: { bookingForm } } = this.props;
+
+    return (
+      <View style={styles.pickupTimeContainer}>
+        <Icon name="time" size={24} color="#d8d8d8" />
+        <View style={styles.pickupTime}>
+          <Text style={styles.pickupTimeLabel}>Pickup Time</Text>
+          <Text style={styles.pickupTimeValue}>
+            {bookingForm.scheduledType === 'later'
+              ? bookingForm.scheduledAt.format('D MMM YYYY, HH:mm a')
+              : 'Now'
+            }
+          </Text>
+        </View>
+        <TouchableWithoutFeedback onPress={this.togglePickerModal}>
+          <View><Text style={styles.pickupTimeEdit}>Edit</Text></View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  }
+
   renderSettings() {
     const {
       booking: {
@@ -285,7 +308,6 @@ class BookingFooter extends PureComponent {
         bookingForm: { message, travelReasonId, paymentMethod, passengerName }
       }
     } = this.props;
-
 
     const renderMenuItem = (title, value, handler) => (
       <TouchableOpacity activeOpacity={0.6} style={styles.settingsMenuItem} onPress={handler}>
@@ -360,12 +382,7 @@ class BookingFooter extends PureComponent {
           toOrder && availableVehicles.length > 0 && (
             <View style={styles.footerOrder} pointerEvents="box-none">
               {this.renderSettings()}
-              <JourneyDetails
-                loading={vehicles.loading}
-                style={styles.journeyDetails}
-                time={vehicles.duration}
-                distance={vehicles.distance}
-              />
+              {this.renderPickUpTime()}
               {
                 vehicles.loading ? (
                   <ActivityIndicator style={styles.carLoading} size="small" color="#d8d8d8" />
@@ -396,11 +413,11 @@ class BookingFooter extends PureComponent {
               }
               <View style={styles.rowActions}>
                 <Button
-                  style={styles.timeBtn}
+                  style={styles.settingsBtn}
                   styleContent={styles.btnView}
-                  onPress={this.togglePickerModal}
+                  onPress={this.toggleSettingsModal}
                 >
-                  <Icon name="time" size={24} color="#d8d8d8" />
+                  <Icon name="settings" size={20} color="#d8d8d8" />
                 </Button>
                 <Button
                   style={styles.orderRideBtn}
@@ -412,13 +429,6 @@ class BookingFooter extends PureComponent {
                   <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
                     Order Ride
                   </Text>
-                </Button>
-                <Button
-                  style={styles.settingsBtn}
-                  styleContent={styles.btnView}
-                  onPress={this.toggleSettingsModal}
-                >
-                  <Icon name="settings" size={20} color="#d8d8d8" />
                 </Button>
               </View>
               <Alert

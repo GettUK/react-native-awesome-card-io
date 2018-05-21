@@ -75,7 +75,8 @@ const resetBookingValues = state =>
       scheduledType: 'now',
       scheduledAt: null,
       message: state.formData.defaultDriverMessage
-    })
+    }),
+    vehicles: initialState.vehicles
   });
 
 const changeMessageToDriver = (state, { payload }) =>
