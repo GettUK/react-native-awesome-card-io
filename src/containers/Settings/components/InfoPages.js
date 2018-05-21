@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView, StatusBar } from 'react-native';
+import { View, Text, ScrollView, StatusBar, Linking } from 'react-native';
+import Hyperlink from 'react-native-hyperlink';
 
 import services from './data';
 
@@ -35,7 +36,9 @@ class InfoPages extends PureComponent {
   )
 
   renderText = ({ type = 'plain', value, inner = false }) => (
-    <Text style={[styles[type], inner && { marginBottom: 0 }]} key={value}>{value}</Text>
+    <Hyperlink linkStyle={styles.link} onPress={url => Linking.openURL(url)}>
+      <Text style={[styles[type], inner && { marginBottom: 0 }]} key={value}>{value}</Text>
+    </Hyperlink>
   )
 
   renderItem = (item, inner = false) => (

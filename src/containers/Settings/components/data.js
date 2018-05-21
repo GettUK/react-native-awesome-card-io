@@ -207,9 +207,9 @@ const privacy = [
   },
 
   { type: 'subheader', value: '2. USER\'S ACKNOWLEDGEMENT OF THIS POLICY' },
-    { type: 'plain', value: 'By using One Transport\'s services (the “Services”) or registering, downloading information or entering the Site and/or the App you acknowledge that you are or have had the opportunity to become aware of this Privacy Policy and One Transport’s practices described therein, including the processing (including collecting, using, disclosing, retaining or disposing) of your information under the terms of this policy. The information One Transport holds about you may be held and processed on computer and/or paper files.' },
-    { type: 'plain', value: 'In the event where you provide One Transport with any information regarding another person, you procure that you have made them aware of this privacy policy.' },
-    { type: 'plain', value: 'If you have any questions or comments regarding privacy issues on the Site and/or the App, please contact One Transport by email at privacy@gett.com' },
+  { type: 'plain', value: 'By using One Transport\'s services (the “Services”) or registering, downloading information or entering the Site and/or the App you acknowledge that you are or have had the opportunity to become aware of this Privacy Policy and One Transport’s practices described therein, including the processing (including collecting, using, disclosing, retaining or disposing) of your information under the terms of this policy. The information One Transport holds about you may be held and processed on computer and/or paper files.' },
+  { type: 'plain', value: 'In the event where you provide One Transport with any information regarding another person, you procure that you have made them aware of this privacy policy.' },
+  { type: 'plain', value: 'If you have any questions or comments regarding privacy issues on the Site and/or the App, please contact One Transport by email at privacy@gett.com' },
 
   { type: 'subheader', value: '3. TYPES OF INFORMATION WE COLLECT' },
   {
@@ -255,7 +255,7 @@ const privacy = [
           { type: 'plain', marker: '3.1.5.4', value: 'If you choose to remit payment for a Ride via a third-party payment provider (e.g. Google Wallet), your Personal Information (excluding full payment card information) obtained by the payment provider may be given to us by such payment provider.' },
           { type: 'plain', marker: '3.1.5.5', value: 'If you choose to login to the App or Site via a third-party social media website (e.g. Facebook), your Personal Information may be provided to us by such social media website.' },
           { type: 'plain', marker: '3.1.5.6', value: 'One Transport may also share your data with its third-party statistical analytics service provider, solely for the provision of analytics and to better understand its users.' },
-          { type: 'plain', marker: '3.1.5.7', value: 'Because we rely on third-party commercial software and programs to operate our servers, we may inadvertently collect Personal Information due to certain automatic functions or features contained in such software or due to certain software changes or upgrades. We will use reasonable efforts to remove any such information after we discover such information in our system. If you know of any such unintended collections, please notify us promptly so we can take the necessary action to remove such information from our system.' },
+          { type: 'plain', marker: '3.1.5.7', value: 'Because we rely on third-party commercial software and programs to operate our servers, we may inadvertently collect Personal Information due to certain automatic functions or features contained in such software or due to certain software changes or upgrades. We will use reasonable efforts to remove any such information after we discover such information in our system. If you know of any such unintended collections, please notify us promptly so we can take the necessary action to remove such information from our system.' }
         ]
       },
       {
@@ -264,8 +264,12 @@ const privacy = [
         disableMarker: true,
         title: 'Information provided by others.',
         value: [
-          { type: 'plain', value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n' +
-            'One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' }
+          {
+            type: 'plain',
+            marker: ' ',
+            value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n' +
+            'One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.'
+          }
         ]
       },
       {
@@ -277,9 +281,9 @@ const privacy = [
           { type: 'plain', marker: '3.1.7.2', value: 'the type, name and use of your device, browser (e.g. the Internet browser you are using such as: Chrome, Internet Explorer, Firefox, and your browser settings) and installed applications and widgets ("Installed Apps"), including the Installed Apps\' name, ID, system, installed date, update date, version, and whether it is on the home page. We also collect your interaction with those Installed Apps, including opening, closing, or uninstalling, and the duration of your use. We do not collect data within the Installed Apps, but rather solely aggregated data concerning use itself;' },
           { type: 'plain', marker: '3.1.7.3', value: 'the visited websites (including the date and duration of such visits);' },
           { type: 'plain', marker: '3.1.7.4', value: 'the battery and network performance (i.e. battery status and charger use) of your device and the file names, types and files sizes on your device, including the amount of free and used local storage space, but not the contents of the files; and' },
-          { type: 'plain', marker: '3.1.7.5', value: 'the system status, including device event information such as crashes and system activity.' },
+          { type: 'plain', marker: '3.1.7.5', value: 'the system status, including device event information such as crashes and system activity.' }
         ]
-      },
+      }
     ]
   },
 
@@ -313,9 +317,9 @@ const privacy = [
         disableMarker: true,
         title: 'Please see the following steps to manage cookies on some common browsers:',
         value: [
+          { type: 'bold', value: 'In Internet Explorer:' },
           {
             type: 'list',
-            title: 'In Internet Explorer:',
             value: [
               { type: 'plain', marker: '1.', value: 'Select the item “Internet Options” from the “Extras” menu in the toolbar.' },
               { type: 'plain', marker: '2.', value: 'Select the “Privacy” tab.' },
@@ -323,9 +327,9 @@ const privacy = [
               { type: 'plain', marker: '4.', value: 'Click “OK” to confirm these settings.' }
             ]
           },
+          { type: 'bold', value: 'In Firefox:' },
           {
             type: 'list',
-            title: 'In Firefox:',
             value: [
               { type: 'plain', marker: '1.', value: 'Select “Settings” from the toolbar.' },
               { type: 'plain', marker: '2.', value: 'Click “Privacy”.' },
@@ -334,9 +338,9 @@ const privacy = [
               { type: 'plain', marker: '5.', value: 'Click “OK” to confirm these settings.' }
             ]
           },
+          { type: 'bold', value: 'In Google Chrome:' },
           {
             type: 'list',
-            title: 'In Google Chrome::',
             value: [
               { type: 'plain', marker: '1.', value: 'Select the menu icon in the browser toolbar.' },
               { type: 'plain', marker: '2.', value: 'Select “Settings”.' },
@@ -462,6 +466,7 @@ const privacy = [
       {
         type: 'list',
         marker: '8.5',
+        disableMarker: true,
         title: 'Service Providers',
         value: [
           { type: 'plain', value: 'We also share Personal Information with vendors, payment providers, transportation providers, promotion companies, sponsorship companies, commercial software providers, consultants, market researchers and data processers who perform services on behalf of One Transport, including without limitation, companies that provide route guidance, estimated times of arrival, email services and host the Website, App and Service. We also share Personal Information with third-parties that provide analysis, monitoring, and reports to assist us in preventing and detecting fraudulent transactions and other activity. One Transport has selected companies who maintain high standards with respect to privacy and agree to use the Personal Information only to perform specific services on behalf of One Transport and in accordance with the terms and conditions of this Privacy Policy.' }
@@ -470,6 +475,7 @@ const privacy = [
       {
         type: 'list',
         marker: '8.6',
+        disableMarker: true,
         title: 'Compliance with Laws, Law Enforcement and Safety',
         value: [
           { type: 'plain', value: 'We may disclose information we have collected about you if required to do so by law or if we, in our sole discretion, believe that disclosure is reasonable to comply with the law, requests or orders from law enforcement, or any legal process (whether or not such disclosure is required by applicable law), or to protect or defend One Transport\'s, or a third-party\'s, rights or property. We may also reserve the right to disclose information we\'ve collected about you for purposes of protecting the health and safety of our Riders and Drivers, such as in the case of risk of harm or violence against any person.  Finally, we may also disclose information in order to enforce or apply our Terms and Conditions and other agreements; or to protect the rights, property, or safety of One Transport, its customers, or others. This includes exchanging information with other companies and organisations for the purposes of fraud protection and credit risk reduction.' }
@@ -478,6 +484,7 @@ const privacy = [
       {
         type: 'list',
         marker: '8.7',
+        disableMarker: true,
         title: 'Anonymous Information',
         value: [
           { type: 'plain', value: 'Aggregated Anonymous Information is the combination of your Anonymous Information with the Anonymous Information of other users ("Aggregated Anonymous Information"). Aggregated Anonymous Information does not allow you to be identified or contacted. We may share such Aggregated Anonymous Information with third-parties, and, depending on the circumstances, we may or may not charge third-parties for such information, or limit the third parties\' use of the same.' }
@@ -486,6 +493,7 @@ const privacy = [
       {
         type: 'list',
         marker: '8.8',
+        disableMarker: true,
         title: 'Business Transactions',
         value: [
           { type: 'plain', value: 'We may share all or some of your Personal Information with any of our parents, subsidiaries, joint venturers, or other companies under common control, in which case we will require them to honour this Privacy Policy. Additionally, in the event we undergo a business transition such as a merger, acquisition by another company, or sale of all or a portion of our assets, including in the unlikely event of bankruptcy, your Personal Information may be among the assets transferred. You acknowledge that such transfers may occur and are permitted by this Privacy Policy, and that any entity that acquires us, is merged with us or that acquires our assets may continue to process your Personal Information as set forth in this Privacy Policy.' }
@@ -494,6 +502,7 @@ const privacy = [
       {
         type: 'list',
         marker: '8.9',
+        disableMarker: true,
         title: 'Third Party Marketing',
         value: [
           { type: 'plain', value: 'As referred to in section 6.1.9, One Transport may disclose your information to carefully selected partners which One Transport thinks may be of interest to you. These companies may contact you by post, email, telephone or fax for marketing or promotional purposes.' }
@@ -515,6 +524,7 @@ const privacy = [
   { type: 'subheader', value: '10. JOB APPLICANTS' },
   {
     type: 'list',
+    disableMarker: true,
     value: [
       { type: 'plain', value: 'In submitting your application, your Personal Information included in your CV will be used as outlined in our Terms and Conditions for Job Applicants that you will find https://gett.com/uk/legal/terms-conditions-job-applicants/. If you do not want your Personal Information to be used, please do not submit your CV.' }
     ]
@@ -544,6 +554,7 @@ const privacy = [
   { type: 'subheader', value: '12. CHILDREN' },
   {
     type: 'list',
+    disableMarker: true,
     value: [
       { type: 'plain', value: 'Neither the Site nor the App are directed or targeted to children under the age of 18, and One Transport does not knowingly collect personally identifiable information from children under the age of 18. One Transport requires users under 18 years of age to obtain the consent of a parent or guardian, to view the Site or use the App. If One Transport learns that a child under 18 years of age has provided personally identifiable information to the Site, it will use reasonable efforts to remove such information from its files. No part of our Service is directed towards children under the age of 18 and we do not want Personal Information from children under the age of 18. If you believe that a child under 18 years of age has given us Personal Information, please contact One Transport at privacy@gett.com.' }
     ]
@@ -552,6 +563,7 @@ const privacy = [
   { type: 'subheader', value: '13. CHANGES TO ONE TRANSPORT\'S PRIVACY POLICY' },
   {
     type: 'list',
+    disableMarker: true,
     value: [
       { type: 'plain', value: 'One Transport may change this Privacy Policy from time to time. Any changes One Transport may make to this Privacy Policy in the future will be posted on this page and, where One Transport deems appropriate, notified to you (usually by email). You are therefore invited to check it each time you send One Transport Personal Information. The date of the most recent revisions will appear on this page.' }
     ]
@@ -560,6 +572,7 @@ const privacy = [
   { type: 'subheader', value: '14. CONTACT' },
   {
     type: 'list',
+    disableMarker: true,
     value: [
       { type: 'plain', value: 'Questions, comments and requests regarding this Privacy Policy are welcomed and should be addressed to privacy@gett.com.' }
     ]
