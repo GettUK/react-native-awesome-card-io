@@ -545,6 +545,43 @@ class Map extends Component {
     );
   }
 
+  renderHeader = () => {
+    const isPreOrder = this.isActiveSceneIs('preOrder');
+
+    const isRightButtonAvailable = isPreOrder && !this.shouldRequestVehicles();
+
+    return (
+      <Header
+        pointerEvents="box-none"
+        customStyles={[styles.header, !isRightButtonAvailable ? { width: 100 } : {}]}
+        leftButton={isPreOrder && !this.shouldRequestVehicles()
+          ?
+          <NavImageButton
+            onClick={this.goToSettings}
+            styleContainer={{ justifyContent: 'center' }}
+            icon={<Icon size={30} name="burger" color="#000" />}
+          />
+          :
+          <NavImageButton
+            onClick={this.handleBackBtnPress}
+            styleContainer={styles.headerBack}
+            icon={<Icon width={10} height={18} name="back" color="#284784" />}
+          />
+        }
+        rightButton={isRightButtonAvailable &&
+          <Button
+            styleContent={styles.orderBtn}
+            raised={false}
+            size="sm"
+            onPress={this.goToOrders}
+          >
+            <Text style={styles.orderBtnText}>Orders</Text>
+          </Button>
+        }
+      />
+    );
+  }
+
   renderPickUpMarker = () => (
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />
   );
@@ -559,35 +596,9 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="default" />
-        {isHeaderEnable &&
-          <Header
-            customStyles={styles.header}
-            leftButton={isPreOrder && !this.shouldRequestVehicles()
-              ?
-              <NavImageButton
-                onClick={this.goToSettings}
-                styleContainer={{ justifyContent: 'center' }}
-                icon={<Icon size={30} name="burger" color="#000" />}
-              />
-              :
-              <NavImageButton
-                onClick={this.handleBackBtnPress}
-                styleContainer={styles.headerBack}
-                icon={<Icon width={10} height={18} name="back" color="#284784" />}
-              />
-            }
-            rightButton={isPreOrder && !this.shouldRequestVehicles() &&
-              <Button
-                styleContent={styles.orderBtn}
-                raised={false}
-                size="sm"
-                onPress={this.goToOrders}
-              >
-                <Text style={styles.orderBtnText}>Orders</Text>
-              </Button>
-            }
-          />
-        }
+
+        {isHeaderEnable && this.renderHeader()}
+
         {isPreOrder &&
           <BookingEditor
             navigation={navigation}

@@ -1,19 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ViewPropTypes } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default ({ children, style }) => {
-  const gradientColors = ['#0076bb', '#284784'];
-  const gradientStart = { x: 0, y: 1 };
-  const gradientEnd = { x: 1, y: 1 };
-
+const GradientWrapper = ({ children, ...rest }) => {
   return (
-    <LinearGradient
-      style={style}
-      start={gradientStart}
-      end={gradientEnd}
-      colors={gradientColors}
-    >
+    <LinearGradient {...rest}>
       {children}
     </LinearGradient>
   );
 };
+
+GradientWrapper.propTypes = {
+  colors: PropTypes.array,
+  end: PropTypes.object,
+  start: PropTypes.object,
+  style: ViewPropTypes.style
+};
+
+GradientWrapper.defaultProps = {
+  colors: ['#0076bb', '#284784'],
+  start: { x: 0, y: 1 },
+  end: { x: 1, y: 1 }
+};
+
+export default GradientWrapper;

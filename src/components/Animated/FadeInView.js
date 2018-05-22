@@ -20,6 +20,7 @@ export default class FadeInView extends React.Component {
       <Animated.View
         style={{
           ...style,
+          width: '100%',
           opacity: this.fadeAnim,
           transform: [{
             translateY: this.fadeAnim.interpolate({

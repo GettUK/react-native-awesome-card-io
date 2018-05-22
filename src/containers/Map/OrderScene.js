@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView, Button } from 'components';
+import { FadeInView, GradientWrapper, Button } from 'components';
 
 import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
@@ -65,47 +65,61 @@ class ActiveOrderScene extends Component {
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
     const isFinalStatus = FINAL_STATUSES.includes(status);
 
+    const gradientColors = [
+      'rgba(255,255,255,0.8)', 'rgba(255,255,255,0.75)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0)'
+    ]; // TODO: move to separate colors file
+    const gradientStart = { x: 0, y: 1 };
+    const gradientEnd = { x: 0, y: 0 };
+
     return (
       <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
-        <FadeInView reverse>
-          <View style={screenStyles.headerContainer}>
-            <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
-            {isFinalStatus && !isCustomerCareStatus &&
-              <Button size="sm" styleContent={screenStyles.createNewBtn} onPress={goToInitialization}>
-                <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
-              </Button>
-            }
-          </View>
-        </FadeInView>
-
+        {isFinalStatus && !isCustomerCareStatus &&
+          <Button
+            size="sm"
+            style={screenStyles.createBtnWrapper}
+            styleContent={screenStyles.createNewBtn}
+            onPress={goToInitialization}
+          >
+            <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
+          </Button>
+        }
         <View style={screenStyles.separator} />
 
         <FadeInView>
-          <View style={{ paddingBottom: this.isDriverExist ? 150 : 90 }}>
-            <View style={screenStyles.actionsRow}>
-              {(isPreOrderStatus || isActiveDriverStatus || isCustomerCareStatus) &&
-                <FloatButton
-                  key="cancel"
-                  label="Cancel Order"
-                  iconName="cancel"
-                  loading={busy}
-                  onPress={this.handleCancelOrder}
-                />
-              }
+          <GradientWrapper
+            style={screenStyles.footer}
+            colors={gradientColors}
+            start={gradientStart}
+            end={gradientEnd}
+          >
+            <View style={[screenStyles.actionContainer, { paddingBottom: this.isDriverExist ? 130 : 70 }]}>
+              <View style={screenStyles.actionsRow}>
+                {(isPreOrderStatus || isActiveDriverStatus || isCustomerCareStatus) &&
+                  <FloatButton
+                    key="cancel"
+                    label="Cancel Order"
+                    iconName="cancel"
+                    loading={busy}
+                    onPress={this.handleCancelOrder}
+                  />
+                }
 
-              {/* isDriverArrived &&
-                <FloatButton
-                  key="way"
-                  label={'I\'m on my way'}
-                  iconName="walker"
-                  onPress={this.handleOpenModal}
-                  style={{ marginLeft: 40 }}
-                />
+                {/* isDriverArrived &&
+                  <FloatButton
+                    key="way"
+                    label={'I\'m on my way'}
+                    iconName="walker"
+                    onPress={this.handleOpenModal}
+                    style={{ marginLeft: 40 }}
+                  />
 
-                isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
-              */}
+                  isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
+                */}
+              </View>
+
+              <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
             </View>
-          </View>
+          </GradientWrapper>
         </FadeInView>
 
         {isPreOrderStatus && <Pointer />}

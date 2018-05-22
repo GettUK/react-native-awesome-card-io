@@ -56,7 +56,6 @@ const Button = ({ styleContent, children, size, raised, ...rest }) => {
       <View style={[styles.btn, computedStyles, styleContent]}>
         {children}
       </View>
-
     </TouchableOpacity>
   );
 };

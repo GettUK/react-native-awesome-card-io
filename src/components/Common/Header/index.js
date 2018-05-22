@@ -16,8 +16,8 @@ class Header extends React.Component {
     } = this.props;
 
     return (
-      <View style={[styles.headerWrap, customStyles]}>
-        <View style={styles.header}>
+      <View style={[styles.headerWrap, customStyles]} pointerEvents="box-none">
+        <View style={styles.header} pointerEvents="box-none">
           <View style={styles.wrapLeftElements}>
             <View style={styles.leftComponent}>{leftButton}</View>
 
