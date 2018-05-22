@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Button = ({ styleContent, children, size, raised, ...rest }) => {
+const Button = ({ styleContent, children, size, raised, disabled, disabledStyle, ...rest }) => {
   let computedStyles = {
     borderRadius: 10,
     paddingVertical: 15,
@@ -51,9 +51,10 @@ const Button = ({ styleContent, children, size, raised, ...rest }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
+      disabled={disabled}
       {...rest}
     >
-      <View style={[styles.btn, computedStyles, styleContent]}>
+      <View style={[styles.btn, computedStyles, styleContent, disabled ? disabledStyle : {}]}>
         {children}
       </View>
     </TouchableOpacity>

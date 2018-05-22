@@ -31,6 +31,7 @@ const TYPES = createTypes('booking', [
   'setReferenceErrors',
   'resetBookingValues',
   'changeMessageToDriver',
+  'changeFlight',
   'getVehiclesStart',
   'getVehiclesSuccess',
   'getVehiclesFailure',
@@ -60,8 +61,17 @@ export const resetBookingValues = () => ({ type: TYPES.resetBookingValues });
 export const changeMessageToDriver = (message, touched = false) =>
   ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
 
+export const changeFlight = (data, touched = false) =>
+  ({ type: TYPES.changeFlight, payload: { data, touched } });
+
 export const saveMessageToDriver = () => (dispatch, getState) =>
   dispatch(changeFields({ message: getState().booking.bookingForm.tempMessageToDriver }));
+
+export const saveFlight = () => (dispatch, getState) => {
+  const { flight, flightType } = getState().booking.tempFlight;
+
+  dispatch(changeFields({ flight, flightType }));
+};
 
 const getAuthorOfCancellation = () => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();

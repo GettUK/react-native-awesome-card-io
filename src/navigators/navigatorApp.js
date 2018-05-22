@@ -13,10 +13,12 @@ import {
   ReasonForTravel,
   PaymentsOptions,
   References,
+  FlightSettings,
   ReferenceValueSelector
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
+import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
 import { SaveRatingBtn } from 'containers/RateDriver';
 import { strings } from 'locales';
@@ -69,6 +71,26 @@ const routeConfiguration = {
           title="Message to Driver"
           leftContent={<BackMessageBtn navigation={navigation} />}
           rightContent={<SaveMessageBtn navigation={navigation} />}
+        />
+      )
+    })
+  },
+  FlightSettings: {
+    screen: FlightSettings,
+    navigationOptions: ({ navigation }) => ({
+      header: (
+        <ScreenHeader
+          navigation={navigation}
+          title={strings('flights.number')}
+          leftContent={
+            <BackBtn
+              navigation={navigation}
+              touchedPath="booking.flightTouched"
+              color="#fff"
+              containerStyle={{ paddingLeft: 0 }}
+            />
+          }
+          rightContent={<SaveFlightBtn navigation={navigation} />}
         />
       )
     })

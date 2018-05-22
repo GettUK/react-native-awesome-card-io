@@ -19,7 +19,9 @@
     "distance": "Distance",
     "byMeter": "By meter",
     "other": "Other",
-    "usePassengerCostCentre": "Use passenger's Cost Centre"
+    "usePassengerCostCentre": "Use passenger's Cost Centre",
+    "departing": "Departure",
+    "arriving": "Arrival"
   },
   "login": {
     "acceptPrivacyPolicy": "Accept Privacy Policy",
@@ -35,6 +37,21 @@
       "commonError": "User can't be logged in now",
       "credentialsError": "The email or password you entered is incorrect"
     }
+  },
+  "flights": {
+    "header": "Please enter the flight number",
+    "cancel": "No Thanks",
+    "submit": "OK",
+    "error": "Flight number not found, please double check",
+    "titles": {
+      "id": "Flight №",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "from": "From",
+      "to": "To"
+    },
+    "verify": "Verify",
+    "number": "Flight No."
   },
   "map": {
     "label": {
