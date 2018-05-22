@@ -10,7 +10,8 @@ export default StyleSheet.create({
   orderRideBtn: {
     alignSelf: 'stretch',
     flex: 1,
-    padding: 5
+    padding: 5,
+    marginRight: 15
   },
   orderRideBtnView: {
     alignSelf: 'stretch',
@@ -47,7 +48,7 @@ export default StyleSheet.create({
     elevation: 2,
     left: 0,
     right: 0,
-    marginHorizontal: 15,
+    marginHorizontal: 20,
     alignSelf: 'stretch',
     justifyContent: 'flex-start'
   },
@@ -76,7 +77,7 @@ export default StyleSheet.create({
     }
   },
   settingsBtn: {
-    marginRight: 15,
+    marginLeft: 15,
     padding: 5
   },
   btnView: {
@@ -90,10 +91,6 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   padding: {
-    padding: 5
-  },
-  timeBtn: {
-    marginLeft: 15,
     padding: 5
   },
   currentPositionBtn: {
@@ -190,5 +187,41 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 22,
     left: -3
+  },
+  pickupTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    minHeight: 50,
+    marginHorizontal: 20,
+    marginVertical: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingVertical: 7,
+    paddingHorizontal: 20,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    }
+  },
+  pickupTime: {
+    marginLeft: 17,
+    flex: 1
+  },
+  pickupTimeLabel: {
+    fontSize: 14,
+    color: '#7f7f7f',
+    marginBottom: 2
+  },
+  pickupTimeValue: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  pickupTimeEdit: {
+    color: '#284784'
   }
 });

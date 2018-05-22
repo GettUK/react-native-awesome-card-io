@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, ImageBackground } from 'react-native';
+import { Platform, ImageBackground, View, Text } from 'react-native';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { compact } from 'lodash';
+import { compact, upperFirst } from 'lodash';
 
 import assets from 'assets';
 
@@ -179,17 +179,38 @@ class MapView extends Component {
   renderDriverMarker = () => <Icon name="carFacet" size={32} />;
 
   renderMarker = ({ address, type = 'current', index = '' }) =>
-    address &&
-      (<Map.Marker
+    address && (
+      <Map.Marker
         key={type + index}
         coordinate={this.prepareCoordinates(address)}
         anchor={{ x: 0.5, y: 0.5 }}
         stopPropagation
         tracksViewChanges={false}
       >
-        {this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}Marker`]()}
+        {this[`render${upperFirst(type)}Marker`]()}
       </Map.Marker>
-      );
+    );
+
+  renderInfoMarker = ({ address, title, value, icon }) =>
+    address && value && (
+      <Map.Marker
+        key={title}
+        coordinate={this.prepareCoordinates(address)}
+        anchor={{ x: 0.5, y: 1.2 }}
+        stopPropagation
+        tracksViewChanges={false}
+      >
+        <View style={styles.infoMarkerContainer}>
+          <View style={styles.infoMarker}>
+            <Icon style={styles.infoMarkerIcon} name={icon} size={18} color="#d8d8d8" />
+            <View>
+              <Text style={styles.infoMarkerTitle}>{title}</Text>
+              <Text style={styles.infoMarkerValue}>{value}</Text>
+            </View>
+          </View>
+        </View>
+      </Map.Marker>
+    );
 
   getPathes = locations => (
     locations.map((location, index) => {
@@ -300,8 +321,12 @@ class MapView extends Component {
     && (ACTIVE_DRIVER_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
   );
 
+  shouldShowETA = ({ order }) => (
+    order.driverDetails && order.driverDetails.eta && order.status === DRIVER_ON_WAY
+  );
+
   render() {
-    const { currentPosition, isPreOrder, dragEnable } = this.props;
+    const { currentPosition, isPreOrder, dragEnable, vehicles } = this.props;
 
     const order = this.getOrder();
     const stops = this.getStops();
@@ -342,6 +367,27 @@ class MapView extends Component {
         {this.shouldShowDriverMarker({ order }) &&
           this.renderMarker({ address: order.driverDetails.location, type: 'driver' })
         }
+
+        {isPreOrder && this.renderInfoMarker({
+          address: order.pickupAddress,
+          title: 'Journey Time',
+          value: vehicles.duration,
+          icon: 'journeyTime'
+        })}
+
+        {isPreOrder && this.renderInfoMarker({
+          address: order.destinationAddress,
+          title: 'Distance',
+          value: vehicles.distance,
+          icon: 'distance'
+        })}
+
+        {this.shouldShowETA({ order }) && this.renderInfoMarker({
+          address: order.pickupAddress,
+          title: 'ETA',
+          value: `${order.driverDetails.eta} min`,
+          icon: 'journeyTime'
+        })}
       </Map>
     );
   }
@@ -357,6 +403,7 @@ MapView.defaultProps = {};
 
 const mapState = ({ ui, booking }) => ({
   bookingForm: booking.bookingForm,
+  vehicles: booking.vehicles,
   currentOrder: booking.currentOrder,
   currentPosition: ui.map.currentPosition,
   driverLocation: booking.currentOrder.driverDetails ? booking.currentOrder.driverDetails.location : {},
