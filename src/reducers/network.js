@@ -1,7 +1,7 @@
 import { reducer } from 'react-native-offline';
 
 const initialState = {
-  isConnected: false,
+  isConnected: true,
   actionQueue: []
 };
 

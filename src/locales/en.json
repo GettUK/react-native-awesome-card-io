@@ -68,6 +68,10 @@
       "expirationDate": "Expiration date",
       "expirationDateFormat": "MM / YYYY"
     },
+    "connection": {
+      "errorHeader": "Sorry, we are having hard time connecting to One Transport.",
+      "errorMessage": "Please check your internet connection."
+    },
     "address": {
       "addressDelete": "Delete",
       "confirmDelete": "Do you want to delete the address?"

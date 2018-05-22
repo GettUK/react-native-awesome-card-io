@@ -21,3 +21,4 @@ export { default as BackBtn } from './BackBtn';
 export { default as SaveBtn } from './SaveBtn';
 export { default as KeyboardHide } from './KeyboardHide';
 export { default as GradientWrapper } from './GradientWrapper';
+export { default as ConnectionMessage } from './ConnectionMessage';
