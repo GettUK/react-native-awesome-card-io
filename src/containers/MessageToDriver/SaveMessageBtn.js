@@ -26,8 +26,8 @@ SaveMessageBtn.propTypes = {
   sendAddress: PropTypes.func
 };
 
-const mapState = ({ ui }) => ({
-  touched: ui.map.messageToDriverTouched
+const mapState = ({ booking }) => ({
+  touched: booking.messageToDriverTouched
 });
 
 export default connect(mapState, { saveMessageToDriver })(SaveMessageBtn);

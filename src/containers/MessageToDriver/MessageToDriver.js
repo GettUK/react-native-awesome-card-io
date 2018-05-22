@@ -51,8 +51,8 @@ MessageToDriver.defaultProps = {
   message: ''
 };
 
-const mapState = ({ ui }) => ({
-  message: ui.map.tempMessageToDriver
+const mapState = ({ booking }) => ({
+  message: booking.tempMessageToDriver
 });
 
 const mapDispatch = ({
