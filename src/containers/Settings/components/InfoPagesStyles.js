@@ -86,5 +86,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     minHeight: 24,
     flex: 1
-  }
+  },
+  link: { color: '#2980b9' }
 });
