@@ -33,7 +33,7 @@ const addNewAddress = throttledAction(navigation =>
 const onAddPaymentCard = throttledAction(navigation =>
   navigation.navigate(
     'PaymentCardEditor',
-    { keys: ['cardNumber', 'cvv', 'holderName', 'expirationMonth', 'expirationYear'] }
+    { keys: ['cardNumber', 'cvv', 'holderName', 'expirationMonth', 'expirationYear', 'expirationDate'] }
   ));
 
 const headerStyle = {

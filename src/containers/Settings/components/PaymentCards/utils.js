@@ -76,7 +76,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       keyboardType: 'numeric',
       placeholder: strings('settings.payment.expirationDateFormat'),
       placeholderTextColor: '#8e8e93',
-      error: data.error && (data.error.expirationMonth || data.error.expirationYear)
+      error: data.error && (data.error.expirationMonth || data.error.expirationYear || data.error.expirationDate)
     },
     {
       allowmask: true,
@@ -131,8 +131,11 @@ export const validationRules = {
     length: {
       is: 4,
       message: strings('settings.validation.expirationYear.length')
-    },
-    currentYear: {}
+    }
+  },
+  expirationDate: {
+    presence,
+    expired: {}
   },
   cvv: {
     presence,
