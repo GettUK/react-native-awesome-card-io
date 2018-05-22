@@ -232,6 +232,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
   );
 
   const topIPhone = isIphoneX() ? 34 : 20;
+  const bottomIPhone = isIphoneX() ? 12 : 0;
 
   return (
     <SlidingUpPanel
@@ -239,7 +240,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
       showBackdrop={false}
       draggableRange={{
         top: height - 60 - (70 + topIPhone),
-        bottom: isDriverExist ? 120 : 59
+        bottom: (isDriverExist ? 120 : 59) + bottomIPhone
       }}
       height={isDriverExist ? 112 : 54}
       backdropComponent={renderBackdropComponent()}

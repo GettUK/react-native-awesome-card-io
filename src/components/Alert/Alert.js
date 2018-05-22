@@ -6,6 +6,8 @@ import { Icon } from 'components';
 
 import { strings } from 'locales';
 
+import { isIphoneX } from 'utils';
+
 import styles from './styles';
 
 class Alert extends PureComponent {
@@ -40,6 +42,8 @@ class Alert extends PureComponent {
 
   render() {
     const { type, message, position } = this.props;
+    const alertPosition = isIphoneX() ? 24 : 0;
+    const multiplier = position === 'bottom' ? 1 : -1;
 
     return (
       <Animated.View
@@ -51,7 +55,7 @@ class Alert extends PureComponent {
             transform: [{
               translateY: this.alertAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [position === 'bottom' ? 120 : -120, 0]
+                outputRange: [(120 + alertPosition) * multiplier, -multiplier * alertPosition]
               })
             }]
           }
