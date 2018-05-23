@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import NativeModal from 'react-native-modal';
+
 import { DismissKeyboardView } from 'components';
+
+import { isIphoneX } from 'utils';
 
 import styles from './styles';
 
@@ -25,6 +28,7 @@ export default function Modal({
           </TouchableOpacity>
         </View>
         {children}
+        {isIphoneX() && <View style={styles.separator} />}
       </DismissKeyboardView>
     </NativeModal>
   );

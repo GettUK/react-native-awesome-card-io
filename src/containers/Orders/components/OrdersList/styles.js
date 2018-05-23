@@ -1,12 +1,15 @@
 import { StyleSheet } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
 const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
   orders: {
     paddingHorizontal: 15,
-    paddingTop: 20
+    paddingTop: 20,
+    marginBottom: isIphoneX() ? 20 : 0
   },
   orderWrapper: {
     marginBottom: 20,

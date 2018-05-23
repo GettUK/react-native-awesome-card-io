@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
 const { height, width } = Dimensions.get('window');
 
 export const screenStyles = StyleSheet.create({
@@ -14,7 +16,7 @@ export const screenStyles = StyleSheet.create({
     marginTop: 60
   },
   header: {
-    marginTop: 22,
+    marginTop: isIphoneX() ? 18 : 22,
     fontSize: 22,
     fontWeight: '500'
   },

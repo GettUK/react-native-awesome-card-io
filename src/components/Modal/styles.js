@@ -19,5 +19,8 @@ export default StyleSheet.create({
     paddingHorizontal: 13,
     fontSize: 14,
     color: '#284784'
+  },
+  separator: {
+    height: 16
   }
 });
