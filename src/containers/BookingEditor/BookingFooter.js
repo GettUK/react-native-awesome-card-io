@@ -402,7 +402,7 @@ class BookingFooter extends PureComponent {
       isAuthorizedPermission
     } = this.props;
 
-    const availableVehicles = vehicles.data.filter(v => v.available);
+    const availableVehicles = vehicles.data.filter(v => v.available && v.name !== 'Porsche');
     const isOrderBtnDisabled = busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
