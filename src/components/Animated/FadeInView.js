@@ -18,6 +18,7 @@ export default class FadeInView extends React.Component {
     const { style, reverse, children } = this.props;
     return (
       <Animated.View
+        pointerEvents="box-none"
         style={{
           ...style,
           width: '100%',
