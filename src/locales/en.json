@@ -58,6 +58,10 @@
       "close": "Close"
     }
   },
+  "connection": {
+    "errorHeader": "Sorry, we are having hard time connecting to One Transport.",
+    "errorMessage": "Please check your internet connection."
+  },
   "settings": {
     "validation": {
       "common": "is invalid",
@@ -84,10 +88,6 @@
       "enterValidCard": "Please enter a valid credit card",
       "expirationDate": "Expiration date",
       "expirationDateFormat": "MM / YYYY"
-    },
-    "connection": {
-      "errorHeader": "Sorry, we are having hard time connecting to One Transport.",
-      "errorMessage": "Please check your internet connection."
     },
     "address": {
       "addressDelete": "Delete",
