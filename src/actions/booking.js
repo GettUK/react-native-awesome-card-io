@@ -65,7 +65,7 @@ export const changeFlight = (data, touched = false) =>
   ({ type: TYPES.changeFlight, payload: { data, touched } });
 
 export const saveMessageToDriver = () => (dispatch, getState) =>
-  dispatch(changeFields({ message: getState().booking.bookingForm.tempMessageToDriver }));
+  dispatch(changeFields({ message: getState().booking.tempMessageToDriver }));
 
 export const saveFlight = () => (dispatch, getState) => {
   const { flight, flightType } = getState().booking.tempFlight;
