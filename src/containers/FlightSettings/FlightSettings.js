@@ -21,6 +21,10 @@ class FlightSettings extends Component {
     loading: false
   }
 
+  getAirportAddress = ({ name, terminal }) => (
+    `${name}${terminal ? ` - Terminal ${terminal}` : ''}`
+  )
+
   setFlightDetails = (flightData) => {
     const { departure, arrival } = flightData;
     const dateFormat = 'DD/MM/YYYY hh:mm a';
@@ -30,8 +34,8 @@ class FlightSettings extends Component {
         { title: strings('flights.titles.id'), text: `${flightData.carrier} ${flightData.flight}` },
         { title: strings('flights.titles.departure'), text: moment(departure.time).format(dateFormat) },
         { title: strings('flights.titles.arrival'), text: moment(arrival.time).format(dateFormat) },
-        { title: strings('flights.titles.from'), text: `${departure.name} - Terminal ${departure.terminal}` },
-        { title: strings('flights.titles.to'), text: `${arrival.name} - Terminal ${arrival.terminal}` }
+        { title: strings('flights.titles.from'), text: this.getAirportAddress(departure) },
+        { title: strings('flights.titles.to'), text: this.getAirportAddress(arrival) }
       ],
       loading: false
     });

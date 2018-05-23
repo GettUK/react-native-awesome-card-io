@@ -27,19 +27,21 @@ export const modalStyles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 16
   },
-  cancelButton: {
-    flex: 1,
-    marginRight: 16,
+  button: {
+    width: '47%',
     height: 44
   },
+  buttonLeft: {
+    marginRight: '6%'
+  },
   cancelButtonContent: {
+    flex: 1,
     width: '100%'
   },
   submitButton: {
     flex: 1,
-    height: 44,
-    backgroundColor: '#284784',
-    width: '100%'
+    width: '100%',
+    backgroundColor: '#284784'
   },
   disabledSubmitButton: {
     opacity: 0.6

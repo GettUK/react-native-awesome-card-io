@@ -29,7 +29,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
 
       <View style={modalStyles.footer}>
         <Button
-          style={modalStyles.cancelButton}
+          style={[modalStyles.button, modalStyles.buttonLeft]}
           styleContent={modalStyles.cancelButtonContent}
           onPress={onClose}
         >
@@ -39,6 +39,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
         <Button
           disabled={!tempFlight || !tempFlight.flight}
           disabledStyle={modalStyles.disabledSubmitButton}
+          style={modalStyles.button}
           styleContent={modalStyles.submitButton}
           onPress={onSubmit}
         >
