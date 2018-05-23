@@ -22,9 +22,7 @@ import {
   toggleVisibleModal,
   changeFields,
   changeAddress,
-  setReferenceErrors,
-  saveFlight,
-  changeFlight
+  setReferenceErrors
 } from 'actions/booking';
 import {
   paymentTypeToAttrs,
@@ -217,18 +215,16 @@ class BookingFooter extends PureComponent {
       return this.showFlightModal();
     }
 
-    return this.createBooking();
+    return this.createBooking({});
   }
 
   setAirport = () => {
-    this.props.saveFlight();
+    const { booking: { tempFlight } } = this.props;
 
-    this.props.changeFlight({ flight: '', flightType: '' }, false);
-
-    this.createBooking();
+    this.createBooking(tempFlight);
   }
 
-  createBooking = () => {
+  createBooking = ({ flight = '', flightType = '' }) => {
     const { booking: { bookingForm }, createBooking } = this.props;
 
     if (this.areAddressesUnique()) {
@@ -243,7 +239,9 @@ class BookingFooter extends PureComponent {
             passengerId: bookingForm.passengerId, // TODO: add posibility to select another passenger for stop
             phone: bookingForm.passengerPhone
           }))
-          : null
+          : null,
+        flight,
+        flightType
       };
 
       createBooking(order)
@@ -545,9 +543,7 @@ const bindActions = {
   changeFields,
   changeAddress,
   toggleVisibleModal,
-  setReferenceErrors,
-  saveFlight,
-  changeFlight
+  setReferenceErrors
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingFooter);
