@@ -91,8 +91,12 @@ class ActiveOrderScene extends Component {
             colors={gradientColors}
             start={gradientStart}
             end={gradientEnd}
+            pointerEvents="box-none"
           >
-            <View style={[screenStyles.actionContainer, { paddingBottom: this.isDriverExist ? 130 : 70 }]}>
+            <View
+              style={[screenStyles.actionContainer, { paddingBottom: this.isDriverExist ? 130 : 70 }]}
+              pointerEvents="box-none"
+            >
               <View style={screenStyles.actionsRow}>
                 {(isPreOrderStatus || isActiveDriverStatus || isCustomerCareStatus) &&
                   <FloatButton

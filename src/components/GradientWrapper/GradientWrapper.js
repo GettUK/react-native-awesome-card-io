@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { ViewPropTypes } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const GradientWrapper = ({ children, ...rest }) => {
-  return (
-    <LinearGradient {...rest}>
-      {children}
-    </LinearGradient>
-  );
-};
+const GradientWrapper = ({ children, ...rest }) => (
+  <LinearGradient {...rest}>
+    {children}
+  </LinearGradient>
+);
 
 GradientWrapper.propTypes = {
   colors: PropTypes.array,
