@@ -167,7 +167,7 @@
     "statuses": {
       "connected": "Creating...",
       "creating": "Creating...",
-      "order_received": "Order Received",
+      "order_received": "Order Accepted",
       "processing": "Processing",
       "locating": "Locating a Car",
       "on_the_way": "Driver on the way",
