@@ -34,7 +34,7 @@ class ConnectionMessage extends PureComponent {
 
   render() {
     return (
-      <Animated.View style={[styles.container, { height: this.alertAnim }]}>
+      <Animated.View style={[styles.container, { height: this.alertAnim, opacity: this.alertAnim }]}>
         <View style={styles.messageContainer}>
           <View style={styles.messageWrapper}>
             <Text style={styles.message}>{strings('connection.errorHeader')}</Text>
