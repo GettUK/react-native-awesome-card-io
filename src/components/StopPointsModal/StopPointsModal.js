@@ -104,7 +104,11 @@ export default class StopPointsModal extends PureComponent {
   render() {
     const { data, isVisible, onClose } = this.props;
 
-    const listHeight = Object.keys(data).length * 60;
+    const keys = Object.keys(data);
+
+    const listHeight = keys.length * 60;
+
+    const order = keys.length !== this.order.length ? keys : this.order;
 
     return (
       <Modal
@@ -115,7 +119,7 @@ export default class StopPointsModal extends PureComponent {
           <SortableListView
             style={{ height: listHeight }}
             data={data}
-            order={this.order}
+            order={order}
             onRowMoved={this.handleRowMoved}
             renderRow={this.renderRow}
             scrollEnabled={false}
