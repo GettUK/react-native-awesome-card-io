@@ -188,10 +188,10 @@ export const cancelOrder = () => (dispatch, getState) => {
     });
 };
 
-export const sendCancelOrderReason = reasonId => (dispatch, getState) => {
+export const sendCancelOrderReason = reason => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
-  return put(`/bookings/${currentOrder.id}/cancellation_reason`, { bookingCancellationReasonId: reasonId });
+  return put(`/bookings/${currentOrder.id}/cancellation_reason`, { cancellation_reason: reason });
 };
 
 export const getFormData = () => (dispatch, getState) => {

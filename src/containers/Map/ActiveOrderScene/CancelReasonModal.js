@@ -11,26 +11,28 @@ import { sendCancelOrderReason } from 'actions/booking';
 
 import { cancelReasonStyles } from './styles';
 
-const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason }) => {
-  const submit = (id) => {
-    sendCancelOrderReason(id)
-      .then(onClose);
-  };
+const reasonIconMapping = {
+  mistaken_order: 'reasonSadMan',
+  driver_asked_to: 'reasonDriver',
+  hailed_another_car: 'reasonTaxi',
+  too_long_eta: 'reasonTimer'
+};
 
-  const getIconName = (id) => {
-    const names = [null, 'reasonSadMan', 'reasonDriver', 'reasonTaxi', 'reasonTimer'];
-    return names[id];
+const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason }) => {
+  const submit = (reason) => {
+    sendCancelOrderReason(reason)
+      .then(onClose);
   };
 
   const renderReason = reason => (
     <TouchableOpacity
       activeOpacity={0.8}
-      key={reason.id}
+      key={reason}
       style={cancelReasonStyles.reason}
-      onPress={() => submit(reasons.id)}
+      onPress={() => submit(reason)}
     >
-      <Icon name={getIconName(reason.id)} color="#284784" size={26} />
-      <Text style={cancelReasonStyles.reasonTitle}>{reason.text}</Text>
+      <Icon name={reasonIconMapping[reason]} color="#284784" size={26} />
+      <Text style={cancelReasonStyles.reasonTitle}>{strings(`order.cancellationReasons.${reason}`)}</Text>
     </TouchableOpacity>
   );
 
