@@ -299,7 +299,7 @@ const privacy = [
           { type: 'plain', marker: '4.5.2', value: 'to gather information about your approximate geographic location (e.g. city) to provide localised content;' },
           { type: 'plain', marker: '4.5.3', value: 'to store information about your preferences and to allow One Transport to customise the Site and/or App according to your individual interests and the device or browser you are using;' },
           { type: 'plain', marker: '4.5.4', value: 'to continually improve One Transport\'s Services;' },
-          { type: 'plain', marker: '4.5.5', value: 'to recognise you when you return to the Site and/or App; and' },
+          { type: 'plain', marker: '4.5.5', value: 'to recognise you when you return to the Site and/or App;' },
           { type: 'plain', marker: '4.5.6', value: 'to prevent fraud and/or abuse.' }
         ]
       },
