@@ -32,7 +32,8 @@ import {
   completeOrder,
   resetBookingValues,
   cancelOrder,
-  clearCurrentOrder
+  clearCurrentOrder,
+  setActiveBooking
 } from 'actions/booking';
 import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
@@ -79,7 +80,7 @@ class Map extends Component {
 
     this.registerBackListener();
 
-    PN.addNotificationListener({ userToken: this.props.session.token, navigator: this.props.navigation });
+    PN.addNotificationListener({ userToken: this.props.session.token, setActiveBooking: this.props.setActiveBooking });
   }
 
   componentDidUpdate(prevProps) {
@@ -694,7 +695,8 @@ const mapDispatch = {
   requestLocation,
   getPassengerData,
   clearCurrentOrder,
-  resetBookingValues
+  resetBookingValues,
+  setActiveBooking
 };
 
 export default connect(mapState, mapDispatch)(Map);
