@@ -132,7 +132,7 @@ class ActiveOrderScene extends Component {
         <CancelReasonModal
           isVisible={cancelModalVisible}
           onClose={this.handleCloseCancelModal}
-          reasons={order.bookingCancellationReasons}
+          reasons={order.cancellationReasons}
         />
       </View>
     );

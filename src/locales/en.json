@@ -178,6 +178,12 @@
       "cancelled": "Ride has been canceled",
       "customer_care": "Customer Care",
       "rejected": "Ride has been rejected"
+    },
+    "cancellationReasons": {
+      "mistaken_order": "Order by mistake",
+      "driver_asked_to": "Driver asked me to",
+      "hailed_another_car": "Hailed another car",
+      "too_long_eta": "ETA was too long"
     }
   }
 }
