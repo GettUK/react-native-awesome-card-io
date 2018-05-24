@@ -87,14 +87,14 @@ const getAuthorOfCancellation = () => (dispatch, getState) => {
     });
 };
 
-const removeOrderStatusSubscription = () => {
-  faye.closeConnection();
-};
+let orderStatusSubscription = null;
+
+const removeOrderStatusSubscription = () => faye.cancelSubscription(orderStatusSubscription);
 
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
-  faye.on(channel, ({ data }) => {
+  orderStatusSubscription = faye.on(channel, ({ data }) => {
     if (data.indicator) {
       if (data.status === DRIVER_ON_WAY) {
         get(`/bookings/${currentOrder.id}`)
