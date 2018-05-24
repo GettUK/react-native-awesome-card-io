@@ -148,12 +148,22 @@ class BookingFooter extends PureComponent {
     );
   };
 
+  showErrorFor = (type) => {
+    const { booking: { orderCreateError: { response: { data } } } } = this.props;
+
+    if (data.errors && data.errors[type]) {
+      this.setState({ message: strings(`validation.${type}`) }, () => this.alert.show());
+
+      this.hideFlightModal();
+    }
+  }
+
   showAlert = () => {
     const { booking: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
 
-    if (data.errors && data.errors.scheduledAt) {
-      this.setState({ message: strings('validation.scheduledAt') }, () => this.alert.show());
-    }
+    this.showErrorFor('scheduledAt');
+
+    this.showErrorFor('paymentMethod');
 
     if (data.errors) {
       const referenceErrors = pickBy(data.errors, (_, key) => key.startsWith('bookerReferences'));
@@ -161,9 +171,8 @@ class BookingFooter extends PureComponent {
         setReferenceErrors(referenceErrors);
         this.setState({ message: strings('validation.reference') }, () => this.alert.show());
       }
-    }
-    if (data.errors && data.errors.paymentMethod) {
-      this.setState({ message: strings('validation.paymentMethod') }, () => this.alert.show());
+
+      this.hideFlightModal();
     }
   };
 
