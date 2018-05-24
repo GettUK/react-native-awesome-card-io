@@ -97,7 +97,7 @@ const RoutesConfig = {
     screen: PaymentCardEditor,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerLeft: <BackBtn navigation={navigation} />,
+      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.touched" />,
       headerTitle: strings('settings.newPaymentCard'),
       headerRight: <SavePaymentBtn navigation={navigation} />
     })
