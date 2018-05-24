@@ -219,10 +219,10 @@ class MapView extends Component {
       </Map.Marker>
     );
 
-  renderInfoMarker = ({ address, title, value, icon }) =>
+  renderInfoMarker = ({ address, title, value, icon }) => (
     address && value && (
       <Map.Marker
-        key={title}
+        key={`${title}${value}`}
         coordinate={this.prepareCoordinates(address)}
         anchor={{ x: 0.5, y: 1.2 }}
         stopPropagation
@@ -238,7 +238,8 @@ class MapView extends Component {
           </View>
         </View>
       </Map.Marker>
-    );
+    )
+  )
 
   renderDriversMarkers = () => this.props.drivers.map(d => <DriverMarker key={d.id} driver={d} />);
 
