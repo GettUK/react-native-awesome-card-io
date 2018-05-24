@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text, TouchableWithoutFeedback } from 'react-native';
-
-import { Icon } from 'components';
+import { Animated, View, Text } from 'react-native';
 
 import { strings } from 'locales';
 
@@ -40,12 +38,6 @@ class ConnectionMessage extends PureComponent {
             <Text style={styles.message}>{strings('connection.errorHeader')}</Text>
             <Text style={styles.message}>{strings('connection.errorMessage')}</Text>
           </View>
-
-          <TouchableWithoutFeedback onPress={this.hide}>
-            <View style={styles.icon}>
-              <Icon name="close" size={12} color="#fff" />
-            </View>
-          </TouchableWithoutFeedback>
         </View>
       </Animated.View>
     );
