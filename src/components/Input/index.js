@@ -10,20 +10,20 @@ const labelTopValues = [10, -10];
 export default class Input extends PureComponent {
   constructor(props) {
     super(props);
-    this.labelFontSize = new Animated.Value(labelFontSizeValues[+!!props.value.length]);
-    this.labelTop = new Animated.Value(labelTopValues[+!!props.value.length]);
+    const stateIndex = +!!(props.value || props.placeholder).length;
+    this.labelFontSize = new Animated.Value(labelFontSizeValues[stateIndex]);
+    this.labelTop = new Animated.Value(labelTopValues[stateIndex]);
   }
 
   static defaultProps = {
     allowClear: true,
     clearIconColor: '#fff',
-    allowedError: true
+    allowedError: true,
+    placeholder: ''
   };
 
   componentDidUpdate(prevProps) {
-    if ((!prevProps.value.length && !!this.props.value.length) ||
-        (this.props.placeholder && this.props.placeholder.length)
-    ) {
+    if ((!prevProps.value.length && !!this.props.value.length)) {
       this.moveLabelUp();
     }
   }
