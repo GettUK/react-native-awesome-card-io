@@ -1,7 +1,5 @@
 import FCM, { FCMEvent } from 'react-native-fcm';
 
-import { setActiveBooking } from 'actions/booking';
-
 const BOOKING_STATUS_MESSAGE = 'booking_status_change';
 
 class PushNotification {
@@ -24,9 +22,9 @@ class PushNotification {
     }
   };
 
-  addNotificationListener = ({ userToken, navigator }) => {
+  addNotificationListener = ({ userToken, setActiveBooking }) => {
     this.userToken = userToken;
-    this.navigator = navigator;
+    this.onOpenHandler = setActiveBooking;
 
     FCM.getInitialNotification().then((notif) => {
       this.onOpenFromTray(notif);
@@ -55,7 +53,9 @@ class PushNotification {
           show_in_foreground: true,
           vibrate: 300,
           lights: true,
-          status: notif.status
+          status: notif.status,
+          booking_id: notif.booking_id,
+          statusKind: notif.kind
         });
       }
 
@@ -65,8 +65,10 @@ class PushNotification {
 
   onOpenFromTray = (notif) => {
     if (this.userToken && notif) {
-      if (notif.booking_id && notif.kind === BOOKING_STATUS_MESSAGE) {
-        this.navigator.dispatch(setActiveBooking(notif.booking_id));
+      const status = notif.statusKind || notif.kind;
+
+      if (notif.booking_id && status === BOOKING_STATUS_MESSAGE) {
+        this.onOpenHandler(notif.booking_id);
       }
     }
   };
