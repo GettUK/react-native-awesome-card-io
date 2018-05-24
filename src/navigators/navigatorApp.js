@@ -1,9 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { Platform } from 'react-native';
 import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
-import { ScreenHeader, BackBtn } from 'components';
+import { ScreenHeader, BackBtn, Header } from 'components';
 
 import {
   Map,
@@ -17,6 +16,7 @@ import {
   ReferenceValueSelector
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
+import styles from 'containers/Map/style';
 import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
@@ -140,14 +140,21 @@ const routeConfiguration = {
   RateDriver: {
     screen: RateDriver,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: '#fff',
-        paddingTop: Platform.OS === 'android' ? 20 : 0,
-        height: Platform.OS === 'android' ? 80 : 50
-      },
-      headerTitle: strings('rateYourDriver'),
-      headerLeft: <BackBtn navigation={navigation} touchedPath="booking.currentOrder.tempDriverRating" />,
-      headerRight: <SaveRatingBtn navigation={navigation} />
+      header: (
+        <Header
+          pointerEvents="box-none"
+          customStyles={[styles.header, { paddingHorizontal: 0 }]}
+          navigation={navigation}
+          leftButton={
+            <BackBtn
+              color="#fff"
+              navigation={navigation}
+              touchedPath="booking.currentOrder.tempDriverRating"
+            />
+          }
+          rightButton={<SaveRatingBtn navigation={navigation} />}
+        />
+      )
     })
   }
 };

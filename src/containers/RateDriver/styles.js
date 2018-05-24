@@ -5,39 +5,49 @@ export default StyleSheet.create({
     flex: 1
   },
   wrapper: {
-    backgroundColor: '#fff'
+    backgroundColor: '#0076bb'
   },
   content: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 20
-  },
-  ratingValueContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: '#6bc11a',
-    height: 36,
-    width: 36,
-    alignItems: 'center',
+    flexGrow: 1,
     justifyContent: 'center',
-    borderRadius: 18
+    alignItems: 'center',
+    paddingHorizontal: 15
   },
-  ratingValue: {
-    fontSize: 16,
+  driverName: {
     color: '#fff',
-    fontWeight: 'bold'
+    fontSize: 20
   },
-  name: {
-    color: '#000',
-    fontSize: 20,
-    marginTop: 20,
-    marginBottom: 6
+  vehicleDetails: {
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 15
   },
-  greyText: {
-    color: '#8794A0',
-    fontSize: 16
+  label: {
+    color: '#fff',
+    fontSize: 15
+  },
+  subLabel: {
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 12
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  centerItems: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  badgesList: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 21,
+    marginBottom: 18,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  divider: {
+    marginVertical: 36
   }
 });

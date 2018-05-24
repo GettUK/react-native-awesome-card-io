@@ -2,6 +2,7 @@ import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 
 import { get, post, put } from 'utils';
+import { reject } from 'lodash';
 import faye from 'utils/faye';
 import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 
@@ -38,6 +39,7 @@ const TYPES = createTypes('booking', [
   'toggleVisibleModal',
   'setDriver',
   'changeDriverRating',
+  'changeDriverRatingReasons',
   'changeDriverRatingSuccess',
   'clearCurrentOrder',
   'clearBooking'
@@ -246,9 +248,24 @@ export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, pay
 
 export const changeDriverRating = rating => ({ type: TYPES.changeDriverRating, payload: rating });
 
+export const changeDriverRatingReasons = name => (dispatch, getState) => {
+  const { tempDriverRatingReasons } = getState().booking.currentOrder;
+  let ratingReasons = (tempDriverRatingReasons && tempDriverRatingReasons) || [];
+
+  if (ratingReasons.find(reasonName => (reasonName === name))) {
+    ratingReasons = reject(ratingReasons, reasonName => (reasonName === name));
+  } else {
+    ratingReasons.push(name);
+  }
+  dispatch({ type: TYPES.changeDriverRatingReasons, payload: ratingReasons });
+};
+
 export const rateDriver = () => (dispatch, getState) => {
-  const { id, tempDriverRating } = getState().booking.currentOrder;
-  return put(`/bookings/${id}/rate`, { rating: tempDriverRating })
+  const { id, tempDriverRating, tempDriverRatingReasons } = getState().booking.currentOrder;
+  return put(`/bookings/${id}/rate`, {
+    rating: tempDriverRating,
+    rating_reasons: (tempDriverRatingReasons && tempDriverRatingReasons) || []
+  })
     .then(() => dispatch({ type: TYPES.changeDriverRatingSuccess }));
 };
 

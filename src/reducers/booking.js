@@ -178,11 +178,16 @@ const changeDriverRating = (state, { payload }) => (
   update(state, 'currentOrder.tempDriverRating', payload)
 );
 
+const changeDriverRatingReasons = (state, { payload }) => (
+  update(state, 'currentOrder.tempDriverRatingReasons', payload)
+);
+
 const changeDriverRatingSuccess = state => (
   update(state, {
     'currentOrder.rateable': false,
     'currentOrder.driverDetails.tripRating': state.currentOrder.tempDriverRating,
-    'currentOrder.tempDriverRating': null
+    'currentOrder.tempDriverRating': null,
+    'currentOrder.tempDriverRatingReasons': []
   })
 );
 
@@ -218,6 +223,7 @@ export default composeReducer('booking', {
   changeDriverPosition,
   setDriver,
   changeDriverRating,
+  changeDriverRatingReasons,
   changeDriverRatingSuccess,
   clearCurrentOrder,
   clearBooking

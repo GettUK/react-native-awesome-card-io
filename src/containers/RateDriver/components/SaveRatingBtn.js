@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { rateDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
 import { throttledAction } from 'utils';
+import { strings } from 'locales';
 
 function SaveRatingBtn({ rating, rateDriver, navigation, rateable = true }) {
   const handleSave = throttledAction(() => {
@@ -14,7 +15,16 @@ function SaveRatingBtn({ rating, rateDriver, navigation, rateable = true }) {
     }
   });
 
-  return (rateable ? <SaveBtn onPress={handleSave} enabled={!!rating} /> : null);
+  return (rateable
+    ? <SaveBtn
+        defaultColor="rgba(255, 255, 255, 0.5)"
+        enabledColor="#fff"
+        title={strings('send')}
+        onPress={handleSave}
+        enabled={!!rating}
+    />
+    : null
+  );
 }
 
 SaveRatingBtn.propTypes = {

@@ -52,6 +52,7 @@ import settings from './settings';
 import sms from './sms';
 import sourceMarker from './sourceMarker';
 import star from './star';
+import starEmpty from './starEmpty';
 import time from './time';
 import tripReason from './tripReason';
 import vehicleInfo from './info';
@@ -124,6 +125,7 @@ export default {
   sms,
   sourceMarker,
   star,
+  starEmpty,
   time,
   tripReason,
   vehicleInfo,
