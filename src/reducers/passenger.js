@@ -88,8 +88,8 @@ const changePaymentField = (state, { payload: { field, value } }) =>
 const changePaymentFields = (state, { payload }) =>
   update(state, { newPaymentData: { ...state.newPaymentData, ...payload }, touched: true });
 
-const setDefaultPaymentFields = state =>
-  update(state, { newPaymentData: initPaymentCardType, touched: false });
+const resetPaymentFields = state =>
+  update(state, { newPaymentData: initPaymentCardType, touched: false, validationPaymentError: null });
 
 const addPaymentCardType = (state, { payload }) =>
   update.push(state, 'data.paymentCards', payload);
@@ -123,7 +123,7 @@ export default composeReducer('passenger', {
   setValidationError,
   changePaymentField,
   changePaymentFields,
-  setDefaultPaymentFields,
+  resetPaymentFields,
   addPaymentCardType,
   getCompanySettings
 }, initialState);

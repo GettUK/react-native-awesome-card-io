@@ -32,7 +32,7 @@ const TYPES = createTypes('passenger', [
   'setValidationError',
   'changePaymentField',
   'changePaymentFields',
-  'setDefaultPaymentFields',
+  'resetPaymentFields',
   'addPaymentCardType',
   'clearPassenger',
   'getCompanySettings'
@@ -205,7 +205,7 @@ export const changePaymentField = (field, value) => ({ type: TYPES.changePayment
 
 export const changePaymentFields = fields => ({ type: TYPES.changePaymentFields, payload: fields });
 
-export const setDefaultPaymentFields = () => ({ type: TYPES.setDefaultPaymentFields });
+export const resetPaymentFields = () => ({ type: TYPES.resetPaymentFields });
 
 export const addPaymentCardType = data => ({ type: TYPES.addPaymentCardType, payload: data });
 
@@ -219,7 +219,7 @@ export const addPaymentCard = () => (dispatch, getState) => {
     .then((res) => {
       dispatch(batchActions([
         addPaymentCardType(res.data),
-        setDefaultPaymentFields()
+        resetPaymentFields()
       ]));
     });
 };

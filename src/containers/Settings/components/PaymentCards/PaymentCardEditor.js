@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { curry } from 'lodash';
 import { View, KeyboardAvoidingView, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 
-import { changePaymentField, changePaymentFields } from 'actions/passenger';
+import { changePaymentField, changePaymentFields, resetPaymentFields } from 'actions/passenger';
 import { throttledAction } from 'utils';
 
 import { Input, DismissKeyboardView, Modal, Icon, Divider } from 'components';
@@ -22,6 +22,10 @@ class PaymentCardEditor extends Component {
   static propTypes = {
     navigation: PropTypes.object
   };
+
+  componentWillUnmount() {
+    this.props.resetPaymentFields();
+  }
 
   handleMaskInputChange = curry((field, formatted, extracted) => {
     this.props.changePaymentField(field, extracted);
@@ -164,7 +168,8 @@ const mapState = ({ passenger }) => ({
 
 const mapDispatch = {
   changePaymentField,
-  changePaymentFields
+  changePaymentFields,
+  resetPaymentFields
 };
 
 export default connect(mapState, mapDispatch)(PaymentCardEditor);
