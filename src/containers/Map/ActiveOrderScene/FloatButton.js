@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'components';
@@ -21,10 +21,10 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
 
   return (
     <View style={[fbStyles.container, style]}>
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={handlePress}
         style={fbStyles.buttonArea}
-        underlayColor="rgba(135, 206, 235, 0.3)"
+        activeOpacity={0.6}
       >
         <View style={fbStyles.button}>
           {loading
@@ -32,7 +32,7 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
             : <Icon {...icons[iconName]} />
           }
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
       <Text style={fbStyles.label}>{label}</Text>
     </View>
   );
