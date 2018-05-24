@@ -4,6 +4,11 @@ import { Icon } from 'components';
 
 const prepareCoordinates = location => location && ({ latitude: location.lat, longitude: location.lng });
 
+const carMapping = {
+  BlackTaxi: 'blackTaxi',
+  BlackTaxiXL: 'blackTaxiXL'
+};
+
 export default class DriverMarker extends PureComponent {
   state = {
     currentIndex: 0
@@ -61,6 +66,7 @@ export default class DriverMarker extends PureComponent {
     }).start();
 
   render() {
+    const { driver } = this.props;
     const location = this.getCurrentLocation() || {};
 
     return (
@@ -70,7 +76,7 @@ export default class DriverMarker extends PureComponent {
         tracksViewChanges={false}
       >
         <Icon
-          name="car"
+          name={carMapping[driver.carType]}
           size={24}
           style={location.bearing ? { transform: [{ rotate: `${location.bearing}deg` }] } : {}}
         />

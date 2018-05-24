@@ -3,6 +3,8 @@ import arrow from './arrow';
 import arrowDown from './arrowDown';
 import avatar from './avatar';
 import back from './back';
+import blackTaxi from './blackTaxi';
+import blackTaxiXL from './blackTaxiXL';
 import burger from './burger';
 import calendar from './calendar';
 import camera from './camera';
@@ -71,6 +73,8 @@ export default {
   arrowDown,
   avatar,
   back,
+  blackTaxi,
+  blackTaxiXL,
   burger,
   calendar,
   camera,
