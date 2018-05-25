@@ -1,7 +1,7 @@
 import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
 
-import { LATTITIDE_DELTA, LONGTITUDE_DELTA } from 'utils';
+import { LATTITIDE_DELTA, LONGTITUDE_DELTA, normalizeCoordinate } from 'utils';
 
 const initialState = {
   errors: null,
@@ -14,8 +14,8 @@ const changePosition = (state, { payload }) => {
   return update(state, {
     currentPosition: coords.latitude && coords.longitude
       ? {
-        latitude: parseFloat(coords.latitude),
-        longitude: parseFloat(coords.longitude),
+        latitude: normalizeCoordinate(coords.latitude),
+        longitude: normalizeCoordinate(coords.longitude),
         latitudeDelta: LATTITIDE_DELTA,
         longitudeDelta: LONGTITUDE_DELTA
       }

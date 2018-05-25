@@ -3,7 +3,6 @@ package com.onetransport.enterprise;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.syarul.rnlocation.RNLocation;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -38,7 +37,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new FabricPackage(),
-            new RNLocation(),
             new RNTextInputMaskPackage(),
             new FIRMessagingPackage(),
             new PickerPackage(),

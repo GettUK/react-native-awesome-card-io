@@ -15,7 +15,7 @@ import config from 'config';
 
 import { Icon } from 'components';
 
-import { LATTITIDE_DELTA, LONGTITUDE_DELTA, geocode, processLocation } from 'utils';
+import { LATTITIDE_DELTA, LONGTITUDE_DELTA, geocode, processLocation, normalizeCoordinate } from 'utils';
 import {
   IN_PROGRESS_STATUS,
   ARRIVED_STATUS,
@@ -322,7 +322,7 @@ class MapView extends Component {
     const order = this.getOrder();
 
     if (region && isPreOrder && dragEnable && !order.destinationAddress) {
-      const coordinates = { lat: region.latitude, lng: region.longitude };
+      const coordinates = { lat: normalizeCoordinate(region.latitude), lng: normalizeCoordinate(region.longitude) };
 
       onStartLoadingPickup();
 

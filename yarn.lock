@@ -5269,9 +5269,9 @@ react-native-fcm@^15.0.0:
   version "15.0.1"
   resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-15.0.1.tgz#9083403eb0efc45cfc8e7230d849cd4db7174e10"
 
-"react-native-gps@https://github.com/agrass/react-native-gps":
-  version "0.1.2"
-  resolved "https://github.com/agrass/react-native-gps#bd72edd415997308274022ae47512a658797a8cc"
+react-native-gps@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-gps/-/react-native-gps-0.1.1.tgz#18fbba6d3f421fb0e489f76f892bb25b70acebfe"
 
 react-native-hyperlink@^0.0.14:
   version "0.0.14"

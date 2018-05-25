@@ -14,7 +14,7 @@ import {
   NativeModules,
   DeviceEventEmitter
 } from 'react-native';
-import { every, find, first, has, isNull, isEmpty } from 'lodash';
+import { every, find, first, has, isNull, isEmpty, noop } from 'lodash';
 
 import { Icon, Button, Modal, Alert } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -54,7 +54,8 @@ const { RNLocation: Location } = NativeModules;
 
 const geoLocationOptions = {
   timeout: 2500,
-  highAccuracy: true
+  maximumAge: 1000,
+  distanceFilter: 10
 };
 
 const CURRENT_ROUTE = 'MapView';
@@ -76,7 +77,7 @@ class Map extends Component {
   componentDidMount() {
     this.props.requestLocation();
 
-    this.setCurrentPosition();
+    this.setWatchPosition();
 
     this.registerBackListener();
 
@@ -91,7 +92,7 @@ class Map extends Component {
       canceledByUser
     } = this.props;
     const {
-      map: { currentPositionProps },
+      map: { currentPosition: currentPositionProps },
       booking: { bookingForm: { pickupAddress: pickupAddressProps } },
       app: { statuses: statusesProps },
       canceledByUser: canceledByUserProps
@@ -103,10 +104,10 @@ class Map extends Component {
 
     if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
       this.mapView.wrappedInstance.getGeocode(currentPosition);
-      setTimeout(this.getCurrentPosition, 250);
+      setTimeout(this.getCurrentPosition, 50);
     }
 
-    this.getLocation(statuses, statusesProps);
+    this.isWatchPosition(statuses, statusesProps);
 
     if (canceledByUser && !canceledByUserProps) {
       this.showAlert();
@@ -121,13 +122,13 @@ class Map extends Component {
     BackHandler.removeEventListener('hardwareBack');
   }
 
-  getLocation(statuses, statusesProps) {
+  isWatchPosition(statuses, statusesProps) {
     if (
       statuses.permissions && statusesProps.permissions &&
       statuses.permissions.location !== statusesProps.permissions.location &&
       statuses.permissions.location === PERMISSION_STATUS.authorized
     ) {
-      this.setCurrentPosition();
+      this.setWatchPosition();
     }
   }
 
@@ -151,16 +152,28 @@ class Map extends Component {
     });
   };
 
-  setCurrentPosition = () => {
+  getNavigatorLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => this.changePosition(coords),
+      noop,
+      { timeout: geoLocationOptions.timeout, maximumAge: geoLocationOptions.maximumAge }
+    );
+  };
+
+  setWatchPosition = () => {
     this.props.checkMultiplePermissions(['location']).then(({ location }) => {
       if (location === PERMISSION_STATUS.authorized) {
+        this.getNavigatorLocation();
         if (Platform.OS === 'ios') {
           Location.startUpdatingLocation();
+          DeviceEventEmitter.addListener('locationUpdated', this.changePosition);
         } else {
-          Location.startUpdatingLocation(geoLocationOptions);
+          navigator.geolocation.watchPosition(
+            ({ coords }) => this.changePosition(coords),
+            noop,
+            geoLocationOptions,
+          );
         }
-
-        DeviceEventEmitter.addListener('locationUpdated', this.changePosition);
       }
     });
   };
@@ -198,6 +211,7 @@ class Map extends Component {
   getCurrentPosition = () => {
     const { map: { currentPosition } } = this.props;
 
+    this.getNavigatorLocation();
     if (!isNull(currentPosition)) {
       this.animateToRegion(currentPosition);
     }

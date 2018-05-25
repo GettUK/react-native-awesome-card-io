@@ -70,3 +70,5 @@ export const isInputsValid = (keys, data, validationRules, fn) => {
 
   return true;
 };
+
+export const normalizeCoordinate = coord => +parseFloat(coord).toFixed(12);
