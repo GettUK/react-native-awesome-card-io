@@ -9,7 +9,13 @@ import { FadeInView, GradientWrapper, Button } from 'components';
 
 import { strings } from 'locales';
 import { showConfirmationAlert } from 'utils';
-import { ACTIVE_DRIVER_STATUSES, PREORDER_STATUSES, CUSTOMER_CARE_STATUS, FINAL_STATUSES } from 'utils/orderStatuses';
+import {
+  ACTIVE_DRIVER_STATUSES,
+  CANCEL_ALLOWED_STATUSES,
+  PREORDER_STATUSES,
+  CUSTOMER_CARE_STATUS,
+  FINAL_STATUSES
+} from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
 import Pointer from './ActiveOrderScene/Pointer';
@@ -60,6 +66,7 @@ class ActiveOrderScene extends Component {
 
     // const isTripActive = status === ACTIVE_STATUS;
     // const isDriverArrived = status === ARRIVED_STATUS;
+    const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
     const isPreOrderStatus = PREORDER_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
@@ -98,7 +105,7 @@ class ActiveOrderScene extends Component {
               pointerEvents="box-none"
             >
               <View style={screenStyles.actionsRow}>
-                {(isPreOrderStatus || isActiveDriverStatus || isCustomerCareStatus) &&
+                {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
                   <FloatButton
                     key="cancel"
                     label="Cancel Order"
