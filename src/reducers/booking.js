@@ -71,7 +71,7 @@ const resetBookingValues = state =>
     bookingForm: update.assign({
       // todo use initial state
       ...state.bookingForm.defaultPaymentType,
-      bookerReferences: state.formData.bookerReferences,
+      bookerReferences: state.formData.bookingReferences,
       scheduledType: 'now',
       scheduledAt: null,
       message: state.formData.defaultDriverMessage
