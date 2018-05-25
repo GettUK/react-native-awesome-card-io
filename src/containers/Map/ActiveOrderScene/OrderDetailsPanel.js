@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 
 import assets from 'assets';
 
-import { Icon, PointList, JourneyDetails, Divider } from 'components';
+import { Icon, PointList, JourneyDetails, Divider, RatingLabel } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX } from 'utils';
@@ -158,11 +158,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
           <Text style={orderPanelStyles.name}>{driver.info.name}</Text>
         </View>
 
-        {driver.info.rating &&
-          <View style={orderPanelStyles.rating}>
-            <Text style={orderPanelStyles.ratingLabel}>{driver.info.rating.toFixed(1)}</Text>
-            <Icon name="star" size={12} color="#fff"/>
-          </View>
+        {driver.info.rating && <RatingLabel label={driver.info.rating} />
         }
       </View>
     </View>

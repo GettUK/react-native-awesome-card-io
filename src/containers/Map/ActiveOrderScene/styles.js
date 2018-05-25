@@ -189,21 +189,6 @@ export const orderPanelStyles = StyleSheet.create({
     width: 100,
     textAlign: 'right'
   },
-  rating: {
-    borderRadius: 6,
-    height: 21,
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f6b530'
-  },
-  ratingLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#fff',
-    paddingRight: 3
-  },
   pointList: {
     alignSelf: 'stretch',
     justifyContent: 'flex-start',

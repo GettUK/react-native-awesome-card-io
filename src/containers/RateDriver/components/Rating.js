@@ -6,8 +6,7 @@ import { Icon } from 'components/index';
 const styles = StyleSheet.create({
   ratingHolder: {
     flexDirection: 'row',
-    marginTop: 30,
-    marginBottom: 10
+    marginVertical: 13
   },
   starHolder: {
     paddingHorizontal: 5
@@ -25,7 +24,7 @@ const Rating = ({ value, style, onChange, ratingCount, disabled }) => (
           key={i}
           style={styles.starHolder}
         >
-          <Icon name="star" color={isActive ? '#f6b530' : '#e7e7e7'} size={50} />
+          <Icon name={isActive ? 'star' : 'starEmpty'} color={isActive ? '#f6b530' : '#e7e7e7'} size={30} />
         </TouchableOpacity>
       );
     })}

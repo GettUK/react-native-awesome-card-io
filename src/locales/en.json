@@ -156,6 +156,11 @@
   "confirmDelete": "Do you want to delete?",
   "goBack": "Go Back",
   "rateYourDriver": "Rate your driver",
+  "yourRated": "Your Rated",
+  "howCanImprove": "How can we improve?",
+  "yourFeedback": "Your feedback will be kept anonymous",
+  "selectIssues": "Please select one or more issues",
+  "send": "Send",
   "order": {
     "cancelOrderCreation": "Cancel Order Creation",
     "createNew": "Create New",
@@ -184,6 +189,16 @@
       "driver_asked_to": "Driver asked me to",
       "hailed_another_car": "Hailed another car",
       "too_long_eta": "ETA was too long"
+    },
+    "ratingReasons": {
+      "driver_professionalism": "Driver professionalism",
+      "vehicle_condition": "Vehicle condition",
+      "driving_style": "Driving style",
+      "car_model": "Car model",
+      "pickup": "Pickup",
+      "route": "Route",
+      "app": "App",
+      "traffic": "Traffic"
     }
   }
 }
