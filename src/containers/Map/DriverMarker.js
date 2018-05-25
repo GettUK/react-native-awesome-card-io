@@ -77,7 +77,7 @@ export default class DriverMarker extends PureComponent {
       >
         <Icon
           name={carMapping[driver.carType]}
-          size={24}
+          size={36}
           style={location.bearing ? { transform: [{ rotate: `${location.bearing}deg` }] } : {}}
         />
       </Map.Marker.Animated>
