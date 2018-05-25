@@ -248,7 +248,7 @@ class Map extends Component {
       scheduledAt: null
     });
     if (this.editorView) {
-      this.editorView.wrappedInstance.footerInstance().createBooking();
+      this.editorView.wrappedInstance.footerInstance().createBooking({});
     }
   };
 
