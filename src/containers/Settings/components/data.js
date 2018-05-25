@@ -2,7 +2,7 @@
 const terms = [
   { type: 'header', value: 'ONE TRANSPORT TERMS AND CONDITIONS' },
   { type: 'important', value: 'IMPORTANT' },
-  { type: 'important', value: `THESE TERMS AND CONDITIONS ("Conditions") DEFINE THE BASIS UPON WHICH YOU WILL BE PROVIDED WITH ACCESS TO THE GETT MOBILE APPLICATION PLATFORM, PURSUANT TO WHICH YOU WILL BE ABLE TO REQUEST CERTAIN TRANSPORTATION SERVICES FROM THIRD PARTY DRIVERS BY PLACING ORDERS THROUGH ONE TRANSPORT'S MOBILE APPLICATION PLATFORM. ONE TRANSPORT IS PART OF THE GETT GROUP.  THESE CONDITIONS (TOGETHER WITH THE DOCUMENTS REFERRED TO HEREIN) SET OUT THE TERMS OF USE ON WHICH YOU MAY, USE THE APP AND REQUEST TRANSPORTATION SERVICES. BY USING THE APP AND TICKING THE ACCEPTANCE BOX, YOU INDICATE THAT YOU ACCEPT THESE TERMS OF USE WHICH APPLY, AMONG OTHER THINGS, TO ALL SERVICES HEREINUNDER TO BE RENDERED TO OR BY YOU VIA THE APP AND THAT YOU AGREE TO ABIDE BY THEM. PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE YOU START TO USE THE APP AND/OR REQUEST TRANSPORTATION SERVICES. IF YOU DO NOT AGREE TO THESE TERMS OF USE, YOU MUST NOT USE THE APP OR REQUEST THE TRANSPORTATION SERVICES.` },
+  { type: 'important', value: `THESE TERMS AND CONDITIONS ("Conditions") DEFINE THE BASIS UPON WHICH YOU WILL BE PROVIDED WITH ACCESS TO THE ONE TRANSPORT MOBILE APPLICATION PLATFORM, PURSUANT TO WHICH YOU WILL BE ABLE TO REQUEST CERTAIN TRANSPORTATION SERVICES FROM THIRD PARTY DRIVERS BY PLACING ORDERS THROUGH ONE TRANSPORT'S MOBILE APPLICATION PLATFORM. ONE TRANSPORT IS PART OF THE GETT GROUP.  THESE CONDITIONS (TOGETHER WITH THE DOCUMENTS REFERRED TO HEREIN) SET OUT THE TERMS OF USE ON WHICH YOU MAY, USE THE APP AND REQUEST TRANSPORTATION SERVICES. BY USING THE APP AND TICKING THE ACCEPTANCE BOX, YOU INDICATE THAT YOU ACCEPT THESE TERMS OF USE WHICH APPLY, AMONG OTHER THINGS, TO ALL SERVICES HEREINUNDER TO BE RENDERED TO OR BY YOU VIA THE APP AND THAT YOU AGREE TO ABIDE BY THEM. PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE YOU START TO USE THE APP AND/OR REQUEST TRANSPORTATION SERVICES. IF YOU DO NOT AGREE TO THESE TERMS OF USE, YOU MUST NOT USE THE APP OR REQUEST THE TRANSPORTATION SERVICES.` },
   { type: 'important', value: "YOUR ATTENTION IS PARTICULARLY DRAWN TO CONDITION 9 WHICH LIMITS ONE TRANSPORT'S LIABILITY TO YOU." },
 
   { type: 'subheader', value: '1. DEFINITIONS AND INTERPRETATION' },
@@ -12,42 +12,44 @@ const terms = [
       {
         type: 'list',
         title: 'In these Conditions (unless the context otherwise requires), the following words and phrases shall have the following meanings:',
+        marker: '1.1',
         disableMarker: true,
         value: [
-          { type: 'plain', value: '“Advanced Technology Fee” means the charge levied by One Transport for the provision of the Services, including for the convenience of accessing Transportation Services via the App but not from the provision of Transportation Services;' },
-          { type: 'plain', value: '“App” means the mobile application which provides a platform for placing Orders and is owned by One Transport;' },
-          { type: 'plain', value: '“Cancellation Fee” means the fee charged for cancellation of an Order as outlined in Condition 4.7;' },
-          { type: 'plain', value: '“Collection Location” means the location notified by you via the App to be picked up by a Driver;' },
-          { type: 'plain', value: '“Customer” means the individual making a request via One Transport’s mobile application platform for Transportation Services. A reference to “you” or “your” shall be construed as a reference to the Customer;' },
-          { type: 'plain', value: '“Customer Account” means the Customer’s account with One Transport which contains the Customer’s personal information including their name, address, email address, phone number and payment information;' },
+          { type: 'plain', value: '"Advanced Technology Fee" means the charge which may be levied by One Transport for the provision of the Services, including for the convenience of accessing Transportation Services via the App but not from the provision of Transportation Services;' },
+          { type: 'plain', value: '"App" means the website and/or mobile application which provides a platform for placing Orders and is owned by Gett and licensed to One Transport;' },
+          { type: 'plain', value: '"Cancellation Fee" means the fee charged for cancellation of an Order as outlined in Condition 4.7;' },
+          { type: 'plain', value: '"Collection Location" means the location notified by you via the App to be picked up by a Driver;' },
+          { type: 'plain', value: `"Customer" means the individual making a request via One Transport's mobile application platform (being part of the App) for Transportation Services. A reference to "you" or "your" shall be construed as a reference to the Customer;` },
+          { type: 'plain', value: `"Customer Account" means the Customer's account with One Transport which contains the Customer's personal information including their name, address, email address, phone number and payment information;` },
           { type: 'plain', value: '"Data Controller" and "Data Processor" have the meaning set out in the Data Protection Laws;' },
-          { type: 'plain', value: '“Data Protection Laws” means (until 25 May 2018) the Data Protection Act 1998 and (from 25 May 2018) the General Data Protection Regulation, together with all legislation made thereunder and any other laws relating to the processing of Personal Data, in each case as amended, superseded or replaced from time to time;' },
-          { type: 'plain', value: '“Driver” means a driver who is an independent contractor and has entered into a driver agreement with One Transport to provide transportation services to users of the App, including Customers;' },
-          { type: 'plain', value: '“Fees” means the fare charges payable by the Customer in connection with the Transportation Services and the Advanced Technology Fee as further outlined in Condition 4;' },
-          { type: 'plain', value: '“Final Location” means the location notified by the Customer using the App as the final destination for the Transportation Services;' },
+          { type: 'plain', value: '"Data Protection Laws" means (until 25 May 2018) the Data Protection Act 1998 and (from 25 May 2018) the General Data Protection Regulation, together with all legislation made thereunder and any other laws relating to the processing of Personal Data, in each case as amended, superseded or replaced from time to time;' },
+          { type: 'plain', value: '"Driver" means a driver who is the holder of a private hire vehicle licence and is employed, or otherwise a contractor of, the Operator and will provide the Transportation Services;' },
+          { type: 'plain', value: '"Fees" means the fare charges payable by the Customer in connection with the Transportation Services [and the Advanced Technology Fee] as further outlined in Condition 4;' },
+          { type: 'plain', value: '"Final Location" means the location notified by the Customer using the App as the final destination for the Transportation Services;' },
           { type: 'plain', value: '"Gett" means GT GETTAXI (UK) LIMITED a company established under the laws of England and Wales with company number 07603404 whose registered office is at Seal House, 3rd Floor, 1 Swan Lane, London, EC4R 3TN;' },
-          { type: 'plain', value: '“Intellectual Property Rights” means any and all patents, trademarks and service marks, registered designs, design rights and copyright, moral rights, rights in data and databases and other protectable lists of information, rights in confidential information, trade secrets, inventions and know how, trade and business names, domain names, get ups, logos and trade dress (including all extensions, revivals and renewals, where relevant) in each case whether registered or unregistered and application for any of them and the goodwill attaching to any of them and any rights or forms of protection of a similar nature and having equivalent or similar effect to any of them which may subsist anywhere in the world;' },
+          { type: 'plain', value: '"Intellectual Property Rights" means any and all patents, trademarks and service marks, registered designs, design rights and copyright, moral rights, rights in data and databases and other protectable lists of information, rights in confidential information, trade secrets, inventions and know how, trade and business names, domain names, get ups, logos and trade dress (including all extensions, revivals and renewals, where relevant) in each case whether registered or unregistered and application for any of them and the goodwill attaching to any of them and any rights or forms of protection of a similar nature and having equivalent or similar effect to any of them which may subsist anywhere in the world;' },
           { type: 'plain', value: '"One Transport" means One Transport Limited a company established under the laws of England and Wales with company number 04254912 whose registered office is at Seal House, 3rd Floor, 1 Swan Lane, London, EC4R 3TN and references to "us" or "we" shall be construed accordingly;' },
           { type: 'plain', value: '"Operator" means a licensed operator of private vehicles services (or equivalent under any local laws) who has entered into an agreement with One Transport to provide sub-contracted Transportation Services;' },
-          { type: 'plain', value: '“Order” means a request for Transportation Services by the Customer via the App;' },
-          { type: 'plain', value: '“Privacy Policy” means One Transport’s privacy policy available on the One Transport website or on Settings menu of current application' },
-          { type: 'plain', value: '“Personal Data” has the meaning set out in the Data Protection Laws;' },
-          { type: 'plain', value: '“Services” means the platform for ordering Drivers, through the App, for performance of Transportation Services;' },
-          { type: 'plain', value: '“Standby Fee” means the sum of £0.50 for each minute a Driver is waiting to collect you or such other sum as notified to you from time to time via the App;' },
-          { type: 'plain', value: '“Transportation Services” means transportation services to be provided to you by a Driver.' }
+          { type: 'plain', value: '"Order" means a request for Transportation Services by the Customer via the App;' },
+          { type: 'plain', value: `"Privacy Policy" means One Transport's privacy policy available on the One Transport website https://gett.com/uk/legal/privacy/ ;` },
+          { type: 'plain', value: '"Personal Data" has the meaning set out in section the Data Protection Laws;' },
+          { type: 'plain', value: '"Services" means the platform for ordering Drivers, through the App, for performance of Transportation Services;' },
+          { type: 'plain', value: '"Standby Fee" means the sum for each minute a Driver is waiting to collect you or such other sum as notified to you from time to time via the App; and' },
+          { type: 'plain', value: '"Transportation Services" means private hire transportation services or black taxi (if in the UK) to be provided to you by a Driver in a licensed private hire vehicle (or equivalent in any local jurisdiction).' }
         ]
       },
       {
         type: 'list',
+        marker: '1.2',
         title: 'In these Conditions (unless the context requires otherwise):',
         value: [
-          { type: 'plain', marker: '1.', value: 'the words “including”, “include”, or “in particular” means including, includes or in particular without limitation and words in the singular include the plural and in the plural shall include the singular;' },
-          { type: 'plain', marker: '2.', value: 'reference to a party shall, upon any assignment or other transfer that is permitted by these Conditions, be construed to include those successors and permitted assigns or transferees;' },
-          { type: 'plain', marker: '3.', value: 'he contents list, headings, and any descriptive notes are for ease of reference only and shall not affect the construction or interpretation of these Conditions; and' },
-          { type: 'plain', marker: '4.', value: 'reference to any legislative provision shall be deemed to include any statutory instrument, by-law, regulation, rule, subordinate or delegated legislation or order and any rules and regulations which are made under it, and any subsequent re-enactment or amendment of the same.' }
+          { type: 'plain', marker: '1.2.1', value: 'the words "including", "include", or "in particular" means including, includes or in particular without limitation and words in the singular include the plural and in the plural shall include the singular;' },
+          { type: 'plain', marker: '1.2.2', value: 'reference to a party shall, upon any assignment or other transfer that is permitted by these Conditions, be construed to include those successors and permitted assigns or transferees;' },
+          { type: 'plain', marker: '1.2.3', value: 'the contents list, headings, and any descriptive notes are for ease of reference only and shall not affect the construction or interpretation of these Conditions; and' },
+          { type: 'plain', marker: '1.2.4', value: 'reference to any legislative provision shall be deemed to include any statutory instrument, by-law, regulation, rule, subordinate or delegated legislation or order and any rules and regulations which are made under it, and any subsequent re-enactment or amendment of the same.' }
         ]
       },
-      { type: 'plain', value: 'These Conditions shall apply to the Customer’s access and use of the Services and all Orders placed by the Customer through the App.' }
+      { type: 'plain', marker: '1.3', value: `These Conditions shall apply to the Customer's access and use of the Services and all Orders placed by the Customer through the App.` }
     ]
   },
 
@@ -55,11 +57,11 @@ const terms = [
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'One Transport is an affiliate of One Transport and a permitted user and operator of the App.' },
-      { type: 'plain', value: 'You must be 18 years of age or older to use the App and place Orders. Access to the App is permitted for personal use only.' },
-      { type: 'plain', value: 'The App provides a means to enable Customers who seek transportation to certain destinations to be connected with Drivers. One Transport do not directly provide transportation services, rather they are a technological service provider. One Transport has provided One Transport with the right to use its electronic platform and other centralised services to enable One Transport to provide the Services and take Orders.' },
-      { type: 'plain', value: 'Access to, and use of, the App is free of charge. You will need to set up a Customer Account and provide your payment details in order to access the Services. Any notice or other communication permitted or required in accordance with these Conditions by One Transport will be in writing and sent to the email address that you provided when setting up your Customer Account and/or the App.' },
-      { type: 'plain', value: 'Notwithstanding the provisions of Condition 2.3, One Transport does not guarantee availability nor uninterrupted or error free use of the App and shall not be liable for any damage, loss, claims, costs or expenses resulting from or as a consequence of scheduled or unscheduled downtime, unavailability or slowness.' }
+      { type: 'plain', marker: '2.1', value: 'One Transport is an affiliate of One Transport and a permitted user and operator of the App.' },
+      { type: 'plain', marker: '2.2', value: 'You must be 18 years of age or older to use the App and place Orders. Access to the App is permitted for personal use only.' },
+      { type: 'plain', marker: '2.3', value: 'The App provides a means to enable Customers who seek transportation to certain destinations to be connected with Drivers. One Transport do not directly provide transportation services, rather they are a technological service provider. One Transport has provided One Transport with the right to use its electronic platform and other centralised services to enable One Transport to provide the Services and take Orders.' },
+      { type: 'plain', marker: '2.4', value: 'Access to, and use of, the App is free of charge. You will need to set up a Customer Account and provide your payment details in order to access the Services. Any notice or other communication permitted or required in accordance with these Conditions by One Transport will be in writing and sent to the email address that you provided when setting up your Customer Account and/or the App.' },
+      { type: 'plain', marker: '2.5', value: 'Notwithstanding the provisions of Condition 2.3, One Transport does not guarantee availability nor uninterrupted or error free use of the App and shall not be liable for any damage, loss, claims, costs or expenses resulting from or as a consequence of scheduled or unscheduled downtime, unavailability or slowness.' }
     ]
   },
 
@@ -88,45 +90,54 @@ const terms = [
     ]
   },
 
-  { type: 'subheader', value: '5. PROMOTIONS' },
+  { type: 'subheader', value: '5. DATA AND DATA PRIVACY' },
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'From time to time, One Transport may run promotional offers or bonuses for using the Services and details of such promotions and bonuses shall be made available via the App, text message or email. One Transport will notify you of offers that you are eligible to accept from time to time and any additional promotional terms and conditions. Where a promotion offers Customers or Drivers a bonus for submitting or completing a set numbers of Orders, you must not do anything in fulfilment of this promotion which may be deemed fraudulent. All Orders must involve the provision of Transportation Services to bone fide Customers and you must not collude with Drivers and/or create any fake or fictitious Customer profiles and/or submit fictitious journeys in order to qualify for any promotional or bonus payment. One Transport reserves the right to report any fraudulent activities to relevant law enforcement authorities.' },
-      { type: 'plain', value: 'Where it is reasonably considered by One Transport that you have acted in a manner that is otherwise than in accordance with Condition 5.1 above, One Transport will notify you and, at its sole discretion, may withhold any promotional payment or discount and/or suspend and/or terminate your access to the App. If you receive such a notification and you believe that you have not breached the requirements of Condition 5.1, you can appeal this decision by writing to customercare.uk@gett.com within 48 hours of receipt of such notification and providing full reasons for your dispute.' }
+      { type: 'plain', marker: '5.1', value: 'By downloading and/or using the App you consent to One Transport processing your Personal Data. One Transport will process your Personal Data for purposes connected with the Services and Transportation Services. From time to time, One Transport may process your Personal Data in order to notify you of opportunities connected with the Services either directly or by an affiliate of One Transport. When processing your Personal Data, One Transport will take appropriate technological measures to protect and keep your Personal Data secure and shall process your information in accordance with Data Protection Laws. Your Personal Data may be processed outside of the EEA.' },
+      { type: 'plain', marker: '5.2', value: 'In order to allow us to provide you with the Services and/or access to Transportation Services, your Personal Data may be transferred by One Transport to the Operator and Drivers as well as other data such as your telephone number. One Transport advises all Operators that they must ensure that they keep your Personal Data safe and secure at all times and not allow access to any third parties to such information, other than Drivers.' },
+      { type: 'plain', marker: '5.3', value: 'We also process your Personal Data in accordance with One Transport’s Privacy Policy, please ensure that you read this document before using the App. By using the App, you acknowledge and confirm that you have understood the use of your Personal Data set out in the Privacy Policy.' },
+      { type: 'plain', marker: '5.4', value: 'One Transport and/or Gett does not guarantee that the App will be secure or free from bugs or viruses. You must not misuse the App by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. You must not attempt to gain unauthorised access to the App, the server on which the App is stored or any server, device or database connected to the App. You must not attack the App via a denial-of-service attack or a distributed denial-of service attack. By breaching this provision, you may commit a criminal offence under the Computer Misuse Act 1990. One Transport will report any such breach to the relevant law enforcement authorities and One Transport will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use the App will cease immediately.' },
+      { type: 'plain', marker: '5.5', value: 'The App may include links to other websites, apps or material which is beyond One Transport’s control and which are owned and controlled by third parties. We are not responsible for the content on these links, the internet or World Wide Web pages or any other site or app outside the App. Where the App contain links to other sites or apps or materials provided by third parties, these links are provided for your information only. These links are provided as a courtesy to One Transport’s users and are not administered or verified in any way by One Transport. Such links are accessed by you at your own risk and One Transport makes no representations or warranties about the content of such websites or apps and cannot be held liable for the content and activities of these websites or any losses you suffer as a result of using such third party websites. One Transport may provide links to third party websites or apps that use cookies on users to collect data and/or to solicit personal information. As a result, One Transport strongly recommends that you read the privacy policies and terms of use of any third party websites or apps prior to using them.' }
     ]
   },
 
-  { type: 'subheader', value: '6. DATA AND DATA PRIVACY' },
+  { type: 'subheader', value: '6. ELECTRONIC COMMUNICATIONS' },
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'By downloading and/or using the App you consent to One Transport processing your Personal Data. One Transport will process your Personal Data for purposes connected with the Services and Transportation Services. From time to time, One Transport may process your Personal Data in order to notify you of opportunities connected with the Services either directly or by an affiliate of One Transport. When processing your Personal Data, One Transport will take appropriate technological measures to protect and keep your Personal Data secure and shall process your information in accordance with Data Protection Laws. Your Personal Data may be processed outside of the EEA.' },
-      { type: 'plain', value: 'In order to allow us to provide you with the Services and/or access to Transportation Services, your Personal Data may be transferred by One Transport to the Operator and Drivers as well as other data such as your telephone number. One Transport advises all Operators that they must ensure that they keep your Personal Data safe and secure at all times and not allow access to any third parties to such information, other than Drivers.' },
-      { type: 'plain', value: 'We also process your Personal Data in accordance with One Transport’s Privacy Policy, please ensure that you read this document before using the App. By using the App, you acknowledge and confirm that you have understood the use of your Personal Data set out in the Privacy Policy.' },
-      { type: 'plain', value: 'One Transport and/or Gett does not guarantee that the App will be secure or free from bugs or viruses. You must not misuse the App by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. You must not attempt to gain unauthorised access to the App, the server on which the App is stored or any server, device or database connected to the App. You must not attack the App via a denial-of-service attack or a distributed denial-of service attack. By breaching this provision, you may commit a criminal offence under the Computer Misuse Act 1990. One Transport will report any such breach to the relevant law enforcement authorities and One Transport will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use the App will cease immediately.' },
-      { type: 'plain', value: 'The App may include links to other websites, apps or material which is beyond One Transport’s control and which are owned and controlled by third parties. We are not responsible for the content on these links, the internet or World Wide Web pages or any other site or app outside the App. Where the App contain links to other sites or apps or materials provided by third parties, these links are provided for your information only. These links are provided as a courtesy to One Transport’s users and are not administered or verified in any way by One Transport. Such links are accessed by you at your own risk and One Transport makes no representations or warranties about the content of such websites or apps and cannot be held liable for the content and activities of these websites or any losses you suffer as a result of using such third party websites. One Transport may provide links to third party websites or apps that use cookies on users to collect data and/or to solicit personal information. As a result, One Transport strongly recommends that you read the privacy policies and terms of use of any third party websites or apps prior to using them.' },
-      { type: 'plain', value: 'Electronic Communications. When you use the App or send us emails or use pop-ups or make calls, you may be communicating with One Transport electronically.  One Transport will communicate with you by email, pop-up, phone, text or by posting notices on the One Transport website. You agree that all agreements, notices, disclosures and other communications sent to you electronically satisfy any legal requirement that such communications should be in writing.' }
+      { type: 'plain', marker: '6.1', value: 'When you use the App or send us emails or use pop-ups or make calls, you may be communicating with One Transport electronically.  One Transport will communicate with you by email, pop-up, phone, text or by posting notices on the One Transport website. You agree that all agreements, notices, disclosures and other communications sent to you electronically satisfy any legal requirement that such communications should be in writing.' }
     ]
   },
 
   { type: 'subheader', value: '7. INTELLECTUAL PROPERTY' },
-  { type: 'plain', value: 'You acknowledge that all Intellectual Property Rights and all other rights in the App are owned by Gett and licensed to One Transport and remain vested in Gett and One Transport at all times. You do not acquire any rights in or to the App under these Conditions.' },
+  {
+    type: 'list',
+    value: [
+      { type: 'plain', marker: '7.1', value: 'You acknowledge that all Intellectual Property Rights and all other rights in the App are owned by Gett and licensed to One Transport and remain vested in Gett and One Transport at all times. You do not acquire any rights in or to the App under these Conditions.' }
+    ]
+  },
 
   { type: 'subheader', value: '8. SUSPENSION OR MODIFICATION' },
-  { type: 'plain', value: 'One Transport reserves the right, at its sole discretion, to change, alter, suspend or indefinitely close the App and/or your access to the Services. From time to time, One Transport may also restrict access to some or all parts of the Services and/or the App.' },
+  {
+    type: 'list',
+    value: [
+      { type: 'plain', marker: '8.1', value: 'One Transport reserves the right, at its sole discretion, to change, alter, suspend or indefinitely close the App and/or your access to the Services. From time to time, One Transport may also restrict access to some or all parts of the Services and/or the App.' }
+    ]
+  },
 
   { type: 'subheader', value: '9. ONE TRANSPORT’S LIABILITY' },
   {
     type: 'list',
     value: [
-      { type: 'plain', value: 'Nothing in these Conditions excludes or limits One Transport’s liability for death or personal injury arising from One Transport’s negligence, or its fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by English law.' },
-      { type: 'plain', value: 'The material displayed on the App is provided without any guarantees, conditions or warranties as to its accuracy. You must bear the risks associated with the use of the App, the Services and the internet.' },
+      { type: 'plain', marker: '9.1', value: 'Nothing in these Conditions excludes or limits One Transport’s liability for death or personal injury arising from One Transport’s negligence, or its fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by English law.' },
+      { type: 'plain', marker: '9.2', value: 'The material displayed on the App is provided without any guarantees, conditions or warranties as to its accuracy. You must bear the risks associated with the use of the App, the Services and the internet.' },
       {
         type: 'list',
+        marker: '9.3',
         title: 'To the fullest extent permitted by law, Gett (including its officers, directors and employees) and third parties (including any agents or sub-contractors) connected to it hereby expressly exclude:',
         value: [
-          { type: 'plain', value: 'all conditions, warranties and other terms which might otherwise be implied by statute, common law or the law of equity in it provision of the Services and/or use of the App; and' },
+          { type: 'plain', marker: '9.3.1', value: 'all conditions, warranties and other terms which might otherwise be implied by statute, common law or the law of equity in it provision of the Services and/or use of the App; and' },
           {
             type: 'list',
             title: 'any liability arising under or in connection with:',
@@ -139,11 +150,11 @@ const terms = [
           }
         ]
       },
-      { type: 'plain', value: 'One Transport shall not be liable to the Customer for the actions or omissions of any Driver or in connection with the Transportation Services. Your contract for the Transportation Services is with the Driver directly and therefore any claim that you may have in relation to the Transportation Services should be directed to the Driver. If you are unclear as to who provided you with the Transportation Services, you can contact us at customercare.uk@Gett.com and ask us to provide you with the Driver details.' },
-      { type: 'plain', value: 'If we fail to comply with these Conditions, we are responsible for loss or damage you suffer that is a foreseeable result of our breaking of our contract with you or our failing to use reasonable care and skill, but we are not responsible for any loss or damage that is not foreseeable. Loss or damage is foreseeable if either it is obvious that it will happen or, if at the time these Conditions were accepted, both we and you knew it might happen. We only provide access to the App and/or Services for domestic and private use. You agree not to use the App and/or Services for any commercial, business or re-sale purposes and we have no liability to you for any loss of profit or revenue, loss of business, business interruption or loss of business opportunity.' },
-      { type: 'plain', value: 'One Transport will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other technologically harmful material that may infect your electronic and/or mobile equipment, computer programs, data or other proprietary material due to your use of the App and/or the Services or to your downloading of any content on it, or on any website linked to it.' },
-      { type: 'plain', value: 'One Transport shall not be in breach of these Conditions nor liable for any delay in performing, or failure to perform, any of its obligations under these Conditions if such delay or failure results from events, circumstances or causes beyond its reasonable control.' },
-      { type: 'plain', value: 'Subject to the remainder of this Condition 9, One Transport’s total liability to you in connection with these Conditions and the Services, however arising whether caused by tort (including negligence), breach of contract or otherwise, shall be limited to the Fees payable by you in relation to the Order in which the liability arose.' }
+      { type: 'plain', marker: '9.4', value: 'One Transport shall not be liable to the Customer for the actions or omissions of any Driver or in connection with the Transportation Services. Your contract for the Transportation Services is with the Driver directly and therefore any claim that you may have in relation to the Transportation Services should be directed to the Driver. If you are unclear as to who provided you with the Transportation Services, you can contact us at customercare.uk@Gett.com and ask us to provide you with the Driver details.' },
+      { type: 'plain', marker: '9.5', value: 'If we fail to comply with these Conditions, we are responsible for loss or damage you suffer that is a foreseeable result of our breaking of our contract with you or our failing to use reasonable care and skill, but we are not responsible for any loss or damage that is not foreseeable. Loss or damage is foreseeable if either it is obvious that it will happen or, if at the time these Conditions were accepted, both we and you knew it might happen. We only provide access to the App and/or Services for domestic and private use. You agree not to use the App and/or Services for any commercial, business or re-sale purposes and we have no liability to you for any loss of profit or revenue, loss of business, business interruption or loss of business opportunity.' },
+      { type: 'plain', marker: '9.6', value: 'One Transport will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other technologically harmful material that may infect your electronic and/or mobile equipment, computer programs, data or other proprietary material due to your use of the App and/or the Services or to your downloading of any content on it, or on any website linked to it.' },
+      { type: 'plain', marker: '9.7', value: 'One Transport shall not be in breach of these Conditions nor liable for any delay in performing, or failure to perform, any of its obligations under these Conditions if such delay or failure results from events, circumstances or causes beyond its reasonable control.' },
+      { type: 'plain', marker: '9.8', value: 'Subject to the remainder of this Condition 9, One Transport’s total liability to you in connection with these Conditions and the Services, however arising whether caused by tort (including negligence), breach of contract or otherwise, shall be limited to the Fees payable by you in relation to the Order in which the liability arose.' }
     ]
   },
 
@@ -180,16 +191,13 @@ const terms = [
   { type: 'subheader', value: '16. CONTACTING US AND COMPLAINTS' },
   { type: 'plain', value: 'If you have any concerns, or wish to contact us for any reason,  you can do so by emailing us at customercare.uk@gett.com. You can also contact us by writing to us at our registered address.' },
 
-  { type: 'subheader', value: '17. LOCAL LAWS' },
-  { type: 'plain', value: 'These Conditions apply to all Customers regardless of where the Transportation Services are provided. In so far as any provision of these Conditions is not permitted under any local law where the Transportation Services are provided, these Conditions shall be varied solely to the extent required by such local laws and all other Conditions shall remain unchanged.' },
-
-  { type: 'subheader', value: '18. JURISDICTION AND APPLICABLE LAW' },
+  { type: 'subheader', value: '17. JURISDICTION AND APPLICABLE LAW' },
   { type: 'plain', value: 'These Conditions, and any non-contractual obligations arising out of them, are governed and construed in accordance with the law of England and Wales and any proceedings resulting out of these terms of use, and any non-contractual obligations arising out of them, the Privacy Policy, Services and/or the use of the App shall be held in the Courts of England and Wales.' },
 
-  { type: 'subheader', value: '19. NO AGENCY' },
+  { type: 'subheader', value: '18. NO AGENCY' },
   { type: 'plain', value: 'Nothing in these Conditions shall be construed as creating, in any form, an agency relationship between One Transport and Customers under the laws of England and Wales.' },
 
-  { type: 'subheader', value: '20. YOUR STATUTORY RIGHTS' },
+  { type: 'subheader', value: '19. YOUR STATUTORY RIGHTS' },
   { type: 'plain', value: 'These Conditions are without prejudice to your statutory rights.' }
 ];
 
@@ -214,13 +222,15 @@ const privacy = [
   { type: 'subheader', value: '3. TYPES OF INFORMATION WE COLLECT' },
   {
     type: 'list',
+    title: 'One Transport collects both "Personal Information" and "Anonymous Information" about our users and visitors. Personal Information is information that can be used to contact or identify you, such as your full name, email address, phone number, payment method details, login name, password, mailing address, IP address, and profile picture, as well as information that is linked to such information. "Anonymous Information" is information that we cannot use to contact or identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the Site or on the App, such as usage data, to the extent that information is not linked to your Personal Information.',
+    marker: '3.1',
     value: [
-      { type: 'plain', marker: '3.1.1', value: 'One Transport collects both "Personal Information" and "Anonymous Information" about our users and visitors. Personal Information is information that can be used to contact or identify you, such as your full name, email address, phone number, payment method details, login name, password, mailing address, IP address, and profile picture, as well as information that is linked to such information. "Anonymous Information" is information that we cannot use to contact or identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the Site or on the App, such as usage data, to the extent that information is not linked to your Personal Information.' },
-      { type: 'plain', marker: '3.1.2', value: 'You can access and browse certain portions of the Site and download the App without disclosing Personal Information, although, like most website and mobile app providers, we passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wifi information, browser information, unique device identifier ("UDID") where applicable and/or your mobile operating system, and use third-parties such as Mixpanel and other SDK’s to obtain detailed analytics on the device. We also collect geolocation data from visitors that download and open the App. Sometimes, this passively collected information will constitute Personal Information - please see Sections 3.1.5 and 3.1.7 in particular.  Please note that you can choose not to provide us with certain information (for instance, by adjusting your cookie settings, see Section 5), and it is your voluntary decision whether to provide us with any such information but choosing not to will limit the features of the Site or the App you can access and use.' },
+      { type: 'plain', marker: '3.1.1', value: 'You can access and browse certain portions of the Site and download the App without disclosing Personal Information, although, like most website and mobile app providers, we passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wifi information, browser information, unique device identifier ("UDID") where applicable and/or your mobile operating system, and use third-parties such as Mixpanel and other SDK’s to obtain detailed analytics on the device. We also collect geolocation data from visitors that download and open the App. Sometimes, this passively collected information will constitute Personal Information - please see Sections 3.1.5 and 3.1.7 in particular.  Please note that you can choose not to provide us with certain information (for instance, by adjusting your cookie settings, see Section 5), and it is your voluntary decision whether to provide us with any such information but choosing not to will limit the features of the Site or the App you can access and use.' },
+      { type: 'plain', marker: '3.1.2', value: 'Voluntarily submitted information.' },
       {
         type: 'list',
         marker: '3.1.3',
-        title: 'Voluntarily submitted information.\n We collect information that you provide to us during your use of the Site, and/or App. Some examples include:',
+        title: 'We collect information that you provide to us during your use of the Site, and/or App. Some examples include:',
         value: [
           { type: 'plain', marker: '3.1.3.1', value: 'Personal Information that you enter when registering for or using the App, including your full name, email address, phone number, payment method, billing information, profile picture and profile information;' },
           { type: 'plain', marker: '3.1.3.2', value: 'communications with us (e.g. emails, text messages) or with other Riders or Drivers (e.g. verbal or written instructions to Drivers);' },
@@ -264,7 +274,8 @@ const privacy = [
         disableMarker: true,
         title: 'Information provided by others.',
         value: [
-          { type: 'plain', value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' }
+          { type: 'plain', value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' },
+          { type: 'plain', value: 'One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' }
         ]
       },
       {
@@ -346,10 +357,10 @@ const privacy = [
                 marker: '5.',
                 title: 'In the “Cookies” section, you can select the following settings:',
                 value: [
-                  { type: 'plain', value: 'Erase cookies' },
-                  { type: 'plain', value: 'Block cookies by default' },
-                  { type: 'plain', value: 'Erase cookies and website data by default after ending your browser session' },
-                  { type: 'plain', value: 'Accept exceptions for cookies from certain websites or website domains.' }
+                  { type: 'plain', marker: '-', value: 'Erase cookies' },
+                  { type: 'plain', marker: '-', value: 'Block cookies by default' },
+                  { type: 'plain', marker: '-', value: 'Erase cookies and website data by default after ending your browser session' },
+                  { type: 'plain', marker: '-', value: 'Accept exceptions for cookies from certain websites or website domains.' }
                 ]
               }
             ]
@@ -572,22 +583,9 @@ const privacy = [
     ]
   },
 
-  { type: 'plain', value: 'One Transport has a Data Protection Officer responsible for monitoring One Transport\'s compliance with EU data protection laws.  The Data Protection Officer can be contacted at privacy@gett.com.' },
-
-  { type: 'subheader', value: 'APPENDIX 1: US' },
-  { type: 'bold', value: 'California Privacy Rights' },
-  { type: 'plain', value: 'Under California\'s "Shine the Light" law, Cal. Civil Code § 1798.83, California residents have the right to request in writing from businesses with whom they have an established business relationship: (i) a list of the categories of Personal Information, such as name, address, email address, and the type of services provided to that customer, that a business has disclosed to third parties (including affiliates that are separate legal entities) during the immediately preceding calendar year for the third parties\' direct marketing purposes; and (ii) the names and addresses of all such third parties. To request the above information, California residents can email us at privacy@gett.com. California residents should include their name, California address, and the nature of their request in their email.' },
-
-  { type: 'subheader', value: 'APPENDIX 2: RUSSIA' },
-  { type: 'plain', value: 'You hereby understand and agree, that in certain cases you may be additionally asked to sign written consent for data processing necessary to provide services in compliance with applicable legislation (e.g. under Russian Federal Law No. 152-FZ “On Personal Data” dated 27 July 2006). You hereby understand and acknowledge, that if personal data consent is not provided, it is likely that we will not be able to provide you with services.' },
-
-  { type: 'small', value: '[1] including but not limited to GT Gettaxi Ltd., GT Gettaxi Services Ltd., GT Gettaxi (UK) Limited, One Transport Limited, Juno USA LP, Gettaxi Rus LLC, and Taptaxi Limited Liability Company.' }
-];
-
-const contactUs = [
-  { type: 'title', value: 'Contact Us' }
+  { type: 'plain', value: 'One Transport has a Data Protection Officer responsible for monitoring One Transport\'s compliance with EU data protection laws.  The Data Protection Officer can be contacted at privacy@gett.com.' }
 ];
 
 /* eslint-enable */
 
-export default { contactUs, terms, privacy };
+export default { terms, privacy };
