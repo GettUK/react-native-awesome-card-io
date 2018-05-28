@@ -11,6 +11,8 @@ export const onLayoutFooter = changeParamsField('footer');
 
 export const onLayoutPointList = changeParamsField('pointList');
 
+export const onLayoutConnectBar = changeParamsField('connectBar');
+
 export const changePermissions = perms => ({ type: TYPES.changePermissions, payload: perms });
 
 export const PERMISSION_STATUS = {

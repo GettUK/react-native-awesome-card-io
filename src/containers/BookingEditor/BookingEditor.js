@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
 
@@ -10,7 +10,7 @@ import { onLayoutPointList } from 'actions/app/statuses';
 
 import { PointList, AddressModal, StopPointsModal } from 'components';
 
-import { isIphoneX } from 'utils';
+import { getHeight } from 'utils';
 import BookingFooter from './BookingFooter';
 import { prepareDefaultValues } from './utils';
 import styles from './style';
@@ -119,20 +119,14 @@ class BookingEditor extends Component {
     };
   };
 
-  getHeight = (type) => {
-    const { app: { statuses: { params } } } = this.props;
-    return (params[type] && params[type].height) || 0;
-  };
-
   getPointListPosition = () => {
-    const { height } = Dimensions.get('window');
-    const header = ((isIphoneX() ? 49 : 30) + 55);
+    const { app: { statuses: { params: { footer } } } } = this.props;
 
-    if (!!this.getHeight('footer') && !!this.getHeight('pointList')) {
-      return { top: (height - this.getHeight('footer') - this.getHeight('pointList') - header) };
+    if (getHeight(footer)) {
+      return { bottom: getHeight(footer) + 5 };
     }
 
-    return { top: 0 };
+    return { bottom: 0 };
   };
 
   footerInstance = () => this.footerView && this.footerView.wrappedInstance;

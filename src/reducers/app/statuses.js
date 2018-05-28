@@ -5,7 +5,8 @@ import update from 'update-js';
 const initialState = {
   params: {
     footer: {},
-    pointList: {}
+    pointList: {},
+    connectBar: {}
   },
   isOpenKeyboard: false
 };

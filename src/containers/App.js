@@ -10,6 +10,8 @@ import NavigatorRoot from 'navigators/navigatorRoot';
 
 import { saveToken } from 'actions/app/pushNotifications';
 
+import { onLayoutConnectBar } from 'actions/app/statuses';
+
 import { isIphoneX } from 'utils';
 import PN from 'utils/notifications';
 
@@ -32,11 +34,15 @@ class AppContainer extends PureComponent {
   }
 
   render() {
+    const { dispatch, isConnected } = this.props;
     const connectionMargin = isIphoneX() ? -40 : -20;
 
     return <View style={{ flex: 1 }}>
-      <ConnectionMessage ref={(alert) => { this.alert = alert; }} />
-      <View style={{ flex: 1, marginTop: !this.props.isConnected ? connectionMargin : 0 }}>
+      <ConnectionMessage
+        onLayout={e => dispatch(onLayoutConnectBar(e))}
+        ref={(alert) => { this.alert = alert; }}
+      />
+      <View style={{ flex: 1, marginTop: !isConnected ? connectionMargin : 0 }}>
         <NavigatorRoot />
       </View>
     </View>;

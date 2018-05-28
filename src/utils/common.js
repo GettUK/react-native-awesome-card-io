@@ -72,3 +72,5 @@ export const isInputsValid = (keys, data, validationRules, fn) => {
 };
 
 export const normalizeCoordinate = coord => +parseFloat(coord).toFixed(12);
+
+export const getHeight = type => (type && type.height) || 0;

@@ -9,7 +9,7 @@ import assets from 'assets';
 import { Icon, PointList, JourneyDetails, Divider, RatingLabel } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
-import { getFormatPrice, isIphoneX } from 'utils';
+import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
 import { strings } from 'locales';
@@ -20,8 +20,11 @@ import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
-const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList }) => {
+const OrderDetails = ({
+  app, order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList
+}) => {
   const height = Dimensions.get('window').height;
+  const { statuses: { params: { connectBar } } } = app;
 
   const isDriverExist = driver && driver.info && !!driver.info.name;
 
@@ -229,6 +232,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
 
   const topIPhone = isIphoneX() ? 34 : 20;
   const bottomIPhone = isIphoneX() ? 12 : 0;
+  const connectBarTop = getHeight(connectBar) > 0 ? (getHeight(connectBar) - topIPhone) : 0;
 
   return (
     <SlidingUpPanel
@@ -236,7 +240,7 @@ const OrderDetails = ({ order, driver, vehicles, visible, onActivate, onClose, n
       showBackdrop={false}
       draggableRange={{
         top: height - 60 - (70 + topIPhone),
-        bottom: (isDriverExist ? 120 : 59) + bottomIPhone
+        bottom: (isDriverExist ? 120 : 59) + bottomIPhone + connectBarTop
       }}
       height={isDriverExist ? 112 : 54}
       backdropComponent={renderBackdropComponent()}
@@ -267,7 +271,8 @@ OrderDetails.defaultProps = {
   onClose: () => {}
 };
 
-const mapState = ({ booking }) => ({
+const mapState = ({ app, booking }) => ({
+  app,
   order: booking.currentOrder,
   vehicles: booking.vehicles,
   driver: booking.currentOrder.driverDetails
