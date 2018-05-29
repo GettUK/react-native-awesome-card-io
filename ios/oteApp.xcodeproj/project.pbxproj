@@ -32,7 +32,6 @@
 		7D8BC1DF2041B9B0009D2E2B /* login-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BC1DE2041B9AF009D2E2B /* login-bg.jpg */; };
 		7D954E592099C2A300E9AB56 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D954E582099C2A300E9AB56 /* login_bg.png */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
-		9276445B2081147500946644 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 927644592081143600946644 /* libRNLocation.a */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CAA8EEAFA0F14A10A6A4CE48 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -284,13 +283,6 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-		927644582081143600946644 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 927644362081143500946644 /* RNLocation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNLocation;
-		};
 		92A2291B20865EFB00209D73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */;
@@ -348,7 +340,6 @@
 		7D954E582099C2A300E9AB56 /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_bg.png; path = oteApp/login_bg.png; sourceTree = "<group>"; };
 		7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
-		927644362081143500946644 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-gps/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		92A2291D20865F2D00209D73 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -369,7 +360,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9276445B2081147500946644 /* libRNLocation.a in Frameworks */,
 				7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */,
 				7D7ACDC6204D600F00298C96 /* libSplashScreen.a in Frameworks */,
 				7D4589D4208F8253004495E4 /* InputMask.framework in Frameworks */,
@@ -544,7 +534,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				927644362081143500946644 /* RNLocation.xcodeproj */,
 				7DB89A18206D3E3F00BF652B /* RCTAnimation.xcodeproj */,
 				7D7ACDC0204D5FCC00298C96 /* SplashScreen.xcodeproj */,
 				7D8BC1D72041B920009D2E2B /* RCTGeolocation.xcodeproj */,
@@ -583,14 +572,6 @@
 				00E356EE1AD99517003FC87E /* oteAppTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* oteApp-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* oteApp-tvOSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		927644372081143500946644 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				927644592081143600946644 /* libRNLocation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -644,7 +625,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				045D0AAA0AFFF5E7F430AD45 /* [CP] Embed Pods Frameworks */,
 				ACA467FD756C524DE7CCAEAA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -668,7 +648,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native Resources */,
-				39C044F3834ACBC8BFFE31A9 /* [CP] Embed Pods Frameworks */,
 				D73C64018EF553EA47B45916 /* [CP] Copy Pods Resources */,
 				92A2292020865F2D00209D73 /* Embed Frameworks */,
 				7D4589D920907C13004495E4 /* ShellScript */,
@@ -802,10 +781,6 @@
 				{
 					ProductGroup = 7D8BC13F2041ACA9009D2E2B /* Products */;
 					ProjectRef = 7D8BC13E2041ACA9009D2E2B /* React.xcodeproj */;
-				},
-				{
-					ProductGroup = 927644372081143500946644 /* Products */;
-					ProjectRef = 927644362081143500946644 /* RNLocation.xcodeproj */;
 				},
 				{
 					ProductGroup = 92A2291820865EFB00209D73 /* Products */;
@@ -1051,13 +1026,6 @@
 			remoteRef = 7DB89A1F206D3E4100BF652B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		927644592081143600946644 /* libRNLocation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNLocation.a;
-			remoteRef = 927644582081143600946644 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		92A2291C20865EFB00209D73 /* libRNTextInputMask.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1121,21 +1089,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		045D0AAA0AFFF5E7F430AD45 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1149,21 +1102,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		39C044F3834ACBC8BFFE31A9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-oteApp/Pods-oteApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		6C2F63BA7D226FE4B013E4FD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

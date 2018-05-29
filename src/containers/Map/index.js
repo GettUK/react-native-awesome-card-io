@@ -10,9 +10,7 @@ import {
   DatePickerIOS,
   DatePickerAndroid,
   TimePickerAndroid,
-  BackHandler,
-  NativeModules,
-  DeviceEventEmitter
+  BackHandler
 } from 'react-native';
 import { every, find, first, has, isNull, isEmpty, noop } from 'lodash';
 
@@ -49,8 +47,6 @@ import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 import MapView from './MapView';
 
 import styles from './style';
-
-const { RNLocation: Location } = NativeModules;
 
 const geoLocationOptions = {
   timeout: 2500,
@@ -164,16 +160,11 @@ class Map extends Component {
     this.props.checkMultiplePermissions(['location']).then(({ location }) => {
       if (location === PERMISSION_STATUS.authorized) {
         this.getNavigatorLocation();
-        if (Platform.OS === 'ios') {
-          Location.startUpdatingLocation();
-          DeviceEventEmitter.addListener('locationUpdated', this.changePosition);
-        } else {
-          navigator.geolocation.watchPosition(
-            ({ coords }) => this.changePosition(coords),
-            noop,
-            geoLocationOptions,
-          );
-        }
+        navigator.geolocation.watchPosition(
+          ({ coords }) => this.changePosition(coords),
+          noop,
+          geoLocationOptions,
+        );
       }
     });
   };
