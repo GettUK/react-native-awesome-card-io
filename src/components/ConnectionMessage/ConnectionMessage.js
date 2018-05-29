@@ -30,9 +30,16 @@ class ConnectionMessage extends PureComponent {
     ).start();
   };
 
+  onLayout = (e) => {
+    this.props.onLayout(e.nativeEvent.layout);
+  };
+
   render() {
     return (
-      <Animated.View style={[styles.container, { height: this.alertAnim, opacity: this.alertAnim }]}>
+      <Animated.View
+        onLayout={this.onLayout}
+        style={[styles.container, { height: this.alertAnim, opacity: this.alertAnim }]}
+      >
         <View style={styles.messageContainer}>
           <View style={styles.messageWrapper}>
             <Text style={styles.message}>{strings('connection.errorHeader')}</Text>

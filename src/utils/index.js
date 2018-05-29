@@ -15,7 +15,8 @@ export {
   getFormatPrice,
   throttledAction,
   isInputsValid,
-  normalizeCoordinate
+  normalizeCoordinate,
+  getHeight
 } from './common';
 export * from './requests';
 export * from './map';
