@@ -29,12 +29,12 @@ class MessageToDriver extends Component {
             value={message}
             placeholder="Start type your message"
             onChangeText={this.onChangeText}
-            maxLength={250}
+            maxLength={225}
             textAlignVertical="top"
             underlineColorAndroid="transparent"
             multiline
           />
-          <Text style={styles.messageLength}>{message.length}/250</Text>
+          <Text style={styles.messageLength}>{message.length}/225</Text>
         </KeyboardAvoidingView>
       </View>
     );
