@@ -58,7 +58,12 @@ class MapView extends Component {
   changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition }) {
     const { dragEnable, currentPosition, isActiveOrder } = this.props;
 
-    if (!oldCurrentPosition && currentPosition) {
+    if (currentPosition &&
+      (!oldCurrentPosition ||
+        oldCurrentPosition.latitude !== currentPosition.latitude ||
+        oldCurrentPosition.longitude !== currentPosition.longitude
+      )
+    ) {
       const source = this.prepareCoordinates(currentPosition || {});
       this.animateToRegion(source);
     }
