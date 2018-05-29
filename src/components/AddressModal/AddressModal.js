@@ -185,7 +185,8 @@ export default class AddressModal extends PureComponent {
   }
 
   renderAddressList() {
-    const { values, loading } = this.state;
+    const { values, loading, inputValue } = this.state;
+    const { defaultValues } = this.props;
 
     const Container = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
@@ -199,7 +200,7 @@ export default class AddressModal extends PureComponent {
           keyboardShouldPersistTaps="always"
           contentContainerStyle={styles.list}
           removeClippedSubviews={Platform.OS !== 'ios'}
-          data={values}
+          data={inputValue.length ? values : defaultValues}
           renderItem={this.renderAddressItem}
           keyExtractor={this.keyExtractor}
           ListFooterComponent={loading && this.renderFooter}
