@@ -7,8 +7,9 @@ import findKey from 'lodash/findKey';
 import { getOrders, clearOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
+import { strings } from 'locales';
+
 import { Icon } from 'components';
-import { formatPrice } from 'utils';
 import styles from './styles';
 
 function getOrdersStatuses(type) {
@@ -22,8 +23,8 @@ function getOrdersStatuses(type) {
 
 function getLabelColor(status) {
   const colors = {
-    yellow: ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'processing', 'order_received'],
-    red: ['rejected', 'customer_care', 'cancelled'],
+    blue: ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'order_received'],
+    red: ['rejected', 'customer_care', 'cancelled', 'processing'],
     green: ['completed', 'billed']
   };
 
@@ -119,19 +120,16 @@ class OrdersList extends PureComponent {
               style={{ width: this.mapSize.width, height: this.mapSize.height }}
             />
           </View>
-          <View style={styles.orderLabels}>
-            <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
-              <Text style={styles.orderLabelText}>{item.status}</Text>
-            </View>
-            {item.totalCost > 0 &&
-              <View style={[styles.orderLabel, styles.blackLabel]}>
-                <Text style={styles.orderLabelText}>{formatPrice(item.totalCost)}</Text>
-              </View>
-            }
-          </View>
         </View>
         <View style={styles.orderDetails}>
-          <Text style={styles.orderDate}>{moment(item.scheduledAt).format('lll')}</Text>
+          <View style={styles.row}>
+            <Text style={styles.orderDate} numberOfLines={1}>{moment(item.scheduledAt).format('lll')}</Text>
+            <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
+              <Text style={[styles.orderLabelText, styles[`${getLabelColor(item.status)}LabelText`]]}>
+                {strings(`order.statuses.${item.status}`).toUpperCase()}
+              </Text>
+            </View>
+          </View>
           <View style={[styles.orderAddress, styles.orderAddressGap]}>
             <View style={styles.iconContainer}>
               <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />

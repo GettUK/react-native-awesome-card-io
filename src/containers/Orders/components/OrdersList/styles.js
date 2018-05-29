@@ -6,6 +6,12 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20
+  },
   orders: {
     paddingHorizontal: 15,
     paddingTop: 20,
@@ -27,45 +33,48 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   },
   orderDate: {
-    fontWeight: 'bold',
-    fontSize: 17,
-    marginBottom: 20
+    flex: 1,
+    color: '#8e8e93',
+    fontSize: 12
   },
   orderMap: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     overflow: 'hidden'
   },
-  orderLabels: {
-    position: 'absolute',
-    bottom: 14,
-    right: 14,
-    flexDirection: 'row'
-  },
   orderLabel: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 10,
+    paddingVertical: 6,
+    borderRadius: 5,
+    height: 23,
     marginLeft: 8,
-    height: 30,
     justifyContent: 'center'
   },
   orderLabelText: {
     color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 13
+    fontWeight: '900',
+    fontSize: 10
+  },
+  blueLabel: {
+    backgroundColor: '#cdecfe'
+  },
+  greenLabel: {
+    backgroundColor: '#d9f7eb'
+  },
+  redLabel: {
+    backgroundColor: '#feccd6'
   },
   blackLabel: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)'
   },
-  yellowLabel: {
-    backgroundColor: '#f6b530'
+  blueLabelText: {
+    color: '#0174b9'
   },
-  redLabel: {
-    backgroundColor: '#f00'
+  greenLabelText: {
+    color: '#00c46b'
   },
-  greenLabel: {
-    backgroundColor: '#6bc11a'
+  redLabelText: {
+    color: '#ff0030'
   },
   orderAddress: {
     flexDirection: 'row',
