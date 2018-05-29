@@ -113,27 +113,28 @@ export default class PointList extends PureComponent {
 
   renderDestinationItem = () => {
     const { data, allowAddingStops, onStopAdd } = this.props;
+    const stopsLimit = (!data.stops || data.stops.length < 4);
 
     return (
       this.hasAddressType('destinationAddress') &&
       <View style={styles.row}>
+        <Icon
+          style={styles.pickUpIcon}
+          name="destinationMarker"
+          width={16}
+          height={19}
+        />
         <TouchableOpacity
           style={styles.rowView}
-          onPress={this.handleDestinationAddressPress}
+          onPress={stopsLimit ? this.handleDestinationAddressPress : onStopAdd}
         >
-          <Icon
-            style={styles.pickUpIcon}
-            name="destinationMarker"
-            width={16}
-            height={19}
-          />
           {allowAddingStops && data.stops && data.stops.length
             ? this.renderStopsCount(data.stops.length + 1)
             : this.renderAddressLabel('destinationAddress')
           }
         </TouchableOpacity>
 
-        {allowAddingStops && (!data.stops || data.stops.length < 4) &&
+        {allowAddingStops && stopsLimit &&
           <TouchableOpacity
             style={styles.btnPlus}
             onPress={onStopAdd}>

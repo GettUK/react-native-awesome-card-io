@@ -90,14 +90,19 @@ export default class StopPointsModal extends PureComponent {
     </TouchableWithoutFeedback>
   )
 
-  renderAddButton = () => (
-    <TouchableWithoutFeedback onPress={this.props.onAddPoint}>
-      <View style={styles.addButton}>
-        <Icon name="add" size={24} />
-        <Text style={styles.addButtonLabel}>Add stop point</Text>
-      </View>
-    </TouchableWithoutFeedback>
-  )
+  renderAddButton = () => {
+    const { data } = this.props;
+    const stopsLimit = Object.values(data).length <= 4;
+
+    return (stopsLimit &&
+      <TouchableWithoutFeedback onPress={this.props.onAddPoint}>
+        <View style={styles.addButton}>
+          <Icon name="add" size={24} />
+          <Text style={styles.addButtonLabel}>Add stop point</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
 
   order = Object.keys(this.props.data);
 
