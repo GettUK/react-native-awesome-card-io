@@ -239,7 +239,8 @@ class Map extends Component {
       scheduledAt: null
     });
     if (this.editorView) {
-      this.editorView.wrappedInstance.footerInstance().createBooking({});
+      // waiting for closing previous modal instance
+      setTimeout(() => this.editorView.wrappedInstance.footerInstance().handleBookingCreation(), 1000);
     }
   };
 

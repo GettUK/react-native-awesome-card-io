@@ -87,7 +87,7 @@ class FlightSettings extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => this.setState({ flightType: type })}>
         <View style={[styles.toggleButton, isActive && styles.toggleButtonActive]}>
-          <Icon name={type} color={isActive && '#fff'} style={styles.toggleIcon} />
+          <Icon name={type} color={isActive ? '#fff' : ''} style={styles.toggleIcon} />
           <Text style={[styles.toggleLabel, isActive && styles.toggleLabelActive]}>
             {strings(`label.${type}`)}
           </Text>
