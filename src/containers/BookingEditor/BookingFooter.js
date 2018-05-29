@@ -219,7 +219,7 @@ class BookingFooter extends PureComponent {
     return airports.find(Boolean) && !flight;
   }
 
-  checkAirport = () => {
+  handleBookingCreation = () => {
     if (this.isPathContainAirport()) {
       return this.showFlightModal();
     }
@@ -486,7 +486,7 @@ class BookingFooter extends PureComponent {
                   style={styles.orderRideBtn}
                   styleContent={[styles.orderRideBtnView, isOrderBtnDisabled ? styles.orderRideBtnDisabled : {}]}
                   disabled={isOrderBtnDisabled}
-                  onPress={this.checkAirport}
+                  onPress={this.handleBookingCreation}
                 >
                   {busy && <ActivityIndicator style={styles.carLoading} size="small" color="#acabab" />}
                   <Text style={[styles.orderBtnText, isOrderBtnDisabled ? styles.orderBtnTextDisabled : {}]}>
