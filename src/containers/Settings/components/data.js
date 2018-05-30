@@ -222,72 +222,77 @@ const privacy = [
   { type: 'subheader', value: '3. TYPES OF INFORMATION WE COLLECT' },
   {
     type: 'list',
-    title: 'One Transport collects both "Personal Information" and "Anonymous Information" about our users and visitors. Personal Information is information that can be used to contact or identify you, such as your full name, email address, phone number, payment method details, login name, password, mailing address, IP address, and profile picture, as well as information that is linked to such information. "Anonymous Information" is information that we cannot use to contact or identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the Site or on the App, such as usage data, to the extent that information is not linked to your Personal Information.',
-    marker: '3.1',
     value: [
-      { type: 'plain', marker: '3.1.1', value: 'You can access and browse certain portions of the Site and download the App without disclosing Personal Information, although, like most website and mobile app providers, we passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wifi information, browser information, unique device identifier ("UDID") where applicable and/or your mobile operating system, and use third-parties such as Mixpanel and other SDK’s to obtain detailed analytics on the device. We also collect geolocation data from visitors that download and open the App. Sometimes, this passively collected information will constitute Personal Information - please see Sections 3.1.5 and 3.1.7 in particular.  Please note that you can choose not to provide us with certain information (for instance, by adjusting your cookie settings, see Section 5), and it is your voluntary decision whether to provide us with any such information but choosing not to will limit the features of the Site or the App you can access and use.' },
-      { type: 'plain', marker: '3.1.2', value: 'Voluntarily submitted information.' },
       {
         type: 'list',
-        marker: '3.1.3',
-        title: 'We collect information that you provide to us during your use of the Site, and/or App. Some examples include:',
+        title: 'One Transport collects both "Personal Information" and "Anonymous Information" about our users and visitors. Personal Information is information that can be used to contact or identify you, such as your full name, email address, phone number, payment method details, login name, password, mailing address, IP address, and profile picture, as well as information that is linked to such information. "Anonymous Information" is information that we cannot use to contact or identify you and is not linked to information that can be used to do so. It includes passively collected information about your activities on the Site or on the App, such as usage data, to the extent that information is not linked to your Personal Information.',
+        marker: '3.1',
         value: [
-          { type: 'plain', marker: '3.1.3.1', value: 'Personal Information that you enter when registering for or using the App, including your full name, email address, phone number, payment method, billing information, profile picture and profile information;' },
-          { type: 'plain', marker: '3.1.3.2', value: 'communications with us (e.g. emails, text messages) or with other Riders or Drivers (e.g. verbal or written instructions to Drivers);' },
-          { type: 'plain', marker: '3.1.3.3', value: 'information you provide in your user preferences or surveys, to customer support services or customer support calls or that you post on any forums or message boards, including social media and blogs. We may record your customer support calls for quality assurance purposes and for improving our services;' },
-          { type: 'plain', marker: '3.1.3.4', value: 'the provision of services or online content to deal with your requests and enquiries. This includes data you provide at the time of: registering to use the Site and/or the App; subscribing to any services or One Transport offers; downloading information posted on the Site and/or the App; posting material; or requesting further services from One Transport;' },
-          { type: 'plain', marker: '3.1.3.5', value: 'data you provide to us or to a third-party in connection with third-party loyalty schemes with which One Transport partners, including loyalty ID or scheme membership number and information about points accrued;' },
-          { type: 'plain', marker: '3.1.3.6', value: 'data you provide, including photos or comments, in connection with or participation in any promotions or competitions sponsored, promoted or offered by One Transport and/or any third-party and any data provided to One Transport by way of feedback, profile forms or Site/App issues;' },
-          { type: 'plain', marker: '3.1.3.7', value: 'data you provide, including a copy of your identification or credit card, in connection with instances where One Transport needs to authenticate user identity and/or ownership of the payment method provided;' },
-          { type: 'plain', marker: '3.1.3.8', value: 'information about you which you provide when corresponding with One Transport by email, post, the App, sms, messenger, telephone or otherwise, in which case One Transport may keep a record of that correspondence to respond to your enquiries and improve its services;' },
-          { type: 'plain', marker: '3.1.3.9', value: 'where you are a Driver, insurance policies and licensing information; and' },
-          { type: 'plain', marker: '3.1.3.10', value: 'other information from your interaction with the Site and/or the App, services, content and advertising. With regard to each of your visits to the Site and/or use of the App, One Transport may automatically collect authentication data, technical information and information about your visit, including computer and connection information, statistics on page views, traffic to and from the Site, ad data, IP address, standard web log information and the resources that you access.' }
-        ]
-      },
-      {
-        type: 'list',
-        marker: '3.1.4',
-        title: 'Information collected through use of the Site or the App',
-        value: [
-          { type: 'plain', marker: '3.1.4.1', value: 'Geolocation data: If you access the App through a mobile device, we may access, collect, monitor and/or remotely store "geolocation data," which may include the GPS coordinates of your trip (including pickup and drop-off data and route information) or similar information regarding the location of your mobile device. ' },
-          { type: 'plain', marker: '3.1.4.2', value: 'Contacts: We may access your address book, calendar, or contacts if you provide us with your permission to do so.' },
-          { type: 'plain', marker: '3.1.4.3', value: 'Transaction data: We collect information created during your various interactions with the Service, including the date and time of any ride using the One Transport Service (a “Ride”), distance of Ride, amount charged, including breakdown of base fee, tip and additional fees, as well as promotional code delivery.' }
-        ]
-      },
-      {
-        type: 'list',
-        marker: '3.1.5',
-        title: 'Information collected via technology',
-        value: [
-          { type: 'plain', marker: '3.1.5.1', value: 'If you are using our Website, we collect information from you, including your hardware model, browser type, operating system, Internet Protocol (IP) and domain name. If you are using a mobile device, we may also receive your UDID, or another unique identifier, and mobile operating system. We may correlate this information with other Personal Information we have about you. We may also use cookies and URL information to gather information regarding the date and time you used the Service and the information for which you searched and accessed.' },
-          { type: 'plain', marker: '3.1.5.2', value: 'In connection with your use of the App, we may receive your call data, including the date and time of calls and SMS messages with One Transport or Drivers, the parties\' phone numbers and the content of those SMS messages.' },
-          { type: 'plain', marker: '3.1.5.3', value: 'We may also use third-party tracking services, such as Google Analytics, and usage logs, to track and analyse data from users of the Service for purposes of security, fraud prevention, and money laundering prevention.' },
-          { type: 'plain', marker: '3.1.5.4', value: 'If you choose to remit payment for a Ride via a third-party payment provider (e.g. Google Wallet), your Personal Information (excluding full payment card information) obtained by the payment provider may be given to us by such payment provider.' },
-          { type: 'plain', marker: '3.1.5.5', value: 'If you choose to login to the App or Site via a third-party social media website (e.g. Facebook), your Personal Information may be provided to us by such social media website.' },
-          { type: 'plain', marker: '3.1.5.6', value: 'One Transport may also share your data with its third-party statistical analytics service provider, solely for the provision of analytics and to better understand its users.' },
-          { type: 'plain', marker: '3.1.5.7', value: 'Because we rely on third-party commercial software and programs to operate our servers, we may inadvertently collect Personal Information due to certain automatic functions or features contained in such software or due to certain software changes or upgrades. We will use reasonable efforts to remove any such information after we discover such information in our system. If you know of any such unintended collections, please notify us promptly so we can take the necessary action to remove such information from our system.' }
-        ]
-      },
-      {
-        type: 'list',
-        marker: '3.1.6',
-        disableMarker: true,
-        title: 'Information provided by others.',
-        value: [
-          { type: 'plain', value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' },
-          { type: 'plain', value: 'One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' }
-        ]
-      },
-      {
-        type: 'list',
-        marker: '3.1.7',
-        title: 'Information about your device',
-        value: [
-          { type: 'plain', marker: '3.1.7.1', value: 'One Transport collects information about the device you use to access the Site, App and/or Services, which may include personal data. This information is used to recognise your device so that it can be linked to your account.  This activity is carried out for the purposes of safety, security, evaluation of the performance of the app or the Site, improvement of the customer experience, fraud prevention and involves the sharing of information about your device including limited personal data, IP address, WiFi and location information with a third-party service provider.' },
-          { type: 'plain', marker: '3.1.7.2', value: 'the type, name and use of your device, browser (e.g. the Internet browser you are using such as: Chrome, Internet Explorer, Firefox, and your browser settings) and installed applications and widgets ("Installed Apps"), including the Installed Apps\' name, ID, system, installed date, update date, version, and whether it is on the home page. We also collect your interaction with those Installed Apps, including opening, closing, or uninstalling, and the duration of your use. We do not collect data within the Installed Apps, but rather solely aggregated data concerning use itself;' },
-          { type: 'plain', marker: '3.1.7.3', value: 'the visited websites (including the date and duration of such visits);' },
-          { type: 'plain', marker: '3.1.7.4', value: 'the battery and network performance (i.e. battery status and charger use) of your device and the file names, types and files sizes on your device, including the amount of free and used local storage space, but not the contents of the files; and' },
-          { type: 'plain', marker: '3.1.7.5', value: 'the system status, including device event information such as crashes and system activity.' }
+          { type: 'plain', marker: '3.1.1', value: 'You can access and browse certain portions of the Site and download the App without disclosing Personal Information, although, like most website and mobile app providers, we passively collect certain information from your devices, such as your IP address, screen resolution information, geographic location, Wifi information, browser information, unique device identifier ("UDID") where applicable and/or your mobile operating system, and use third-parties such as Mixpanel and other SDK’s to obtain detailed analytics on the device. We also collect geolocation data from visitors that download and open the App. Sometimes, this passively collected information will constitute Personal Information - please see Sections 3.1.5 and 3.1.7 in particular.  Please note that you can choose not to provide us with certain information (for instance, by adjusting your cookie settings, see Section 5), and it is your voluntary decision whether to provide us with any such information but choosing not to will limit the features of the Site or the App you can access and use.' },
+          { type: 'plain', marker: '3.1.2', value: 'Voluntarily submitted information.' },
+          {
+            type: 'list',
+            marker: '3.1.3',
+            title: 'We collect information that you provide to us during your use of the Site, and/or App. Some examples include:',
+            value: [
+              { type: 'plain', marker: '3.1.3.1', value: 'Personal Information that you enter when registering for or using the App, including your full name, email address, phone number, payment method, billing information, profile picture and profile information;' },
+              { type: 'plain', marker: '3.1.3.2', value: 'communications with us (e.g. emails, text messages) or with other Riders or Drivers (e.g. verbal or written instructions to Drivers);' },
+              { type: 'plain', marker: '3.1.3.3', value: 'information you provide in your user preferences or surveys, to customer support services or customer support calls or that you post on any forums or message boards, including social media and blogs. We may record your customer support calls for quality assurance purposes and for improving our services;' },
+              { type: 'plain', marker: '3.1.3.4', value: 'the provision of services or online content to deal with your requests and enquiries. This includes data you provide at the time of: registering to use the Site and/or the App; subscribing to any services or One Transport offers; downloading information posted on the Site and/or the App; posting material; or requesting further services from One Transport;' },
+              { type: 'plain', marker: '3.1.3.5', value: 'data you provide to us or to a third-party in connection with third-party loyalty schemes with which One Transport partners, including loyalty ID or scheme membership number and information about points accrued;' },
+              { type: 'plain', marker: '3.1.3.6', value: 'data you provide, including photos or comments, in connection with or participation in any promotions or competitions sponsored, promoted or offered by One Transport and/or any third-party and any data provided to One Transport by way of feedback, profile forms or Site/App issues;' },
+              { type: 'plain', marker: '3.1.3.7', value: 'data you provide, including a copy of your identification or credit card, in connection with instances where One Transport needs to authenticate user identity and/or ownership of the payment method provided;' },
+              { type: 'plain', marker: '3.1.3.8', value: 'information about you which you provide when corresponding with One Transport by email, post, the App, sms, messenger, telephone or otherwise, in which case One Transport may keep a record of that correspondence to respond to your enquiries and improve its services;' },
+              { type: 'plain', marker: '3.1.3.9', value: 'where you are a Driver, insurance policies and licensing information; and' },
+              { type: 'plain', marker: '3.1.3.10', value: 'other information from your interaction with the Site and/or the App, services, content and advertising. With regard to each of your visits to the Site and/or use of the App, One Transport may automatically collect authentication data, technical information and information about your visit, including computer and connection information, statistics on page views, traffic to and from the Site, ad data, IP address, standard web log information and the resources that you access.' }
+            ]
+          },
+          {
+            type: 'list',
+            marker: '3.1.4',
+            title: 'Information collected through use of the Site or the App',
+            value: [
+              { type: 'plain', marker: '3.1.4.1', value: 'Geolocation data: If you access the App through a mobile device, we may access, collect, monitor and/or remotely store "geolocation data," which may include the GPS coordinates of your trip (including pickup and drop-off data and route information) or similar information regarding the location of your mobile device. ' },
+              { type: 'plain', marker: '3.1.4.2', value: 'Contacts: We may access your address book, calendar, or contacts if you provide us with your permission to do so.' },
+              { type: 'plain', marker: '3.1.4.3', value: 'Transaction data: We collect information created during your various interactions with the Service, including the date and time of any ride using the One Transport Service (a “Ride”), distance of Ride, amount charged, including breakdown of base fee, tip and additional fees, as well as promotional code delivery.' }
+            ]
+          },
+          {
+            type: 'list',
+            marker: '3.1.5',
+            title: 'Information collected via technology',
+            value: [
+              { type: 'plain', marker: '3.1.5.1', value: 'If you are using our Website, we collect information from you, including your hardware model, browser type, operating system, Internet Protocol (IP) and domain name. If you are using a mobile device, we may also receive your UDID, or another unique identifier, and mobile operating system. We may correlate this information with other Personal Information we have about you. We may also use cookies and URL information to gather information regarding the date and time you used the Service and the information for which you searched and accessed.' },
+              { type: 'plain', marker: '3.1.5.2', value: 'In connection with your use of the App, we may receive your call data, including the date and time of calls and SMS messages with One Transport or Drivers, the parties\' phone numbers and the content of those SMS messages.' },
+              { type: 'plain', marker: '3.1.5.3', value: 'We may also use third-party tracking services, such as Google Analytics, and usage logs, to track and analyse data from users of the Service for purposes of security, fraud prevention, and money laundering prevention.' },
+              { type: 'plain', marker: '3.1.5.4', value: 'If you choose to remit payment for a Ride via a third-party payment provider (e.g. Google Wallet), your Personal Information (excluding full payment card information) obtained by the payment provider may be given to us by such payment provider.' },
+              { type: 'plain', marker: '3.1.5.5', value: 'If you choose to login to the App or Site via a third-party social media website (e.g. Facebook), your Personal Information may be provided to us by such social media website.' },
+              { type: 'plain', marker: '3.1.5.6', value: 'One Transport may also share your data with its third-party statistical analytics service provider, solely for the provision of analytics and to better understand its users.' },
+              { type: 'plain', marker: '3.1.5.7', value: 'Because we rely on third-party commercial software and programs to operate our servers, we may inadvertently collect Personal Information due to certain automatic functions or features contained in such software or due to certain software changes or upgrades. We will use reasonable efforts to remove any such information after we discover such information in our system. If you know of any such unintended collections, please notify us promptly so we can take the necessary action to remove such information from our system.' }
+            ]
+          },
+          {
+            type: 'list',
+            marker: '3.1.6',
+            disableMarker: true,
+            title: 'Information provided by others.',
+            value: [
+              { type: 'plain', value: 'We collect information that Riders provide about Drivers, and vice-versa, including via ratings and postings on forums or message boards.\n One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' },
+              { type: 'plain', value: 'One Transport may receive information about you if you use any of the other websites it operates or the other services it provides. One Transport also works closely with third parties (including, for example, business partners, subcontractors in technical, payment and delivery services, advertising networks, analytics providers, search information providers, credit reference agencies) and may receive information about you from them.  Where third-parties collect information about you and share it with us, you should refer to their separately maintained privacy policies or notices.' }
+            ]
+          },
+          {
+            type: 'list',
+            marker: '3.1.7',
+            title: 'Information about your device',
+            value: [
+              { type: 'plain', marker: '3.1.7.1', value: 'One Transport collects information about the device you use to access the Site, App and/or Services, which may include personal data. This information is used to recognise your device so that it can be linked to your account.  This activity is carried out for the purposes of safety, security, evaluation of the performance of the app or the Site, improvement of the customer experience, fraud prevention and involves the sharing of information about your device including limited personal data, IP address, WiFi and location information with a third-party service provider.' },
+              { type: 'plain', marker: '3.1.7.2', value: 'the type, name and use of your device, browser (e.g. the Internet browser you are using such as: Chrome, Internet Explorer, Firefox, and your browser settings) and installed applications and widgets ("Installed Apps"), including the Installed Apps\' name, ID, system, installed date, update date, version, and whether it is on the home page. We also collect your interaction with those Installed Apps, including opening, closing, or uninstalling, and the duration of your use. We do not collect data within the Installed Apps, but rather solely aggregated data concerning use itself;' },
+              { type: 'plain', marker: '3.1.7.3', value: 'the visited websites (including the date and duration of such visits);' },
+              { type: 'plain', marker: '3.1.7.4', value: 'the battery and network performance (i.e. battery status and charger use) of your device and the file names, types and files sizes on your device, including the amount of free and used local storage space, but not the contents of the files; and' },
+              { type: 'plain', marker: '3.1.7.5', value: 'the system status, including device event information such as crashes and system activity.' }
+            ]
+          }
         ]
       }
     ]
