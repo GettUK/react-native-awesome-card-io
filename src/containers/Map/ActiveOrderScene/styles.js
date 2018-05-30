@@ -258,23 +258,31 @@ export const cancelReasonStyles = StyleSheet.create({
     alignSelf: 'flex-end'
   },
   content: {
+    flex: 1,
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 40
   },
   header: {
     fontSize: 30,
     color: '#fff',
-    marginBottom: 10
+    marginBottom: 10,
+    textAlign: 'center'
   },
   subHeader: {
     fontSize: 14,
-    color: '#fff'
+    color: '#fff',
+    textAlign: 'center'
   },
   title: {
-    marginTop: 50,
+    marginTop: 40,
     marginBottom: 25,
     fontSize: 22,
-    color: '#fff'
+    color: '#fff',
+    textAlign: 'center'
+  },
+  list: {
+    alignSelf: 'stretch',
+    paddingBottom: 10
   },
   reason: {
     flexDirection: 'row',

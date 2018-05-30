@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
@@ -48,7 +48,9 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
           <Text style={cancelReasonStyles.subHeader}>{strings('order.seeYouNextTime')}</Text>
 
           <Text style={cancelReasonStyles.title}>{strings('order.whyDidYouCancel')}</Text>
-          {reasons.map(renderReason)}
+          <ScrollView style={cancelReasonStyles.list}>
+            {reasons.map(renderReason)}
+          </ScrollView>
         </View>
       </GradientWrapper>
     </Modal>
