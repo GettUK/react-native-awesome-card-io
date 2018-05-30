@@ -8,7 +8,9 @@ import styles from './styles';
 
 class References extends PureComponent {
   getReferenceError(i) {
-    return this.props.bookerReferencesErrors[`bookerReferences.${i}.value`];
+    const { bookerReferencesErrors } = this.props;
+
+    return bookerReferencesErrors && bookerReferencesErrors[`bookerReferences.${i}.value`];
   }
 
   renderDropdownItem = (item, i) => {
