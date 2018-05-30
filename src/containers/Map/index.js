@@ -13,6 +13,7 @@ import {
   BackHandler
 } from 'react-native';
 import { every, find, first, has, isNull, isEmpty, noop } from 'lodash';
+import { HourFormat } from 'react-native-hour-format';
 
 import { Icon, Button, Modal, Alert } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -440,6 +441,7 @@ class Map extends Component {
 
   renderTimeDatePicker() {
     const { date, minDate } = this.state;
+    const { is24HourFormat } = HourFormat;
     const { booking: { modals: { picker }, bookingForm: { pickupAddress } } } = this.props;
     const moment = momentDate(date);
     const timezoneDate = (pickupAddress && convertToZone(moment, pickupAddress.timezone)) || moment;
@@ -474,7 +476,7 @@ class Map extends Component {
         const { action, hour, minute } = await TimePickerAndroid.open({
           hour: moment.get('hour'),
           minute: moment.get('minute'),
-          is24Hour: true
+          is24Hour: is24HourFormat()
         });
         if (action !== DatePickerAndroid.dismissedAction) {
           setTimePickerTime({ hour, minute });
@@ -498,7 +500,8 @@ class Map extends Component {
     };
 
     const renderSelected = () => {
-      const time = <Text style={styles.time}>{moment.format('H:mm')}</Text>;
+      const formatedTime = is24HourFormat() ? moment.format('HH:mm') : moment.format('hh:mm a');
+      const time = <Text style={styles.time}>{formatedTime}</Text>;
       const date = <Text style={styles.date}>{moment.format('dddd, MMMM D, YYYY')}</Text>;
 
       return (

@@ -12,7 +12,7 @@ import {
 import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
 import { Icon, Button, Modal, CarItem, InformView, Alert, Divider } from 'components';
-import { hourForward } from 'utils';
+import { hourForward, formatedTime } from 'utils';
 import { strings } from 'locales';
 
 import { onLayoutFooter } from 'actions/app/statuses';
@@ -348,10 +348,7 @@ class BookingFooter extends PureComponent {
         <View style={styles.pickupTime}>
           <Text style={styles.pickupTimeLabel}>Pickup Time</Text>
           <Text style={styles.pickupTimeValue}>
-            {bookingForm.scheduledType === 'later'
-              ? bookingForm.scheduledAt.format('D MMM YYYY, HH:mm a')
-              : 'Now'
-            }
+            {bookingForm.scheduledType === 'later' ? formatedTime(bookingForm.scheduledAt) : 'Now'}
           </Text>
         </View>
         <TouchableWithoutFeedback onPress={this.togglePickerModal}>
