@@ -39,8 +39,10 @@ class PaymentCardEditor extends Component {
     const { month, year } = extractedDate(formatted);
 
     this.props.changePaymentFields({
+      expirationMonthText: month,
       expirationMonth: parseInt(month, 10),
-      expirationYear: year
+      expirationYear: year,
+      expirationDate: { month, year }
     });
   };
 
@@ -118,6 +120,7 @@ class PaymentCardEditor extends Component {
 
   renderFields =() => {
     const { paymentCard, error } = this.props;
+
     return (
       <ScrollView>
         {prepareCardEditor(paymentCard, {

@@ -67,8 +67,8 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
     {
       allowmask: true,
       label: strings('settings.payment.expirationDate'),
-      value: (data.expirationMonth && data.expirationYear &&
-          `${data.expirationMonth}${data.expirationYear}`) || '',
+      value: (data.expirationMonthText && data.expirationYear &&
+          `${data.expirationMonthText}${data.expirationYear}`) || '',
       onChangeText: handlers.handleExpirationDate,
       mask: '[00] / [0000]',
       allowHelp: true,
