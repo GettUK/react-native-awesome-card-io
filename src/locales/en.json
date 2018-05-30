@@ -161,6 +161,7 @@
   "yourFeedback": "Your feedback will be kept anonymous",
   "selectIssues": "Please select one or more issues",
   "send": "Send",
+  "done": "Done",
   "order": {
     "cancelOrderCreation": "Cancel Order Creation",
     "createNew": "Create New",

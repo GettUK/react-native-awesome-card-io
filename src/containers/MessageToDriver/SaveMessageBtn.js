@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 import { saveMessageToDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
+
+import { strings } from 'locales';
+
 import { throttledAction } from 'utils';
 
 const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
@@ -15,7 +18,13 @@ const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
   });
 
   return (
-    <SaveBtn onPress={handleSave} enabled={touched} enabledColor="#fff" style={{ paddingRight: 0 }} />
+    <SaveBtn
+      title={strings('done')}
+      onPress={handleSave}
+      enabled={touched}
+      enabledColor="#fff"
+      style={{ paddingRight: 0 }}
+    />
   );
 };
 
