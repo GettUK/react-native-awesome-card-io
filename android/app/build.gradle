@@ -168,6 +168,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-hour-format')
     compile project(':react-native-fabric')
     compile project(':react-native-text-input-mask')
     compile project(':react-native-fcm')

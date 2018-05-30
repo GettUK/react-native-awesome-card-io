@@ -1,4 +1,6 @@
 rootProject.name = 'oteApp'
+include ':react-native-hour-format'
+project(':react-native-hour-format').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-hour-format/android')
 include ':react-native-fabric'
 project(':react-native-fabric').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fabric/android')
 include ':react-native-text-input-mask'

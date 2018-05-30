@@ -5273,6 +5273,10 @@ react-native-gps@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/react-native-gps/-/react-native-gps-0.1.1.tgz#18fbba6d3f421fb0e489f76f892bb25b70acebfe"
 
+react-native-hour-format@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-hour-format/-/react-native-hour-format-1.1.2.tgz#bd509aa882291471afcd017a9e905f7ced3792a5"
+
 react-native-hyperlink@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/react-native-hyperlink/-/react-native-hyperlink-0.0.14.tgz#138bbfe5b410667d1e37f04a2b4713163ab0ed81"
