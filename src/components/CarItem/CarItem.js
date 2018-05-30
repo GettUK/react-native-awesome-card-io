@@ -11,6 +11,8 @@ const CarItem = ({
   style, name, label, price, eta, active, onChange, isETADisabled
 }) => {
   const vehiclePrice = cost => (cost ? formatPrice(cost) : 'By meter');
+  const etaNum = parseInt(String(eta).replace('< ', ''), 10);
+  const range = Math.ceil(etaNum / 2);
 
   const renderContainer = () => (
     <View
@@ -29,7 +31,7 @@ const CarItem = ({
       {eta && !isETADisabled && (
         <View style={styles.middle}>
           <Icon style={styles.icon} name="clock" color="rgb(216,216,216)" width={16} height={16}/>
-          <Text numberOfLines={1} style={styles.labelEta}>{`${String(eta).replace('< ', '')} min`}</Text>
+          <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum}-${etaNum + range} min`}</Text>
         </View>)
       }
       <Image
