@@ -6,7 +6,6 @@ export default StyleSheet.create({
     marginTop: 10,
     width: 110,
     height: 140,
-    flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
@@ -21,6 +20,9 @@ export default StyleSheet.create({
       height: 0
     }
   },
+  containerSmall: {
+    height: 116
+  },
   activeContainer: {
     width: 114,
     height: 144,
@@ -28,12 +30,18 @@ export default StyleSheet.create({
     marginTop: 0,
     shadowRadius: 0
   },
+  activeContainerSmall: {
+    height: 120
+  },
   activeBackground: {
     width: 124,
     height: 154,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 5
+  },
+  activeBackgroundSmall: {
+    height: 130
   },
   label: {
     paddingLeft: 2,

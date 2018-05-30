@@ -467,6 +467,7 @@ class BookingFooter extends PureComponent {
                             label={vehicleData.label}
                             price={vehicle.price}
                             active={vehicle.name === bookingForm.vehicleName}
+                            isETADisabled={bookingForm.scheduledType === 'later'}
                           />
                         );
                       })
