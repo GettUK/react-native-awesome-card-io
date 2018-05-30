@@ -11,13 +11,9 @@ import { validationRules } from './utils';
 const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidationError }) => {
   const handleSave = throttledAction(() => {
     const { keys } = navigation.state.params;
-    const formatedData = {
-      ...data,
-      expirationDate: { month: data.expirationMonth, year: data.expirationYear }
-    };
 
     if (touched &&
-      isInputsValid(keys, formatedData, validationRules, error => setValidationError('validationPaymentError', error))
+      isInputsValid(keys, data, validationRules, error => setValidationError('validationPaymentError', error))
     ) {
       addPaymentCard()
         .then(() => navigation.goBack(null))
