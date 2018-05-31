@@ -69,7 +69,7 @@ class Login extends Component {
   };
 
   handleLoginError = (res) => {
-    const error = res.response.status === 401
+    const error = res.response && res.response.status === 401
       ? strings('login.errors.credentialsError')
       : strings('login.errors.commonError');
 
