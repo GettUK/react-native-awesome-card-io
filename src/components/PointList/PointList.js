@@ -113,7 +113,6 @@ export default class PointList extends PureComponent {
 
   renderDestinationItem = () => {
     const { data, allowAddingStops, onStopAdd } = this.props;
-    const stopsLimit = (!data.stops || data.stops.length < 4);
 
     return (
       this.hasAddressType('destinationAddress') &&
@@ -126,7 +125,7 @@ export default class PointList extends PureComponent {
         />
         <TouchableOpacity
           style={styles.rowView}
-          onPress={stopsLimit ? this.handleDestinationAddressPress : onStopAdd}
+          onPress={this.handleDestinationAddressPress}
         >
           {allowAddingStops && data.stops && data.stops.length
             ? this.renderStopsCount(data.stops.length + 1)
@@ -134,11 +133,14 @@ export default class PointList extends PureComponent {
           }
         </TouchableOpacity>
 
-        {allowAddingStops && stopsLimit &&
+        {allowAddingStops &&
           <TouchableOpacity
             style={styles.btnPlus}
             onPress={onStopAdd}>
-            <Icon name="plus" color="#8d8d8d" size={18} />
+            {(!data.stops || data.stops.length < 4)
+              ? <Icon name="plus" color="#8d8d8d" size={18} />
+              : <Text style={styles.labelEdit}>Edit</Text>
+            }
           </TouchableOpacity>
         }
       </View>
