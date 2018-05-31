@@ -33,6 +33,10 @@ export const subscribeToDriversLocations = location => dispatch =>
       dispatch(subscribeToChannel(data.channel));
     });
 
+export const cancelDriverSubscription = () => () => {
+  faye.cancelSubscription(driversSubscription);
+};
+
 export const getDriversLocations = location => dispatch =>
   get('/drivers/locations', location)
     .then(({ data }) => {

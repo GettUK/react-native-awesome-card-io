@@ -161,7 +161,7 @@ class MapView extends Component {
     );
 
   shouldGetDriversLocations = ({ order, oldOrder }) =>
-    order.pickupAddress !== oldOrder.pickupAddress;
+    order.pickupAddress && order.pickupAddress !== oldOrder.pickupAddress;
 
   handleAnimateToRegion = ({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps }) => {
     if (this.isPickupAddressWasUpdatedByMapDrag({ order, oldOrder, dragEnable, oldDragEnable })) {
