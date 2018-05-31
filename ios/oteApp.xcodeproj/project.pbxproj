@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* oteAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* oteAppTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -32,9 +33,9 @@
 		7D954E592099C2A300E9AB56 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D954E582099C2A300E9AB56 /* login_bg.png */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B55EF9339CDF4575A6F2BEF5 /* libRNHourFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */; };
 		CAA8EEAFA0F14A10A6A4CE48 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
-		B55EF9339CDF4575A6F2BEF5 /* libRNHourFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -283,6 +284,13 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		7DC742ED20C006A50013A460 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNHourFormat;
+		};
 		92A2291B20865EFB00209D73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */;
@@ -317,6 +325,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = oteApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = oteApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = oteApp/main.m; sourceTree = "<group>"; };
+		1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNHourFormat.xcodeproj; path = "../node_modules/react-native-hour-format/ios/RNHourFormat.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* oteApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "oteApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* oteApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "oteApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A4186827B0428DA8353D02 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -342,11 +351,10 @@
 		829A803BF7514A81569078E7 /* Pods-oteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteApp/Pods-oteApp.release.xcconfig"; sourceTree = "<group>"; };
 		92A2291D20865F2D00209D73 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DC7A737D7A344ACF174B18 /* Pods-oteAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oteAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-oteAppTests/Pods-oteAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNHourFormat.a; sourceTree = "<group>"; };
 		D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextInputMask.a; sourceTree = "<group>"; };
 		ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTextInputMask.xcodeproj; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; };
-		1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */ = {isa = PBXFileReference; name = "RNHourFormat.xcodeproj"; path = "../node_modules/react-native-hour-format/ios/RNHourFormat.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */ = {isa = PBXFileReference; name = "libRNHourFormat.a"; path = "libRNHourFormat.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -534,6 +542,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7DC742EA20C006A30013A460 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7DC742EE20C006A50013A460 /* libRNHourFormat.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -584,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */,
+				C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -785,6 +802,10 @@
 				{
 					ProductGroup = 7D8BC13F2041ACA9009D2E2B /* Products */;
 					ProjectRef = 7D8BC13E2041ACA9009D2E2B /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 7DC742EA20C006A30013A460 /* Products */;
+					ProjectRef = 1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */;
 				},
 				{
 					ProductGroup = 92A2291820865EFB00209D73 /* Products */;
@@ -1028,6 +1049,13 @@
 			fileType = archive.ar;
 			path = libRCTAnimation.a;
 			remoteRef = 7DB89A1F206D3E4100BF652B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7DC742EE20C006A50013A460 /* libRNHourFormat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNHourFormat.a;
+			remoteRef = 7DC742ED20C006A50013A460 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		92A2291C20865EFB00209D73 /* libRNTextInputMask.a */ = {
