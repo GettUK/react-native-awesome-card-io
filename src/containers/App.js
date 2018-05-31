@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -35,7 +35,7 @@ class AppContainer extends PureComponent {
 
   render() {
     const { dispatch, isConnected } = this.props;
-    const connectionMargin = isIphoneX() ? -40 : -20;
+    const connectionMargin = isIphoneX() || Platform.OS === 'android' ? -40 : -20;
 
     return <View style={{ flex: 1 }}>
       <ConnectionMessage

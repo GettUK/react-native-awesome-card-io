@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Animated, View, Text, Platform } from 'react-native';
 
 import { strings } from 'locales';
 
@@ -13,7 +13,7 @@ class ConnectionMessage extends PureComponent {
   show = () => {
     this.alertAnim.setValue(0);
 
-    this.animate(isIphoneX() ? 100 : 80);
+    this.animate(isIphoneX() || Platform.OS === 'android' ? 100 : 80);
   };
 
   hide = () => {

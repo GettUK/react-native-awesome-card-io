@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#ff0000'
   },
   messageWrapper: {
-    paddingTop: 22,
+    paddingTop: Platform.OS === 'android' ? 0 : 22,
     flex: 1,
     paddingHorizontal: 16
   },
