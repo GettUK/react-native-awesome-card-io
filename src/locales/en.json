@@ -1,6 +1,7 @@
 {
   "information": {
     "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
+    "notReceivedCoordinates": "GPS coordinates aren`t received",
     "notSupportedAddress": "Sorry, this address is not supported",
     "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?"
   },
