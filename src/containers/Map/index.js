@@ -12,7 +12,7 @@ import {
   TimePickerAndroid,
   BackHandler
 } from 'react-native';
-import { every, find, first, has, isNull, isEmpty, noop } from 'lodash';
+import { every, find, first, has, isNull, isEmpty } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
 
 import { Icon, Button, Modal, Alert } from 'components';
@@ -56,8 +56,8 @@ import styles from './style';
 
 const geoLocationOptions = {
   timeout: 2500,
-  maximumAge: 1000,
-  distanceFilter: 10
+  distanceFilter: 10,
+  enableHighAccuracy: Platform.OS === 'android'
 };
 
 const CURRENT_ROUTE = 'MapView';
@@ -119,6 +119,8 @@ class Map extends Component {
   componentWillUnmount() {
     PN.clearNotificationListener();
 
+    navigator.geolocation.clearWatch(this.watchId);
+
     this.backListener.remove();
 
     BackHandler.removeEventListener('hardwareBack');
@@ -157,7 +159,7 @@ class Map extends Component {
   getNavigatorLocation = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => this.changePosition(coords),
-      noop,
+      errorPosition,
       { timeout: geoLocationOptions.timeout, maximumAge: geoLocationOptions.maximumAge }
     );
   };
@@ -165,10 +167,10 @@ class Map extends Component {
   setWatchPosition = () => {
     this.props.checkMultiplePermissions(['location']).then(({ location }) => {
       if (location === PERMISSION_STATUS.authorized) {
-        this.getNavigatorLocation();
-        navigator.geolocation.watchPosition(
+        this.getCurrentPosition();
+        this.watchId = navigator.geolocation.watchPosition(
           ({ coords }) => this.changePosition(coords),
-          noop,
+          errorPosition,
           geoLocationOptions,
         );
       } else if (location === PERMISSION_STATUS.denied) {
