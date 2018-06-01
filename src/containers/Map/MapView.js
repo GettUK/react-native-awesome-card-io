@@ -25,7 +25,7 @@ import {
   PREORDER_STATUSES
 } from 'utils/orderStatuses';
 
-import DriverMarker from './DriverMarker';
+import DriversMarkers from './DriversMarkers';
 import MapStyle from './MapStyle';
 import styles from './style';
 
@@ -244,9 +244,7 @@ class MapView extends Component {
         </View>
       </Map.Marker>
     )
-  )
-
-  renderDriversMarkers = () => this.props.drivers.map(d => <DriverMarker key={d.id} driver={d} />);
+  );
 
   getPathes = locations => (
     locations.map((location, index) => {
@@ -362,7 +360,7 @@ class MapView extends Component {
   );
 
   render() {
-    const { currentPosition, isPreOrder, dragEnable, vehicles } = this.props;
+    const { currentPosition, isPreOrder, dragEnable, vehicles, drivers } = this.props;
 
     const order = this.getOrder();
     const stops = this.getStops();
@@ -426,7 +424,9 @@ class MapView extends Component {
           icon: 'journeyTime'
         })}
 
-        {isPreOrder && !order.destinationAddress && this.renderDriversMarkers()}
+        {isPreOrder && !order.destinationAddress &&
+          <DriversMarkers drivers={drivers} />
+        }
       </Map>
     );
   }

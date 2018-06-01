@@ -19,7 +19,7 @@ let driversSubscription = null;
 
 const subscribeToChannel = channel => (dispatch) => {
   driversSubscription = faye.on((channel), ({ data }) => {
-    dispatch({ type: TYPES.setDrivers, payload: data });
+    if (data.drivers.length) dispatch({ type: TYPES.setDrivers, payload: data });
   });
 };
 
