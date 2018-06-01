@@ -34,7 +34,12 @@ import {
   clearCurrentOrder,
   setActiveBooking
 } from 'actions/booking';
-import { checkMultiplePermissions, requestLocation, PERMISSION_STATUS } from 'actions/app/statuses';
+import {
+  checkMultiplePermissions,
+  requestLocation,
+  PERMISSION_STATUS,
+  locationPermissions
+} from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { getPassengerData } from 'actions/passenger';
 
@@ -123,7 +128,7 @@ class Map extends Component {
     if (
       statuses.permissions && statusesProps.permissions &&
       statuses.permissions.location !== statusesProps.permissions.location &&
-      statuses.permissions.location === PERMISSION_STATUS.authorized
+      locationPermissions.includes(statuses.permissions.location)
     ) {
       this.setWatchPosition();
     }
@@ -166,6 +171,8 @@ class Map extends Component {
           noop,
           geoLocationOptions,
         );
+      } else if (location === PERMISSION_STATUS.denied) {
+        this.alertGPS.show();
       }
     });
   };
@@ -648,7 +655,12 @@ class Map extends Component {
             visible={!isHeaderEnable}
           />
         }
-
+        <Alert
+          ref={(alert) => { this.alertGPS = alert; }}
+          type="warning"
+          message={strings('information.notReceivedCoordinates')}
+          position="top"
+        />
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type="success"

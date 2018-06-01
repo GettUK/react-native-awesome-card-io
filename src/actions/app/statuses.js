@@ -21,6 +21,8 @@ export const PERMISSION_STATUS = {
   denied: 'denied'
 };
 
+export const locationPermissions = [PERMISSION_STATUS.denied, PERMISSION_STATUS.authorized];
+
 export const checkMultiplePermissions = perms => dispatch => Permissions.checkMultiple(perms).then((response) => {
   dispatch(changePermissions({ ...response }));
   return response;
