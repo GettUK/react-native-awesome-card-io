@@ -21,7 +21,9 @@
     "other": "Other",
     "usePassengerCostCentre": "Use passenger's Cost Centre",
     "departing": "Departure",
-    "arriving": "Arrival"
+    "arriving": "Arrival",
+    "loading": "Loading...",
+    "emptyResult": "No Results"
   },
   "login": {
     "acceptPrivacyPolicy": "Accept Privacy Policy",
