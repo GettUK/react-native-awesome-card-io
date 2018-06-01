@@ -242,27 +242,23 @@ class Map extends Component {
     this.setState({ date, minDate: hourForward().toDate() });
   };
 
-  handleNowSubmit = () => {
+  handleUpdateSchedule = (type = 'now') => {
+    const { date } = this.state;
+    const scheduledAt = type === 'later'
+      ? (hourForward().isBefore(momentDate(date)) && momentDate(date)) || hourForward()
+      : null;
+
     this.togglePickerModal();
-    this.props.changeFields({
-      scheduledType: 'now',
-      scheduledAt: null
-    });
-    if (this.editorView) {
-      // waiting for closing previous modal instance
-      setTimeout(() => this.editorView.wrappedInstance.footerInstance().handleBookingCreation(), 1000);
-    }
+    this.props.changeFields({ scheduledType: type, scheduledAt });
+    this.goToRequestVehicles();
+  }
+
+  handleNowSubmit = () => {
+    this.handleUpdateSchedule('now');
   };
 
   handleDateSubmit = () => {
-    const { date } = this.state;
-
-    this.togglePickerModal();
-    this.props.changeFields({
-      scheduledType: 'later',
-      scheduledAt: (hourForward().isBefore(momentDate(date)) && momentDate(date)) || hourForward()
-    });
-    this.goToRequestVehicles();
+    this.handleUpdateSchedule('later');
   };
 
   goToRequestVehicles = () => {
