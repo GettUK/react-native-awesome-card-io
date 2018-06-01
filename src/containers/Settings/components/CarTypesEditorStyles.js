@@ -17,17 +17,7 @@ export default StyleSheet.create({
     paddingRight: 8
   },
   button: {
-    width: 46,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  checkPlaceholder: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 1,
-    borderColor: '#d6d6db'
+    marginHorizontal: 12
   },
   image: {
     width: 110,

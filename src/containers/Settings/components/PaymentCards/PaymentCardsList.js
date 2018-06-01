@@ -72,10 +72,12 @@ class PaymentCardsList extends Component {
     >
       <View key={item.id}>
         <View style={[styles.commonContainer, styles.paymentWrapper]}>
-          <CheckBox
-            status={item.default}
-            onPress={() => this.makeDefaultPayment(item.id)}
-          />
+          <View style={styles.checkboxWrapper}>
+            <CheckBox
+              status={item.default}
+              onPress={() => this.makeDefaultPayment(item.id)}
+            />
+          </View>
           <TouchableOpacity
             style={styles.paymentView}
             activeOpacity={0.6}
