@@ -164,30 +164,40 @@ class OrdersList extends PureComponent {
 
   keyExtractor = item => String(item.id);
 
+  renderList = () => (
+    <FlatList
+      data={this.props.items}
+      style={styles.orders}
+      keyExtractor={this.keyExtractor}
+      renderItem={this.renderItem}
+      onEndReached={this.getOrders}
+      ListFooterComponent={this.state.loading && Platform.OS === 'ios' &&
+        <Text style={{ textAlign: 'center' }}>{strings('labels.loading')}</Text>
+      }
+      refreshing={this.state.loading}
+    />
+  )
+
+  renderAndroidLoadingLabel = () => (
+    <View style={styles.loaderWrapper}>
+      <View style={styles.loader}>
+        <Text style={styles.loaderLabel}>{strings('label.loading')}</Text>
+      </View>
+    </View>
+  )
+
   render() {
     const { loading } = this.state;
+    const { items } = this.props;
 
     return (
-      <View style={styles.flex}>
-        <FlatList
-          data={this.props.items}
-          style={styles.orders}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-          onEndReached={this.getOrders}
-          ListFooterComponent={loading && Platform.OS === 'ios' &&
-            <Text style={{ textAlign: 'center' }}>Loading...</Text>
-          }
-          refreshing={loading}
-        />
-
-        {loading && Platform.OS === 'android' &&
-          <View style={styles.loaderWrapper}>
-            <View style={styles.loader}>
-              <Text style={styles.loaderLabel}>Loading...</Text>
-            </View>
-          </View>
+      <View style={[styles.flex, styles.centered]}>
+        {(items && items.length) || loading
+          ? this.renderList()
+          : <Text style={styles.emptyLabel}>{strings('label.emptyResult')}</Text>
         }
+
+        {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel()}
       </View>
     );
   }

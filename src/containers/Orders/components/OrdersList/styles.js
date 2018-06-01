@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -115,6 +119,10 @@ const styles = StyleSheet.create({
   },
   pickUpConnector: {
     top: 18
+  },
+  emptyLabel: {
+    color: '#7f7f7f',
+    fontSize: 22
   }
 });
 
