@@ -7,7 +7,7 @@ import assets from 'assets';
 
 import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
 
-import { Icon, Modal } from 'components';
+import { Icon, Modal, CheckBox } from 'components';
 
 import { baseVehicles, baseVehiclesDescriptions } from 'containers/shared/bookings/data';
 
@@ -29,7 +29,7 @@ class CarTypesEditor extends Component {
   state = {
     isModalVisible: false,
     currentCar: ''
-  }
+  };
 
   componentDidMount() {
     this.props.setInitialProfileValues();
@@ -59,11 +59,11 @@ class CarTypesEditor extends Component {
 
   handleOpenInfo = (name) => {
     this.setState({ isModalVisible: true, currentCar: name });
-  }
+  };
 
   closeInfo = () => {
     this.setState({ isModalVisible: false, currentCar: '' });
-  }
+  };
 
   renderInfoModal = () => {
     const { currentCar } = this.state;
@@ -100,21 +100,20 @@ class CarTypesEditor extends Component {
         </View>
       </Modal>
     );
-  }
+  };
 
   renderCarItem = ({ name, label }) => {
     const isSelected = this.props.vehicle === name;
+    const handler = this.props.changeProfileFieldValue.bind(null, 'defaultVehicle', name);
 
     return (
       <TouchableWithoutFeedback
         key={name}
-        onPress={this.props.changeProfileFieldValue.bind(null, 'defaultVehicle', name)}
+        onPress={handler}
       >
         <View style={styles.itemContainer}>
           <View style={styles.button}>
-            {isSelected
-              ? <Icon name="selected" />
-              : <View style={styles.checkPlaceholder} />}
+            <CheckBox status={isSelected} onPress={handler} />
           </View>
           <Image
             style={styles.image}
@@ -130,7 +129,7 @@ class CarTypesEditor extends Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
+  };
 
   render() {
     return (

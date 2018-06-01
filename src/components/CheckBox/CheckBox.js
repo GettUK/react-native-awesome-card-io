@@ -25,13 +25,13 @@ class CheckBox extends PureComponent {
     const { style, status, onPress } = this.props;
     return (
       status
-        ? <Icon name="checkOn" size={44} />
+        ? <Icon name="checkOn" />
         : <TouchableOpacity
           style={style}
           activeOpacity={0.6}
           onPress={onPress}
         >
-          <Icon name="checkOff" size={44} />
+          <Icon name="checkOff" />
         </TouchableOpacity>
     );
   }

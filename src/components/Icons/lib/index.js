@@ -47,7 +47,6 @@ import reasonSadMan from './reasonSadMan';
 import reasonTaxi from './reasonTaxi';
 import reasonTimer from './reasonTimer';
 import search from './search';
-import selected from './selected';
 import settings from './settings';
 import sms from './sms';
 import sourceMarker from './sourceMarker';
@@ -120,7 +119,6 @@ export default {
   reasonTaxi,
   reasonTimer,
   search,
-  selected,
   settings,
   sms,
   sourceMarker,

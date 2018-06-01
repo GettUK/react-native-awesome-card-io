@@ -131,5 +131,10 @@ export default StyleSheet.create({
     fontSize: 15,
     textAlign: 'center'
   },
-  emptyPaymentsLabelSpace: { marginBottom: 8 }
+  emptyPaymentsLabelSpace: {
+    marginBottom: 8
+  },
+  checkboxWrapper: {
+    marginHorizontal: 12
+  }
 });
