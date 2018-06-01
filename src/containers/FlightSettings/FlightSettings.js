@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableWithoutFeedback, Text, ActivityIndicator } from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Text,
+  ActivityIndicator,
+  ScrollView
+} from 'react-native';
 import moment from 'moment';
 
 import { changeFlight } from 'actions/booking';
 
-import { Icon, Input } from 'components';
+import { Icon, Input, DismissKeyboardView } from 'components';
 
 import { strings } from 'locales';
 
@@ -19,11 +26,11 @@ class FlightSettings extends Component {
     flight: this.props.flight || '',
     verificationData: null,
     loading: false
-  }
+  };
 
   getAirportAddress = ({ name, terminal }) => (
     `${name}${terminal ? ` - Terminal ${terminal}` : ''}`
-  )
+  );
 
   setFlightDetails = (flightData) => {
     const { departure, arrival } = flightData;
@@ -39,7 +46,7 @@ class FlightSettings extends Component {
       ],
       loading: false
     });
-  }
+  };
 
   handleVerify = () => {
     const { flight, flightType } = this.state;
@@ -68,18 +75,18 @@ class FlightSettings extends Component {
           loading: false
         });
       });
-  }
+  };
 
   handleChangeNumber = (flight) => {
     this.setState({ flight, error: null });
-  }
+  };
 
   renderFlightData = item => (
     <View key={item.title} style={styles.results}>
       <Text style={styles.resultTitle}>{item.title}</Text>
       <Text style={styles.resultLabel}>{item.text}</Text>
     </View>
-  )
+  );
 
   renderToggleButton = (type) => {
     const isActive = this.state.flightType === type;
@@ -94,7 +101,7 @@ class FlightSettings extends Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
+  };
 
   renderVerifyButton = () => (
     <TouchableWithoutFeedback onPress={this.handleVerify}>
@@ -102,7 +109,7 @@ class FlightSettings extends Component {
         <Text style={styles.verifyLabel}>{strings('flights.verify')}</Text>
       </View>
     </TouchableWithoutFeedback>
-  )
+  );
 
   renderFlightInput = () => {
     const { flight, error } = this.state;
@@ -121,27 +128,36 @@ class FlightSettings extends Component {
         rightButton={this.renderVerifyButton()}
       />
     );
-  }
+  };
 
   render() {
     const { verificationData, loading } = this.state;
 
     return (
       <View style={[styles.flex, styles.bg]}>
-        {this.renderFlightInput()}
+        <DismissKeyboardView style={styles.flex}>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={80}
+            behavior="padding"
+            style={styles.flex}
+          >
+            <ScrollView>
+              {this.renderFlightInput()}
+              <View style={styles.toggler}>
+                {this.renderToggleButton('departing')}
+                {this.renderToggleButton('arriving')}
+              </View>
 
-        <View style={styles.toggler}>
-          {this.renderToggleButton('departing')}
-          {this.renderToggleButton('arriving')}
-        </View>
+              {loading && <ActivityIndicator color="#2a4982" />}
 
-        {loading && <ActivityIndicator color="#2a4982" />}
-
-        {verificationData &&
-          <View style={styles.resultsWrapper}>
-            {verificationData.map(this.renderFlightData)}
-          </View>
-        }
+              {verificationData &&
+                <View style={styles.resultsWrapper}>
+                  {verificationData.map(this.renderFlightData)}
+                </View>
+              }
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </DismissKeyboardView>
       </View>
     );
   }
