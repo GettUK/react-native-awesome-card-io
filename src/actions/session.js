@@ -2,7 +2,7 @@ import { createTypes } from 'redux-compose-reducer';
 import { auth } from 'api';
 import { registerToken } from 'actions/app/pushNotifications';
 import { clearPassenger } from 'actions/passenger';
-import { clearMap } from 'actions/ui/map';
+import { clearMap, cancelDriverSubscription } from 'actions/ui/map';
 import { clearOrdersList } from 'actions/orders';
 import { clearBooking } from 'actions/booking';
 
@@ -16,6 +16,7 @@ const TYPES = createTypes('session', [
 
 export const logout = () => (dispatch) => {
   dispatch({ type: TYPES.logout });
+  dispatch(cancelDriverSubscription());
   dispatch(clearPassenger());
   dispatch(clearMap());
   dispatch(clearOrdersList());
