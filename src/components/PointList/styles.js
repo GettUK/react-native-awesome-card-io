@@ -26,6 +26,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  labelEdit: {
+    color: '#284784'
+  },
   pickUpIcon: {
     marginRight: 15
   },
