@@ -58,11 +58,8 @@ class MapView extends Component {
   changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition }) {
     const { dragEnable, currentPosition, isActiveOrder } = this.props;
 
-    if (currentPosition &&
-      (!oldCurrentPosition ||
-        oldCurrentPosition.latitude !== currentPosition.latitude ||
-        oldCurrentPosition.longitude !== currentPosition.longitude
-      )
+    if (!PREORDER_STATUSES.includes(order.status) &&
+      this.isCurrentPositionChanged({ oldCurrentPosition, currentPosition })
     ) {
       const source = this.prepareCoordinates(currentPosition || {});
       this.animateToRegion(source);
@@ -127,6 +124,13 @@ class MapView extends Component {
     (bookingForm.pickupAddress && (bookingForm.pickupAddress !== bookingFormProps.pickupAddress))
     || (bookingForm.destinationAddress && (bookingForm.destinationAddress !== bookingFormProps.destinationAddress))
     || (bookingForm.stops && bookingForm.stops !== bookingFormProps.stops)
+  );
+
+  isCurrentPositionChanged = ({ oldCurrentPosition, currentPosition }) => (
+    currentPosition && (!oldCurrentPosition ||
+      oldCurrentPosition.latitude !== currentPosition.latitude ||
+      oldCurrentPosition.longitude !== currentPosition.longitude
+    )
   );
 
   resizeMapToCoordinates = (coordinates, params) => {
