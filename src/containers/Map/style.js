@@ -156,6 +156,17 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
     color: '#000'
+  },
+  popupInfo: {
+    fontSize: 17,
+    lineHeight: 20,
+    color: '#000'
+  },
+  popupLabel: {
+    marginVertical: 12,
+    fontSize: 17,
+    lineHeight: 20,
+    color: '#8e8e93'
   }
 });
 

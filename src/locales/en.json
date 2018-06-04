@@ -1,6 +1,11 @@
 {
   "information": {
     "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
+    "serviceSuspended": {
+      "title": "Service Suspended",
+      "description": "Dear Customer,\nDue to unpaid invoices the service has been suspended. Please contact OT Billing Department to resolve this issue.",
+      "sign": "Thank you,\nOT Team"
+    },
     "notReceivedCoordinates": "GPS coordinates aren`t received",
     "notSupportedAddress": "Sorry, this address is not supported",
     "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?"

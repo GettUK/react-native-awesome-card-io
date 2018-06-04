@@ -400,14 +400,14 @@ class BookingFooter extends PureComponent {
   renderFooter() {
     const {
       map: { currentPosition },
-      booking: { vehicles, currentOrder: { busy }, bookingForm },
+      booking: { vehicles, currentOrder: { busy }, bookingForm, formData },
       toOrder,
       getCurrentPosition,
       isAuthorizedPermission
     } = this.props;
 
     const availableVehicles = vehicles.data.filter(v => v.available && v.name !== 'Porsche');
-    const isOrderBtnDisabled = busy || vehicles.loading || !this.shouldOrderRide();
+    const isOrderBtnDisabled = formData.serviceSuspended || busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
       <View
