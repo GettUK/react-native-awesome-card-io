@@ -175,8 +175,11 @@ const toggleVisibleModal = (state, { payload }) => (
   update(state, `modals.${payload}`, !state.modals[payload])
 );
 
-const changeDriverRating = (state, { payload }) => (
-  update(state, 'currentOrder.tempDriverRating', payload)
+const changeDriverRating = (state, { payload: { rating, ratingReasons } }) => (
+  update(state, {
+    'currentOrder.tempDriverRating': rating,
+    'currentOrder.tempDriverRatingReasons': ratingReasons
+  })
 );
 
 const changeDriverRatingReasons = (state, { payload }) => (
