@@ -1,9 +1,14 @@
 import { StyleSheet, Platform } from 'react-native';
 
+import { isIphoneX } from 'utils';
+
 export default StyleSheet.create({
   container: {
     width: '100%',
-    zIndex: 99
+    height: isIphoneX() ? 100 : 80,
+    zIndex: 99,
+    position: 'absolute',
+    left: 0
   },
   messageContainer: {
     flex: 1,
@@ -12,7 +17,7 @@ export default StyleSheet.create({
     backgroundColor: '#ff0000'
   },
   messageWrapper: {
-    paddingTop: Platform.OS === 'android' ? 0 : 22,
+    paddingTop: Platform.OS === 'android' ? 14 : 22,
     flex: 1,
     paddingHorizontal: 16
   },

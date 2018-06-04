@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -12,7 +12,6 @@ import { saveToken } from 'actions/app/pushNotifications';
 
 import { onLayoutConnectBar } from 'actions/app/statuses';
 
-import { isIphoneX } from 'utils';
 import PN from 'utils/notifications';
 
 class AppContainer extends PureComponent {
@@ -35,16 +34,16 @@ class AppContainer extends PureComponent {
 
   render() {
     const { dispatch, isConnected } = this.props;
-    const connectionMargin = isIphoneX() || Platform.OS === 'android' ? -40 : -20;
 
     return <View style={{ flex: 1 }}>
+      <View style={{ height: isConnected ? 0 : 60 }} />
+      <View style={{ flex: 1 }}>
+        <NavigatorRoot />
+      </View>
       <ConnectionMessage
         onLayout={e => dispatch(onLayoutConnectBar(e))}
         ref={(alert) => { this.alert = alert; }}
       />
-      <View style={{ flex: 1, marginTop: !isConnected ? connectionMargin : 0 }}>
-        <NavigatorRoot />
-      </View>
     </View>;
   }
 }
