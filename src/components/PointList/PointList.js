@@ -135,10 +135,9 @@ export default class PointList extends PureComponent {
 
         {allowAddingStops &&
           <TouchableOpacity
-            style={styles.btnPlus}
             onPress={onStopAdd}>
             {(!data.stops || data.stops.length < 4)
-              ? <Icon name="plus" color="#8d8d8d" size={18} />
+              ? <Icon style={styles.btnPlus} name="plus" color="#8d8d8d" size={18} />
               : <Text style={styles.labelEdit}>Edit</Text>
             }
           </TouchableOpacity>
