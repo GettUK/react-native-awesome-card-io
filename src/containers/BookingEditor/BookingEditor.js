@@ -40,6 +40,10 @@ class BookingEditor extends Component {
 
       this.setState({ loadBookingRequested: true });
     }
+
+    if (bookingForm.destinationAddress && !bookingFormProps.destinationAddress) {
+      this.loadBooking();
+    }
   }
 
   loadBooking = () => {
