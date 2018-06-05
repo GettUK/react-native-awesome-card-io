@@ -98,17 +98,16 @@ class EditProfile extends Component {
     );
   };
 
+  onChangeInput = (type = 'First', value) => {
+    this.props[`handle${type}NameChange`](value.trim());
+  }
+
   render() {
-    const {
-      avatarUrl,
-      avatar,
-      handleFirstNameChange,
-      handleLastNameChange
-    } = this.props;
+    const { avatarUrl, avatar } = this.props;
 
     const inputs = [
-      { item: 'firstName', label: 'First Name', onChangeText: handleFirstNameChange },
-      { item: 'lastName', label: 'Last Name', onChangeText: handleLastNameChange }
+      { item: 'firstName', label: 'First Name', onChangeText: value => this.onChangeInput('First', value) },
+      { item: 'lastName', label: 'Last Name', onChangeText: value => this.onChangeInput('Last', value) }
     ];
 
     const userAvatar = avatar || avatarUrl;
