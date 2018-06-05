@@ -1,5 +1,5 @@
 {
-  "url": "https://dev.gettaxi.me/api/",
+  "url": "https://dev.gettaxi.me/api/mobile/v1/",
   "static": {
     "termsOfUse": "https://swagger.ru/terms-and-conditions.html",
     "privacyPolicy": "https://swagger.ru/privacy-policy.html"
