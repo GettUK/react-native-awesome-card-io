@@ -12,7 +12,7 @@ class MessageToDriver extends Component {
   }
 
   onChangeText = (message) => {
-    this.props.changeMessageToDriver(message, true);
+    this.props.changeMessageToDriver(message.trim(), true);
   };
 
   render() {

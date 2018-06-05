@@ -49,7 +49,7 @@ class AddressEditor extends Component {
   goBack = throttledAction(() => this.props.navigation.goBack(null));
 
   handleInputChange = curry((field, value) => {
-    this.props.changeTempAddressField(field, value);
+    this.props.changeTempAddressField(field, value.trim());
   });
 
   handleAddressChange = (address) => {
