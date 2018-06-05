@@ -246,7 +246,14 @@ export const getVehicles = params => (dispatch) => {
 
 export const toggleVisibleModal = name => ({ type: TYPES.toggleVisibleModal, payload: name });
 
-export const changeDriverRating = rating => ({ type: TYPES.changeDriverRating, payload: rating });
+export const changeDriverRating = rating => (dispatch, getState) => {
+  const { tempDriverRatingReasons } = getState().booking.currentOrder;
+
+  dispatch({
+    type: TYPES.changeDriverRating,
+    payload: { rating, ratingReasons: rating <= 4 ? (tempDriverRatingReasons || []) : [] }
+  });
+};
 
 export const changeDriverRatingReasons = name => (dispatch, getState) => {
   const { tempDriverRatingReasons } = getState().booking.currentOrder;
