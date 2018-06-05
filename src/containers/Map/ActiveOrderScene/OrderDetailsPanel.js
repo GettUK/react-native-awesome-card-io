@@ -101,7 +101,7 @@ const OrderDetails = ({
 
     return (
       <View key="car" style={orderPanelStyles.row}>
-        <Text style={[orderPanelStyles.title, { width: 100 }]}>{vehicleData.label}</Text>
+        <Text style={[orderPanelStyles.title]}>{vehicleData.label}</Text>
 
         <Image
           style={{ width: 90 }}

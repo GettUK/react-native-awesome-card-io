@@ -127,8 +127,9 @@ export const orderPanelStyles = StyleSheet.create({
   },
   row: {
     alignSelf: 'stretch',
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   header: {
@@ -186,7 +187,6 @@ export const orderPanelStyles = StyleSheet.create({
     fontWeight: '900'
   },
   priceLabel: {
-    width: 100,
     textAlign: 'right'
   },
   pointList: {
