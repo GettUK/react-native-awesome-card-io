@@ -27,7 +27,9 @@ class AddressesList extends Component {
 
   goToAddressEditor = throttledAction((address) => {
     this.changeSelectedID();
-    this.props.navigation.navigate('AddressEditor', { address });
+    this.props.navigation.navigate('AddressEditor', {
+      address, editing: true, onRemove: this.removeAddress
+    });
   });
 
   renderExistPredefinedAddress = (type, data) => (
@@ -78,7 +80,7 @@ class AddressesList extends Component {
     this.setState({ selectedID });
   };
 
-  removeAddress = (id, type) => {
+  removeAddress = (id, type, handler) => {
     const { destroyFavoriteAddress, sendPredefinedAddress } = this.props;
     const removeAction = type
       ? () => sendPredefinedAddress(nullAddress(null), type)
@@ -86,7 +88,10 @@ class AddressesList extends Component {
 
     showRemovalAlert({
       message: strings('settings.address.confirmDelete'),
-      handler: removeAction
+      handler: () => {
+        removeAction();
+        if (handler) handler();
+      }
     });
   };
 
