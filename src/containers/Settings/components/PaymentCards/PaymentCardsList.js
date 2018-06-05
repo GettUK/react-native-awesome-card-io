@@ -12,6 +12,9 @@ import { throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 import { getValue } from './utils';
 import settingsStyles from '../../style';
+
+import Tip from '../Tip';
+
 import styles from './styles';
 
 class PaymentCardsList extends Component {
@@ -120,6 +123,8 @@ class PaymentCardsList extends Component {
       ? (
         <ScrollView style={[styles.flex, styles.container]}>
           {this.renderPaymentCards()}
+
+          <Tip label={strings('settings.payment.tip')} />
         </ScrollView>
       )
       : this.renderEmptyContent();

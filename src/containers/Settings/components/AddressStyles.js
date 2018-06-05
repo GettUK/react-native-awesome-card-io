@@ -109,5 +109,13 @@ export default StyleSheet.create({
   deleteLabel: {
     fontSize: 17,
     color: '#ff2600'
+  },
+  tip: {
+    color: '#8e8e93',
+    fontSize: 15,
+    flex: 1,
+    textAlign: 'center',
+    margin: 24,
+    opacity: 0.6
   }
 });
