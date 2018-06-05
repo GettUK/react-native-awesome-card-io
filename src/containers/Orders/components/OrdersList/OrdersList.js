@@ -172,7 +172,7 @@ class OrdersList extends PureComponent {
       renderItem={this.renderItem}
       onEndReached={this.getOrders}
       ListFooterComponent={this.state.loading && Platform.OS === 'ios' &&
-        <Text style={{ textAlign: 'center' }}>{strings('labels.loading')}</Text>
+        <Text style={{ textAlign: 'center' }}>{strings('label.loading')}</Text>
       }
       refreshing={this.state.loading}
     />
