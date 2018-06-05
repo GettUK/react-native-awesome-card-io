@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     margin: 5,
-    marginTop: 10,
+    marginTop: 15,
     width: 110,
     height: 140,
     flexDirection: 'column',
@@ -34,8 +34,8 @@ export default StyleSheet.create({
     height: 120
   },
   activeBackground: {
-    width: 124,
-    height: 154,
+    width: 134,
+    height: 164,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 5
