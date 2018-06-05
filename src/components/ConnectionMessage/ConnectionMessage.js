@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text, Platform } from 'react-native';
+import { Animated, View, Text } from 'react-native';
 
 import { strings } from 'locales';
 
@@ -13,7 +13,7 @@ class ConnectionMessage extends PureComponent {
   show = () => {
     this.alertAnim.setValue(0);
 
-    this.animate(isIphoneX() || Platform.OS === 'android' ? 100 : 80);
+    this.animate(isIphoneX() ? 100 : 80);
   };
 
   hide = () => {
@@ -35,10 +35,21 @@ class ConnectionMessage extends PureComponent {
   };
 
   render() {
+    const size = isIphoneX() ? 100 : 80;
     return (
       <Animated.View
         onLayout={this.onLayout}
-        style={[styles.container, { height: this.alertAnim, opacity: this.alertAnim }]}
+        style={[styles.container,
+          {
+            opacity: this.alertAnim,
+            transform: [{
+              translateY: this.alertAnim.interpolate({
+                inputRange: [0, size],
+                outputRange: [-1 * size, 0]
+              })
+            }]
+          }
+        ]}
       >
         <View style={styles.messageContainer}>
           <View style={styles.messageWrapper}>
