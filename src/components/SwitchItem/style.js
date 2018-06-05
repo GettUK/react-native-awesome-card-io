@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10
   },
+  labelView: {
+    flex: 1,
+    marginRight: 8
+  },
   label: {
     color: '#fff',
     fontSize: 17,
