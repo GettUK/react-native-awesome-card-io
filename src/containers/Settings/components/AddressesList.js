@@ -26,6 +26,7 @@ class AddressesList extends Component {
   };
 
   goToAddressEditor = throttledAction((address) => {
+    this.changeSelectedID();
     this.props.navigation.navigate('AddressEditor', { address });
   });
 
@@ -73,7 +74,7 @@ class AddressesList extends Component {
     );
   };
 
-  onChangeSelectedID = (selectedID) => {
+  changeSelectedID = (selectedID) => {
     this.setState({ selectedID });
   };
 
@@ -99,7 +100,7 @@ class AddressesList extends Component {
       close={!(this.state.selectedID === data.id)}
       backgroundColor="#fff"
       buttonWidth={100}
-      onOpen={() => this.onChangeSelectedID(data.id)}
+      onOpen={() => this.changeSelectedID(data.id)}
       right={[
         {
           component: (
