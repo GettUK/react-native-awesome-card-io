@@ -60,7 +60,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>We need to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) camera use</string>
+	<string>We need to access your camera for setting personal avatar or photo to this account</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need your location so we can pick you up at the right spot. Tap 'Allow' so we can find you.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
