@@ -24,6 +24,7 @@ class PaymentCardsList extends Component {
   };
 
   goToPaymentDetails = throttledAction((item) => {
+    this.changeSelectedID();
     this.props.navigation.navigate('PaymentCardDetails', { paymentCard: item });
   });
 
@@ -31,7 +32,7 @@ class PaymentCardsList extends Component {
     this.props.makeDefaultPayment(id);
   };
 
-  onChangeSelectedID = (selectedID) => {
+  changeSelectedID = (selectedID) => {
     this.setState({ selectedID });
   };
 
@@ -53,7 +54,7 @@ class PaymentCardsList extends Component {
       close={!(this.state.selectedID === item.id)}
       backgroundColor="#fff"
       buttonWidth={100}
-      onOpen={() => this.onChangeSelectedID(item.id)}
+      onOpen={() => this.changeSelectedID(item.id)}
       onClose={noop}
       scroll={noop}
       right={[
