@@ -26,7 +26,9 @@ export default class SwitchItem extends PureComponent {
       <View style={[styles.container, style]}>
         {label &&
           <TouchableWithoutFeedback onPress={onLabelPress}>
-            <View><Text style={[styles.label, labelStyle]}>{label}</Text></View>
+            <View style={styles.labelView}>
+              <Text style={[styles.label, labelStyle]} numberOfLines={1}>{label}</Text>
+            </View>
           </TouchableWithoutFeedback>
         }
         <Switch {...rest} />
