@@ -22,7 +22,7 @@ class BookingEditor extends Component {
   };
 
   componentDidUpdate({ booking: { bookingForm: bookingFormProps }, requestVehicles, memberId, passenger }) {
-    const { booking: { vehicles, bookingForm } } = this.props;
+    const { booking: { vehicles, bookingForm }, getFormData } = this.props;
     const { isStopPointsModalVisible } = this.state;
 
     const isDriveChanged = (!vehicles.loaded && !vehicles.loading) ||
@@ -42,7 +42,7 @@ class BookingEditor extends Component {
     }
 
     if (bookingForm.destinationAddress && !bookingFormProps.destinationAddress) {
-      this.loadBooking();
+      getFormData();
     }
   }
 
