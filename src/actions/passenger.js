@@ -84,11 +84,20 @@ export const sendProfileData = () => (dispatch, getState) => {
   const { session, passenger: { temp } } = getState();
   const id = session.user.memberId;
 
-  return put(`/passengers/${id}`, temp)
+  const trimmedTemp = {
+    ...temp,
+    firstName: temp.firstName.trim(),
+    lastName: temp.lastName.trim()
+  };
+
+  return put(`/passengers/${id}`, trimmedTemp)
     .then(() => {
+      dispatch(changeProfileFieldValue('firstName', trimmedTemp.firstName));
+      dispatch(changeProfileFieldValue('lastName', trimmedTemp.lastName));
+
       dispatch({ type: TYPES.sendProfileDataSuccess });
       dispatch(changeFields({
-        passengerName: `${temp.firstName} ${temp.lastName}`,
+        passengerName: `${trimmedTemp.firstName} ${trimmedTemp.lastName}`,
         passengerPhone: temp.phone
       }));
     })
@@ -136,8 +145,15 @@ const createFavouriteAddress = ({ passengerId, address }) => dispatch =>
 
 export const sendAddress = () => (dispatch, getState) => {
   const passengerId = getState().session.user.memberId;
-  const address = getState().passenger.temp.address;
+  let address = getState().passenger.temp.address;
   let req;
+
+  address = {
+    ...address,
+    name: address.name.trim(),
+    pickupMessage: (address.pickupMessage || '').trim(),
+    destinationMessage: (address.destinationMessage || '').trim()
+  };
 
   if (address.id) {
     req = dispatch(sendFavouriteAddress({ passengerId, address }));

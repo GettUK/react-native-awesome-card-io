@@ -25,7 +25,8 @@ export const initialState = {
   currentOrder: {
     busy: false
   },
-  orderCreateError: null
+  orderCreateError: null,
+  tempMessageToDriver: ''
 };
 
 const getFormDataStart = state => (
