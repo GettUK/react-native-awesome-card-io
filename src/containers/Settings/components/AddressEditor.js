@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry } from 'lodash';
-import { View, ScrollView, BackHandler } from 'react-native';
+import { View, ScrollView, BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
 
 import { touchField, setTempAddress, changeTempAddressField, changeTempAddress } from 'actions/passenger';
 import { Input, AddressModal } from 'components';
@@ -57,16 +57,16 @@ class AddressEditor extends Component {
   };
 
   toggleAddressModal = () => {
-    this.addressModal.open(this.props.address.address);
     this.addressInput.blur();
+    this.addressModal.open(this.props.address.address);
   };
 
   renderInput = props => (
     <Input
       labelStyle={styles.inputLabel}
       multiline
-      inputStyle={styles.input}
-      style={styles.inputContainer}
+      inputStyle={[styles.input, props.last ? styles.inputLast : {}]}
+      style={[styles.inputContainer, props.last ? styles.lastItem : {}]}
       allowClearStyle={styles.allowClearStyle}
       clearIconColor="#d2d0dc"
       clearIconStyle={styles.clearIcon}
@@ -75,52 +75,81 @@ class AddressEditor extends Component {
     />
   );
 
+  renderForm = () => {
+    const { address, errors, navigation } = this.props;
+    const { editing } = navigation.state.params;
+
+    return (
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={[styles.container, editing ? styles.scrollContainer : {}]}
+      >
+        {
+          this.renderInput({
+            label: `Address Name (${this.getFieldLength(address.name)}/32)`,
+            value: address.name || '',
+            onChangeText: this.handleInputChange('name'),
+            error: errors.name,
+            maxLength: 32
+          })
+        }
+        {
+          this.renderInput({
+            inputRef: (el) => { this.addressInput = el; },
+            label: 'Address',
+            value: (address.address && address.address.line) || '',
+            onFocus: this.toggleAddressModal,
+            error: errors['address.line'] || errors['address.lat'] || errors['address.countryCode'],
+            allowClear: false
+          })
+        }
+        {
+          this.renderInput({
+            label: `Pick Up Message (${this.getFieldLength(address.pickupMessage)}/100)`,
+            value: address.pickupMessage || '',
+            onChangeText: this.handleInputChange('pickupMessage'),
+            error: errors.pickupMessage,
+            maxLength: 100
+          })
+        }
+        {
+          this.renderInput({
+            label: `Destination Message (${this.getFieldLength(address.destinationMessage)}/100)`,
+            value: address.destinationMessage || '',
+            last: editing,
+            onChangeText: this.handleInputChange('destinationMessage'),
+            error: errors.destinationMessage,
+            maxLength: 100
+          })
+        }
+      </ScrollView>
+    );
+  }
+
+  renderDeleteButton = () => {
+    const { address, navigation } = this.props;
+    const { onRemove } = navigation.state.params;
+
+    return (
+      <TouchableWithoutFeedback onPress={() => onRemove(address.id, null, navigation.goBack)}>
+        <View style={styles.deleteButton}>
+          <Text style={styles.deleteLabel}>{strings('settings.address.addressDelete')}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+
   getFieldLength = field => (field && field.length) || 0;
 
   render() {
-    const { address, errors } = this.props;
+    const { editing } = this.props.navigation.state.params;
 
     return (
-      <View style={[styles.flex, styles.container]}>
-        <ScrollView keyboardShouldPersistTaps="handled">
-          {
-            this.renderInput({
-              label: `Address Name (${this.getFieldLength(address.name)}/32)`,
-              value: address.name || '',
-              onChangeText: this.handleInputChange('name'),
-              error: errors.name,
-              maxLength: 32
-            })
-          }
-          {
-            this.renderInput({
-              inputRef: (el) => { this.addressInput = el; },
-              label: 'Address',
-              value: (address.address && address.address.line) || '',
-              onFocus: this.toggleAddressModal,
-              error: errors['address.line'] || errors['address.lat'] || errors['address.countryCode'],
-              allowClear: false
-            })
-          }
-          {
-            this.renderInput({
-              label: `Pick Up Message (${this.getFieldLength(address.pickupMessage)}/100)`,
-              value: address.pickupMessage || '',
-              onChangeText: this.handleInputChange('pickupMessage'),
-              error: errors.pickupMessage,
-              maxLength: 100
-            })
-          }
-          {
-            this.renderInput({
-              label: `Destination Message (${this.getFieldLength(address.destinationMessage)}/100)`,
-              value: address.destinationMessage || '',
-              onChangeText: this.handleInputChange('destinationMessage'),
-              error: errors.destinationMessage,
-              maxLength: 100
-            })
-          }
-        </ScrollView>
+      <View style={[styles.flex, styles[`container${editing ? 'Grey' : ''}`]]}>
+        {this.renderForm()}
+
+        {editing && this.renderDeleteButton()}
+
         <AddressModal
           ref={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}

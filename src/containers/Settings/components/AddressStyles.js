@@ -8,6 +8,14 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 10
   },
+  containerGrey: {
+    backgroundColor: '#efeff4'
+  },
+  scrollContainer: {
+    marginBottom: 30,
+    borderBottomColor: '#bcbbc1',
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
   predefinedAddress: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -54,6 +62,9 @@ export default StyleSheet.create({
     borderBottomColor: '#bcbbc1',
     borderBottomWidth: StyleSheet.hairlineWidth
   },
+  inputLast: {
+    borderBottomColor: 'transparent'
+  },
   allowClearStyle: {
     paddingRight: 47
   },
@@ -62,6 +73,9 @@ export default StyleSheet.create({
     marginBottom: 15,
     marginTop: 5,
     paddingTop: 8
+  },
+  lastItem: {
+    marginBottom: 0
   },
   inputLabel: {
     color: '#7f7f7f',
@@ -82,5 +96,18 @@ export default StyleSheet.create({
   },
   buttonIcon: {
     marginLeft: 11
+  },
+  deleteButton: {
+    width: '100%',
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom: 16,
+    backgroundColor: '#fff'
+  },
+  deleteLabel: {
+    fontSize: 17,
+    color: '#ff2600'
   }
 });
