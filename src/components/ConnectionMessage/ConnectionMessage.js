@@ -41,6 +41,7 @@ class ConnectionMessage extends PureComponent {
         onLayout={this.onLayout}
         style={[styles.container,
           {
+            height: this.alertAnim,
             opacity: this.alertAnim,
             transform: [{
               translateY: this.alertAnim.interpolate({
