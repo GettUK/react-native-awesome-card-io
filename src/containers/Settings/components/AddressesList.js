@@ -10,7 +10,11 @@ import { destroyFavoriteAddress, sendPredefinedAddress } from 'actions/passenger
 import { Icon } from 'components';
 import { nullAddress, throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
+
 import settingsStyles from '../style';
+
+import Tip from './Tip';
+
 import styles from './AddressStyles';
 
 class AddressesList extends Component {
@@ -159,6 +163,8 @@ class AddressesList extends Component {
         {this.renderPredefinedAddress('home')}
         {this.renderPredefinedAddress('work')}
         {this.renderFavoriteAddresses()}
+
+        <Tip />
       </ScrollView>
     );
   }
