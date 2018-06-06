@@ -70,7 +70,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>We need to access your motion sensor</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) photo use</string>
+	<string>We need to access your photo library for setting personal avatar to this account</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>We need to access your microphone</string>
 	<key>UIAppFonts</key>
