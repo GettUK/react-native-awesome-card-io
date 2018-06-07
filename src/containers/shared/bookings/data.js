@@ -73,6 +73,21 @@ export const allVehicles = [{
 }, {
   name: 'Special',
   label: 'Special'
+}, {
+  name: 'GettXL',
+  label: 'Gett XL'
+}, {
+  name: 'GettExpress',
+  label: 'Gett Express'
+}, {
+  name: 'Economy',
+  label: 'Economy'
+}, {
+  name: 'StandardXL',
+  label: 'Standard XL'
+}, {
+  name: 'Business',
+  label: 'Business'
 }];
 
 export const vehiclesData = keyBy(allVehicles, 'name');
@@ -82,7 +97,7 @@ export const backOfficeBaseVehicles = allVehicles.filter(v =>
 export const baseVehicles = backOfficeBaseVehicles.filter(v => v.name !== 'Special');
 
 /* eslint-disable max-len */
-export const baseVehiclesDescriptions = {
+export const baseDescriptions = {
   Standard: {
     description: 'Safe and reliable saloon vehicle that is perfect for your everyday ground transport needs.',
     features: [
@@ -125,6 +140,19 @@ export const baseVehiclesDescriptions = {
   }
 };
 /* eslint-enable */
+
+export const baseVehiclesDescriptions = {
+  Standard: baseDescriptions.Standard,
+  BlackTaxi: baseDescriptions.BlackTaxi,
+  BlackTaxiXL: baseDescriptions.BlackTaxiXL,
+  Exec: baseDescriptions.Exec,
+  MPV: baseDescriptions.MPV,
+  Economy: baseDescriptions.Standard,
+  StandardXL: baseDescriptions.MPV,
+  Business: baseDescriptions.Exec,
+  GettXL: baseDescriptions.MPV,
+  GettExpress: baseDescriptions.Standard
+};
 
 // comparing looked-up address with saved address can sometimes yield different
 // results for lat and lng e.g. 3.413240000000001 and 3.41324

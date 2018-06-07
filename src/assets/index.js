@@ -1,13 +1,22 @@
 /* eslint-disable global-require */
 const imagesApp = {
   carTypes: {
-    OTBlackTaxi: require('./png/application/OTBlackTaxi.png'),
-    BlackTaxi: require('./png/application/BlackTaxi.png'),
-    Standard: require('./png/application/Standard.png'),
-    BlackTaxiXL: require('./png/application/BlackTaxiXL.png'),
-    Exec: require('./png/application/Exec.png'),
-    MPV: require('./png/application/MPV.png'),
-    Special: require('./png/application/Special.png')
+    Standard: require('./png/car-types/Standard.png'),
+    StandardGett: require('./png/car-types/StandardGett.png'),
+    BlackTaxi: require('./png/car-types/BlackTaxi.png'),
+    OTBlackTaxi: require('./png/car-types/BlackTaxi.png'),
+    BlackTaxiGett: require('./png/car-types/BlackTaxiGett.png'),
+    BlackTaxiXL: require('./png/car-types/BlackTaxiXL.png'),
+    OTBlackTaxiXL: require('./png/car-types/MPV.png'),
+    Exec: require('./png/car-types/Exec.png'),
+    ExecGett: require('./png/car-types/ExecGett.png'),
+    MPV: require('./png/car-types/MPV.png'),
+    Special: require('./png/car-types/Special.png'),
+    GettXL: require('./png/car-types/GettXL.png'),
+    GettExpress: require('./png/car-types/GettExpress.png'),
+    Economy: require('./png/car-types/Economy.png'),
+    StandardXL: require('./png/car-types/StandardXL.png'),
+    Business: require('./png/car-types/Business.png')
   },
   expirationDate: require('./png/application/expirationDate.png'),
   cvv: require('./png/application/cvv.png'),
