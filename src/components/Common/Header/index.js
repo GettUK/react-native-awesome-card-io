@@ -19,7 +19,7 @@ class Header extends React.Component {
       <View style={[styles.headerWrap, customStyles]} pointerEvents="box-none">
         <View style={styles.header} pointerEvents="box-none">
           <View style={styles.wrapLeftElements}>
-            <View style={styles.leftComponent}>{leftButton}</View>
+            <View>{leftButton}</View>
 
             <Text
               style={[

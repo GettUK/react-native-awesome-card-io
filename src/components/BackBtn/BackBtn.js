@@ -11,9 +11,10 @@ import { throttledAction, showConfirmationAlert } from 'utils';
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 10,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 8
   },
   text: {
     fontSize: 17,
@@ -48,6 +49,7 @@ class BackBtn extends Component {
 
   render() {
     const { containerStyle, color } = this.props;
+
     return (
       <TouchableOpacity onPress={this.handlePress} style={[styles.container, containerStyle]}>
         <Icon size={21} name="back" color={color || '#284784'} />

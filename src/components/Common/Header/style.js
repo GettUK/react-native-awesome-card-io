@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginRight: 24
   },
-  leftComponent: {
-    paddingVertical: 6,
-    paddingRight: 8
-  },
   rightHeaderButton: {
     color: '#000',
     fontSize: 14

@@ -167,6 +167,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 20,
     color: '#8e8e93'
+  },
+  touchZone: {
+    paddingVertical: 6,
+    paddingRight: 8
   }
 });
 
