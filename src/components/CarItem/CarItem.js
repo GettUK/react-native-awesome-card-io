@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Image, Text, View, ImageBackground } from 'react-native';
-import { isNull } from 'lodash';
+import { isNull, capitalize } from 'lodash';
 import { Icon } from 'components';
 import assets from 'assets';
 import { formatPrice } from 'utils';
 import styles from './styles';
 
-const CarItem = ({
-  style, name, label, price, eta, active, onChange, isETADisabled
-}) => {
+const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabled, serviceType }) => {
   const vehiclePrice = cost => (cost ? formatPrice(cost) : 'By meter');
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
   const range = Math.ceil(etaNum / 2);
+  const serviceSpecificName = `${name}${capitalize(serviceType)}`;
 
   const renderContainer = () => (
     <View
@@ -36,7 +35,7 @@ const CarItem = ({
       }
       <Image
         style={styles.image}
-        source={assets.carTypes[name]}
+        source={assets.carTypes[serviceSpecificName] || assets.carTypes[name]}
         resizeMode="contain"
       />
     </View>

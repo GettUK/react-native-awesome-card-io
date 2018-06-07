@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, BackHandler, Image, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, BackHandler, Image, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 import assets from 'assets';
 
@@ -134,7 +134,9 @@ class CarTypesEditor extends Component {
   render() {
     return (
       <View style={[styles.flex, styles.container]}>
-        {baseVehicles.map(this.renderCarItem)}
+        <ScrollView style={styles.flex}>
+          {baseVehicles.map(this.renderCarItem)}
+        </ScrollView>
 
         {this.renderInfoModal()}
       </View>
