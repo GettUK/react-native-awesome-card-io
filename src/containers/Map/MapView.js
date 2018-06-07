@@ -22,7 +22,8 @@ import {
   DRIVER_ON_WAY,
   ACTIVE_DRIVER_STATUSES,
   FINAL_STATUSES,
-  PREORDER_STATUSES
+  PREORDER_STATUSES,
+  ORDER_RECEIVED_STATUS
 } from 'utils/orderStatuses';
 
 import DriversMarkers from './DriversMarkers';
@@ -67,6 +68,10 @@ class MapView extends Component {
 
     if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
       this.resizeMapToDriverAndPickupAddress(order);
+    }
+
+    if (this.shouldOpenOrderDetails({ oldOrder, order })) {
+      setTimeout(this.props.onFutureOrderReceived, 3000);
     }
 
     if (this.shouldGetDriversLocations({ order, oldOrder })) {
@@ -136,6 +141,9 @@ class MapView extends Component {
 
   gotNewStatus = (oldOrder, order, status) =>
     oldOrder.status !== status && order.status === status;
+
+  shouldOpenOrderDetails = ({ oldOrder, order }) =>
+    (this.gotNewStatus(oldOrder, order, ORDER_RECEIVED_STATUS)) && !order.asap;
 
   shouldResizeMapToDriverAndPickupAddress = ({ oldOrder, order }) =>
     order.pickupAddress && order.driverDetails && order.driverDetails.location &&

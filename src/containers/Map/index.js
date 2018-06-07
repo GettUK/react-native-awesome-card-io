@@ -651,6 +651,7 @@ class Map extends Component {
           onEndLoadingPickup={this.endLoadingPickup}
           disableDrag={this.disableDrag}
           enableDrag={this.enableDrag}
+          onFutureOrderReceived={this.handleHideHeader}
         />
 
         {isPreOrder && !bookingForm.destinationAddress && this.renderPickUpMarker()}
