@@ -223,5 +223,16 @@ export default StyleSheet.create({
   },
   pickupTimeEdit: {
     color: '#284784'
+  },
+  popupLocationTitle: {
+    textAlign: 'center',
+    marginHorizontal: 30,
+    marginBottom: 0
+  },
+  btnStyle: {
+    backgroundColor: '#fff'
+  },
+  btnTextStyle: {
+    color: '#7f7f7f'
   }
 });

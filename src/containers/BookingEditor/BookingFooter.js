@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import moment from 'moment-timezone';
 import { has, find, isNull, pickBy, isEmpty } from 'lodash';
-import { Icon, Button, Modal, CarItem, InformView, Alert, Divider } from 'components';
+import { Icon, Button, Modal, CarItem, InformView, Alert, Divider, Popup } from 'components';
 import { hourForward, formatedTime } from 'utils';
 import { strings } from 'locales';
 
-import { onLayoutFooter } from 'actions/app/statuses';
+import { onLayoutFooter, openSettingsPermissions } from 'actions/app/statuses';
 
 import {
   createBooking,
@@ -157,6 +157,15 @@ class BookingFooter extends PureComponent {
       this.hideFlightModal();
     }
   }
+
+  showPopup = () => {
+    this.locationPopup.open();
+  };
+
+  openSettings = () => {
+    this.locationPopup.close();
+    openSettingsPermissions();
+  };
 
   showAlert = () => {
     const { booking: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
@@ -408,6 +417,7 @@ class BookingFooter extends PureComponent {
 
     const availableVehicles = vehicles.data.filter(v => v.available && v.name !== 'Porsche');
     const isOrderBtnDisabled = formData.serviceSuspended || busy || vehicles.loading || !this.shouldOrderRide();
+    const isActiveLocation = isAuthorizedPermission('location') && !isNull(currentPosition);
 
     return (
       <View
@@ -425,16 +435,31 @@ class BookingFooter extends PureComponent {
         {
           !toOrder && (
             <View pointerEvents="box-none">
-              {isAuthorizedPermission('location') && !isNull(currentPosition) &&
-                <Button
-                  style={styles.currentPositionBtn}
-                  styleContent={[styles.currentPositionBtnContent, styles.btnView]}
-                  onPress={getCurrentPosition}
-                >
-                  <Icon name="myLocation" size={22} color="#284784" />
-                </Button>
-              }
+
+              <Button
+                style={styles.currentPositionBtn}
+                styleContent={[styles.currentPositionBtnContent, styles.btnView]}
+                onPress={isActiveLocation ? getCurrentPosition : this.showPopup}
+              >
+                <Icon name={isActiveLocation ? 'myLocation' : 'inactiveLocation' } size={22} color="#284784" />
+              </Button>
               {this.renderAddressesSelector()}
+              <Popup
+                ref={(popup) => { this.locationPopup = popup; }}
+                titleStyle={styles.popupLocationTitle}
+                title={strings('information.locationService.title')}
+                buttons={[
+                  {
+                    title: strings('information.locationService.btnCancel'),
+                    style: styles.btnStyle,
+                    textStyle: styles.btnTextStyle
+                  },
+                  {
+                    title: strings('information.locationService.btnConfirm'),
+                    onPress: this.openSettings
+                  }
+                ]}
+              />
             </View>
           )
         }

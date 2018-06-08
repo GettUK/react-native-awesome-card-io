@@ -35,6 +35,7 @@ import journeyTime from './journeyTime';
 import logo from './logo';
 import message from './message';
 import myLocation from './myLocation';
+import inactiveLocation from './inactiveLocation';
 import paymentMethod from './paymentMethod';
 import phone from './phone';
 import pickUpCenter from './pickUpCenter';
@@ -107,6 +108,7 @@ export default {
   logo,
   message,
   myLocation,
+  inactiveLocation,
   paymentMethod,
   phone,
   pickUpCenter,

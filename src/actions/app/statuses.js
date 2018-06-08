@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import Permissions from 'react-native-permissions';
+import AndroidOpenSettings from 'react-native-android-open-settings';
 import { createTypes } from 'redux-compose-reducer';
 import { curry } from 'lodash/fp';
 
@@ -33,7 +34,9 @@ export const requestPermissions = curry((perm, type) => dispatch => Permissions.
   return { [perm]: response };
 }));
 
-export const openSettingsPermissions = () => Permissions.openSettings();
+export const openSettingsPermissions = () => (Platform.OS === 'ios'
+  ? Permissions.openSettings()
+  : AndroidOpenSettings.locationSourceSettings());
 
 export const requestLocation = () => (dispatch, getState) => {
   const { app: { statuses } } = getState();

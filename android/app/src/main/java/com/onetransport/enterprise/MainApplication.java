@@ -3,6 +3,7 @@ package com.onetransport.enterprise;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
 import xyz.miron.reactnativehourformat.RNHourFormatPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -37,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AndroidOpenSettingsPackage(),
             new RNHourFormatPackage(),
             new FabricPackage(),
             new RNTextInputMaskPackage(),
