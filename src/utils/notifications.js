@@ -13,9 +13,9 @@ class PushNotification {
     return '';
   });
 
-  getNotificationsPermissions = () => {
+  getNotificationsPermissions = async () => {
     try {
-      FCM.requestPermissions({ badge: false, sound: true, alert: true });
+      await FCM.requestPermissions({ badge: false, sound: true, alert: true });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
