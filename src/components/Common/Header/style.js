@@ -11,10 +11,17 @@ const styles = StyleSheet.create({
     elevation: 2,
     zIndex: 10
   },
-  wrapLeftElements: {
-    flex: 1,
+  leftContent: {
     flexDirection: 'row',
-    alignItems: 'center'
+    position: 'absolute',
+    zIndex: 10,
+    left: 0
+  },
+  rightContent: {
+    flexDirection: 'row',
+    position: 'absolute',
+    zIndex: 10,
+    right: 0
   },
   headerTitle: {
     fontSize: 17,

@@ -2,6 +2,8 @@ export { default as AuthLoading } from './AuthLoading';
 export { default as TransitionLoading } from './AuthLoading/TransitionLoading';
 export { default as ForgotPassword } from './auth/ForgotPassword';
 export { default as Login } from './auth/Login';
+export { default as Registration } from './auth/Registration';
+export { default as CountrySelector } from './auth/CountrySelector';
 export { default as Map } from './Map';
 export { default as Settings } from './Settings';
 export { default as Orders } from './Orders';

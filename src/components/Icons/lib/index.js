@@ -48,6 +48,7 @@ import reasonSadMan from './reasonSadMan';
 import reasonTaxi from './reasonTaxi';
 import reasonTimer from './reasonTimer';
 import receipt from './receipt';
+import registration from './registration';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
@@ -152,6 +153,7 @@ export default {
   wheelchair,
   work,
   info,
+  registration,
   success,
   warning,
   failed,

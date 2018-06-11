@@ -4,7 +4,7 @@ import { isIphoneX } from 'utils';
 
 const { height, width } = Dimensions.get('window');
 
-const iPhoneHeaderPadding = isIphoneX() ? 49 : 30;
+const iPhoneHeaderPadding = isIphoneX() ? 54 : 35;
 
 const styles = StyleSheet.create({
   header: {

@@ -18,22 +18,20 @@ class Header extends React.Component {
     return (
       <View style={[styles.headerWrap, customStyles]} pointerEvents="box-none">
         <View style={styles.header} pointerEvents="box-none">
-          <View style={styles.wrapLeftElements}>
-            <View>{leftButton}</View>
+          {leftButton && <View style={styles.leftContent}>{leftButton}</View>}
 
-            <Text
-              style={[
-                styles.headerTitle,
-                customStylesTitle,
-                titleCenter && styles.headerTitleCenter
-              ]}
-              onPress={onPressTitle}>
-              {title}
-            </Text>
-          </View>
+          <Text
+            style={[
+              styles.headerTitle,
+              titleCenter && styles.headerTitleCenter,
+              customStylesTitle
+            ]}
+            onPress={onPressTitle}>
+            {title}
+          </Text>
 
           {rightButton &&
-            <View>
+            <View style={styles.rightContent}>
               {typeof rightButton === 'string'
                 ? <Text style={styles.rightHeaderButton}>{rightButton}</Text>
                 : rightButton

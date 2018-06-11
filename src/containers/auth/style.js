@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     padding: 30
   },
 
+  containerView: {
+    flex: 1,
+    padding: 30
+  },
+
   logo: {
     alignSelf: 'center',
     margin: 30
@@ -32,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   btnContainer: {
-    marginTop: 40,
+    marginTop: 20,
     marginLeft: 0,
     marginRight: 0,
     borderWidth: 2,
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    marginBottom: 30,
+    marginBottom: 25,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center'
@@ -73,13 +78,20 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
 
+  btnForgot: {
+    marginBottom: 15
+  },
+
+  forgotText: {
+    paddingVertical: 5,
+    textAlign: 'right',
+    color: '#fff',
+    fontSize: 14
+  },
+
   footerLink: {
     fontWeight: 'bold',
     textDecorationLine: 'underline'
-  },
-
-  footerTextGap: {
-    marginRight: 15
   },
 
   errorContainer: {
@@ -95,6 +107,60 @@ const styles = StyleSheet.create({
 
   error: {
     paddingLeft: 0
+  },
+  empty: {
+    paddingTop: 30,
+    paddingBottom: 60
+  },
+  countryView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    paddingTop: 7,
+    paddingBottom: 10
+  },
+  countryText: {
+    color: '#FFF',
+    fontSize: 17
+  },
+  chevronIcon: {
+    paddingLeft: 20
+  },
+  dividerStyle: {
+    borderBottomColor: 'rgba(255,255,255, 0.4)',
+    borderBottomWidth: 2
+  },
+  flex: {
+    flex: 1
+  },
+  labelDefault: {
+    fontSize: 14,
+    color: 'rgba(255,255,255, 0.7)',
+    marginTop: 13
+  },
+  marginTop: {
+    marginTop: 13
+  },
+  popupInfo: {
+    fontSize: 17,
+    lineHeight: 20,
+    color: '#000',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  titleStyle: {
+    fontWeight: '600'
+  },
+  contentWraperStyle: {
+    alignItems: 'center'
+  },
+  labelTitle: {
+    color: '#fff',
+    fontSize: 17,
+    textAlign: 'center',
+    lineHeight: 20,
+    marginTop: 30,
+    marginBottom: 11
   }
 });
 

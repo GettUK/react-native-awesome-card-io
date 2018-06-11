@@ -1,9 +1,11 @@
 import { strings } from 'locales';
 
+const presence = {
+  allowEmpty: false
+};
+
 const emailRule = {
-  presence: {
-    allowEmpty: false
-  },
+  presence,
   email: {
     message: strings('validation.email.format')
   }
@@ -12,9 +14,7 @@ const emailRule = {
 export const loginRules = {
   email: emailRule,
   password: {
-    presence: {
-      allowEmpty: false
-    },
+    presence,
     length: {
       minimum: 6,
       message: strings('validation.password.length')
@@ -24,4 +24,17 @@ export const loginRules = {
 
 export const resetPasswordRules = {
   email: emailRule
+};
+
+export const registerCompanyRules = {
+  firstName: {
+    presence
+  },
+  phoneNumber: {
+    presence
+  },
+  email: emailRule,
+  name: {
+    presence
+  }
 };

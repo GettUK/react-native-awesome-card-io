@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
-import { Icon } from 'components';
+import { Icon, SearchList } from 'components';
 
 import { changeFields } from 'actions/booking';
 
@@ -26,7 +26,7 @@ class PassengersList extends Component {
     return passengers && searchValue
       ? filterBySearchValue(passengers, ['firstName', 'lastName'], searchValue)
       : passengers;
-  }
+  };
 
   renderItem = ({ item }) => {
     const { firstName, lastName, phone, id } = item;
@@ -71,28 +71,13 @@ class PassengersList extends Component {
     const passengers = this.preparePassengers();
 
     return (
-      <View style={[styles.flex, styles.container]}>
-        <View style={styles.searchContainer}>
-          <Icon name="search" color="#8e8e93" size={14} style={styles.searchIcon} />
-          <TextInput
-            onChangeText={this.handleSearchValueChange}
-            style={[styles.flex, styles.searchInput]}
-            value={searchValue}
-            placeholder="Start typing…"
-          />
-        </View>
-        {passengers && passengers.length
-          ? <FlatList
-            style={[styles.flex, styles.bg]}
-            data={passengers}
-            renderItem={this.renderItem}
-            keyExtractor={this.keyExtractor}
-          />
-          : <View style={[styles.flex, styles.container]}>
-            <Text style={{ fontSize: 17 }}>No results</Text>
-          </View>
-        }
-      </View>
+      <SearchList
+        searchValue={searchValue}
+        onSearchValueChange={this.handleSearchValueChange}
+        data={passengers}
+        renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+      />
     );
   }
 }

@@ -593,7 +593,7 @@ class Map extends Component {
     return (
       <Header
         pointerEvents="box-none"
-        customStyles={[styles.header, !isRightButtonAvailable ? { width: 100 } : {}]}
+        customStyles={styles.header}
         leftButton={isPreOrder && !this.shouldRequestVehicles()
           ?
           <NavImageButton
