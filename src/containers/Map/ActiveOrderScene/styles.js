@@ -105,6 +105,9 @@ export const onMyWayStyles = StyleSheet.create({
 });
 
 export const orderPanelStyles = StyleSheet.create({
+  flex: {
+    flex: 1
+  },
   activeContainer: {
     padding: 16,
     paddingVertical: 6
@@ -153,6 +156,7 @@ export const orderPanelStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
     marginTop: 4
   },
   roundContainer: {
@@ -160,13 +164,15 @@ export const orderPanelStyles = StyleSheet.create({
     height: 44,
     borderRadius: 22
   },
-  driverTitle: {
-    fontSize: 18,
-    fontWeight: '900',
-    marginBottom: 8
+  driverCarInfo: {
+    color: '#7F7F7F',
+    fontSize: 14,
+    marginBottom: 5,
+    lineHeight: 17
   },
-  driverSubtitle: {
-    fontSize: 16
+  driverLicense: {
+    fontSize: 17,
+    fontWeight: '900'
   },
   callButton: {
     alignItems: 'center',
