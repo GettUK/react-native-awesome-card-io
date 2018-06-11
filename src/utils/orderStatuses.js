@@ -1,5 +1,7 @@
-export const PREORDER_STATUSES = ['creating', 'processing', 'connected', 'order_received', 'locating'];
-export const CANCEL_ALLOWED_STATUSES = ['creating', 'connected', 'order_received', 'locating'];
+export const ORDER_RECEIVED_STATUS = 'order_received';
+export const LOCATING_STATUS = 'locating';
+export const PREORDER_STATUSES = ['creating', 'processing', 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];
+export const CANCEL_ALLOWED_STATUSES = ['creating', 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];
 export const ARRIVED_STATUS = 'arrived';
 export const ACTIVE_STATUS = 'in_progress';
 export const DRIVER_ON_WAY = 'on_the_way';

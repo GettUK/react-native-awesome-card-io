@@ -4,7 +4,13 @@ import { batchActions } from 'redux-batched-actions';
 import { get, post, put } from 'utils';
 import { reject } from 'lodash';
 import faye from 'utils/faye';
-import { FINAL_STATUSES, CANCELLED_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
+import {
+  FINAL_STATUSES,
+  CANCELLED_STATUS,
+  DRIVER_ON_WAY,
+  ORDER_RECEIVED_STATUS,
+  LOCATING_STATUS
+} from 'utils/orderStatuses';
 
 import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 
@@ -93,6 +99,17 @@ let orderStatusSubscription = null;
 
 const removeOrderStatusSubscription = () => faye.cancelSubscription(orderStatusSubscription);
 
+const orderReceivedStatusFlow = (data, delay) => (dispatch, getState) => {
+  const { booking: { currentOrder } } = getState();
+  const isAsapOrder = (data.asap || currentOrder.asap);
+
+  if (data.status === ORDER_RECEIVED_STATUS && isAsapOrder) {
+    setTimeout(() => {
+      dispatch({ type: TYPES.changeOrderStatus, data: { ...data, status: LOCATING_STATUS } });
+    }, delay);
+  }
+};
+
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
@@ -120,6 +137,7 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
 
         removeOrderStatusSubscription();
       } else {
+        dispatch(orderReceivedStatusFlow(data, 2000));
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
     } else if (data.status === DRIVER_ON_WAY && data.driver.lat) {
@@ -161,6 +179,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
       } else {
         dispatch(goToActiveOrderScene());
 
+        dispatch(orderReceivedStatusFlow(data, 100));
         dispatch(orderStatusSubscribe(data.channel));
       }
 
