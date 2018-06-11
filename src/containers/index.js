@@ -1,4 +1,5 @@
 export { default as AuthLoading } from './AuthLoading';
+export { default as TransitionLoading } from './AuthLoading/TransitionLoading';
 export { default as ForgotPassword } from './auth/ForgotPassword';
 export { default as Login } from './auth/Login';
 export { default as Map } from './Map';

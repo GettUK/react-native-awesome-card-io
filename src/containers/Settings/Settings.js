@@ -41,7 +41,7 @@ class Settings extends Component {
       await deleteToken();
 
       logout();
-      navigation.navigate('Login');
+      navigation.navigate('Login', { disableAnimation: true });
     }
   };
 
