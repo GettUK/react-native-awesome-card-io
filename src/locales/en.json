@@ -196,7 +196,7 @@
       "rejected": "Ride has been rejected"
     },
     "cancellationReasons": {
-      "mistaken_order": "Order by mistake",
+      "mistaken_order": "Ordered by mistake",
       "driver_asked_to": "Driver asked me to",
       "hailed_another_car": "Hailed another car",
       "too_long_eta": "ETA was too long"
