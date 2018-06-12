@@ -584,12 +584,14 @@ class Map extends Component {
           <NavImageButton
             onClick={this.goToSettings}
             styleContainer={{ justifyContent: 'center' }}
+            styleView={styles.touchZone}
             icon={<Icon size={30} name="burger" color="#000" />}
           />
           :
           <NavImageButton
             onClick={this.handleBackBtnPress}
-            styleContainer={styles.headerBack}
+            styleContainer={styles.touchZone}
+            styleView={styles.headerBack}
             icon={<Icon width={10} height={18} name="back" color="#284784" />}
           />
         }

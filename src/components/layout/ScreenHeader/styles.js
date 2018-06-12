@@ -10,7 +10,8 @@ export default StyleSheet.create({
   },
   header: {
     paddingTop: topSpace + 6,
-    paddingHorizontal: 10,
+    paddingLeft: 4,
+    paddingRight: 10,
     paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center'
@@ -34,7 +35,7 @@ export default StyleSheet.create({
   },
   rightContent: {
     position: 'absolute',
-    top: topSpace + 1,
+    top: topSpace + 8,
     right: 10,
     zIndex: 10,
     padding: 5
