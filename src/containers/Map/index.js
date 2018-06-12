@@ -15,7 +15,7 @@ import {
 import { every, find, first, has, isNull, isEmpty } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
 
-import { Icon, Button, Modal, Alert } from 'components';
+import { Icon, Button, Modal, Alert, Popup } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 
@@ -89,16 +89,18 @@ class Map extends Component {
   componentDidUpdate(prevProps) {
     const {
       map: { currentPosition },
-      booking: { bookingForm: { pickupAddress } },
+      booking: { bookingForm: { pickupAddress }, formData },
       app: { statuses },
       canceledByUser
     } = this.props;
     const {
       map: { currentPosition: currentPositionProps },
-      booking: { bookingForm: { pickupAddress: pickupAddressProps } },
+      booking: { bookingForm: { pickupAddress: pickupAddressProps }, formData: formDataProps },
       app: { statuses: statusesProps },
       canceledByUser: canceledByUserProps
     } = prevProps;
+
+    this.showServiceSuspendedPopup(formData, formDataProps);
 
     if (pickupAddress !== pickupAddressProps && pickupAddress) {
       setDefaultTimezone(pickupAddress.timezone);
@@ -124,6 +126,12 @@ class Map extends Component {
     this.backListener.remove();
 
     BackHandler.removeEventListener('hardwareBack');
+  }
+
+  showServiceSuspendedPopup(formData, formDataProps) {
+    if (formData !== formDataProps && formData.serviceSuspended && this.shouldRequestVehicles()) {
+      this.popup.open();
+    }
   }
 
   isWatchPosition(statuses, statusesProps) {
@@ -664,6 +672,20 @@ class Map extends Component {
           type="success"
           message="Order was cancelled"
           position="bottom"
+        />
+        <Popup
+          ref={(popup) => { this.popup = popup; }}
+          title={strings('information.serviceSuspended.title')}
+          content={(
+            <View>
+              <Text style={styles.popupInfo}>
+                {strings('information.serviceSuspended.description')}
+              </Text>
+              <Text style={styles.popupLabel}>
+                {strings('information.serviceSuspended.sign')}
+              </Text>
+            </View>
+          )}
         />
       </View>
     );
