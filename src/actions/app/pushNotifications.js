@@ -1,6 +1,7 @@
 import { createTypes } from 'redux-compose-reducer';
 
 import { destroy, post } from 'utils';
+import PN from 'utils/notifications';
 
 const TYPES = createTypes('app/push', [
   'saveToken',
@@ -15,7 +16,13 @@ export const saveToken = token => (dispatch) => {
 export const registerToken = () => (dispatch, getState) => {
   const token = getState().app.push.token;
 
-  return post('/user_devices', { deviceToken: token });
+  if (!token) {
+    PN.registerFCMToken().then((deviceToken) => {
+      post('/user_devices', { deviceToken });
+    });
+  } else {
+    post('/user_devices', { deviceToken: token });
+  }
 };
 
 export const deleteToken = () => (dispatch, getState) => {
