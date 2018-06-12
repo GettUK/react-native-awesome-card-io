@@ -156,13 +156,12 @@ const OrderDetails = ({
   const renderDriverRating = () => (
     <View style={orderPanelStyles.activeContainer}>
       <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
-        <View>
+        <View style={orderPanelStyles.flex}>
           <Text style={orderPanelStyles.title}>Driver</Text>
           <Text style={orderPanelStyles.name}>{driver.info.name}</Text>
         </View>
 
-        {driver.info.rating && <RatingLabel label={driver.info.rating} />
-        }
+        {driver.info.rating && <RatingLabel label={driver.info.rating} />}
       </View>
     </View>
   );
@@ -200,11 +199,11 @@ const OrderDetails = ({
       />
 
       <View style={orderPanelStyles.titleContainer}>
-        <Text style={orderPanelStyles.driverTitle} numberOfLines={1}>
-          {driver.info.vehicle ? driver.info.vehicle.model : 'Unknown'}
+        <Text style={orderPanelStyles.driverCarInfo} numberOfLines={2}>
+          {driver.info.vehicle && driver.info.vehicle.color} {driver.info.vehicle && driver.info.vehicle.model}
         </Text>
-        <Text style={orderPanelStyles.driverSubtitle} numberOfLines={1}>
-          {driver.info.vehicle ? `${driver.info.vehicle.color}, ${driver.info.vehicle.licensePlate || ''}` : 'Unknown'}
+        <Text style={orderPanelStyles.driverLicense} numberOfLines={1}>
+          {strings('label.carReg')}: {driver.info.vehicle && driver.info.vehicle.licensePlate}
         </Text>
       </View>
 
@@ -217,7 +216,7 @@ const OrderDetails = ({
 
   const renderActiveItem = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 100 : 'auto' }]}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 108 : 'auto' }]}>
         <Icon
           style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
           name="arrowDown"
@@ -240,9 +239,9 @@ const OrderDetails = ({
       showBackdrop={false}
       draggableRange={{
         top: height - 60 - (70 + topIPhone),
-        bottom: (isDriverExist ? 120 : 59) + bottomIPhone + connectBarTop
+        bottom: (isDriverExist ? 128 : 59) + bottomIPhone + connectBarTop
       }}
-      height={isDriverExist ? 112 : 54}
+      height={isDriverExist ? 120 : 54}
       backdropComponent={renderBackdropComponent()}
       header={renderHeader()}
       closeButton={<Icon name="arrow" />}
