@@ -107,8 +107,10 @@ class Map extends Component {
     }
 
     if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
-      this.mapView.wrappedInstance.getGeocode(currentPosition);
-      setTimeout(this.getCurrentPosition, 50);
+      setTimeout(() => {
+        this.mapView.wrappedInstance.getGeocode(currentPosition);
+        this.getCurrentPosition();
+      }, 500);
     }
 
     this.isWatchPosition(statuses, statusesProps);

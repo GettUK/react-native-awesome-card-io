@@ -51,14 +51,21 @@ class BookingEditor extends Component {
 
     getFormData()
       .then((data) => {
+        const { ui: { map: { currentPosition } }, booking: { bookingForm } } = this.props;
         const { passenger: dataPassenger, passengers } = data;
         const passenger = dataPassenger || (memberId && find(passengers, { id: memberId }));
 
         let attrs = {
-          pickupAddress: data.defaultPickupAddress,
           message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
           bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
+
+        if (!currentPosition && !bookingForm.pickupAddress) {
+          attrs = {
+            ...attrs,
+            pickupAddress: data.defaultPickupAddress
+          };
+        }
 
         if (!isEmpty(data.booking)) {
           const { scheduledAt, pickupAddress, destinationAddress } = data.booking;
@@ -211,10 +218,11 @@ BookingEditor.defaultProps = {
   passenger: {}
 };
 
-const select = ({ session, booking, app }) => ({
+const select = ({ session, booking, app, ui }) => ({
   memberId: has(session.user, 'memberId') ? session.user.memberId : undefined,
   booking,
-  app
+  app,
+  ui
 });
 
 const bindActions = {
