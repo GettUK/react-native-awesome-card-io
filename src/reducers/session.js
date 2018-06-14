@@ -24,6 +24,10 @@ const getCurrentUserFailure = (state, { payload }) => (
   update(state, { loading: false, errors: payload })
 );
 
+const passGuide = state => (
+  update(state, 'user.guidePassed', true)
+);
+
 const logout = () => initialState;
 
 export default composeReducer(
@@ -33,6 +37,7 @@ export default composeReducer(
     getCurrentUserSuccess,
     getCurrentUserStart,
     getCurrentUserFailure,
+    passGuide,
     logout
   },
   initialState

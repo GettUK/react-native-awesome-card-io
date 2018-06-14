@@ -1,5 +1,6 @@
 import { createTypes } from 'redux-compose-reducer';
 import { auth } from 'api';
+import { put } from 'utils';
 import { registerToken } from 'actions/app/pushNotifications';
 import { clearPassenger } from 'actions/passenger';
 import { clearMap, cancelDriverSubscription } from 'actions/ui/map';
@@ -11,7 +12,8 @@ const TYPES = createTypes('session', [
   'getCurrentUserStart',
   'getCurrentUserSuccess',
   'getCurrentUserFailure',
-  'logout'
+  'logout',
+  'passGuide'
 ]);
 
 export const logout = () => (dispatch) => {
@@ -44,3 +46,8 @@ export const login = user => dispatch =>
       dispatch(registerToken());
     });
 
+export const passGuide = () => (dispatch, getState) => {
+  const id = getState().session.user.memberId;
+  return put(`/members/${id}/pass_guide`)
+    .then(() => dispatch({ type: TYPES.passGuide }));
+};

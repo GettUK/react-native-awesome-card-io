@@ -217,5 +217,13 @@
       "app": "App",
       "traffic": "Traffic"
     }
+  },
+  "userGuide": {
+    "tapToSet": "Tap to set",
+    "tapToSee": "Tap to see",
+    "yourPickupAndDestination": "your pickup and destination",
+    "allYourOrders": "all your orders",
+    "fullMenu": "Full Menu",
+    "skip": "Skip"
   }
 }
