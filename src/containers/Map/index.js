@@ -44,7 +44,15 @@ import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { getPassengerData } from 'actions/passenger';
 
 import { strings } from 'locales';
-import { showConfirmationAlert, setDefaultTimezone, convertToZone, momentDate, hourForward } from 'utils';
+import {
+  showConfirmationAlert,
+  setDefaultTimezone,
+  convertToZone,
+  momentDate,
+  hourForward,
+  LATTITIDE_DELTA,
+  LONGTITUDE_DELTA
+} from 'utils';
 import PN from 'utils/notifications';
 
 import OrderScene from './OrderScene';
@@ -215,7 +223,9 @@ class Map extends Component {
   animateToRegion = ({ latitude, longitude }) => {
     this.mapView.wrappedInstance.animateToRegion({
       latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude)
+      longitude: parseFloat(longitude),
+      latitudeDelta: LATTITIDE_DELTA / 5,
+      longitudeDelta: LONGTITUDE_DELTA / 5
     });
   };
 

@@ -42,6 +42,9 @@ pod 'Firebase/Messaging'
 
 pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
 
+pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
 target 'oteApp'
 target 'oteAppTests'
 

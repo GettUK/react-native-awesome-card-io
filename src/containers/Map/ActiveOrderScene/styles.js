@@ -226,26 +226,20 @@ export const orderPanelStyles = StyleSheet.create({
   }
 });
 
+const circleSize = width * 0.6;
+
 export const pointerStyles = StyleSheet.create({
   container: {
     position: 'absolute',
-    left: (width / 2) - 100,
-    top: (height / 2) - 200,
-    height: 200,
-    width: 200,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  shadow: {
-    width: 100,
-    height: 100,
+    left: (width / 2) - (circleSize / 2),
+    top: (height / 2) - circleSize,
+    height: circleSize,
+    width: circleSize,
     alignItems: 'center',
     justifyContent: 'center'
   },
   icon: {
-    position: 'absolute',
-    top: 85,
-    left: 85
+    position: 'absolute'
   }
 });
 
