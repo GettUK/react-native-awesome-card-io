@@ -90,6 +90,10 @@ export const allVehicles = [{
   label: 'Business'
 }];
 
+export const OTcars = [
+  'Standard', 'Exec', 'MPV'
+];
+
 export const vehiclesData = keyBy(allVehicles, 'name');
 
 export const backOfficeBaseVehicles = allVehicles.filter(v =>
