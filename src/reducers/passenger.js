@@ -1,5 +1,6 @@
 import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
+import { omitBy } from 'lodash';
 
 const initPaymentCardType = {
   kind: 'business',
@@ -48,10 +49,18 @@ const sendProfileDataSuccess = state => update.assign(state, 'data.passenger', {
 const setTempAddress = (state, { payload }) => update(state, 'temp.address', payload);
 
 const changeTempAddressField = (state, { payload }) =>
-  update(state, { [`temp.address.${payload.field}`]: payload.value, 'temp.addressTouched': true });
+  update(state, {
+    [`temp.address.${payload.field}`]: payload.value,
+    'temp.addressTouched': true,
+    [`temp.addressErrors.${payload.field}`]: null
+  });
 
 const changeTempAddress = (state, { payload }) =>
-  update(state, { 'temp.address.address': payload, 'temp.addressTouched': true });
+  update(state, {
+    'temp.address.address': payload,
+    'temp.addressTouched': true,
+    'temp.addressErrors': omitBy(state.temp.addressErrors, (_, key) => key.startsWith('address'))
+  });
 
 const updatePredefinedAddress = (state, { payload: { type, address } }) =>
   update(state, `data.passenger.${type}Address`, address);
