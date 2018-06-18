@@ -14,7 +14,8 @@ import {
   References,
   FlightSettings,
   ReferenceValueSelector,
-  TransitionLoading
+  TransitionLoading,
+  PassengersList
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import styles from 'containers/Map/style';
@@ -76,6 +77,17 @@ const routeConfiguration = {
           title="Message to Driver"
           leftContent={<BackMessageBtn navigation={navigation} />}
           rightContent={<SaveMessageBtn navigation={navigation} />}
+        />
+      )
+    })
+  },
+  PassengersList: {
+    screen: PassengersList,
+    navigationOptions: ({ navigation }) => ({
+      header: (
+        <ScreenHeader
+          navigation={navigation}
+          title="Employees"
         />
       )
     })

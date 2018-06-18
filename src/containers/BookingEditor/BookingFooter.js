@@ -115,11 +115,6 @@ class BookingFooter extends PureComponent {
     this.props.navigation.navigate(page, payload);
   };
 
-  goToFlightSettings = () => {
-    this.toggleSettingsModal();
-    this.props.navigation.navigate('FlightSettings');
-  }
-
   toggleSettingsModal = () => {
     this.props.toggleVisibleModal('settings');
   };
@@ -391,7 +386,7 @@ class BookingFooter extends PureComponent {
 
     return (
       <Modal isVisible={settings} contentStyles={styles.settingsModal} onClose={this.toggleSettingsModal}>
-        {renderMenuItem('Order for', passengerName, () => {})}
+        {renderMenuItem('Order for', passengerName, () => this.goTo('PassengersList'))}
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Message to driver', message, () => this.goTo('MessageToDriver'))}
         <View style={styles.settingsMenuSeparator} />
@@ -401,7 +396,7 @@ class BookingFooter extends PureComponent {
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Booking References', `${bookingReferences.length} References`, () => this.goTo('References'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Flight number', flight, this.goToFlightSettings)}
+        {renderMenuItem('Flight number', flight, () => this.goTo('FlightSettings'))}
       </Modal>
     );
   }
