@@ -247,6 +247,7 @@ const OrderDetails = ({
       closeButton={<Icon name="arrow" />}
       onActivate={onActivate}
       onClose={onClose}
+      opened={visible}
     >
       {renderActiveItem()}
     </SlidingUpPanel>

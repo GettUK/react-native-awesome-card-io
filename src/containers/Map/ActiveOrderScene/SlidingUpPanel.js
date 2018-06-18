@@ -48,10 +48,10 @@ class SlidingUpPanel extends Component {
     }
   }
 
-  componentDidUpdate({ visible, draggableRange }) {
+  componentDidUpdate({ opened, draggableRange }) {
     const { bottom } = this.props.draggableRange;
 
-    this.openPanel({ visible, draggableRange });
+    this.openPanel({ opened, draggableRange });
 
     if (bottom !== draggableRange.bottom) {
       this.animatedValueY = -bottom;
@@ -64,9 +64,13 @@ class SlidingUpPanel extends Component {
     }
   }
 
-  openPanel({ visible, draggableRange }) {
-    if (this.props.visible && !visible) {
+  openPanel({ opened, draggableRange }) {
+    if (this.props.opened && !opened) {
       this.transitionTo(-draggableRange.top);
+
+      this.setState({ backdropAvailable: true });
+
+      this.previousTop = -draggableRange.bottom;
     }
   }
 
@@ -277,6 +281,7 @@ class SlidingUpPanel extends Component {
 
 SlidingUpPanel.propTypes = {
   visible: PropTypes.bool.isRequired,
+  opened: PropTypes.bool.isRequired,
   draggableRange: PropTypes.shape({
     top: PropTypes.number.isRequired,
     bottom: PropTypes.number.isRequired
@@ -296,6 +301,7 @@ SlidingUpPanel.propTypes = {
 
 SlidingUpPanel.defaultProps = {
   visible: false,
+  opened: false,
   height: visibleHeight,
   backdropComponent: null,
   header: null,
