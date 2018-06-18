@@ -5321,6 +5321,12 @@ react-native-image-crop-picker@^0.20.1:
   version "0.20.1"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.20.1.tgz#048c70219ba9f4fcf70fea5819f8dcaadefc63f9"
 
+react-native-input-scroll-view@^1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/react-native-input-scroll-view/-/react-native-input-scroll-view-1.6.7.tgz#b8443c8c29e656b70c1c7993761b8fe987177b3b"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-linear-gradient@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.0.tgz#51d8ea12bb72a59bede9edc87b694b16b64cf435"

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry } from 'lodash';
-import { View, ScrollView, BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
+import InputScrollView from 'react-native-input-scroll-view';
 
 import { touchField, setTempAddress, changeTempAddressField, changeTempAddress } from 'actions/passenger';
-import { Input, AddressModal } from 'components';
+import { Input, AddressModal, DismissKeyboardView } from 'components';
 import { strings } from 'locales';
 import { throttledAction, showConfirmationAlert } from 'utils';
 
@@ -80,10 +81,7 @@ class AddressEditor extends Component {
     const { editing } = navigation.state.params;
 
     return (
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[styles.container, editing ? styles.scrollContainer : {}]}
-      >
+      <InputScrollView contentContainerStyle={[styles.container, editing ? styles.scrollContainer : {}]}>
         {
           this.renderInput({
             label: `Address Name (${this.getFieldLength(address.name)}/32)`,
@@ -122,9 +120,9 @@ class AddressEditor extends Component {
             maxLength: 100
           })
         }
-      </ScrollView>
+      </InputScrollView>
     );
-  }
+  };
 
   renderDeleteButton = () => {
     const { address, navigation } = this.props;
@@ -137,7 +135,7 @@ class AddressEditor extends Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
+  };
 
   getFieldLength = field => (field && field.length) || 0;
 
@@ -146,10 +144,11 @@ class AddressEditor extends Component {
 
     return (
       <View style={[styles.flex, styles[`container${editing ? 'Grey' : ''}`]]}>
-        {this.renderForm()}
+        <DismissKeyboardView style={styles.flex}>
+          {this.renderForm()}
 
-        {editing && this.renderDeleteButton()}
-
+          {editing && this.renderDeleteButton()}
+        </DismissKeyboardView>
         <AddressModal
           ref={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}

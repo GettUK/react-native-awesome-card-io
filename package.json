@@ -29,6 +29,7 @@
     "react-native-hyperlink": "^0.0.14",
     "react-native-i18n": "2.0.12",
     "react-native-image-crop-picker": "^0.20.1",
+    "react-native-input-scroll-view": "^1.6.7",
     "react-native-linear-gradient": "2.4.0",
     "react-native-maps": "0.21.0",
     "react-native-maps-directions": "^1.6.0",
