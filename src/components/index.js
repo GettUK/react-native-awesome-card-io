@@ -28,3 +28,4 @@ export { default as GradientWrapper } from './GradientWrapper';
 export { default as ConnectionMessage } from './ConnectionMessage';
 export { default as Header } from './Common/Header';
 export { default as Background } from './Background';
+export { default as UserGuide } from './UserGuide';

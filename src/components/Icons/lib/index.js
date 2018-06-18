@@ -75,6 +75,11 @@ import informWarning from './inform/warning';
 import checkOn from './checkbox/checkOn';
 import checkOff from './checkbox/checkOff';
 
+import UGArrow1 from './userGuide/UGArrow1';
+import UGArrow2 from './userGuide/UGArrow2';
+import UGArrow3 from './userGuide/UGArrow3';
+import UGPointer from './userGuide/UGPointer';
+
 export default {
   add,
   arriving,
@@ -97,12 +102,12 @@ export default {
   close,
   closeThick,
   currentLocation,
+  departing,
   destinationMarker,
   distance,
   dots,
   dottedLine,
   drag,
-  departing,
   editAndroid,
   email,
   futureOrder,
@@ -133,6 +138,10 @@ export default {
   starEmpty,
   time,
   tripReason,
+  UGArrow1,
+  UGArrow2,
+  UGArrow3,
+  UGPointer,
   vehicleInfo,
   walker,
   wheelchair,

@@ -15,7 +15,7 @@ import {
 import { every, find, first, has, isNull, isEmpty } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
 
-import { Icon, Button, Modal, Alert, Popup } from 'components';
+import { Icon, Button, Modal, Alert, Popup, UserGuide } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
 import Header from 'components/Common/Header';
 
@@ -602,19 +602,19 @@ class Map extends Component {
             size="sm"
             onPress={this.goToOrders}
           >
-            <Text style={styles.orderBtnText}>Orders</Text>
+            <Text allowFontScaling={false} style={styles.orderBtnText}>Orders</Text>
           </Button>
         }
       />
     );
-  }
+  };
 
   renderPickUpMarker = () => (
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />
   );
 
   render() {
-    const { navigation, booking: { bookingForm } } = this.props;
+    const { navigation, booking: { bookingForm }, session: { user } } = this.props;
     const { isHeaderEnable, isLoadingPickup, dragEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
@@ -625,6 +625,8 @@ class Map extends Component {
         <StatusBar barStyle="default" />
 
         {isHeaderEnable && this.renderHeader()}
+
+        {!isEmpty(user) && !user.guidePassed && <UserGuide />}
 
         {isPreOrder &&
           <BookingEditor
