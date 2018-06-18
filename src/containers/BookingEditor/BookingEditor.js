@@ -12,13 +12,18 @@ import { PointList, AddressModal, StopPointsModal } from 'components';
 
 import { getHeight } from 'utils';
 import BookingFooter from './BookingFooter';
+
+import { PromoBlackTaxi } from './components';
+
 import { prepareDefaultValues } from './utils';
 import styles from './style';
 
 class BookingEditor extends Component {
   state = {
     loadBookingRequested: false,
-    isStopPointsModalVisible: false
+    isStopPointsModalVisible: false,
+    isPromoAvailable: false,
+    isPromoWasShown: false
   };
 
   componentDidUpdate({ booking: { bookingForm: bookingFormProps }, requestVehicles, memberId, passenger }) {
@@ -43,6 +48,26 @@ class BookingEditor extends Component {
 
     if (bookingForm.destinationAddress && !bookingFormProps.destinationAddress) {
       getFormData();
+    }
+
+    this.showPromo();
+  }
+
+  showPromo = () => {
+    const { booking: { vehicles, bookingForm }, passengerData } = this.props;
+    const { isPromoAvailable, isPromoWasShown } = this.state;
+
+    const defaultVehicle = passengerData.defaultVehicle;
+    const blackCabAvailable = (vehicles.data.find(car => car.name === 'BlackTaxi') || {}).available;
+    const isGBPath = bookingForm.pickupAddress && bookingForm.pickupAddress.countryCode === 'GB' &&
+      bookingForm.destinationAddress && bookingForm.destinationAddress.countryCode === 'GB';
+
+    if ((vehicles.loaded && defaultVehicle !== 'BlackTaxi') &&
+      bookingForm.scheduledType === 'now' && isGBPath && blackCabAvailable &&
+      (!isPromoAvailable && !isPromoWasShown)) {
+      this.props.onShowPromo();
+
+      this.setState({ isPromoAvailable: true });
     }
   }
 
@@ -142,6 +167,20 @@ class BookingEditor extends Component {
 
   footerInstance = () => this.footerView && this.footerView.wrappedInstance;
 
+  selectBlackCab = () => {
+    this.footerInstance().selectVehicle('BlackTaxi');
+  }
+
+  closePromo = () => {
+    this.props.onHidePromo();
+
+    this.setState({ isPromoAvailable: false, isPromoWasShown: true });
+  }
+
+  resetPromo = () => {
+    this.setState({ isPromoWasShown: false });
+  }
+
   render() {
     const {
       navigation,
@@ -196,8 +235,13 @@ class BookingEditor extends Component {
           openAddressModal={this.openAddressModal}
           isAuthorizedPermission={isAuthorizedPermission}
           onDateChange={onDateChange}
+          onBookingCreation={this.closePromo}
           ref={(footer) => { this.footerView = footer; }}
         />
+
+        {this.state.isPromoAvailable &&
+          <PromoBlackTaxi onClose={this.closePromo} onSelect={this.selectBlackCab} />
+        }
       </View>
     );
   }
@@ -218,11 +262,12 @@ BookingEditor.defaultProps = {
   passenger: {}
 };
 
-const select = ({ session, booking, app, ui }) => ({
+const select = ({ session, booking, app, ui, passenger }) => ({
   memberId: has(session.user, 'memberId') ? session.user.memberId : undefined,
   booking,
   app,
-  ui
+  ui,
+  passengerData: passenger.data.passenger
 });
 
 const bindActions = {

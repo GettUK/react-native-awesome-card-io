@@ -224,6 +224,8 @@ class BookingFooter extends PureComponent {
   }
 
   handleBookingCreation = () => {
+    this.props.onBookingCreation();
+
     if (this.isPathContainAirport()) {
       return this.showFlightModal();
     }
