@@ -1,6 +1,11 @@
 {
   "information": {
     "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
+    "locationService": {
+      "title": "Your location service is turn off",
+      "btnCancel": "No Thanks",
+      "btnConfirm": "Turn on"
+    },
     "serviceSuspended": {
       "title": "Service Suspended",
       "description": "Dear Customer,\nDue to unpaid invoices the service has been suspended. Please contact OT Billing Department to resolve this issue.",

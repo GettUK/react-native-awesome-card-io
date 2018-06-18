@@ -1,4 +1,6 @@
 rootProject.name = 'oteApp'
+include ':react-native-android-open-settings'
+project(':react-native-android-open-settings').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-android-open-settings/android')
 include ':react-native-hour-format'
 project(':react-native-hour-format').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-hour-format/android')
 include ':react-native-fabric'

@@ -54,7 +54,7 @@ class Popup extends PureComponent {
   );
 
   render() {
-    const { containerStyle, contentStyle, footerStyle, title, content, buttons } = this.props;
+    const { containerStyle, contentStyle, footerStyle, title, titleStyle, content, buttons } = this.props;
 
     return (
       <Modal
@@ -63,7 +63,7 @@ class Popup extends PureComponent {
         backdropColor="rgba(40, 71, 132, 0.6)"
       >
         <View style={[styles.content, contentStyle]}>
-          {title && <Text style={styles.title}>{title}</Text>}
+          {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
           {isString(content)
             ? <Text style={styles.description}>{content}</Text>
             : content
