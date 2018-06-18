@@ -5,22 +5,31 @@ import {
   KeyboardAvoidingView,
   TouchableHighlight,
   StatusBar,
-  Image,
   View,
-  Text
+  Text,
+  Dimensions,
+  Platform
 } from 'react-native';
 import validate from 'validate.js';
 
-import { Icon, Input, Alert, SwitchItem, KeyboardHide, DismissKeyboardView } from 'components';
+import {
+  Background,
+  Icon,
+  Input,
+  Alert,
+  SwitchItem,
+  KeyboardHide,
+  DismissKeyboardView,
+  TransitionView
+} from 'components';
+
 import update from 'update-js/fp';
 
 import { login } from 'actions/session';
 
 import { strings } from 'locales';
 
-import assets from 'assets';
-
-import { throttledAction } from 'utils';
+import { throttledAction, isIphoneX } from 'utils';
 
 import { loginRules } from './validatorRules';
 import TextButton from './TextButton';
@@ -63,7 +72,7 @@ class Login extends Component {
       this.setState({ loading: true });
       this.props.login(this.state.form)
         .then(() => this.setState({ loading: false }))
-        .then(() => this.props.navigation.navigate('App'))
+        .then(() => this.props.navigation.navigate('MapView'))
         .catch(this.handleLoginError);
     }
   };
@@ -119,74 +128,102 @@ class Login extends Component {
     this.props.navigation.navigate('InfoPages', { page });
   });
 
+  getCenteredLogoPosition = () => {
+    const { height } = Dimensions.get('window');
+    const statusBarHeight = isIphoneX() ? 40 : StatusBar.currentHeight || 22;
+    const BLOCK_HEIGHT = 478; // Height of logo + inputs block
+    const LOGO_HEIGHT = 130; // logo: 70 + 30 marginVertical
+
+    const topPosition = ((height - BLOCK_HEIGHT) + statusBarHeight) / 2;
+    const centerY = (height / 2) - (LOGO_HEIGHT / 2);
+
+    const statusBarPadding = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+
+    return (centerY - topPosition) + statusBarPadding;
+  }
+
+  renderFooter = AnimatedWrapper => (
+    <AnimatedWrapper>
+      <View style={styles.footer}>
+        <Text style={[styles.footerText, styles.footerTextGap]}>
+          {strings('login.forgotPassword')}
+        </Text>
+        <TouchableHighlight onPress={this.goToForgot}>
+          <Text style={[styles.footerText, styles.footerLink]}>
+            {strings('login.reset')}
+          </Text>
+        </TouchableHighlight>
+      </View>
+    </AnimatedWrapper>
+  )
+
   render() {
     const { isResetSuccess, error, form, loading } = this.state;
+    const { params } = this.props.navigation.state;
+
+    const AnimatedWrapper = params && params.disableAnimation ? View : TransitionView;
 
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
 
-        <Image style={styles.image} source={assets.loginBg} />
+        <Background>
+          <KeyboardAvoidingView
+            behavior="padding"
+            style={styles.container}>
+            <AnimatedWrapper scale value={this.getCenteredLogoPosition()}>
+              <KeyboardHide>
+                <Icon name="logo" style={styles.logo} width={240} height={70} />
+              </KeyboardHide>
+            </AnimatedWrapper>
+            <AnimatedWrapper>
+              <Input
+                value={form.email}
+                onChangeText={this.handleEmailChange}
+                style={styles.input}
+                autoCorrect={false}
+                inputStyle={styles.inputStyle}
+                labelStyle={styles.label}
+                label={strings('login.email')}
+                keyboardType="email-address"
+              />
+              <Input
+                value={form.password}
+                onChangeText={this.handlePasswordChange}
+                style={styles.input}
+                autoCorrect={false}
+                inputStyle={styles.inputStyle}
+                labelStyle={styles.label}
+                label={strings('login.password')}
+                secureTextEntry
+              />
+              <KeyboardHide>
+                <SwitchItem
+                  label={strings('login.acceptTermsConditions')}
+                  value={form.termsConditions}
+                  onValueChange={this.handleTermsConditionsChange}
+                  onLabelPress={() => this.goToInfoPage('terms')}
+                />
+                <SwitchItem
+                  label={strings('login.acceptPrivacyPolicy')}
+                  value={form.privacyPolicy}
+                  onValueChange={this.handlePrivacyPolicyChange}
+                  onLabelPress={() => this.goToInfoPage('privacy')}
+                />
+              </KeyboardHide>
+              <TextButton
+                title={strings('login.loginButton')}
+                disabled={!form.termsConditions || !form.privacyPolicy}
+                loading={loading}
+                onPress={this.handleSubmit}
+                disabledContainerStyle={styles.disabledBtnContainer}
+              />
 
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={styles.container}>
-          <KeyboardHide>
-            <Icon name="logo" style={styles.logo} width={240} height={70} />
-          </KeyboardHide>
-          <Input
-            value={form.email}
-            onChangeText={this.handleEmailChange}
-            style={styles.input}
-            autoCorrect={false}
-            inputStyle={styles.inputStyle}
-            labelStyle={styles.label}
-            label={strings('login.email')}
-            keyboardType="email-address"
-          />
-          <Input
-            value={form.password}
-            onChangeText={this.handlePasswordChange}
-            style={styles.input}
-            autoCorrect={false}
-            inputStyle={styles.inputStyle}
-            labelStyle={styles.label}
-            label={strings('login.password')}
-            secureTextEntry
-          />
-          <KeyboardHide>
-            <SwitchItem
-              label={strings('login.acceptTermsConditions')}
-              value={form.termsConditions}
-              onValueChange={this.handleTermsConditionsChange}
-              onLabelPress={() => this.goToInfoPage('terms')}
-            />
-            <SwitchItem
-              label={strings('login.acceptPrivacyPolicy')}
-              value={form.privacyPolicy}
-              onValueChange={this.handlePrivacyPolicyChange}
-              onLabelPress={() => this.goToInfoPage('privacy')}
-            />
-          </KeyboardHide>
-          <TextButton
-            title={strings('login.loginButton')}
-            disabled={!form.termsConditions || !form.privacyPolicy}
-            loading={loading}
-            onPress={this.handleSubmit}
-            disabledContainerStyle={styles.disabledBtnContainer}
-          />
-        </KeyboardAvoidingView>
+            </AnimatedWrapper>
+          </KeyboardAvoidingView>
 
-        <View style={styles.footer}>
-          <Text style={[styles.footerText, styles.footerTextGap]}>
-            {strings('login.forgotPassword')}
-          </Text>
-          <TouchableHighlight onPress={this.goToForgot}>
-            <Text style={[styles.footerText, styles.footerLink]}>
-              {strings('login.reset')}
-            </Text>
-          </TouchableHighlight>
-        </View>
+          {this.renderFooter(AnimatedWrapper)}
+        </Background>
 
         <Alert
           ref={(alert) => { this.alert = alert; }}

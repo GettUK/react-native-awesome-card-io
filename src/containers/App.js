@@ -16,14 +16,14 @@ import PN from 'utils/notifications';
 
 class AppContainer extends PureComponent {
   componentDidMount() {
-    setTimeout(async () => {
-      SplashScreen.hide();
+    setTimeout(SplashScreen.hide, 1000); // Avoiding flicker
 
+    setTimeout(async () => {
       await PN.getNotificationsPermissions();
       PN.registerFCMToken().then((token) => {
         this.props.dispatch(saveToken(token));
       });
-    }, 500); // Avoiding flicker
+    }, 2000); // After login transition
   }
 
   componentDidUpdate({ isConnected }) {

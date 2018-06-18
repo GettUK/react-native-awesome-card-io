@@ -65,6 +65,11 @@ import failed from './alerts/failed';
 import warning from './alerts/warning';
 import success from './alerts/success';
 
+import line from './animatedLogo/line';
+import logoLeft from './animatedLogo/logoLeft';
+import logoRight from './animatedLogo/logoRight';
+import rectangle from './animatedLogo/rectangle';
+
 import informWarning from './inform/warning';
 
 import checkOn from './checkbox/checkOn';
@@ -138,5 +143,9 @@ export default {
   failed,
   informWarning,
   checkOn,
-  checkOff
+  checkOff,
+  line,
+  logoLeft,
+  logoRight,
+  rectangle
 };

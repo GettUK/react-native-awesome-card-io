@@ -9,7 +9,7 @@ class AuthLoading extends PureComponent {
 
     if (token) {
       getCurrentUser()
-        .then(() => navigation.navigate('App'))
+        .then(() => navigation.navigate('TransitionLoading'))
         .catch(() => navigation.navigate('Login'));
     } else {
       navigation.navigate('Login');

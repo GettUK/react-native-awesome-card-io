@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
   StatusBar,
-  Image,
   TouchableHighlight,
   Text,
   KeyboardAvoidingView
@@ -10,11 +9,9 @@ import validate from 'validate.js';
 
 import { auth } from 'api';
 
-import { Icon, Input, Alert, DismissKeyboardView } from 'components';
+import { Icon, Input, Alert, DismissKeyboardView, Background } from 'components';
 
 import { strings } from 'locales';
-
-import assets from 'assets';
 
 import TextButton from './TextButton';
 import { resetPasswordRules } from './validatorRules';
@@ -79,37 +76,37 @@ export default class ForgotPassword extends PureComponent {
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
 
-        <Image style={styles.image} source={assets.loginBg} />
+        <Background>
+          <KeyboardAvoidingView
+            behavior="padding"
+            style={styles.container}
+          >
+            <Icon name="logo" style={styles.logo} width={240} height={70} />
+            <Input
+              value={email}
+              onChangeText={this.handleEmailChange}
+              style={styles.input}
+              autoCorrect={false}
+              inputStyle={styles.inputStyle}
+              labelStyle={styles.label}
+              label="Email"
+              keyboardType="email-address"
+              error={error}
+              allowedError={false}
+              errorStyle={styles.error}
+            />
 
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={styles.container}
-        >
-          <Icon name="logo" style={styles.logo} width={240} height={70} />
-          <Input
-            value={email}
-            onChangeText={this.handleEmailChange}
-            style={styles.input}
-            autoCorrect={false}
-            inputStyle={styles.inputStyle}
-            labelStyle={styles.label}
-            label="Email"
-            keyboardType="email-address"
-            error={error}
-            allowedError={false}
-            errorStyle={styles.error}
-          />
+            <TextButton
+              title={strings('login.resetButton')}
+              loading={loading}
+              onPress={this.handleSubmit}
+            />
+          </KeyboardAvoidingView>
 
-          <TextButton
-            title={strings('login.resetButton')}
-            loading={loading}
-            onPress={this.handleSubmit}
-          />
-        </KeyboardAvoidingView>
-
-        <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
-          <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
-        </TouchableHighlight>
+          <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
+            <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
+          </TouchableHighlight>
+        </Background>
 
         <Alert
           ref={(alert) => { this.alert = alert; }}

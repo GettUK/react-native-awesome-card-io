@@ -13,7 +13,8 @@ import {
   PaymentsOptions,
   References,
   FlightSettings,
-  ReferenceValueSelector
+  ReferenceValueSelector,
+  TransitionLoading
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import styles from 'containers/Map/style';
@@ -26,6 +27,10 @@ import { strings } from 'locales';
 import SettingsNavigator from './navigatorSettings';
 
 const routeConfiguration = {
+  TransitionLoading: {
+    screen: TransitionLoading,
+    navigationOptions: { header: null }
+  },
   MapView: {
     screen: Map,
     navigationOptions: () => ({
@@ -159,10 +164,28 @@ const routeConfiguration = {
   }
 };
 
+const loadTransition = (index, position) => {
+  const inputRange = [index - 1, index, index + 1];
+  const opacity = position.interpolate({ inputRange, outputRange: [0, 1, 1] });
+
+  return { opacity };
+};
+
 const stackNavigatorConfiguration = {
   headerMode: 'screen',
+  initialRouteName: 'TransitionLoading',
   transitionConfig: () => ({
-    screenInterpolator: StackViewStyleInterpolator.forFadeFromBottomAndroid
+    screenInterpolator: (sceneProps) => {
+      const { position, scene } = sceneProps;
+      const { index, route } = scene;
+      const params = route.params || {};
+      const transition = params.transition || 'default';
+
+      return {
+        loadTransition: loadTransition(index, position),
+        default: StackViewStyleInterpolator.forFadeFromBottomAndroid(sceneProps)
+      }[transition];
+    }
   })
 };
 

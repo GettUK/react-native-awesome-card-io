@@ -6,25 +6,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  image: {
-    resizeMode: 'cover',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    height: '100%'
-  },
-
   container: {
     flex: 1,
+    width: '100%',
     justifyContent: 'center',
     padding: 30
   },
 
   logo: {
     alignSelf: 'center',
-    marginBottom: 50
+    margin: 30
   },
 
   input: {
