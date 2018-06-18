@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, ImageBackground, View, Text } from 'react-native';
-import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Platform, View, Text, Animated } from 'react-native';
+import Map, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { compact, upperFirst } from 'lodash';
-
-import assets from 'assets';
+import { compact, upperFirst, take } from 'lodash';
 
 import { changeAddress } from 'actions/booking';
 import { subscribeToDriversLocations, getDriversLocations } from 'actions/ui/map';
@@ -29,10 +27,18 @@ import {
 import DriversMarkers from './DriversMarkers';
 import MapStyle from './MapStyle';
 import styles from './style';
+import { getPathCoordinates, fixPathLength, getRandomCoordinatesInRadius } from './utils';
 
 const pollingInterval = 45 * 1000;
 
 class MapView extends Component {
+  state = {
+    coords: [],
+    predictedRoutes: []
+  };
+
+  predictedRoutesRefs = {};
+
   componentDidUpdate(prevProps) {
     const { isCompletedOrder } = this.props;
     const {
@@ -77,10 +83,18 @@ class MapView extends Component {
     if (this.shouldGetDriversLocations({ order, oldOrder })) {
       this.getDriversLocations(order.pickupAddress);
     }
+
+    if (this.gotNewStatus(oldOrder, order, 'locating')) {
+      this.createPathsAnimations();
+      this.getRandomPaths(order.pickupAddress).then(this.animatePaths);
+    } else if (order.status !== 'locating' && this.animationStarted) {
+      this.stopPathsAnimation();
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.getDriversInterval);
+    clearInterval(this.pathAnimationInterval);
   }
 
   getOrder(props = this.props) {
@@ -107,11 +121,53 @@ class MapView extends Component {
   animateToRegion = (source) => {
     if (source) {
       this.map.animateToRegion({
-        ...source,
         latitudeDelta: LATTITIDE_DELTA,
-        longitudeDelta: LONGTITUDE_DELTA
+        longitudeDelta: LONGTITUDE_DELTA,
+        ...source
       });
     }
+  };
+
+  createPathsAnimations = () => {
+    this.animationStarted = true;
+    this.pathAnimationValue = new Animated.Value(0.1);
+
+    this.pathAnimation = Animated.loop(Animated.sequence([
+      Animated.timing(this.pathAnimationValue, { toValue: 1, duration: 1250 }),
+      Animated.timing(this.pathAnimationValue, { toValue: 0.1, duration: 1250 })
+    ]));
+  };
+
+  animatePaths = () => {
+    let index = 0;
+    this.pathAnimation.start();
+
+    this.pathAnimationValue.addListener(({ value }) => {
+      this.state.predictedRoutes.forEach((_, i) => {
+        if (this.predictedRoutesRefs[i]) {
+          this.predictedRoutesRefs[i].setNativeProps({
+            strokeWidth: (value * 2) + 1,
+            strokeColor: `rgba(140, 155, 187, ${value})`
+          });
+        }
+      });
+    });
+
+    this.pathAnimationInterval = setInterval(() => {
+      this.state.predictedRoutes.forEach((r, i) => {
+        if (r[index] && this.predictedRoutesRefs[i]) {
+          this.predictedRoutesRefs[i].setNativeProps({ coordinates: take(r, index) });
+        }
+      });
+      index += 1;
+      if (index > 115) index = 0;
+    }, 50);
+  };
+
+  stopPathsAnimation = () => {
+    this.animationStarted = false;
+    this.pathAnimation.stop();
+    clearInterval(this.pathAnimationInterval);
   };
 
   isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (
@@ -194,10 +250,7 @@ class MapView extends Component {
     return { source, dest, stops };
   };
 
-  renderCurrentMarker = () =>
-    <ImageBackground source={assets.pointerShadow} style={styles.iconShadow}>
-      <Icon name="currentLocation" size={18} />
-    </ImageBackground>;
+  renderCurrentMarker = () => <Icon name="currentLocation" size={18} />;
 
   renderSourceMarker = () => <Icon name="sourceMarker" width={32} height={52} />;
 
@@ -244,7 +297,7 @@ class MapView extends Component {
     )
   );
 
-  getPathes = locations => (
+  getPaths = locations => (
     locations.map((location, index) => {
       const nextIndex = index + 1;
 
@@ -276,7 +329,7 @@ class MapView extends Component {
       order.destinationAddress
     ];
 
-    return this.getPathes(locations).map(this.renderSinglePath);
+    return this.getPaths(locations).map(this.renderSinglePath);
   };
 
   renderDriverPath = () => {
@@ -300,7 +353,7 @@ class MapView extends Component {
       locations.push(order.destinationAddress);
     }
 
-    return this.getPathes(locations).map(this.renderSinglePath);
+    return this.getPaths(locations).map(this.renderSinglePath);
   };
 
   renderSinglePath = ({ source, destination }) => (
@@ -313,6 +366,19 @@ class MapView extends Component {
       strokeColor="#2b4983"
     />
   );
+
+  getRandomPaths(coord) {
+    if (!coord || !coord.lat || !coord.lng) return null;
+
+    const randomCoordinates = getRandomCoordinatesInRadius({ origin: coord, amount: 5, radius: 0.01 });
+
+    return Promise.all(randomCoordinates.map(c => getPathCoordinates(c, coord)))
+      .then((res) => {
+        this.setState({ predictedRoutes: res.filter(Boolean).map(i =>
+          fixPathLength([...i, { latitude: coord.lat, longitude: coord.lng }], 50))
+        });
+      });
+  }
 
   // eslint-disable-next-line consistent-return
   getGeocode = (region) => {
@@ -359,6 +425,7 @@ class MapView extends Component {
 
   render() {
     const { currentPosition, isPreOrder, dragEnable, vehicles, drivers } = this.props;
+    const { predictedRoutes } = this.state;
 
     const order = this.getOrder();
     const stops = this.getStops();
@@ -424,6 +491,10 @@ class MapView extends Component {
 
         {isPreOrder && !order.destinationAddress &&
           <DriversMarkers drivers={drivers} />
+        }
+
+        {order.pickupAddress && order.status === 'locating' &&
+          predictedRoutes.map((_, i) => (<Polyline key={i} ref={(el) => { this.predictedRoutesRefs[i] = el; }} />))
         }
       </Map>
     );

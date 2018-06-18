@@ -116,12 +116,6 @@ const styles = StyleSheet.create({
   TDEditIcon: {
     marginBottom: -5
   },
-  iconShadow: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 24,
-    width: 24
-  },
   pickUpMarker: {
     position: 'absolute',
     left: (width / 2) - 16,

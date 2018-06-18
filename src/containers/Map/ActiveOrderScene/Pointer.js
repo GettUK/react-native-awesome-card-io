@@ -1,49 +1,32 @@
-import React, { Component } from 'react';
-import { View, Animated } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { View as AnimatedView } from 'react-native-animatable';
 
 import { Icon } from 'components';
 
-import assets from 'assets';
-
 import { pointerStyles } from './styles';
+import circleAnimation from './circleAnimation.json';
 
-export default class Pointer extends Component {
-  blinkAnim = new Animated.Value(0.2);
+const pulseAnimation = {
+  0: { scale: 1 },
+  0.5: { scale: 1.15 },
+  1: { scale: 1 }
+};
 
+export default class Pointer extends PureComponent {
   componentDidMount() {
-    this.cycleBlinking();
+    this.animation.play();
   }
-
-  cycleBlinking = () => {
-    this.blinkAnim.setValue(0.2);
-
-    Animated.timing(
-      this.blinkAnim,
-      {
-        toValue: 2,
-        duration: 1500,
-        delay: 10
-      }
-    ).start(this.cycleBlinking);
-  };
 
   render() {
     return (
       <View style={pointerStyles.container}>
-        <Animated.Image
-          source={assets.pointerShadow}
-          style={[
-            pointerStyles.shadow, {
-              opacity: this.blinkAnim.interpolate({
-                inputRange: [0.2, 2],
-                outputRange: [1, 0]
-              }),
-              transform: [{ scale: this.blinkAnim }]
-            }
-          ]}
-        />
+        <LottieView ref={(el) => { this.animation = el; }} loop source={circleAnimation} />
 
-        <Icon name="pickUpField" size={30} style={pointerStyles.icon} />
+        <AnimatedView animation={pulseAnimation} iterationCount="infinite" useNativeDriver style={pointerStyles.icon}>
+          <Icon name="pickUpField" size={16} />
+        </AnimatedView>
       </View>
     );
   }

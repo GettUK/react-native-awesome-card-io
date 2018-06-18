@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import xyz.miron.reactnativehourformat.RNHourFormatPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new AndroidOpenSettingsPackage(),
+            new LottiePackage(),
             new RNHourFormatPackage(),
             new FabricPackage(),
             new RNTextInputMaskPackage(),
