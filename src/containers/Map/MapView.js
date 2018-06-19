@@ -424,7 +424,7 @@ class MapView extends Component {
   );
 
   render() {
-    const { currentPosition, isPreOrder, dragEnable, vehicles, drivers } = this.props;
+    const { currentPosition, isPreOrder, dragEnable, vehicles, drivers, isActiveOrder, isCompletedOrder } = this.props;
     const { predictedRoutes } = this.state;
 
     const order = this.getOrder();
@@ -447,7 +447,7 @@ class MapView extends Component {
 
         {this.renderDriverPath()}
 
-        {this.renderMarker({ address: currentPosition })}
+        {!isActiveOrder && !isCompletedOrder && this.renderMarker({ address: currentPosition })}
 
         {this.shouldShowPickupMarkers({ order, stops, isPreOrder }) &&
           this.renderMarker({
