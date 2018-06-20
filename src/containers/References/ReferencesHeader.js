@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ScreenHeader } from 'components';
 import { BackHandler } from 'react-native';
-import { setReferenceErrors, validateReferences } from 'actions/booking';
+import { validateReferences } from 'actions/booking';
 import { showConfirmationAlert } from 'utils';
-import { some, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { strings } from 'locales';
 
 class ReferencesHeader extends PureComponent {
@@ -23,35 +23,8 @@ class ReferencesHeader extends PureComponent {
 
   goBack = () => this.props.navigation.goBack(null);
 
-  anyConditionalPresent = () => some(this.props.bookerReferences, ref => ref.conditional && !isEmpty(ref.value));
-
-  validateReferences = async () => {
-    const { bookerReferences, setReferenceErrors, validateReferences } = this.props;
-    let errors = {};
-    bookerReferences.forEach((ref, i) => {
-      if (ref.conditional && !this.anyConditionalPresent()) {
-        errors[`bookerReferences.${i}.value`] = ['fill at least one of these fields'];
-      }
-      if (ref.mandatory && isEmpty(ref.value)) {
-        errors[`bookerReferences.${i}.value`] = ['is not present'];
-      }
-    });
-
-    if (isEmpty(errors)) {
-      try {
-        await validateReferences();
-      } catch ({ response }) {
-        errors = response.data.errors;
-      }
-    }
-
-    setReferenceErrors(errors);
-    return errors;
-  };
-
-
   handleBackBtnPress = async () => {
-    if (isEmpty(await this.validateReferences())) {
+    if (isEmpty(await this.props.validateReferences())) {
       this.goBack();
     } else {
       showConfirmationAlert({
@@ -79,7 +52,6 @@ const mapState = ({ booking }) => ({
 });
 
 const mapDispatch = ({
-  setReferenceErrors,
   validateReferences
 });
 export default connect(mapState, mapDispatch)(ReferencesHeader);
