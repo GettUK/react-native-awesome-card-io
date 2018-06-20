@@ -22,7 +22,11 @@ class PaymentsOptions extends Component {
       if (type !== 'passenger_payment_card' && type !== 'passenger_payment_card_periodic') {
         return { value: type, label: paymentTypeLabels[type] };
       } else if (paymentCards) {
-        return paymentCards.map(card => ({ value: `${card.type}_payment_card:${card.id}`, label: card.title }));
+        return paymentCards.map(card => ({
+          value: `${card.type}_payment_card:${card.id}`,
+          label: card.title,
+          id: card.id
+        }));
       }
       return null;
     }).filter(Boolean);
@@ -60,7 +64,7 @@ class PaymentsOptions extends Component {
         style={[styles.flex, styles.bg]}
         data={paymentTypes}
         ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={item => item.label}
+        keyExtractor={item => item.id || item.label}
         renderItem={this.renderItem}
       />
     );
@@ -69,9 +73,12 @@ class PaymentsOptions extends Component {
 
 const mapState = ({ booking, session }) => {
   const { passenger, passengers, paymentTypes } = booking.formData;
+  const { passengerId } = booking.bookingForm;
+  const currentId = passengerId || session.user.memberId;
+
   return {
     companyPaymentTypes: paymentTypes,
-    paymentCards: (passenger || passengers.find(passenger => passenger.id === session.user.memberId)).paymentCards,
+    paymentCards: (passenger || passengers.find(passenger => passenger.id === currentId)).paymentCards,
     paymentMethod: booking.bookingForm.paymentMethod || '',
     paymentCardId: booking.bookingForm.paymentCardId || ''
   };
