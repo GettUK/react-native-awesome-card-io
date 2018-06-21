@@ -234,5 +234,11 @@ export default StyleSheet.create({
   },
   btnTextStyle: {
     color: '#7f7f7f'
+  },
+  popupCards: {
+    fontSize: 17,
+    marginVertical: 8,
+    marginHorizontal: 5,
+    textAlign: 'center'
   }
 });

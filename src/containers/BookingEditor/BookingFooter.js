@@ -238,6 +238,16 @@ class BookingFooter extends PureComponent {
     this.createBooking(tempFlight);
   }
 
+  displayErrorAlert = () => {
+    const { booking: { bookingForm } } = this.props;
+    if (bookingForm.bookerReferencesErrors) {
+      this.setState({ message: strings('validation.reference') }, () => this.alert.show());
+    }
+    if (!bookingForm.paymentMethod) {
+      this.cardsPopup.open();
+    }
+  };
+
   createBooking = async ({ flight = '', flightType = '' }) => {
     const { booking: { bookingForm }, createBooking, validateReferences } = this.props;
 
@@ -258,10 +268,10 @@ class BookingFooter extends PureComponent {
         flightType
       };
 
-      if (isEmpty(await validateReferences())) {
+      if (isEmpty(await validateReferences()) && bookingForm.paymentMethod) {
         createBooking(order).catch(this.showAlert);
       } else {
-        this.setState({ message: strings('validation.reference') }, () => this.alert.show());
+        this.displayErrorAlert();
       }
     }
   };
@@ -528,6 +538,12 @@ class BookingFooter extends PureComponent {
                 isVisible={this.state.flightModal}
                 onClose={this.createBooking}
                 onSubmit={this.setAirport}
+              />
+              <Popup
+                ref={(popup) => { this.cardsPopup = popup; }}
+                titleStyle={styles.popupLocationTitle}
+                title={strings('information.cards.title')}
+                content={<Text style={styles.popupCards}>{strings('information.cards.description')}</Text>}
               />
             </View>
           )
