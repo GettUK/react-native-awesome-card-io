@@ -35,6 +35,7 @@ const imagesApp = {
     StandardXL: require('./png/noLogoCarTypes/StandardXL.png'),
     Business: require('./png/noLogoCarTypes/Business.png')
   },
+  blackCabPromo: require('./png/promo/carBlackCab.png'),
   expirationDate: require('./png/application/expirationDate.png'),
   cvv: require('./png/application/cvv.png'),
   clear: require('./png/application/clear-icon.png'),

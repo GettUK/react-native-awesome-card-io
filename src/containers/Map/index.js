@@ -412,6 +412,11 @@ class Map extends Component {
       'travelReasonId', 'flight', 'flightType'
     ]);
     resetBookingValues();
+
+    setTimeout(() => {
+      this.editorView.wrappedInstance.closePromo();
+      this.editorView.wrappedInstance.resetPromo();
+    }, 500);
   };
 
   goToInitialization = () => {
@@ -648,6 +653,8 @@ class Map extends Component {
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
             onDateChange={this.handleDateChange}
+            onShowPromo={this.handleHideHeader}
+            onHidePromo={this.handleShowHeader}
             ref={(editor) => { this.editorView = editor; }}
           />
         }
