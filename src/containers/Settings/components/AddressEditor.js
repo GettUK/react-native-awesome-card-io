@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry } from 'lodash';
-import { View, BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, BackHandler, TouchableWithoutFeedback, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 import { touchField, setTempAddress, changeTempAddressField, changeTempAddress } from 'actions/passenger';
@@ -139,16 +139,41 @@ class AddressEditor extends Component {
 
   getFieldLength = field => (field && field.length) || 0;
 
+  renderContent = () => {
+    const { editing } = this.props.navigation.state.params;
+
+    return (
+      <View style={styles.flex}>
+        {this.renderForm()}
+
+        {editing && this.renderDeleteButton()}
+      </View>
+    );
+  }
+
+  renderPage = () => (
+    Platform.OS === 'ios'
+      ? this.renderContent()
+      : (
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={80}
+          behavior="padding"
+          style={styles.flex}
+        >
+          {this.renderContent()}
+        </KeyboardAvoidingView>
+      )
+  )
+
   render() {
     const { editing } = this.props.navigation.state.params;
 
     return (
       <View style={[styles.flex, styles[`container${editing ? 'Grey' : ''}`]]}>
         <DismissKeyboardView style={styles.flex}>
-          {this.renderForm()}
-
-          {editing && this.renderDeleteButton()}
+          {this.renderPage()}
         </DismissKeyboardView>
+
         <AddressModal
           ref={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
