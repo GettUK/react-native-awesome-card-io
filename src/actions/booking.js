@@ -9,6 +9,7 @@ import {
   CANCELLED_STATUS,
   DRIVER_ON_WAY,
   IN_PROGRESS_STATUS,
+  ARRIVED_STATUS,
   ORDER_RECEIVED_STATUS,
   LOCATING_STATUS
 } from 'utils/orderStatuses';
@@ -97,6 +98,7 @@ const getAuthorOfCancellation = () => (dispatch, getState) => {
 };
 
 let orderStatusSubscription = null;
+let bookingInterval = null;
 
 const removeOrderStatusSubscription = () => faye.cancelSubscription(orderStatusSubscription);
 
@@ -111,10 +113,23 @@ const orderReceivedStatusFlow = (data, delay) => (dispatch, getState) => {
   }
 };
 
+const setBookingUpdater = id => (dispatch) => {
+  bookingInterval = setInterval(() => {
+    get(`/bookings/${id}`)
+      .then(({ data }) => {
+        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+      });
+  }, 3000);
+};
+
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
   orderStatusSubscription = faye.on(channel, ({ data }) => {
+    if (data.status === ARRIVED_STATUS) {
+      clearInterval(bookingInterval);
+    }
+
     if (data.indicator) {
       if (data.status === DRIVER_ON_WAY) {
         get(`/bookings/${currentOrder.id}`)
@@ -127,6 +142,8 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
               { type: TYPES.changeOrderStatus, data }
             ]));
           });
+
+        dispatch(setBookingUpdater(currentOrder.id));
       } else if (FINAL_STATUSES.includes(data.status)) {
         dispatch(goToCompletedOrderScene());
 
@@ -175,6 +192,10 @@ export const setActiveBooking = id => (dispatch, getState) => {
     .then(({ data }) => {
       dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
+      if (data.status === DRIVER_ON_WAY) {
+        dispatch(setBookingUpdater(id));
+      }
+
       if (FINAL_STATUSES.includes(data.status)) {
         dispatch(goToCompletedOrderScene());
       } else {
@@ -192,6 +213,7 @@ export const clearCurrentOrder = () => (dispatch) => {
   removeOrderStatusSubscription();
   dispatch(goToPreOrderScene());
   dispatch({ type: TYPES.clearCurrentOrder });
+  clearInterval(bookingInterval);
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
