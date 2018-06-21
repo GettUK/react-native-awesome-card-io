@@ -31,7 +31,7 @@ export default class PromoBlackTaxi extends PureComponent {
         <TouchableWithoutFeedback delay={500} onPress={this.handleSelect}>
           <View style={styles.row}>
             <View style={styles.logoPlaceholder} />
-            <Animatable.Image animation="fadeInLeft" delay={1500} source={assets.blackCabPromo} style={styles.logo} />
+            <Animatable.Image animation="fadeInLeft" delay={1000} source={assets.blackCabPromo} style={styles.logo} />
 
             <Text style={styles.label}>Choose Black Taxi for quickest arrival times</Text>
           </View>
