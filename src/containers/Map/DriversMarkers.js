@@ -8,7 +8,8 @@ const prepareCoordinates = location => location && ({ latitude: location.lat, lo
 
 const carMapping = {
   BlackTaxi: 'blackTaxi',
-  BlackTaxiXL: 'blackTaxiXL'
+  BlackTaxiXL: 'blackTaxiXL',
+  Taxi: 'car'
 };
 
 class DriversMarkers extends PureComponent {
