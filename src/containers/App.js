@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 
-import { ConnectionMessage } from 'components';
+import { ConnectionMessage, AlertModal } from 'components';
 
 import NavigatorRoot from 'navigators/navigatorRoot';
 
@@ -37,16 +37,19 @@ class AppContainer extends PureComponent {
   render() {
     const { dispatch, isConnected } = this.props;
 
-    return <View style={{ flex: 1 }}>
-      <View style={{ height: isConnected ? 0 : 60 }} />
+    return (
       <View style={{ flex: 1 }}>
-        <NavigatorRoot />
+        <AlertModal />
+        <View style={{ height: isConnected ? 0 : 60 }} />
+        <View style={{ flex: 1 }}>
+          <NavigatorRoot />
+        </View>
+        <ConnectionMessage
+          onLayout={e => dispatch(onLayoutConnectBar(e))}
+          ref={(alert) => { this.alert = alert; }}
+        />
       </View>
-      <ConnectionMessage
-        onLayout={e => dispatch(onLayoutConnectBar(e))}
-        ref={(alert) => { this.alert = alert; }}
-      />
-    </View>;
+    );
   }
 }
 
