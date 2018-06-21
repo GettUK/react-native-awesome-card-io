@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, BackHandler, Image, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 import assets from 'assets';
 
@@ -9,7 +10,7 @@ import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'ac
 
 import { Icon, Modal, CheckBox } from 'components';
 
-import { baseVehicles, baseVehiclesDescriptions } from 'containers/shared/bookings/data';
+import { baseVehicles, baseVehiclesDescriptions, OTcars } from 'containers/shared/bookings/data';
 
 import { strings } from 'locales';
 
@@ -69,6 +70,11 @@ class CarTypesEditor extends Component {
     const { currentCar } = this.state;
     const label = (baseVehicles.find(vehicle => vehicle.name === currentCar) || {}).label;
     const info = baseVehiclesDescriptions[currentCar] || {};
+    const features = info.features || [];
+
+    const CAR_ANIMATION_DURATION = 800;
+    const OPTION_ANIMATION_DURATION = 1500;
+    const OPTIONS_DELAY = CAR_ANIMATION_DURATION * 2;
 
     return (
       <Modal
@@ -79,24 +85,64 @@ class CarTypesEditor extends Component {
         <View style={styles.modalWrapper}>
           <Text style={styles.modalHeader}>{label}</Text>
 
-          <Image
-            style={styles.modalCarImage}
-            source={assets.carTypes[this.state.currentCar]}
-            resizeMode="contain"
-          />
+          <View style={styles.carWrapper}>
+            <Animatable.Image
+              animation="slideInLeft"
+              duration={CAR_ANIMATION_DURATION}
+              delay={200}
+              style={styles.modalCarImage}
+              source={assets.noServiceCarTypes[this.state.currentCar]}
+              resizeMode="contain"
+            />
+
+            <Animatable.View
+              animation="slideInLeft"
+              duration={CAR_ANIMATION_DURATION}
+              delay={CAR_ANIMATION_DURATION}
+            >
+              <Icon
+                size={62}
+                name={OTcars.includes(this.state.currentCar) ? 'OT' : 'Gett'}
+                style={styles.logoService}
+              />
+            </Animatable.View>
+          </View>
 
           <Text style={styles.modalDesc}>{info.description}</Text>
 
           <View style={styles.featuresBlock}>
-            {(info.features || []).map(feature => (
+            {features.map((feature, index) => (
               <View key={feature} style={styles.featuresItem}>
-                <Icon name="checkmark" width={13} height={10} />
-                <Text style={styles.featuresLabel}>{feature}</Text>
+                <View style={styles.checkmark}>
+                  <Icon name="checkmark" width={13} height={10} />
+                  <Animatable.View
+                    style={styles.checkmarkHider}
+                    animation="slideOutRight"
+                    delay={OPTIONS_DELAY + (index * 300)}
+                    duration={OPTION_ANIMATION_DURATION}
+                  />
+                </View>
+
+                <Animatable.Text
+                  style={styles.featuresLabel}
+                  animation="fadeIn"
+                  delay={OPTIONS_DELAY + (index * 300)}
+                  duration={OPTION_ANIMATION_DURATION}
+                >
+                  {feature}
+                </Animatable.Text>
               </View>
             ))}
           </View>
 
-          <Text style={styles.feesDesc}>{info.price}</Text>
+          <Animatable.Text
+            style={styles.feesDesc}
+            animation="fadeIn"
+            delay={OPTIONS_DELAY + (features.length * 300)}
+            duration={OPTION_ANIMATION_DURATION}
+          >
+            {info.price}
+          </Animatable.Text>
         </View>
       </Modal>
     );

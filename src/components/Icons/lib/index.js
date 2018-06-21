@@ -80,6 +80,9 @@ import UGArrow2 from './userGuide/UGArrow2';
 import UGArrow3 from './userGuide/UGArrow3';
 import UGPointer from './userGuide/UGPointer';
 
+import OT from './logos/OT';
+import Gett from './logos/Gett';
+
 export default {
   add,
   arriving,
@@ -156,5 +159,7 @@ export default {
   line,
   logoLeft,
   logoRight,
-  rectangle
+  rectangle,
+  OT,
+  Gett
 };

@@ -38,6 +38,7 @@ export default StyleSheet.create({
     fontSize: 20,
     marginTop: 8
   },
+  carWrapper: { marginBottom: 10 },
   modalCarImage: {
     height: 70,
     width: 160,
@@ -58,5 +59,24 @@ export default StyleSheet.create({
     color: 'grey',
     fontSize: 11,
     marginTop: 8
+  },
+  logoService: {
+    position: 'absolute',
+    bottom: 2,
+    left: 2
+  },
+  checkmark: {
+    position: 'relative',
+    width: 13,
+    height: 13,
+    overflow: 'hidden'
+  },
+  checkmarkHider: {
+    width: 13,
+    height: 13,
+    backgroundColor: 'white',
+    position: 'absolute',
+    left: 0,
+    top: 0
   }
 });
