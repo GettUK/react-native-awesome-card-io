@@ -8,6 +8,7 @@ import {
   FINAL_STATUSES,
   CANCELLED_STATUS,
   DRIVER_ON_WAY,
+  IN_PROGRESS_STATUS,
   ORDER_RECEIVED_STATUS,
   LOCATING_STATUS
 } from 'utils/orderStatuses';
@@ -140,7 +141,7 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
         dispatch(orderReceivedStatusFlow(data, 2000));
         dispatch({ type: TYPES.changeOrderStatus, data });
       }
-    } else if (data.status === DRIVER_ON_WAY && data.driver.lat) {
+    } else if ((data.status === DRIVER_ON_WAY || data.status === IN_PROGRESS_STATUS) && data.driver.lat) {
       dispatch({ type: TYPES.changeDriverPosition, payload: data.driver });
     }
   });
