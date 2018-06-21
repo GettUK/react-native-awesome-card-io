@@ -494,7 +494,9 @@ class MapView extends Component {
         }
 
         {order.pickupAddress && order.status === 'locating' &&
-          predictedRoutes.map((_, i) => (<Polyline key={i} ref={(el) => { this.predictedRoutesRefs[i] = el; }} />))
+          predictedRoutes.map((_, i) => (
+            <Polyline key={i} coordinates={[]} ref={(el) => { if (el) { this.predictedRoutesRefs[i] = el; } } } />
+          ))
         }
       </Map>
     );
