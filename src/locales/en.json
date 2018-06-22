@@ -6,6 +6,10 @@
       "btnCancel": "No Thanks",
       "btnConfirm": "Turn on"
     },
+    "cards": {
+      "title": "Sorry",
+      "description": "You have no Credit/Debit cards added in your profile"
+    },
     "serviceSuspended": {
       "title": "Service Suspended",
       "description": "Dear Customer,\nDue to unpaid invoices the service has been suspended. Please contact OT Billing Department to resolve this issue.",
