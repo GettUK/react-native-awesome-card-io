@@ -1,26 +1,24 @@
-import { Alert } from 'react-native';
 import { strings } from 'locales';
+import { AlertModal } from 'components';
 
 export function showConfirmationAlert({ title, message = strings('areYouSure'), handler = () => {} }) {
-  return Alert.alert(
+  AlertModal.show(
     title,
     message,
     [
-      { text: strings('no'), style: 'cancel' },
-      { text: strings('yes'), onPress: handler }
-    ],
-    { cancelable: false }
+      { title: strings('no'), style: 'cancel' },
+      { title: strings('yes'), onPress: handler }
+    ]
   );
 }
 
 export function showMessageAlert({ title = '', message = '' }) {
-  return Alert.alert(
+  return AlertModal.show(
     title,
     message,
     [
       { text: strings('ok') }
-    ],
-    { cancelable: false }
+    ]
   );
 }
 
@@ -30,13 +28,12 @@ export function showRemovalAlert({
   deleteLabel = strings('delete'),
   handler = () => {}
 }) {
-  return Alert.alert(
+  return AlertModal.show(
     title,
     message,
     [
       { text: strings('cancel'), style: 'cancel' },
       { text: deleteLabel, style: 'destructive', onPress: handler }
-    ],
-    { cancelable: false }
+    ]
   );
 }
