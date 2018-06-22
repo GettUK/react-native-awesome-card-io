@@ -22,5 +22,6 @@ export * from './requests';
 export * from './map';
 export * from './moment';
 export * from './addresses';
+export { default as referencesLocalErrors } from './references';
 export { default as isIphoneX } from './ui';
 export { default as validate } from './validate';

@@ -1,8 +1,8 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 
-import { get, post, put } from 'utils';
-import { reject } from 'lodash';
+import { get, post, put, referencesLocalErrors } from 'utils';
+import { isEmpty, reject } from 'lodash';
 import faye from 'utils/faye';
 import {
   FINAL_STATUSES,
@@ -61,10 +61,26 @@ export const changeAddress = (address, meta) => ({ type: TYPES.changeAddress, pa
 
 export const changeReference = reference => ({ type: TYPES.changeReference, payload: reference });
 
-export const validateReferences = () => (_, getState) =>
+export const requestValidateReferences = () => (_, getState) =>
   post('bookings/validate_references', { bookerReferences: getState().booking.bookingForm.bookerReferences });
 
 export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
+
+export const validateReferences = () => async (dispatch, getState) => {
+  const { booking: { bookingForm: { bookerReferences } } } = getState();
+  let errors = referencesLocalErrors(bookerReferences);
+
+  if (isEmpty(errors)) {
+    try {
+      await dispatch(requestValidateReferences());
+    } catch ({ response }) {
+      errors = response.data.errors;
+    }
+  }
+
+  dispatch(setReferenceErrors(errors));
+  return errors;
+};
 
 export const resetBookingValues = () => ({ type: TYPES.resetBookingValues });
 

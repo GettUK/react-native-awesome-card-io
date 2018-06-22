@@ -22,7 +22,8 @@ import {
   toggleVisibleModal,
   changeFields,
   changeAddress,
-  setReferenceErrors
+  setReferenceErrors,
+  validateReferences
 } from 'actions/booking';
 import {
   paymentTypeToAttrs,
@@ -239,8 +240,8 @@ class BookingFooter extends PureComponent {
     this.createBooking(tempFlight);
   }
 
-  createBooking = ({ flight = '', flightType = '' }) => {
-    const { booking: { bookingForm }, createBooking } = this.props;
+  createBooking = async ({ flight = '', flightType = '' }) => {
+    const { booking: { bookingForm }, createBooking, validateReferences } = this.props;
 
     if (this.areAddressesUnique()) {
       const order = {
@@ -259,8 +260,11 @@ class BookingFooter extends PureComponent {
         flightType
       };
 
-      createBooking(order)
-        .catch(this.showAlert);
+      if (isEmpty(await validateReferences())) {
+        createBooking(order).catch(this.showAlert);
+      } else {
+        this.setState({ message: strings('validation.reference') }, () => this.alert.show());
+      }
     }
   };
 
@@ -573,7 +577,8 @@ const bindActions = {
   changeFields,
   changeAddress,
   toggleVisibleModal,
-  setReferenceErrors
+  setReferenceErrors,
+  validateReferences
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingFooter);
