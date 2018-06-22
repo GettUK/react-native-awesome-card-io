@@ -135,6 +135,10 @@ export const orderPanelStyles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
+  headerWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   header: {
     fontSize: 32,
     fontWeight: '600',
@@ -223,6 +227,19 @@ export const orderPanelStyles = StyleSheet.create({
   listOption: {
     alignSelf: 'stretch',
     marginVertical: 4
+  },
+  receiptBtn: {
+    backgroundColor: 'transparent'
+  },
+  receiptBtnWrapper: {
+    alignSelf: 'flex-end',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#fff',
+    borderRadius: 8
+  },
+  receiptBtnText: {
+    color: '#fff',
+    marginHorizontal: 10
   }
 });
 

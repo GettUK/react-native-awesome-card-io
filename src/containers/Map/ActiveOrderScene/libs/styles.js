@@ -26,6 +26,7 @@ export default StyleSheet.create({
   header: {
     position: 'absolute',
     top: 40 + topIPhone,
-    left: 16
+    left: 16,
+    right: 16
   }
 });

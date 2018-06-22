@@ -45,6 +45,9 @@ pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
 pod 'lottie-ios', :path => '../node_modules/lottie-ios'
 pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
+pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
+pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
+
 target 'oteApp'
 target 'oteAppTests'
 

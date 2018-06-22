@@ -196,6 +196,10 @@ const changeDriverRatingSuccess = state => (
   })
 );
 
+const saveReceiptPath = (state, { payload }) => (
+  update(state, 'currentOrder.receiptPath', payload)
+);
+
 const clearCurrentOrder = state => (
   update(state, 'currentOrder', initialState.currentOrder)
 );
@@ -230,6 +234,7 @@ export default composeReducer('booking', {
   changeDriverRating,
   changeDriverRatingReasons,
   changeDriverRatingSuccess,
+  saveReceiptPath,
   clearCurrentOrder,
   clearBooking
 }, initialState);

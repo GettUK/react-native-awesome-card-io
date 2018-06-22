@@ -47,6 +47,7 @@ import reasonDriver from './reasonDriver';
 import reasonSadMan from './reasonSadMan';
 import reasonTaxi from './reasonTaxi';
 import reasonTimer from './reasonTimer';
+import receipt from './receipt';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
@@ -133,6 +134,7 @@ export default {
   reasonSadMan,
   reasonTaxi,
   reasonTimer,
+  receipt,
   search,
   settings,
   sms,

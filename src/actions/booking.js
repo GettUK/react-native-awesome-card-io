@@ -49,6 +49,7 @@ const TYPES = createTypes('booking', [
   'changeDriverRating',
   'changeDriverRatingReasons',
   'changeDriverRatingSuccess',
+  'saveReceiptPath',
   'clearCurrentOrder',
   'clearBooking'
 ]);
@@ -333,5 +334,8 @@ export const rateDriver = () => (dispatch, getState) => {
   })
     .then(() => dispatch({ type: TYPES.changeDriverRatingSuccess }));
 };
+
+export const saveReceiptPath = path => dispatch =>
+  dispatch({ type: TYPES.saveReceiptPath, payload: path });
 
 export const clearBooking = () => ({ type: TYPES.clearBooking });

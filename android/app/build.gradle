@@ -168,6 +168,9 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-fs')
+    compile project(':react-native-pdf')
+    compile project(':react-native-fetch-blob')
     compile project(':react-native-android-open-settings')
     compile project(':lottie-react-native')
     compile project(':react-native-hour-format')

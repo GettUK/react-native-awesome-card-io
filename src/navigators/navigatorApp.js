@@ -15,7 +15,8 @@ import {
   FlightSettings,
   ReferenceValueSelector,
   TransitionLoading,
-  PassengersList
+  PassengersList,
+  Receipt
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import styles from 'containers/Map/style';
@@ -23,6 +24,7 @@ import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
 import { SaveRatingBtn } from 'containers/RateDriver';
+import { ReceiptHeader } from 'containers/Receipt';
 import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
@@ -172,6 +174,12 @@ const routeConfiguration = {
           rightButton={<SaveRatingBtn navigation={navigation} />}
         />
       )
+    })
+  },
+  Receipt: {
+    screen: Receipt,
+    navigationOptions: ({ navigation }) => ({
+      header: <ReceiptHeader navigation={navigation} />
     })
   }
 };
