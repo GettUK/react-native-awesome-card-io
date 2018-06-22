@@ -31,6 +31,7 @@ class PassengersList extends Component {
     const { firstName, lastName, phone, id } = item;
 
     const attrs = {
+      ...this.props.bookingForm.defaultPaymentType,
       passengerId: id,
       passengerName: `${firstName} ${lastName}`,
       passengerPhone: phone
@@ -97,7 +98,8 @@ class PassengersList extends Component {
 
 const mapState = ({ booking }) => ({
   passengers: booking.formData.passengers,
-  passengerId: booking.bookingForm.passengerId
+  passengerId: booking.bookingForm.passengerId,
+  bookingForm: booking.bookingForm
 });
 
 const mapDispatch = ({
