@@ -74,3 +74,20 @@ export const isInputsValid = (keys, data, validationRules, fn) => {
 export const normalizeCoordinate = coord => +parseFloat(coord).toFixed(12);
 
 export const getHeight = type => (type && type.height) || 0;
+
+export const filterBySearchValue = (array, params, searchValue) => {
+  const searchValues = searchValue.toLowerCase().split(' ').filter(Boolean);
+
+  return array.filter((item) => {
+    let itemString = params.map(param => item[param]).join(' ').toLowerCase();
+
+    return searchValues.every((value) => {
+      const formattedValue = value.trim();
+      const includes = itemString.includes(formattedValue);
+
+      if (includes) itemString = itemString.replace(formattedValue, '').trim();
+
+      return includes;
+    });
+  });
+};

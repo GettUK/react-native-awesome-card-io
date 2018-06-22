@@ -16,7 +16,8 @@ export {
   throttledAction,
   isInputsValid,
   normalizeCoordinate,
-  getHeight
+  getHeight,
+  filterBySearchValue
 } from './common';
 export * from './requests';
 export * from './map';

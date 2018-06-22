@@ -6,6 +6,8 @@ import { Icon } from 'components';
 
 import { changeFields } from 'actions/booking';
 
+import { filterBySearchValue } from 'utils';
+
 import styles from './styles';
 
 class PassengersList extends Component {
@@ -22,8 +24,7 @@ class PassengersList extends Component {
     const { searchValue } = this.state;
 
     return passengers && searchValue
-      ? passengers.filter(passenger =>
-        passenger.firstName.includes(searchValue) || passenger.lastName.includes(searchValue))
+      ? filterBySearchValue(passengers, ['firstName', 'lastName'], searchValue)
       : passengers;
   }
 
