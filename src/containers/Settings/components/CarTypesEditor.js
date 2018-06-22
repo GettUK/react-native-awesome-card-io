@@ -96,15 +96,18 @@ class CarTypesEditor extends Component {
             />
 
             <Animatable.View
+              style={styles.modalCarTypeWrapper}
               animation="slideInLeft"
               duration={CAR_ANIMATION_DURATION}
               delay={CAR_ANIMATION_DURATION}
             >
-              <Icon
-                size={62}
-                name={OTcars.includes(this.state.currentCar) ? 'OT' : 'Gett'}
-                style={styles.logoService}
-              />
+              <View style={styles.modalCarInnerWrapper}>
+                <Icon
+                  size={62}
+                  name={OTcars.includes(this.state.currentCar) ? 'OT' : 'Gett'}
+                  style={styles.logoService}
+                />
+              </View>
             </Animatable.View>
           </View>
 

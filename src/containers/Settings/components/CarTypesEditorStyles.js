@@ -38,11 +38,23 @@ export default StyleSheet.create({
     fontSize: 20,
     marginTop: 8
   },
-  carWrapper: { marginBottom: 10 },
+  carWrapper: {
+    marginBottom: 10,
+    height: 85
+  },
   modalCarImage: {
     height: 70,
     width: 160,
-    marginVertical: 8
+    marginVertical: 8,
+    position: 'absolute'
+  },
+  modalCarTypeWrapper: {
+    bottom: 0,
+    position: 'absolute'
+  },
+  modalCarInnerWrapper: {
+    width: 64,
+    height: 64
   },
   modalDesc: { fontSize: 14 },
   featuresBlock: { paddingVertical: 8 },
