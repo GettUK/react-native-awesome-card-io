@@ -17,7 +17,7 @@ export function showMessageAlert({ title = '', message = '' }) {
     title,
     message,
     [
-      { text: strings('ok') }
+      { title: strings('ok') }
     ]
   );
 }
@@ -32,8 +32,8 @@ export function showRemovalAlert({
     title,
     message,
     [
-      { text: strings('cancel'), style: 'cancel' },
-      { text: deleteLabel, style: 'destructive', onPress: handler }
+      { title: strings('cancel'), style: 'cancel' },
+      { title: deleteLabel, onPress: handler }
     ]
   );
 }
