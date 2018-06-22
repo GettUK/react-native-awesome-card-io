@@ -77,7 +77,7 @@ class MapView extends Component {
     }
 
     if (this.shouldOpenOrderDetails({ oldOrder, order })) {
-      setTimeout(this.props.onFutureOrderReceived, 3000);
+      setTimeout(this.props.onFutureOrderReceived, 1000);
     }
 
     if (this.shouldGetDriversLocations({ order, oldOrder })) {
