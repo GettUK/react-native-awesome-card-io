@@ -34,7 +34,7 @@ class Settings extends Component {
   }
 
   handleLogout = async () => {
-    if (!this.state.logoutLoading) {
+    if (!this.state.logoutLoading && this.props.isConnected) {
       const { deleteToken, logout, navigation } = this.props;
 
       this.setState({ logoutLoading: true });
@@ -147,9 +147,10 @@ Settings.propTypes = {
 
 Settings.defaultProps = {};
 
-const select = ({ passenger }) => ({
+const select = ({ passenger, network }) => ({
   passengerData: passenger.data,
-  companySettings: passenger.companySettings
+  companySettings: passenger.companySettings,
+  isConnected: network.isConnected
 });
 
 const bindActions = {
