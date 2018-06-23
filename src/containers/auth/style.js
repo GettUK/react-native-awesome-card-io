@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    marginBottom: 25,
+    marginVertical: 30,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center'
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
 
   footerLink: {
     fontWeight: 'bold',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    textAlign: 'center'
   },
 
   errorContainer: {
