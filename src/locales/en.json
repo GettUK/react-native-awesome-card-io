@@ -39,7 +39,8 @@
     "departing": "Departure",
     "arriving": "Arrival",
     "loading": "Loading...",
-    "emptyResult": "No Results"
+    "emptyResult": "No Results",
+    "receipt": "Receipt"
   },
   "login": {
     "acceptPrivacyPolicy": "Accept Privacy Policy",

@@ -32,7 +32,7 @@ export default function ScreenHeader(props) {
           <Text style={styles.text}>{props.title}</Text>
         </View>
         {props.rightContent &&
-          <View style={styles.rightContent}>{props.rightContent}</View>
+          <View style={[styles.rightContent, props.rightContentStyle]}>{props.rightContent}</View>
         }
       </GradientWrapper>
     </View>

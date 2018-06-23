@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, Dimensions, Image, TouchableWithoutFeedback, Linking } from 'react-native';
+import { View, Text, Dimensions, Image, TouchableWithoutFeedback, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import assets from 'assets';
 
-import { Icon, PointList, JourneyDetails, Divider, RatingLabel } from 'components';
+import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX, getHeight } from 'utils';
@@ -14,14 +15,15 @@ import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 import { onLayoutPointList } from 'actions/app/statuses';
 import { strings } from 'locales';
 
-import { vehiclesData, paymentTypeLabels } from 'containers/shared/bookings/data';
+import { vehiclesData, paymentTypeLabels, receiptPaymentTypes } from 'containers/shared/bookings/data';
+import { getReceiptUrl } from 'containers/Receipt/utils';
 
 import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
 const OrderDetails = ({
-  app, order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList
+  app, order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token
 }) => {
   const height = Dimensions.get('window').height;
   const { statuses: { params: { connectBar } } } = app;
@@ -36,13 +38,46 @@ const OrderDetails = ({
     navigation.navigate('RateDriver');
   };
 
+  const openReceipt = () => {
+    if (Platform.OS === 'android') {
+      navigation.navigate('Receipt', { orderId: order.id });
+    } else {
+      RNFetchBlob.config({
+        indicator: true,
+        path: `${RNFetchBlob.fs.dirs.CacheDir}/Receipt#${order.id}.pdf`
+      })
+        .fetch('POST', getReceiptUrl(order.id), {
+          Authorization: `Bearer ${token}`
+        })
+        .then(res => RNFetchBlob.ios.openDocument(res.path()));
+    }
+  };
+
+  const shouldShowReceiptBtn = () =>
+    receiptPaymentTypes.includes(order.paymentMethod)
+    && order.indicatedStatus === 'billed';
+
   const renderHeader = () => (
-    <View>
-      <Text style={orderPanelStyles.header}>Order Details</Text>
-      <View style={orderPanelStyles.subHeader}>
-        <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
-        {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
+    <View style={orderPanelStyles.headerWrapper}>
+      <View>
+        <Text style={orderPanelStyles.header}>Order Details</Text>
+        <View style={orderPanelStyles.subHeader}>
+          <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
+          {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
+        </View>
       </View>
+      {shouldShowReceiptBtn() &&
+        <Button
+          size="sm"
+          onPress={openReceipt}
+          styleContent={orderPanelStyles.receiptBtn}
+          style={orderPanelStyles.receiptBtnWrapper}
+        >
+          <Icon name="receipt" size={18} />
+          <Text style={orderPanelStyles.receiptBtnText}>{strings('label.receipt')}</Text>
+          <Icon name="chevron" size={16} color="#fff" />
+        </Button>
+      }
     </View>
   );
 
@@ -271,11 +306,12 @@ OrderDetails.defaultProps = {
   onClose: () => {}
 };
 
-const mapState = ({ app, booking }) => ({
+const mapState = ({ app, booking, session }) => ({
   app,
   order: booking.currentOrder,
   vehicles: booking.vehicles,
-  driver: booking.currentOrder.driverDetails
+  driver: booking.currentOrder.driverDetails,
+  token: session.token
 });
 
 export default connect(mapState, { onLayoutPointList })(OrderDetails);

@@ -8,6 +8,8 @@ export const paymentTypes = [
   'cash'
 ];
 
+export const receiptPaymentTypes = ['personal_payment_card', 'business_payment_card'];
+
 export const paymentTypeLabels = {
   passenger_payment_card: 'Passenger\'s card',
   personal_payment_card: 'Passenger\'s Personal card',

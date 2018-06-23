@@ -13,3 +13,4 @@ export { default as PaymentsOptions } from './PaymentsOptions';
 export { default as References } from './References';
 export { default as ReferenceValueSelector } from './ReferenceValueSelector';
 export { default as PassengersList } from './PassengersList';
+export { default as Receipt } from './Receipt';
