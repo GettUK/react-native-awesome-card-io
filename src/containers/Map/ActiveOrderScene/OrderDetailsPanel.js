@@ -15,7 +15,7 @@ import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 import { onLayoutPointList } from 'actions/app/statuses';
 import { strings } from 'locales';
 
-import { vehiclesData, paymentTypeLabels, receiptPaymentTypes } from 'containers/shared/bookings/data';
+import { vehiclesData, paymentTypeLabels, receiptPaymentTypes, OTcars } from 'containers/shared/bookings/data';
 import { getReceiptUrl } from 'containers/Receipt/utils';
 
 import SlidingUpPanel from './SlidingUpPanel';
@@ -227,11 +227,14 @@ const OrderDetails = ({
 
   const renderDriver = () => (
     <View style={orderPanelStyles.driverContainer}>
-      <Image
-        source={driver.info.imageUrl ? { uri: driver.info.imageUrl } : assets.aupairLarge}
-        style={orderPanelStyles.roundContainer}
-        resizeMode="contain"
-      />
+      {driver.info.imageUrl
+        ? <Image
+          source={{ uri: driver.info.imageUrl }}
+          style={orderPanelStyles.roundContainer}
+          resizeMode="contain"
+        />
+        : <Icon name={OTcars.includes(order.vehicleType) ? 'OT' : 'Gett'} size={46} />
+      }
 
       <View style={orderPanelStyles.titleContainer}>
         <Text style={orderPanelStyles.driverCarInfo} numberOfLines={2}>
