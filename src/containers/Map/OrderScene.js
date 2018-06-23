@@ -154,7 +154,7 @@ ActiveOrderScene.propTypes = {
 ActiveOrderScene.defaultProps = {};
 
 const mapState = ({ booking }) => ({
-  status: booking.currentOrder.status || 'connected',
+  status: booking.currentOrder.indicatedStatus || 'connected',
   order: booking.currentOrder,
   busy: booking.currentOrder.busy
 });

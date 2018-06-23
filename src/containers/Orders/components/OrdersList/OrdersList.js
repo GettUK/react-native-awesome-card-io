@@ -124,9 +124,9 @@ class OrdersList extends PureComponent {
         <View style={styles.orderDetails}>
           <View style={styles.row}>
             <Text style={styles.orderDate} numberOfLines={1}>{moment(item.scheduledAt).format('lll')}</Text>
-            <View style={[styles.orderLabel, styles[`${getLabelColor(item.status)}Label`]]}>
-              <Text style={[styles.orderLabelText, styles[`${getLabelColor(item.status)}LabelText`]]}>
-                {strings(`order.statuses.${item.status}`).toUpperCase()}
+            <View style={[styles.orderLabel, styles[`${getLabelColor(item.indicatedStatus)}Label`]]}>
+              <Text style={[styles.orderLabelText, styles[`${getLabelColor(item.indicatedStatus)}LabelText`]]}>
+                {strings(`order.statuses.${item.indicatedStatus}`).toUpperCase()}
               </Text>
             </View>
           </View>
