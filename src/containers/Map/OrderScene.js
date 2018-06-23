@@ -8,7 +8,7 @@ import { cancelOrder } from 'actions/booking';
 import { FadeInView, GradientWrapper, Button } from 'components';
 
 import { strings } from 'locales';
-import { showConfirmationAlert } from 'utils';
+import { showConfirmationAlert, isIphoneX } from 'utils';
 import {
   ACTIVE_DRIVER_STATUSES,
   CANCEL_ALLOWED_STATUSES,
@@ -60,17 +60,14 @@ class ActiveOrderScene extends Component {
     this.setState({ cancelModalVisible: false });
   };
 
-  render() {
-    const { status, busy, goToInitialization, order } = this.props;
-    const { cancelModalVisible, isVisible } = this.state;
+  renderInfoPanel = () => {
+    const { status, busy } = this.props;
 
-    // const isTripActive = status === ACTIVE_STATUS;
-    // const isDriverArrived = status === ARRIVED_STATUS;
     const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
-    const isPreOrderStatus = PREORDER_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
-    const isFinalStatus = FINAL_STATUSES.includes(status);
+    // const isTripActive = status === ACTIVE_STATUS;
+    // const isDriverArrived = status === ARRIVED_STATUS;
 
     const gradientColors = [
       'rgba(255,255,255,0.8)', 'rgba(255,255,255,0.75)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0)'
@@ -78,60 +75,81 @@ class ActiveOrderScene extends Component {
     const gradientStart = { x: 0, y: 1 };
     const gradientEnd = { x: 0, y: 0 };
 
-    return (
-      <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
-        {isFinalStatus && !isCustomerCareStatus &&
-          <Button
-            size="sm"
-            style={screenStyles.createBtnWrapper}
-            styleContent={screenStyles.createNewBtn}
-            onPress={goToInitialization}
-          >
-            <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
-          </Button>
-        }
-        <View style={screenStyles.separator} />
+    const statusPosition = isIphoneX() ? 140 : 130;
 
-        <FadeInView>
-          <GradientWrapper
-            style={screenStyles.footer}
-            colors={gradientColors}
-            start={gradientStart}
-            end={gradientEnd}
+    return (
+      <FadeInView>
+        <GradientWrapper
+          style={screenStyles.footer}
+          colors={gradientColors}
+          start={gradientStart}
+          end={gradientEnd}
+          pointerEvents="box-none"
+        >
+          <View
+            style={[screenStyles.actionContainer, { paddingBottom: this.isDriverExist ? statusPosition : 70 }]}
             pointerEvents="box-none"
           >
-            <View
-              style={[screenStyles.actionContainer, { paddingBottom: this.isDriverExist ? 130 : 70 }]}
-              pointerEvents="box-none"
-            >
-              <View style={screenStyles.actionsRow}>
-                {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
-                  <FloatButton
-                    key="cancel"
-                    label="Cancel Order"
-                    iconName="cancel"
-                    loading={busy}
-                    onPress={this.handleCancelOrder}
-                  />
-                }
+            <View style={screenStyles.actionsRow}>
+              {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
+                <FloatButton
+                  key="cancel"
+                  label="Cancel Order"
+                  iconName="cancel"
+                  loading={busy}
+                  onPress={this.handleCancelOrder}
+                />
+              }
 
-                {/* isDriverArrived &&
-                  <FloatButton
-                    key="way"
-                    label={'I\'m on my way'}
-                    iconName="walker"
-                    onPress={this.handleOpenModal}
-                    style={{ marginLeft: 40 }}
-                  />
+              {/* isDriverArrived &&
+                <FloatButton
+                  key="way"
+                  label={'I\'m on my way'}
+                  iconName="walker"
+                  onPress={this.handleOpenModal}
+                  style={{ marginLeft: 40 }}
+                />
 
-                  isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
-                */}
-              </View>
-
-              <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
+                isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
+              */}
             </View>
-          </GradientWrapper>
-        </FadeInView>
+
+            <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
+          </View>
+        </GradientWrapper>
+      </FadeInView>
+    );
+  }
+
+  renderCreateButton = () => {
+    const { status, goToInitialization } = this.props;
+
+    const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
+    const isFinalStatus = FINAL_STATUSES.includes(status);
+
+    return isFinalStatus && !isCustomerCareStatus &&
+      <Button
+        size="sm"
+        style={screenStyles.createBtnWrapper}
+        styleContent={screenStyles.createNewBtn}
+        onPress={goToInitialization}
+      >
+        <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
+      </Button>;
+  }
+
+  render() {
+    const { status, order } = this.props;
+    const { cancelModalVisible, isVisible } = this.state;
+
+    const isPreOrderStatus = PREORDER_STATUSES.includes(status);
+
+    return (
+      <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
+        {this.renderCreateButton()}
+        <View style={screenStyles.separator} />
+
+        {this.renderInfoPanel()}
 
         {isPreOrderStatus && <Pointer />}
 
