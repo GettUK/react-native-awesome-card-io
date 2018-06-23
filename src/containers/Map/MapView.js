@@ -56,6 +56,7 @@ class MapView extends Component {
       const { source, dest, stops } = this.preparePointsList(order);
       const multiplier = this.getMultiplier();
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 100 * multiplier, bottom: 170 * multiplier });
+      if (this.animationStarted) this.stopPathsAnimation();
     } else if (!isCompletedOrder) {
       this.changeMapForActiveOrder({
         oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition
