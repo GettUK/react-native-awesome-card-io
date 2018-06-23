@@ -18,6 +18,7 @@ import {
   IN_PROGRESS_STATUS,
   ARRIVED_STATUS,
   DRIVER_ON_WAY,
+  LOCATING_STATUS,
   ACTIVE_DRIVER_STATUSES,
   FINAL_STATUSES,
   PREORDER_STATUSES,
@@ -84,11 +85,15 @@ class MapView extends Component {
       this.getDriversLocations(order.pickupAddress);
     }
 
-    if (this.gotNewStatus(oldOrder, order, 'locating')) {
+    if (this.gotNewStatus(oldOrder, order, LOCATING_STATUS)) {
       this.createPathsAnimations();
       this.getRandomPaths(order.pickupAddress).then(this.animatePaths);
     } else if (order.status !== 'locating' && this.animationStarted) {
       this.stopPathsAnimation();
+    }
+
+    if (this.gotNewStatus(oldOrder, order, DRIVER_ON_WAY)) {
+      this.driverAnimationFinished = false;
     }
   }
 
@@ -160,7 +165,7 @@ class MapView extends Component {
         }
       });
       index += 1;
-      if (index > 115) index = 0;
+      if (index > 50) index = 0;
     }, 50);
   };
 
@@ -168,6 +173,20 @@ class MapView extends Component {
     this.animationStarted = false;
     this.pathAnimation.stop();
     clearInterval(this.pathAnimationInterval);
+  };
+
+  startDriverPathAnimation = (coordinates) => {
+    let index = 0;
+    this.driverPathAnimationInterval = setInterval(() => {
+      this.driverPathRef.setNativeProps({ coordinates: take(coordinates, index) });
+      index += 4;
+      if (index > coordinates.length) {
+        clearInterval(this.driverPathAnimationInterval);
+        this.driverPathRef.setNativeProps({ coordinates: [] });
+        this.driverAnimationFinished = true;
+        this.driverAnimationStarted = false;
+      }
+    }, coordinates / 3000);
   };
 
   isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (
@@ -349,6 +368,15 @@ class MapView extends Component {
 
     if (isDriverOnTheWay) {
       locations.push(order.pickupAddress);
+      if (!this.driverAnimationFinished && !this.driverAnimationStarted) {
+        this.driverAnimationStarted = true;
+        getPathCoordinates(...Object.values(this.getPaths(locations)[0]), 'driving')
+          .then(res => this.startDriverPathAnimation(res));
+        return null;
+      }
+      if (this.driverAnimationStarted && !this.driverAnimationFinished) {
+        return null;
+      }
     } else {
       locations.push(order.destinationAddress);
     }
@@ -498,6 +526,13 @@ class MapView extends Component {
             <Polyline key={i} coordinates={[]} ref={(el) => { if (el) { this.predictedRoutesRefs[i] = el; } } } />
           ))
         }
+
+        <Polyline
+          coordinates={[]}
+          ref={(el) => { if (el) { this.driverPathRef = el; } } }
+          strokeWidth={3}
+          strokeColor="#2b4983"
+        />
       </Map>
     );
   }

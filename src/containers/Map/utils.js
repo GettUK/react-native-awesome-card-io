@@ -32,11 +32,11 @@ const decodePoints = (t, e) => {
 };
 /* eslint-disable */
 
-export const getPathCoordinates = (o, d) => {
+export const getPathCoordinates = (o, d, mode = 'walking') => {
   const apiUrl = 'https://maps.googleapis.com/maps/api/directions/json';
   const params = [
     'language=en',
-    'mode=walking',
+    `mode=${mode}`,
     `origin=${o.lat},${o.lng}`,
     `destination=${d.lat},${d.lng}`,
     `key=${config.googleAPIKey}`
