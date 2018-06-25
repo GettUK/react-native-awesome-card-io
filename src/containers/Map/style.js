@@ -1,10 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, StatusBar, Platform } from 'react-native';
 
 import { isIphoneX } from 'utils';
 
 const { height, width } = Dimensions.get('window');
 
-const iPhoneHeaderPadding = isIphoneX() ? 54 : 35;
+const headerPadding = Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 25;
+const iPhoneHeaderPadding = isIphoneX() ? 45 : headerPadding;
 
 const styles = StyleSheet.create({
   header: {

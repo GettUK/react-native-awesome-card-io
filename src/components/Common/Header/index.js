@@ -18,7 +18,7 @@ class Header extends React.Component {
     return (
       <View style={[styles.headerWrap, customStyles]} pointerEvents="box-none">
         <View style={styles.header} pointerEvents="box-none">
-          {leftButton && <View style={styles.leftContent}>{leftButton}</View>}
+          {leftButton && <View>{leftButton}</View>}
 
           <Text
             style={[
@@ -31,7 +31,7 @@ class Header extends React.Component {
           </Text>
 
           {rightButton &&
-            <View style={styles.rightContent}>
+            <View>
               {typeof rightButton === 'string'
                 ? <Text style={styles.rightHeaderButton}>{rightButton}</Text>
                 : rightButton

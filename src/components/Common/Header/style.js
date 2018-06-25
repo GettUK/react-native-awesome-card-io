@@ -1,27 +1,23 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1
   },
   headerWrap: {
     backgroundColor: 'transparent',
     elevation: 2,
-    zIndex: 10
-  },
-  leftContent: {
     flexDirection: 'row',
-    position: 'absolute',
-    zIndex: 10,
-    left: 0
-  },
-  rightContent: {
-    flexDirection: 'row',
-    position: 'absolute',
-    zIndex: 10,
-    right: 0
+    justifyContent: 'space-between',
+    flex: 1,
+    ...Platform.select({
+      android: {
+        height: 76
+      }
+    })
   },
   headerTitle: {
     fontSize: 17,
@@ -33,8 +29,7 @@ const styles = StyleSheet.create({
   },
   headerTitleCenter: {
     flex: 1,
-    textAlign: 'center',
-    marginRight: 24
+    textAlign: 'center'
   },
   rightHeaderButton: {
     color: '#000',
