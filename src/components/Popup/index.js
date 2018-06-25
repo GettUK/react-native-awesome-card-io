@@ -59,7 +59,7 @@ class Popup extends PureComponent {
     return (
       <View style={[styles.content, contentWraperStyle]}>
         {icon}
-        {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+        {isString(title) && <Text style={[styles.title, titleStyle]}>{title}</Text>}
         {isString(content)
           ? <Text style={[styles.description, contentStyle]}>{content}</Text>
           : content
