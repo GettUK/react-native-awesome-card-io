@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -412,8 +412,16 @@ class BookingFooter extends PureComponent {
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], () => this.goTo('PaymentsOptions'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Booking References', `${bookingReferences.length} References`, () => this.goTo('References'))}
-        <View style={styles.settingsMenuSeparator} />
+        {bookingReferences.length > 0 &&
+          <Fragment>
+            {renderMenuItem(
+              'Booking References',
+              `${bookingReferences.length} References`,
+              () => this.goTo('References')
+            )}
+            <View style={styles.settingsMenuSeparator} />
+          </Fragment>
+        }
         {renderMenuItem('Flight number', flight, () => this.goTo('FlightSettings'))}
       </Modal>
     );
