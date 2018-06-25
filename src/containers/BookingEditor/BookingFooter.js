@@ -23,7 +23,8 @@ import {
   changeFields,
   changeAddress,
   setReferenceErrors,
-  validateReferences
+  validateReferences,
+  saveFlight
 } from 'actions/booking';
 import {
   paymentTypeToAttrs,
@@ -235,7 +236,9 @@ class BookingFooter extends PureComponent {
   }
 
   setAirport = () => {
-    const { booking: { tempFlight } } = this.props;
+    const { booking: { tempFlight }, saveFlight } = this.props;
+
+    saveFlight();
 
     this.createBooking(tempFlight);
   }
@@ -596,7 +599,8 @@ const bindActions = {
   changeAddress,
   toggleVisibleModal,
   setReferenceErrors,
-  validateReferences
+  validateReferences,
+  saveFlight
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingFooter);
