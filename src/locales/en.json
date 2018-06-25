@@ -47,8 +47,9 @@
     "receipt": "Receipt"
   },
   "login": {
-    "acceptPrivacyPolicy": "Accept Privacy Policy",
-    "acceptTermsConditions": "Accept Terms and Conditions",
+    "accept": "Accept",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms and Conditions",
     "email": "Email",
     "forgotPassword": "Forgot password?",
     "createAccount": "Enquire or open an account today",

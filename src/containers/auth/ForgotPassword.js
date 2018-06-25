@@ -13,7 +13,7 @@ import { Icon, Input, Alert, DismissKeyboardView, Background } from 'components'
 
 import { strings } from 'locales';
 
-import TextButton from './TextButton';
+import { TextButton } from './components';
 import { resetPasswordRules } from './validatorRules';
 
 import styles from './style';

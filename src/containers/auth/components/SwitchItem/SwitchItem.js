@@ -6,7 +6,7 @@ import styles from './style';
 export default class SwitchItem extends PureComponent {
   static defaultProps = {
     value: false,
-    onLabelPress: () => noop,
+    onLinkPress: () => noop,
     onValueChange: () => noop,
     onTintColor: '#4cd964',
     tintColor: 'rgba(255,255,255,0.2)',
@@ -18,16 +18,19 @@ export default class SwitchItem extends PureComponent {
       style,
       labelStyle,
       label,
-      onLabelPress,
+      onLinkPress,
+      link,
+      linkStyle,
       ...rest
     } = this.props;
 
     return (
       <View style={[styles.container, style]}>
-        {label &&
-          <TouchableWithoutFeedback onPress={onLabelPress}>
+        {label && <Text style={[styles.label, labelStyle]} numberOfLines={1}>{label}</Text>}
+        {link &&
+          <TouchableWithoutFeedback onPress={onLinkPress}>
             <View style={styles.labelView}>
-              <Text style={[styles.label, labelStyle]} numberOfLines={1}>{label}</Text>
+              <Text style={[styles.label, styles.link, linkStyle]} numberOfLines={1}>{link}</Text>
             </View>
           </TouchableWithoutFeedback>
         }
