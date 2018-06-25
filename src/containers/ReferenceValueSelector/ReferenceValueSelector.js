@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
-import { Icon } from 'components';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Icon, SearchList } from 'components';
 import { changeReference } from 'actions/booking';
 import { debounce } from 'lodash';
 import { get } from 'utils';
@@ -61,25 +61,15 @@ class ReferenceValueSelector extends PureComponent {
   render() {
     const { searchValue } = this.state;
     return (
-      <View style={[styles.flex, styles.container]}>
-        <View style={styles.searchContainer}>
-          <Icon name="search" color="#8e8e93" size={14} style={styles.searchIcon} />
-          <TextInput
-            onChangeText={this.handleSearchValueChange}
-            style={[styles.flex, styles.searchInput]}
-            value={searchValue}
-            placeholder="Start typing…"
-          />
-        </View>
-        <FlatList
-          keyboardShouldPersistTaps="handled"
-          style={[styles.flex, styles.bg]}
-          data={this.getListData()}
-          ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-        />
-      </View>
+      <SearchList
+        keyboardShouldPersistTaps="handled"
+        searchValue={searchValue}
+        onSearchValueChange={this.handleSearchValueChange}
+        data={this.getListData()}
+        ItemSeparatorComponent={this.renderSeparator}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderItem}
+      />
     );
   }
 }

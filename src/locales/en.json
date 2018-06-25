@@ -15,6 +15,10 @@
       "description": "Dear Customer,\nDue to unpaid invoices the service has been suspended. Please contact OT Billing Department to resolve this issue.",
       "sign": "Thank you,\nOT Team"
     },
+    "companyRequest": {
+      "title": "Thank you!",
+      "description": "We will be in contact with you shortly"
+    },
     "notReceivedCoordinates": "GPS coordinates aren`t received",
     "notSupportedAddress": "Sorry, this address is not supported",
     "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?"
@@ -46,15 +50,28 @@
     "acceptPrivacyPolicy": "Accept Privacy Policy",
     "acceptTermsConditions": "Accept Terms and Conditions",
     "email": "Email",
-    "forgotPassword": "Forgot your password?",
+    "forgotPassword": "Forgot password?",
+    "createAccount": "Enquire or open an account today",
     "loginButton": "Log in",
+    "selectCountryTitle": "Select country",
+    "signupTitle": "Your enquiry",
+    "signupButton": "Send",
     "password": "Password",
-    "reset": "Reset",
     "resetButton": "Reset Password",
     "successReset": "Password was reset. Please, check your email",
     "errors": {
+      "createCompany": "You can't register a company now",
       "commonError": "User can't be logged in now",
       "credentialsError": "The email or password you entered is incorrect"
+    },
+    "registerForm": {
+      "title": "One Transport, powered by Gett, for all your business taxi and private hire needs across the globe.",
+      "yourName": "Your name",
+      "comments": "Comments",
+      "phoneNumber": "Phone number",
+      "email": "Work email",
+      "companyName": "Company",
+      "selectCountry": "Select Primary country"
     }
   },
   "flights": {

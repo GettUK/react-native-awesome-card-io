@@ -53,8 +53,26 @@ class Popup extends PureComponent {
     </TouchableOpacity>
   );
 
+  renderContent = () => {
+    const { contentStyle, titleStyle, contentWraperStyle, footerStyle, title, content, buttons, icon } = this.props;
+
+    return (
+      <View style={[styles.content, contentWraperStyle]}>
+        {icon}
+        {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+        {isString(content)
+          ? <Text style={[styles.description, contentStyle]}>{content}</Text>
+          : content
+        }
+        <View style={[styles.footer, footerStyle]}>
+          {buttons ? buttons.map(this.renderButton) : this.renderButton({})}
+        </View>
+      </View>
+    );
+  };
+
   render() {
-    const { containerStyle, contentStyle, footerStyle, title, titleStyle, content, buttons } = this.props;
+    const { containerStyle } = this.props;
 
     return (
       <Modal
@@ -62,16 +80,7 @@ class Popup extends PureComponent {
         style={[styles.container, containerStyle]}
         backdropColor="rgba(40, 71, 132, 0.6)"
       >
-        <View style={[styles.content, contentStyle]}>
-          {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
-          {isString(content)
-            ? <Text style={styles.description}>{content}</Text>
-            : content
-          }
-          <View style={[styles.footer, footerStyle]}>
-            {buttons ? buttons.map(this.renderButton) : this.renderButton({})}
-          </View>
-          </View>
+        {this.renderContent()}
       </Modal>
     );
   }

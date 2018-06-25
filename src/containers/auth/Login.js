@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   KeyboardAvoidingView,
+  TouchableOpacity,
   TouchableHighlight,
   StatusBar,
   View,
@@ -35,6 +36,7 @@ import { loginRules } from './validatorRules';
 import TextButton from './TextButton';
 
 import styles from './style';
+import { prepareSwitchesBlock } from './utils';
 
 class Login extends Component {
   state = {
@@ -44,8 +46,8 @@ class Login extends Component {
     form: {
       email: 'artem@fakemail.com',
       password: 'qwqwqwQ@',
-      termsConditions: false,
-      privacyPolicy: false
+      acceptTac: false,
+      acceptPp: false
     }
   };
 
@@ -62,10 +64,6 @@ class Login extends Component {
   handleEmailChange = v => this.handleInputChange('email', v);
 
   handlePasswordChange = v => this.handleInputChange('password', v);
-
-  handleTermsConditionsChange = v => this.handleInputChange('termsConditions', v);
-
-  handlePrivacyPolicyChange = v => this.handleInputChange('privacyPolicy', v);
 
   handleSubmit = () => {
     if (this.validateInputs()) {
@@ -119,6 +117,10 @@ class Login extends Component {
     this.setState({ error: '' });
   };
 
+  goToCreateAccount = () => {
+    this.props.navigation.navigate('Registration', {});
+  };
+
   goToForgot = () => {
     this.props.navigation.navigate('ForgotPassword', { onReturn: this.handleActivation });
     this.resetError();
@@ -127,6 +129,8 @@ class Login extends Component {
   goToInfoPage = throttledAction((page) => {
     this.props.navigation.navigate('InfoPages', { page });
   });
+
+  renderSwitchItem = (props, index) => <SwitchItem key={index} {...props} />;
 
   getCenteredLogoPosition = () => {
     const { height } = Dimensions.get('window');
@@ -145,12 +149,10 @@ class Login extends Component {
   renderFooter = AnimatedWrapper => (
     <AnimatedWrapper>
       <View style={styles.footer}>
-        <Text style={[styles.footerText, styles.footerTextGap]}>
-          {strings('login.forgotPassword')}
-        </Text>
-        <TouchableHighlight onPress={this.goToForgot}>
+
+        <TouchableHighlight onPress={this.goToCreateAccount}>
           <Text style={[styles.footerText, styles.footerLink]}>
-            {strings('login.reset')}
+            {strings('login.createAccount')}
           </Text>
         </TouchableHighlight>
       </View>
@@ -160,6 +162,10 @@ class Login extends Component {
   render() {
     const { isResetSuccess, error, form, loading } = this.state;
     const { params } = this.props.navigation.state;
+    const switches = prepareSwitchesBlock(
+      form,
+      { handleChangeField: this.handleInputChange, goToInfoPage: this.goToInfoPage }
+    );
 
     const AnimatedWrapper = params && params.disableAnimation ? View : TransitionView;
 
@@ -197,23 +203,17 @@ class Login extends Component {
                 label={strings('login.password')}
                 secureTextEntry
               />
+              <TouchableOpacity style={styles.btnForgot} onPress={this.goToForgot}>
+                <Text style={[styles.forgotText, styles.footerLink]}>
+                  {strings('login.forgotPassword')}
+                </Text>
+              </TouchableOpacity>
               <KeyboardHide>
-                <SwitchItem
-                  label={strings('login.acceptTermsConditions')}
-                  value={form.termsConditions}
-                  onValueChange={this.handleTermsConditionsChange}
-                  onLabelPress={() => this.goToInfoPage('terms')}
-                />
-                <SwitchItem
-                  label={strings('login.acceptPrivacyPolicy')}
-                  value={form.privacyPolicy}
-                  onValueChange={this.handlePrivacyPolicyChange}
-                  onLabelPress={() => this.goToInfoPage('privacy')}
-                />
+                {switches.map(this.renderSwitchItem)}
               </KeyboardHide>
               <TextButton
                 title={strings('login.loginButton')}
-                disabled={!form.termsConditions || !form.privacyPolicy}
+                disabled={!form.acceptTac || !form.acceptPp}
                 loading={loading}
                 onPress={this.handleSubmit}
                 disabledContainerStyle={styles.disabledBtnContainer}
