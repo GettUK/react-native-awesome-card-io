@@ -49,7 +49,8 @@ class SlidingUpPanel extends Component {
   componentDidUpdate({ opened, draggableRange }) {
     const { bottom } = this.props.draggableRange;
 
-    this.openPanel({ opened, draggableRange });
+    this.controlStatePanel('opened', { opened, draggableRange });
+    this.controlStatePanel('closed', { opened, draggableRange });
 
     if (bottom !== draggableRange.bottom) {
       this.animatedValueY = -bottom;
@@ -60,13 +61,19 @@ class SlidingUpPanel extends Component {
     }
   }
 
-  openPanel({ opened, draggableRange }) {
-    if (this.props.opened && !opened) {
-      this.transitionTo(-draggableRange.top);
+  controlStatePanel(type, { opened, draggableRange }) {
+    const { opened: openedProps } = this.props;
+    const { top, bottom } = draggableRange;
+    const isOpened = type === 'opened';
 
-      this.setState({ backdropAvailable: true });
+    if ((isOpened ? openedProps : !openedProps) &&
+      (isOpened ? !opened : opened)
+    ) {
+      this.transitionTo(-(isOpened ? top : bottom));
 
-      this.previousTop = -draggableRange.bottom;
+      this.setState({ backdropAvailable: isOpened });
+
+      this.previousTop = -(isOpened ? bottom : top);
     }
   }
 

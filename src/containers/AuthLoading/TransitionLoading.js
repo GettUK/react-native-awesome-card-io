@@ -37,7 +37,7 @@ export default class TransitionLoading extends Component {
     ).start();
 
     setTimeout(() => {
-      this.props.navigation.navigate('MapView', { transition: 'loadTransition' });
+      this.props.navigation.replace('MapView', { transition: 'loadTransition' });
     }, 3380);
   }
 
