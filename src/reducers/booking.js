@@ -165,7 +165,11 @@ const setDriver = (state, { payload }) => (
 );
 
 const changeOrderStatus = (state, { data }) => (
-  update(state, { 'currentOrder.serviceId': data.serviceId, 'currentOrder.status': data.status })
+  update.assign(state, 'currentOrder', {
+    serviceId: data.serviceId,
+    status: data.status,
+    indicatedStatus: data.status
+  })
 );
 
 const changeDriverPosition = (state, { payload }) => (
