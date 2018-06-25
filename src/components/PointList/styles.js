@@ -15,10 +15,6 @@ export default StyleSheet.create({
       height: 0
     }
   },
-  rowView: {
-    flex: 1,
-    flexDirection: 'row'
-  },
   row: {
     flexDirection: 'row',
     marginVertical: 8,
@@ -46,13 +42,12 @@ export default StyleSheet.create({
     paddingVertical: 1,
     paddingHorizontal: 10
   },
-  iconContainer: {
-    position: 'relative'
-  },
   connector: {
     position: 'absolute',
-    top: 17,
+    top: 20,
     left: -3
   },
-  pickUpConnector: { top: 20 }
+  pickUpConnector: {
+    top: -6
+  }
 });

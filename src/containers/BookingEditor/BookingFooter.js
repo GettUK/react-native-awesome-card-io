@@ -295,34 +295,28 @@ class BookingFooter extends PureComponent {
 
     return (
       <View style={styles.selectAddressView}>
-        <View style={styles.rowItem}>
-          <View style={styles.iconContainer}>
-            <Icon style={styles.iconItem} name="pickUpField" size={16} />
-            <Icon style={styles.iconDottedLine} height={12} name="dottedLine" />
-          </View>
-          <TouchableOpacity
-            style={styles.rowView}
-            onPress={this.handlePickupAddressPress}
-          >
+        <TouchableOpacity
+          style={styles.rowView}
+          onPress={this.handlePickupAddressPress}
+        >
+          <Icon style={styles.iconItem} name="pickUpField" size={16} />
           {has(bookingForm, 'pickupAddress') && !isNull(bookingForm.pickupAddress.line) && (
             <Text style={styles.labelText} numberOfLines={1}>
               {bookingForm.pickupAddress.label || bookingForm.pickupAddress.line}
             </Text>
           )}
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+        <View><Icon style={styles.iconDottedLine} height={12} name="dottedLine" /></View>
         <Divider left={31} />
-        <View style={styles.rowItem}>
+        <TouchableOpacity
+          style={styles.rowView}
+          onPress={this.handleCustomDestinationPress}
+        >
           <Icon style={styles.iconItem} name="destinationMarker" width={16} height={19} />
-          <TouchableOpacity
-            style={styles.rowView}
-            onPress={this.handleCustomDestinationPress}
-          >
-            <Text style={styles.selectDestinationText} numberOfLines={1}>
-              {strings('label.selectDestination')}
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.selectDestinationText} numberOfLines={1}>
+            {strings('label.selectDestination')}
+          </Text>
+        </TouchableOpacity>
         <Divider left={31} />
       </View>
     );
