@@ -1,13 +1,15 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect, G } from 'react-native-svg';
 
 export default function Calendar({ color, ...rest }) {
   return (
-    <Svg viewBox="0 0 24 24" {...rest}>
-      <Path
-        fill={color}
-        d="M2 6.041v13.788c0 1.11.896 2.008 2.001 2.008H20a2.004 2.004 0 0 0 2-2.008V6.041c0-1.11-.896-2.008-2.001-2.008H4a2.004 2.004 0 0 0-2 2.008zm-2 0a4.004 4.004 0 0 1 4.001-4.008H20a4.004 4.004 0 0 1 4 4.008v13.788a4.004 4.004 0 0 1-4.001 4.008H4a4.004 4.004 0 0 1-4-4.008V6.041zm10.5 8.634L16.322 9.3a1 1 0 1 1 1.356 1.47l-6.5 6a1 1 0 0 1-1.356 0l-3.5-3.231a1 1 0 0 1 1.356-1.47l2.822 2.606zM6.05 1.033a1 1 0 1 1 2 0v4.4a1 1 0 1 1-2 0v-4.4zm9.9 0a1 1 0 1 1 2 0v4.4a1 1 0 1 1-2 0v-4.4z"
-      />
+    <Svg viewBox="0 0 26 26" {...rest}>
+      <G fill="none" fillRule="evenodd" stroke={color}>
+        <Rect width="22.5" height="20.5" x="1.75" y="3.75" strokeWidth="1.5" rx="4"/>
+        <Rect width="1" height="5" x="7.5" y="1.5" rx=".5"/>
+        <Rect width="1" height="5" x="18" y="1.5" rx=".5"/>
+        <Path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7.223 13.407l4.235 3.786 6.96-6.575"/>
+      </G>
     </Svg>
   );
 }

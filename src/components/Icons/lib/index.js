@@ -30,6 +30,8 @@ import email from './email';
 import futureOrder from './futureOrder';
 import help from './help';
 import home from './home';
+import carType from './carType';
+import addresses from './addresses';
 import id from './id';
 import journeyTime from './journeyTime';
 import logo from './logo';
@@ -56,7 +58,7 @@ import sourceMarker from './sourceMarker';
 import star from './star';
 import starEmpty from './starEmpty';
 import time from './time';
-import tripReason from './tripReason';
+import rides from './rides';
 import vehicleInfo from './info';
 import walker from './walker';
 import wheelchair from './wheelchair';
@@ -105,6 +107,8 @@ export default {
   clear,
   clock,
   close,
+  carType,
+  addresses,
   closeThick,
   currentLocation,
   departing,
@@ -143,7 +147,7 @@ export default {
   star,
   starEmpty,
   time,
-  tripReason,
+  rides,
   UGArrow1,
   UGArrow2,
   UGArrow3,

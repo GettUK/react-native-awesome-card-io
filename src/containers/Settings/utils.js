@@ -24,16 +24,19 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
       onPress: handlers.goToEditProfile
     },
     {
+      leftIconName: 'phone',
       title: strings('settings.label.phone'),
       rightTitle: passenger.phone || '',
       onPress: handlers.goToPhoneEditor
     },
     {
+      leftIconName: 'email',
       title: strings('settings.label.email'),
       rightTitle: passenger.email || '',
       onPress: handlers.goToEmailEditor
     },
     {
+      leftIconName: 'carType',
       title: strings('settings.label.cartype'),
       rightTitle: passenger.defaultVehicle ? vehiclesData[passenger.defaultVehicle].label : strings('settings.none'),
       onPress: handlers.goToCarTypesEditor
@@ -58,6 +61,7 @@ export function prepareAddressesBlock(data = {}, handlers = {}) {
       onPress: () => handlers.openAddressModal('work')
     },
     {
+      leftIconName: 'addresses',
       title: strings('settings.label.addresses'),
       onPress: handlers.goToAddressesList
     }
@@ -91,7 +95,7 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
     },
     {
       leftIconName: 'calendar',
-      title: strings('settings.label.invites'),
+      title: strings('settings.label.events'),
       switchButton: true,
       switched: passenger.notifyWithCalendarEvent || false,
       onSwitch: v => handlers.handleToggleChange('notifyWithCalendarEvent', v)
@@ -109,10 +113,12 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
 export function prepareHistoryBlock(_, handlers = {}) {
   return [
     {
+      leftIconName: 'paymentMethod',
       title: strings('settings.label.payments'),
       onPress: handlers.goToMyPayments
     },
     {
+      leftIconName: 'rides',
       title: strings('settings.label.rides'),
       onPress: handlers.goToMyRides
     }

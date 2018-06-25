@@ -112,7 +112,7 @@ const OrderDetails = ({
     }
 
     if (order.travelReason) {
-      options.push({ title: 'Trip reason', value: order.travelReason, icon: 'tripReason' });
+      options.push({ title: 'Trip reason', value: order.travelReason, icon: 'rides' });
     }
 
     if (order.paymentMethod) {

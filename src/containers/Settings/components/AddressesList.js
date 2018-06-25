@@ -38,7 +38,7 @@ class AddressesList extends Component {
 
   renderExistPredefinedAddress = (type, data) => (
     <View style={styles.predefinedAddress}>
-      <Icon name={type} size={24} color="#bcbcbc" />
+      <Icon name={type} size={24} color="#0076bb" />
       <View style={[styles.flex, styles.addressWrapper, styles.predefinedAddressWrapper]}>
         <Text style={[styles.addressName, styles.predefinedAddressName]}>{capitalize(type)}</Text>
         <Text style={[styles.flex, styles.addressValue]} numberOfLines={1}>{data.line}</Text>

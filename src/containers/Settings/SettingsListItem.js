@@ -24,7 +24,7 @@ const SettingsListItem = (props) => {
     onSwitch
   } = props;
 
-  const leftIcon = leftIconName ? <Icon style={styles.icon} name={leftIconName} size={24} color="#8e8e93" /> : null;
+  const leftIcon = leftIconName ? <Icon style={styles.icon} name={leftIconName} size={24} color="#0076bb" /> : null;
 
   return (
     <ListItem
