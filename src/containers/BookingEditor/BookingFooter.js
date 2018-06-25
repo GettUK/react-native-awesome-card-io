@@ -270,6 +270,8 @@ class BookingFooter extends PureComponent {
         flightType
       };
 
+      this.hideFlightModal();
+
       if (isEmpty(await validateReferences()) && bookingForm.paymentMethod) {
         createBooking(order).catch(this.showAlert);
       } else {
