@@ -40,9 +40,7 @@ export const screenStyles = StyleSheet.create({
     zIndex: 100
   },
   createNewBtn: {
-    marginTop: 12,
-    marginHorizontal: 2,
-    marginBottom: 2
+    marginHorizontal: 2
   },
   createNewText: {
     color: '#284784',

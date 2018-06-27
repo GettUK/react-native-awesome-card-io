@@ -65,8 +65,6 @@ class BookingEditor extends Component {
     if ((vehicles.loaded && defaultVehicle !== 'BlackTaxi') &&
       bookingForm.scheduledType === 'now' && isGBPath && blackCabAvailable &&
       (!isPromoAvailable && !isPromoWasShown)) {
-      this.props.onShowPromo();
-
       this.setState({ isPromoAvailable: true });
     }
   }

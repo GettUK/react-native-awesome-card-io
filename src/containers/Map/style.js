@@ -9,23 +9,11 @@ const iPhoneHeaderPadding = isIphoneX() ? 45 : headerPadding;
 
 const styles = StyleSheet.create({
   header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
     backgroundColor: 'transparent',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    paddingTop: iPhoneHeaderPadding
+    paddingTop: 0,
+    paddingHorizontal: 16
   },
   headerBack: {
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: {
-      height: 0
-    },
     justifyContent: 'center',
     width: 30,
     height: 30,
@@ -36,6 +24,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  btn: {
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    }
+  },
   orderBtn: {
     backgroundColor: '#284784'
   },
@@ -43,11 +40,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold'
   },
+  createNewText: {
+    color: '#284784',
+    fontWeight: 'bold'
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
     height: '100%',
     width: '100%',
-    paddingTop: 50 + iPhoneHeaderPadding,
+    paddingTop: iPhoneHeaderPadding,
     justifyContent: 'space-between'
   },
   map: {
@@ -94,6 +95,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginBottom: 20,
     marginTop: 10
+  },
+  order: {
+    color: '#284784',
+    fontWeight: 'bold'
   },
   NowButton: {
     marginLeft: 16,
@@ -166,6 +171,15 @@ const styles = StyleSheet.create({
   touchZone: {
     paddingVertical: 6,
     paddingRight: 8
+  },
+  shadow: {
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    }
   }
 });
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView, GradientWrapper, Button } from 'components';
+import { FadeInView, GradientWrapper } from 'components';
 
 import { strings } from 'locales';
 import { showConfirmationAlert, isIphoneX } from 'utils';
@@ -13,8 +13,7 @@ import {
   ACTIVE_DRIVER_STATUSES,
   CANCEL_ALLOWED_STATUSES,
   PREORDER_STATUSES,
-  CUSTOMER_CARE_STATUS,
-  FINAL_STATUSES
+  CUSTOMER_CARE_STATUS
 } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
@@ -121,23 +120,6 @@ class ActiveOrderScene extends Component {
     );
   }
 
-  renderCreateButton = () => {
-    const { status, goToInitialization } = this.props;
-
-    const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
-    const isFinalStatus = FINAL_STATUSES.includes(status);
-
-    return isFinalStatus && !isCustomerCareStatus &&
-      <Button
-        size="sm"
-        style={screenStyles.createBtnWrapper}
-        styleContent={screenStyles.createNewBtn}
-        onPress={goToInitialization}
-      >
-        <Text style={screenStyles.createNewText}>{strings('order.createNew')}</Text>
-      </Button>;
-  }
-
   render() {
     const { status, order } = this.props;
     const { cancelModalVisible, isVisible } = this.state;
@@ -146,7 +128,6 @@ class ActiveOrderScene extends Component {
 
     return (
       <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
-        {this.renderCreateButton()}
         <View style={screenStyles.separator} />
 
         {this.renderInfoPanel()}

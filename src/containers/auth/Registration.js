@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StatusBar, View, Text } from 'react-native';
+import { TouchableOpacity, StatusBar, View, Text, Platform } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 import { auth } from 'api';
@@ -11,7 +11,9 @@ import {
   DismissKeyboardView,
   Divider,
   Popup,
-  Background
+  Background,
+  Header,
+  BackBtn
 } from 'components';
 import update from 'update-js/fp';
 
@@ -129,6 +131,7 @@ export default class Registration extends Component {
   );
 
   renderContainer = () => {
+    const { navigation } = this.props;
     const { form, errors, loading, currentCountry } = this.state;
     const switches = prepareSwitchesBlock(
       form,
@@ -138,6 +141,14 @@ export default class Registration extends Component {
 
     return (
       <Background>
+        <Header
+          navigation={navigation}
+          titleCenter
+          title={strings('login.signupTitle')}
+          leftButton={<BackBtn color="#fff" navigation={navigation}/>}
+          rightButton={<View style={{ width: Platform.OS === 'ios' ? 75 : 37 }} />} // placeholder for title aligning
+        />
+
         <InputScrollView style={styles.containerView}>
           <View style={styles.empty}>
             <Text style={styles.labelTitle}>{strings('login.registerForm.title')}</Text>
