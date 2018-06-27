@@ -528,12 +528,14 @@ class MapView extends Component {
           ))
         }
 
-        <Polyline
-          coordinates={[]}
-          ref={(el) => { if (el) { this.driverPathRef = el; } } }
-          strokeWidth={3}
-          strokeColor="#2b4983"
-        />
+        {!isPreOrder && order.status === DRIVER_ON_WAY && !this.driverAnimationFinished &&
+          <Polyline
+            coordinates={[]}
+            ref={(el) => { if (el) { this.driverPathRef = el; } } }
+            strokeWidth={3}
+            strokeColor="#2b4983"
+          />
+        }
       </Map>
     );
   }
