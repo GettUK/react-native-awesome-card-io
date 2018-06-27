@@ -4,7 +4,7 @@ import Map, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { compact, upperFirst, take } from 'lodash';
+import { compact, upperFirst, take, isEqual } from 'lodash';
 
 import { changeAddress } from 'actions/booking';
 import { subscribeToDriversLocations, getDriversLocations } from 'actions/ui/map';
@@ -194,10 +194,10 @@ class MapView extends Component {
     !dragEnable && !oldDragEnable && order.pickupAddress !== oldOrder.pickupAddress
   );
 
-  isPathChanged = (bookingForm, bookingFormProps) => (
-    (bookingForm.pickupAddress && (bookingForm.pickupAddress !== bookingFormProps.pickupAddress))
-    || (bookingForm.destinationAddress && (bookingForm.destinationAddress !== bookingFormProps.destinationAddress))
-    || (bookingForm.stops && bookingForm.stops !== bookingFormProps.stops)
+  isPathChanged = (order, oldOrder) => (
+    (order.pickupAddress && !isEqual(order.pickupAddress, oldOrder.pickupAddress))
+    || (order.destinationAddress && !isEqual(order.destinationAddress, oldOrder.destinationAddress))
+    || (order.stops && !isEqual(order.stops, oldOrder.stops))
   );
 
   resizeMapToCoordinates = (coordinates, params) => {
