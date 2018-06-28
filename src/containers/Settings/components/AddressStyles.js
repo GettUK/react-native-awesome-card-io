@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#efeff4'
   },
   scrollContainer: {
-    marginBottom: 30,
+    marginBottom: 50,
     borderBottomColor: '#bcbbc1',
     borderBottomWidth: StyleSheet.hairlineWidth
   },
