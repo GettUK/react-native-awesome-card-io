@@ -21,7 +21,7 @@ import {
   LOCATING_STATUS,
   ACTIVE_DRIVER_STATUSES,
   FINAL_STATUSES,
-  PREORDER_STATUSES,
+  POINTER_DISPLAY_STATUSES,
   ORDER_RECEIVED_STATUS
 } from 'utils/orderStatuses';
 
@@ -227,7 +227,8 @@ class MapView extends Component {
       || (this.gotNewStatus(oldOrder, order, ARRIVED_STATUS)));
 
   shouldResizeMapToPointsList = ({ oldOrder, order, oldIsActiveOrder, isActiveOrder }) =>
-    order.pickupAddress && order.destinationAddress && !PREORDER_STATUSES.includes(order.status) && (
+    order.pickupAddress && order.destinationAddress &&
+      (!POINTER_DISPLAY_STATUSES.includes(order.status) || (order.status === ORDER_RECEIVED_STATUS && !order.asap)) && (
       (!isActiveOrder && oldIsActiveOrder)
       || this.isPathChanged(order, oldOrder)
       || this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS)
@@ -339,6 +340,7 @@ class MapView extends Component {
       || FINAL_STATUSES.includes(order.status)
       || (order.status === IN_PROGRESS_STATUS && stops && stops.length > 0)
       || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location)
+      || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
     );
 
     if (!shouldShowPath) return null;
@@ -434,6 +436,7 @@ class MapView extends Component {
     || ACTIVE_DRIVER_STATUSES.includes(order.status)
     || (order.status === IN_PROGRESS_STATUS && stops && stops.length > 0)
     || FINAL_STATUSES.includes(order.status)
+    || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
   );
 
   shouldShowDestinationMarkers = ({ order, isPreOrder }) => (
@@ -441,6 +444,7 @@ class MapView extends Component {
     || order.status === IN_PROGRESS_STATUS
     || FINAL_STATUSES.includes(order.status)
     || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location)
+    || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
   );
 
   shouldShowDriverMarker = ({ order }) => (
