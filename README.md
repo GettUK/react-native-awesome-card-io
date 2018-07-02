@@ -16,11 +16,15 @@ cd ios && pod install && cd ..
 ```
 
 #### Development
-- `react-native run-ios` to launch the iOS simulator and haul server
-- `react-native run-android` to launch the Android simulator (but it should be open with Android Studio in advance)
-- `react-native run-android --deviceId [ID]` to launch the Android device by ID (which could be found by `adb devices` command)
-- `yarn run haul` to start the server manually
-- `yarn run haul bundle` to bundle the project manually
+Metro-bundler considered to be default bundler for this project.
+If you'd like to use Haul instead, you still can run it manually
+
+- `yarn ios` to launch the iOS simulator and Metro-bundler server
+- `yarn android` to launch the Android emulator (but it should be open with Android Studio in advance)
+- `yarn android --deviceId [ID]` to launch the Android device by ID (which could be found by `adb devices` command)
+- `yarn start` or `yarn cold-start` to start Metro-bundler server manually
+- `yarn haul` to start the Haul-bundler server manually
+- `yarn haul bundle` to bundle the project manually
 - Xcode should automatically launch haul server on run/build/archive
 
 #### Fastlane
@@ -32,6 +36,10 @@ To upload ios:
 To upload android:
 - add `android/fastlane/Google.json` which is obtained from google console or shared by app release managers
 - `cd android && bundle exec fastlane --verbose` to upload android beta build
+
+#### Troubleshooting bundler
+In order to start Metro server without previously cached transformation better to use `yarn clear-cache` command.
+After resetting cache with this command, please run `yarn android` or `yarn ios` again.
 
 #### Troubleshooting iOS
 If your iOS run/build/archive fails:

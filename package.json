@@ -3,11 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "cli": "node node_modules/react-native/local-cli/cli.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "cold-start": "yarn start --reset-cache",
+    "clear-cache": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && npm cache clean && yarn",
+    "haul": "haul",
     "eslint": "./node_modules/.bin/eslint .",
     "format": "./node_modules/.bin/eslint --fix .",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
-    "haul": "haul"
+    "android": "yarn cli run-android",
+    "ios": "yarn cli run-ios"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -64,6 +69,7 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-module-resolver": "3.1.1",
     "babel-preset-react-native": "4.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
