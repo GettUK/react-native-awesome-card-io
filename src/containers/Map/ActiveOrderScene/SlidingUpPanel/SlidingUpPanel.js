@@ -10,8 +10,7 @@ import {
   ScrollView
 } from 'react-native';
 
-import FlickAnimation from './libs/FlickAnimation';
-import styles from './libs/styles';
+import styles from './styles';
 
 const visibleHeight = Dimensions.get('window').height;
 
@@ -23,11 +22,10 @@ class SlidingUpPanel extends Component {
       backdropAvailable: this.props.showBackdrop
     };
 
-    const { top, bottom } = this.props.draggableRange;
+    const { bottom } = this.props.draggableRange;
 
     this.animatedValueY = -bottom;
     this.translateYAnimation = new Animated.Value(this.animatedValueY);
-    this.flick = new FlickAnimation(this.translateYAnimation, -top, -bottom);
 
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this.onStartShouldSetPanResponder,
@@ -57,8 +55,6 @@ class SlidingUpPanel extends Component {
       this.animatedValueY = -bottom;
     }
 
-    this.animatePanelOnSliding(draggableRange);
-
     if (this.animatedValueY !== -bottom && !this.props.visible) {
       this.translateYAnimation.setValue(-bottom);
     }
@@ -71,14 +67,6 @@ class SlidingUpPanel extends Component {
       this.setState({ backdropAvailable: true });
 
       this.previousTop = -draggableRange.bottom;
-    }
-  }
-
-  animatePanelOnSliding(draggableRange) {
-    const { bottom, top } = this.props.draggableRange;
-
-    if (top !== draggableRange.top || bottom !== draggableRange.bottom) {
-      this.flick = new FlickAnimation(this.translateYAnimation, -top, -bottom);
     }
   }
 
@@ -103,7 +91,6 @@ class SlidingUpPanel extends Component {
   );
 
   onPanResponderGrant = () => {
-    this.flick.stop();
     this.translateYAnimation.setOffset(this.animatedValueY);
     this.translateYAnimation.setValue(0);
     this.props.onDragStart(-this.animatedValueY);
@@ -117,17 +104,15 @@ class SlidingUpPanel extends Component {
     this.translateYAnimation.setValue(gestureState.dy);
   };
 
-  onPanResponderRelease = (evt, gestureState) => {
+  onPanResponderRelease = () => {
     if (!this.isInsideDraggableRange(this.animatedValueY)) {
       return;
     }
 
     this.translateYAnimation.flattenOffset();
 
-    const cancelFlick = this.props.onDragEnd(-this.animatedValueY);
+    this.props.onDragEnd(-this.animatedValueY);
     const { bottom, top } = this.props.draggableRange;
-
-    this.transitionTo(this.previousTop === -bottom ? -top : -bottom, () => {});
 
     if (this.previousTop !== -bottom) {
       this.setState({ backdropAvailable: false });
@@ -135,16 +120,7 @@ class SlidingUpPanel extends Component {
       this.props.onClose();
     }
 
-    if (!this.props.allowMomentum || cancelFlick) {
-      return;
-    }
-
-    if (Math.abs(gestureState.vy) > 0.1) {
-      this.flick.start({
-        velocity: gestureState.vy,
-        fromValue: this.animatedValueY
-      });
-    }
+    this.transitionTo(this.previousTop === -bottom ? -top : -bottom, () => {});
   };
 
   isInsideDraggableRange = (value) => {
@@ -200,6 +176,26 @@ class SlidingUpPanel extends Component {
     });
   }
 
+  get animatedContainerStyles() {
+    const height = this.props.height;
+
+    const { top, bottom } = this.props.draggableRange;
+    const translateY = this.translateYAnimation.interpolate({
+      inputRange: [-top, -bottom],
+      outputRange: [-top, -bottom],
+      extrapolate: 'clamp'
+    });
+
+    const transform = { transform: [{ translateY }] };
+
+    return [
+      styles.animatedContainer,
+      this.props.contentStyle,
+      transform,
+      { height, top: visibleHeight, bottom: -visibleHeight + height }
+    ];
+  }
+
   renderBackdrop = () => {
     if (!this.props.showBackdrop && !this.state.backdropAvailable) return null;
 
@@ -232,39 +228,27 @@ class SlidingUpPanel extends Component {
     );
   };
 
+  renderContent = () => (
+    <Animated.View
+      {...this.panResponder.panHandlers}
+      style={this.animatedContainerStyles}>
+      {this.props.children}
+    </Animated.View>
+  )
+
   render() {
     if (!this.props.visible) return null;
 
-    const { top, bottom } = this.props.draggableRange;
-    const height = this.props.height;
-
-    const translateY = this.translateYAnimation.interpolate({
-      inputRange: [-top, -bottom],
-      outputRange: [-top, -bottom],
-      extrapolate: 'clamp'
-    });
-
-    const transform = { transform: [{ translateY }] };
-
-    const animatedContainerStyles = [
-      styles.animatedContainer,
-      this.props.contentStyle,
-      transform,
-      { height, top: visibleHeight, bottom: -visibleHeight + height }
-    ];
+    const { bottom } = this.props.draggableRange;
 
     return (
       <View style={styles.container} pointerEvents="box-none">
         {this.renderBackdrop()}
 
-        <Animated.View
-          {...this.panResponder.panHandlers}
-          style={animatedContainerStyles}>
-          {this.props.children}
-        </Animated.View>
+        {this.renderContent()}
 
         {this.props.backdropComponent && (this.props.showBackdrop || this.state.backdropAvailable) &&
-          <Animated.View style={[animatedContainerStyles, { height: visibleHeight - bottom }]}>
+          <Animated.View style={[this.animatedContainerStyles, { height: visibleHeight - bottom }]}>
             <ScrollView>
               {this.props.backdropComponent}
             </ScrollView>
