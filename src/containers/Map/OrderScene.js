@@ -10,9 +10,10 @@ import { FadeInView, GradientWrapper } from 'components';
 import { strings } from 'locales';
 import { showConfirmationAlert, isIphoneX } from 'utils';
 import {
+  POINTER_DISPLAY_STATUSES,
+  ORDER_RECEIVED_STATUS,
   ACTIVE_DRIVER_STATUSES,
   CANCEL_ALLOWED_STATUSES,
-  PREORDER_STATUSES,
   CUSTOMER_CARE_STATUS
 } from 'utils/orderStatuses';
 
@@ -118,21 +119,25 @@ class ActiveOrderScene extends Component {
         </GradientWrapper>
       </FadeInView>
     );
-  }
+  };
 
   render() {
     const { status, order } = this.props;
     const { cancelModalVisible, isVisible } = this.state;
 
-    const isPreOrderStatus = PREORDER_STATUSES.includes(status);
+    const isFutureOrderReceived = (order.status === ORDER_RECEIVED_STATUS && !order.asap);
+    const shouldShowPointer = POINTER_DISPLAY_STATUSES.includes(status);
 
     return (
-      <View style={screenStyles.container} pointerEvents={isPreOrderStatus ? 'auto' : 'box-none'}>
+      <View
+        style={screenStyles.container}
+        pointerEvents={(shouldShowPointer || !isFutureOrderReceived) ? 'auto' : 'box-none'}
+      >
         <View style={screenStyles.separator} />
 
         {this.renderInfoPanel()}
 
-        {isPreOrderStatus && <Pointer />}
+        {(shouldShowPointer || !isFutureOrderReceived) && <Pointer />}
 
         <OnMyWayModal isVisible={isVisible} onClose={this.handleCloseModal} />
         <CancelReasonModal
