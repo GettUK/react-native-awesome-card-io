@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   KeyboardAvoidingView,
-  TouchableOpacity,
   TouchableHighlight,
   StatusBar,
   View,
   Text,
   Dimensions,
-  Platform
+  Platform,
+  ScrollView
 } from 'react-native';
 import validate from 'validate.js';
 
@@ -31,11 +31,15 @@ import { strings } from 'locales';
 
 import { throttledAction, isIphoneX } from 'utils';
 
+import { prepareSwitchesBlock } from './utils';
 import { loginRules } from './validatorRules';
 import { TextButton, SwitchItem } from './components';
 
 import styles from './style';
-import { prepareSwitchesBlock } from './utils';
+
+const { height } = Dimensions.get('window');
+
+const BLOCK_HEIGHT = 478; // Height of logo + inputs block
 
 class Login extends Component {
   state = {
@@ -52,7 +56,7 @@ class Login extends Component {
 
   componentDidUpdate(_, { isResetSuccess }) {
     if (this.state.isResetSuccess && !isResetSuccess) {
-      this.showResetSuccess();
+      this.showError();
     }
   }
 
@@ -100,10 +104,6 @@ class Login extends Component {
     return !err;
   }
 
-  showResetSuccess = () => {
-    this.alert.show();
-  };
-
   showError = () => {
     this.alert.show();
   };
@@ -134,7 +134,6 @@ class Login extends Component {
   getCenteredLogoPosition = () => {
     const { height } = Dimensions.get('window');
     const statusBarHeight = isIphoneX() ? 40 : StatusBar.currentHeight || 22;
-    const BLOCK_HEIGHT = 478; // Height of logo + inputs block
     const LOGO_HEIGHT = 130; // logo: 70 + 30 marginVertical
 
     const topPosition = ((height - BLOCK_HEIGHT) + statusBarHeight) / 2;
@@ -145,84 +144,101 @@ class Login extends Component {
     return (centerY - topPosition) + statusBarPadding;
   };
 
-  renderFooter = AnimatedWrapper => (
-    <AnimatedWrapper>
-      <View style={styles.footer}>
+  renderForm = (Wrapper) => {
+    const { form, loading } = this.state;
 
+    const switches = prepareSwitchesBlock(
+      form,
+      { handleChangeField: this.handleInputChange, goToInfoPage: this.goToInfoPage }
+    );
+
+    const smallFormArea = height < (BLOCK_HEIGHT + 120) && !this.props.isConnected;
+
+    return (
+      <Wrapper>
+        <Input
+          value={form.email}
+          onChangeText={this.handleEmailChange}
+          style={styles.input}
+          autoCorrect={false}
+          inputStyle={styles.inputStyle}
+          labelStyle={styles.label}
+          label={strings('login.email')}
+          keyboardType="email-address"
+        />
+        <Input
+          value={form.password}
+          onChangeText={this.handlePasswordChange}
+          style={styles.input}
+          autoCorrect={false}
+          inputStyle={styles.inputStyle}
+          labelStyle={styles.label}
+          label={strings('login.password')}
+          secureTextEntry
+        />
+        <KeyboardHide>
+          {switches.map(this.renderSwitchItem)}
+        </KeyboardHide>
+        <TextButton
+          title={strings('login.loginButton')}
+          disabled={!form.acceptTac || !form.acceptPp}
+          loading={loading}
+          onPress={this.handleSubmit}
+          disabledContainerStyle={styles.disabledBtnContainer}
+        />
+
+        {smallFormArea && this.renderFooter(Wrapper)}
+      </Wrapper>
+    );
+  };
+
+  renderFooter = Wrapper => (
+    <Wrapper>
+      <View style={styles.footer}>
         <TouchableHighlight onPress={this.goToCreateAccount}>
           <Text style={[styles.footerText, styles.footerLink]}>
             {strings('login.createAccount')}
           </Text>
         </TouchableHighlight>
       </View>
-    </AnimatedWrapper>
+    </Wrapper>
   );
 
-  render() {
-    const { isResetSuccess, error, form, loading } = this.state;
+  renderContent = () => {
     const { params } = this.props.navigation.state;
-    const switches = prepareSwitchesBlock(
-      form,
-      { handleChangeField: this.handleInputChange, goToInfoPage: this.goToInfoPage }
-    );
 
-    const AnimatedWrapper = params && params.disableAnimation ? View : TransitionView;
+    const AnimatedWrapper = (params && params.disableAnimation) || !this.props.isConnected ? View : TransitionView;
+    const smallFormArea = height < (BLOCK_HEIGHT + 120) && !this.props.isConnected;
+    const Wrapper = smallFormArea ? ScrollView : View;
+
+    return (
+      <Background>
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={styles.container}>
+          <AnimatedWrapper scale value={this.getCenteredLogoPosition()}>
+            <KeyboardHide>
+              <Icon name="logo" style={styles.logo} width={240} height={70} />
+            </KeyboardHide>
+          </AnimatedWrapper>
+          <Wrapper>
+            {this.renderForm(AnimatedWrapper)}
+          </Wrapper>
+        </KeyboardAvoidingView>
+
+        {!smallFormArea && this.renderFooter(AnimatedWrapper)}
+      </Background>
+    );
+  };
+
+  render() {
+    const { isResetSuccess, error } = this.state;
 
     return (
       <DismissKeyboardView style={styles.screen}>
         <StatusBar barStyle="light-content" />
 
-        <Background>
-          <KeyboardAvoidingView
-            behavior="padding"
-            style={styles.container}>
-            <AnimatedWrapper scale value={this.getCenteredLogoPosition()}>
-              <KeyboardHide>
-                <Icon name="logo" style={styles.logo} width={240} height={70} />
-              </KeyboardHide>
-            </AnimatedWrapper>
-            <AnimatedWrapper>
-              <Input
-                value={form.email}
-                onChangeText={this.handleEmailChange}
-                style={styles.input}
-                autoCorrect={false}
-                inputStyle={styles.inputStyle}
-                labelStyle={styles.label}
-                label={strings('login.email')}
-                keyboardType="email-address"
-              />
-              <Input
-                value={form.password}
-                onChangeText={this.handlePasswordChange}
-                style={styles.input}
-                autoCorrect={false}
-                inputStyle={styles.inputStyle}
-                labelStyle={styles.label}
-                label={strings('login.password')}
-                secureTextEntry
-              />
-              <TouchableOpacity style={styles.btnForgot} onPress={this.goToForgot}>
-                <Text style={[styles.forgotText, styles.footerLink]}>
-                  {strings('login.forgotPassword')}
-                </Text>
-              </TouchableOpacity>
-              <KeyboardHide>
-                {switches.map(this.renderSwitchItem)}
-              </KeyboardHide>
-              <TextButton
-                title={strings('login.loginButton')}
-                disabled={!form.acceptTac || !form.acceptPp}
-                loading={loading}
-                onPress={this.handleSubmit}
-                disabledContainerStyle={styles.disabledBtnContainer}
-              />
-
-            </AnimatedWrapper>
-          </KeyboardAvoidingView>
-
-          {this.renderFooter(AnimatedWrapper)}
-        </Background>
+        {this.renderContent()}
 
         <Alert
           ref={(alert) => { this.alert = alert; }}
@@ -242,8 +258,12 @@ Login.propTypes = {
 
 Login.defaultProps = {};
 
+const mapState = ({ network }) => ({
+  isConnected: network.isConnected
+});
+
 const mapDispatch = {
   login
 };
 
-export default connect(null, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(Login);
