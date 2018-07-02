@@ -21,6 +21,7 @@ export default StyleSheet.create({
     }
   },
   containerSmall: {
+    marginTop: 10,
     height: 116
   },
   activeContainer: {
@@ -72,8 +73,8 @@ export default StyleSheet.create({
     flexDirection: 'row'
   },
   image: {
-    width: '100%',
-    height: 40
+    width: 110,
+    height: 42
   },
   mask: {
     ...StyleSheet.absoluteFillObject,

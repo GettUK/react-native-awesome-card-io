@@ -93,7 +93,7 @@ export const allVehicles = [{
 }];
 
 export const OTcars = [
-  'Standard', 'Exec', 'MPV'
+  'Standard', 'Exec', 'MPV', 'BlackTaxiOT', 'OTBlackTaxi'
 ];
 
 export const vehiclesData = keyBy(allVehicles, 'name');

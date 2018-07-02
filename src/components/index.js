@@ -31,3 +31,4 @@ export { default as Background } from './Background';
 export { default as UserGuide } from './UserGuide';
 export { default as AlertModal } from './AlertModal';
 export { default as SearchList } from './SearchList';
+export { default as CarImage } from './CarItem/CarImage';

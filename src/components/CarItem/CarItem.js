@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Image, Text, View, ImageBackground } from 'react-native';
+import { TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 import { isNull, capitalize } from 'lodash';
 import { Icon } from 'components';
 import assets from 'assets';
+
 import { formatPrice } from 'utils';
+
+import CarImage from './CarImage';
+
 import styles from './styles';
 
 const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabled, serviceType }) => {
@@ -33,10 +37,10 @@ const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabl
           <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum}-${etaNum + range} min`}</Text>
         </View>)
       }
-      <Image
+
+      <CarImage
+        type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
         style={styles.image}
-        source={assets.carTypes[serviceSpecificName] || assets.carTypes[name]}
-        resizeMode="contain"
       />
     </View>
   );
