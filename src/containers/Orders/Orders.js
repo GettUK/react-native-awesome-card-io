@@ -26,7 +26,10 @@ function renderTabBar({ navigationState, navigation }) {
   return (
     <GradientWrapper style={styles.gradient}>
       {navigationState.routes.map((route, index) =>
-        renderTab(route, index, index === navigationState.index, () => navigation.navigate(route.routeName)))
+        renderTab(route, index, index === navigationState.index, () => {
+          navigation.navigate(route.routeName);
+          navigationState.params.onChangeTab(route.routeName);
+        }))
       }
     </GradientWrapper>
   );

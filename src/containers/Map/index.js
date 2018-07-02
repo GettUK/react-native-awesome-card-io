@@ -74,6 +74,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      routeNameTab: 'Personal',
       date: hourForward().toDate(),
       minDate: hourForward().toDate(),
       isHeaderEnable: true,
@@ -380,6 +381,10 @@ class Map extends Component {
     this.setState({ fromOrderList: true, fromSettings });
   };
 
+  setActiveRouteTab = (routeNameTab) => {
+    this.setState({ routeNameTab });
+  };
+
   handleHideHeader = () => {
     this.setState({ isHeaderEnable: false });
   };
@@ -396,7 +401,8 @@ class Map extends Component {
     this.props.navigation.navigate('OrdersView', {
       onBack: this.handleBackFromOrderList,
       fromSettings,
-      onGoToRides: this.goToOrders
+      onGoToRides: this.goToOrders,
+      onChangeTab: this.setActiveRouteTab
     });
   };
 
@@ -453,12 +459,14 @@ class Map extends Component {
 
   handleBackBtnPress = () => {
     const isPreOrder = this.isActiveSceneIs('preOrder');
-    const { clearCurrentOrder } = this.props;
+    const { clearCurrentOrder, navigation } = this.props;
+    const { routeNameTab } = this.state;
 
     if (isPreOrder) {
       this.cancelOrderCreation();
     } else if (this.state.fromOrderList) {
       this.goToOrders({ fromSettings: this.state.fromSettings });
+      navigation.navigate(routeNameTab);
       setTimeout(clearCurrentOrder); // needed for smooth navigation animation
 
       this.getCurrentPosition();
