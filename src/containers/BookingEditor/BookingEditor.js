@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
 
-import { getFormData, changeFields, changeAddress } from 'actions/booking';
+import { getFormData, changeFields, changeAddress, setActiveBooking } from 'actions/booking';
 import { onLayoutPointList } from 'actions/app/statuses';
 
 import { PointList, AddressModal, StopPointsModal } from 'components';
@@ -72,7 +72,7 @@ class BookingEditor extends Component {
   }
 
   loadBooking = () => {
-    const { getFormData, memberId, changeFields } = this.props;
+    const { getFormData, memberId, changeFields, activeBookingId, setActiveBooking } = this.props;
 
     getFormData()
       .then((data) => {
@@ -116,6 +116,10 @@ class BookingEditor extends Component {
         }
 
         changeFields(attrs);
+
+        if (activeBookingId) {
+          setActiveBooking(activeBookingId);
+        }
       });
   };
 
@@ -267,14 +271,16 @@ const select = ({ session, booking, app, ui, passenger }) => ({
   booking,
   app,
   ui,
-  passengerData: passenger.data.passenger
+  passengerData: passenger.data.passenger,
+  activeBookingId: session.user.activeBookingId
 });
 
 const bindActions = {
   onLayoutPointList,
   getFormData,
   changeFields,
-  changeAddress
+  changeAddress,
+  setActiveBooking
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingEditor);
