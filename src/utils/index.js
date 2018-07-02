@@ -17,7 +17,8 @@ export {
   isInputsValid,
   normalizeCoordinate,
   getHeight,
-  filterBySearchValue
+  filterBySearchValue,
+  isDevMode
 } from './common';
 export * from './requests';
 export * from './map';

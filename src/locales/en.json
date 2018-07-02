@@ -233,7 +233,9 @@
       "events": "Calendar Events",
       "wheelchair": "Wheelchair Access",
       "payments": "Payment Cards",
-      "rides": "My Rides"
+      "rides": "My Rides",
+      "carAnimations": "Car animations",
+      "locatingCarAnimation": "Locating a car animation"
     },
     "button": {
       "logout": "Log Out"

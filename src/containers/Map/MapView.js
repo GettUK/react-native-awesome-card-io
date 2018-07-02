@@ -79,7 +79,7 @@ class MapView extends Component {
   }
 
   changeMapForActiveOrder({ oldOrder, order, isActiveOrderProps, oldDragEnable }) {
-    const { dragEnable, isActiveOrder } = this.props;
+    const { dragEnable, isActiveOrder, devSettings } = this.props;
 
     if (this.shouldResizeMapToPointsList({ oldOrder, order, oldIsActiveOrder: isActiveOrderProps, isActiveOrder })) {
       const { source, dest, stops } = this.preparePointsList(order);
@@ -104,11 +104,13 @@ class MapView extends Component {
       this.getDriversLocations(order.pickupAddress);
     }
 
-    if (this.gotNewStatus(oldOrder, order, LOCATING_STATUS)) {
-      this.createPathsAnimations();
-      this.getRandomPaths(order.pickupAddress).then(this.animatePaths);
-    } else if (order.status !== 'locating' && this.animationStarted) {
-      this.stopPathsAnimation();
+    if (devSettings.showLocatingCarAnimation) {
+      if (this.gotNewStatus(oldOrder, order, LOCATING_STATUS)) {
+        this.createPathsAnimations();
+        this.getRandomPaths(order.pickupAddress).then(this.animatePaths);
+      } else if (order.status !== 'locating' && this.animationStarted) {
+        this.stopPathsAnimation();
+      }
     }
 
     if (this.gotNewStatus(oldOrder, order, DRIVER_ON_WAY)) {
@@ -497,7 +499,8 @@ class MapView extends Component {
       drivers,
       isActiveOrder,
       isCompletedOrder,
-      nightMode
+      nightMode,
+      devSettings
     } = this.props;
     const { predictedRoutes } = this.state;
 
@@ -563,11 +566,11 @@ class MapView extends Component {
           icon: 'journeyTime'
         })}
 
-        {isPreOrder && !order.destinationAddress &&
+        {devSettings.showCarAnimations && isPreOrder && !order.destinationAddress &&
           <DriversMarkers drivers={drivers} nightMode={nightMode} />
         }
 
-        {order.pickupAddress && order.status === 'locating' &&
+        {devSettings.showLocatingCarAnimation && order.pickupAddress && order.status === 'locating' &&
           predictedRoutes.map((_, i) => (
             <Polyline key={i} coordinates={[]} ref={(el) => { if (el) { this.predictedRoutesRefs[i] = el; } } } />
           ))
@@ -594,14 +597,15 @@ MapView.propTypes = {
 
 MapView.defaultProps = {};
 
-const mapState = ({ ui, booking }) => ({
+const mapState = ({ app, ui, booking }) => ({
   bookingForm: booking.bookingForm,
   vehicles: booking.vehicles,
   currentOrder: booking.currentOrder,
   currentPosition: ui.map.currentPosition,
   driverLocation: booking.currentOrder.driverDetails ? booking.currentOrder.driverDetails.location : {},
   status: booking.currentOrder.status || 'connected',
-  drivers: ui.map.drivers
+  drivers: ui.map.drivers,
+  devSettings: app.devSettings
 });
 
 const mapDispatch = {

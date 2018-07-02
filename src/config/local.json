@@ -1,4 +1,5 @@
 {
+  "env": "development",
   "url": "https://dev.gettaxi.me/api/mobile/v1/",
   "baseUrl": "https://dev.gettaxi.me",
   "static": {

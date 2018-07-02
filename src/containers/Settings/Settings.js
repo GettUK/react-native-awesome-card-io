@@ -6,9 +6,10 @@ import { ScrollView, View, StatusBar } from 'react-native';
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
 import { logout, resetGuide } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
+import { changeDevSettingField } from 'actions/app/devSettings';
 import { AddressModal, Divider } from 'components';
 import { has } from 'lodash';
-import { throttledAction } from 'utils';
+import { throttledAction, isDevMode } from 'utils';
 
 import {
   prepareProfileBlock,
@@ -16,6 +17,7 @@ import {
   prepareSwitchersBlock,
   prepareHistoryBlock,
   prepareInfoBlock,
+  prepareDevBlock,
   prepareLogoutBlock,
   emptyAddress
 } from './utils';
@@ -92,8 +94,9 @@ class Settings extends Component {
   });
 
   getSettingsBlocks() {
-    const { passengerData: data, companySettings, changeToggleValue } = this.props;
+    const { devSettings, passengerData: data, companySettings, changeToggleValue, changeDevSettingField } = this.props;
     const { logoutLoading } = this.state;
+    const devInventory = isDevMode ? prepareDevBlock(devSettings, { handleToggleChange: changeDevSettingField }) : [];
 
     return [
       prepareProfileBlock(data, {
@@ -112,6 +115,7 @@ class Settings extends Component {
         goToMyPayments: this.goToMyPayments
       }),
       prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage, resetUserGuide: this.resetUserGuide }),
+      devInventory,
       prepareLogoutBlock({ isLoading: logoutLoading }, { onLogout: this.handleLogout })
     ];
   }
@@ -153,10 +157,11 @@ Settings.propTypes = {
 
 Settings.defaultProps = {};
 
-const select = ({ passenger, network }) => ({
+const select = ({ app, passenger, network }) => ({
   passengerData: passenger.data,
   companySettings: passenger.companySettings,
-  isConnected: network.isConnected
+  isConnected: network.isConnected,
+  devSettings: app.devSettings
 });
 
 const bindActions = {
@@ -165,7 +170,8 @@ const bindActions = {
   changeToggleValue,
   deleteToken,
   sendPredefinedAddress,
-  resetGuide
+  resetGuide,
+  changeDevSettingField
 };
 
 export default connect(select, bindActions)(Settings);

@@ -146,6 +146,23 @@ export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
   ];
 }
 
+export function prepareDevBlock(data = {}, handlers = {}) {
+  return [
+    {
+      title: strings('settings.label.carAnimations'),
+      switchButton: true,
+      switched: data.showCarAnimations,
+      onSwitch: v => handlers.handleToggleChange('showCarAnimations', v)
+    },
+    {
+      title: strings('settings.label.locatingCarAnimation'),
+      switchButton: true,
+      switched: data.showLocatingCarAnimation,
+      onSwitch: v => handlers.handleToggleChange('showLocatingCarAnimation', v)
+    }
+  ];
+}
+
 export function prepareLogoutBlock({ isLoading = false }, handlers = {}) {
   return [
     {

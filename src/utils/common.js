@@ -9,7 +9,8 @@ import {
   isString,
   isUndefined
 } from 'lodash/fp';
-import { throttle } from 'lodash';
+import { throttle, has } from 'lodash';
+import config from 'config';
 import validate from './validate';
 
 export const capitalize = ([first, ...rest]) =>
@@ -91,3 +92,5 @@ export const filterBySearchValue = (array, params, searchValue) => {
     });
   });
 };
+
+export const isDevMode = has(config, 'env') ? config.env === 'development' : process.env.NODE_ENV === 'development';
