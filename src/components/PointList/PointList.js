@@ -102,6 +102,7 @@ export default class PointList extends PureComponent {
 
   renderDestinationItem = () => {
     const { data, allowAddingStops, onStopAdd } = this.props;
+    const stopPointsAvailable = allowAddingStops && data.pickupAddress.countryCode === 'GB';
 
     return (
       this.hasAddressType('destinationAddress') &&
@@ -115,11 +116,11 @@ export default class PointList extends PureComponent {
           width={16}
           height={19}
         />
-        {allowAddingStops && data.stops && data.stops.length
+        {stopPointsAvailable && data.stops && data.stops.length
           ? this.renderStopsCount(data.stops.length + 1)
           : this.renderAddressLabel('destinationAddress')
         }
-        {allowAddingStops &&
+        {stopPointsAvailable &&
           <TouchableOpacity
             onPress={onStopAdd}>
             {(!data.stops || data.stops.length < 4)
