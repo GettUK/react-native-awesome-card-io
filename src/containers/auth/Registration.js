@@ -8,7 +8,6 @@ import {
   Icon,
   Alert,
   Input,
-  SwitchItem,
   DismissKeyboardView,
   Divider,
   Popup,
@@ -19,7 +18,7 @@ import update from 'update-js/fp';
 import { strings } from 'locales';
 import { throttledAction, isInputsValid } from 'utils';
 
-import TextButton from './TextButton';
+import { TextButton, SwitchItem } from './components';
 
 import { prepareSwitchesBlock, prepareInputsBlock } from './utils';
 import { registerCompanyRules } from './validatorRules';

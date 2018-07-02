@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
     lineHeight: 22
+  },
+  link: {
+    marginLeft: 5,
+    textDecorationLine: 'underline'
   }
 });
 

@@ -2,16 +2,18 @@ import { strings } from 'locales';
 
 export const prepareSwitchesBlock = (data = {}, handlers = {}) => [
   {
-    label: strings('login.acceptTermsConditions'),
+    label: strings('login.accept'),
+    link: strings('login.termsConditions'),
     value: data.acceptTac || false,
     onValueChange: v => handlers.handleChangeField('acceptTac', v),
-    onLabelPress: () => handlers.goToInfoPage('terms')
+    onLinkPress: () => handlers.goToInfoPage('terms')
   },
   {
-    label: strings('login.acceptPrivacyPolicy'),
+    label: strings('login.accept'),
+    link: strings('login.privacyPolicy'),
     value: data.acceptPp || false,
     onValueChange: v => handlers.handleChangeField('acceptPp', v),
-    onLabelPress: () => handlers.goToInfoPage('privacy')
+    onLinkPress: () => handlers.goToInfoPage('privacy')
   }
 ];
 

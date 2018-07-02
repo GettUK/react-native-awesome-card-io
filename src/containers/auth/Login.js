@@ -18,7 +18,6 @@ import {
   Icon,
   Input,
   Alert,
-  SwitchItem,
   KeyboardHide,
   DismissKeyboardView,
   TransitionView
@@ -33,7 +32,7 @@ import { strings } from 'locales';
 import { throttledAction, isIphoneX } from 'utils';
 
 import { loginRules } from './validatorRules';
-import TextButton from './TextButton';
+import { TextButton, SwitchItem } from './components';
 
 import styles from './style';
 import { prepareSwitchesBlock } from './utils';
@@ -144,7 +143,7 @@ class Login extends Component {
     const statusBarPadding = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
 
     return (centerY - topPosition) + statusBarPadding;
-  }
+  };
 
   renderFooter = AnimatedWrapper => (
     <AnimatedWrapper>
@@ -157,7 +156,7 @@ class Login extends Component {
         </TouchableHighlight>
       </View>
     </AnimatedWrapper>
-  )
+  );
 
   render() {
     const { isResetSuccess, error, form, loading } = this.state;
