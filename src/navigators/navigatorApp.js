@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
-import { ScreenHeader, BackBtn, Header } from 'components';
+import { ScreenHeader, BackBtn } from 'components';
 
 import {
   Map,
@@ -19,11 +19,9 @@ import {
   Receipt
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
-import styles from 'containers/Map/style';
 import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
-import { SaveRatingBtn } from 'containers/RateDriver';
 import { ReceiptHeader } from 'containers/Receipt';
 import { strings } from 'locales';
 
@@ -158,23 +156,9 @@ const routeConfiguration = {
   },
   RateDriver: {
     screen: RateDriver,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <Header
-          pointerEvents="box-none"
-          customStyles={[styles.header, { paddingHorizontal: 0 }]}
-          navigation={navigation}
-          leftButton={
-            <BackBtn
-              color="#fff"
-              navigation={navigation}
-              touchedPath="booking.currentOrder.tempDriverRating"
-            />
-          }
-          rightButton={<SaveRatingBtn navigation={navigation} />}
-        />
-      )
-    })
+    navigationOptions: {
+      header: null
+    }
   },
   Receipt: {
     screen: Receipt,

@@ -1,23 +1,24 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
+
+import { isIphoneX } from 'utils';
+
+const headerPadding = Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 25;
+const iPhoneHeaderPadding = isIphoneX() ? 45 : headerPadding;
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    flex: 1
+    width: '100%'
   },
   headerWrap: {
+    paddingTop: iPhoneHeaderPadding,
+    paddingBottom: 15,
     backgroundColor: 'transparent',
-    elevation: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
-    ...Platform.select({
-      android: {
-        height: 76
-      }
-    })
+    width: '100%'
   },
   headerTitle: {
     fontSize: 17,

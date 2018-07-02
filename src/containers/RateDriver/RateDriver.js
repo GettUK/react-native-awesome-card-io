@@ -4,9 +4,10 @@ import { View, Text, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { some } from 'lodash';
 import { changeDriverRating, changeDriverRatingReasons } from 'actions/booking';
-import { Divider, RatingLabel, GradientWrapper, Badge } from 'components';
+import { Divider, RatingLabel, GradientWrapper, Badge, Header, BackBtn } from 'components';
 import { strings } from 'locales';
 import Rating from './components/Rating';
+import SaveRatingBtn from './components/SaveRatingBtn';
 
 import styles from './styles';
 
@@ -32,7 +33,8 @@ class RateDriver extends PureComponent {
     const {
       order: { driverDetails, ratingReasons, rateable = true, tempDriverRating, tempDriverRatingReasons },
       changeDriverRating,
-      changeDriverRatingReasons
+      changeDriverRatingReasons,
+      navigation
     } = this.props;
     const avatar = driverDetails.info.imageUrl;
     const labelText = tempDriverRating || driverDetails.tripRating ? strings('yourRated') : strings('rateYourDriver');
@@ -44,6 +46,18 @@ class RateDriver extends PureComponent {
         end={{ x: 1, y: 0 }}
         style={[styles.flex, styles.wrapper]}
       >
+        <Header
+          navigation={navigation}
+          leftButton={
+            <BackBtn
+              color="#fff"
+              navigation={navigation}
+              touchedPath="booking.currentOrder.tempDriverRating"
+            />
+          }
+          rightButton={<SaveRatingBtn navigation={navigation} />}
+        />
+
         <ScrollView contentContainerStyle={styles.content}>
           {!isLowRating && (
             <View>

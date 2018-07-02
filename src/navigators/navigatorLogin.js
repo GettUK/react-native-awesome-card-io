@@ -1,11 +1,10 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
-import { ScreenHeader, BackBtn, Header } from 'components';
+import { ScreenHeader } from 'components';
 import { Login, ForgotPassword, Registration, CountrySelector } from 'containers';
 import { InfoPages } from 'containers/Settings';
-import styles from 'containers/Map/style';
 
 import { strings } from 'locales';
 
@@ -35,19 +34,9 @@ const routeConfiguration = {
   },
   Registration: {
     screen: Registration,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <Header
-          pointerEvents="box-none"
-          customStyles={[styles.header, { paddingHorizontal: 0 }]}
-          navigation={navigation}
-          titleCenter
-          title={strings('login.signupTitle')}
-          leftButton={<BackBtn color="#fff" navigation={navigation}/>}
-          rightButton={<View style={{ width: Platform.OS === 'ios' ? 75 : 37 }} />} // placeholder for title aligning
-        />
-      )
-    })
+    navigationOptions: {
+      header: null
+    }
   },
   InfoPages: {
     screen: InfoPages,

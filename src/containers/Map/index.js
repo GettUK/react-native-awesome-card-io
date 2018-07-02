@@ -54,6 +54,7 @@ import {
   LONGTITUDE_DELTA
 } from 'utils';
 import PN from 'utils/notifications';
+import { CUSTOMER_CARE_STATUS, FINAL_STATUSES } from 'utils/orderStatuses';
 
 import OrderScene from './OrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
@@ -77,7 +78,7 @@ class Map extends Component {
       routeNameTab: 'Personal',
       date: hourForward().toDate(),
       minDate: hourForward().toDate(),
-      isHeaderEnable: true,
+      isPanelDisabled: true,
       fromOrderList: false,
       fromSettings: false,
       isLoadingPickup: false,
@@ -385,12 +386,12 @@ class Map extends Component {
     this.setState({ routeNameTab });
   };
 
-  handleHideHeader = () => {
-    this.setState({ isHeaderEnable: false });
+  handleShowPanel = () => {
+    this.setState({ isPanelDisabled: false });
   };
 
-  handleShowHeader = () => {
-    this.setState({ isHeaderEnable: true });
+  handleHidePanel = () => {
+    this.setState({ isPanelDisabled: true });
   };
 
   goToSettings = () => {
@@ -593,14 +594,30 @@ class Map extends Component {
     );
   }
 
-  renderHeader = () => {
-    const isPreOrder = this.isActiveSceneIs('preOrder');
+  renderRightButton = isCreateNewButtonAvailable => (
+    <Button
+        styleContent={[styles.btn, !isCreateNewButtonAvailable && styles.orderBtn]}
+        raised={false}
+        size="sm"
+        onPress={isCreateNewButtonAvailable ? this.goToInitialization : this.goToOrders}
+      >
+        <Text allowFontScaling={false} style={styles[isCreateNewButtonAvailable ? 'createNewText' : 'orderBtnText']}>
+          {isCreateNewButtonAvailable ? strings('order.createNew') : 'Orders'}
+        </Text>
+      </Button>
+  );
 
-    const isRightButtonAvailable = isPreOrder && !this.shouldRequestVehicles();
+  renderHeader = () => {
+    const { status } = this.props;
+    const isPreOrder = this.isActiveSceneIs('preOrder');
+    const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
+    const isFinalStatus = FINAL_STATUSES.includes(status);
+    const isCreateNewButtonAvailable = isFinalStatus && !isCustomerCareStatus;
+
+    const isRightButtonAvailable = (isPreOrder && !this.shouldRequestVehicles()) || isCreateNewButtonAvailable;
 
     return (
       <Header
-        pointerEvents="box-none"
         customStyles={styles.header}
         leftButton={isPreOrder && !this.shouldRequestVehicles()
           ?
@@ -613,21 +630,12 @@ class Map extends Component {
           :
           <NavImageButton
             onClick={this.handleBackBtnPress}
-            styleContainer={styles.touchZone}
+            styleContainer={[styles.touchZone, styles.shadow]}
             styleView={styles.headerBack}
             icon={<Icon width={10} height={18} name="back" color="#284784" />}
           />
         }
-        rightButton={isRightButtonAvailable &&
-          <Button
-            styleContent={styles.orderBtn}
-            raised={false}
-            size="sm"
-            onPress={this.goToOrders}
-          >
-            <Text allowFontScaling={false} style={styles.orderBtnText}>Orders</Text>
-          </Button>
-        }
+        rightButton={isRightButtonAvailable && this.renderRightButton(isCreateNewButtonAvailable)}
       />
     );
   };
@@ -638,7 +646,7 @@ class Map extends Component {
 
   render() {
     const { navigation, booking: { bookingForm }, session: { user } } = this.props;
-    const { isHeaderEnable, isLoadingPickup, dragEnable } = this.state;
+    const { isPanelDisabled, isLoadingPickup, dragEnable } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
@@ -647,7 +655,7 @@ class Map extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="default" />
 
-        {isHeaderEnable && this.renderHeader()}
+        {this.renderHeader()}
 
         {!isEmpty(user) && !user.guidePassed && <UserGuide />}
 
@@ -661,12 +669,11 @@ class Map extends Component {
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
             onDateChange={this.handleDateChange}
-            onShowPromo={this.handleHideHeader}
-            onHidePromo={this.handleShowHeader}
+            onHidePromo={this.handleHidePanel}
             ref={(editor) => { this.editorView = editor; }}
           />
         }
-        {(isActiveOrder || isCompletedOrder) && <OrderScene goToInitialization={this.goToInitialization} />}
+        {(isActiveOrder || isCompletedOrder) && <OrderScene />}
 
         <MapView
           isActiveOrder={isActiveOrder}
@@ -678,7 +685,7 @@ class Map extends Component {
           onEndLoadingPickup={this.endLoadingPickup}
           disableDrag={this.disableDrag}
           enableDrag={this.enableDrag}
-          onFutureOrderReceived={this.handleHideHeader}
+          onFutureOrderReceived={this.handleShowPanel}
         />
 
         {isPreOrder && !bookingForm.destinationAddress && this.renderPickUpMarker()}
@@ -688,11 +695,12 @@ class Map extends Component {
         {(isActiveOrder || isCompletedOrder) &&
           <OrderDetailsPanel
             navigation={navigation}
-            onActivate={this.handleHideHeader}
-            onClose={this.handleShowHeader}
-            visible={!isHeaderEnable}
+            onClose={this.handleHidePanel}
+            onActivate={this.handleShowPanel}
+            visible={!isPanelDisabled}
           />
         }
+
         <Alert
           ref={(alert) => { this.alertGPS = alert; }}
           type="warning"
@@ -747,7 +755,7 @@ const mapState = ({ app, ui, booking, session, passenger, router }) => ({
   session,
   activeScene: ui.navigation.activeScene,
   booking,
-  status: booking.currentOrder.status || 'connected',
+  status: booking.currentOrder.indicatedStatus || 'connected',
   canceledByExternal: booking.canceledByExternal,
   canceledByUser: booking.canceledByUser,
   passenger,

@@ -11,7 +11,7 @@ export default StyleSheet.create({
     backgroundColor: '#ffa91b',
     overflow: 'hidden',
     position: 'absolute',
-    top: -70,
+    top: -80,
     left: 16,
     shadowColor: '#000',
     shadowOpacity: 0.2,

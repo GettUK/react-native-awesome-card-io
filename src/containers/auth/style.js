@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     paddingLeft: 0
   },
   empty: {
-    paddingTop: 30,
     paddingBottom: 60
   },
   countryView: {
