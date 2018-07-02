@@ -160,14 +160,9 @@ export default StyleSheet.create({
   },
   rowView: {
     flex: 1,
-    flexDirection: 'row'
-  },
-  rowItem: {
     flexDirection: 'row',
-    marginVertical: 11,
-    alignSelf: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center'
+    marginVertical: 11
   },
   iconItem: {
     marginRight: 15
@@ -185,7 +180,7 @@ export default StyleSheet.create({
   },
   iconDottedLine: {
     position: 'absolute',
-    top: 22,
+    top: -6,
     left: -3
   },
   pickupTimeContainer: {
