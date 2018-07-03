@@ -75,7 +75,11 @@ class MapView extends Component {
     this.handleAnimateToRegion({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps });
 
     if (this.shouldResizeMapToDriverAndPickupAddress({ oldOrder, order })) {
-      this.resizeMapToDriverAndPickupAddress(order);
+      this.resizeMapToDriverAndTargetAddress('pickup', order);
+    }
+
+    if (this.shouldResizeMapToDriverAndDestinationAddress({ oldOrder, order })) {
+      this.resizeMapToDriverAndTargetAddress('destination', order);
     }
 
     if (this.shouldOpenOrderDetails({ oldOrder, order })) {
@@ -226,9 +230,15 @@ class MapView extends Component {
     ((this.gotNewStatus(oldOrder, order, DRIVER_ON_WAY))
       || (this.gotNewStatus(oldOrder, order, ARRIVED_STATUS)));
 
+  shouldResizeMapToDriverAndDestinationAddress = ({ oldOrder, order }) =>
+    order.destinationAddress && order.driverDetails && order.driverDetails.location &&
+      this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS);
+
   shouldResizeMapToPointsList = ({ oldOrder, order, oldIsActiveOrder, isActiveOrder }) =>
     order.pickupAddress && order.destinationAddress &&
-      (!POINTER_DISPLAY_STATUSES.includes(order.status) || (order.status === ORDER_RECEIVED_STATUS && !order.asap)) && (
+      (![...POINTER_DISPLAY_STATUSES, ...ACTIVE_DRIVER_STATUSES, IN_PROGRESS_STATUS].includes(order.status)
+        || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
+      ) && (
       (!isActiveOrder && oldIsActiveOrder)
       || this.isPathChanged(order, oldOrder)
       || this.gotNewStatus(oldOrder, order, IN_PROGRESS_STATUS)
@@ -248,8 +258,8 @@ class MapView extends Component {
     }
   };
 
-  resizeMapToDriverAndPickupAddress = (order) => {
-    const dest = this.prepareCoordinates(order.pickupAddress);
+  resizeMapToDriverAndTargetAddress = (type, order) => {
+    const dest = this.prepareCoordinates(order[`${type}Address`]);
     const source = this.prepareCoordinates(order.driverDetails.location);
 
     setTimeout(() => this.resizeMapToCoordinates([source, dest]));

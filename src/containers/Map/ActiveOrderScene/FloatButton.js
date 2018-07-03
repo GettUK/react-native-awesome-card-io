@@ -10,7 +10,8 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
   const icons = {
     cancel: { name: 'closeThick', color: '#ff0000' },
     walker: { name: 'walker', color: '#6bc11a' },
-    dots: { name: 'dots', color: '#284784' }
+    dots: { name: 'dots', color: '#284784' },
+    myLocation: { name: 'myLocation', color: '#284784' }
   };
 
   const handlePress = () => {
@@ -40,8 +41,8 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
 
 FloatButton.propTypes = {
   label: PropTypes.string,
-  iconName: PropTypes.oneOf(['cancel', 'walker', 'dots']),
-  style: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  iconName: PropTypes.oneOf(['cancel', 'walker', 'dots', 'myLocation']),
+  style: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   onPress: PropTypes.func,
   loading: PropTypes.bool
 };

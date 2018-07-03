@@ -10,6 +10,10 @@ export const screenStyles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative'
   },
+  floatButton: {
+    marginRight: 20,
+    marginLeft: 20
+  },
   headerContainer: {
     width: '100%',
     alignItems: 'center',

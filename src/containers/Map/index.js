@@ -222,6 +222,9 @@ class Map extends Component {
     );
   };
 
+  resizeMapToDriverAndTargetAddress = (type, order) =>
+    this.mapView && this.mapView.wrappedInstance.resizeMapToDriverAndTargetAddress(type, order);
+
   animateToRegion = ({ latitude, longitude }) => {
     this.mapView.wrappedInstance.animateToRegion({
       latitude: parseFloat(latitude),
@@ -673,7 +676,11 @@ class Map extends Component {
             ref={(editor) => { this.editorView = editor; }}
           />
         }
-        {(isActiveOrder || isCompletedOrder) && <OrderScene />}
+        {(isActiveOrder || isCompletedOrder) &&
+          <OrderScene
+            resizeMapToDriverAndTargetAddress={this.resizeMapToDriverAndTargetAddress}
+          />
+        }
 
         <MapView
           isActiveOrder={isActiveOrder}
