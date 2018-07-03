@@ -12,8 +12,9 @@ import {
   TimePickerAndroid,
   BackHandler
 } from 'react-native';
-import { every, find, first, has, isNull, isEmpty } from 'lodash';
+import { every, find, first, has, isNull, isEmpty, throttle } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
+import moment from 'moment';
 
 import { Icon, Button, Modal, Alert, Popup, UserGuide } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -82,7 +83,8 @@ class Map extends Component {
       fromOrderList: false,
       fromSettings: false,
       isLoadingPickup: false,
-      dragEnable: true
+      dragEnable: true,
+      nightMode: false
     };
   }
 
@@ -128,6 +130,7 @@ class Map extends Component {
     if (canceledByUser && !canceledByUserProps) {
       this.showAlert();
     }
+    this.checkForNightMode();
   }
 
   componentWillUnmount() {
@@ -198,6 +201,11 @@ class Map extends Component {
       }
     });
   };
+
+  checkForNightMode = throttle(() => {
+    const hour = moment().hour();
+    this.setState({ nightMode: hour > 18 || hour < 6 });
+  }, 20000);
 
   changePosition = (coordinates) => {
     const { currentPosition } = this.props.map;
@@ -273,7 +281,7 @@ class Map extends Component {
     this.togglePickerModal();
     this.props.changeFields({ scheduledType: type, scheduledAt });
     this.goToRequestVehicles();
-  }
+  };
 
   handleNowSubmit = () => {
     this.handleUpdateSchedule('now');
@@ -609,6 +617,7 @@ class Map extends Component {
 
   renderHeader = () => {
     const { status } = this.props;
+    const { nightMode } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
     const isFinalStatus = FINAL_STATUSES.includes(status);
@@ -625,7 +634,7 @@ class Map extends Component {
             onClick={this.goToSettings}
             styleContainer={{ justifyContent: 'center' }}
             styleView={styles.touchZone}
-            icon={<Icon size={30} name="burger" color="#000" />}
+            icon={<Icon size={30} name="burger" color={nightMode ? '#fff' : '#000'} />}
           />
           :
           <NavImageButton
@@ -646,14 +655,14 @@ class Map extends Component {
 
   render() {
     const { navigation, booking: { bookingForm }, session: { user } } = this.props;
-    const { isPanelDisabled, isLoadingPickup, dragEnable } = this.state;
+    const { isPanelDisabled, isLoadingPickup, dragEnable, nightMode } = this.state;
     const isPreOrder = this.isActiveSceneIs('preOrder');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="default" />
+        <StatusBar barStyle={nightMode ? 'light-content' : 'default'} animated />
 
         {this.renderHeader()}
 
@@ -686,6 +695,7 @@ class Map extends Component {
           disableDrag={this.disableDrag}
           enableDrag={this.enableDrag}
           onFutureOrderReceived={this.handleShowPanel}
+          nightMode={nightMode}
         />
 
         {isPreOrder && !bookingForm.destinationAddress && this.renderPickUpMarker()}

@@ -13,15 +13,20 @@ const carMapping = {
 };
 
 class DriversMarkers extends PureComponent {
+  state = {
+    resetNeeded: false
+  };
+
   componentDidMount() {
     this.initializePositionChanger();
   }
 
   componentDidUpdate(prevProps) {
-    const { drivers } = this.props;
+    const { drivers, nightMode } = this.props;
     if (drivers !== prevProps.drivers) {
       this.index = 0;
     }
+    this.setState({ resetNeeded: nightMode !== prevProps.nightMode });
   }
 
   componentWillUnmount() {
@@ -29,6 +34,8 @@ class DriversMarkers extends PureComponent {
   }
 
   cars = {};
+
+  carsRefs = {};
 
   index = 0;
 
@@ -46,11 +53,8 @@ class DriversMarkers extends PureComponent {
       ...prepareCoordinates(driver.locations[this.index]),
       duration: 1000
     }));
-    if (driver.locations[this.index].bearing >= 0) {
-      animations.push(Animated.timing(
-        this.cars[driver.id].rotation,
-        { toValue: driver.locations[this.index].bearing, duration: 1000 }
-      ));
+    if (this.carsRefs[driver.id]) {
+      this.carsRefs[driver.id].setNativeProps({ rotation: driver.locations[this.index].bearing });
     }
     this.cars[driver.id].ts = driver.locations[this.index].ts;
     return animations;
@@ -78,31 +82,22 @@ class DriversMarkers extends PureComponent {
   };
 
   render() {
-    const { drivers, isFocused } = this.props;
+    const { drivers, isFocused, nightMode } = this.props;
+    const { resetNeeded } = this.state;
 
-    return (isFocused && drivers.map(driver => this.cars[driver.id] &&
+    return (isFocused && !resetNeeded && drivers.map(driver => this.cars[driver.id] &&
       <Map.Marker.Animated
         key={driver.id}
         coordinate={this.cars[driver.id].coord}
-        anchor={{ x: 0.5, y: 0.5 }}
+        ref={(el) => { this.carsRefs[driver.id] = el; } }
+        anchor={{ x: 0.5, y: 0.7838 }}
         tracksViewChanges={false}
       >
-        <Animated.View
-          style={{
-            transform:
-              [{
-                rotate: this.cars[driver.id].rotation.interpolate({
-                  inputRange: [0, 360],
-                  outputRange: ['0deg', '360deg']
-                })
-              }]
-          }}
-        >
-          <Icon
-            name={carMapping[driver.carType]}
-            size={36}
-          />
-        </Animated.View>
+        <Icon
+          name={`${carMapping[driver.carType]}${nightMode ? 'NightMode' : ''}`}
+          width={36}
+          height={80}
+        />
       </Map.Marker.Animated>));
   }
 }

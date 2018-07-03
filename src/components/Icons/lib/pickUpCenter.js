@@ -15,7 +15,7 @@ export default function PickUpCenter(props) {
           <Stop offset="100%" stopColor="#284784" />
         </LinearGradient>
       </Defs>
-      <G fill="none" fill-rule="evenodd">
+      <G fill="none" fillRule="evenodd">
         <Path fill="#88A9EC" d="M16 52L0 16h32z" />
         <Path
           fill="url(#a)"

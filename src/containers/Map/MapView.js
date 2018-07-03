@@ -27,6 +27,7 @@ import {
 
 import DriversMarkers from './DriversMarkers';
 import MapStyle from './MapStyle';
+import DarkMapStyle from './DarkMapStyle';
 import styles from './style';
 import { getPathCoordinates, fixPathLength, getRandomCoordinatesInRadius } from './utils';
 
@@ -41,12 +42,13 @@ class MapView extends Component {
   predictedRoutesRefs = {};
 
   componentDidUpdate(prevProps) {
-    const { isCompletedOrder } = this.props;
+    const { isCompletedOrder, nightMode } = this.props;
     const {
       isActiveOrder: isActiveOrderProps,
       isCompletedOrder: isCompletedOrderProps,
       dragEnable: oldDragEnable,
-      currentPosition: oldCurrentPosition
+      currentPosition: oldCurrentPosition,
+      nightMode: oldNightMode
     } = prevProps;
 
     const order = this.getOrder();
@@ -61,6 +63,10 @@ class MapView extends Component {
       this.changeMapForActiveOrder({
         oldOrder, order, isActiveOrderProps, oldDragEnable, oldCurrentPosition
       });
+    }
+
+    if (nightMode !== oldNightMode) {
+      this.map._updateStyle(); // eslint-disable-line
     }
   }
 
@@ -457,7 +463,16 @@ class MapView extends Component {
   );
 
   render() {
-    const { currentPosition, isPreOrder, dragEnable, vehicles, drivers, isActiveOrder, isCompletedOrder } = this.props;
+    const {
+      currentPosition,
+      isPreOrder,
+      dragEnable,
+      vehicles,
+      drivers,
+      isActiveOrder,
+      isCompletedOrder,
+      nightMode
+    } = this.props;
     const { predictedRoutes } = this.state;
 
     const order = this.getOrder();
@@ -473,7 +488,7 @@ class MapView extends Component {
         showsCompass={false}
         mapPadding={{ bottom: !order.destinationAddress && isPreOrder ? 190 : 0 }}
         scrollEnabled={dragEnable}
-        customMapStyle={MapStyle}
+        customMapStyle={nightMode ? DarkMapStyle : MapStyle}
         onRegionChangeComplete={this.getGeocode}
       >
         {this.renderRidePath()}
@@ -523,7 +538,7 @@ class MapView extends Component {
         })}
 
         {isPreOrder && !order.destinationAddress &&
-          <DriversMarkers drivers={drivers} />
+          <DriversMarkers drivers={drivers} nightMode={nightMode} />
         }
 
         {order.pickupAddress && order.status === 'locating' &&

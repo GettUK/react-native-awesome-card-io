@@ -5,12 +5,15 @@ import arrowDown from './arrowDown';
 import avatar from './avatar';
 import back from './back';
 import blackTaxi from './blackTaxi';
+import blackTaxiNightMode from './blackTaxiNightMode';
 import blackTaxiXL from './blackTaxiXL';
+import blackTaxiXLNightMode from './blackTaxiXLNightMode';
 import burger from './burger';
 import calendar from './calendar';
 import camera from './camera';
 import car from './car';
 import carFacet from './carFacet';
+import carNightMode from './carNightMode';
 import check from './check';
 import checkmark from './checkmark';
 import chevron from './chevron';
@@ -19,9 +22,9 @@ import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
 import currentLocation from './currentLocation';
+import departing from './departing';
 import destinationMarker from './destinationMarker';
 import distance from './distance';
-import departing from './departing';
 import dots from './dots';
 import dottedLine from './dottedLine';
 import drag from './drag';
@@ -33,11 +36,11 @@ import home from './home';
 import carType from './carType';
 import addresses from './addresses';
 import id from './id';
+import inactiveLocation from './inactiveLocation';
 import journeyTime from './journeyTime';
 import logo from './logo';
 import message from './message';
 import myLocation from './myLocation';
-import inactiveLocation from './inactiveLocation';
 import paymentMethod from './paymentMethod';
 import phone from './phone';
 import pickUpCenter from './pickUpCenter';
@@ -95,12 +98,15 @@ export default {
   avatar,
   back,
   blackTaxi,
+  blackTaxiNightMode,
   blackTaxiXL,
+  blackTaxiXLNightMode,
   burger,
   calendar,
   camera,
   car,
   carFacet,
+  carNightMode,
   check,
   checkmark,
   chevron,
