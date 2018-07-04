@@ -53,14 +53,16 @@ const styles = StyleSheet.create({
   },
 
   btnForgot: {
-    marginBottom: 15
+    marginBottom: 10
   },
 
   forgotText: {
     paddingVertical: 5,
+    marginTop: -5,
     textAlign: 'right',
     color: '#fff',
-    fontSize: 14
+    fontSize: 14,
+    textDecorationLine: 'underline'
   },
 
   footerLink: {

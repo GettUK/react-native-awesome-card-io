@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   KeyboardAvoidingView,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   StatusBar,
   View,
   Text,
@@ -176,6 +176,11 @@ class Login extends Component {
           label={strings('login.password')}
           secureTextEntry
         />
+        <View style={styles.btnForgot}>
+          <TouchableWithoutFeedback onPress={this.goToForgot}>
+            <View><Text style={styles.forgotText}>{strings('login.forgotPassword')}</Text></View>
+          </TouchableWithoutFeedback>
+        </View>
         <KeyboardHide>
           {switches.map(this.renderSwitchItem)}
         </KeyboardHide>
@@ -195,11 +200,13 @@ class Login extends Component {
   renderFooter = Wrapper => (
     <Wrapper>
       <View style={styles.footer}>
-        <TouchableHighlight onPress={this.goToCreateAccount}>
-          <Text style={[styles.footerText, styles.footerLink]}>
-            {strings('login.createAccount')}
-          </Text>
-        </TouchableHighlight>
+        <TouchableWithoutFeedback onPress={this.goToCreateAccount}>
+          <View>
+            <Text style={[styles.footerText, styles.footerLink]}>
+              {strings('login.createAccount')}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </Wrapper>
   );
