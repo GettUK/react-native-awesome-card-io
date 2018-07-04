@@ -143,19 +143,19 @@ class ActiveOrderScene extends Component {
     const { status, order } = this.props;
     const { cancelModalVisible, isVisible } = this.state;
 
-    const isFutureOrderReceived = (order.status === ORDER_RECEIVED_STATUS && !order.asap);
-    const shouldShowPointer = POINTER_DISPLAY_STATUSES.includes(status);
+    const shouldShowPointer = POINTER_DISPLAY_STATUSES.includes(status) ||
+      (order.status === ORDER_RECEIVED_STATUS && order.asap);
 
     return (
       <View
         style={screenStyles.container}
-        pointerEvents={(shouldShowPointer || !isFutureOrderReceived) ? 'auto' : 'box-none'}
+        pointerEvents={shouldShowPointer ? 'auto' : 'box-none'}
       >
         <View style={screenStyles.separator} />
 
         {this.renderInfoPanel()}
 
-        {(shouldShowPointer || !isFutureOrderReceived) && <Pointer />}
+        {shouldShowPointer && <Pointer />}
 
         <OnMyWayModal isVisible={isVisible} onClose={this.handleCloseModal} />
         <CancelReasonModal
