@@ -111,6 +111,7 @@ class MapView extends Component {
   componentWillUnmount() {
     clearInterval(this.getDriversInterval);
     clearInterval(this.pathAnimationInterval);
+    clearInterval(this.driverPathAnimationInterval);
   }
 
   getOrder(props = this.props) {
@@ -189,16 +190,22 @@ class MapView extends Component {
   startDriverPathAnimation = (coordinates) => {
     let index = 0;
     this.driverPathAnimationInterval = setInterval(() => {
-      this.driverPathRef.setNativeProps({ coordinates: take(coordinates, index) });
+      this.setCoordinatesToDriverPath(take(coordinates, index));
       index += 4;
-      if (index > coordinates.length) {
+      if (index > coordinates.length || !this.driverPathRef) {
         clearInterval(this.driverPathAnimationInterval);
-        this.driverPathRef.setNativeProps({ coordinates: [] });
+        this.setCoordinatesToDriverPath([]);
         this.driverAnimationFinished = true;
         this.driverAnimationStarted = false;
       }
     }, coordinates / 3000);
   };
+
+  setCoordinatesToDriverPath(coordinates) {
+    if (this.driverPathRef) {
+      this.driverPathRef.setNativeProps({ coordinates });
+    }
+  }
 
   isPickupAddressWasUpdatedByMapDrag = ({ order, dragEnable, oldDragEnable, oldOrder }) => (
     !dragEnable && !oldDragEnable && order.pickupAddress !== oldOrder.pickupAddress
@@ -560,7 +567,7 @@ class MapView extends Component {
         {!isPreOrder && order.status === DRIVER_ON_WAY && !this.driverAnimationFinished &&
           <Polyline
             coordinates={[]}
-            ref={(el) => { if (el) { this.driverPathRef = el; } } }
+            ref={(el) => { this.driverPathRef = el; } }
             strokeWidth={3}
             strokeColor="#2b4983"
           />
