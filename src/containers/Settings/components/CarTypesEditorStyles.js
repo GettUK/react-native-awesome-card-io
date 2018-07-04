@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   image: {
     width: 110,
-    resizeMode: 'contain'
+    height: 42
   },
   label: {
     flex: 1,
@@ -40,7 +40,8 @@ export default StyleSheet.create({
   },
   carWrapper: {
     marginBottom: 10,
-    height: 85
+    height: 85,
+    marginVertical: 8
   },
   modalCarImage: {
     height: 70,

@@ -242,7 +242,8 @@ export const orderPanelStyles = StyleSheet.create({
   receiptBtnText: {
     color: '#fff',
     marginHorizontal: 10
-  }
+  },
+  carImage: { width: 90, height: 38 }
 });
 
 const circleSize = width * 0.6;

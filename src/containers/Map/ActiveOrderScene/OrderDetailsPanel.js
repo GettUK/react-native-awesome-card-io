@@ -7,7 +7,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 
 import assets from 'assets';
 
-import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button } from 'components';
+import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX, getHeight } from 'utils';
@@ -138,10 +138,10 @@ const OrderDetails = ({
       <View key="car" style={orderPanelStyles.row}>
         <Text style={[orderPanelStyles.title]}>{vehicleData.label}</Text>
 
-        <Image
-          style={{ width: 90 }}
-          source={assets.carTypes[vehicleData.name]}
-          resizeMode="contain"
+        <CarImage
+          size="small"
+          type={vehicleData.name}
+          style={orderPanelStyles.carImage}
         />
 
         <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel]}>

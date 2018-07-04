@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, BackHandler, Image, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, BackHandler, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-
-import assets from 'assets';
 
 import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
 
-import { Icon, Modal, CheckBox } from 'components';
+import { Icon, Modal, CheckBox, CarImage } from 'components';
 
-import { baseVehicles, baseVehiclesDescriptions, OTcars } from 'containers/shared/bookings/data';
+import { baseVehicles, baseVehiclesDescriptions } from 'containers/shared/bookings/data';
 
 import { strings } from 'locales';
 
@@ -85,31 +83,13 @@ class CarTypesEditor extends Component {
         <View style={styles.modalWrapper}>
           <Text style={styles.modalHeader}>{label}</Text>
 
-          <View style={styles.carWrapper}>
-            <Animatable.Image
-              animation="slideInLeft"
-              duration={CAR_ANIMATION_DURATION}
-              delay={200}
-              style={styles.modalCarImage}
-              source={assets.noServiceCarTypes[this.state.currentCar]}
-              resizeMode="contain"
-            />
-
-            <Animatable.View
-              style={styles.modalCarTypeWrapper}
-              animation="slideInLeft"
-              duration={CAR_ANIMATION_DURATION}
-              delay={CAR_ANIMATION_DURATION}
-            >
-              <View style={styles.modalCarInnerWrapper}>
-                <Icon
-                  size={62}
-                  name={OTcars.includes(this.state.currentCar) ? 'OT' : 'Gett'}
-                  style={styles.logoService}
-                />
-              </View>
-            </Animatable.View>
-          </View>
+          <CarImage
+            style={styles.carWrapper}
+            size="big"
+            type={currentCar}
+            animatable
+            duration={CAR_ANIMATION_DURATION}
+          />
 
           <Text style={styles.modalDesc}>{info.description}</Text>
 
@@ -164,11 +144,9 @@ class CarTypesEditor extends Component {
           <View style={styles.button}>
             <CheckBox status={isSelected} onPress={handler} />
           </View>
-          <Image
-            style={styles.image}
-            source={assets.carTypes[name]}
-            resizeMode="contain"
-          />
+
+          <CarImage type={name} style={styles.image}/>
+
           <Text style={styles.label}>{label}</Text>
           <TouchableWithoutFeedback onPress={this.handleOpenInfo.bind(null, name)}>
             <View style={styles.button}>
