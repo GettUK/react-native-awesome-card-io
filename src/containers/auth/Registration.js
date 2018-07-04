@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StatusBar, View, Text, Platform } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import { TouchableOpacity, StatusBar, View, Text, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { auth } from 'api';
 
@@ -139,35 +138,43 @@ export default class Registration extends Component {
     );
     const inputs = prepareInputsBlock({ ...form, errors }, { handleChangeField: this.handleChangeField });
 
+    const placeholderWidth = Platform.OS === 'ios' ? 75 : 37;
+
     return (
       <Background>
-        <Header
-          navigation={navigation}
-          titleCenter
-          title={strings('login.signupTitle')}
-          leftButton={<BackBtn color="#fff" navigation={navigation}/>}
-          rightButton={<View style={{ width: Platform.OS === 'ios' ? 75 : 37 }} />} // placeholder for title aligning
-        />
-
-        <InputScrollView style={styles.containerView}>
-          <View style={styles.empty}>
-            <Text style={styles.labelTitle}>{strings('login.registerForm.title')}</Text>
-            {inputs.map(this.renderInputItem)}
-            {this.renderListItem({
-              label: strings('login.registerForm.selectCountry'),
-              onPress: this.goToSelectCountry,
-              title: currentCountry.label
-            })}
-            {switches.map(this.renderSwitchItem)}
-            <TextButton
-              title={strings('login.signupButton')}
-              disabled={!form.acceptTac || !form.acceptPp}
-              loading={loading}
-              onPress={this.handleSubmit}
-              disabledContainerStyle={styles.disabledBtnContainer}
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={0}
+          behavior="padding"
+          style={styles.flex}
+        >
+          <ScrollView>
+            <Header
+              navigation={navigation}
+              titleCenter
+              title={strings('login.signupTitle')}
+              leftButton={<BackBtn color="#fff" navigation={navigation}/>}
+              rightButton={<View style={{ width: placeholderWidth }} />} // placeholder for title aligning
             />
-          </View>
-        </InputScrollView>
+
+            <View style={styles.empty}>
+              <Text style={styles.labelTitle}>{strings('login.registerForm.title')}</Text>
+              {inputs.map(this.renderInputItem)}
+              {this.renderListItem({
+                label: strings('login.registerForm.selectCountry'),
+                onPress: this.goToSelectCountry,
+                title: currentCountry.label
+              })}
+              {switches.map(this.renderSwitchItem)}
+              <TextButton
+                title={strings('login.signupButton')}
+                disabled={!form.acceptTac || !form.acceptPp}
+                loading={loading}
+                onPress={this.handleSubmit}
+                disabledContainerStyle={styles.disabledBtnContainer}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Background>
     );
   };

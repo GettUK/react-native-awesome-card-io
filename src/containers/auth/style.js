@@ -14,8 +14,7 @@ const styles = StyleSheet.create({
   },
 
   containerView: {
-    flex: 1,
-    padding: 30
+    flex: 1
   },
 
   logo: {
@@ -86,7 +85,8 @@ const styles = StyleSheet.create({
     paddingLeft: 0
   },
   empty: {
-    paddingBottom: 60
+    paddingBottom: 60,
+    paddingHorizontal: 30
   },
   countryView: {
     flexDirection: 'row',
