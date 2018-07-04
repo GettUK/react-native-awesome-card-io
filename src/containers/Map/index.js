@@ -159,10 +159,21 @@ class Map extends Component {
   registerBackListener = () => {
     this.backListener = BackHandler.addEventListener('hardwareBack', () => {
       const isPreOrder = this.isActiveSceneIs('preOrder');
-      const { booking: { bookingForm }, router } = this.props;
+      const preOrderRoutes = ['MessageToDriver', 'ReasonForTravel', 'PaymentsOptions', 'References', 'FlightSettings'];
+      const { booking: { bookingForm }, navigation: { dangerouslyGetParent } } = this.props;
+      const parentRoute = dangerouslyGetParent().state;
+      const route = parentRoute.routes[parentRoute.index];
 
-      if (router.routes[router.index].routeName !== CURRENT_ROUTE) {
+      if (route.routeName !== (CURRENT_ROUTE || 'TransitionLoading')) {
+        if (preOrderRoutes.includes(route.routeName) &&
+          isPreOrder && bookingForm.destinationAddress
+        ) {
+          this.props.toggleVisibleModal('settings');
+        }
         this.goBack();
+        if (route.routeName === 'OrdersView' && route.params.fromSettings) {
+          this.goToSettings();
+        }
         return true;
       } else if (!(isPreOrder && !this.shouldRequestVehicles())) {
         this.handleBackBtnPress();
@@ -460,13 +471,17 @@ class Map extends Component {
 
   handleBackBtnPress = () => {
     const isPreOrder = this.isActiveSceneIs('preOrder');
+    const isActiveOrder = this.isActiveSceneIs('activeOrder');
+    const isCompletedOrder = this.isActiveSceneIs('completedOrder');
     const { clearCurrentOrder, navigation } = this.props;
-    const { routeNameTab } = this.state;
+    const { routeNameTab, fromOrderList, fromSettings, isPanelDisabled } = this.state;
 
-    if (isPreOrder) {
+    if ((isActiveOrder || isCompletedOrder) && !isPanelDisabled) {
+      this.handleHidePanel();
+    } else if (isPreOrder) {
       this.cancelOrderCreation();
-    } else if (this.state.fromOrderList) {
-      this.goToOrders({ fromSettings: this.state.fromSettings });
+    } else if (fromOrderList) {
+      this.goToOrders({ fromSettings });
       navigation.navigate(routeNameTab);
       setTimeout(clearCurrentOrder); // needed for smooth navigation animation
 
