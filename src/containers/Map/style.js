@@ -8,42 +8,11 @@ const headerPadding = Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 
 const iPhoneHeaderPadding = isIphoneX() ? 45 : headerPadding;
 
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: 'transparent',
-    paddingTop: 0,
-    paddingHorizontal: 16
-  },
-  headerBack: {
-    justifyContent: 'center',
-    width: 30,
-    height: 30,
-    backgroundColor: '#fff',
-    borderRadius: 6
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center'
   },
-  btn: {
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: {
-      height: 0
-    }
-  },
-  orderBtn: {
-    backgroundColor: '#284784'
-  },
-  orderBtnText: {
-    color: '#fff',
-    fontWeight: 'bold'
-  },
-  createNewText: {
-    color: '#284784',
-    fontWeight: 'bold'
-  },
+
   container: {
     ...StyleSheet.absoluteFillObject,
     height: '100%',
@@ -167,19 +136,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 20,
     color: '#8e8e93'
-  },
-  touchZone: {
-    paddingVertical: 6,
-    paddingRight: 8
-  },
-  shadow: {
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: {
-      height: 0
-    }
   }
 });
 

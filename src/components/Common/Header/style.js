@@ -35,6 +35,11 @@ const styles = StyleSheet.create({
   rightHeaderButton: {
     color: '#000',
     fontSize: 14
+  },
+  prorderHeader: {
+    backgroundColor: 'transparent',
+    paddingTop: 0,
+    paddingHorizontal: 16
   }
 });
 
