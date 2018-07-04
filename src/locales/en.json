@@ -202,6 +202,8 @@
   "send": "Send",
   "done": "Done",
   "order": {
+    "cancelOrder": "Cancel Order",
+    "myLocation": "My Location",
     "cancelOrderCreation": "Cancel Order Creation",
     "createNew": "Create New",
     "yourRideWasCancelled": "Your Ride Was Cancelled",

@@ -14,7 +14,8 @@ import {
   ORDER_RECEIVED_STATUS,
   ACTIVE_DRIVER_STATUSES,
   CANCEL_ALLOWED_STATUSES,
-  CUSTOMER_CARE_STATUS
+  CUSTOMER_CARE_STATUS,
+  ACTIVE_STATUS
 } from 'utils/orderStatuses';
 
 import FloatButton from './ActiveOrderScene/FloatButton';
@@ -23,6 +24,7 @@ import OnMyWayModal from './ActiveOrderScene/OnMyWayModal';
 import CancelReasonModal from './ActiveOrderScene/CancelReasonModal';
 
 import { screenStyles } from './ActiveOrderScene/styles';
+
 
 class ActiveOrderScene extends Component {
   state = {
@@ -34,6 +36,13 @@ class ActiveOrderScene extends Component {
     const { order: { driverDetails } } = this.props;
     return driverDetails && driverDetails.info && !!driverDetails.info.name;
   }
+
+  handleMyLocation = () => {
+    const { status, order, resizeMapToDriverAndTargetAddress } = this.props;
+    const isTripActive = status === ACTIVE_STATUS;
+
+    resizeMapToDriverAndTargetAddress(isTripActive ? 'destination' : 'pickup', order);
+  };
 
   handleCancelOrder = () => {
     showConfirmationAlert({
@@ -66,7 +75,7 @@ class ActiveOrderScene extends Component {
     const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
-    // const isTripActive = status === ACTIVE_STATUS;
+    const isTripActive = status === ACTIVE_STATUS;
     // const isDriverArrived = status === ARRIVED_STATUS;
 
     const gradientColors = [
@@ -91,10 +100,19 @@ class ActiveOrderScene extends Component {
             pointerEvents="box-none"
           >
             <View style={screenStyles.actionsRow}>
+              {(isActiveDriverStatus || isTripActive) &&
+                <FloatButton
+                  key="myLocation"
+                  label={strings('order.myLocation')}
+                  iconName="myLocation"
+                  onPress={this.handleMyLocation}
+                  style={screenStyles.floatButton}
+                />
+              }
               {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
                 <FloatButton
                   key="cancel"
-                  label="Cancel Order"
+                  label={strings('order.cancelOrder')}
                   iconName="cancel"
                   loading={busy}
                   onPress={this.handleCancelOrder}
