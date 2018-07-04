@@ -140,7 +140,8 @@ export default StyleSheet.create({
     fontSize: 17,
     color: '#8e8e93',
     textAlign: 'right',
-    marginRight: 10
+    marginRight: 10,
+    marginLeft: 2
   },
   flex: {
     flex: 1
