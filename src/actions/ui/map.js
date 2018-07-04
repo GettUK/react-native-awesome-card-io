@@ -6,7 +6,10 @@ const TYPES = createTypes('ui/map', [
   'changePosition',
   'errorPosition',
   'setDrivers',
-  'clearMap'
+  'clearMap',
+  'changeRegionToAnimate',
+  'changeCoordinatesToResize',
+  'clearCoordinates'
 ]);
 
 export const changePosition = obq => ({ type: TYPES.changePosition, payload: obq });
@@ -42,3 +45,15 @@ export const getDriversLocations = location => dispatch =>
     .then(({ data }) => {
       dispatch({ type: TYPES.setDrivers, payload: data });
     });
+
+export const changeRegionToAnimate = region => (dispatch) => {
+  dispatch({ type: TYPES.changeRegionToAnimate, payload: region });
+};
+
+export const changeCoordinatesToResize = coordinates => (dispatch) => {
+  dispatch({ type: TYPES.changeCoordinatesToResize, payload: coordinates });
+};
+
+export const clearCoordinates = () => (dispatch) => {
+  dispatch({ type: TYPES.clearCoordinates });
+};

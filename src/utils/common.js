@@ -94,3 +94,9 @@ export const filterBySearchValue = (array, params, searchValue) => {
 };
 
 export const isDevMode = has(config, 'env') ? config.env === 'development' : process.env.NODE_ENV === 'development';
+
+export const prepareCoordinates = address => (
+  address && address.lat && address.lng
+    ? { latitude: address.lat, longitude: address.lng }
+    : address
+);

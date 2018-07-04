@@ -18,7 +18,8 @@ export {
   normalizeCoordinate,
   getHeight,
   filterBySearchValue,
-  isDevMode
+  isDevMode,
+  prepareCoordinates
 } from './common';
 export * from './requests';
 export * from './map';

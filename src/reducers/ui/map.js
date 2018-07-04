@@ -6,7 +6,8 @@ import { LATTITIDE_DELTA, LONGTITUDE_DELTA, normalizeCoordinate } from 'utils';
 const initialState = {
   errors: null,
   currentPosition: null,
-  drivers: []
+  drivers: [],
+  coordinates: {}
 };
 
 const changePosition = (state, { payload }) => {
@@ -24,6 +25,26 @@ const changePosition = (state, { payload }) => {
   });
 };
 
+const changeCoordinatesToResize = (state, { payload }) => (
+  update(state, {
+    coordinates: {
+      coordinatesToResize: payload
+    }
+  })
+);
+
+const changeRegionToAnimate = (state, { payload }) => (
+  update(state, {
+    coordinates: {
+      regionToAnimate: payload
+    }
+  })
+);
+
+const clearCoordinates = state => (
+  update(state, { coordinates: {} })
+);
+
 const errorPosition = (state, { payload }) => ({
   ...state,
   errors: payload
@@ -40,7 +61,10 @@ export default composeReducer(
     changePosition,
     errorPosition,
     clearMap,
-    setDrivers
+    setDrivers,
+    changeRegionToAnimate,
+    changeCoordinatesToResize,
+    clearCoordinates
   },
   initialState
 );

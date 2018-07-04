@@ -6,20 +6,22 @@ import NavImageButton from 'components/Common/NavImageButton';
 
 import styles from './styles';
 
-const BurgerButton = ({ onClick }) => (
+const BurgerButton = ({ theme, onClick }) => (
   <NavImageButton
     onClick={onClick}
     styleContainer={{ justifyContent: 'center' }}
     styleView={styles.touchZone}
-    icon={<Icon size={30} name="burger" color="#000" />}
+    icon={<Icon size={30} name="burger" color={theme === 'light' ? '#000' : '#fff'} />}
   />
 );
 
 BurgerButton.propTypes = {
+  theme: PropTypes.oneOf(['light', 'dark']),
   onClick: PropTypes.func
 };
 
 BurgerButton.defaultProps = {
+  theme: 'light',
   onClick: () => {}
 };
 

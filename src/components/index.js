@@ -27,7 +27,7 @@ export { default as KeyboardHide } from './KeyboardHide';
 export { default as GradientWrapper } from './GradientWrapper';
 export { default as ConnectionMessage } from './ConnectionMessage';
 export { Header } from './Common/Header';
-export { PreorderHeader } from './Common/Header';
+export { OrderCreatingHeader } from './Common/Header';
 export { OrderHeader } from './Common/Header';
 export { default as Background } from './Background';
 export { default as UserGuide } from './UserGuide';

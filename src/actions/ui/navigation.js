@@ -1,7 +1,7 @@
 import { createTypes } from 'redux-compose-reducer';
 
 export const AVAILABLE_MAP_SCENES = {
-  preOrder: 'PREORDER',
+  orderCreating: 'ORDER_CREATING',
   activeOrder: 'ACTIVE_ORDER',
   completedOrder: 'COMPLETED_ORDER'
 };
@@ -14,8 +14,8 @@ const changeMapScene = value => (dispatch) => {
   dispatch({ type: TYPES.changeMapScene, data: value });
 };
 
-export const goToPreOrderScene = () => (dispatch) => {
-  dispatch(changeMapScene(AVAILABLE_MAP_SCENES.preOrder));
+export const goToOrderCreatingScene = () => (dispatch) => {
+  dispatch(changeMapScene(AVAILABLE_MAP_SCENES.orderCreating));
 };
 
 export const goToActiveOrderScene = () => (dispatch) => {

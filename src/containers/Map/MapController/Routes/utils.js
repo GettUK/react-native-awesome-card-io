@@ -1,6 +1,25 @@
 import config from 'config';
 import { normalizeCoordinate } from 'utils';
 
+export const getPaths = locations => (
+  locations.map((location, index) => {
+    const nextIndex = index + 1;
+
+    if (nextIndex < locations.length) return { source: location, destination: locations[nextIndex] };
+
+    return null;
+  }).filter(Boolean)
+);
+
+export const getRoutes = ({ source, destination, stops }) => {
+  const locations = [
+    source,
+    ...(stops || []),
+    destination
+  ];
+
+  return getPaths(locations);
+};
 
 const siftArray = (array, limit) =>
   Array.from(new Array(limit)).map((_, i) => array[Math.round(i * (array.length / limit))]);

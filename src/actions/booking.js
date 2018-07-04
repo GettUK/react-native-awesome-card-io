@@ -14,7 +14,7 @@ import {
   LOCATING_STATUS
 } from 'utils/orderStatuses';
 
-import { goToActiveOrderScene, goToPreOrderScene, goToCompletedOrderScene } from 'actions/ui/navigation';
+import { goToActiveOrderScene, goToOrderCreatingScene, goToCompletedOrderScene } from 'actions/ui/navigation';
 
 import {
   preparePaymentType,
@@ -232,7 +232,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
 
 export const clearCurrentOrder = () => (dispatch) => {
   removeOrderStatusSubscription();
-  dispatch(goToPreOrderScene());
+  dispatch(goToOrderCreatingScene());
   dispatch({ type: TYPES.clearCurrentOrder });
   clearInterval(bookingInterval);
 };

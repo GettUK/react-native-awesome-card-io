@@ -7,29 +7,32 @@ import Header from './Header';
 
 import styles from './style';
 
-const PreorderHeader = ({ handlePressBurger, handlePressBack, handlePressOrder, type }) => (
+const OrderCreatingHeader = ({ handlePressBurger, handlePressBack, handlePressOrder, nightMode, type }) => (
   <Header
     customStyles={styles.prorderHeader}
     leftButton={type === 'dashboard'
-      ? <BurgerButton onClick={handlePressBurger} />
+      ? <BurgerButton theme={nightMode ? 'dark' : 'light'} onClick={handlePressBurger} />
       : <BackButton onClick={handlePressBack} />
     }
     rightButton={type === 'dashboard' && <LabeledButton type="orders" onClick={handlePressOrder} />}
   />
 );
 
-PreorderHeader.propTypes = {
+OrderCreatingHeader.propTypes = {
+  nightMode: PropTypes.bool,
   handlePressBurger: PropTypes.func,
   handlePressBack: PropTypes.func,
   handlePressOrder: PropTypes.func,
   type: PropTypes.oneOf(['dashboard', 'preorder'])
 };
 
-PreorderHeader.defaultProps = {
+OrderCreatingHeader.defaultProps = {
+  nightMode: false,
   type: 'dashboard',
   handlePressBurger: () => {},
   handlePressBack: () => {},
   handlePressOrder: () => {}
 };
 
-export default PreorderHeader;
+export default OrderCreatingHeader;
+
