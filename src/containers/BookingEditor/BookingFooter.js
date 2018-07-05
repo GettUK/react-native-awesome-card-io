@@ -269,8 +269,8 @@ class BookingFooter extends PureComponent {
             phone: bookingForm.passengerPhone
           }))
           : null,
-        flight,
-        flightType
+        flight: bookingForm.flight || flight,
+        flightType: bookingForm.flightType || flightType
       };
 
       this.hideFlightModal();
