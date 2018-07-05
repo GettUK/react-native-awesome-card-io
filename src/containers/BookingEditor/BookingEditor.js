@@ -183,6 +183,16 @@ class BookingEditor extends Component {
     this.setState({ isPromoWasShown: false });
   }
 
+  onChangeAddress = (address, meta) => {
+    const { booking, changeAddress, changeFields } = this.props;
+
+    if (meta.type === 'pickupAddress' && address.countryCode !== 'GB' && booking.bookingForm.stops) {
+      changeFields({ stops: [] });
+    }
+
+    changeAddress(address, meta);
+  }
+
   render() {
     const {
       navigation,
@@ -191,7 +201,6 @@ class BookingEditor extends Component {
       requestVehicles,
       passenger,
       booking: { vehicles, bookingForm },
-      changeAddress,
       changeFields,
       isAuthorizedPermission,
       onLayoutPointList,
@@ -204,7 +213,7 @@ class BookingEditor extends Component {
         <AddressModal
           ref={(el) => { this.addressModal = el; }}
           defaultValues={prepareDefaultValues(passenger)}
-          onChange={changeAddress}
+          onChange={this.onChangeAddress}
         />
 
         {toOrder && !vehicles.loading &&
