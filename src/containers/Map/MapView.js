@@ -31,6 +31,13 @@ import DarkMapStyle from './DarkMapStyle';
 import styles from './style';
 import { getPathCoordinates, fixPathLength, getRandomCoordinatesInRadius } from './utils';
 
+const RESIZE_EXCLUDED_STATUSES = [
+  ...POINTER_DISPLAY_STATUSES,
+  ...ACTIVE_DRIVER_STATUSES,
+  IN_PROGRESS_STATUS,
+  ORDER_RECEIVED_STATUS
+];
+
 const pollingInterval = 45 * 1000;
 
 class MapView extends Component {
@@ -57,6 +64,7 @@ class MapView extends Component {
     if (isCompletedOrder && !isCompletedOrderProps) {
       const { source, dest, stops } = this.preparePointsList(order);
       const multiplier = this.getMultiplier();
+
       this.resizeMapToCoordinates([source, dest, ...stops], { top: 100 * multiplier, bottom: 170 * multiplier });
       if (this.animationStarted) this.stopPathsAnimation();
     } else if (!isCompletedOrder) {
@@ -249,7 +257,7 @@ class MapView extends Component {
 
   shouldResizeMapToPointsList = ({ oldOrder, order, oldIsActiveOrder, isActiveOrder }) =>
     order.pickupAddress && order.destinationAddress &&
-      (![...POINTER_DISPLAY_STATUSES, ...ACTIVE_DRIVER_STATUSES, IN_PROGRESS_STATUS].includes(order.status)
+      (!RESIZE_EXCLUDED_STATUSES.includes(order.status)
         || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
       ) && (
       (!isActiveOrder && oldIsActiveOrder)
