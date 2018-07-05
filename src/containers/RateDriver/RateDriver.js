@@ -37,7 +37,7 @@ class RateDriver extends PureComponent {
       navigation
     } = this.props;
     const avatar = driverDetails.info.imageUrl;
-    const labelText = tempDriverRating || driverDetails.tripRating ? strings('yourRated') : strings('rateYourDriver');
+    const labelText = tempDriverRating || driverDetails.tripRating ? strings('youRated') : strings('rateYourDriver');
     const isLowRating = tempDriverRating && tempDriverRating <= 4;
 
     return (
