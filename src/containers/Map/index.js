@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { every, find, first, has, isNull, isEmpty, throttle } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
-import moment from 'moment';
 
 import { Icon, Button, Modal, Alert, Popup, UserGuide } from 'components';
 import NavImageButton from 'components/Common/NavImageButton';
@@ -214,7 +213,7 @@ class Map extends Component {
   };
 
   checkForNightMode = throttle(() => {
-    const hour = moment().hour();
+    const hour = (new Date()).getHours();
     this.setState({ nightMode: hour > 18 || hour < 6 });
   }, 20000);
 
