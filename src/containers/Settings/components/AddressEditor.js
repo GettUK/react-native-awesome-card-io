@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry } from 'lodash';
@@ -139,31 +139,25 @@ class AddressEditor extends Component {
 
   getFieldLength = field => (field && field.length) || 0;
 
-  renderContent = () => {
+  renderPage = () => {
     const { editing } = this.props.navigation.state.params;
-
     return (
-      <View style={styles.flex}>
-        {this.renderForm()}
-
-        {editing && this.renderDeleteButton()}
-      </View>
+      Platform.OS === 'ios'
+        ? this.renderForm()
+        : (
+          <Fragment>
+            <KeyboardAvoidingView
+              keyboardVerticalOffset={130}
+              behavior="padding"
+              style={styles.flex}
+            >
+              {this.renderForm()}
+            </KeyboardAvoidingView>
+            {editing && this.renderDeleteButton()}
+          </Fragment>
+        )
     );
-  }
-
-  renderPage = () => (
-    Platform.OS === 'ios'
-      ? this.renderContent()
-      : (
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={80}
-          behavior="padding"
-          style={styles.flex}
-        >
-          {this.renderContent()}
-        </KeyboardAvoidingView>
-      )
-  )
+  };
 
   render() {
     const { editing } = this.props.navigation.state.params;
