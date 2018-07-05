@@ -21,7 +21,7 @@ class CarImage extends PureComponent {
     ]),
     duration: PropTypes.number,
     type: PropTypes.string,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'big']),
     animatable: PropTypes.bool
   };
 
