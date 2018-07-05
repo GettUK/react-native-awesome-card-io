@@ -270,7 +270,7 @@ const select = ({ session, booking, app, ui, passenger }) => ({
   app,
   ui,
   passengerData: passenger.data.passenger,
-  activeBookingId: session.user.activeBookingId
+  activeBookingId: session.user && session.user.activeBookingId
 });
 
 const bindActions = {
