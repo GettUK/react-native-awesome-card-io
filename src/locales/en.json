@@ -1,14 +1,34 @@
 {
+  "connection": {
+    "text": {
+      "serviceFailure": "Sorry, we are having hard time connecting to One Transport.",
+      "checkYourConnection": "Please check your internet connection."
+    }
+  },
+  "modal": {
+    "label": {
+      "close": "Close"
+    }
+  },
+  "tip": {
+    "text": {
+      "removeCard": "Swipe left to remove payment card",
+      "removeAddress": "Swipe left to remove address"
+    }
+  },
   "information": {
-    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "contactUs": "Contact Us",
+    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy"
+  },
+  "popup": {
     "locationService": {
       "title": "Your location service is turn off",
-      "btnCancel": "No Thanks",
-      "btnConfirm": "Turn on"
-    },
-    "cards": {
-      "title": "Sorry",
-      "description": "You have no Credit/Debit cards added in your profile"
+      "button": {
+        "сancel": "No Thanks",
+        "сonfirm": "Turn on"
+      }
     },
     "serviceSuspended": {
       "title": "Service Suspended",
@@ -19,198 +39,110 @@
       "title": "Thank you!",
       "description": "We will be in contact with you shortly"
     },
-    "notReceivedCoordinates": "GPS coordinates aren`t received",
-    "notSupportedAddress": "Sorry, this address is not supported",
-    "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?"
-  },
-  "alerts": {
-    "success": "Success",
-    "info": "Information",
-    "warning": "Warning",
-    "failed": "Failed"
-  },
-  "label": {
-    "home": "Home",
-    "work": "Work",
-    "selectDestination": "Select Destination",
-    "eta": "ETA",
-    "journeyTime": "Journey Time",
-    "distance": "Distance",
-    "byMeter": "By meter",
-    "carReg": "Car Reg",
-    "other": "Other",
-    "usePassengerCostCentre": "Use passenger's Cost Centre",
-    "departing": "Departure",
-    "arriving": "Arrival",
-    "loading": "Loading...",
-    "emptyResult": "No Results",
-    "receipt": "Receipt"
-  },
-  "login": {
-    "accept": "Accept",
-    "privacyPolicy": "Privacy Policy",
-    "termsConditions": "Terms and Conditions",
-    "email": "Email",
-    "forgotPassword": "Forgot password?",
-    "createAccount": "Enquire or open an account today",
-    "loginButton": "Log in",
-    "selectCountryTitle": "Select country",
-    "signupTitle": "Your enquiry",
-    "signupButton": "Send",
-    "password": "Password",
-    "resetButton": "Reset Password",
-    "successReset": "Password was reset. Please, check your email",
-    "errors": {
-      "createCompany": "You can't register a company now",
-      "commonError": "User can't be logged in now"
-    },
-    "registerForm": {
-      "title": "One Transport, powered by Gett, for all your business taxi and private hire needs across the globe.",
-      "yourName": "Your name",
-      "comments": "Comments",
-      "phoneNumber": "Phone number",
-      "email": "Work email",
-      "companyName": "Company",
-      "selectCountry": "Select Primary country"
+    "cards": {
+      "title": "Sorry",
+      "description": "You have no Credit/Debit cards added in your profile"
     }
   },
-  "flights": {
-    "header": "Please enter the flight number",
-    "cancel": "No Thanks",
-    "submit": "OK",
-    "error": "Flight number not found, please double check",
-    "titles": {
-      "id": "Flight №",
+  "alert": {
+    "status": {
+      "success": "Success",
+      "info": "Information",
+      "warning": "Warning",
+      "failed": "Failed"
+    },
+    "title": {
+      "cancelOrderCreation": "Cancel Order Creation",
+      "doYouWantToCancelOrder": "Do you really want to cancel you order?",
+      "goBack": "Go Back"
+    },
+    "message": {
+      "areYouSure": "Are you sure?",
+      "doYouWantToDelete": "Do you want to delete?",
+      "doYouWantToDeleteTheAddress": "Do you want to delete the address?",
+      "doYouWantToDeactivateTheCard": "Do you want to deactivate the card?",
+      "enterValidCreditCard": "Please enter a valid credit card",
+      "cancelOrderDescription": "Сancellations charges may apply when you cancel this order",
+      "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?",
+
+      "youCanNotRegisterCompany": "You can't register a company now",
+      "userCanNotBeLogged": "User can't be logged in now",
+      "notReceivedCoordinates": "GPS coordinates aren`t received",
+      "notSupportedAddress": "Sorry, this address is not supported",
+      "scheduledAt": "Wrong pick-up time",
+      "reference": "Please, fill required references",
+      "paymentMethod": "Sorry, you have no Credit/Debit cards added in your profile"
+    },
+    "button": {
+      "no": "No",
+      "yes": "Yes",
+      "ok": "Ok",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "deactivate": "Deactivate"
+    }
+  },
+  "header": {
+    "title": {
+      "selectCountry": "Select country",
+      "yourEnquiry": "Your enquiry",
+      "settings": "Settings",
+      "editProfile": "Edit Profile",
+      "newAddress": "New Addresses",
+      "editAddress": "Edit Address",
+      "myAddresses": "My Addresses",
+      "defaultCarType": "Default Cartype",
+      "cardType": "Card type",
+      "addCreditCard": "Add Credit Card",
+      "paymentCards": "Payment Cards",
+      "cardDetails": "Card Details",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "button": {
+      "back": "Back",
+      "save": "Save",
+      "send": "Send",
+      "done": "Done"
+    }
+  },
+  "app": {
+    "label": {
+      "home": "Home",
+      "work": "Work",
+      "none": "None",
+      "loading": "Loading...",
+      "emptyResult": "No Results",
+      "byMeter": "By meter"
+    }
+  },
+  "booking": {
+    "label": {
+      "usePassengerCostCentre": "Use passenger's Cost Centre",
+      "selectDestination": "Select Destination",
+      "other": "Other",
       "departure": "Departure",
-      "arrival": "Arrival",
+      "arrival": "Arrival"
+    }
+  },
+  "flight": {
+    "label": {
+      "flightNumber": "Flight №",
       "from": "From",
       "to": "To"
     },
-    "verify": "Verify",
-    "number": "Flight No."
-  },
-  "map": {
-    "label": {
-      "close": "Close"
+    "text": {
+      "enterTheFlightNumber": "Please enter the flight number",
+      "notFoundFlightNumber": "Flight number not found, please double check"
+    },
+    "button": {
+      "noThanks": "No Thanks",
+      "ok": "OK",
+      "verify": "Verify"
     }
   },
-  "connection": {
-    "errorHeader": "Sorry, we are having hard time connecting to One Transport.",
-    "errorMessage": "Please check your internet connection."
-  },
-  "settings": {
-    "validation": {
-      "common": "is invalid",
-      "cardNumber": {
-        "length": "must be 13-19 numbers"
-      },
-      "expirationYear": {
-        "length": "must be 4 numbers"
-      },
-      "cvv": {
-        "length": "must be 3-4 numbers"
-      },
-      "cardHolder": {
-        "format": "must be only characters"
-      }
-    },
-    "payment": {
-      "tip": "Swipe left to remove payment card",
-      "deactivate": "Deactivate",
-      "cardHolder":"Cardholder",
-      "cardNumber": "Card number",
-      "cardType": "Card type",
-      "confirmDelete": "Do you want to deactivate the card?",
-      "cvv": "CVV",
-      "enterValidCard": "Please enter a valid credit card",
-      "expirationDate": "Expiration date",
-      "expirationDateFormat": "MM / YYYY"
-    },
-    "address": {
-      "tip": "Swipe left to remove address",
-      "addressDelete": "Delete",
-      "confirmDelete": "Do you want to delete the address?"
-    },
-    "label": {
-      "phone": "Phone",
-      "email": "Email",
-      "cartype": "Default Cartype",
-      "addresses": "My addresses",
-      "sms": "SMS",
-      "notification": "Push Notifications",
-      "events": "Calendar Events",
-      "wheelchair": "Wheelchair Access",
-      "payments": "Payment Cards",
-      "rides": "My Rides",
-      "privacy": "Privacy Policy",
-      "terms": "Terms & Conditions",
-      "contactUs": "Contact Us",
-      "logout": "Log Out"
-    },
-    "editProfile": "Edit Profile",
-    "email": "Email",
-    "phone": "Phone",
-    "carType": "Default Cartype",
-    "cardType": "Card type",
-    "cardDetails": "Card Details",
-    "paymentCards": "Payment Cards",
-    "newPaymentCard": "Add Credit Card",
-    "myAddresses": "My Addresses",
-    "editAddress": "Edit Address",
-    "newAddress": "New Addresses",
-    "headerTitle": "Settings",
-    "none": "None",
-    "delete": "Delete",
-    "cancel": "Cancel",
-    "deleteAddress": "Delete Address",
-    "privacy": "Privacy Policy",
-    "terms": "Terms & Conditions"
-  },
-  "validation": {
-    "email": {
-      "format": "is invalid"
-    },
-    "password": {
-      "length": "must be at least 6 characters"
-    },
-    "phone": {
-      "length": "is to short"
-    },
-    "name": {
-      "length": "must be 30 characters"
-    },
-    "scheduledAt": "Wrong pick-up time",
-    "reference": "Please, fill required references",
-    "paymentMethod": "Sorry, you have no Credit/Debit cards added in your profile"
-  },
-  "back": "Back",
-  "save": "Save",
-  "no": "No",
-  "yes": "Yes",
-  "ok": "Ok",
-  "delete": "Delete",
-  "cancel": "Cancel",
-  "areYouSure": "Are you sure?",
-  "confirmDelete": "Do you want to delete?",
-  "goBack": "Go Back",
-  "rateYourDriver": "Rate your driver",
-  "youRated": "You Rated",
-  "howCanImprove": "How can we improve?",
-  "yourFeedback": "Your feedback will be kept anonymous",
-  "selectIssues": "Please select one or more issues",
-  "send": "Send",
-  "done": "Done",
   "order": {
-    "cancelOrder": "Cancel Order",
-    "myLocation": "My Location",
-    "cancelOrderCreation": "Cancel Order Creation",
-    "createNew": "Create New",
-    "yourRideWasCancelled": "Your Ride Was Cancelled",
-    "seeYouNextTime": "See you next time!",
-    "whyDidYouCancel": "Why did you cancel?",
-    "confirmCancel": "Do you really want to cancel you order?",
-    "confirmCancelDescription": "Сancellations charges may apply when you cancel this order",
-    "statuses": {
+    "status": {
       "connected": "Creating...",
       "creating": "Creating...",
       "order_received": "Order Accepted",
@@ -225,13 +157,13 @@
       "customer_care": "Customer Care",
       "rejected": "Ride has been rejected"
     },
-    "cancellationReasons": {
+    "cancellationReason": {
       "mistaken_order": "Ordered by mistake",
       "driver_asked_to": "Driver asked me to",
       "hailed_another_car": "Hailed another car",
       "too_long_eta": "ETA was too long"
     },
-    "ratingReasons": {
+    "ratingReason": {
       "driver_professionalism": "Driver professionalism",
       "vehicle_condition": "Vehicle condition",
       "driving_style": "Driving style",
@@ -240,6 +172,118 @@
       "route": "Route",
       "app": "App",
       "traffic": "Traffic"
+    },
+    "label": {
+      "carReg": "Car Reg",
+      "eta": "ETA",
+      "journeyTime": "Journey Time",
+      "distance": "Distance"
+    },
+    "text": {
+      "yourRideWasCancelled": "Your Ride Was Cancelled",
+      "seeYouNextTime": "See you next time!",
+      "whyDidYouCancel": "Why did you cancel?",
+      "youRated": "You Rated",
+      "rateYourDriver": "Rate your driver",
+      "howCanImprove": "How can we improve?",
+      "yourFeedback": "Your feedback will be kept anonymous",
+      "selectIssues": "Please select one or more issues"
+    },
+    "button": {
+      "cancelOrder": "Cancel Order",
+      "myLocation": "My Location",
+      "createNew": "Create New",
+      "orders": "Orders",
+      "receipt": "Receipt"
+    }
+  },
+  "auth": {
+    "label": {
+      "email": "Email",
+      "password": "Password",
+      "accept": "Accept",
+      "logIn": "Log in",
+      "yourName": "Your name",
+      "phoneNumber": "Phone number",
+      "workEmail": "Work email",
+      "company": "Company",
+      "comments": "Comments",
+      "selectPrimaryCountry": "Select Primary country"
+    },
+    "text": {
+      "passwordWasReset": "Password was reset. Please, check your email",
+      "forgotPassword": "Forgot password?",
+      "openAccountToday": "Enquire or open an account today",
+      "oneTransportForYourBusiness": "One Transport, powered by Gett, for all your business taxi and private hire needs across the globe."
+    },
+    "button": {
+      "resetPassword": "Reset Password",
+      "send": "Send"
+    }
+  },
+  "settings": {
+    "label": {
+      "phone": "Phone",
+      "email": "Email",
+      "cartype": "Default Cartype",
+      "addresses": "My addresses",
+      "sms": "SMS",
+      "notification": "Push Notifications",
+      "events": "Calendar Events",
+      "wheelchair": "Wheelchair Access",
+      "payments": "Payment Cards",
+      "rides": "My Rides"
+    },
+    "button": {
+      "logout": "Log Out"
+    }
+  },
+  "paymentCard": {
+    "label": {
+      "cvv": "CVV",
+      "expirationDate": "Expiration date",
+      "cardHolder":"Cardholder",
+      "cardNumber": "Card number",
+      "cardType": "Card type"
+    },
+    "text": {
+      "cvv": "A three-digit code on your credit card, you can find this on the back of your card.",
+      "expirationDate": "You should be able to find this date on the front of your card, under the card number"
+    },
+    "placeholder": {
+      "expirationDateFormat": "MM / YYYY"
+    },
+    "button": {
+      "deactivate": "Deactivate"
+    }
+  },
+  "addresses": {
+    "button": {
+      "delete": "Delete"
+    }
+  },
+  "fieldValidation": {
+    "common": "is invalid",
+    "cardNumber": {
+      "length": "must be 13-19 numbers"
+    },
+    "expirationYear": {
+      "length": "must be 4 numbers"
+    },
+    "cvv": {
+      "length": "must be 3-4 numbers"
+    },
+    "cardHolder": {
+      "format": "must be only characters"
+    },
+    "password": {
+      "length": "must be at least 6 characters"
+    },
+    "phone": {
+      "length": "is to short"
+    },
+    "name": {
+      "length": "must be 30 characters"
     }
   },
   "userGuide": {

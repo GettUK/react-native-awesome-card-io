@@ -23,7 +23,7 @@ const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
     <View style={[styles.container, style]}>
       {
         renderBlockItem({
-          label: strings(`label.${timeLabel || 'journeyTime'}`),
+          label: strings(`order.label.${timeLabel || 'journeyTime'}`),
           text: time,
           icon: <Icon style={styles.icon} name="journeyTime" width={20} height={24} color="rgb(216,216,216)" />
         })
@@ -31,7 +31,7 @@ const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
       <View style={styles.divider} />
       {
         renderBlockItem({
-          label: strings('label.distance'),
+          label: strings('order.label.distance'),
           text: distance,
           icon: <Icon style={styles.icon} name="distance" width={24} height={14} color="rgb(216,216,216)" />
         })

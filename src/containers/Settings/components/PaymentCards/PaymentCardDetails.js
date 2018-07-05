@@ -23,8 +23,8 @@ class PaymentCardDetails extends Component {
     const id = navigation.state.params.paymentCard.id;
 
     showRemovalAlert({
-      message: strings('settings.payment.confirmDelete'),
-      deleteLabel: strings('settings.payment.deactivate'),
+      message: strings('alert.message.doYouWantToDeactivateTheCard'),
+      deleteLabel: strings('alert.button.deactivate'),
       handler: () => deactivatePayment(id).then(this.goBack)
     });
   };
@@ -54,7 +54,7 @@ class PaymentCardDetails extends Component {
           {prepareCardDeails(paymentCard).map(this.renderItem)}
         </View>
         <TouchableOpacity activeOpacity={0.6} onPress={this.deactivateCard} style={styles.deactivateBtn}>
-          <Text style={styles.deactivateBtnLabel}>{strings('settings.payment.deactivate')}</Text>
+          <Text style={styles.deactivateBtnLabel}>{strings('paymentCard.button.deactivate')}</Text>
         </TouchableOpacity>
       </ScrollView>
     );

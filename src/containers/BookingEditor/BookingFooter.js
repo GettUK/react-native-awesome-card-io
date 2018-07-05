@@ -149,7 +149,7 @@ class BookingFooter extends PureComponent {
     const { booking: { orderCreateError: { response: { data } } } } = this.props;
 
     if (data.errors && data.errors[type]) {
-      this.setState({ message: strings(`validation.${type}`) }, () => this.alert.show());
+      this.setState({ message: strings(`alert.message.${type}`) }, () => this.alert.show());
 
       this.hideFlightModal();
     }
@@ -175,7 +175,7 @@ class BookingFooter extends PureComponent {
       const referenceErrors = pickBy(data.errors, (_, key) => key.startsWith('bookerReferences'));
       if (!isEmpty(referenceErrors)) {
         setReferenceErrors(referenceErrors);
-        this.setState({ message: strings('validation.reference') }, () => this.alert.show());
+        this.setState({ message: strings('alert.message.reference') }, () => this.alert.show());
       }
 
       this.hideFlightModal();
@@ -246,7 +246,7 @@ class BookingFooter extends PureComponent {
   displayErrorAlert = () => {
     const { booking: { bookingForm } } = this.props;
     if (bookingForm.bookerReferencesErrors) {
-      this.setState({ message: strings('validation.reference') }, () => this.alert.show());
+      this.setState({ message: strings('alert.message.reference') }, () => this.alert.show());
     }
     if (!bookingForm.paymentMethod) {
       this.cardsPopup.open();
@@ -314,7 +314,7 @@ class BookingFooter extends PureComponent {
         >
           <Icon style={styles.iconItem} name="destinationMarker" width={16} height={19} />
           <Text style={styles.selectDestinationText} numberOfLines={1}>
-            {strings('label.selectDestination')}
+            {strings('booking.label.selectDestination')}
           </Text>
         </TouchableOpacity>
         <Divider left={31} />
@@ -332,10 +332,10 @@ class BookingFooter extends PureComponent {
         showsHorizontalScrollIndicator={false}
       >
         {passenger && passenger.homeAddress && passenger.homeAddress.line &&
-          this.renderAddressItem(passenger.homeAddress, strings('label.home'))
+          this.renderAddressItem(passenger.homeAddress, strings('app.label.home'))
         }
         {passenger && passenger.workAddress && passenger.workAddress.line &&
-          this.renderAddressItem(passenger.workAddress, strings('label.work'))
+          this.renderAddressItem(passenger.workAddress, strings('app.label.work'))
         }
         {passenger && (passenger.favoriteAddresses || []).map(address =>
           this.renderAddressItem(address.address, address.name))
@@ -396,7 +396,7 @@ class BookingFooter extends PureComponent {
 
     const getReasonsName = id => (
       (travelReasons && travelReasons.find(r => r.id === +id))
-      || { name: strings('label.other') }
+      || { name: strings('booking.label.other') }
     ).name;
 
     return (
@@ -465,15 +465,15 @@ class BookingFooter extends PureComponent {
               <Popup
                 ref={(popup) => { this.locationPopup = popup; }}
                 titleStyle={styles.popupLocationTitle}
-                title={strings('information.locationService.title')}
+                title={strings('popup.locationService.title')}
                 buttons={[
                   {
-                    title: strings('information.locationService.btnCancel'),
+                    title: strings('popup.locationService.button.сancel'),
                     style: styles.btnStyle,
                     textStyle: styles.btnTextStyle
                   },
                   {
-                    title: strings('information.locationService.btnConfirm'),
+                    title: strings('popup.locationService.button.сonfirm'),
                     onPress: this.openSettings
                   }
                 ]}
@@ -551,8 +551,8 @@ class BookingFooter extends PureComponent {
               <Popup
                 ref={(popup) => { this.cardsPopup = popup; }}
                 titleStyle={styles.popupLocationTitle}
-                title={strings('information.cards.title')}
-                content={<Text style={styles.popupCards}>{strings('information.cards.description')}</Text>}
+                title={strings('popup.cards.title')}
+                content={<Text style={styles.popupCards}>{strings('popup.cards.description')}</Text>}
               />
             </View>
           )

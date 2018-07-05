@@ -60,7 +60,7 @@ class References extends PureComponent {
         />
         {item.costCentre && !!costCentreValue &&
           <TouchableOpacity style={styles.costCentre} activeOpacity={0.6} onPress={() => handleChange(costCentreValue)}>
-            <Text style={styles.costCentreTitle}>{strings('label.usePassengerCostCentre')}</Text>
+            <Text style={styles.costCentreTitle}>{strings('booking.label.usePassengerCostCentre')}</Text>
           </TouchableOpacity>
         }
       </View>

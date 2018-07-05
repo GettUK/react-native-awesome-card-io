@@ -43,8 +43,8 @@ class PaymentCardsList extends Component {
 
   deactivateCard = (id) => {
     showRemovalAlert({
-      message: strings('settings.payment.confirmDelete'),
-      deleteLabel: strings('settings.payment.deactivate'),
+      message: strings('alert.message.doYouWantToDeactivateTheCard'),
+      deleteLabel: strings('alert.button.deactivate'),
       handler: () => this.props.deactivatePayment(id)
     });
   };
@@ -65,7 +65,7 @@ class PaymentCardsList extends Component {
           component: (
             <View style={settingsStyles.buttonView}>
               <Text style={settingsStyles.buttonText}>
-                {strings('settings.payment.deactivate')}
+                {strings('paymentCard.button.deactivate')}
               </Text>
             </View>
           ),
@@ -124,7 +124,7 @@ class PaymentCardsList extends Component {
         <ScrollView style={[styles.flex, styles.container]}>
           {this.renderPaymentCards()}
 
-          <Tip label={strings('settings.payment.tip')} />
+          <Tip label={strings('tip.text.removeCard')} />
         </ScrollView>
       )
       : this.renderEmptyContent();

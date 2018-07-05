@@ -86,7 +86,7 @@ export default class Registration extends Component {
   };
 
   handleRegisterError = () => {
-    this.setState({ loading: false, error: strings('login.errors.createCompany') }, this.showError);
+    this.setState({ loading: false, error: strings('alert.message.youCanNotRegisterCompany') }, this.showError);
   };
 
   goToSelectCountry = () => {
@@ -151,22 +151,22 @@ export default class Registration extends Component {
             <Header
               navigation={navigation}
               titleCenter
-              title={strings('login.signupTitle')}
+              title={strings('header.title.yourEnquiry')}
               leftButton={<BackBtn color="#fff" navigation={navigation}/>}
               rightButton={<View style={{ width: placeholderWidth }} />} // placeholder for title aligning
             />
 
             <View style={styles.empty}>
-              <Text style={styles.labelTitle}>{strings('login.registerForm.title')}</Text>
+              <Text style={styles.labelTitle}>{strings('auth.text.oneTransportForYourBusiness')}</Text>
               {inputs.map(this.renderInputItem)}
               {this.renderListItem({
-                label: strings('login.registerForm.selectCountry'),
+                label: strings('auth.label.selectPrimaryCountry'),
                 onPress: this.goToSelectCountry,
                 title: currentCountry.label
               })}
               {switches.map(this.renderSwitchItem)}
               <TextButton
-                title={strings('login.signupButton')}
+                title={strings('auth.button.send')}
                 disabled={!form.acceptTac || !form.acceptPp}
                 loading={loading}
                 onPress={this.handleSubmit}
@@ -197,9 +197,9 @@ export default class Registration extends Component {
           icon={<Icon size={70} name="registration" />}
           contentWraperStyle={styles.contentWraperStyle}
           titleStyle={styles.titleStyle}
-          title={strings('information.companyRequest.title')}
+          title={strings('popup.companyRequest.title')}
           contentStyle={styles.popupInfo}
-          content={strings('information.companyRequest.description')}
+          content={strings('popup.companyRequest.description')}
         />
       </DismissKeyboardView>
     );

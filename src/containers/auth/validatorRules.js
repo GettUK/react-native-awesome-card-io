@@ -7,7 +7,7 @@ const presence = {
 const emailRule = {
   presence,
   email: {
-    message: strings('validation.email.format')
+    message: strings('fieldValidation.common')
   }
 };
 
@@ -17,7 +17,7 @@ export const loginRules = {
     presence,
     length: {
       minimum: 6,
-      message: strings('validation.password.length')
+      message: strings('fieldValidation.password.length')
     }
   }
 };

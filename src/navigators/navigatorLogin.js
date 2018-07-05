@@ -27,7 +27,7 @@ const routeConfiguration = {
       header: (
         <ScreenHeader
           navigation={navigation}
-          title={strings('login.selectCountryTitle')}
+          title={strings('header.title.selectCountry')}
         />
       )
     })

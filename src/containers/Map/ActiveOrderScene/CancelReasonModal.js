@@ -32,7 +32,7 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
       onPress={() => submit(reason)}
     >
       <Icon name={reasonIconMapping[reason]} color="#284784" size={26} />
-      <Text style={cancelReasonStyles.reasonTitle}>{strings(`order.cancellationReasons.${reason}`)}</Text>
+      <Text style={cancelReasonStyles.reasonTitle}>{strings(`order.cancellationReason.${reason}`)}</Text>
     </TouchableOpacity>
   );
 
@@ -44,10 +44,10 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
           <Icon style={cancelReasonStyles.closeIcon} size={30} name="close" color="#fff" />
         </TouchableOpacity>
         <View style={cancelReasonStyles.content}>
-          <Text style={cancelReasonStyles.header}>{strings('order.yourRideWasCancelled')}</Text>
-          <Text style={cancelReasonStyles.subHeader}>{strings('order.seeYouNextTime')}</Text>
+          <Text style={cancelReasonStyles.header}>{strings('order.text.yourRideWasCancelled')}</Text>
+          <Text style={cancelReasonStyles.subHeader}>{strings('order.text.seeYouNextTime')}</Text>
 
-          <Text style={cancelReasonStyles.title}>{strings('order.whyDidYouCancel')}</Text>
+          <Text style={cancelReasonStyles.title}>{strings('order.text.whyDidYouCancel')}</Text>
           <ScrollView style={cancelReasonStyles.list}>
             {reasons.map(renderReason)}
           </ScrollView>

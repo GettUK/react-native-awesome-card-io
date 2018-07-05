@@ -97,14 +97,14 @@ export default class ForgotPassword extends PureComponent {
             />
 
             <TextButton
-              title={strings('login.resetButton')}
+              title={strings('auth.button.resetPassword')}
               loading={loading}
               onPress={this.handleSubmit}
             />
           </KeyboardAvoidingView>
 
           <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
-            <Text style={[styles.footerText, styles.footerLink]}>Log in</Text>
+            <Text style={[styles.footerText, styles.footerLink]}>{strings('auth.label.logIn')}</Text>
           </TouchableHighlight>
         </Background>
 

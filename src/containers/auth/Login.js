@@ -81,7 +81,7 @@ class Login extends Component {
   handleLoginError = (res) => {
     const error = res.response && res.response.status === 401
       ? res.response.data.error
-      : strings('login.errors.commonError');
+      : strings('alert.message.userCanNotBeLogged');
 
     this.setState({ loading: false, error }, this.showError);
   };
@@ -163,7 +163,7 @@ class Login extends Component {
           autoCorrect={false}
           inputStyle={styles.inputStyle}
           labelStyle={styles.label}
-          label={strings('login.email')}
+          label={strings('auth.label.email')}
           keyboardType="email-address"
         />
         <Input
@@ -173,19 +173,19 @@ class Login extends Component {
           autoCorrect={false}
           inputStyle={styles.inputStyle}
           labelStyle={styles.label}
-          label={strings('login.password')}
+          label={strings('auth.label.password')}
           secureTextEntry
         />
         <View style={styles.btnForgot}>
           <TouchableWithoutFeedback onPress={this.goToForgot}>
-            <View><Text style={styles.forgotText}>{strings('login.forgotPassword')}</Text></View>
+            <View><Text style={styles.forgotText}>{strings('auth.text.forgotPassword')}</Text></View>
           </TouchableWithoutFeedback>
         </View>
         <KeyboardHide>
           {switches.map(this.renderSwitchItem)}
         </KeyboardHide>
         <TextButton
-          title={strings('login.loginButton')}
+          title={strings('auth.label.logIn')}
           disabled={!form.acceptTac || !form.acceptPp}
           loading={loading}
           onPress={this.handleSubmit}
@@ -203,7 +203,7 @@ class Login extends Component {
         <TouchableWithoutFeedback onPress={this.goToCreateAccount}>
           <View>
             <Text style={[styles.footerText, styles.footerLink]}>
-              {strings('login.createAccount')}
+              {strings('auth.text.openAccountToday')}
             </Text>
           </View>
         </TouchableWithoutFeedback>
@@ -250,7 +250,7 @@ class Login extends Component {
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type={isResetSuccess ? 'success' : 'failed' }
-          message={isResetSuccess ? strings('login.successReset') : error}
+          message={isResetSuccess ? strings('auth.text.passwordWasReset') : error}
           onClose={this.onCloseAlert}
         />
       </DismissKeyboardView>

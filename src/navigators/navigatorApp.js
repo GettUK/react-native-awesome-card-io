@@ -98,7 +98,7 @@ const routeConfiguration = {
       header: (
         <ScreenHeader
           navigation={navigation}
-          title={strings('flights.number')}
+          title={strings('flight.label.flightNumber')}
           leftContent={
             <BackBtn
               navigation={navigation}

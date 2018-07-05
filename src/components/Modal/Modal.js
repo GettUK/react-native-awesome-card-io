@@ -6,6 +6,7 @@ import NativeModal from 'react-native-modal';
 import { DismissKeyboardView } from 'components';
 
 import { isIphoneX } from 'utils';
+import { strings } from 'locales';
 
 import styles from './styles';
 
@@ -51,5 +52,5 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  label: 'Close'
+  label: strings('modal.label.close')
 };

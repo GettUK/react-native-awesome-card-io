@@ -222,7 +222,7 @@ export default class AddressModal extends PureComponent {
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type="failed"
-          message={strings('information.notSupportedAddress')}
+          message={strings('alert.message.notSupportedAddress')}
           position="bottom"
         />
       </Modal>

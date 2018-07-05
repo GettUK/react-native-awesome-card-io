@@ -13,13 +13,13 @@ export const extractedDate = (formatted) => {
 
 export const helpInfo = {
   cvv: {
-    label: strings('settings.payment.cvv'),
-    text: 'A three-digit code on your credit card, you can find this on the back of your card.',
+    label: strings('paymentCard.label.cvv'),
+    text: strings('paymentCard.text.cvv'),
     image: assets.cvv
   },
   expirationDate: {
-    label: strings('settings.payment.expirationDate'),
-    text: 'You should be able to find this date on the front of your card, under the card number',
+    label: strings('paymentCard.label.expirationDate'),
+    text: strings('paymentCard.text.expirationDate'),
     image: assets.expirationDate
   }
 };
@@ -27,19 +27,19 @@ export const helpInfo = {
 export const prepareCardDeails = (data = {}) => (
   [
     {
-      label: strings('settings.payment.cardType'),
+      label: strings('paymentCard.label.cardType'),
       text: getValue(data.kind)
     },
     {
-      label: strings('settings.payment.cardNumber'),
+      label: strings('paymentCard.label.cardNumber'),
       text: `**** **** **** ${getValue(data.last4)}`
     },
     {
-      label: strings('settings.payment.expirationDate'),
+      label: strings('paymentCard.label.expirationDate'),
       text: `${getValue(data.expirationMonth)} / ${getValue(data.expirationYear)}`
     },
     {
-      label: strings('settings.payment.cardHolder'),
+      label: strings('paymentCard.label.cardHolder'),
       text: getValue(data.holderName)
     }
   ]
@@ -47,7 +47,7 @@ export const prepareCardDeails = (data = {}) => (
 export const prepareCardEditor = (data = {}, handlers = {}) => (
   [
     {
-      label: strings('settings.payment.cardType'),
+      label: strings('paymentCard.label.cardType'),
       text: capitalize(data.kind),
       onPress: handlers.goToPaymentCardTypes
     }
@@ -57,7 +57,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
   [
     {
       allowmask: true,
-      label: strings('settings.payment.cardNumber'),
+      label: strings('paymentCard.label.cardNumber'),
       value: getValue(data.cardNumber),
       onChangeText: handlers.handleMaskInputChange('cardNumber'),
       mask: '[0000000000000999999]',
@@ -66,7 +66,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
     },
     {
       allowmask: true,
-      label: strings('settings.payment.expirationDate'),
+      label: strings('paymentCard.label.expirationDate'),
       value: (data.expirationMonthText && data.expirationYear &&
           `${data.expirationMonthText}${data.expirationYear}`) || '',
       onChangeText: handlers.handleExpirationDate,
@@ -74,13 +74,13 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       allowHelp: true,
       helpPress: () => handlers.onHelpPress('expirationDate'),
       keyboardType: 'numeric',
-      placeholder: strings('settings.payment.expirationDateFormat'),
+      placeholder: strings('paymentCard.placeholder.expirationDateFormat'),
       placeholderTextColor: '#8e8e93',
       error: data.error && (data.error.expirationMonth || data.error.expirationYear || data.error.expirationDate)
     },
     {
       allowmask: true,
-      label: strings('settings.payment.cvv'),
+      label: strings('paymentCard.label.cvv'),
       value: getValue(data.cvv),
       onChangeText: handlers.handleMaskInputChange('cvv'),
       mask: '[0009]',
@@ -90,7 +90,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       error: data.error && data.error.cvv
     },
     {
-      label: strings('settings.payment.cardHolder'),
+      label: strings('paymentCard.label.cardHolder'),
       value: getValue(data.holderName),
       onChangeText: handlers.handleInputChange('holderName'),
       error: data.error && data.error.holderName
@@ -110,7 +110,7 @@ export const cardTypes = [
 ];
 
 const presence = {
-  message: strings('settings.validation.common')
+  message: strings('fieldValidation.common')
 };
 
 export const validationRules = {
@@ -119,7 +119,7 @@ export const validationRules = {
     length: {
       minimum: 13,
       maximum: 19,
-      message: strings('settings.validation.cardNumber.length')
+      message: strings('fieldValidation.cardNumber.length')
     }
   },
   expirationMonth: {
@@ -130,7 +130,7 @@ export const validationRules = {
     presence,
     length: {
       is: 4,
-      message: strings('settings.validation.expirationYear.length')
+      message: strings('fieldValidation.expirationYear.length')
     }
   },
   expirationDate: {
@@ -142,7 +142,7 @@ export const validationRules = {
     length: {
       minimum: 3,
       maximum: 4,
-      message: strings('settings.validation.cvv.length')
+      message: strings('fieldValidation.cvv.length')
     }
   },
   holderName: {
@@ -150,7 +150,7 @@ export const validationRules = {
     format: {
       pattern: '[a-z ]+',
       flags: 'i',
-      message: strings('settings.validation.cardHolder.format')
+      message: strings('fieldValidation.cardHolder.format')
     }
   }
 };

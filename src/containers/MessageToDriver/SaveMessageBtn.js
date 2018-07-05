@@ -19,7 +19,7 @@ const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
 
   return (
     <SaveBtn
-      title={strings('done')}
+      title={strings('header.button.done')}
       onPress={handleSave}
       enabled={touched}
       enabledColor="#fff"

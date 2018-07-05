@@ -91,7 +91,7 @@ class AddressesList extends Component {
       : () => destroyFavoriteAddress(id);
 
     showRemovalAlert({
-      message: strings('settings.address.confirmDelete'),
+      message: strings('alert.message.doYouWantToDeleteTheAddress'),
       handler: () => {
         removeAction();
         if (handler) handler();
@@ -115,7 +115,7 @@ class AddressesList extends Component {
           component: (
             <View style={settingsStyles.buttonView}>
               <Text style={settingsStyles.buttonText}>
-                {strings('settings.address.addressDelete')}
+                {strings('addresses.button.delete')}
               </Text>
               <Icon style={styles.buttonIcon} name="close" size={17} color="#fff" />
             </View>

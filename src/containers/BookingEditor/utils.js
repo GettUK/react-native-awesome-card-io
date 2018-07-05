@@ -10,8 +10,8 @@ export const prepareFavAddresses = addresses => addresses && map(
 
 export const prepareDefaultValues = ({ favoriteAddresses, homeAddress, workAddress }) => reduce(
   [
-    prepareAddress(homeAddress, strings('label.home')),
-    prepareAddress(workAddress, strings('label.work')),
+    prepareAddress(homeAddress, strings('app.label.home')),
+    prepareAddress(workAddress, strings('app.label.work')),
     prepareFavAddresses(favoriteAddresses)
   ],
   (res, item) => ((item && res.concat(item)) || res),

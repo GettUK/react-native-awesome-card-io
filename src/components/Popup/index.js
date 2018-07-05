@@ -49,7 +49,7 @@ class Popup extends PureComponent {
 
   renderButton = ({ style, textStyle, onPress, title }, index) => (
     <TouchableOpacity key={index} style={[styles.btn, style]} onPress={onPress || this.close}>
-      <Text style={[styles.btnText, textStyle]}>{title || strings('ok').toUpperCase()}</Text>
+      <Text style={[styles.btnText, textStyle]}>{title || strings('alert.button.ok').toUpperCase()}</Text>
     </TouchableOpacity>
   );
 

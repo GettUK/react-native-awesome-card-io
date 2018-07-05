@@ -38,7 +38,7 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
     {
       leftIconName: 'carType',
       title: strings('settings.label.cartype'),
-      rightTitle: passenger.defaultVehicle ? vehiclesData[passenger.defaultVehicle].label : strings('settings.none'),
+      rightTitle: passenger.defaultVehicle ? vehiclesData[passenger.defaultVehicle].label : strings('app.label.none'),
       onPress: handlers.goToCarTypesEditor
     }
   ];
@@ -50,14 +50,14 @@ export function prepareAddressesBlock(data = {}, handlers = {}) {
   return [
     {
       leftIconName: 'home',
-      title: strings('label.home'),
-      rightTitle: (passenger.homeAddress && passenger.homeAddress.line) || strings('settings.none'),
+      title: strings('app.label.home'),
+      rightTitle: (passenger.homeAddress && passenger.homeAddress.line) || strings('app.label.none'),
       onPress: () => handlers.openAddressModal('home')
     },
     {
       leftIconName: 'work',
-      title: strings('label.work'),
-      rightTitle: (passenger.workAddress && passenger.workAddress.line) || strings('settings.none'),
+      title: strings('app.label.work'),
+      rightTitle: (passenger.workAddress && passenger.workAddress.line) || strings('app.label.none'),
       onPress: () => handlers.openAddressModal('work')
     },
     {
@@ -128,15 +128,15 @@ export function prepareHistoryBlock(_, handlers = {}) {
 export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
   return [
     {
-      title: strings('settings.label.privacy'),
-      onPress: () => handlers.goToInfoPage('privacy')
+      title: strings('information.privacyPolicy'),
+      onPress: () => handlers.goToInfoPage('privacyPolicy')
     },
     {
-      title: strings('settings.label.terms'),
-      onPress: () => handlers.goToInfoPage('terms')
+      title: strings('information.termsConditions'),
+      onPress: () => handlers.goToInfoPage('termsConditions')
     },
     {
-      title: strings('settings.label.contactUs'),
+      title: strings('information.contactUs'),
       onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
     }
   ];
@@ -145,7 +145,7 @@ export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
 export function prepareLogoutBlock({ isLoading = false }, handlers = {}) {
   return [
     {
-      title: strings('settings.label.logout'),
+      title: strings('settings.button.logout'),
       onPress: handlers.onLogout,
       isLoading,
       showRightIcon: false,
@@ -177,7 +177,7 @@ const validateName = {
   },
   length: {
     maximum: 30,
-    message: strings('validation.name.length')
+    message: strings('fieldValidation.name.length')
   }
 };
 
@@ -189,7 +189,7 @@ export const validationRules = {
       allowEmpty: false
     },
     email: {
-      message: strings('validation.email.format')
+      message: strings('fieldValidation.email.format')
     }
   },
   phone: {
@@ -198,7 +198,7 @@ export const validationRules = {
     },
     length: {
       minimum: 10,
-      message: strings('validation.phone.length')
+      message: strings('fieldValidation.phone.length')
     }
   }
 };

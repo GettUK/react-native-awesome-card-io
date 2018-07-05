@@ -54,8 +54,8 @@ class ConnectionMessage extends PureComponent {
       >
         <View style={styles.messageContainer}>
           <View style={styles.messageWrapper}>
-            <Text style={styles.message}>{strings('connection.errorHeader')}</Text>
-            <Text style={styles.message}>{strings('connection.errorMessage')}</Text>
+            <Text style={styles.message}>{strings('connection.text.serviceFailure')}</Text>
+            <Text style={styles.message}>{strings('connection.text.checkYourConnection')}</Text>
           </View>
         </View>
       </Animated.View>

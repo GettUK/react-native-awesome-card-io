@@ -126,7 +126,7 @@ class OrdersList extends PureComponent {
             <Text style={styles.orderDate} numberOfLines={1}>{moment(item.scheduledAt).format('lll')}</Text>
             <View style={[styles.orderLabel, styles[`${getLabelColor(item.indicatedStatus)}Label`]]}>
               <Text style={[styles.orderLabelText, styles[`${getLabelColor(item.indicatedStatus)}LabelText`]]}>
-                {strings(`order.statuses.${item.indicatedStatus}`).toUpperCase()}
+                {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
               </Text>
             </View>
           </View>
@@ -172,7 +172,7 @@ class OrdersList extends PureComponent {
       renderItem={this.renderItem}
       onEndReached={this.getOrders}
       ListFooterComponent={this.state.loading && Platform.OS === 'ios' &&
-        <Text style={{ textAlign: 'center' }}>{strings('label.loading')}</Text>
+        <Text style={{ textAlign: 'center' }}>{strings('app.label.loading')}</Text>
       }
       refreshing={this.state.loading}
     />
@@ -181,7 +181,7 @@ class OrdersList extends PureComponent {
   renderAndroidLoadingLabel = () => (
     <View style={styles.loaderWrapper}>
       <View style={styles.loader}>
-        <Text style={styles.loaderLabel}>{strings('label.loading')}</Text>
+        <Text style={styles.loaderLabel}>{strings('app.label.loading')}</Text>
       </View>
     </View>
   )
@@ -194,7 +194,7 @@ class OrdersList extends PureComponent {
       <View style={[styles.flex, styles.centered]}>
         {(items && items.length) || loading
           ? this.renderList()
-          : <Text style={styles.emptyLabel}>{strings('label.emptyResult')}</Text>
+          : <Text style={styles.emptyLabel}>{strings('app.label.emptyResult')}</Text>
         }
 
         {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel()}
