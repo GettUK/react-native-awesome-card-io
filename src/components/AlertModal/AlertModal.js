@@ -13,16 +13,16 @@ class AlertModal extends PureComponent {
   state = {
     title: '',
     message: ''
-  }
+  };
 
-  hide = () => { this.popup.close(); }
+  hide = () => { this.popup.close(); };
 
   closeWrapper = callback => () => {
     this.hide();
     if (callback) callback();
-  }
+  };
 
-  static show = (title, message, desiredButtons) => {
+  static show(title, message, desiredButtons) {
     const defaultButton = { title: '', textStyle: {}, onPress: () => {} };
     const buttons = desiredButtons.map((item) => {
       const isCancelStyle = item.style && item.style === 'cancel';
