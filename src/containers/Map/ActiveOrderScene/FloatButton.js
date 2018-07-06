@@ -6,7 +6,7 @@ import { Icon } from 'components';
 
 import { fbStyles } from './styles';
 
-const FloatButton = ({ label, iconName, style, loading, onPress }) => {
+const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle }) => {
   const icons = {
     cancel: { name: 'closeThick', color: '#ff0000' },
     walker: { name: 'walker', color: '#6bc11a' },
@@ -34,7 +34,7 @@ const FloatButton = ({ label, iconName, style, loading, onPress }) => {
           }
         </View>
       </TouchableOpacity>
-      <Text style={fbStyles.label}>{label}</Text>
+      <Text style={[fbStyles.label, labelStyle]}>{label}</Text>
     </View>
   );
 };
