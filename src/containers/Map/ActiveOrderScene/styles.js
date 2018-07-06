@@ -49,6 +49,9 @@ export const screenStyles = StyleSheet.create({
   createNewText: {
     color: '#284784',
     fontWeight: 'bold'
+  },
+  whiteText: {
+    color: '#fff'
   }
 });
 

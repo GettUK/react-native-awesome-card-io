@@ -69,8 +69,9 @@ class ActiveOrderScene extends Component {
     this.setState({ cancelModalVisible: false });
   };
 
+
   renderInfoPanel = () => {
-    const { status, busy } = this.props;
+    const { status, busy, nightMode } = this.props;
 
     const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
@@ -86,13 +87,13 @@ class ActiveOrderScene extends Component {
 
     const statusPosition = isIphoneX() ? 140 : 130;
 
+    const Wrapper = nightMode ? View : GradientWrapper;
+
     return (
       <FadeInView>
-        <GradientWrapper
+        <Wrapper
           style={screenStyles.footer}
-          colors={gradientColors}
-          start={gradientStart}
-          end={gradientEnd}
+          {...(nightMode ? {} : { colors: gradientColors, start: gradientStart, end: gradientEnd })}
           pointerEvents="box-none"
         >
           <View
@@ -107,6 +108,7 @@ class ActiveOrderScene extends Component {
                   iconName="myLocation"
                   onPress={this.handleMyLocation}
                   style={screenStyles.floatButton}
+                  labelStyle={nightMode ? screenStyles.whiteText : {}}
                 />
               }
               {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
@@ -116,6 +118,8 @@ class ActiveOrderScene extends Component {
                   iconName="cancel"
                   loading={busy}
                   onPress={this.handleCancelOrder}
+                  style={screenStyles.floatButton}
+                  labelStyle={nightMode ? screenStyles.whiteText : {}}
                 />
               }
 
@@ -132,9 +136,11 @@ class ActiveOrderScene extends Component {
               */}
             </View>
 
-            <Text style={screenStyles.header}>{strings(`order.statuses.${status}`)}</Text>
+            <Text style={[screenStyles.header, nightMode ? screenStyles.whiteText : {}]}>
+              {strings(`order.statuses.${status}`)}
+            </Text>
           </View>
-        </GradientWrapper>
+        </Wrapper>
       </FadeInView>
     );
   };
