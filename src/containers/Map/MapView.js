@@ -74,7 +74,7 @@ class MapView extends Component {
     }
 
     if (nightMode !== oldNightMode) {
-      this.map._updateStyle(); // eslint-disable-line
+      setTimeout(() => this.map._updateStyle(), 500); // eslint-disable-line
     }
   }
 
