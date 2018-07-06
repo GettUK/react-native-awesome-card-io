@@ -79,14 +79,9 @@ class Login extends Component {
   };
 
   handleLoginError = (res) => {
-    let error = strings('login.errors.commonError');
-    if (res.response && res.response.status === 401) {
-      if (res.response.data.error.includes('BBC')) {
-        error = res.response.data.error;
-      } else {
-        error = strings('login.errors.credentialsError');
-      }
-    }
+    const error = res.response && res.response.status === 401
+      ? res.response.data.error
+      : strings('login.errors.commonError');
 
     this.setState({ loading: false, error }, this.showError);
   };

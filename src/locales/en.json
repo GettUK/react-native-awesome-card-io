@@ -62,8 +62,7 @@
     "successReset": "Password was reset. Please, check your email",
     "errors": {
       "createCompany": "You can't register a company now",
-      "commonError": "User can't be logged in now",
-      "credentialsError": "The email or password you entered is incorrect"
+      "commonError": "User can't be logged in now"
     },
     "registerForm": {
       "title": "One Transport, powered by Gett, for all your business taxi and private hire needs across the globe.",
