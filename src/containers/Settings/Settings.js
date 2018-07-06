@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, StatusBar } from 'react-native';
 
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
 import { logout } from 'actions/session';
@@ -127,6 +127,7 @@ class Settings extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="default" />
         <ScrollView style={styles.container}>
           {this.getSettingsBlocks().map(this.renderBlock)}
         </ScrollView>
