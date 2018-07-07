@@ -58,6 +58,13 @@ const changeAddress = (state, { payload: { address, meta } }) => {
   return update.with(state, 'bookingForm.stops', old => old.map((s, i) => (i === meta.index ? address : s)));
 };
 
+const updateReferences = (state, { payload }) => (
+  update(state, {
+    'bookingForm.bookerReferences': payload.map(r => ({ ...r, bookingReferenceId: r.id })),
+    'bookingForm.bookerReferencesErrors': {}
+  })
+);
+
 const changeReference = (state, { payload }) =>
   update(state, {
     [`bookingForm.bookerReferences.{id:${payload.id}}.value`]: payload.value,
@@ -235,5 +242,6 @@ export default composeReducer('booking', {
   changeDriverRatingReasons,
   changeDriverRatingSuccess,
   clearCurrentOrder,
-  clearBooking
+  clearBooking,
+  updateReferences
 }, initialState);

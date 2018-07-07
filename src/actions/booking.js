@@ -50,8 +50,11 @@ const TYPES = createTypes('booking', [
   'changeDriverRatingReasons',
   'changeDriverRatingSuccess',
   'clearCurrentOrder',
-  'clearBooking'
+  'clearBooking',
+  'updateReferences'
 ]);
+
+export const updateReferences = references => ({ type: TYPES.updateReferences, payload: references });
 
 export const removeFields = fields => ({ type: TYPES.removeFields, payload: fields });
 
@@ -283,6 +286,9 @@ export const getFormData = () => (dispatch, getState) => {
       }
 
       dispatch({ type: TYPES.getFormDataSuccess, payload: data });
+
+      dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
+
       return data;
     });
 };
