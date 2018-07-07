@@ -28,11 +28,10 @@ export default function ScreenHeader(props) {
       <StatusBar translucent barStyle="light-content" />
       <GradientWrapper style={[styles.header, props.headerStyle]}>
         {props.leftContent ? props.leftContent : renderBackBtn()}
-        <View style={styles.flex}>
-          <Text style={styles.text}>{props.title}</Text>
-        </View>
-        {props.rightContent &&
-          <View style={[styles.rightContent, props.rightContentStyle]}>{props.rightContent}</View>
+        <Text numberOfLines={1} style={[styles.flex, styles.text, styles.title]}>{props.title}</Text>
+        {props.rightContent
+          ? <View style={[styles.rightContent, props.rightContentStyle]}>{props.rightContent}</View>
+          : <View style={styles.placeholder} />
         }
       </GradientWrapper>
     </View>

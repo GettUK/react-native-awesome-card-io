@@ -22,22 +22,19 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 17
   },
+  title: {
+    marginHorizontal: 8
+  },
   backBtn: {
+    width: 71,
     flexDirection: 'row',
-    position: 'absolute',
-    top: topSpace + 1,
-    left: 10,
-    zIndex: 10,
     padding: 5
   },
   backIcon: {
     marginRight: 3
   },
   rightContent: {
-    position: 'absolute',
-    top: topSpace + 8,
-    right: 10,
-    zIndex: 10,
     padding: 5
-  }
+  },
+  placeholder: { width: 71 }
 });
