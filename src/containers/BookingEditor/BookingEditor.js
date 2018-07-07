@@ -115,7 +115,7 @@ class BookingEditor extends Component {
 
         changeFields(attrs);
 
-        if (activeBookingId) {
+        if (activeBookingId && currentPosition) {
           setActiveBooking(activeBookingId);
         }
       });
