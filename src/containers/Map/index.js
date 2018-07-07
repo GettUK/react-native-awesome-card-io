@@ -214,7 +214,7 @@ class Map extends Component {
 
   checkForNightMode = throttle(() => {
     const hour = (new Date()).getHours();
-    this.setState({ nightMode: hour >= 18 || hour < 6 });
+    this.setState({ nightMode: hour >= 21 || hour < 5 });
   }, 20000);
 
   changePosition = (coordinates) => {
