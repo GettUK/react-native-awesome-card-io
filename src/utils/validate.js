@@ -1,10 +1,9 @@
 import validate from 'validate.js';
 import moment from 'moment';
 
-validate.validators.expired = ({ year, month } = {}) => (
-  year && month && !moment().isBefore(`${year}-${month}-${moment().endOf('month').format('DD')}`, 'month')
-    ? 'is expired'
-    : null
-);
+validate.validators.expired = ({ year, month } = {}) => {
+  const creditCardDate = moment(`${year}${month}`, 'YYYYMM');
+  return creditCardDate.isValid() && (moment() > creditCardDate.add(1, 'months')) ? 'is expired' : null;
+};
 
 export default validate;
