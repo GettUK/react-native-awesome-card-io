@@ -270,10 +270,11 @@ class MapView extends Component {
     order.pickupAddress && order.pickupAddress !== oldOrder.pickupAddress;
 
   handleAnimateToRegion = ({ order, oldOrder, dragEnable, oldDragEnable, isActiveOrder, isActiveOrderProps }) => {
-    if (this.isPickupAddressWasUpdatedByMapDrag({ order, oldOrder, dragEnable, oldDragEnable })) {
+    if (!isActiveOrder && this.isPickupAddressWasUpdatedByMapDrag({ order, oldOrder, dragEnable, oldDragEnable })) {
       this.props.onEndLoadingPickup();
     } else if (this.shouldAnimateToPickUp({ order, oldOrder, isActiveOrder, isActiveOrderProps })) {
       const source = this.prepareCoordinates(order.pickupAddress);
+
       this.props.disableDrag();
       this.animateToRegion(source);
     }
