@@ -152,7 +152,7 @@ class Login extends Component {
       { handleChangeField: this.handleInputChange, goToInfoPage: this.goToInfoPage }
     );
 
-    const smallFormArea = height < (BLOCK_HEIGHT + 120) && !this.props.isConnected;
+    const smallFormArea = height < (BLOCK_HEIGHT + 130) && !this.props.isConnected;
 
     return (
       <Wrapper>
@@ -215,7 +215,7 @@ class Login extends Component {
     const { params } = this.props.navigation.state;
 
     const AnimatedWrapper = (params && params.disableAnimation) || !this.props.isConnected ? View : TransitionView;
-    const smallFormArea = height < (BLOCK_HEIGHT + 120) && !this.props.isConnected;
+    const smallFormArea = height < (BLOCK_HEIGHT + 130) && !this.props.isConnected;
     const Wrapper = smallFormArea ? ScrollView : View;
 
     return (
