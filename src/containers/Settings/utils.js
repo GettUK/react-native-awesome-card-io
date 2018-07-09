@@ -128,8 +128,12 @@ export function prepareHistoryBlock(_, handlers = {}) {
 export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
   return [
     {
+      title: strings('information.watchTutorial'),
+      onPress: handlers.resetUserGuide
+    },
+    {
       title: strings('information.privacyPolicy'),
-      onPress: () => handlers.goToInfoPage('privacyPolicy')
+      onPress: () => handlers.goToInfoPage('privacy')
     },
     {
       title: strings('information.termsConditions'),

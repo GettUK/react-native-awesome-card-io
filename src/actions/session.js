@@ -13,7 +13,8 @@ const TYPES = createTypes('session', [
   'getCurrentUserSuccess',
   'getCurrentUserFailure',
   'logout',
-  'passGuide'
+  'passGuide',
+  'resetGuide'
 ]);
 
 export const logout = () => (dispatch) => {
@@ -51,3 +52,6 @@ export const passGuide = () => (dispatch, getState) => {
   return put(`/members/${id}/pass_guide`)
     .then(() => dispatch({ type: TYPES.passGuide }));
 };
+
+export const resetGuide = () => dispatch =>
+  dispatch({ type: TYPES.resetGuide });

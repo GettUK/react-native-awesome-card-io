@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View, StatusBar } from 'react-native';
 
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
-import { logout } from 'actions/session';
+import { logout, resetGuide } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
 import { AddressModal, Divider } from 'components';
 import { has } from 'lodash';
@@ -86,6 +86,11 @@ class Settings extends Component {
     this.props.navigation.navigate('InfoPages', { page });
   });
 
+  resetUserGuide = throttledAction(() => {
+    this.props.resetGuide();
+    this.props.navigation.navigate('MapView');
+  });
+
   getSettingsBlocks() {
     const { passengerData: data, companySettings, changeToggleValue } = this.props;
     const { logoutLoading } = this.state;
@@ -106,7 +111,7 @@ class Settings extends Component {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
       }),
-      prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage }),
+      prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage, resetUserGuide: this.resetUserGuide }),
       prepareLogoutBlock({ isLoading: logoutLoading }, { onLogout: this.handleLogout })
     ];
   }
@@ -159,7 +164,8 @@ const bindActions = {
   getPassengerData,
   changeToggleValue,
   deleteToken,
-  sendPredefinedAddress
+  sendPredefinedAddress,
+  resetGuide
 };
 
 export default connect(select, bindActions)(Settings);
