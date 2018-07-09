@@ -127,7 +127,9 @@ const orderReceivedStatusFlow = (data, delay) => (dispatch, getState) => {
 
   if (data.status === ORDER_RECEIVED_STATUS && isAsapOrder) {
     setTimeout(() => {
-      dispatch({ type: TYPES.changeOrderStatus, data: { ...data, status: LOCATING_STATUS } });
+      if (getState().booking.currentOrder.status === ORDER_RECEIVED_STATUS) {
+        dispatch({ type: TYPES.changeOrderStatus, data: { ...data, status: LOCATING_STATUS } });
+      }
     }, delay);
   }
 };
