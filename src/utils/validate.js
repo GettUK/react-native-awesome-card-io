@@ -2,7 +2,7 @@ import validate from 'validate.js';
 import moment from 'moment';
 
 validate.validators.expired = ({ year, month } = {}) => (
-  year && month && !moment().isBefore(`${year}-${month}-${moment().endOf('month').format('DD')}`)
+  year && month && !moment().isBefore(`${year}-${month}-${moment().endOf('month').format('DD')}`, 'month')
     ? 'is expired'
     : null
 );
