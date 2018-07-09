@@ -102,7 +102,9 @@ class Map extends Component {
       map: { currentPosition },
       booking: { bookingForm: { pickupAddress }, formData },
       app: { statuses },
-      canceledByUser
+      canceledByUser,
+      activeBookingId,
+      setActiveBooking
     } = this.props;
     const {
       map: { currentPosition: currentPositionProps },
@@ -121,6 +123,10 @@ class Map extends Component {
       setTimeout(() => {
         this.mapView.wrappedInstance.getGeocode(currentPosition);
         this.getCurrentPosition();
+
+        if (activeBookingId) {
+          setActiveBooking(activeBookingId);
+        }
       }, 500);
     }
 
@@ -791,7 +797,8 @@ const mapState = ({ app, ui, booking, session, passenger, router }) => ({
   canceledByExternal: booking.canceledByExternal,
   canceledByUser: booking.canceledByUser,
   passenger,
-  router: router.navigatorApp
+  router: router.navigatorApp,
+  activeBookingId: session.user && session.user.activeBookingId
 });
 
 const mapDispatch = {
