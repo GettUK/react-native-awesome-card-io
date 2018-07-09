@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text, TouchableWithoutFeedback } from 'react-native';
+import { Animated, View, Text, TouchableWithoutFeedback, StatusBar, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'components';
@@ -40,9 +40,17 @@ class Alert extends PureComponent {
     ).start();
   };
 
+  get alertShift() {
+    let shift = 0;
+
+    if (isIphoneX()) shift = 24;
+    if (Platform.OS === 'android' && this.props.position === 'top') shift = StatusBar.currentHeight;
+
+    return shift;
+  }
+
   render() {
     const { type, message, position } = this.props;
-    const alertPosition = isIphoneX() ? 24 : 0;
     const multiplier = position === 'bottom' ? 1 : -1;
 
     return (
@@ -55,7 +63,7 @@ class Alert extends PureComponent {
             transform: [{
               translateY: this.alertAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [(120 + alertPosition) * multiplier, -multiplier * alertPosition]
+                outputRange: [(120 + this.alertShift) * multiplier, -multiplier * this.alertShift]
               })
             }]
           }
