@@ -8,9 +8,11 @@ import { getOrders, clearOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
 import { strings } from 'locales';
+import config from 'config';
 
 import { Icon } from 'components';
 import styles from './styles';
+import mapStyles from './mapStyles';
 
 function getOrdersStatuses(type) {
   const statuses = {
@@ -116,7 +118,7 @@ class OrdersList extends PureComponent {
         <View>
           <View style={styles.orderMap}>
             <Image
-              source={{ uri: item.staticMap }}
+              source={{ uri: `${item.staticMap}&${mapStyles}&key=${config.googleAPIKey}` }}
               style={{ width: this.mapSize.width, height: this.mapSize.height }}
             />
           </View>
