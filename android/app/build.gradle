@@ -104,7 +104,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.onetransport.enterprise"
+        applicationId "com.oteapp.dev"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 7

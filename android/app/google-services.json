@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "347205680091",
-    "firebase_url": "https://otepush.firebaseio.com",
-    "project_id": "otepush",
-    "storage_bucket": "otepush.appspot.com"
+    "project_number": "518243326904",
+    "firebase_url": "https://ote-dev-android-new.firebaseio.com",
+    "project_id": "ote-dev-android-new",
+    "storage_bucket": "ote-dev-android-new.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:347205680091:android:3d9ed0f8381ec1eb",
+        "mobilesdk_app_id": "1:518243326904:android:3a3e5402cc6c178c",
         "android_client_info": {
-          "package_name": "com.onetransport.enterprise"
+          "package_name": "com.oteapp.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "347205680091-cred6ljh3nqe6kgbos7lomjskjldrs7g.apps.googleusercontent.com",
+          "client_id": "518243326904-19jubbt5d3r20dao0os1r7so1rutj7sj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAhNbVyg_EE_Jh130ZOitj9juJLWmUcJP0"
+          "current_key": "AIzaSyAiZpSw9BhmzIW1PzsKt_FsldIrvoX2VVU"
         }
       ],
       "services": {
