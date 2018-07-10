@@ -14,7 +14,6 @@ import styles from './styles';
 const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabled, serviceType }) => {
   const vehiclePrice = cost => (cost ? formatPrice(cost) : 'By meter');
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
-  const range = Math.ceil(etaNum / 2);
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
 
   const renderContainer = () => (
@@ -34,7 +33,7 @@ const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabl
       {eta && !isETADisabled && (
         <View style={styles.middle}>
           <Icon style={styles.icon} name="clock" color="rgb(216,216,216)" width={16} height={16}/>
-          <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum}-${etaNum + range} min`}</Text>
+          <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum} min`}</Text>
         </View>)
       }
 
