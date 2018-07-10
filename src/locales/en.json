@@ -7,7 +7,8 @@
   },
   "modal": {
     "label": {
-      "close": "Close"
+      "close": "Close",
+      "cancel": "Cancel"
     }
   },
   "tip": {
@@ -191,6 +192,7 @@
       "selectIssues": "Please select one or more issues"
     },
     "button": {
+      "actions": "Actions",
       "cancelOrder": "Cancel Order",
       "myLocation": "My Location",
       "createNew": "Create New",
