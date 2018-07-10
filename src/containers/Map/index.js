@@ -150,7 +150,7 @@ class Map extends Component {
 
   showServiceSuspendedPopup(formData, formDataProps) {
     if (formData !== formDataProps && formData.serviceSuspended && this.shouldRequestVehicles()) {
-      this.popup.open();
+      setTimeout(this.popup.open, 1000); // delay opening "suspended service" pop-up after address modal closing
     }
   }
 
