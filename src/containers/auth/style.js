@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    marginVertical: 25,
+    marginVertical: 20,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center'
