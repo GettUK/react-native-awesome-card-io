@@ -28,6 +28,10 @@ const passGuide = state => (
   update(state, 'user.guidePassed', true)
 );
 
+const resetGuide = state => (
+  update(state, 'user.guidePassed', false)
+);
+
 const logout = () => initialState;
 
 export default composeReducer(
@@ -38,6 +42,7 @@ export default composeReducer(
     getCurrentUserStart,
     getCurrentUserFailure,
     passGuide,
+    resetGuide,
     logout
   },
   initialState

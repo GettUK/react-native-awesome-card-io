@@ -17,10 +17,11 @@
     }
   },
   "information": {
+    "contactUs": "Contact Us",
+    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
-    "contactUs": "Contact Us",
-    "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy"
+    "watchTutorial": "Watch Tutorial"
   },
   "popup": {
     "locationService": {
