@@ -1,7 +1,19 @@
 import { get } from 'utils';
 
 export const processLocation = (location) => {
-  const { lat, lng, postalCode, name, formattedAddress, countryCode, timezone, city, placeId, airport } = location;
+  const {
+    lat,
+    lng,
+    postalCode,
+    name,
+    formattedAddress,
+    countryCode,
+    timezone,
+    city,
+    placeId,
+    airport,
+    region
+  } = location;
 
   const processedLocation = {
     lat,
@@ -12,7 +24,8 @@ export const processLocation = (location) => {
     timezone,
     city,
     placeId,
-    airport
+    airport,
+    region
   };
 
   if (
