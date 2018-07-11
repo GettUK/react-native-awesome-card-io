@@ -59,7 +59,7 @@ class FlightSettings extends Component {
 
     this.setState({ loading: true, verificationData: null, error: null });
 
-    get('/flightstats/schedules', { flight, flightType, year, month, day })
+    get('/flightstats/schedules', { flight, flightType, year, month, day, scheduledAt: date.toISOString() })
       .then(({ data }) => {
         this.props.changeFlight({ flight, flightType }, true);
 
