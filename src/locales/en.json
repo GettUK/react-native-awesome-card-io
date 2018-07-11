@@ -281,7 +281,7 @@
       "length": "must be at least 6 characters"
     },
     "phone": {
-      "length": "is to short"
+      "length": "is too short"
     },
     "name": {
       "length": "must be 30 characters"
