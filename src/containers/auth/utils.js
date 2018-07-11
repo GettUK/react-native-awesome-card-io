@@ -2,31 +2,31 @@ import { strings } from 'locales';
 
 export const prepareSwitchesBlock = (data = {}, handlers = {}) => [
   {
-    label: strings('login.accept'),
-    link: strings('login.termsConditions'),
+    label: strings('auth.label.accept'),
+    link: strings('information.termsConditions'),
     value: data.acceptTac || false,
     onValueChange: v => handlers.handleChangeField('acceptTac', v),
-    onLinkPress: () => handlers.goToInfoPage('terms')
+    onLinkPress: () => handlers.goToInfoPage('termsConditions')
   },
   {
-    label: strings('login.accept'),
-    link: strings('login.privacyPolicy'),
+    label: strings('auth.label.accept'),
+    link: strings('information.privacyPolicy'),
     value: data.acceptPp || false,
     onValueChange: v => handlers.handleChangeField('acceptPp', v),
-    onLinkPress: () => handlers.goToInfoPage('privacy')
+    onLinkPress: () => handlers.goToInfoPage('privacyPolicy')
   }
 ];
 
 export const prepareInputsBlock = (data = {}, handlers = {}) => [
   {
-    label: strings('login.registerForm.yourName'),
+    label: strings('auth.label.yourName'),
     value: data.firstName || '',
     onChangeText: v => handlers.handleChangeField('firstName', v),
     autoCorrect: false,
     error: data.errors && data.errors.firstName
   },
   {
-    label: strings('login.registerForm.phoneNumber'),
+    label: strings('auth.label.phoneNumber'),
     value: data.phoneNumber || '',
     onChangeText: v => handlers.handleChangeField('phoneNumber', v),
     autoCorrect: false,
@@ -34,7 +34,7 @@ export const prepareInputsBlock = (data = {}, handlers = {}) => [
     error: data.errors && data.errors.phoneNumber
   },
   {
-    label: strings('login.registerForm.email'),
+    label: strings('auth.label.workEmail'),
     value: data.email || '',
     onChangeText: v => handlers.handleChangeField('email', v),
     autoCorrect: false,
@@ -42,14 +42,14 @@ export const prepareInputsBlock = (data = {}, handlers = {}) => [
     error: data.errors && data.errors.email
   },
   {
-    label: strings('login.registerForm.companyName'),
+    label: strings('auth.label.company'),
     value: data.name || '',
     onChangeText: v => handlers.handleChangeField('name', v),
     autoCorrect: false,
     error: data.errors && data.errors.name
   },
   {
-    label: strings('login.registerForm.comments'),
+    label: strings('auth.label.comments'),
     value: data.lastName || '',
     onChangeText: v => handlers.handleChangeField('lastName', v),
     autoCorrect: false,

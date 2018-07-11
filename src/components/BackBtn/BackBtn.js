@@ -35,7 +35,7 @@ class BackBtn extends Component {
   handlePress = () => {
     const { touchedPath, touched } = this.props;
     if (touchedPath && touched) {
-      showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
+      showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
     } else {
       this.goBack();
     }
@@ -53,7 +53,9 @@ class BackBtn extends Component {
     return (
       <TouchableOpacity onPress={this.handlePress} style={[styles.container, containerStyle]}>
         <Icon size={21} name="back" color={color || '#284784'} />
-        {Platform.OS === 'ios' && <Text style={[styles.text, color ? { color } : {}]}>{strings('back')}</Text>}
+        {Platform.OS === 'ios' &&
+          <Text style={[styles.text, color ? { color } : {}]}>{strings('header.button.back')}</Text>
+        }
       </TouchableOpacity>
     );
   }

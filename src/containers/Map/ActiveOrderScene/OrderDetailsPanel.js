@@ -74,7 +74,7 @@ const OrderDetails = ({
           style={orderPanelStyles.receiptBtnWrapper}
         >
           <Icon name="receipt" size={18} />
-          <Text style={orderPanelStyles.receiptBtnText}>{strings('label.receipt')}</Text>
+          <Text style={orderPanelStyles.receiptBtnText}>{strings('order.button.receipt')}</Text>
           <Icon name="chevron" size={16} color="#fff" />
         </Button>
       }
@@ -145,7 +145,7 @@ const OrderDetails = ({
         />
 
         <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel]}>
-          {getFormatPrice(order.fareQuote) || getFormatPrice(vehicle.price) || strings('label.byMeter')}
+          {getFormatPrice(order.fareQuote) || getFormatPrice(vehicle.price) || strings('app.label.byMeter')}
         </Text>
       </View>
     );
@@ -241,7 +241,7 @@ const OrderDetails = ({
           {driver.info.vehicle && driver.info.vehicle.color} {driver.info.vehicle && driver.info.vehicle.model}
         </Text>
         <Text style={orderPanelStyles.driverLicense} numberOfLines={1}>
-          {strings('label.carReg')}: {driver.info.vehicle && driver.info.vehicle.licensePlate}
+          {strings('order.label.carReg')}: {driver.info.vehicle && driver.info.vehicle.licensePlate}
         </Text>
       </View>
 

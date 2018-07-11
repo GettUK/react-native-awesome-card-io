@@ -46,8 +46,8 @@ class ActiveOrderScene extends Component {
 
   handleCancelOrder = () => {
     showConfirmationAlert({
-      title: strings('order.confirmCancel'),
-      message: strings('order.confirmCancelDescription'),
+      title: strings('alert.title.doYouWantToCancelOrder'),
+      message: strings('alert.message.cancelOrderDescription'),
       handler: this.cancelOrder
     });
   };
@@ -104,7 +104,7 @@ class ActiveOrderScene extends Component {
               {(isActiveDriverStatus || isTripActive) &&
                 <FloatButton
                   key="myLocation"
-                  label={strings('order.myLocation')}
+                  label={strings('order.button.myLocation')}
                   iconName="myLocation"
                   onPress={this.handleMyLocation}
                   style={screenStyles.floatButton}
@@ -114,7 +114,7 @@ class ActiveOrderScene extends Component {
               {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
                 <FloatButton
                   key="cancel"
-                  label={strings('order.cancelOrder')}
+                  label={strings('order.button.cancelOrder')}
                   iconName="cancel"
                   loading={busy}
                   onPress={this.handleCancelOrder}
@@ -137,7 +137,7 @@ class ActiveOrderScene extends Component {
             </View>
 
             <Text style={[screenStyles.header, nightMode ? screenStyles.whiteText : {}]}>
-              {strings(`order.statuses.${status}`)}
+              {strings(`order.status.${status}`)}
             </Text>
           </View>
         </Wrapper>

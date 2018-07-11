@@ -35,7 +35,7 @@ class SearchList extends Component {
             {...rest}
           />
           : <View style={[styles.flex, styles.container]}>
-            <Text style={styles.emptyResult}>{strings('label.emptyResult')}</Text>
+            <Text style={styles.emptyResult}>{strings('app.label.emptyResult')}</Text>
           </View>
         }
       </View>

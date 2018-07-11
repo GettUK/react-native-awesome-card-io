@@ -19,7 +19,7 @@ function SaveRatingBtn({ rating, rateDriver, navigation, rateable = true }) {
     ? <SaveBtn
         defaultColor="rgba(255, 255, 255, 0.5)"
         enabledColor="#fff"
-        title={strings('send')}
+        title={strings('header.button.send')}
         onPress={handleSave}
         enabled={!!rating}
     />

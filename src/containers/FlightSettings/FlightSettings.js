@@ -38,11 +38,11 @@ class FlightSettings extends Component {
 
     this.setState({
       verificationData: [
-        { title: strings('flights.titles.id'), text: `${flightData.carrier} ${flightData.flight}` },
-        { title: strings('flights.titles.departure'), text: moment(departure.time).format(dateFormat) },
-        { title: strings('flights.titles.arrival'), text: moment(arrival.time).format(dateFormat) },
-        { title: strings('flights.titles.from'), text: this.getAirportAddress(departure) },
-        { title: strings('flights.titles.to'), text: this.getAirportAddress(arrival) }
+        { title: strings('flight.label.flightNumber'), text: `${flightData.carrier} ${flightData.flight}` },
+        { title: strings('booking.label.departure'), text: moment(departure.time).format(dateFormat) },
+        { title: strings('booking.label.arrival'), text: moment(arrival.time).format(dateFormat) },
+        { title: strings('flight.label.from'), text: this.getAirportAddress(departure) },
+        { title: strings('flight.label.to'), text: this.getAirportAddress(arrival) }
       ],
       loading: false
     });
@@ -71,7 +71,7 @@ class FlightSettings extends Component {
         this.props.changeFlight({ flight: '', flightType: '' }, false);
 
         this.setState({
-          error: strings('flights.error'),
+          error: strings('flight.text.notFoundFlightNumber'),
           loading: false
         });
       });
@@ -96,7 +96,7 @@ class FlightSettings extends Component {
         <View style={[styles.toggleButton, isActive && styles.toggleButtonActive]}>
           <Icon name={type} color={isActive ? '#fff' : ''} style={styles.toggleIcon} />
           <Text style={[styles.toggleLabel, isActive && styles.toggleLabelActive]}>
-            {strings(`label.${type}`)}
+            {strings(`booking.label.${type}`)}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -106,7 +106,7 @@ class FlightSettings extends Component {
   renderVerifyButton = () => (
     <TouchableWithoutFeedback onPress={this.handleVerify}>
       <View style={styles.verifyButton}>
-        <Text style={styles.verifyLabel}>{strings('flights.verify')}</Text>
+        <Text style={styles.verifyLabel}>{strings('flight.button.verify')}</Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -116,7 +116,7 @@ class FlightSettings extends Component {
 
     return (
       <Input
-        label={strings('flights.number')}
+        label={strings('flight.label.flightNumber')}
         value={flight}
         onChangeText={this.handleChangeNumber}
         labelStyle={styles.inputLabel}
@@ -144,8 +144,8 @@ class FlightSettings extends Component {
             <ScrollView>
               {this.renderFlightInput()}
               <View style={styles.toggler}>
-                {this.renderToggleButton('departing')}
-                {this.renderToggleButton('arriving')}
+                {this.renderToggleButton('departure')}
+                {this.renderToggleButton('arrival')}
               </View>
 
               {loading && <ActivityIndicator color="#2a4982" />}

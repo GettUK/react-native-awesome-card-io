@@ -48,8 +48,8 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerTintColor: '#000',
       headerStyle,
-      title: strings('settings.headerTitle'),
-      headerBackTitle: strings('back'),
+      title: strings('header.title.settings'),
+      headerBackTitle: strings('header.button.back'),
       headerLeft: (
         <View style={{ flexDirection: 'row' }}>
           <NavImageButton
@@ -65,7 +65,7 @@ const RoutesConfig = {
     screen: EditProfile,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.editProfile'),
+      headerTitle: strings('header.title.editProfile'),
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
@@ -74,7 +74,7 @@ const RoutesConfig = {
     screen: PaymentCardDetails,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.cardDetails'),
+      headerTitle: strings('header.title.cardDetails'),
       headerLeft: <BackBtn navigation={navigation} />
     })
   },
@@ -82,7 +82,7 @@ const RoutesConfig = {
     screen: PaymentCardsList,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.paymentCards'),
+      headerTitle: strings('header.title.paymentCards'),
       headerLeft: <BackBtn navigation={navigation} />,
       headerRight: (
         <NavImageButton
@@ -98,7 +98,7 @@ const RoutesConfig = {
     navigationOptions: ({ navigation }) => ({
       headerStyle,
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.touched" />,
-      headerTitle: strings('settings.newPaymentCard'),
+      headerTitle: strings('header.title.addCreditCard'),
       headerRight: <SavePaymentBtn navigation={navigation} />
     })
   },
@@ -106,7 +106,7 @@ const RoutesConfig = {
     screen: PaymentCardTypes,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.cardType'),
+      headerTitle: strings('header.title.cardType'),
       headerLeft: <BackBtn navigation={navigation} />
     })
   },
@@ -114,7 +114,7 @@ const RoutesConfig = {
     screen: SingleInputEditor,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings(`settings.${navigation.state.params.page}`),
+      headerTitle: strings(`header.title.${navigation.state.params.page}`),
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
@@ -123,7 +123,7 @@ const RoutesConfig = {
     screen: CarTypesEditor,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.carType'),
+      headerTitle: strings('header.title.defaultCarType'),
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
@@ -132,7 +132,7 @@ const RoutesConfig = {
     screen: AddressesList,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings('settings.myAddresses'),
+      headerTitle: strings('header.title.myAddresses'),
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
       headerRight: (
         <NavImageButton
@@ -150,7 +150,8 @@ const RoutesConfig = {
       return {
         headerStyle,
         headerLeft: <AddressEditorBackBtn navigation={navigation} />,
-        headerTitle: address && address.id ? strings('settings.editAddress') : strings('settings.newAddress'),
+        headerTitle: address && address.id
+          ? strings('header.title.editAddress') : strings('header.title.newAddress'),
         headerRight: <SaveAddressBtn navigation={navigation} />
       };
     }
@@ -159,7 +160,7 @@ const RoutesConfig = {
     screen: InfoPages,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings(`settings.${navigation.state.params.page}`)
+      headerTitle: strings(`information.${navigation.state.params.page}`)
     })
   }
 };

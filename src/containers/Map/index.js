@@ -466,7 +466,7 @@ class Map extends Component {
   };
 
   cancelOrderCreation = () => {
-    showConfirmationAlert({ title: strings('order.cancelOrderCreation'), handler: this.clearFields });
+    showConfirmationAlert({ title: strings('alert.title.cancelOrderCreation'), handler: this.clearFields });
   };
 
   startLoadingPickup = () => {
@@ -633,7 +633,7 @@ class Map extends Component {
         onPress={isCreateNewButtonAvailable ? this.goToInitialization : this.goToOrders}
       >
         <Text allowFontScaling={false} style={styles[isCreateNewButtonAvailable ? 'createNewText' : 'orderBtnText']}>
-          {isCreateNewButtonAvailable ? strings('order.createNew') : 'Orders'}
+          {isCreateNewButtonAvailable ? strings('order.button.createNew') : strings('order.button.orders')}
         </Text>
       </Button>
   );
@@ -742,7 +742,7 @@ class Map extends Component {
         <Alert
           ref={(alert) => { this.alertGPS = alert; }}
           type="warning"
-          message={strings('information.notReceivedCoordinates')}
+          message={strings('alert.message.notReceivedCoordinates')}
           position="top"
         />
         <Alert
@@ -753,14 +753,14 @@ class Map extends Component {
         />
         <Popup
           ref={(popup) => { this.popup = popup; }}
-          title={strings('information.serviceSuspended.title')}
+          title={strings('popup.serviceSuspended.title')}
           content={(
             <View>
               <Text style={styles.popupInfo}>
-                {strings('information.serviceSuspended.description')}
+                {strings('popup.serviceSuspended.description')}
               </Text>
               <Text style={styles.popupLabel}>
-                {strings('information.serviceSuspended.sign')}
+                {strings('popup.serviceSuspended.sign')}
               </Text>
             </View>
           )}

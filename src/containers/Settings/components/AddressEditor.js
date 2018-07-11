@@ -30,7 +30,7 @@ class AddressEditor extends Component {
       const { touched } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
+        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 
@@ -131,7 +131,7 @@ class AddressEditor extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => onRemove(address.id, null, navigation.goBack)}>
         <View style={styles.deleteButton}>
-          <Text style={styles.deleteLabel}>{strings('settings.address.addressDelete')}</Text>
+          <Text style={styles.deleteLabel}>{strings('addresses.button.delete')}</Text>
         </View>
       </TouchableWithoutFeedback>
     );

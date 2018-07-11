@@ -37,7 +37,8 @@ class RateDriver extends PureComponent {
       navigation
     } = this.props;
     const avatar = driverDetails.info.imageUrl;
-    const labelText = tempDriverRating || driverDetails.tripRating ? strings('youRated') : strings('rateYourDriver');
+    const labelText = (tempDriverRating || driverDetails.tripRating)
+      ? strings('order.text.youRated') : strings('order.text.rateYourDriver');
     const isLowRating = tempDriverRating && tempDriverRating <= 4;
 
     return (
@@ -83,19 +84,19 @@ class RateDriver extends PureComponent {
             <View>
               <Divider left={0} style={styles.divider}/>
               <View style={styles.centerItems}>
-                <Text style={styles.label}>{strings('howCanImprove')}</Text>
-                <Text style={[styles.subLabel, { marginTop: 8 }]}>{strings('yourFeedback')}</Text>
+                <Text style={styles.label}>{strings('order.text.howCanImprove')}</Text>
+                <Text style={[styles.subLabel, { marginTop: 8 }]}>{strings('order.text.yourFeedback')}</Text>
                 <View style={styles.badgesList}>
-                  {(ratingReasons || []).map((item, index) => (
+                  {(ratingReasons || []).map((reason, index) => (
                     <Badge
                       key={index}
-                      active={some(tempDriverRatingReasons, reasonName => (reasonName === item))}
-                      label={strings(`order.ratingReasons.${item}`)}
-                      onPress={() => changeDriverRatingReasons(item)}
+                      active={some(tempDriverRatingReasons, reasonName => (reasonName === reason))}
+                      label={strings(`order.ratingReason.${reason}`)}
+                      onPress={() => changeDriverRatingReasons(reason)}
                     />
                   ))}
                 </View>
-                <Text style={styles.subLabel}>{strings('selectIssues')}</Text>
+                <Text style={styles.subLabel}>{strings('order.text.selectIssues')}</Text>
               </View>
             </View>
           )}

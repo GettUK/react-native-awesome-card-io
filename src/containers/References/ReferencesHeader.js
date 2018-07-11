@@ -28,8 +28,8 @@ class ReferencesHeader extends PureComponent {
       this.goBack();
     } else {
       showConfirmationAlert({
-        title: strings('goBack'),
-        message: strings('information.goBackWithReferenceErrors'),
+        title: strings('alert.title.goBack'),
+        message: strings('alert.message.goBackWithReferenceErrors'),
         handler: this.goBack
       });
     }

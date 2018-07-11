@@ -37,7 +37,7 @@ class CarTypesEditor extends Component {
       const { touched } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('goBack'), handler: this.goBack });
+        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 

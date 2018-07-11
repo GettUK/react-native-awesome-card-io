@@ -19,7 +19,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
     backdropColor="rgba(40, 71, 132, 0.6)"
   >
     <View style={modalStyles.content}>
-      <Text style={modalStyles.header}>{strings('flights.header')}</Text>
+      <Text style={modalStyles.header}>{strings('flight.text.enterTheFlightNumber')}</Text>
 
       <View style={modalStyles.flex}>
         <ScrollView>
@@ -33,7 +33,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
           styleContent={modalStyles.cancelButtonContent}
           onPress={onClose}
         >
-          <Text style={modalStyles.buttonLabel}>{strings('flights.cancel')}</Text>
+          <Text style={modalStyles.buttonLabel}>{strings('flight.button.noThanks')}</Text>
         </Button>
 
         <Button
@@ -43,7 +43,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
           styleContent={modalStyles.submitButton}
           onPress={onSubmit}
         >
-          <Text style={modalStyles.buttonLabelSubmit}>{strings('flights.submit')}</Text>
+          <Text style={modalStyles.buttonLabelSubmit}>{strings('flight.button.ok')}</Text>
         </Button>
       </View>
     </View>

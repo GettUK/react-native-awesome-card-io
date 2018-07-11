@@ -8,7 +8,7 @@ export default function SaveBtn({ onPress, enabled, enabledColor, defaultColor, 
   return (
     <TouchableOpacity onPress={onPress} style={[{ paddingRight: 14 }, style]}>
       <Text style={{ fontSize: 17, color: enabled ? enabledColor || '#284784' : defaultColor || '#bcbbc1' }}>
-        {title || strings('save')}
+        {title || strings('header.button.save')}
       </Text>
     </TouchableOpacity>
   );

@@ -19,7 +19,7 @@ const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidati
         .then(() => navigation.goBack(null))
         .catch(() => {
           setValidationError('validationPaymentError', {});
-          showMessageAlert({ message: strings('settings.payment.enterValidCard') });
+          showMessageAlert({ message: strings('alert.message.enterValidCreditCard') });
         });
     }
   });

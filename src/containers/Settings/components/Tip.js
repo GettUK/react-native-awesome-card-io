@@ -7,6 +7,6 @@ import styles from './AddressStyles';
 
 export default function Tip(props) {
   return (
-    <Text style={styles.tip}>{props.label || strings('settings.address.tip')}</Text>
+    <Text style={styles.tip}>{props.label || strings('tip.text.removeAddress')}</Text>
   );
 }
