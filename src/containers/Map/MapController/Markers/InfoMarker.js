@@ -13,7 +13,7 @@ class InfoMarker extends React.Component {
     const { coordinate, icon, title, value } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key={`infoMarker${title}${value}`} anchorY={1.2}>
+      <Marker coordinate={coordinate} id={`infoMarker${title}${value}`} anchorY={1.2}>
         <View style={styles.infoMarkerContainer}>
           <View style={styles.infoMarker}>
             <Icon style={styles.infoMarkerIcon} name={icon} size={18} color="#d8d8d8" />

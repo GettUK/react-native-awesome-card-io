@@ -10,7 +10,7 @@ class SourceMarker extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="sourceMarker">
+      <Marker coordinate={coordinate} id="sourceMarker">
         <Icon name="sourceMarker" width={32} height={52} />
       </Marker>
     );

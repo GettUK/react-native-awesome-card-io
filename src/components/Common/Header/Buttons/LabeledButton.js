@@ -16,7 +16,7 @@ const LabeledButton = ({ onClick, type }) => (
     onPress={onClick}
   >
     <Text allowFontScaling={false} style={styles[`${type}Text`]}>
-      {strings(`order.${type}`)}
+      {strings(`order.button.${type}`)}
     </Text>
   </Button>
 );

@@ -84,6 +84,10 @@ class OrderSet extends React.Component {
     if (this.shouldResizeMapToDriverAndDestinationAddress({ oldOrder, order })) {
       this.resizeMapToDriverAndTargetAddress('destination', order); // TODO: need to resize to stops too
     }
+
+    if (order.status === ORDER_RECEIVED_STATUS && !order.asap) {
+      this.props.onFutureOrderAcceptedReceive();
+    }
   }
 
   resizeMapToDriverAndTargetAddress = (type, order) => {
@@ -163,4 +167,4 @@ const mapDispatch = {
   changeRegionToAnimate
 };
 
-export default connect(mapState, mapDispatch)(OrderSet);
+export default connect(mapState, mapDispatch, null, { withRef: true })(OrderSet);

@@ -10,7 +10,7 @@ class CurrentLocation extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="currentLocation">
+      <Marker coordinate={coordinate} id="currentLocation">
         <Icon name="currentLocation" size={18} />
       </Marker>
     );

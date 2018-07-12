@@ -10,7 +10,7 @@ class DestinationMarker extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="destinationMarker">
+      <Marker coordinate={coordinate} id="destinationMarker">
         <Icon name="destinationMarker" width={16} height={19} />
       </Marker>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Animated } from 'react-native';
 import { Polyline } from 'react-native-maps';
 import { take } from 'lodash';
@@ -110,9 +109,5 @@ class RandomRoutes extends React.Component {
       ));
   }
 }
-
-RandomRoutes.propTypes = {
-  coordinate: PropTypes.object.isRequired
-};
 
 export default RandomRoutes;
