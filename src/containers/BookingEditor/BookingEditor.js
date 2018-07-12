@@ -5,12 +5,13 @@ import { View } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, find, isEqual, has } from 'lodash';
 
+import { changeRegionToAnimate } from 'actions/ui/map';
 import { getFormData, changeFields, changeAddress, setActiveBooking } from 'actions/booking';
 import { onLayoutPointList } from 'actions/app/statuses';
 
 import { PointList, AddressModal, StopPointsModal } from 'components';
 
-import { getHeight } from 'utils';
+import { getHeight, prepareCoordinates } from 'utils';
 import BookingFooter from './BookingFooter';
 
 import { PromoBlackTaxi } from './components';
@@ -88,6 +89,8 @@ class BookingEditor extends Component {
             ...attrs,
             pickupAddress: data.defaultPickupAddress
           };
+
+          this.props.changeRegionToAnimate(prepareCoordinates(data.defaultPickupAddress));
         }
 
         if (!isEmpty(data.booking)) {
@@ -287,7 +290,8 @@ const bindActions = {
   getFormData,
   changeFields,
   changeAddress,
-  setActiveBooking
+  setActiveBooking,
+  changeRegionToAnimate
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingEditor);
