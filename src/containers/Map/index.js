@@ -6,6 +6,7 @@ import {
   BackHandler
 } from 'react-native';
 import { has, isEmpty, throttle } from 'lodash';
+import { Answers } from 'react-native-fabric';
 
 import { Icon, UserGuide, OrderCreatingHeader, OrderHeader } from 'components';
 
@@ -160,10 +161,12 @@ class Map extends Component {
   };
 
   goToSettings = () => {
+    Answers.logContentView('Settings was opened', 'screen view', 'settingsOpen');
     this.props.navigation.navigate('Settings', { onGoToRides: this.goToOrders });
   };
 
   goToOrders = ({ fromSettings = false }) => {
+    Answers.logContentView('Orders was opened', 'screen view', 'ordersOpen');
     this.props.navigation.navigate('OrdersView', {
       onBack: this.handleBackFromOrderList,
       fromSettings,
@@ -245,7 +248,7 @@ class Map extends Component {
         <OrderHeader
           status={status}
           handlePressBack={this.handleBackBtnPress}
-          handlePressCreateNew={this.goToInitialization}
+          handlePressCreateNew={this.createNewOrder}
         />
       );
   };
@@ -253,6 +256,16 @@ class Map extends Component {
   renderPickUpMarker = () => (
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />
   );
+
+  onActivatePanel = () => {
+    Answers.logCustom('user opens order details');
+    this.handleShowPanel();
+  };
+
+  createNewOrder = () => {
+    Answers.logCustom('user clicks create new order');
+    this.goToInitialization();
+  };
 
   render() {
     const { navigation, booking: { bookingForm }, session: { user } } = this.props;
@@ -296,7 +309,7 @@ class Map extends Component {
           <OrderDetailsPanel
             navigation={navigation}
             onClose={this.handleHidePanel}
-            onActivate={this.handleShowPanel}
+            onActivate={this.onActivatePanel}
             visible={!isPanelDisabled}
           />
         }

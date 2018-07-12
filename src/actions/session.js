@@ -1,4 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
+import { Answers } from 'react-native-fabric';
 import { auth } from 'api';
 import { put } from 'utils';
 import { registerToken } from 'actions/app/pushNotifications';
@@ -42,6 +43,7 @@ export const getCurrentUser = () => (dispatch) => {
 export const login = user => dispatch =>
   auth.login(user)
     .then(({ data: { token } }) => {
+      Answers.logLogin('Basic', true);
       dispatch({ type: TYPES.loginSuccess, payload: token });
       dispatch(getCurrentUser());
       dispatch(registerToken());

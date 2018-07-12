@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StatusBar, View, Text, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Answers } from 'react-native-fabric';
 
 import { auth } from 'api';
 
@@ -31,11 +32,11 @@ const defaultCountry = {
 };
 
 const initialForm = {
-  firstName: '',
+  userName: '',
   phoneNumber: '',
   email: '',
   name: '',
-  lastName: '',
+  comment: '',
   country: defaultCountry.value,
   acceptTac: false,
   acceptPp: false
@@ -71,7 +72,7 @@ export default class Registration extends Component {
   };
 
   handleSubmit = () => {
-    const keys = ['firstName', 'phoneNumber', 'email', 'name'];
+    const keys = ['userName', 'phoneNumber', 'email', 'name'];
     if (isInputsValid(keys, this.state.form, registerCompanyRules, this.setErrors)) {
       this.setState({ loading: true, errors: null });
       auth.registerCompany(this.state.form)
@@ -81,12 +82,15 @@ export default class Registration extends Component {
   };
 
   handleRegisterSuccess = () => {
+    Answers.logSignUp('Company', true);
     this.setState({ loading: false, form: initialForm });
     this.popup.open();
   };
 
   handleRegisterError = () => {
-    this.setState({ loading: false, error: strings('alert.message.youCanNotRegisterCompany') }, this.showError);
+    const error = strings('alert.message.youCanNotRegisterCompany');
+    Answers.logSignUp('Company', false, { error });
+    this.setState({ loading: false, error }, this.showError);
   };
 
   goToSelectCountry = () => {
@@ -97,6 +101,7 @@ export default class Registration extends Component {
   };
 
   goToInfoPage = throttledAction((page) => {
+    Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
     this.props.navigation.navigate('InfoPages', { page });
   });
 

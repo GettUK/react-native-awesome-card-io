@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Map, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Answers } from 'react-native-fabric';
 import { compact } from 'lodash';
 
 import { changeAddress } from 'actions/booking';
@@ -79,7 +80,7 @@ class MapView extends React.Component {
       const coordinates = { lat: normalizeCoordinate(region.latitude), lng: normalizeCoordinate(region.longitude) };
 
       onStartLoadingPickup();
-
+      Answers.logCustom('user moves location pin', { coordinates });
       geocode(coordinates)
         .then(processLocation)
         .then(data => changeAddress(data, { type: 'pickupAddress' }))

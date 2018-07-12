@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import RNFetchBlob from 'react-native-fetch-blob';
+import { Answers } from 'react-native-fabric';
 
 import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
@@ -30,6 +31,7 @@ const OrderDetails = ({
   const isDriverPhoneExist = driver && driver.info && driver.info.phoneNumber;
 
   const callDriver = () => {
+    Answers.logCustom('user clicks on call driver button', { phoneNumber: driver.info.phoneNumber });
     Linking.openURL(`tel:${driver.info.phoneNumber}`);
   };
 

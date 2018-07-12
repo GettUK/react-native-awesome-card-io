@@ -11,6 +11,7 @@ import {
   Platform,
   ScrollView
 } from 'react-native';
+import { Answers } from 'react-native-fabric';
 import validate from 'validate.js';
 
 import {
@@ -94,6 +95,7 @@ class Login extends Component {
       ? res.response.data.error
       : strings('alert.message.userCanNotBeLogged');
 
+    Answers.logLogin('Basic', false, { error });
     this.setState({ loading: false, error }, this.showError);
   };
 
@@ -137,6 +139,7 @@ class Login extends Component {
   };
 
   goToInfoPage = throttledAction((page) => {
+    Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
     this.props.navigation.navigate('InfoPages', { page });
   });
 
