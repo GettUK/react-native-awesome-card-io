@@ -47,11 +47,10 @@ export const login = user => dispatch =>
       dispatch(registerToken());
     });
 
-export const passGuide = () => (dispatch, getState) => {
-  const id = getState().session.user.memberId;
-  return put(`/members/${id}/pass_guide`)
-    .then(() => dispatch({ type: TYPES.passGuide }));
-};
+export const passGuide = () => dispatch => (
+  put('/user/pass_guide')
+    .then(() => dispatch({ type: TYPES.passGuide }))
+);
 
 export const resetGuide = () => dispatch =>
   dispatch({ type: TYPES.resetGuide });
