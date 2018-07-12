@@ -299,7 +299,7 @@ class Map extends Component {
 
     this.togglePickerModal();
     this.props.changeFields({ scheduledType: type, scheduledAt });
-    this.goToRequestVehicles();
+    this.goToRequestVehicles({ scheduledAt, scheduledType: type });
   };
 
   handleNowSubmit = () => {
@@ -310,12 +310,12 @@ class Map extends Component {
     this.handleUpdateSchedule('later');
   };
 
-  goToRequestVehicles = () => {
+  goToRequestVehicles = ({ scheduledAt, scheduledType } = {}) => {
     if (!this.shouldRequestVehicles()) return;
 
     this.props.getPassengerData();
 
-    this.requestVehicles();
+    this.requestVehicles({ scheduledAt, scheduledType });
   };
 
   shouldRequestVehicles = () => {
@@ -337,15 +337,15 @@ class Map extends Component {
     return !!bookingForm.passengerId;
   };
 
-  requestVehicles = () => {
+  requestVehicles = ({ scheduledAt, scheduledType } = {}) => {
     const {
       passengerName,
       passengerPhone,
       passengerId,
       pickupAddress,
       destinationAddress,
-      scheduledAt,
-      scheduledType,
+      scheduledAt: scheduledAtForm,
+      scheduledType: scheduledTypeForm,
       paymentMethod,
       paymentType,
       paymentCardId,
@@ -354,8 +354,8 @@ class Map extends Component {
     const passenger = this.getPassenger();
 
     let scheduledAtTime = null;
-    if (scheduledType === 'later') {
-      scheduledAtTime = scheduledAt.format();
+    if ((scheduledType || scheduledTypeForm) === 'later') {
+      scheduledAtTime = (scheduledAt || scheduledAtForm).format();
     }
 
     const processedPassengerName = passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName;
@@ -377,7 +377,7 @@ class Map extends Component {
       paymentMethod,
       paymentType,
       paymentCardId,
-      scheduledType,
+      scheduledType: scheduledType || scheduledTypeForm,
       stops: processedStops
     }).then(() => {
       const vehicle = this.lookupVehicle();
