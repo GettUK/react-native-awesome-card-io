@@ -39,8 +39,8 @@ class FlightSettings extends Component {
     this.setState({
       verificationData: [
         { title: strings('flight.label.flightNumber'), text: `${flightData.carrier} ${flightData.flight}` },
-        { title: strings('booking.label.departure'), text: moment(departure.time).format(dateFormat) },
-        { title: strings('booking.label.arrival'), text: moment(arrival.time).format(dateFormat) },
+        { title: strings('booking.label.departing'), text: moment(departure.time).format(dateFormat) },
+        { title: strings('booking.label.arriving'), text: moment(arrival.time).format(dateFormat) },
         { title: strings('flight.label.from'), text: this.getAirportAddress(departure) },
         { title: strings('flight.label.to'), text: this.getAirportAddress(arrival) }
       ],
@@ -59,11 +59,11 @@ class FlightSettings extends Component {
 
     this.setState({ loading: true, verificationData: null, error: null });
 
-    get('/flightstats/schedules', { flight, flightType, year, month, day, scheduledAt: date.toISOString() })
+    get('/flightstats/flights', { flight, year, month, day })
       .then(({ data }) => {
         this.props.changeFlight({ flight, flightType }, true);
 
-        const flightData = data[0][0];
+        const flightData = data[0];
 
         this.setFlightDetails(flightData);
       })
@@ -144,8 +144,8 @@ class FlightSettings extends Component {
             <ScrollView>
               {this.renderFlightInput()}
               <View style={styles.toggler}>
-                {this.renderToggleButton('departure')}
-                {this.renderToggleButton('arrival')}
+                {this.renderToggleButton('departing')}
+                {this.renderToggleButton('arriving')}
               </View>
 
               {loading && <ActivityIndicator color="#2a4982" />}
