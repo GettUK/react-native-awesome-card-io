@@ -46,7 +46,7 @@ const routeConfiguration = {
         paddingTop: Platform.OS === 'android' ? 20 : 0,
         height: Platform.OS === 'android' ? 80 : 50
       },
-      headerTitle: strings(`settings.${navigation.state.params.page}`)
+      headerTitle: strings(`information.${navigation.state.params.page}`)
     })
   }
 };

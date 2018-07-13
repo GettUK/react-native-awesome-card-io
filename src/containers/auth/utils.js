@@ -13,7 +13,7 @@ export const prepareSwitchesBlock = (data = {}, handlers = {}) => [
     link: strings('information.privacyPolicy'),
     value: data.acceptPp || false,
     onValueChange: v => handlers.handleChangeField('acceptPp', v),
-    onLinkPress: () => handlers.goToInfoPage('privacy')
+    onLinkPress: () => handlers.goToInfoPage('privacyPolicy')
   }
 ];
 

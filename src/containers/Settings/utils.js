@@ -133,7 +133,7 @@ export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
     },
     {
       title: strings('information.privacyPolicy'),
-      onPress: () => handlers.goToInfoPage('privacy')
+      onPress: () => handlers.goToInfoPage('privacyPolicy')
     },
     {
       title: strings('information.termsConditions'),
