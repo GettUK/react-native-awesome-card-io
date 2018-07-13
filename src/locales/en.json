@@ -25,9 +25,9 @@
   },
   "popup": {
     "locationService": {
-      "title": "Your location service is turn off",
+      "title": "Locations Services are disabled on your device",
       "button": {
-        "сancel": "No Thanks",
+        "сancel": "Dismiss",
         "сonfirm": "Turn on"
       }
     },
