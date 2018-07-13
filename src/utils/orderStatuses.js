@@ -1,5 +1,6 @@
 export const ORDER_RECEIVED_STATUS = 'order_received';
 export const LOCATING_STATUS = 'locating';
+export const DRAG_DISABLED_STATUSES = ['creating', 'processing', LOCATING_STATUS];
 export const PREORDER_STATUSES = ['creating', 'processing', 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];
 export const POINTER_DISPLAY_STATUSES = ['creating', 'processing', 'connected', LOCATING_STATUS];
 export const CANCEL_ALLOWED_STATUSES = ['creating', 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];

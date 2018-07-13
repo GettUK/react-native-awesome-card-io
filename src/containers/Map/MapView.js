@@ -22,7 +22,8 @@ import {
   ACTIVE_DRIVER_STATUSES,
   FINAL_STATUSES,
   POINTER_DISPLAY_STATUSES,
-  ORDER_RECEIVED_STATUS
+  ORDER_RECEIVED_STATUS,
+  DRAG_DISABLED_STATUSES
 } from 'utils/orderStatuses';
 
 import DriversMarkers from './DriversMarkers';
@@ -488,6 +489,11 @@ class MapView extends Component {
     order.driverDetails && order.driverDetails.eta && order.status === DRIVER_ON_WAY
   );
 
+  isScrollEnabled = order => (
+    (order.status === ORDER_RECEIVED_STATUS && !order.asap)
+    || !DRAG_DISABLED_STATUSES.some(status => status === order.status)
+  )
+
   render() {
     const {
       currentPosition,
@@ -513,7 +519,7 @@ class MapView extends Component {
         rotateEnabled={false}
         showsCompass={false}
         mapPadding={{ bottom: !order.destinationAddress && isPreOrder ? 190 : 0 }}
-        scrollEnabled={dragEnable}
+        scrollEnabled={dragEnable && this.isScrollEnabled(order)}
         customMapStyle={nightMode ? DarkMapStyle : MapStyle}
         onRegionChangeComplete={this.getGeocode}
       >
