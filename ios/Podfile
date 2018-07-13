@@ -48,6 +48,8 @@ pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
 pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
 
+pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
 target 'oteApp'
 target 'oteAppTests'
 

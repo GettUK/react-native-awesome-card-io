@@ -173,6 +173,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-device-info')
     implementation project(':react-native-pdf')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-android-open-settings')

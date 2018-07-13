@@ -70,6 +70,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 14
+  },
+  appVersion: {
+    width: '100%',
+    height: 46,
+    alignItems: 'center'
+  },
+  appVersionText: {
+    fontSize: 14,
+    color: '#7f7f7f'
   }
 });
 
