@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import { changeMessageToDriver } from 'actions/booking';
+import { isIphoneX } from 'utils';
 import styles from './styles';
 
 class MessageToDriver extends Component {
@@ -20,7 +21,7 @@ class MessageToDriver extends Component {
     return (
       <View style={[styles.flex, styles.bg]}>
         <KeyboardAvoidingView
-          keyboardVerticalOffset={65}
+          keyboardVerticalOffset={isIphoneX() ? 85 : 65}
           behavior="padding"
           style={styles.flex}
         >
