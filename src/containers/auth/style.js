@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
+    width: '100%',
     marginVertical: 20,
     alignSelf: 'center',
     flexDirection: 'row',
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 
   footerText: {
     color: '#fff',
-    fontSize: 18
+    fontSize: 16
   },
 
   btnForgot: {
