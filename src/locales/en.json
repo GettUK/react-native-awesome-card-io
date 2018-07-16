@@ -122,8 +122,8 @@
       "usePassengerCostCentre": "Use passenger's Cost Centre",
       "selectDestination": "Select Destination",
       "other": "Other",
-      "departure": "Departure",
-      "arrival": "Arrival"
+      "departing": "Departure",
+      "arriving": "Arrival"
     }
   },
   "flight": {
