@@ -3,18 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TouchableOpacity,
-  Platform,
-  DatePickerIOS,
-  DatePickerAndroid,
-  TimePickerAndroid,
   BackHandler
 } from 'react-native';
-import { every, find, first, has, isEmpty, throttle } from 'lodash';
-import { HourFormat } from 'react-native-hour-format';
+import { has, isEmpty, throttle } from 'lodash';
 
-import { Icon, Button, Modal, Alert, Popup, UserGuide, OrderCreatingHeader, OrderHeader } from 'components';
+import { Icon, UserGuide, OrderCreatingHeader, OrderHeader } from 'components';
 
 import { BookingEditor } from 'containers/BookingEditor';
 
@@ -27,7 +20,6 @@ import {
   toggleVisibleModal,
   completeOrder,
   resetBookingValues,
-  cancelOrder,
   clearCurrentOrder,
   setActiveBooking,
   changeAddress
@@ -37,15 +29,11 @@ import {
   PERMISSION_STATUS
 } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
-import { getPassengerData } from 'actions/passenger';
 
 import { strings } from 'locales';
 import {
   showConfirmationAlert,
-  setDefaultTimezone,
-  convertToZone,
-  momentDate,
-  hourForward
+  setDefaultTimezone
 } from 'utils';
 import PN from 'utils/notifications';
 
@@ -63,8 +51,6 @@ class Map extends Component {
     super(props);
     this.state = {
       routeNameTab: 'Personal',
-      date: hourForward().toDate(),
-      minDate: hourForward().toDate(),
       isPanelDisabled: true,
       fromOrderList: false,
       fromSettings: false,
@@ -79,23 +65,11 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      booking: { bookingForm: { pickupAddress }, formData },
-      canceledByUser
-    } = this.props;
-    const {
-      booking: { bookingForm: { pickupAddress: pickupAddressProps }, formData: formDataProps },
-      canceledByUser: canceledByUserProps
-    } = prevProps;
-
-    this.showServiceSuspendedPopup(formData, formDataProps);
+    const { booking: { bookingForm: { pickupAddress } } } = this.props;
+    const { booking: { bookingForm: { pickupAddress: pickupAddressProps } } } = prevProps;
 
     if (pickupAddress !== pickupAddressProps && pickupAddress) {
       setDefaultTimezone(pickupAddress.timezone);
-    }
-
-    if (canceledByUser && !canceledByUserProps) {
-      this.showAlert();
     }
 
     this.checkForNightMode();
@@ -107,12 +81,6 @@ class Map extends Component {
     this.backListener.remove();
 
     BackHandler.removeEventListener('hardwareBack');
-  }
-
-  showServiceSuspendedPopup(formData, formDataProps) {
-    if (formData !== formDataProps && formData.serviceSuspended && this.shouldRequestVehicles()) {
-      setTimeout(this.popup.open, 1000); // delay opening "suspended service" pop-up after address modal closing
-    }
   }
 
   registerBackListener = () => {
@@ -170,56 +138,7 @@ class Map extends Component {
   resizeMapToDriverAndTargetAddress = (type, order) =>
     this.mapView && this.mapView.wrappedInstance.resizeMapToDriverAndTargetAddress(type, order);
 
-  getAvailableVehicles = () => {
-    const { booking: { vehicles } } = this.props;
-    return ((vehicles && vehicles.data) || []).filter(vehicle => vehicle.available);
-  };
-
-  getPassenger = () => {
-    const {
-      booking: { formData: { passenger, passengers }, bookingForm: { passengerId } },
-      passenger: { data: { passenger: passengerData, favoriteAddresses } }
-    } = this.props;
-
-    return (!isEmpty(passengerData) && { ...passengerData, favoriteAddresses })
-      || passenger
-      || find(passengers, { id: +passengerId });
-  };
-
-  watchID = null;
-
   isActiveSceneIs = (name = 'orderCreating') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
-
-  handleDateChange = (date) => {
-    this.setState({ date, minDate: hourForward().toDate() });
-  };
-
-  handleUpdateSchedule = (type = 'now') => {
-    const { date } = this.state;
-    const scheduledAt = type === 'later'
-      ? (hourForward().isBefore(momentDate(date)) && momentDate(date)) || hourForward()
-      : null;
-
-    this.togglePickerModal();
-    this.props.changeFields({ scheduledType: type, scheduledAt });
-    this.goToRequestVehicles({ scheduledAt, scheduledType: type });
-  };
-
-  handleNowSubmit = () => {
-    this.handleUpdateSchedule('now');
-  };
-
-  handleDateSubmit = () => {
-    this.handleUpdateSchedule('later');
-  };
-
-  goToRequestVehicles = ({ scheduledAt, scheduledType } = {}) => {
-    if (!this.shouldRequestVehicles()) return;
-
-    this.props.getPassengerData();
-
-    this.requestVehicles({ scheduledAt, scheduledType });
-  };
 
   shouldRequestVehicles = () => {
     const { booking: { bookingForm } } = this.props;
@@ -230,82 +149,9 @@ class Map extends Component {
       this.isPassengerPresent();
   };
 
-  allStopsValid = () => {
-    const { booking: { bookingForm: { stops } } } = this.props;
-    return every(stops, stop => typeof stop.countryCode !== 'undefined');
-  };
-
   isPassengerPresent = () => {
     const { booking: { bookingForm } } = this.props;
     return !!bookingForm.passengerId;
-  };
-
-  requestVehicles = ({ scheduledAt, scheduledType } = {}) => {
-    const {
-      passengerName,
-      passengerPhone,
-      passengerId,
-      pickupAddress,
-      destinationAddress,
-      scheduledAt: scheduledAtForm,
-      scheduledType: scheduledTypeForm,
-      paymentMethod,
-      paymentType,
-      paymentCardId,
-      stops
-    } = this.props.booking.bookingForm;
-    const passenger = this.getPassenger();
-
-    let scheduledAtTime = null;
-    if ((scheduledType || scheduledTypeForm) === 'later') {
-      scheduledAtTime = (scheduledAt || scheduledAtForm).format();
-    }
-
-    const processedPassengerName = passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName;
-    const processedPassengerPhone = passenger ? passenger.phone : passengerPhone;
-    const processedStops = stops && stops.map(s => ({
-      address: s,
-      name: processedPassengerName,
-      phone: processedPassengerPhone,
-      passengerId
-    }));
-
-    this.props.getVehicles({
-      pickupAddress,
-      destinationAddress,
-      scheduledAt: scheduledAtTime,
-      passengerName: processedPassengerName,
-      passengerPhone: processedPassengerPhone,
-      passengerId,
-      paymentMethod,
-      paymentType,
-      paymentCardId,
-      scheduledType: scheduledType || scheduledTypeForm,
-      stops: processedStops
-    }).then(() => {
-      const vehicle = this.lookupVehicle();
-      this.props.changeFields({
-        quoteId: vehicle.quoteId,
-        vehicleName: vehicle.name,
-        vehicleValue: vehicle.value,
-        vehiclePrice: vehicle.price
-      });
-    });
-  };
-
-  lookupVehicle = () => {
-    const { booking: { bookingForm: { vehicleName } } } = this.props;
-    const availableVehicles = this.getAvailableVehicles();
-    const passenger = this.getPassenger();
-    let vehicle = { quoteId: undefined, name: undefined, value: undefined };
-
-    if (availableVehicles.length) {
-      vehicle =
-        (vehicleName && availableVehicles.find(v => v.name === vehicleName)) ||
-        (passenger && availableVehicles.find(v => v.name === passenger.defaultVehicle)) ||
-        first(availableVehicles);
-    }
-    return vehicle;
   };
 
   handleBackFromOrderList = ({ fromSettings = false }) => {
@@ -337,10 +183,6 @@ class Map extends Component {
     });
   };
 
-  togglePickerModal = () => {
-    this.props.toggleVisibleModal('picker');
-  };
-
   clearFields = () => {
     const { removeFields, resetBookingValues } = this.props;
     removeFields([
@@ -358,7 +200,7 @@ class Map extends Component {
 
   getCurrentPosition = () => {
     this.mapView.wrappedInstance.getCurrentPosition();
-  }
+  };
 
   goToInitialization = () => {
     this.clearFields();
@@ -366,10 +208,6 @@ class Map extends Component {
     this.props.clearCurrentOrder();
 
     this.getCurrentPosition();
-  };
-
-  showAlert = () => {
-    this.alert.show();
   };
 
   cancelOrderCreation = () => {
@@ -399,122 +237,6 @@ class Map extends Component {
       this.goToInitialization();
     }
   };
-
-  renderTimeDatePicker() {
-    const { date, minDate } = this.state;
-    const { is24HourFormat } = HourFormat;
-    const { booking: { modals: { picker }, bookingForm: { pickupAddress } } } = this.props;
-    const moment = momentDate(date);
-    const timezoneDate = (pickupAddress && convertToZone(moment, pickupAddress.timezone)) || moment;
-
-    const openDatePickerAndroid = async () => {
-      try {
-        const { action, year, month, day } = await DatePickerAndroid.open({
-          date,
-          minDate
-        });
-        if (action !== DatePickerAndroid.dismissedAction) {
-          this.handleDateChange(moment.set({ year, month, date: day }).toDate());
-        }
-      } catch ({ code, message }) {
-        // eslint-disable-next-line no-console
-        console.warn('Cannot open date picker', message);
-      }
-    };
-
-    const setTimePickerTime = (time) => {
-      const toTime = time ? moment.set({ ...time }) : moment;
-      if (hourForward().isBefore(toTime)) {
-        this.handleDateChange(toTime.toDate());
-      } else {
-        this.handleDateChange(hourForward().toDate());
-      }
-    };
-
-    const openTimePickerAndroid = async () => {
-      try {
-        setTimePickerTime();
-        const { action, hour, minute } = await TimePickerAndroid.open({
-          hour: moment.get('hour'),
-          minute: moment.get('minute'),
-          is24Hour: is24HourFormat()
-        });
-        if (action !== DatePickerAndroid.dismissedAction) {
-          setTimePickerTime({ hour, minute });
-        }
-      } catch ({ code, message }) {
-        // eslint-disable-next-line no-console
-        console.warn('Cannot open time picker', message);
-      }
-    };
-
-    const renderSelectedValue = (value, handler, icon) => {
-      const isAndroid = Platform.OS === 'android';
-      return (
-        isAndroid ?
-          <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={handler}>
-            {value}
-            {icon}
-          </TouchableOpacity> :
-          value
-      );
-    };
-
-    const renderSelected = () => {
-      const formatedTime = is24HourFormat() ? moment.format('HH:mm') : moment.format('hh:mm a');
-      const time = <Text style={styles.time}>{formatedTime}</Text>;
-      const date = <Text style={styles.date}>{moment.format('dddd, MMMM D, YYYY')}</Text>;
-
-      return (
-        <View style={styles.selectedWrapper}>
-          {renderSelectedValue(time, openTimePickerAndroid, <Icon style={styles.TDEditIcon} name="editAndroid" />)}
-          {renderSelectedValue(date, openDatePickerAndroid, <Icon size={20} name="editAndroid" />)}
-        </View>
-      );
-    };
-
-    const renderButton = ({ style, styleText, title, onClick }, index) => (
-      <Button
-        key={index}
-        raised
-        style={styles.buttonContainer}
-        styleContent={[styles.button, style]}
-        onPress={onClick}
-      >
-        <Text style={[styles.buttonText, styleText]}>{title || ''}</Text>
-      </Button>
-    );
-
-    const buttons = [
-      { title: 'Now', style: styles.NowButton, styleText: styles.NowButtonText, onClick: this.handleNowSubmit },
-      { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
-    ];
-
-    return (
-      <Modal
-        style={styles.bottomModal}
-        isVisible={picker}
-        contentStyles={styles.TDModal}
-        onClose={this.togglePickerModal}
-      >
-        {renderSelected()}
-
-        {Platform.OS === 'ios' &&
-          <View style={styles.TDPickerWrapper}>
-            <DatePickerIOS
-              date={date}
-              onDateChange={this.handleDateChange}
-              minimumDate={minDate}
-              timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
-            />
-          </View>
-        }
-        <View style={styles.row}>
-          {buttons.map(renderButton)}
-        </View>
-      </Modal>
-    );
-  }
 
   renderHeader = () => {
     const { status } = this.props;
@@ -560,12 +282,9 @@ class Map extends Component {
         {isOrderCreating &&
           <BookingEditor
             navigation={navigation}
-            passenger={this.getPassenger()}
-            requestVehicles={this.goToRequestVehicles}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
-            onDateChange={this.handleDateChange}
             onHidePromo={this.handleHidePanel}
             ref={(editor) => { this.editorView = editor; }}
           />
@@ -585,8 +304,6 @@ class Map extends Component {
 
         {isOrderCreating && !bookingForm.destinationAddress && this.renderPickUpMarker()}
 
-        {this.renderTimeDatePicker()}
-
         {(isActiveOrder || isCompletedOrder) &&
           <OrderDetailsPanel
             navigation={navigation}
@@ -595,27 +312,6 @@ class Map extends Component {
             visible={!isPanelDisabled}
           />
         }
-
-        <Alert
-          ref={(alert) => { this.alert = alert; }}
-          type="success"
-          message="Order was cancelled"
-          position="bottom"
-        />
-        <Popup
-          ref={(popup) => { this.popup = popup; }}
-          title={strings('popup.serviceSuspended.title')}
-          content={(
-            <View>
-              <Text style={styles.popupInfo}>
-                {strings('popup.serviceSuspended.description')}
-              </Text>
-              <Text style={styles.popupLabel}>
-                {strings('popup.serviceSuspended.sign')}
-              </Text>
-            </View>
-          )}
-        />
       </View>
     );
   }
@@ -637,18 +333,14 @@ Map.propTypes = {
 Map.defaultProps = {
 };
 
-const mapState = ({ app, ui, booking, session, passenger, router }) => ({
+const mapState = ({ app, ui, booking, session, passenger }) => ({
   app,
   map: ui.map,
   session,
   activeScene: ui.navigation.activeScene,
   booking,
   status: booking.currentOrder.indicatedStatus || 'connected',
-  canceledByExternal: booking.canceledByExternal,
-  canceledByUser: booking.canceledByUser,
-  passenger,
-  router: router.navigatorApp,
-  activeBookingId: session.user && session.user.activeBookingId
+  passenger
 });
 
 const mapDispatch = {
@@ -660,9 +352,7 @@ const mapDispatch = {
   getVehicles,
   toggleVisibleModal,
   completeOrder,
-  cancelOrder,
   checkMultiplePermissions,
-  getPassengerData,
   clearCurrentOrder,
   resetBookingValues,
   setActiveBooking,

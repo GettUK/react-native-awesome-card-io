@@ -208,9 +208,7 @@ export const orderPanelStyles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     paddingHorizontal: 0,
-    paddingVertical: 0,
-    shadowRadius: 0,
-    shadowColor: 'transparent'
+    paddingVertical: 0
   },
   journeyDetails: {
     shadowRadius: 0,

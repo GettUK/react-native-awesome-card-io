@@ -1,3 +1,2 @@
 export { default as BookingEditor } from './BookingEditor';
-export { default as BookingFooter } from './BookingFooter';
-
+export { default as EditOrderDetails } from './EditOrderDetails';

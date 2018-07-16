@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { has, isNull, noop } from 'lodash';
 import { Icon, Divider } from 'components';
+import { strings } from 'locales';
 import styles from './styles';
 
 export default class PointList extends PureComponent {
@@ -101,11 +102,10 @@ export default class PointList extends PureComponent {
   };
 
   renderDestinationItem = () => {
-    const { data, allowAddingStops, onStopAdd } = this.props;
-    const stopPointsAvailable = allowAddingStops && data.pickupAddress.countryCode === 'GB';
+    const { data, allowAddingStops, onStopAdd, allowEmptyDestination } = this.props;
+    const stopPointsAvailable = allowAddingStops && data.pickupAddress && data.pickupAddress.countryCode === 'GB';
 
-    return (
-      this.hasAddressType('destinationAddress') &&
+    return ((this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
       <TouchableOpacity
         style={styles.row}
         onPress={this.handleDestinationAddressPress}
@@ -116,25 +116,37 @@ export default class PointList extends PureComponent {
           width={16}
           height={19}
         />
-        {stopPointsAvailable && data.stops && data.stops.length
-          ? this.renderStopsCount(data.stops.length + 1)
-          : this.renderAddressLabel('destinationAddress')
-        }
-        {stopPointsAvailable &&
-          <TouchableOpacity
-            onPress={onStopAdd}>
-            {(!data.stops || data.stops.length < 4)
-              ? <Icon style={styles.btnPlus} name="plus" color="#8d8d8d" size={18} />
-              : <Text style={styles.labelEdit}>Edit</Text>
-            }
-          </TouchableOpacity>
+        {this.hasAddressType('destinationAddress')
+          ? (
+            <Fragment>
+              {stopPointsAvailable && data.stops && data.stops.length
+                ? this.renderStopsCount(data.stops.length + 1)
+                : this.renderAddressLabel('destinationAddress')
+              }
+              {stopPointsAvailable &&
+                <TouchableOpacity onPress={onStopAdd}>
+                  {(!data.stops || data.stops.length < 4)
+                    ? <Icon style={styles.btnPlus} name="plus" color="#8d8d8d" size={18} />
+                    : <Text style={styles.labelEdit}>Edit</Text>
+                  }
+                </TouchableOpacity>
+              }
+            </Fragment>
+          )
+          : (
+            <View style={styles.emptyDestination}>
+              <Text style={styles.selectDestinationText} numberOfLines={1}>
+                {strings('booking.label.selectDestination')}
+              </Text>
+            </View>
+         )
         }
       </TouchableOpacity>
     );
   };
 
   render() {
-    const { style, allowAddingStops } = this.props;
+    const { style, allowAddingStops, allowEmptyDestination } = this.props;
 
     return (
       <View
@@ -142,11 +154,11 @@ export default class PointList extends PureComponent {
         style={[styles.wrapper, style]}
       >
         {this.renderPickUpItem()}
-        {this.hasAddressType('destinationAddress') &&
+        {(this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
           <View><Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" /></View>
         }
         {!allowAddingStops && this.renderStopsItem()}
-        {this.hasAddressType('destinationAddress') && this.hasAddressType('pickupAddress') &&
+        {this.hasAddressType('pickupAddress') && (this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
           <Divider left={31} />
         }
         {this.renderDestinationItem()}

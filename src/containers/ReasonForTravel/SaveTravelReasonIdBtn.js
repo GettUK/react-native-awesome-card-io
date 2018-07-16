@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { saveMessageToDriver } from 'actions/booking';
+import { changeFields } from 'actions/booking';
 import { SaveBtn } from 'components';
 
 import { strings } from 'locales';
 
 import { throttledAction } from 'utils';
 
-const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
+const SaveTravelReasonIdBtn = ({ touched, navigation, changeFields, travelReasonId }) => {
   const handleSave = throttledAction(() => {
     if (touched) {
-      saveMessageToDriver();
+      changeFields({ travelReasonId });
       navigation.goBack(null);
     }
   });
@@ -28,15 +28,15 @@ const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
   );
 };
 
-SaveMessageBtn.propTypes = {
-  data: PropTypes.object,
+SaveTravelReasonIdBtn.propTypes = {
   touched: PropTypes.bool,
   navigation: PropTypes.object,
-  saveMessageToDriver: PropTypes.func
+  changeFields: PropTypes.func
 };
 
 const mapState = ({ booking }) => ({
-  touched: booking.messageToDriverTouched
+  touched: booking.travelReasonIdTouched,
+  travelReasonId: booking.tempTravelReasonId
 });
 
-export default connect(mapState, { saveMessageToDriver })(SaveMessageBtn);
+export default connect(mapState, { changeFields })(SaveTravelReasonIdBtn);

@@ -63,13 +63,12 @@ export default class StopPointsModal extends PureComponent {
     const stops = order.map(id => data[id]);
     const destinationAddress = stops.pop();
 
-    this.props.onChangeAddress({ destinationAddress });
-    this.props.onChangeAddress({ stops });
+    this.props.onChangeAddress({ destinationAddress, stops });
 
     this.props.onClose();
 
     this.props.onRowMoved();
-  }
+  };
 
   renderRow = ({ line, id }) => (
     <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, id)}>

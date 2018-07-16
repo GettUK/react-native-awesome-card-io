@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, isEqual, has } from 'lodash';
+import { isEmpty, find, isEqual, has, isNull } from 'lodash';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
-import { getFormData, changeFields, changeAddress, setActiveBooking } from 'actions/booking';
-import { onLayoutPointList } from 'actions/app/statuses';
+import { getFormData, changeFields, changeAddress, setActiveBooking, getVehicles } from 'actions/booking';
+import { onLayoutPointList, onLayoutFooter } from 'actions/app/statuses';
+import { getPassengerData } from 'actions/passenger';
 
-import { PointList, AddressModal, StopPointsModal } from 'components';
+import { Popup, Button, Icon } from 'components';
 
+import { strings } from 'locales';
 import { getHeight, prepareCoordinates } from 'utils';
-import BookingFooter from './BookingFooter';
 
+import BookingController from './BookingController';
 import { PromoBlackTaxi } from './components';
 
-import { prepareDefaultValues } from './utils';
 import styles from './style';
 
-class BookingEditor extends Component {
+class BookingEditor extends BookingController {
   state = {
     loadBookingRequested: false,
     isStopPointsModalVisible: false,
@@ -27,7 +28,7 @@ class BookingEditor extends Component {
     isPromoWasShown: false
   };
 
-  componentDidUpdate({ booking: { bookingForm: bookingFormProps }, requestVehicles, memberId, passenger }) {
+  componentDidUpdate({ booking: { bookingForm: bookingFormProps }, memberId }) {
     const { booking: { vehicles, bookingForm }, getFormData } = this.props;
     const { isStopPointsModalVisible } = this.state;
 
@@ -38,10 +39,11 @@ class BookingEditor extends Component {
       !isEqual(bookingForm.paymentMethod, bookingFormProps.paymentMethod);
 
     if (!isStopPointsModalVisible && isDriveChanged) {
-      requestVehicles();
+      this.requestVehicles();
     }
 
-    if (memberId && !this.state.loadBookingRequested && isEmpty(passenger)) {
+    // TODO pls refactor next check to avoid indirect evidence
+    if (memberId && !this.state.loadBookingRequested && isEmpty(this.getPassenger())) {
       this.loadBooking();
 
       this.setState({ loadBookingRequested: true });
@@ -68,7 +70,9 @@ class BookingEditor extends Component {
       (!isPromoAvailable && !isPromoWasShown)) {
       this.setState({ isPromoAvailable: true });
     }
-  }
+  };
+
+  showServiceSuspendedPopup = () => this.serviceSuspendedPopup.open();
 
   loadBooking = () => {
     const { getFormData, memberId, changeFields, activeBookingId, setActiveBooking } = this.props;
@@ -80,7 +84,7 @@ class BookingEditor extends Component {
         const passenger = dataPassenger || (memberId && find(passengers, { id: memberId }));
 
         let attrs = {
-          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
+          messageToDriver: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
           bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
 
@@ -121,43 +125,21 @@ class BookingEditor extends Component {
         if (activeBookingId && currentPosition) {
           setActiveBooking(activeBookingId);
         }
+        if (data.serviceSuspended) {
+          this.showServiceSuspendedPopup();
+        }
       });
   };
 
-  openAddressModal = (address, meta) => {
-    this.addressModal.open(address, meta);
-  };
 
-  handleEditPoint = (address, meta) => {
-    this.setState({ isStopPointsModalVisible: false }, () => {
-      setTimeout(() => this.openAddressModal(address, meta), 500);
-    });
-  };
+  goToEditOrderDetails = () => {
+    const { booking: { formData: { serviceSuspended } } } = this.props;
 
-  handleAddStop = () => {
-    this.handleEditPoint(null, { type: 'stops' });
-  };
-
-  showStopPointsModal = () => {
-    this.setState({ isStopPointsModalVisible: true });
-  };
-
-  hideStopPointsModal = () => {
-    this.setState({ isStopPointsModalVisible: false });
-  };
-
-  prepareStopsData = () => {
-    const { booking: { bookingForm: { destinationAddress, stops } } } = this.props;
-
-    const stopsObject = (stops || []).reduce((stop, item, index) => ({
-      ...stop,
-      [`stop${index}`]: item
-    }), {});
-
-    return {
-      ...stopsObject,
-      [`stop${(stops || []).length}`]: destinationAddress
-    };
+    if (serviceSuspended) {
+      this.props.showServiceSuspendedPopup();
+    } else {
+      this.props.navigation.navigate('EditOrderDetails');
+    }
   };
 
   getPointListPosition = () => {
@@ -170,94 +152,179 @@ class BookingEditor extends Component {
     return { bottom: 0 };
   };
 
-  footerInstance = () => this.footerView && this.footerView.wrappedInstance;
+  onLayout = (e) => {
+    this.props.onLayoutFooter(e.nativeEvent.layout);
+  };
 
   selectBlackCab = () => {
-    this.footerInstance().selectVehicle('BlackTaxi');
-  }
+    this.selectVehicle('BlackTaxi');
+  };
+
+  showLocationPopup = () => {
+    this.locationPopup.open();
+  };
 
   closePromo = () => {
     this.props.onHidePromo();
 
     this.setState({ isPromoAvailable: false, isPromoWasShown: true });
-  }
+  };
 
   resetPromo = () => {
     this.setState({ isPromoWasShown: false });
+  };
+
+  renderAddressItem = (address, label) => {
+    const handlerPress = () => this.props.changeAddress({ ...address, label }, { type: 'destinationAddress' });
+
+    return (
+      <Button
+        key={address.id || label}
+        onPress={handlerPress}
+        styleContent={styles.destinationBtn}
+        style={styles.padding}
+      >
+        <Text style={styles.customDestinationText}>{label}</Text>
+      </Button>
+    );
+  };
+
+  renderFavouriteAddresses() {
+    const passenger = this.getPassenger();
+
+    return (
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.destinationBtns}
+        showsHorizontalScrollIndicator={false}
+      >
+        {passenger && passenger.homeAddress && passenger.homeAddress.line &&
+          this.renderAddressItem(passenger.homeAddress, strings('app.label.home'))
+        }
+        {passenger && passenger.workAddress && passenger.workAddress.line &&
+          this.renderAddressItem(passenger.workAddress, strings('app.label.work'))
+        }
+        {passenger && (passenger.favoriteAddresses || []).map(address =>
+          this.renderAddressItem(address.address, address.name))
+        }
+      </ScrollView>
+    );
   }
 
-  onChangeAddress = (address, meta) => {
-    const { booking, changeAddress, changeFields } = this.props;
-
-    if (meta.type === 'pickupAddress' && address.countryCode !== 'GB' && booking.bookingForm.stops) {
-      changeFields({ stops: [] });
-    }
-
-    changeAddress(address, meta);
+  renderAddressesSelector() {
+    return (
+      <View style={styles.selectAddress}>
+        {this.renderPointList({ style: styles.pointList })}
+        <View style={styles.destinationBtnsContainer}>
+          {this.props.booking.formData.busy
+            ? <ActivityIndicator style={styles.destinationBtnsSpinner} size="small" color="#8794a0" />
+            : this.renderFavouriteAddresses()
+          }
+        </View>
+      </View>
+    );
   }
 
-  render() {
+  renderContent() {
     const {
-      navigation,
       getCurrentPosition,
-      toOrder,
-      requestVehicles,
-      passenger,
-      booking: { vehicles, bookingForm },
-      changeFields,
+      booking: { vehicles },
       isAuthorizedPermission,
       onLayoutPointList,
-      onDateChange,
-      isLoadingPickup
+      ui: { map: { currentPosition } }
     } = this.props;
+
+    const isActiveLocation = isAuthorizedPermission('location') && !isNull(currentPosition);
+    const availableVehicles = this.getAvailableVehicles();
+    const shouldRequestVehicles = this.shouldRequestVehicles();
 
     return (
       <View style={styles.wrapper} pointerEvents="box-none">
-        <AddressModal
-          ref={(el) => { this.addressModal = el; }}
-          defaultValues={prepareDefaultValues(passenger)}
-          onChange={this.onChangeAddress}
-        />
-
-        {toOrder && !vehicles.loading &&
-          <PointList
-            onLayout={onLayoutPointList}
-            style={[styles.pointList, this.getPointListPosition()]}
-            onAddressPress={this.openAddressModal}
-            onStopAdd={this.showStopPointsModal}
-            data={bookingForm}
-            isLoadingPickup={isLoadingPickup}
-          />
+        {shouldRequestVehicles && !vehicles.loading &&
+          this.renderPointList({
+            style: [styles.floatedPointList, this.getPointListPosition()],
+            onLayout: onLayoutPointList
+          })
         }
 
-        <StopPointsModal
-          data={this.prepareStopsData()}
-          isVisible={this.state.isStopPointsModalVisible}
-          onAddPoint={this.handleAddStop}
-          onEditAddress={this.handleEditPoint}
-          onRowMoved={requestVehicles}
-          onChangeAddress={changeFields}
-          onClose={this.hideStopPointsModal}
-        />
+        <View
+          onLayout={this.onLayout}
+          style={styles.footer}
+          pointerEvents="box-none"
+        >
+          {
+            !shouldRequestVehicles && (
+              <View pointerEvents="box-none">
+                <Button
+                  style={styles.currentPositionBtn}
+                  styleContent={[styles.currentPositionBtnContent, styles.btnView]}
+                  onPress={isActiveLocation ? getCurrentPosition : this.showLocationPopup}
+                >
+                  <Icon name={isActiveLocation ? 'myLocation' : 'inactiveLocation' } size={22} color="#284784" />
+                </Button>
+                {this.renderAddressesSelector()}
+                <Popup
+                  ref={(popup) => { this.locationPopup = popup; }}
+                  titleStyle={styles.popupLocationTitle}
+                  title={strings('popup.locationService.title')}
+                  buttons={[
+                    {
+                      title: strings('popup.locationService.button.сancel'),
+                      style: styles.btnStyle,
+                      textStyle: styles.btnTextStyle
+                    },
+                    {
+                      title: strings('popup.locationService.button.сonfirm'),
+                      onPress: this.openSettings
+                    }
+                  ]}
+                />
+              </View>
+            )
+          }
+          {shouldRequestVehicles && !vehicles.loading && availableVehicles.length === 0 &&
+            this.renderNoVehiclesMessage()
+          }
+          {
+            shouldRequestVehicles && availableVehicles.length > 0 &&
+            (
+              <View style={styles.footerOrder} pointerEvents="box-none">
+                {this.renderPickUpTime(styles.pickUpTimeWrapper)}
 
-        <BookingFooter
-          navigation={navigation}
-          getCurrentPosition={getCurrentPosition}
-          passenger={passenger}
-          requestVehicles={requestVehicles}
-          toOrder={toOrder}
-          openAddressModal={this.openAddressModal}
-          isAuthorizedPermission={isAuthorizedPermission}
-          onDateChange={onDateChange}
-          onBookingCreation={this.closePromo}
-          ref={(footer) => { this.footerView = footer; }}
-        />
+                {this.renderAvailableCars()}
+                {this.renderBookingBtn({
+                  title: 'Next',
+                  style: styles.nextStepBtn,
+                  onPress: this.goToEditOrderDetails
+                })}
+              </View>
+            )
+          }
+        </View>
 
         {this.state.isPromoAvailable &&
           <PromoBlackTaxi onClose={this.closePromo} onSelect={this.selectBlackCab} />
         }
+        <Popup
+          ref={(popup) => { this.serviceSuspendedPopup = popup; }}
+          title={strings('popup.serviceSuspended.title')}
+          content={(
+            <View>
+              <Text style={styles.popupInfo}>
+                {strings('popup.serviceSuspended.description')}
+              </Text>
+              <Text style={styles.popupLabel}>
+                {strings('popup.serviceSuspended.sign')}
+              </Text>
+            </View>
+          )}
+        />
       </View>
     );
+  }
+
+  render() {
+    return super.render(this.renderContent);
   }
 }
 
@@ -268,12 +335,7 @@ BookingEditor.propTypes = {
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
   passenger: PropTypes.object,
-  requestVehicles: PropTypes.func.isRequired,
   isAuthorizedPermission: PropTypes.func.isRequired
-};
-
-BookingEditor.defaultProps = {
-  passenger: {}
 };
 
 const select = ({ session, booking, app, ui, passenger }) => ({
@@ -281,13 +343,17 @@ const select = ({ session, booking, app, ui, passenger }) => ({
   booking,
   app,
   ui,
+  passenger,
   passengerData: passenger.data.passenger,
   activeBookingId: session.user && session.user.activeBookingId
 });
 
 const bindActions = {
+  onLayoutFooter,
   onLayoutPointList,
   getFormData,
+  getVehicles,
+  getPassengerData,
   changeFields,
   changeAddress,
   setActiveBooking,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
+import { Platform } from 'react-native';
 import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import { ScreenHeader, BackBtn } from 'components';
@@ -23,9 +24,19 @@ import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
 import { ReceiptHeader } from 'containers/Receipt';
+import { EditOrderDetails } from 'containers/BookingEditor';
+import { SavePassengerBtn } from 'containers/PassengersList';
+import { SaveTravelReasonIdBtn } from 'containers/ReasonForTravel';
+import { SavePaymentMethodBtn } from 'containers/PaymentsOptions';
 import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
+
+const headerStyle = {
+  backgroundColor: '#fff',
+  paddingTop: Platform.OS === 'android' ? 20 : 0,
+  height: Platform.OS === 'android' ? 80 : 50
+};
 
 const routeConfiguration = {
   TransitionLoading: {
@@ -40,6 +51,14 @@ const routeConfiguration = {
         backgroundColor: '#fff'
       },
       header: null
+    })
+  },
+  EditOrderDetails: {
+    screen: EditOrderDetails,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('order.text.orderDetails'),
+      headerLeft: <BackBtn navigation={navigation} />
     })
   },
   Settings: {
@@ -88,6 +107,15 @@ const routeConfiguration = {
         <ScreenHeader
           navigation={navigation}
           title="Employees"
+          leftContent={
+            <BackBtn
+              navigation={navigation}
+              touchedPath="booking.passengerIdTouched"
+              color="#fff"
+              containerStyle={{ paddingLeft: 0 }}
+            />
+          }
+          rightContent={<SavePassengerBtn navigation={navigation} />}
         />
       )
     })
@@ -119,6 +147,15 @@ const routeConfiguration = {
         <ScreenHeader
           navigation={navigation}
           title="Reason for travel"
+          leftContent={
+            <BackBtn
+              navigation={navigation}
+              touchedPath="booking.travelReasonIdTouched"
+              color="#fff"
+              containerStyle={{ paddingLeft: 0 }}
+            />
+          }
+          rightContent={<SaveTravelReasonIdBtn navigation={navigation} />}
         />
       )
     })
@@ -130,6 +167,15 @@ const routeConfiguration = {
         <ScreenHeader
           navigation={navigation}
           title="Available payment methods"
+          leftContent={
+            <BackBtn
+              navigation={navigation}
+              touchedPath="booking.paymentMethodTouched"
+              color="#fff"
+              containerStyle={{ paddingLeft: 0 }}
+            />
+          }
+          rightContent={<SavePaymentMethodBtn navigation={navigation} />}
         />
       )
     })

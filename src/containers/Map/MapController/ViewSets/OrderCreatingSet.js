@@ -89,7 +89,7 @@ class OrderCreatingSet extends React.Component {
     const source = prepareCoordinates(order.pickupAddress);
     disableDrag();
     changeRegionToAnimate(source);
-  }
+  };
 
   renderMapItems = () => {
     const { order, vehicles, drivers, nightMode } = this.props;
@@ -105,7 +105,7 @@ class OrderCreatingSet extends React.Component {
           stops={order.stops || order.stopAddresses}
         />
       );
-  }
+  };
 
   render() {
     const { currentPosition, order } = this.props;

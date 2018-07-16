@@ -1,4 +1,5 @@
 import add from './add';
+import addresses from './addresses';
 import arriving from './arriving';
 import arrow from './arrow';
 import arrowDown from './arrowDown';
@@ -14,6 +15,7 @@ import camera from './camera';
 import car from './car';
 import carFacet from './carFacet';
 import carNightMode from './carNightMode';
+import carType from './carType';
 import check from './check';
 import checkmark from './checkmark';
 import chevron from './chevron';
@@ -31,11 +33,10 @@ import dottedLine from './dottedLine';
 import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
+import flight from './flight';
 import futureOrder from './futureOrder';
 import help from './help';
 import home from './home';
-import carType from './carType';
-import addresses from './addresses';
 import id from './id';
 import inactiveLocation from './inactiveLocation';
 import journeyTime from './journeyTime';
@@ -55,6 +56,7 @@ import reasonTaxi from './reasonTaxi';
 import reasonTimer from './reasonTimer';
 import receipt from './receipt';
 import registration from './registration';
+import rides from './rides';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
@@ -62,16 +64,15 @@ import sourceMarker from './sourceMarker';
 import star from './star';
 import starEmpty from './starEmpty';
 import time from './time';
-import rides from './rides';
 import vehicleInfo from './info';
 import walker from './walker';
 import wheelchair from './wheelchair';
 import work from './work';
 
-import info from './alerts/info';
 import failed from './alerts/failed';
-import warning from './alerts/warning';
+import info from './alerts/info';
 import success from './alerts/success';
+import warning from './alerts/warning';
 
 import line from './animatedLogo/line';
 import logoLeft from './animatedLogo/logoLeft';
@@ -93,6 +94,7 @@ import Gett from './logos/Gett';
 
 export default {
   add,
+  addresses,
   arriving,
   arrow,
   arrowDown,
@@ -108,16 +110,15 @@ export default {
   car,
   carFacet,
   carNightMode,
+  carType,
   check,
   checkmark,
   chevron,
   clear,
   clock,
   close,
-  carType,
-  contactUs,
-  addresses,
   closeThick,
+  contactUs,
   currentLocation,
   departing,
   destinationMarker,
@@ -127,15 +128,16 @@ export default {
   drag,
   editAndroid,
   email,
+  flight,
   futureOrder,
   help,
   home,
   id,
+  inactiveLocation,
   journeyTime,
   logo,
   message,
   myLocation,
-  inactiveLocation,
   paymentMethod,
   phone,
   pickUpCenter,
@@ -148,6 +150,7 @@ export default {
   reasonTaxi,
   reasonTimer,
   receipt,
+  rides,
   search,
   settings,
   sms,
@@ -155,7 +158,6 @@ export default {
   star,
   starEmpty,
   time,
-  rides,
   UGArrow1,
   UGArrow2,
   UGArrow3,

@@ -1,6 +1,7 @@
 import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
 import { isUndefined, omit } from 'lodash';
+import { CANCELLED_STATUS } from 'utils/orderStatuses';
 
 export const initialState = {
   formData: {
@@ -83,7 +84,7 @@ const resetBookingValues = state =>
       bookerReferencesErrors: {},
       scheduledType: 'now',
       scheduledAt: null,
-      message: state.formData.defaultDriverMessage
+      messageToDriver: state.formData.defaultDriverMessage
     }),
     vehicles: initialState.vehicles
   });
@@ -94,6 +95,14 @@ const changeMessageToDriver = (state, { payload }) =>
 const changeFlight = (state, { payload }) =>
   update(state, { tempFlight: payload.data, flightTouched: payload.touched });
 
+const changePassengerId = (state, { payload }) =>
+  update(state, { tempPassengerId: payload.id, passengerIdTouched: payload.touched });
+
+const changeTravelReasonId = (state, { payload }) =>
+  update(state, { tempTravelReasonId: payload.id, travelReasonIdTouched: payload.touched });
+
+const changePaymentMethodData = (state, { payload }) =>
+  update(state, { tempPaymentMethodData: payload.data, paymentMethodTouched: payload.touched });
 
 const getVehiclesStart = state => (
   update.assign(state, 'vehicles', {
@@ -120,9 +129,7 @@ const getVehiclesFailure = state => (
 const createBookingStart = state => (
   update(state, {
     currentOrder: { busy: true },
-    orderCreateError: null,
-    canceledByExternal: false,
-    canceledByUser: false
+    orderCreateError: null
   })
 );
 
@@ -148,22 +155,10 @@ const cancelOrderStart = state => (
 
 const cancelOrderSuccess = state => (
   update(state, {
-    currentOrder: { busy: false },
+    'currentOrder.busy': false,
+    'currentOrder.status': CANCELLED_STATUS,
+    'currentOrder.indicatedStatus': CANCELLED_STATUS,
     orderCreateError: null
-  })
-);
-
-const canceledByExternal = state => (
-  update(state, {
-    canceledByExternal: true,
-    canceledByUser: false
-  })
-);
-
-const canceledByUser = state => (
-  update(state, {
-    canceledByExternal: false,
-    canceledByUser: true
   })
 );
 
@@ -224,6 +219,9 @@ export default composeReducer('booking', {
   resetBookingValues,
   changeMessageToDriver,
   changeFlight,
+  changePassengerId,
+  changeTravelReasonId,
+  changePaymentMethodData,
   getVehiclesStart,
   getVehiclesSuccess,
   getVehiclesFailure,
@@ -233,8 +231,6 @@ export default composeReducer('booking', {
   createBookingFailure,
   cancelOrderStart,
   cancelOrderSuccess,
-  canceledByExternal,
-  canceledByUser,
   changeOrderStatus,
   changeDriverPosition,
   setDriver,

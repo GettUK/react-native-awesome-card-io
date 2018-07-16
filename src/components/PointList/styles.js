@@ -5,15 +5,8 @@ export default StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
     minHeight: 50,
-    borderRadius: 10,
     paddingVertical: 7,
-    paddingHorizontal: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: {
-      height: 0
-    }
+    paddingHorizontal: 20
   },
   row: {
     flexDirection: 'row',
@@ -49,5 +42,15 @@ export default StyleSheet.create({
   },
   pickUpConnector: {
     top: -6
+  },
+  selectDestinationText: {
+    color: '#8794a0',
+    fontSize: 16
+  },
+  emptyDestination: {
+    flex: 1,
+    paddingVertical: 8,
+    borderBottomColor: '#d8d8d8',
+    borderBottomWidth: StyleSheet.hairlineWidth
   }
 });
