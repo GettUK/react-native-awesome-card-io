@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import RNFetchBlob from 'react-native-fetch-blob';
 
-import assets from 'assets';
-
 import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
