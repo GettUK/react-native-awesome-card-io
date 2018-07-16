@@ -21,6 +21,7 @@ import clear from './clear';
 import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
+import contactUs from './contactUs';
 import currentLocation from './currentLocation';
 import departing from './departing';
 import destinationMarker from './destinationMarker';
@@ -114,6 +115,7 @@ export default {
   clock,
   close,
   carType,
+  contactUs,
   addresses,
   closeThick,
   currentLocation,

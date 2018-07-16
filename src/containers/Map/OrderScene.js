@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { cancelOrder } from 'actions/booking';
 
-import { FadeInView, GradientWrapper } from 'components';
+import { FadeInView, GradientWrapper, OptionsModal } from 'components';
 
 import { strings } from 'locales';
 import { showConfirmationAlert, isIphoneX } from 'utils';
@@ -29,7 +29,8 @@ import { screenStyles } from './ActiveOrderScene/styles';
 class ActiveOrderScene extends Component {
   state = {
     isVisible: false,
-    cancelModalVisible: false
+    cancelModalVisible: false,
+    isVisibleOptionsModal: false
   };
 
   get isDriverExist() {
@@ -65,10 +66,29 @@ class ActiveOrderScene extends Component {
     this.setState({ isVisible: false });
   };
 
+  openActionsModal = () => {
+    this.setState({ isVisibleOptionsModal: true });
+  };
+
+  closeActionsModal = () => {
+    this.setState({ isVisibleOptionsModal: false });
+  };
+
   handleCloseCancelModal = () => {
     this.setState({ cancelModalVisible: false });
   };
 
+  renderFloatButton = ({ iconName, label, handler, busy }) => (
+    <FloatButton
+      key={iconName}
+      label={strings(`order.button.${label}`)}
+      iconName={iconName}
+      loading={busy}
+      onPress={handler}
+      style={screenStyles.floatButton}
+      labelStyle={this.props.nightMode ? screenStyles.whiteText : {}}
+    />
+  )
 
   renderInfoPanel = () => {
     const { status, busy, nightMode } = this.props;
@@ -102,25 +122,27 @@ class ActiveOrderScene extends Component {
           >
             <View style={screenStyles.actionsRow}>
               {(isActiveDriverStatus || isTripActive) &&
-                <FloatButton
-                  key="myLocation"
-                  label={strings('order.button.myLocation')}
-                  iconName="myLocation"
-                  onPress={this.handleMyLocation}
-                  style={screenStyles.floatButton}
-                  labelStyle={nightMode ? screenStyles.whiteText : {}}
-                />
+                this.renderFloatButton({
+                  iconName: 'myLocation',
+                  label: 'myLocation',
+                  handler: this.handleMyLocation
+                })
               }
               {(isCancelAllowedStatus || isActiveDriverStatus || isCustomerCareStatus) &&
-                <FloatButton
-                  key="cancel"
-                  label={strings('order.button.cancelOrder')}
-                  iconName="cancel"
-                  loading={busy}
-                  onPress={this.handleCancelOrder}
-                  style={screenStyles.floatButton}
-                  labelStyle={nightMode ? screenStyles.whiteText : {}}
-                />
+                this.renderFloatButton({
+                  iconName: 'cancel',
+                  label: 'cancelOrder',
+                  handler: this.handleCancelOrder,
+                  busy
+                })
+              }
+
+              {isTripActive &&
+                this.renderFloatButton({
+                  iconName: 'dots',
+                  label: 'dots',
+                  handler: this.openActionsModal
+                })
               }
 
               {/* isDriverArrived &&
@@ -146,8 +168,8 @@ class ActiveOrderScene extends Component {
   };
 
   render() {
-    const { status, order } = this.props;
-    const { cancelModalVisible, isVisible } = this.state;
+    const { status, order, customerServicePhone } = this.props;
+    const { cancelModalVisible, isVisible, isVisibleOptionsModal } = this.state;
 
     const shouldShowPointer = POINTER_DISPLAY_STATUSES.includes(status) ||
       (order.status === ORDER_RECEIVED_STATUS && order.asap);
@@ -169,6 +191,16 @@ class ActiveOrderScene extends Component {
           onClose={this.handleCloseCancelModal}
           reasons={order.cancellationReasons}
         />
+
+        <OptionsModal
+          isVisible={isVisibleOptionsModal}
+          options={[{
+            icon: 'contactUs',
+            label: strings('settings.label.contactUs'),
+            onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
+          }]}
+          onClose={this.closeActionsModal}
+        />
       </View>
     );
   }
@@ -181,10 +213,11 @@ ActiveOrderScene.propTypes = {
 
 ActiveOrderScene.defaultProps = {};
 
-const mapState = ({ booking }) => ({
+const mapState = ({ booking, passenger }) => ({
   status: booking.currentOrder.indicatedStatus || 'connected',
   order: booking.currentOrder,
-  busy: booking.currentOrder.busy
+  busy: booking.currentOrder.busy,
+  customerServicePhone: passenger.companySettings.customerServicePhone
 });
 
 const mapDispatch = {
