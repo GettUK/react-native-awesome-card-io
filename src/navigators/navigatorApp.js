@@ -118,7 +118,7 @@ const routeConfiguration = {
       header: (
         <ScreenHeader
           navigation={navigation}
-          title="Reason for Travel"
+          title="Reason for travel"
         />
       )
     })

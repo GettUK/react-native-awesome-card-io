@@ -405,7 +405,7 @@ class BookingFooter extends PureComponent {
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Message to driver', message, () => this.goTo('MessageToDriver'))}
         <View style={styles.settingsMenuSeparator} />
-        {renderMenuItem('Reasons for travel', getReasonsName(travelReasonId), () => this.goTo('ReasonForTravel'))}
+        {renderMenuItem('Reason for travel', getReasonsName(travelReasonId), () => this.goTo('ReasonForTravel'))}
         <View style={styles.settingsMenuSeparator} />
         {renderMenuItem('Payment method', paymentTypeLabels[paymentMethod], () => this.goTo('PaymentsOptions'))}
         <View style={styles.settingsMenuSeparator} />
