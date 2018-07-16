@@ -19,9 +19,11 @@ import {
   TransitionLoading,
   PassengersList,
   Receipt,
-  EditOrderDetails
+  EditOrderDetails,
+  DateRange
 } from 'containers';
-import ordersStyles from 'containers/Orders/styles';
+import { HeaderSearch } from 'containers/Orders';
+import { ClearBtn } from 'containers/DateRange';
 import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
@@ -72,18 +74,18 @@ const routeConfiguration = {
     screen: Orders,
     navigationOptions: ({ navigation }) => ({
       header: (
+        <HeaderSearch navigation={navigation} />
+      )
+    })
+  },
+  DateRange: {
+    screen: DateRange,
+    navigationOptions: ({ navigation }) => ({
+      header: (
         <ScreenHeader
           navigation={navigation}
-          title="Your Orders"
-          half
-          headerContainerStyle={ordersStyles.headerContainer}
-          onBackPress={navigation.state.params && navigation.state.params.fromSettings
-            ? () => {
-              navigation.goBack();
-              navigation.navigate('Settings', { onGoToRides: navigation.state.params.onGoToRides });
-            }
-            : null
-          }
+          title={strings('header.title.dateRange')}
+          rightContent={<ClearBtn navigation={navigation} />}
         />
       )
     })

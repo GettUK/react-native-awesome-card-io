@@ -29,5 +29,5 @@ export const formattedColor = {
   white: new Color(color.white),
   primaryBtns: new Color(color.primaryBtns),
   animationRout: new Color(color.animationRout),
-  bgStatuses: new Color(color.animationRout)
+  bgStatuses: new Color(color.bgStatuses)
 };
