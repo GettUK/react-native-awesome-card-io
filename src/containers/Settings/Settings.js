@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ScrollView, View, StatusBar } from 'react-native';
+import { ScrollView, View, StatusBar, Text } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import { has } from 'lodash';
 
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
 import { logout, resetGuide } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
 import { changeDevSettingField } from 'actions/app/devSettings';
 import { AddressModal, Divider } from 'components';
-import { has } from 'lodash';
 import { throttledAction, isDevMode } from 'utils';
+import { strings } from 'locales';
 
 import {
   prepareProfileBlock,
@@ -133,12 +135,21 @@ class Settings extends Component {
     </View>
   );
 
+  renderAppVersionBlock = () => (
+    <View style={styles.appVersion}>
+      <Text style={styles.appVersionText}>
+        {strings('settings.label.version')} {DeviceInfo.getReadableVersion()}
+      </Text>
+    </View>
+  );
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="default" />
         <ScrollView style={styles.container}>
           {this.getSettingsBlocks().map(this.renderBlock)}
+          {this.renderAppVersionBlock()}
         </ScrollView>
         <AddressModal
           ref={(el) => { this.addressModal = el; }}

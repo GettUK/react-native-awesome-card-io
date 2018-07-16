@@ -22,6 +22,7 @@ import com.facebook.soloader.SoLoader;
 import com.smixx.fabric.FabricPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -55,7 +56,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNI18nPackage(),
             new MapsPackage(),
             new RNFetchBlobPackage(),
-            new RCTPdfView()
+            new RCTPdfView(),
+            new RNDeviceInfo()
       );
     }
 
