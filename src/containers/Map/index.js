@@ -32,7 +32,8 @@ import {
   resetBookingValues,
   cancelOrder,
   clearCurrentOrder,
-  setActiveBooking
+  setActiveBooking,
+  changeAddress
 } from 'actions/booking';
 import {
   checkMultiplePermissions,
@@ -51,7 +52,8 @@ import {
   momentDate,
   hourForward,
   LATTITIDE_DELTA,
-  LONGTITUDE_DELTA
+  LONGTITUDE_DELTA,
+  Coordinates
 } from 'utils';
 import PN from 'utils/notifications';
 import { CUSTOMER_CARE_STATUS, FINAL_STATUSES } from 'utils/orderStatuses';
@@ -62,12 +64,6 @@ import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 import MapView from './MapView';
 
 import styles from './style';
-
-const geoLocationOptions = {
-  timeout: 2500,
-  distanceFilter: 10,
-  enableHighAccuracy: Platform.OS === 'android'
-};
 
 const CURRENT_ROUTE = 'MapView';
 
@@ -121,8 +117,7 @@ class Map extends Component {
 
     if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
       setTimeout(() => {
-        this.mapView.wrappedInstance.getGeocode(currentPosition);
-        this.getCurrentPosition();
+        Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
 
         if (activeBookingId) {
           setActiveBooking(activeBookingId);
@@ -141,7 +136,7 @@ class Map extends Component {
   componentWillUnmount() {
     PN.clearNotificationListener();
 
-    navigator.geolocation.clearWatch(this.watchId);
+    Coordinates.clearWatcher();
 
     this.backListener.remove();
 
@@ -195,23 +190,10 @@ class Map extends Component {
     });
   };
 
-  getNavigatorLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => this.changePosition(coords),
-      errorPosition,
-      { timeout: geoLocationOptions.timeout, maximumAge: geoLocationOptions.maximumAge }
-    );
-  };
-
   setWatchPosition = () => {
     this.props.checkMultiplePermissions(['location']).then(({ location }) => {
       if (location === PERMISSION_STATUS.authorized) {
-        this.getCurrentPosition();
-        this.watchId = navigator.geolocation.watchPosition(
-          ({ coords }) => this.changePosition(coords),
-          errorPosition,
-          geoLocationOptions,
-        );
+        Coordinates.watchCoordinates(this.changePosition, this.props.changeAddress);
       } else if (location === PERMISSION_STATUS.denied) {
         this.alertGPS.show();
       }
@@ -261,7 +243,7 @@ class Map extends Component {
   getCurrentPosition = () => {
     const { map: { currentPosition } } = this.props;
 
-    this.getNavigatorLocation();
+    Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
     if (!isNull(currentPosition)) {
       this.animateToRegion(currentPosition);
     }
@@ -816,7 +798,8 @@ const mapDispatch = {
   getPassengerData,
   clearCurrentOrder,
   resetBookingValues,
-  setActiveBooking
+  setActiveBooking,
+  changeAddress
 };
 
 export default connect(mapState, mapDispatch)(Map);
