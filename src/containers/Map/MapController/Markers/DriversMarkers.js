@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 import Map from 'react-native-maps';
 import { withNavigationFocus } from 'react-navigation';
+
 import { Icon } from 'components';
 
-const prepareCoordinates = location => location && ({ latitude: location.lat, longitude: location.lng });
+import { prepareCoordinates } from 'utils';
 
 const carMapping = {
   BlackTaxi: 'blackTaxi',

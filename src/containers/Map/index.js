@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   View,
-  StatusBar,
   Text,
   TouchableOpacity,
   Platform,
@@ -12,10 +11,10 @@ import {
   TimePickerAndroid,
   BackHandler
 } from 'react-native';
-import { every, find, first, has, isNull, isEmpty, throttle } from 'lodash';
+import { every, find, first, has, isEmpty, throttle } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
 
-import { Icon, Button, Modal, Alert, Popup, UserGuide, PreorderHeader, OrderHeader } from 'components';
+import { Icon, Button, Modal, Alert, Popup, UserGuide, OrderCreatingHeader, OrderHeader } from 'components';
 
 import { BookingEditor } from 'containers/BookingEditor';
 
@@ -35,9 +34,7 @@ import {
 } from 'actions/booking';
 import {
   checkMultiplePermissions,
-  requestLocation,
-  PERMISSION_STATUS,
-  locationPermissions
+  PERMISSION_STATUS
 } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { getPassengerData } from 'actions/passenger';
@@ -48,17 +45,14 @@ import {
   setDefaultTimezone,
   convertToZone,
   momentDate,
-  hourForward,
-  LATTITIDE_DELTA,
-  LONGTITUDE_DELTA,
-  Coordinates
+  hourForward
 } from 'utils';
 import PN from 'utils/notifications';
 
 import OrderScene from './OrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
 
-import MapView from './MapView';
+import MapController from './MapController/MapController';
 
 import styles from './style';
 
@@ -74,17 +68,11 @@ class Map extends Component {
       isPanelDisabled: true,
       fromOrderList: false,
       fromSettings: false,
-      isLoadingPickup: false,
-      dragEnable: true,
       nightMode: false
     };
   }
 
   componentDidMount() {
-    this.props.requestLocation();
-
-    this.setWatchPosition();
-
     this.registerBackListener();
 
     PN.addNotificationListener({ userToken: this.props.session.token, setActiveBooking: this.props.setActiveBooking });
@@ -92,17 +80,11 @@ class Map extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      map: { currentPosition },
       booking: { bookingForm: { pickupAddress }, formData },
-      app: { statuses },
-      canceledByUser,
-      activeBookingId,
-      setActiveBooking
+      canceledByUser
     } = this.props;
     const {
-      map: { currentPosition: currentPositionProps },
       booking: { bookingForm: { pickupAddress: pickupAddressProps }, formData: formDataProps },
-      app: { statuses: statusesProps },
       canceledByUser: canceledByUserProps
     } = prevProps;
 
@@ -112,28 +94,15 @@ class Map extends Component {
       setDefaultTimezone(pickupAddress.timezone);
     }
 
-    if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
-      setTimeout(() => {
-        Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
-
-        if (activeBookingId) {
-          setActiveBooking(activeBookingId);
-        }
-      }, 500);
-    }
-
-    this.isWatchPosition(statuses, statusesProps);
-
     if (canceledByUser && !canceledByUserProps) {
       this.showAlert();
     }
+
     this.checkForNightMode();
   }
 
   componentWillUnmount() {
     PN.clearNotificationListener();
-
-    Coordinates.clearWatcher();
 
     this.backListener.remove();
 
@@ -146,27 +115,19 @@ class Map extends Component {
     }
   }
 
-  isWatchPosition(statuses, statusesProps) {
-    if (
-      statuses.permissions && statusesProps.permissions &&
-      statuses.permissions.location !== statusesProps.permissions.location &&
-      locationPermissions.includes(statuses.permissions.location)
-    ) {
-      this.setWatchPosition();
-    }
-  }
-
   registerBackListener = () => {
     this.backListener = BackHandler.addEventListener('hardwareBack', () => {
-      const isPreOrder = this.isActiveSceneIs('preOrder');
-      const preOrderRoutes = ['MessageToDriver', 'ReasonForTravel', 'PaymentsOptions', 'References', 'FlightSettings'];
+      const isOrderCreating = this.isActiveSceneIs('orderCreating');
+      const orderCreatingRoutes = [
+        'MessageToDriver', 'ReasonForTravel', 'PaymentsOptions', 'References', 'FlightSettings'
+      ];
       const { booking: { bookingForm }, navigation: { dangerouslyGetParent } } = this.props;
       const parentRoute = dangerouslyGetParent().state;
       const route = parentRoute.routes[parentRoute.index];
 
       if (route.routeName !== (CURRENT_ROUTE || 'TransitionLoading')) {
-        if (preOrderRoutes.includes(route.routeName) &&
-          isPreOrder && bookingForm.destinationAddress
+        if (orderCreatingRoutes.includes(route.routeName) &&
+          isOrderCreating && bookingForm.destinationAddress
         ) {
           this.props.toggleVisibleModal('settings');
         }
@@ -175,10 +136,10 @@ class Map extends Component {
           this.goToSettings();
         }
         return true;
-      } else if (!(isPreOrder && !this.shouldRequestVehicles())) {
+      } else if (!(isOrderCreating && !this.shouldRequestVehicles())) {
         this.handleBackBtnPress();
         return true;
-      } else if (!isPreOrder || bookingForm.destinationAddress) {
+      } else if (!isOrderCreating || bookingForm.destinationAddress) {
         this.goBack();
         return true;
       }
@@ -187,29 +148,10 @@ class Map extends Component {
     });
   };
 
-  setWatchPosition = () => {
-    this.props.checkMultiplePermissions(['location']).then(({ location }) => {
-      if (location === PERMISSION_STATUS.authorized) {
-        Coordinates.watchCoordinates(this.changePosition, this.props.changeAddress);
-      } else if (location === PERMISSION_STATUS.denied) {
-        this.alertGPS.show();
-      }
-    });
-  };
-
   checkForNightMode = throttle(() => {
     const hour = (new Date()).getHours();
     this.setState({ nightMode: hour >= 21 || hour < 5 });
   }, 20000);
-
-  changePosition = (coordinates) => {
-    const { currentPosition } = this.props.map;
-    const { latitude, longitude } = currentPosition || {};
-
-    if (coordinates && (coordinates.latitude !== latitude || coordinates.longitude !== longitude)) {
-      this.props.changePosition(coordinates);
-    }
-  };
 
   goBack = () => {
     this.props.navigation.dispatch({
@@ -227,24 +169,6 @@ class Map extends Component {
 
   resizeMapToDriverAndTargetAddress = (type, order) =>
     this.mapView && this.mapView.wrappedInstance.resizeMapToDriverAndTargetAddress(type, order);
-
-  animateToRegion = ({ latitude, longitude }) => {
-    this.mapView.wrappedInstance.animateToRegion({
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
-      latitudeDelta: LATTITIDE_DELTA / 5,
-      longitudeDelta: LONGTITUDE_DELTA / 5
-    });
-  };
-
-  getCurrentPosition = () => {
-    const { map: { currentPosition } } = this.props;
-
-    Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
-    if (!isNull(currentPosition)) {
-      this.animateToRegion(currentPosition);
-    }
-  };
 
   getAvailableVehicles = () => {
     const { booking: { vehicles } } = this.props;
@@ -264,7 +188,7 @@ class Map extends Component {
 
   watchID = null;
 
-  isActiveSceneIs = (name = 'preOrder') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
+  isActiveSceneIs = (name = 'orderCreating') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
   handleDateChange = (date) => {
     this.setState({ date, minDate: hourForward().toDate() });
@@ -432,6 +356,10 @@ class Map extends Component {
     }, 500);
   };
 
+  getCurrentPosition = () => {
+    this.mapView.wrappedInstance.getCurrentPosition();
+  }
+
   goToInitialization = () => {
     this.clearFields();
 
@@ -448,24 +376,8 @@ class Map extends Component {
     showConfirmationAlert({ title: strings('alert.title.cancelOrderCreation'), handler: this.clearFields });
   };
 
-  startLoadingPickup = () => {
-    this.setState({ isLoadingPickup: true });
-  };
-
-  endLoadingPickup = () => {
-    this.setState({ isLoadingPickup: false });
-  };
-
-  disableDrag = () => {
-    this.setState({ dragEnable: false });
-  };
-
-  enableDrag = () => {
-    this.setState({ dragEnable: true });
-  };
-
   handleBackBtnPress = () => {
-    const isPreOrder = this.isActiveSceneIs('preOrder');
+    const isOrderCreating = this.isActiveSceneIs('orderCreating');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
     const { clearCurrentOrder, navigation } = this.props;
@@ -473,7 +385,7 @@ class Map extends Component {
 
     if ((isActiveOrder || isCompletedOrder) && !isPanelDisabled) {
       this.handleHidePanel();
-    } else if (isPreOrder) {
+    } else if (isOrderCreating) {
       this.cancelOrderCreation();
     } else if (fromOrderList) {
       this.goToOrders({ fromSettings });
@@ -608,10 +520,10 @@ class Map extends Component {
     const { status } = this.props;
     const { nightMode } = this.state;
 
-    return this.isActiveSceneIs('preOrder')
+    return this.isActiveSceneIs('orderCreating')
       ? (
-        <PreorderHeader
-          type={!this.shouldRequestVehicles() ? 'dashboard' : 'preorder'}
+        <OrderCreatingHeader
+          type={!this.shouldRequestVehicles() ? 'dashboard' : 'orderCreating'}
           handlePressBurger={this.goToSettings}
           handlePressBack={this.handleBackBtnPress}
           handlePressOrder={this.goToOrders}
@@ -633,25 +545,23 @@ class Map extends Component {
 
   render() {
     const { navigation, booking: { bookingForm }, session: { user } } = this.props;
-    const { isPanelDisabled, isLoadingPickup, dragEnable, nightMode } = this.state;
-    const isPreOrder = this.isActiveSceneIs('preOrder');
+    const { isPanelDisabled, nightMode } = this.state;
+    const isOrderCreating = this.isActiveSceneIs('orderCreating');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={nightMode ? 'light-content' : 'default'} animated />
 
         {this.renderHeader()}
 
         {!isEmpty(user) && !user.guidePassed && <UserGuide />}
 
-        {isPreOrder &&
+        {isOrderCreating &&
           <BookingEditor
             navigation={navigation}
             passenger={this.getPassenger()}
             requestVehicles={this.goToRequestVehicles}
-            isLoadingPickup={isLoadingPickup}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
             isAuthorizedPermission={this.isAuthorizedPermission}
@@ -667,21 +577,9 @@ class Map extends Component {
           />
         }
 
-        <MapView
-          isActiveOrder={isActiveOrder}
-          isCompletedOrder={isCompletedOrder}
-          isPreOrder={isPreOrder}
-          dragEnable={!isLoadingPickup && dragEnable}
-          ref={(map) => { this.mapView = map; }}
-          onStartLoadingPickup={this.startLoadingPickup}
-          onEndLoadingPickup={this.endLoadingPickup}
-          disableDrag={this.disableDrag}
-          enableDrag={this.enableDrag}
-          onFutureOrderReceived={this.handleShowPanel}
-          nightMode={nightMode}
-        />
+        <MapController ref={(el) => { this.mapView = el; }} nightMode={nightMode} />
 
-        {isPreOrder && !bookingForm.destinationAddress && this.renderPickUpMarker()}
+        {isOrderCreating && !bookingForm.destinationAddress && this.renderPickUpMarker()}
 
         {this.renderTimeDatePicker()}
 
@@ -694,12 +592,6 @@ class Map extends Component {
           />
         }
 
-        <Alert
-          ref={(alert) => { this.alertGPS = alert; }}
-          type="warning"
-          message={strings('alert.message.notReceivedCoordinates')}
-          position="top"
-        />
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type="success"
@@ -735,8 +627,7 @@ Map.propTypes = {
   changePosition: PropTypes.func.isRequired,
   errorPosition: PropTypes.func.isRequired,
   toggleVisibleModal: PropTypes.func.isRequired,
-  checkMultiplePermissions: PropTypes.func.isRequired,
-  requestLocation: PropTypes.func.isRequired
+  checkMultiplePermissions: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {
@@ -767,7 +658,6 @@ const mapDispatch = {
   completeOrder,
   cancelOrder,
   checkMultiplePermissions,
-  requestLocation,
   getPassengerData,
   clearCurrentOrder,
   resetBookingValues,

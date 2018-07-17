@@ -265,7 +265,7 @@ class BookingFooter extends PureComponent {
           ? bookingForm.stops.map(stop => ({
             address: stop,
             name: bookingForm.passengerName,
-            passengerId: bookingForm.passengerId, // TODO: add posibility to select another passenger for stop
+            passengerId: bookingForm.passengerId,
             phone: bookingForm.passengerPhone
           }))
           : null,
