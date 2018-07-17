@@ -106,9 +106,9 @@ export const saveMessageToDriver = () => (dispatch, getState) =>
   dispatch(changeFields({ messageToDriver: getState().booking.tempMessageToDriver.trim() }));
 
 export const saveFlight = () => (dispatch, getState) => {
-  const { flight, flightType } = getState().booking.tempFlight;
+  const { flight } = getState().booking.tempFlight;
 
-  dispatch(changeFields({ flight, flightType }));
+  dispatch(changeFields({ flight }));
 };
 
 export const savePassenger = () => (dispatch, getState) => {

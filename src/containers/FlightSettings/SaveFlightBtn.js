@@ -12,7 +12,7 @@ const SaveMessageBtn = ({ touched, navigation, saveFlight, changeFlight }) => {
     if (touched) {
       saveFlight();
 
-      changeFlight({ flight: '', flightType: '' }, false);
+      changeFlight({ flight: '' }, false);
 
       navigation.goBack(null);
     }
