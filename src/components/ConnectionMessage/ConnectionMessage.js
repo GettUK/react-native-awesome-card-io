@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
+
+import { View as AnimatableView } from 'react-native-animatable';
 
 import { strings } from 'locales';
 
@@ -8,26 +10,25 @@ import { isIphoneX } from 'utils';
 import styles from './styles';
 
 class ConnectionMessage extends PureComponent {
-  alertAnim = new Animated.Value(0);
+  state = {
+    animation: {}
+  }
 
   show = () => {
-    this.alertAnim.setValue(0);
-
-    this.animate(isIphoneX() ? 100 : 80);
+    this.animate({ isHide: true });
   };
 
   hide = () => {
-    this.animate(0);
+    this.animate({ isHide: false });
   };
 
-  animate = (toValue) => {
-    Animated.timing(
-      this.alertAnim,
-      {
-        toValue,
-        duration: 400
-      }
-    ).start();
+  animate = ({ isHide }) => {
+    const size = isIphoneX() ? 100 : 80;
+    const height = isHide ? 0 : size;
+    const opacity = isHide ? 0 : 1;
+    const top = isHide ? -size : 0;
+    const animation = { height, opacity, top };
+    this.setState({ animation });
   };
 
   onLayout = (e) => {
@@ -35,22 +36,13 @@ class ConnectionMessage extends PureComponent {
   };
 
   render() {
-    const size = isIphoneX() ? 100 : 80;
     return (
-      <Animated.View
+      <AnimatableView
+        transition={['height', 'opacity', 'top']}
         onLayout={this.onLayout}
-        style={[styles.container,
-          {
-            height: this.alertAnim,
-            opacity: this.alertAnim,
-            transform: [{
-              translateY: this.alertAnim.interpolate({
-                inputRange: [0, size],
-                outputRange: [-1 * size, 0]
-              })
-            }]
-          }
-        ]}
+        duration={400}
+        easing="linear"
+        style={[styles.container, this.state.animation]}
       >
         <View style={styles.messageContainer}>
           <View style={styles.messageWrapper}>
@@ -58,7 +50,7 @@ class ConnectionMessage extends PureComponent {
             <Text style={styles.message}>{strings('connection.text.checkYourConnection')}</Text>
           </View>
         </View>
-      </Animated.View>
+      </AnimatableView>
     );
   }
 }

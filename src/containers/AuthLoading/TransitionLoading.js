@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  Animated,
   Dimensions,
   StatusBar
 } from 'react-native';
+
+import { View as AnimatableView } from 'react-native-animatable';
 
 import { Icon, Background } from 'components';
 
@@ -12,85 +13,47 @@ import styles from './style';
 
 const { height, width } = Dimensions.get('window');
 
+const SLIDE_IN_LEFT = { from: { translateX: 0 }, to: { translateX: 86 } };
+const FADE_OUT = { from: { opacity: 1 }, to: { opacity: 0 } };
+
 export default class TransitionLoading extends Component {
-  fadeAnim = new Animated.Value(0);
-
-  scaleAnim = new Animated.Value(0);
-
   componentDidMount() {
-    Animated.timing(
-      this.fadeAnim,
-      {
-        toValue: 1,
-        duration: 800,
-        delay: 1000
-      }
-    ).start();
-
-    Animated.timing(
-      this.scaleAnim,
-      {
-        toValue: 20,
-        duration: 300,
-        delay: 3100
-      }
-    ).start();
-
     setTimeout(() => {
       this.props.navigation.replace('MapView', { transition: 'loadTransition' });
     }, 3380);
   }
 
-  renderHideAnimation = children => (
-    <Animated.View
-      style={{
-        opacity: this.fadeAnim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [1, 0]
-        })
-      }}
+  getScaleAnim = () => ({
+    from: { scaleX: 0.01, scaleY: 0.01 }, to: { scaleX: ((width + 40) / 66), scaleY: ((height + 40) / 68) }
+  })
+
+  renderAnimation = ({
+    name = 'logoLeft',
+    animation = SLIDE_IN_LEFT,
+    duration = 800,
+    delay = 1000,
+    useNativeDriver = false,
+    style = { height: 68, width: 68 },
+    children = <Icon name={name} height={68} width={66} />
+  }) => (
+    <AnimatableView
+      animation={animation}
+      duration={duration}
+      delay={delay}
+      easing="linear"
+      useNativeDriver={useNativeDriver}
+      style={[{ position: 'absolute' }, style]}
     >
       {children}
-    </Animated.View>
+    </AnimatableView>
   )
 
-  renderLeftIcon = () => (
-    <Animated.View
-      style={{
-        transform: [{
-          translateX: this.fadeAnim.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 86]
-          })
-        }]
-      }}
-    >
-      <Icon name="logoLeft" height={68} width={66} />
-    </Animated.View>
-  )
+  renderHideAnimation = children => this.renderAnimation({ useNativeDriver: true, children, animation: FADE_OUT })
 
   renderScaleRectangle = () => (
-    <Animated.View
-      style={{
-        position: 'absolute',
-        top: (height / 2) - 34,
-        opacity: this.scaleAnim,
-        transform: [{
-          scaleX: this.scaleAnim.interpolate({
-            inputRange: [0, 20],
-            outputRange: [1, (width + 40) / 66]
-          })
-        },
-        {
-          scaleY: this.scaleAnim.interpolate({
-            inputRange: [0, 20],
-            outputRange: [1, (height + 40) / 68]
-          })
-        }]
-      }}
-    >
-      <Icon name="rectangle" height={68} width={66} />
-    </Animated.View>
+    this.renderAnimation({
+      style: { top: (height / 2) - 34 }, duration: 300, delay: 3100, animation: this.getScaleAnim(), name: 'rectangle'
+    })
   )
 
   render() {
@@ -101,7 +64,7 @@ export default class TransitionLoading extends Component {
         <Background>
           <View style={styles.container}>
             <View style={styles.logoRow}>
-              {this.renderLeftIcon()}
+              {this.renderAnimation({ useNativeDriver: true })}
               {this.renderHideAnimation(<Icon name="line" height={68} />)}
               {this.renderHideAnimation(<Icon name="logoRight" height={70} width={133} />)}
             </View>

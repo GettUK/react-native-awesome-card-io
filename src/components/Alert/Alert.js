@@ -1,22 +1,25 @@
 import React, { PureComponent } from 'react';
-import { Animated, View, Text, TouchableWithoutFeedback, StatusBar, Platform } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
+
+import { View as AnimatableView } from 'react-native-animatable';
 
 import { Icon } from 'components';
 
 import { strings } from 'locales';
 
-import { isIphoneX } from 'utils';
-
-import styles from './styles';
+import styles, { height } from './styles';
 
 class Alert extends PureComponent {
-  alertAnim = new Animated.Value(0);
+  state = {
+    animation: {
+      opacity: 1,
+      top: this.props.position && this.props.position === 'bottom' ? 2000 : -120
+    }
+  };
 
   show = () => {
-    this.alertAnim.setValue(0);
-
-    this.animate(1);
+    this.animate({ isHide: false });
 
     this.timeout = setTimeout(() => {
       this.hide();
@@ -24,56 +27,41 @@ class Alert extends PureComponent {
   };
 
   hide = () => {
-    this.animate(0);
+    this.animate({ isHide: true });
 
     if (this.props.onClose) this.props.onClose();
     clearTimeout(this.timeout);
   };
 
-  animate = (toValue) => {
-    Animated.timing(
-      this.alertAnim,
-      {
-        toValue,
-        duration: 400
-      }
-    ).start();
+  animate = ({ isHide }) => {
+    const isBottom = this.props.position === 'bottom';
+    const actualOffset = isBottom ? 130 : 0;
+    const alertPosition = isBottom ? (height - actualOffset) : actualOffset;
+    const multiplier = isBottom ? 1 : -1;
+    const opacity = isHide ? 0 : 1;
+    const top = isHide ? (alertPosition + 120) * multiplier : alertPosition * multiplier;
+
+    this.setState({ animation: { opacity, top } });
   };
-
-  get alertShift() {
-    let shift = 0;
-
-    if (isIphoneX()) shift = 24;
-    if (Platform.OS === 'android' && this.props.position === 'top') shift = StatusBar.currentHeight;
-
-    return shift;
-  }
 
   render() {
     const { type, message, position } = this.props;
-    const multiplier = position === 'bottom' ? 1 : -1;
-
     return (
-      <Animated.View
+      <AnimatableView
+        pointerEvents="box-none"
+        duration={400}
+        transition={['opacity', 'top']}
         style={[
           styles.container,
           styles[`container${position}`],
-          {
-            opacity: this.alertAnim,
-            transform: [{
-              translateY: this.alertAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [(120 + this.alertShift) * multiplier, -multiplier * this.alertShift]
-              })
-            }]
-          }
+          this.state.animation
         ]}
       >
         <View style={[styles.messageContainer, styles[`messageContainer${type}`]]}>
           <Icon name={type} width={40} height={40} />
 
           <Text style={styles.message}>
-            <Text style={styles.title}>{`${strings(`alert.status.${type}`)}. `}</Text>
+            <Text style={styles.title}>{`${strings(`alerts.${type}`)}. `}</Text>
             {message && <Text>{message}</Text>}
           </Text>
 
@@ -83,7 +71,7 @@ class Alert extends PureComponent {
             </View>
           </TouchableWithoutFeedback>
         </View>
-      </Animated.View>
+      </AnimatableView>
     );
   }
 }
