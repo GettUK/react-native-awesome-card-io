@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 import { changeFields } from 'actions/booking';
 import { Icon, Button, Modal } from 'components';
-import { formatedTime, hourForward, momentDate, convertToZone } from 'utils';
+import { formatedTime, minutesForward, momentDate, convertToZone } from 'utils';
 
 import styles from './styles';
 
@@ -26,46 +26,72 @@ class PickUpTime extends PureComponent {
   };
 
   state = {
-    date: hourForward().toDate(),
-    minDate: hourForward().toDate(),
+    date: minutesForward(30).toDate(),
+    minDate: minutesForward(30).toDate(),
     isModalOpened: false
   };
 
+  componentDidUpdate({ vehicleName: vehicleNameProps }) {
+    this.setFutureTimeLimitForVehicleType({ vehicleNameProps });
+  }
+
+  setFutureTimeLimitForVehicleType = ({ vehicleNameProps }) => {
+    const { vehicleName, booking: { scheduledAt } } = this.props;
+
+    if (vehicleName && vehicleName !== vehicleNameProps) {
+      const timeWithDelay = this.getMinimalFutureOrderTime().toDate();
+
+      this.setState({ date: scheduledAt ? scheduledAt.toDate() : timeWithDelay, minDate: timeWithDelay });
+    }
+  }
+
   openPickerModal = () => {
-    const { booking } = this.props;
+    const { booking: { scheduledAt } } = this.props;
+    const minDate = this.getMinimalFutureOrderTime();
 
     this.setState({
       isModalOpened: true,
-      date: (booking.scheduledAt || hourForward()).toDate(),
-      minDate: hourForward().toDate()
+      date: (scheduledAt || minDate).toDate(),
+      minDate: minDate.toDate()
     });
   };
+
+  getMinimalFutureOrderTime = () => {
+    const { vehicleName, vehicles } = this.props;
+    const delay = vehicles.data.find(vehicle => vehicle.name === vehicleName).earliestAvailableIn;
+
+    return minutesForward(delay);
+  }
 
   closePickerModal = () => {
     this.setState({ isModalOpened: false });
   };
 
   handleDateChange = (date) => {
-    this.setState({ date, minDate: hourForward().toDate() });
+    const minDate = this.getMinimalFutureOrderTime().toDate();
+
+    this.setState({ date: date || minDate, minDate });
   };
 
   setTimePickerTime = (time) => {
     const { date } = this.state;
     const moment = momentDate(date);
-
     const toTime = time ? moment.set({ ...time }) : moment;
-    if (hourForward().isBefore(toTime)) {
+    const minDate = this.getMinimalFutureOrderTime();
+
+    if (minDate.isBefore(toTime)) {
       this.handleDateChange(toTime.toDate());
     } else {
-      this.handleDateChange(hourForward().toDate());
+      this.handleDateChange(minDate.toDate());
     }
   };
 
   handleUpdateSchedule = (type = 'now') => {
     const { date } = this.state;
     const { requestVehicles, changeFields } = this.props;
+    const minDate = this.getMinimalFutureOrderTime();
     const scheduledAt = type === 'later'
-      ? (hourForward().isBefore(momentDate(date)) && momentDate(date)) || hourForward()
+      ? (minDate.isBefore(momentDate(date)) && momentDate(date)) || minDate
       : null;
 
     this.closePickerModal();
@@ -228,8 +254,13 @@ class PickUpTime extends PureComponent {
   }
 }
 
+const mapState = ({ booking }) => ({
+  vehicleName: booking.bookingForm.vehicleName,
+  vehicles: booking.vehicles
+});
+
 const mapDispatch = {
   changeFields
 };
 
-export default connect(null, mapDispatch)(PickUpTime);
+export default connect(mapState, mapDispatch)(PickUpTime);
