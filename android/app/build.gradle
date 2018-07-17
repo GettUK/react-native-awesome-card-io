@@ -173,7 +173,9 @@ repositories {
 }
 
 dependencies {
-    implementation project(':react-native-device-info')
+    implementation (project (':react-native-device-info')) {
+        exclude group: 'com.google.android.gms'
+    }
     implementation project(':react-native-pdf')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-android-open-settings')
