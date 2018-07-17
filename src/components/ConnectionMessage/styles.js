@@ -1,11 +1,8 @@
 import { StyleSheet, Platform } from 'react-native';
 
-import { isIphoneX } from 'utils';
-
 export default StyleSheet.create({
   container: {
     width: '100%',
-    height: isIphoneX() ? 100 : 80,
     zIndex: 99,
     position: 'absolute',
     left: 0
