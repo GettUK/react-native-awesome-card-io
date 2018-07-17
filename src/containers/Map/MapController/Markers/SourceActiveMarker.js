@@ -10,7 +10,7 @@ class SourceActiveMarker extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="pickUpField">
+      <Marker coordinate={coordinate} id="pickUpField">
         <Icon name="pickUpField" size={16} />
       </Marker>
     );

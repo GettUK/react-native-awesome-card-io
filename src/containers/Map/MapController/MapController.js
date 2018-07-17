@@ -128,9 +128,13 @@ class MapController extends React.PureComponent {
     this.setState({ isLoadingPickup: false });
   };
 
+  resizeMapToDriverAndTargetAddress = (type, order) => {
+    this.orderSet.wrappedInstance.resizeMapToDriverAndTargetAddress(type, order);
+  }
+
   renderMap = () => {
     const { dragEnable, isLoadingPickup } = this.state;
-    const { nightMode } = this.props;
+    const { nightMode, onFutureOrderAcceptedReceive } = this.props;
     const isOrderCreating = this.isActiveSceneIs('orderCreating');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
     const order = this.getOrder();
@@ -153,7 +157,13 @@ class MapController extends React.PureComponent {
             nightMode={nightMode}
             onEndLoadingPickup={this.endLoadingPickup}
           />
-          : <OrderSet order={order} isCompletedOrder={isCompletedOrder} disableDrag={this.disableDrag} />
+          : <OrderSet
+            ref={(orderSet) => { this.orderSet = orderSet; }}
+            order={order}
+            isCompletedOrder={isCompletedOrder}
+            disableDrag={this.disableDrag}
+            onFutureOrderAcceptedReceive={onFutureOrderAcceptedReceive}
+          />
         }
       </MapView>
     );
@@ -167,7 +177,7 @@ class MapController extends React.PureComponent {
         <Alert
           ref={(alert) => { this.alertGPS = alert; }}
           type="warning"
-          message={strings('information.notReceivedCoordinates')}
+          message={strings('alert.message.notReceivedCoordinates')}
           position="top"
         />
       </Fragment>

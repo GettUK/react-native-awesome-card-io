@@ -6,11 +6,11 @@ import { prepareCoordinates } from 'utils';
 
 class MarkerBasic extends React.Component {
   render() {
-    const { coordinate, children, key, anchorX, anchorY } = this.props;
+    const { coordinate, children, id, anchorX, anchorY } = this.props;
 
     return (
       <Map.Marker
-        key={key}
+        key={id}
         coordinate={prepareCoordinates(coordinate)}
         anchor={{ x: anchorX, y: anchorY }}
         stopPropagation
@@ -24,7 +24,7 @@ class MarkerBasic extends React.Component {
 
 MarkerBasic.propTypes = {
   coordinate: PropTypes.object.isRequired,
-  key: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   anchorX: PropTypes.number,
   anchorY: PropTypes.number,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])

@@ -10,7 +10,7 @@ class StopMarker extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="stopMarker">
+      <Marker coordinate={coordinate} id="stopMarker">
         <Icon name="pickUpField" color="#74818f" size={12} />
       </Marker>
     );

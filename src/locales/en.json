@@ -237,7 +237,8 @@
       "payments": "Payment Cards",
       "rides": "My Rides",
       "carAnimations": "Car animations",
-      "locatingCarAnimation": "Locating a car animation"
+      "locatingCarAnimation": "Locating a car animation",
+      "version": "Version"
     },
     "button": {
       "logout": "Log Out"

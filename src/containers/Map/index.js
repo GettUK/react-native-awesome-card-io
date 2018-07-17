@@ -577,7 +577,11 @@ class Map extends Component {
           />
         }
 
-        <MapController ref={(el) => { this.mapView = el; }} nightMode={nightMode} />
+        <MapController
+          ref={(el) => { this.mapView = el; }}
+          nightMode={nightMode}
+          onFutureOrderAcceptedReceive={this.handleShowPanel}
+        />
 
         {isOrderCreating && !bookingForm.destinationAddress && this.renderPickUpMarker()}
 

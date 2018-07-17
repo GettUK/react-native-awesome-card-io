@@ -23,7 +23,7 @@ OrderCreatingHeader.propTypes = {
   handlePressBurger: PropTypes.func,
   handlePressBack: PropTypes.func,
   handlePressOrder: PropTypes.func,
-  type: PropTypes.oneOf(['dashboard', 'preorder'])
+  type: PropTypes.oneOf(['dashboard', 'orderCreating'])
 };
 
 OrderCreatingHeader.defaultProps = {

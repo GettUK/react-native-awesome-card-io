@@ -10,7 +10,7 @@ class DriverMarker extends React.Component {
     const { coordinate } = this.props;
 
     return (
-      <Marker coordinate={coordinate} key="driverMarker">
+      <Marker coordinate={coordinate} id="driverMarker">
         <Icon name="carFacet" size={32} />
       </Marker>
     );
