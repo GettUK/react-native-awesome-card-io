@@ -15,9 +15,7 @@ import {
 import { every, find, first, has, isNull, isEmpty, throttle } from 'lodash';
 import { HourFormat } from 'react-native-hour-format';
 
-import { Icon, Button, Modal, Alert, Popup, UserGuide } from 'components';
-import NavImageButton from 'components/Common/NavImageButton';
-import Header from 'components/Common/Header';
+import { Icon, Button, Modal, Alert, Popup, UserGuide, PreorderHeader, OrderHeader } from 'components';
 
 import { BookingEditor } from 'containers/BookingEditor';
 
@@ -56,7 +54,6 @@ import {
   Coordinates
 } from 'utils';
 import PN from 'utils/notifications';
-import { CUSTOMER_CARE_STATUS, FINAL_STATUSES } from 'utils/orderStatuses';
 
 import OrderScene from './OrderScene';
 import OrderDetailsPanel from './ActiveOrderScene/OrderDetailsPanel';
@@ -607,51 +604,27 @@ class Map extends Component {
     );
   }
 
-  renderRightButton = isCreateNewButtonAvailable => (
-    <Button
-        styleContent={[styles.btn, !isCreateNewButtonAvailable && styles.orderBtn]}
-        raised={false}
-        size="sm"
-        onPress={isCreateNewButtonAvailable ? this.goToInitialization : this.goToOrders}
-      >
-        <Text allowFontScaling={false} style={styles[isCreateNewButtonAvailable ? 'createNewText' : 'orderBtnText']}>
-          {isCreateNewButtonAvailable ? strings('order.button.createNew') : strings('order.button.orders')}
-        </Text>
-      </Button>
-  );
-
   renderHeader = () => {
     const { status } = this.props;
     const { nightMode } = this.state;
-    const isPreOrder = this.isActiveSceneIs('preOrder');
-    const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
-    const isFinalStatus = FINAL_STATUSES.includes(status);
-    const isCreateNewButtonAvailable = isFinalStatus && !isCustomerCareStatus;
 
-    const isRightButtonAvailable = (isPreOrder && !this.shouldRequestVehicles()) || isCreateNewButtonAvailable;
-
-    return (
-      <Header
-        customStyles={styles.header}
-        leftButton={isPreOrder && !this.shouldRequestVehicles()
-          ?
-          <NavImageButton
-            onClick={this.goToSettings}
-            styleContainer={{ justifyContent: 'center' }}
-            styleView={styles.touchZone}
-            icon={<Icon size={30} name="burger" color={nightMode ? '#fff' : '#000'} />}
-          />
-          :
-          <NavImageButton
-            onClick={this.handleBackBtnPress}
-            styleContainer={[styles.touchZone, styles.shadow]}
-            styleView={styles.headerBack}
-            icon={<Icon width={10} height={18} name="back" color="#284784" />}
-          />
-        }
-        rightButton={isRightButtonAvailable && this.renderRightButton(isCreateNewButtonAvailable)}
-      />
-    );
+    return this.isActiveSceneIs('preOrder')
+      ? (
+        <PreorderHeader
+          type={!this.shouldRequestVehicles() ? 'dashboard' : 'preorder'}
+          handlePressBurger={this.goToSettings}
+          handlePressBack={this.handleBackBtnPress}
+          handlePressOrder={this.goToOrders}
+          nightMode={nightMode}
+        />
+      )
+      : (
+        <OrderHeader
+          status={status}
+          handlePressBack={this.handleBackBtnPress}
+          handlePressCreateNew={this.goToInitialization}
+        />
+      );
   };
 
   renderPickUpMarker = () => (
