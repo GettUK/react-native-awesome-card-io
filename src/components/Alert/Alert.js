@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { View as AnimatableView } from 'react-native-animatable';
@@ -29,7 +29,9 @@ class Alert extends PureComponent {
   hide = () => {
     this.animate({ isHide: true });
 
-    if (this.props.onClose) this.props.onClose();
+    if (this.props.onClose) {
+      InteractionManager.runAfterInteractions(this.props.onClose);
+    }
     clearTimeout(this.timeout);
   };
 
