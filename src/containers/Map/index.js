@@ -24,10 +24,7 @@ import {
   setActiveBooking,
   changeAddress
 } from 'actions/booking';
-import {
-  checkMultiplePermissions,
-  PERMISSION_STATUS
-} from 'actions/app/statuses';
+import { checkMultiplePermissions } from 'actions/app/statuses';
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 
 import { strings } from 'locales';
@@ -125,14 +122,6 @@ class Map extends Component {
     this.props.navigation.dispatch({
       type: 'Navigation/BACK'
     });
-  };
-
-  isAuthorizedPermission = (permission) => {
-    const { app: { statuses } } = this.props;
-    return (
-      statuses.permissions &&
-      statuses.permissions[permission] === PERMISSION_STATUS.authorized
-    );
   };
 
   resizeMapToDriverAndTargetAddress = (type, order) =>
@@ -284,7 +273,6 @@ class Map extends Component {
             navigation={navigation}
             getCurrentPosition={this.getCurrentPosition}
             toOrder={this.shouldRequestVehicles()} // TODO pls rename this prop
-            isAuthorizedPermission={this.isAuthorizedPermission}
             onHidePromo={this.handleHidePanel}
             ref={(editor) => { this.editorView = editor; }}
           />

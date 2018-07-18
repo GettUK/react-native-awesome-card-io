@@ -7,7 +7,7 @@ import { isEmpty, find, isEqual, has, isNull } from 'lodash';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
 import { getFormData, changeFields, changeAddress, setActiveBooking, getVehicles } from 'actions/booking';
-import { onLayoutPointList, onLayoutFooter } from 'actions/app/statuses';
+import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
 
 import { Popup, Button, Icon } from 'components';
@@ -174,6 +174,17 @@ class BookingEditor extends BookingController {
     this.setState({ isPromoWasShown: false });
   };
 
+  isAuthorizedPermission = (permission) => {
+    const { permissions } = this.props;
+
+    return permissions && permissions[permission] === PERMISSION_STATUS.authorized;
+  };
+
+  openSettings = () => {
+    this.locationPopup.close();
+    openSettingsPermissions();
+  };
+
   renderAddressItem = (address, label) => {
     const handlerPress = () => this.props.changeAddress({ ...address, label }, { type: 'destinationAddress' });
 
@@ -229,12 +240,11 @@ class BookingEditor extends BookingController {
     const {
       getCurrentPosition,
       booking: { vehicles },
-      isAuthorizedPermission,
       onLayoutPointList,
       ui: { map: { currentPosition } }
     } = this.props;
 
-    const isActiveLocation = isAuthorizedPermission('location') && !isNull(currentPosition);
+    const isActiveLocation = this.isAuthorizedPermission('location') && !isNull(currentPosition);
     const availableVehicles = this.getAvailableVehicles();
     const shouldRequestVehicles = this.shouldRequestVehicles();
 
@@ -334,8 +344,7 @@ BookingEditor.propTypes = {
   booking: PropTypes.object,
   getFormData: PropTypes.func.isRequired,
   changeFields: PropTypes.func.isRequired,
-  passenger: PropTypes.object,
-  isAuthorizedPermission: PropTypes.func.isRequired
+  passenger: PropTypes.object
 };
 
 const select = ({ session, booking, app, ui, passenger }) => ({
@@ -345,7 +354,8 @@ const select = ({ session, booking, app, ui, passenger }) => ({
   ui,
   passenger,
   passengerData: passenger.data.passenger,
-  activeBookingId: session.user && session.user.activeBookingId
+  activeBookingId: session.user && session.user.activeBookingId,
+  permissions: app.statuses.permissions
 });
 
 const bindActions = {
