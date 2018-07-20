@@ -122,6 +122,8 @@ class BookingEditor extends BookingController {
 
         changeFields(attrs);
 
+        this.props.getPassengerData();
+
         if (activeBookingId && currentPosition) {
           setActiveBooking(activeBookingId);
         }
