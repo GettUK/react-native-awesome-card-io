@@ -27,6 +27,7 @@ const OrderDetails = ({
   const { statuses: { params: { connectBar } } } = app;
 
   const isDriverExist = driver && driver.info && !!driver.info.name;
+  const isDriverPhoneExist = driver && driver.info && driver.info.phoneNumber;
 
   const callDriver = () => {
     Linking.openURL(`tel:${driver.info.phoneNumber}`);
@@ -207,7 +208,7 @@ const OrderDetails = ({
     </View>
   );
 
-  const renderCallBtn = () => (
+  const renderCallBtn = () => (isDriverPhoneExist &&
     <TouchableWithoutFeedback onPress={callDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
         <Icon name="phone" color="#fff" />
