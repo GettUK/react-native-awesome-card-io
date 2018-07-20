@@ -8,7 +8,7 @@ export const prepareFavAddresses = addresses => addresses && map(
   item => ({ ...item, address: { ...item.address, label: item.name } })
 );
 
-export const prepareDefaultValues = ({ favoriteAddresses, homeAddress, workAddress }) => reduce(
+export const prepareDefaultValues = ({ favoriteAddresses, homeAddress, workAddress } = {}) => reduce(
   [
     prepareAddress(homeAddress, strings('app.label.home')),
     prepareAddress(workAddress, strings('app.label.work')),

@@ -6,7 +6,6 @@ import { isEmpty, reject } from 'lodash';
 import faye from 'utils/faye';
 import {
   FINAL_STATUSES,
-  CANCELLED_STATUS,
   DRIVER_ON_WAY,
   IN_PROGRESS_STATUS,
   ARRIVED_STATUS,
@@ -29,14 +28,15 @@ const TYPES = createTypes('booking', [
   'changeDriverPosition',
   'cancelOrderStart',
   'cancelOrderSuccess',
-  'canceledByExternal',
-  'canceledByUser',
   'getFormDataStart',
   'getFormDataSuccess',
   'removeFields',
   'changeFields',
   'changeAddress',
   'changeReference',
+  'changePassengerId',
+  'changeTravelReasonId',
+  'changePaymentMethodData',
   'setReferenceErrors',
   'resetBookingValues',
   'changeMessageToDriver',
@@ -93,8 +93,17 @@ export const changeMessageToDriver = (message, touched = false) =>
 export const changeFlight = (data, touched = false) =>
   ({ type: TYPES.changeFlight, payload: { data, touched } });
 
+export const changePassengerId = (id, touched = false) =>
+  ({ type: TYPES.changePassengerId, payload: { id, touched } });
+
+export const changeTravelReasonId = (id, touched = false) =>
+  ({ type: TYPES.changeTravelReasonId, payload: { id, touched } });
+
+export const changePaymentMethodData = (data, touched = false) =>
+  ({ type: TYPES.changePaymentMethodData, payload: { data, touched } });
+
 export const saveMessageToDriver = () => (dispatch, getState) =>
-  dispatch(changeFields({ message: getState().booking.tempMessageToDriver.trim() }));
+  dispatch(changeFields({ messageToDriver: getState().booking.tempMessageToDriver.trim() }));
 
 export const saveFlight = () => (dispatch, getState) => {
   const { flight, flightType } = getState().booking.tempFlight;
@@ -102,18 +111,21 @@ export const saveFlight = () => (dispatch, getState) => {
   dispatch(changeFields({ flight, flightType }));
 };
 
-const getAuthorOfCancellation = () => (dispatch, getState) => {
-  const { booking: { currentOrder } } = getState();
+export const savePassenger = () => (dispatch, getState) => {
+  const {
+    formData: { passengers },
+    tempPassengerId,
+    bookingForm: { defaultPaymentType }
+  } = getState().booking;
 
-  return get(`/bookings/${currentOrder.id}`)
-    .then(({ data }) => {
-      if (data.passenger === data.cancelledByName) {
-        dispatch({ type: TYPES.canceledByUser });
-      } else {
-        dispatch({ type: TYPES.canceledByExternal });
-      }
-      return data;
-    });
+  const { id, firstName, lastName, phone } = passengers.find(p => p.id === tempPassengerId);
+
+  dispatch(changeFields({
+    ...defaultPaymentType,
+    passengerId: id,
+    passengerName: `${firstName} ${lastName}`,
+    passengerPhone: phone
+  }));
 };
 
 let orderStatusSubscription = null;
@@ -167,10 +179,6 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
         dispatch(setBookingUpdater(currentOrder.id));
       } else if (FINAL_STATUSES.includes(data.status)) {
         dispatch(goToCompletedOrderScene());
-
-        if (data.status === CANCELLED_STATUS) {
-          dispatch(getAuthorOfCancellation());
-        }
 
         dispatch({ type: TYPES.changeOrderStatus, data });
 
@@ -243,10 +251,8 @@ export const cancelOrder = () => (dispatch, getState) => {
   dispatch({ type: TYPES.cancelOrderStart });
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
-    .then(async () => {
-      const data = await dispatch(getAuthorOfCancellation());
-      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
-
+    .then(() => {
+      dispatch({ type: TYPES.cancelOrderSuccess });
       dispatch(goToCompletedOrderScene());
 
       removeOrderStatusSubscription();

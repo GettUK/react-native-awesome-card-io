@@ -5,7 +5,7 @@ import { flatMap } from 'lodash';
 
 import { Icon } from 'components';
 
-import { changeFields } from 'actions/booking';
+import { changePaymentMethodData } from 'actions/booking';
 
 import {
   paymentTypeLabels,
@@ -15,6 +15,11 @@ import {
 import styles from './styles';
 
 class PaymentsOptions extends Component {
+  componentDidMount() {
+    const { booking: { paymentType, paymentMethod, paymentCardId }, changePaymentMethodData } = this.props;
+    changePaymentMethodData({ paymentType, paymentMethod, paymentCardId });
+  }
+
   preparePaymentTypes = () => {
     const { companyPaymentTypes, paymentCards } = this.props;
 
@@ -33,7 +38,7 @@ class PaymentsOptions extends Component {
   };
 
   renderItem = ({ item }) => {
-    const { paymentMethod, paymentCardId, changeFields } = this.props;
+    const { paymentMethodData: { paymentMethod, paymentCardId }, changePaymentMethodData } = this.props;
 
     const isSelected = item.value === paymentMethod || item.value === `${paymentMethod}:${paymentCardId}`;
 
@@ -41,7 +46,7 @@ class PaymentsOptions extends Component {
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.item}
-        onPress={() => changeFields(paymentTypeToAttrs(item.value))}
+        onPress={() => changePaymentMethodData(paymentTypeToAttrs(item.value), true)}
       >
         <Text style={[styles.flex, styles.reasonName, isSelected ? styles.reasonNameSelected : {}]}>
           {item.label}
@@ -79,13 +84,13 @@ const mapState = ({ booking, session }) => {
   return {
     companyPaymentTypes: paymentTypes,
     paymentCards: (passenger || passengers.find(passenger => passenger.id === currentId)).paymentCards,
-    paymentMethod: booking.bookingForm.paymentMethod || '',
-    paymentCardId: booking.bookingForm.paymentCardId || ''
+    booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm,
+    paymentMethodData: booking.tempPaymentMethodData || {}
   };
 };
 
 const mapDispatch = ({
-  changeFields
+  changePaymentMethodData
 });
 
 export default connect(mapState, mapDispatch)(PaymentsOptions);

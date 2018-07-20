@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'components';
-import { changeFields } from 'actions/booking';
+import { changeTravelReasonId } from 'actions/booking';
 import styles from './styles';
 
-class ReasonForTravel extends Component {
+class ReasonForTravel extends PureComponent {
+  componentDidMount() {
+    const { booking, changeTravelReasonId } = this.props;
+    changeTravelReasonId(booking.travelReasonId);
+  }
+
   keyExtractor = item => String(item.id);
 
   renderItem = ({ item }) => {
-    const { travelReason, changeFields } = this.props;
+    const { travelReason, changeTravelReasonId } = this.props;
     const travelReasonId = item.id.toString();
     const isSelected = travelReason === travelReasonId;
     const textStyles = [styles.flex, styles.reasonName];
@@ -19,7 +24,7 @@ class ReasonForTravel extends Component {
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.item}
-        onPress={() => changeFields({ travelReasonId })}
+        onPress={() => changeTravelReasonId(travelReasonId, true)}
       >
         <Text style={textStyles}>{item.name}</Text>
         {isSelected &&
@@ -46,12 +51,13 @@ class ReasonForTravel extends Component {
 }
 
 const mapState = ({ booking }) => ({
+  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm,
   travelReasons: booking.formData.travelReasons,
-  travelReason: booking.bookingForm.travelReasonId || ''
+  travelReason: booking.tempTravelReasonId
 });
 
 const mapDispatch = ({
-  changeFields
+  changeTravelReasonId
 });
 
 export default connect(mapState, mapDispatch)(ReasonForTravel);

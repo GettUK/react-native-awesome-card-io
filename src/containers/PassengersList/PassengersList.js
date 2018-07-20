@@ -1,19 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import { Icon, SearchList } from 'components';
 
-import { changeFields } from 'actions/booking';
+import { changeFields, changePassengerId } from 'actions/booking';
 
 import { filterBySearchValue } from 'utils';
 
 import styles from './styles';
 
-class PassengersList extends Component {
+class PassengersList extends PureComponent {
   state = {
     searchValue: ''
   };
+
+  componentDidMount() {
+    const { booking, changePassengerId } = this.props;
+    changePassengerId(booking.passengerId);
+  }
 
   handleSearchValueChange = (searchValue) => {
     this.setState({ searchValue });
@@ -30,21 +35,15 @@ class PassengersList extends Component {
 
   renderItem = ({ item }) => {
     const { firstName, lastName, phone, id } = item;
+    const { passengerId, changePassengerId } = this.props;
 
-    const attrs = {
-      ...this.props.bookingForm.defaultPaymentType,
-      passengerId: id,
-      passengerName: `${firstName} ${lastName}`,
-      passengerPhone: phone
-    };
-
-    const isSelected = id === this.props.passengerId;
+    const isSelected = id === passengerId;
 
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.passengerContainer}
-        onPress={() => this.props.changeFields(attrs)}
+        onPress={() => changePassengerId(id, true)}
       >
         <View style={styles.avatar}>
           <Text style={{ color: '#fff' }}>{(firstName || lastName)[0]}</Text>
@@ -84,12 +83,13 @@ class PassengersList extends Component {
 
 const mapState = ({ booking }) => ({
   passengers: booking.formData.passengers,
-  passengerId: booking.bookingForm.passengerId,
-  bookingForm: booking.bookingForm
+  passengerId: booking.tempPassengerId,
+  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
 });
 
 const mapDispatch = ({
-  changeFields
+  changeFields,
+  changePassengerId
 });
 
 export default connect(mapState, mapDispatch)(PassengersList);

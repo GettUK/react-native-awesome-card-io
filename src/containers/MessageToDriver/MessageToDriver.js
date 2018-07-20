@@ -8,8 +8,8 @@ import styles from './styles';
 
 class MessageToDriver extends Component {
   componentDidMount() {
-    const { changeMessageToDriver, navigation } = this.props;
-    changeMessageToDriver(navigation.state.params.message);
+    const { changeMessageToDriver, booking } = this.props;
+    changeMessageToDriver(booking.messageToDriver);
   }
 
   onChangeText = (message) => {
@@ -53,7 +53,8 @@ MessageToDriver.defaultProps = {
 };
 
 const mapState = ({ booking }) => ({
-  message: booking.tempMessageToDriver
+  message: booking.tempMessageToDriver,
+  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
 });
 
 const mapDispatch = ({

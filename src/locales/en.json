@@ -189,7 +189,8 @@
       "rateYourDriver": "Rate your driver",
       "howCanImprove": "How can we improve?",
       "yourFeedback": "Your feedback will be kept anonymous",
-      "selectIssues": "Please select one or more issues"
+      "selectIssues": "Please select one or more issues",
+      "orderDetails": "Order Details"
     },
     "button": {
       "actions": "Actions",
