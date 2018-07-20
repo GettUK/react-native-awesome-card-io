@@ -210,7 +210,7 @@ const OrderDetails = ({
   const renderCallBtn = () => (
     <TouchableWithoutFeedback onPress={callDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-        <Icon name="call" color="#fff" />
+        <Icon name="phone" color="#fff" />
       </View>
     </TouchableWithoutFeedback>
   );
