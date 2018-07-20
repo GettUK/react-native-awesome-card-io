@@ -63,7 +63,7 @@ class Alert extends PureComponent {
           <Icon name={type} width={40} height={40} />
 
           <Text style={styles.message}>
-            <Text style={styles.title}>{`${strings(`alerts.${type}`)}. `}</Text>
+            <Text style={styles.title}>{`${strings(`alert.status.${type}`)}. `}</Text>
             {message && <Text>{message}</Text>}
           </Text>
 
