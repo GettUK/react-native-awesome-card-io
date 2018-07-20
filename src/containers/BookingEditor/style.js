@@ -221,8 +221,9 @@ export default StyleSheet.create({
     color: '#284784'
   },
   popupLocationTitle: {
+    fontSize: 20,
     textAlign: 'center',
-    marginHorizontal: 30,
+    marginHorizontal: 0,
     marginBottom: 0
   },
   btnStyle: {
