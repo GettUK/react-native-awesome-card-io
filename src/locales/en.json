@@ -197,7 +197,8 @@
       "myLocation": "My Location",
       "createNew": "Create New",
       "orders": "Orders",
-      "receipt": "Receipt"
+      "receipt": "Receipt",
+      "dots": "Actions"
     }
   },
   "auth": {

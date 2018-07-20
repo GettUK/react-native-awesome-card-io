@@ -196,7 +196,7 @@ class ActiveOrderScene extends Component {
           isVisible={isVisibleOptionsModal}
           options={[{
             icon: 'contactUs',
-            label: strings('settings.label.contactUs'),
+            label: strings('information.contactUs'),
             onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
           }]}
           onClose={this.closeActionsModal}
