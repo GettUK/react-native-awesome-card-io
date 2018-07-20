@@ -50,7 +50,8 @@ export default StyleSheet.create({
   message: {
     fontSize: 14,
     flex: 1,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    height: 38
   },
   title: {
     fontWeight: '900'
