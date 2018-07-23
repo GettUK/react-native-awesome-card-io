@@ -37,15 +37,7 @@ export default class BookingController extends Component {
   }
 
   goTo = (page) => {
-    let payload = {};
-
-    if (page === 'MessageToDriver') {
-      const { booking: { bookingForm: { messageToDriver } } } = this.props;
-
-      payload = { messageToDriver };
-    }
-
-    this.props.navigation.navigate(page, payload);
+    this.props.navigation.navigate(page);
   };
 
   getAvailableVehicles = () => {
@@ -415,7 +407,7 @@ export default class BookingController extends Component {
         onPress: () => this.goTo('PassengersList')
       },
       { title: 'Message for driver',
-        value: order.messageToDriver,
+        value: order.message,
         icon: 'message',
         onPress: () => this.goTo('MessageToDriver')
       },

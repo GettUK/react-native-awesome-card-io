@@ -102,8 +102,11 @@ export const changeTravelReasonId = (id, touched = false) =>
 export const changePaymentMethodData = (data, touched = false) =>
   ({ type: TYPES.changePaymentMethodData, payload: { data, touched } });
 
-export const saveMessageToDriver = () => (dispatch, getState) =>
-  dispatch(changeFields({ messageToDriver: getState().booking.tempMessageToDriver.trim() }));
+export const saveMessageToDriver = () => (dispatch, getState) => {
+  const message = getState().booking.tempMessageToDriver.trim();
+
+  return dispatch(changeFields({ message }));
+};
 
 export const saveFlight = () => (dispatch, getState) => {
   const { flight, flightType } = getState().booking.tempFlight;

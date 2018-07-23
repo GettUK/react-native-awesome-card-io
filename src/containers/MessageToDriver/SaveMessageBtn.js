@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { saveMessageToDriver } from 'actions/booking';
+import { saveMessageToDriver, changeMessageToDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
 
 import { strings } from 'locales';
 
 import { throttledAction } from 'utils';
 
-const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver }) => {
+const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver, changeMessageToDriver }) => {
   const handleSave = throttledAction(() => {
     if (touched) {
       saveMessageToDriver();
+      changeMessageToDriver('');
       navigation.goBack(null);
     }
   });
@@ -39,4 +40,4 @@ const mapState = ({ booking }) => ({
   touched: booking.messageToDriverTouched
 });
 
-export default connect(mapState, { saveMessageToDriver })(SaveMessageBtn);
+export default connect(mapState, { saveMessageToDriver, changeMessageToDriver })(SaveMessageBtn);
