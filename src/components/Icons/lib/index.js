@@ -1,9 +1,9 @@
 import add from './add';
 import addresses from './addresses';
-import arriving from './arriving';
 import arrow from './arrow';
 import arrowDown from './arrowDown';
 import avatar from './avatar';
+import airplane from './airplane';
 import back from './back';
 import blackTaxi from './blackTaxi';
 import blackTaxiNightMode from './blackTaxiNightMode';
@@ -25,7 +25,6 @@ import close from './close';
 import closeThick from './closeThick';
 import contactUs from './contactUs';
 import currentLocation from './currentLocation';
-import departing from './departing';
 import destinationMarker from './destinationMarker';
 import distance from './distance';
 import dots from './dots';
@@ -95,10 +94,10 @@ import Gett from './logos/Gett';
 export default {
   add,
   addresses,
-  arriving,
   arrow,
   arrowDown,
   avatar,
+  airplane,
   back,
   blackTaxi,
   blackTaxiNightMode,
@@ -120,7 +119,6 @@ export default {
   closeThick,
   contactUs,
   currentLocation,
-  departing,
   destinationMarker,
   distance,
   dots,

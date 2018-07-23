@@ -146,5 +146,23 @@ export default StyleSheet.create({
   },
   error: {
     width: '100%'
-  }
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    marginBottom: 24
+  },
+  tab: {
+    borderBottomWidth: 1,
+    paddingBottom: 16
+  },
+  tabLabelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  tabLabel: {
+    textAlign: 'center',
+    fontSize: 12
+  },
+  tabIcon: { marginHorizontal: 4 }
 });

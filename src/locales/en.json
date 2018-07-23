@@ -135,7 +135,7 @@
     },
     "text": {
       "enterTheFlightNumber": "Please enter the flight number",
-      "notFoundFlightNumber": "Flight number not found, please double check"
+      "notFoundFlightNumber": "Flight number not found or you were mistaken with the date, please double check"
     },
     "button": {
       "noThanks": "No Thanks",

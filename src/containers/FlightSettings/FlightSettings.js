@@ -12,7 +12,7 @@ import moment from 'moment';
 
 import { changeFlight } from 'actions/booking';
 
-import { Icon, Input, DismissKeyboardView } from 'components';
+import { Input, DismissKeyboardView, Icon } from 'components';
 
 import { strings } from 'locales';
 
@@ -22,7 +22,7 @@ import styles from './styles';
 
 class FlightSettings extends Component {
   state = {
-    flightType: this.props.flightType || 'departing',
+    selected: 0,
     flight: this.props.flight || '',
     verificationData: null,
     loading: false
@@ -49,7 +49,7 @@ class FlightSettings extends Component {
   };
 
   handleVerify = () => {
-    const { flight, flightType } = this.state;
+    const { flight, selected } = this.state;
 
     const date = moment();
 
@@ -61,14 +61,16 @@ class FlightSettings extends Component {
 
     get('/flightstats/flights', { flight, year, month, day })
       .then(({ data }) => {
-        this.props.changeFlight({ flight, flightType }, true);
+        this.props.changeFlight({ flight }, true);
 
-        const flightData = data[0];
+        const flightData = data[selected];
 
-        this.setFlightDetails(flightData);
+        this.setState({ originalData: data }, () => {
+          this.setFlightDetails(flightData);
+        });
       })
       .catch(() => {
-        this.props.changeFlight({ flight: '', flightType: '' }, false);
+        this.props.changeFlight({ flight: '' }, false);
 
         this.setState({
           error: strings('flight.text.notFoundFlightNumber'),
@@ -81,27 +83,18 @@ class FlightSettings extends Component {
     this.setState({ flight, error: null });
   };
 
+  handleChangeSelectedData = (index) => {
+    this.setState({ selected: index }, () => {
+      this.setFlightDetails(this.state.originalData[index]);
+    });
+  }
+
   renderFlightData = item => (
     <View key={item.title} style={styles.results}>
       <Text style={styles.resultTitle}>{item.title}</Text>
       <Text style={styles.resultLabel}>{item.text}</Text>
     </View>
   );
-
-  renderToggleButton = (type) => {
-    const isActive = this.state.flightType === type;
-
-    return (
-      <TouchableWithoutFeedback onPress={() => this.setState({ flightType: type })}>
-        <View style={[styles.toggleButton, isActive && styles.toggleButtonActive]}>
-          <Icon name={type} color={isActive ? '#fff' : ''} style={styles.toggleIcon} />
-          <Text style={[styles.toggleLabel, isActive && styles.toggleLabelActive]}>
-            {strings(`booking.label.${type}`)}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  };
 
   renderVerifyButton = () => (
     <TouchableWithoutFeedback onPress={this.handleVerify}>
@@ -110,6 +103,38 @@ class FlightSettings extends Component {
       </View>
     </TouchableWithoutFeedback>
   );
+
+  renderTabs = () => {
+    const { originalData, selected } = this.state;
+
+    return (
+      <View style={styles.tabsContainer}>
+        {originalData.map((item, index) => {
+          const textColor = index === selected ? '#2b4a86' : '#8e8e93';
+          const borderColor = index === selected ? '#2b4a86' : '#f2f2f2';
+
+          return (
+            <TouchableWithoutFeedback
+              onPress={() => this.handleChangeSelectedData(index)}
+              key={`${item.arrival.code} ${item.departure.code}`}
+            >
+              <View style={[styles.tab, { width: `${100 / originalData.length}%`, borderBottomColor: borderColor }]}>
+                <View style={styles.tabLabelContainer}>
+                  <Text style={[styles.tabLabel, { color: textColor }]}>
+                    {item.arrival.code}
+                  </Text>
+                  <Icon name="airplane" size={12} color={textColor} style={styles.tabIcon} />
+                  <Text style={[styles.tabLabel, { color: textColor }]}>
+                    {item.departure.code}
+                  </Text>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        })}
+      </View>
+    );
+  }
 
   renderFlightInput = () => {
     const { flight, error } = this.state;
@@ -131,7 +156,7 @@ class FlightSettings extends Component {
   };
 
   render() {
-    const { verificationData, loading } = this.state;
+    const { originalData, verificationData, loading } = this.state;
 
     return (
       <View style={[styles.flex, styles.bg]}>
@@ -143,12 +168,12 @@ class FlightSettings extends Component {
           >
             <ScrollView>
               {this.renderFlightInput()}
-              <View style={styles.toggler}>
-                {this.renderToggleButton('departing')}
-                {this.renderToggleButton('arriving')}
-              </View>
 
               {loading && <ActivityIndicator color="#2a4982" />}
+
+              {originalData && originalData.length > 1 &&
+                this.renderTabs()
+              }
 
               {verificationData &&
                 <View style={styles.resultsWrapper}>
@@ -164,8 +189,7 @@ class FlightSettings extends Component {
 }
 
 const mapState = ({ booking }) => ({
-  flight: booking.bookingForm.flight,
-  flightType: booking.bookingForm.flightType
+  flight: booking.bookingForm.flight
 });
 
 export default connect(mapState, { changeFlight })(FlightSettings);
