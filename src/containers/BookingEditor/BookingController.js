@@ -389,13 +389,13 @@ export default class BookingController extends Component {
 
           <View style={[editStyles.titleContainer, icon ? editStyles.iconGap : {}]}>
             <Text style={[editStyles.title, value ? {} : editStyles.emptyValueTitle]}>{title}</Text>
-            {value &&
-            <Text
-              style={[editStyles.value, error ? editStyles.valueWithError : {}]}
-              numberOfLines={1}
-            >
-              {value}
-            </Text>
+            {!!value &&
+              <Text
+                style={[editStyles.value, error ? editStyles.valueWithError : {}]}
+                numberOfLines={1}
+              >
+                {value}
+              </Text>
             }
           </View>
 
