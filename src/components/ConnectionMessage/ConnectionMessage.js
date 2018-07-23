@@ -15,19 +15,17 @@ class ConnectionMessage extends PureComponent {
   }
 
   show = () => {
-    this.animate({ isHide: true });
+    this.animate({ isHide: false });
   };
 
   hide = () => {
-    this.animate({ isHide: false });
+    this.animate({ isHide: true });
   };
 
   animate = ({ isHide }) => {
     const size = isIphoneX() ? 100 : 80;
     const height = isHide ? 0 : size;
-    const opacity = isHide ? 0 : 1;
-    const top = isHide ? -size : 0;
-    const animation = { height, opacity, top };
+    const animation = { height };
     this.setState({ animation });
   };
 
@@ -38,7 +36,7 @@ class ConnectionMessage extends PureComponent {
   render() {
     return (
       <AnimatableView
-        transition={['height', 'opacity', 'top']}
+        transition={['height']}
         onLayout={this.onLayout}
         duration={400}
         easing="linear"
