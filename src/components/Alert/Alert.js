@@ -37,11 +37,12 @@ class Alert extends PureComponent {
 
   animate = ({ isHide }) => {
     const isBottom = this.props.position === 'bottom';
-    const actualOffset = isBottom ? 130 : 0;
+    const header = this.props.isHeader ? 100 : 0;
+    const actualOffset = isBottom ? 130 + header : 0;
     const alertPosition = isBottom ? (height - actualOffset) : actualOffset;
     const multiplier = isBottom ? 1 : -1;
     const opacity = isHide ? 0 : 1;
-    const top = isHide ? (alertPosition + 120) * multiplier : alertPosition * multiplier;
+    const top = isHide ? (alertPosition + actualOffset) * multiplier : alertPosition * multiplier;
 
     this.setState({ animation: { opacity, top } });
   };
