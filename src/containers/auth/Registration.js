@@ -188,7 +188,7 @@ export default class Registration extends Component {
         {this.renderContainer()}
         <Alert
           ref={(alert) => { this.alert = alert; }}
-          position="bottom"
+          position="top"
           type="failed"
           message={error}
         />
