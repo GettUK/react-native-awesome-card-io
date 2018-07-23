@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { isNull } from 'lodash';
+import { AppState } from 'react-native';
 
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
 import { changeAddress, setActiveBooking } from 'actions/booking';
@@ -25,13 +26,16 @@ import MapView from './MapView';
 class MapController extends React.PureComponent {
   state = {
     dragEnable: true,
-    isLoadingPickup: false
+    isLoadingPickup: false,
+    appState: ''
   }
 
   componentDidMount() {
     this.props.requestLocation();
 
     this.setWatchPosition();
+
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentDidUpdate(prevProps) {
@@ -61,7 +65,23 @@ class MapController extends React.PureComponent {
 
   // eslint-disable-next-line class-methods-use-this
   componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+
     Coordinates.clearWatcher();
+  }
+
+  handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.props.checkMultiplePermissions(['location']).then(({ location }) => {
+        if (location === PERMISSION_STATUS.authorized) {
+          Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
+
+          this.setWatchPosition();
+        }
+      });
+    }
+
+    this.setState({ appState: nextAppState });
   }
 
   isWatchPosition(statuses, statusesProps) {
