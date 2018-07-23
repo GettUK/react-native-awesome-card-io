@@ -138,7 +138,7 @@ class BookingEditor extends BookingController {
     const { booking: { formData: { serviceSuspended } } } = this.props;
 
     if (serviceSuspended) {
-      this.props.showServiceSuspendedPopup();
+      this.showServiceSuspendedPopup();
     } else {
       this.props.navigation.navigate('EditOrderDetails');
     }
