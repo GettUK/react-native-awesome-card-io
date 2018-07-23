@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
-import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Platform, Keyboard } from 'react-native';
 
 import { Icon } from 'components';
 
@@ -33,6 +33,8 @@ class BackBtn extends Component {
   };
 
   handlePress = () => {
+    Keyboard.dismiss();
+
     const { touchedPath, touched } = this.props;
     if (touchedPath && touched) {
       showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
