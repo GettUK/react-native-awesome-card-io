@@ -272,7 +272,7 @@ export const cancelReasonStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: isIphoneX() ? 40 : 30,
     paddingHorizontal: 15
   },
   closeIcon: {
