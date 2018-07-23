@@ -11,6 +11,7 @@ import blackTaxiXL from './blackTaxiXL';
 import blackTaxiXLNightMode from './blackTaxiXLNightMode';
 import burger from './burger';
 import calendar from './calendar';
+import call from './call';
 import camera from './camera';
 import car from './car';
 import carFacet from './carFacet';
@@ -105,6 +106,7 @@ export default {
   blackTaxiXLNightMode,
   burger,
   calendar,
+  call,
   camera,
   car,
   carFacet,
