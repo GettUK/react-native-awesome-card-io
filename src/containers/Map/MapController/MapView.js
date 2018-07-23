@@ -20,7 +20,7 @@ class MapView extends React.Component {
     const { regionToAnimate, coordinatesToResize, nightMode } = this.props;
 
     if (nightMode !== oldNightMode) {
-      this.map._updateStyle(); // eslint-disable-line
+      setTimeout(() => this.map._updateStyle(), 500); // eslint-disable-line
     }
 
     if (regionToAnimate && !oldRegion) {
