@@ -10,6 +10,7 @@ import styles from './styles';
 
 const LabeledButton = ({ onClick, type }) => (
   <Button
+    style={styles.btnContainer}
     styleContent={[styles.btn, styles[type]]}
     raised={false}
     size="sm"

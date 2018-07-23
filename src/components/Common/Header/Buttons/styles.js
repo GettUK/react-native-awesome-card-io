@@ -11,6 +11,7 @@ export default StyleSheet.create({
   },
   touchZone: {
     paddingVertical: 6,
+    paddingLeft: 3,
     paddingRight: 8
   },
   shadow: {
@@ -21,6 +22,9 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
+  },
+  btnContainer: {
+    padding: 3
   },
   btn: {
     elevation: 2,

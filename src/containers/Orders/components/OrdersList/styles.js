@@ -17,14 +17,16 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   orders: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingTop: 20,
     marginBottom: isIphoneX() ? 20 : 0
   },
   orderWrapper: {
     marginBottom: 20,
+    marginHorizontal: 5,
     borderRadius: 10,
     backgroundColor: '#fff',
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
