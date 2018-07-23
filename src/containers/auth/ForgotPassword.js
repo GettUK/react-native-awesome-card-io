@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
   StatusBar,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   Text,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  View
 } from 'react-native';
 import validate from 'validate.js';
 
@@ -103,9 +104,11 @@ export default class ForgotPassword extends PureComponent {
             />
           </KeyboardAvoidingView>
 
-          <TouchableHighlight onPress={this.goToLogIn} style={styles.footer}>
-            <Text style={[styles.footerText, styles.footerLink]}>{strings('auth.label.logIn')}</Text>
-          </TouchableHighlight>
+          <TouchableWithoutFeedback onPress={this.goToLogIn}>
+            <View style={styles.footer}>
+              <Text style={[styles.footerText, styles.footerLink]}>{strings('auth.label.logIn')}</Text>
+            </View>
+          </TouchableWithoutFeedback>
         </Background>
 
         <Alert
