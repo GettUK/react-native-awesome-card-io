@@ -14,6 +14,7 @@ import {
   isEqualAddress
 } from 'containers/shared/bookings/data';
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
 
 import { LoaderLayer, PickUpTime, AvailableCars } from './components';
 
@@ -156,15 +157,15 @@ export default class BookingController extends Component {
     ];
 
     return airports.find(Boolean) && !flight;
-  }
+  };
 
-  handleBookingCreation = () => {
+  handleBookingCreation = throttledAction(() => {
     if (this.isPathContainAirport()) {
       return this.showFlightModal();
     }
 
     return this.createBooking();
-  };
+  });
 
   showFlightModal = () => {
     this.setState({ flightModal: true });

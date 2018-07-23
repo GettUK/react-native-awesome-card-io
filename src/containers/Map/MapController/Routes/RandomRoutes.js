@@ -103,10 +103,11 @@ class RandomRoutes extends React.Component {
     const { order } = this.props;
     const { predictedRoutes } = this.state;
 
-    return order.pickupAddress && order.status === LOCATING_STATUS &&
-      predictedRoutes.map((_, i) => (
+    return order.pickupAddress && order.status === LOCATING_STATUS && predictedRoutes.length > 0
+      ? predictedRoutes.map((_, i) => (
         <Polyline key={i} coordinates={[]} ref={(el) => { if (el) { this.predictedRoutesRefs[i] = el; } } } />
-      ));
+      ))
+      : null;
   }
 }
 

@@ -127,7 +127,7 @@ class MapController extends React.PureComponent {
   }
 
   getOrder(props = this.props) {
-    return this.isActiveSceneIs('orderCreating') ? props.bookingForm : props.currentOrder;
+    return props.currentOrder.id ? props.bookingForm : props.currentOrder;
   }
 
   isActiveSceneIs = (name = 'orderCreating') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
