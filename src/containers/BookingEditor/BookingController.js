@@ -387,21 +387,29 @@ export default class BookingController extends Component {
     </InformView>
   );
 
-  renderDetailItem = ({ title, value, icon, onPress, chevron = true }, i, arr) => (
+  renderDetailItem = ({ title, value, icon, onPress, chevron = true, error }, i, arr) => (
     <View key={title} style={editStyles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={editStyles.row}>
-          <Icon name={icon} color="#c6c5cd" />
+          {icon && <Icon name={icon} color="#c6c5cd" />}
+          {!value && error && <View style={editStyles.errorDot} />}
 
-          <View style={editStyles.titleContainer}>
-            <Text style={editStyles.title}>{title}</Text>
-            <Text style={editStyles.name} numberOfLines={1}>{value}</Text>
+          <View style={[editStyles.titleContainer, icon ? editStyles.iconGap : {}]}>
+            <Text style={[editStyles.title, value ? {} : editStyles.emptyValueTitle]}>{title}</Text>
+            {value &&
+            <Text
+              style={[editStyles.value, error ? editStyles.valueWithError : {}]}
+              numberOfLines={1}
+            >
+              {value}
+            </Text>
+            }
           </View>
 
           {chevron && <Icon name="chevron" color="#c6c5cd" width={10} />}
         </View>
       </TouchableWithoutFeedback>
-      {i + 1 < arr.length && <Divider style={editStyles.divider} />}
+      {arr && i + 1 < arr.length && <Divider style={editStyles.divider} />}
     </View>
   );
 

@@ -21,7 +21,12 @@ import editStyles from './EditOrderDetailsStyles';
 
 class EditOrderDetails extends BookingController {
   renderContent() {
-    const { booking: { formData, vehicles, currentOrder: { busy } } } = this.props;
+    const { booking: {
+      formData,
+      vehicles,
+      currentOrder: { busy },
+      bookingForm: { bookerReferencesErrors }
+    } } = this.props;
 
     const isOrderBtnDisabled = formData.serviceSuspended || busy || vehicles.loading || !this.shouldOrderRide();
 
@@ -35,6 +40,17 @@ class EditOrderDetails extends BookingController {
             {this.renderAvailableCars()}
           </View>
           {this.renderAdditionalDetails([editStyles.contentBlock, editStyles.detailsContainer])}
+          {formData.bookingReferences.length > 0 &&
+            <View style={editStyles.contentBlock}>
+              {this.renderDetailItem({
+                title: 'Booking References',
+                value: `${formData.bookingReferences.length} References`,
+                onPress: () => this.goTo('References'),
+                error: Object.keys(bookerReferencesErrors).length > 0
+              })}
+            </View>
+          }
+          <View style={editStyles.spacer} />
         </ScrollView>
         {this.renderBookingBtn({
           title: 'Order Ride',

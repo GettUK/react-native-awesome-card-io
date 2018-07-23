@@ -19,8 +19,13 @@ export default StyleSheet.create({
   mainInfoContainer: {
     marginBottom: 30
   },
+
   detailsContainer: {
-    marginBottom: 66
+    marginBottom: 20
+  },
+
+  spacer: {
+    height: 66
   },
 
   listOption: {
@@ -33,15 +38,26 @@ export default StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    paddingHorizontal: 12
+    paddingRight: 12,
+    justifyContent: 'center',
+    height: 45
+  },
+  iconGap: {
+    paddingLeft: 12
   },
   title: {
-    color: '#a4a4a4',
-    marginBottom: 4
+    color: '#a4a4a4'
   },
-  name: {
+  emptyValueTitle: {
+    fontSize: 17
+  },
+  value: {
+    marginTop: 4,
     fontSize: 18,
     fontWeight: '900'
+  },
+  valueWithError: {
+    color: '#f00'
   },
   divider: {
     marginLeft: -16,
@@ -62,5 +78,13 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
+  },
+  errorDot: {
+    position: 'absolute',
+    marginLeft: -10,
+    width: 6,
+    height: 6,
+    borderRadius: 6,
+    backgroundColor: '#f00'
   }
 });
