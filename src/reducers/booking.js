@@ -84,7 +84,7 @@ const resetBookingValues = state =>
       bookerReferencesErrors: {},
       scheduledType: 'now',
       scheduledAt: null,
-      messageToDriver: state.formData.defaultDriverMessage
+      message: state.formData.defaultDriverMessage && `Pick up: ${state.formData.defaultDriverMessage}`
     }),
     vehicles: initialState.vehicles
   });

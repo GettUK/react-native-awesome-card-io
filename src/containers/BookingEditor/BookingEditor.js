@@ -84,7 +84,7 @@ class BookingEditor extends BookingController {
         const passenger = dataPassenger || (memberId && find(passengers, { id: memberId }));
 
         let attrs = {
-          messageToDriver: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
+          message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
           bookerReferences: data.bookingReferences.map(r => ({ ...r, bookingReferenceId: r.id }))
         };
 

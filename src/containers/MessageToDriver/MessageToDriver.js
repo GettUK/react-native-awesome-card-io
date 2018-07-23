@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
@@ -6,41 +6,35 @@ import { changeMessageToDriver } from 'actions/booking';
 import { isIphoneX } from 'utils';
 import styles from './styles';
 
-class MessageToDriver extends Component {
-  componentDidMount() {
-    const { changeMessageToDriver, booking } = this.props;
-    changeMessageToDriver(booking.messageToDriver);
-  }
-
-  onChangeText = (message) => {
-    this.props.changeMessageToDriver(message, true);
+const MessageToDriver = ({ message, booking, changeMessageToDriver }) => {
+  const onChangeText = (message) => {
+    changeMessageToDriver(message, true);
   };
 
-  render() {
-    const { message } = this.props;
-    return (
-      <View style={[styles.flex, styles.bg]}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={isIphoneX() ? 85 : 65}
-          behavior="padding"
-          style={styles.flex}
-        >
-          <TextInput
-            style={[styles.input, styles.flex]}
-            value={message}
-            placeholder="Start type your message"
-            onChangeText={this.onChangeText}
-            maxLength={225}
-            textAlignVertical="top"
-            underlineColorAndroid="transparent"
-            multiline
-          />
-          <Text style={styles.messageLength}>{message.length}/225</Text>
-        </KeyboardAvoidingView>
-      </View>
-    );
-  }
-}
+  const value = message || booking.message;
+
+  return (
+    <View style={[styles.flex, styles.bg]}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={isIphoneX() ? 85 : 65}
+        behavior="padding"
+        style={styles.flex}
+      >
+        <TextInput
+          style={[styles.input, styles.flex]}
+          value={value}
+          placeholder="Start type your message"
+          onChangeText={onChangeText}
+          maxLength={225}
+          textAlignVertical="top"
+          underlineColorAndroid="transparent"
+          multiline
+        />
+        <Text style={styles.messageLength}>{value.length}/225</Text>
+      </KeyboardAvoidingView>
+    </View>
+  );
+};
 
 MessageToDriver.propTypes = {
   navigation: PropTypes.object.isRequired,
