@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
   },
 
   btnForgot: {
-    marginBottom: 10
+    marginBottom: 10,
+    width: 130,
+    alignSelf: 'flex-end'
   },
 
   forgotText: {
