@@ -89,7 +89,8 @@ export default class AddressModal extends PureComponent {
 
   handleSelect = (address) => {
     this.props.onChange(address, this.state.meta);
-    this.setState({ isVisible: false, inputValue: '', values: [], meta: {} });
+    this.setState({ isVisible: false });
+    setTimeout(() => this.setState({ inputValue: '', values: [], meta: {} }), 500); // for smooth animation
   };
 
   getOptionName = opt =>
@@ -117,16 +118,17 @@ export default class AddressModal extends PureComponent {
       });
   }, searchDebounce);
 
-  getPointerIconColor() {
-    if (!this.state.meta) return null;
+  getPointerIconData() {
+    const defaultIcon = { name: 'pickUpField' };
+    if (!this.state.meta) return defaultIcon;
 
     switch (this.state.meta.type) {
       case 'destinationAddress':
-        return '#f00';
+        return { color: '#f00', name: 'destinationMarker' };
       case 'stops':
-        return '#8d8d8d';
+        return { ...defaultIcon, color: '#8d8d8d' };
       default:
-        return null;
+        return defaultIcon;
     }
   }
 
@@ -162,8 +164,7 @@ export default class AddressModal extends PureComponent {
       <View style={styles.row}>
         <Icon
           style={styles.pointerIcon}
-          name="pickUpField"
-          color={this.getPointerIconColor()}
+          {...this.getPointerIconData()}
           size={18}
         />
         <View style={styles.flex}>
