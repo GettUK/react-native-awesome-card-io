@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
   pickUpTimeWrapper: {
@@ -25,7 +26,7 @@ export default StyleSheet.create({
   },
 
   spacer: {
-    height: 66
+    height: isIphoneX() ? 86 : 66
   },
 
   listOption: {
@@ -71,6 +72,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 8,
     paddingHorizontal: 16,
+    paddingBottom: isIphoneX() ? 28 : 8,
     elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.2,
