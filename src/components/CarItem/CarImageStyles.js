@@ -20,7 +20,7 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   typeInnerWrapperBig: {
-    width: 64,
+    width: 68,
     height: 64
   },
   typeInnerWrapperMedium: {
