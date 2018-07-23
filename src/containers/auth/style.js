@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignSelf: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
 
   footerText: {
