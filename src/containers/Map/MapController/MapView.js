@@ -102,7 +102,7 @@ class MapView extends React.Component {
           ref={(map) => { this.map = map; }}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
-          zoomEnabled
+          zoomEnabled={this.isScrollEnabled(order)}
           rotateEnabled={false}
           showsCompass={false}
           mapPadding={{ bottom: !order.destinationAddress && isOrderCreating ? 185 : 0 }}
