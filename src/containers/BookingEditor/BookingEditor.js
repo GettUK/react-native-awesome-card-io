@@ -6,7 +6,14 @@ import moment from 'moment-timezone';
 import { isEmpty, isEqual, has, isNull } from 'lodash';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
-import { getFormData, changeFields, changeAddress, setActiveBooking, getVehicles } from 'actions/booking';
+import {
+  getFormData,
+  changeFields,
+  changeAddress,
+  setActiveBooking,
+  getVehicles,
+  saveAvailableCarsScroll
+} from 'actions/booking';
 import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
 
@@ -28,7 +35,9 @@ class BookingEditor extends BookingController {
     isPromoWasShown: false
   };
 
-  componentDidUpdate({ booking: { bookingForm: bookingFormProps }, memberId }) {
+  componentDidUpdate(prevProps) {
+    super.componentDidUpdate(prevProps);
+    const { booking: { bookingForm: bookingFormProps }, memberId } = prevProps;
     const { booking: { vehicles, bookingForm }, getFormData } = this.props;
     const { isStopPointsModalVisible } = this.state;
 
@@ -361,7 +370,8 @@ const bindActions = {
   changeFields,
   changeAddress,
   setActiveBooking,
-  changeRegionToAnimate
+  changeRegionToAnimate,
+  saveAvailableCarsScroll
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingEditor);

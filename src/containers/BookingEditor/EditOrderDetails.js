@@ -10,7 +10,8 @@ import {
   createBooking,
   saveFlight,
   setReferenceErrors,
-  validateReferences
+  validateReferences,
+  saveAvailableCarsScroll
 } from 'actions/booking';
 import { getPassengerData } from 'actions/passenger';
 
@@ -99,7 +100,8 @@ const bindActions = {
   getPassengerData,
   setReferenceErrors,
   validateReferences,
-  saveFlight
+  saveFlight,
+  saveAvailableCarsScroll
 };
 
 export default connect(select, bindActions)(EditOrderDetails);
