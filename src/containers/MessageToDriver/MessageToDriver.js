@@ -6,12 +6,12 @@ import { changeMessageToDriver } from 'actions/booking';
 import { isIphoneX } from 'utils';
 import styles from './styles';
 
-const MessageToDriver = ({ message, booking, changeMessageToDriver }) => {
+const MessageToDriver = ({ message, touched, booking, changeMessageToDriver }) => {
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
   };
 
-  const value = message || booking.message;
+  const value = touched ? message : booking.message;
 
   return (
     <View style={[styles.flex, styles.bg]}>
@@ -47,6 +47,7 @@ MessageToDriver.defaultProps = {
 };
 
 const mapState = ({ booking }) => ({
+  touched: booking.messageToDriverTouched,
   message: booking.tempMessageToDriver,
   booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
 });
