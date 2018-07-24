@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, isEqual, has, isNull } from 'lodash';
+import { isEmpty, isEqual, has, isNull } from 'lodash';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
 import { getFormData, changeFields, changeAddress, setActiveBooking, getVehicles } from 'actions/booking';
@@ -13,7 +13,7 @@ import { getPassengerData } from 'actions/passenger';
 import { Popup, Button, Icon } from 'components';
 
 import { strings } from 'locales';
-import { getHeight, prepareCoordinates } from 'utils';
+import { getHeight, prepareCoordinates, getPassengerPayload } from 'utils';
 
 import BookingController from './BookingController';
 import { PromoBlackTaxi } from './components';
@@ -80,8 +80,6 @@ class BookingEditor extends BookingController {
     getFormData()
       .then((data) => {
         const { ui: { map: { currentPosition } }, booking: { bookingForm } } = this.props;
-        const { passenger: dataPassenger, passengers } = data;
-        const passenger = dataPassenger || (memberId && find(passengers, { id: memberId }));
 
         let attrs = {
           message: data.defaultDriverMessage && `Pick up: ${data.defaultDriverMessage}`,
@@ -108,17 +106,7 @@ class BookingEditor extends BookingController {
           };
         }
 
-        if (passenger) {
-          const { id, firstName, lastName, phone, costCentre } = passenger;
-
-          attrs = {
-            ...attrs,
-            passengerId: id,
-            passengerName: `${firstName} ${lastName}`,
-            passengerPhone: phone,
-            costCentre
-          };
-        }
+        attrs = { ...attrs, ...getPassengerPayload(data, memberId) };
 
         changeFields(attrs);
 

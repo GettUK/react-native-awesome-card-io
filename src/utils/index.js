@@ -30,3 +30,4 @@ export { default as referencesLocalErrors } from './references';
 export { default as isIphoneX } from './ui';
 export { default as validate } from './validate';
 export { default as Coordinates } from './coordinates';
+export { default as getPassengerPayload } from './booking';

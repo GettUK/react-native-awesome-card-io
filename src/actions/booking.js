@@ -85,7 +85,11 @@ export const validateReferences = () => async (dispatch, getState) => {
   return errors;
 };
 
-export const resetBookingValues = () => ({ type: TYPES.resetBookingValues });
+export const resetBookingValues = () => (dispatch, getState) => {
+  const { memberId } = getState().session.user;
+
+  dispatch({ type: TYPES.resetBookingValues, payload: { memberId } });
+};
 
 export const changeMessageToDriver = (message, touched = false) =>
   ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
@@ -206,6 +210,8 @@ export const createBooking = order => (dispatch) => {
       dispatch(goToActiveOrderScene());
 
       dispatch(orderStatusSubscribe(data.channel));
+
+      dispatch(changePassengerId());
 
       return data;
     })
