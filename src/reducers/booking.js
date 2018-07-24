@@ -2,6 +2,7 @@ import { composeReducer } from 'redux-compose-reducer';
 import update from 'update-js';
 import { isUndefined, omit } from 'lodash';
 import { CANCELLED_STATUS } from 'utils/orderStatuses';
+import { getPassengerPayload } from 'utils';
 
 export const initialState = {
   formData: {
@@ -75,8 +76,10 @@ const changeReference = (state, { payload }) =>
 const setReferenceErrors = (state, { payload }) =>
   update(state, 'bookingForm.bookerReferencesErrors', payload);
 
-const resetBookingValues = state =>
-  update(state, {
+const resetBookingValues = (state, { payload }) => {
+  const passenger = getPassengerPayload(state.formData, payload.memberId);
+
+  return update(state, {
     bookingForm: update.assign({
       // todo use initial state
       ...state.bookingForm.defaultPaymentType,
@@ -84,10 +87,12 @@ const resetBookingValues = state =>
       bookerReferencesErrors: {},
       scheduledType: 'now',
       scheduledAt: null,
-      message: state.formData.defaultDriverMessage && `Pick up: ${state.formData.defaultDriverMessage}`
+      message: state.formData.defaultDriverMessage && `Pick up: ${state.formData.defaultDriverMessage}`,
+      ...passenger
     }),
     vehicles: initialState.vehicles
   });
+};
 
 const changeMessageToDriver = (state, { payload }) =>
   update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
