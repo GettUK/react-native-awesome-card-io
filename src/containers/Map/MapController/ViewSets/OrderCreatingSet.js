@@ -29,7 +29,7 @@ class OrderCreatingSet extends React.Component {
   }
 
   componentDidUpdate({ order: oldOrder, dragEnable: oldDragEnable }) {
-    const { order, changeCoordinatesToResize, onEndLoadingPickup, dragEnable } = this.props;
+    const { order, changeCoordinatesToResize, onEndLoadingPickup, dragEnable, devSettings } = this.props;
 
     if (this.isPickupAddressWasUpdatedByMapDrag({ order, dragEnable, oldDragEnable, oldOrder })) {
       onEndLoadingPickup();
@@ -42,7 +42,7 @@ class OrderCreatingSet extends React.Component {
       setTimeout(() => changeCoordinatesToResize([source, dest, ...stops]));
     }
 
-    if (this.shouldGetDriversLocations({ order, oldOrder })) {
+    if (devSettings.showCarAnimations && this.shouldGetDriversLocations({ order, oldOrder })) {
       this.getDriversLocations(order.pickupAddress);
     }
   }
@@ -92,19 +92,24 @@ class OrderCreatingSet extends React.Component {
   };
 
   renderMapItems = () => {
-    const { order, vehicles, drivers, nightMode } = this.props;
+    const { order, vehicles, drivers, nightMode, devSettings } = this.props;
 
-    return !order.destinationAddress
-      ? <DriversMarkers drivers={drivers} nightMode={nightMode} />
-      : (
-        <OrderRoute
-          sourceType={vehicles.duration ? 'journey' : 'default'}
-          destinationType={vehicles.distance ? 'distance' : 'default'}
-          source={{ ...order.pickupAddress, value: vehicles.duration }}
-          destination={{ ...order.destinationAddress, value: vehicles.distance }}
-          stops={order.stops || order.stopAddresses}
-        />
-      );
+    return (
+      <Fragment>
+        {!order.destinationAddress && devSettings.showCarAnimations &&
+          <DriversMarkers drivers={drivers} nightMode={nightMode} />
+        }
+        {order.destinationAddress &&
+          <OrderRoute
+            sourceType={vehicles.duration ? 'journey' : 'default'}
+            destinationType={vehicles.distance ? 'distance' : 'default'}
+            source={{ ...order.pickupAddress, value: vehicles.duration }}
+            destination={{ ...order.destinationAddress, value: vehicles.distance }}
+            stops={order.stops || order.stopAddresses}
+          />
+        }
+      </Fragment>
+    );
   };
 
   render() {
@@ -113,7 +118,8 @@ class OrderCreatingSet extends React.Component {
     return (
       <Fragment>
         {currentPosition && !order.destinationAddress &&
-          <CurrentLocation coordinate={currentPosition} />}
+          <CurrentLocation coordinate={currentPosition} />
+        }
 
         {this.renderMapItems()}
       </Fragment>
@@ -125,10 +131,11 @@ OrderCreatingSet.propTypes = {
   order: PropTypes.object.isRequired
 };
 
-const mapState = ({ ui, booking }) => ({
+const mapState = ({ app, ui, booking }) => ({
   currentPosition: ui.map.currentPosition,
   vehicles: booking.vehicles,
-  drivers: ui.map.drivers
+  drivers: ui.map.drivers,
+  devSettings: app.devSettings
 });
 
 const mapDispatch = {

@@ -133,7 +133,7 @@ class OrderSet extends React.Component {
   }
 
   render() {
-    const { order } = this.props;
+    const { order, devSettings } = this.props;
 
     return (
       <Fragment>
@@ -147,7 +147,7 @@ class OrderSet extends React.Component {
           />
         }
 
-        <RandomRoutes order={order} />
+        {devSettings.showLocatingCarAnimation && <RandomRoutes order={order} />}
       </Fragment>
     );
   }
@@ -157,9 +157,9 @@ OrderSet.propTypes = {
   order: PropTypes.object.isRequired
 };
 
-
-const mapState = ({ booking }) => ({
-  vehicles: booking.vehicles
+const mapState = ({ app, booking }) => ({
+  vehicles: booking.vehicles,
+  devSettings: app.devSettings
 });
 
 const mapDispatch = {
