@@ -60,7 +60,9 @@ export default class BookingController extends Component {
 
   updateAvailableCarsScroll() {
     if (this.availableCars) {
-      this.availableCars.scrollTo({ x: this.props.booking.bookingForm.availableCarsScroll, animated: false });
+      setTimeout(() => {
+        this.availableCars.scrollTo({ x: this.props.booking.bookingForm.availableCarsScroll, animated: false });
+      }, 0);
     }
   }
 
