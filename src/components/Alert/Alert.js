@@ -1,25 +1,22 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableWithoutFeedback, InteractionManager } from 'react-native';
+import { Animated, View, Text, TouchableWithoutFeedback, StatusBar, Platform, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
-
-import { View as AnimatableView } from 'react-native-animatable';
 
 import { Icon } from 'components';
 
 import { strings } from 'locales';
 
-import styles, { height } from './styles';
+import { isIphoneX } from 'utils';
+
+import styles from './styles';
 
 class Alert extends PureComponent {
-  state = {
-    animation: {
-      opacity: 1,
-      top: this.props.position && this.props.position === 'bottom' ? 2000 : -120
-    }
-  };
+  alertAnim = new Animated.Value(0);
 
   show = () => {
-    this.animate({ isHide: false });
+    this.alertAnim.setValue(0);
+
+    this.animate(1);
 
     this.timeout = setTimeout(() => {
       this.hide();
@@ -27,7 +24,7 @@ class Alert extends PureComponent {
   };
 
   hide = () => {
-    this.animate({ isHide: true });
+    this.animate(0);
 
     if (this.props.onClose) {
       InteractionManager.runAfterInteractions(this.props.onClose);
@@ -35,29 +32,43 @@ class Alert extends PureComponent {
     clearTimeout(this.timeout);
   };
 
-  animate = ({ isHide }) => {
-    const isBottom = this.props.position === 'bottom';
-    const header = this.props.isHeader ? 100 : 0;
-    const actualOffset = isBottom ? 130 + header : 0;
-    const alertPosition = isBottom ? (height - actualOffset) : actualOffset;
-    const multiplier = isBottom ? 1 : -1;
-    const opacity = isHide ? 0 : 1;
-    const top = isHide ? (alertPosition + actualOffset) * multiplier : alertPosition * multiplier;
-
-    this.setState({ animation: { opacity, top } });
+  animate = (toValue) => {
+    Animated.timing(
+      this.alertAnim,
+      {
+        toValue,
+        duration: 400
+      }
+    ).start();
   };
+
+  get alertShift() {
+    let shift = 0;
+
+    if (isIphoneX()) shift = 24;
+    if (Platform.OS === 'android' && this.props.position === 'top') shift = StatusBar.currentHeight;
+
+    return shift;
+  }
 
   render() {
     const { type, message, position } = this.props;
+    const multiplier = position === 'bottom' ? 1 : -1;
+
     return (
-      <AnimatableView
-        pointerEvents="box-none"
-        duration={400}
-        transition={['opacity', 'top']}
+      <Animated.View
         style={[
           styles.container,
           styles[`container${position}`],
-          this.state.animation
+          {
+            opacity: this.alertAnim,
+            transform: [{
+              translateY: this.alertAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [(120 + this.alertShift) * multiplier, -multiplier * this.alertShift]
+              })
+            }]
+          }
         ]}
       >
         <View style={[styles.messageContainer, styles[`messageContainer${type}`]]}>
@@ -74,7 +85,7 @@ class Alert extends PureComponent {
             </View>
           </TouchableWithoutFeedback>
         </View>
-      </AnimatableView>
+      </Animated.View>
     );
   }
 }
