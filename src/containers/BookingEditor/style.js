@@ -148,5 +148,24 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
+  },
+  serviceSuspendedTitle: {
+    textAlign: 'center',
+    fontWeight: '600'
+  },
+  serviceSuspendedDescription: {
+    fontSize: 17,
+    lineHeight: 20,
+    color: '#000'
+  },
+  serviceSuspendedGreeting: {
+    marginBottom: 10
+  },
+  serviceSuspendedSign: {
+    marginVertical: 12,
+    fontSize: 17,
+    fontStyle: 'italic',
+    lineHeight: 20,
+    color: '#8e8e93'
   }
 });

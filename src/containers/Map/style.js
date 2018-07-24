@@ -95,17 +95,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: (width / 2) - 16,
     top: ((height - 190) / 2) - 40
-  },
-  popupInfo: {
-    fontSize: 17,
-    lineHeight: 20,
-    color: '#000'
-  },
-  popupLabel: {
-    marginVertical: 12,
-    fontSize: 17,
-    lineHeight: 20,
-    color: '#8e8e93'
   }
 });
 
