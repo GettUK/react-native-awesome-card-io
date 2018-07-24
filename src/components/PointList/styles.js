@@ -24,12 +24,12 @@ export default StyleSheet.create({
   stopPosition: {
     marginLeft: 2
   },
+  pickupTextWrapper: {
+    flex: 1
+  },
   pickUpText: {
     flex: 1,
     fontSize: 16
-  },
-  pickUpTextLoading: {
-    color: '#8794a0'
   },
   btnPlus: {
     paddingVertical: 1,

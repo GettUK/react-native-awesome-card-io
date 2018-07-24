@@ -62,10 +62,7 @@ export default class PointList extends PureComponent {
       onPress={this.handlePickupAddressPress}
     >
       <Icon style={styles.pickUpIcon} name="pickUpField" size={16} />
-      {this.props.isLoadingPickup
-        ? <Text style={[styles.pickUpText, styles.pickUpTextLoading]} numberOfLines={1}>Locating...</Text>
-        : this.renderAddressLabel('pickupAddress')
-      }
+      <View style={styles.pickupTextWrapper}>{this.renderAddressLabel('pickupAddress')}</View>
     </TouchableOpacity>
   );
 
@@ -147,6 +144,7 @@ export default class PointList extends PureComponent {
 
   render() {
     const { style, allowAddingStops, allowEmptyDestination } = this.props;
+    const hasDestination = this.hasAddressType('destinationAddress') || allowEmptyDestination;
 
     return (
       <View
@@ -154,11 +152,11 @@ export default class PointList extends PureComponent {
         style={[styles.wrapper, style]}
       >
         {this.renderPickUpItem()}
-        {(this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
+        {hasDestination &&
           <View><Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" /></View>
         }
         {!allowAddingStops && this.renderStopsItem()}
-        {this.hasAddressType('pickupAddress') && (this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
+        {hasDestination &&
           <Divider left={31} />
         }
         {this.renderDestinationItem()}
