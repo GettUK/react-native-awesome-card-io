@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-export const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +8,6 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
     left: 0,
-    paddingTop: 36,
     zIndex: 99
   },
   containertop: {
@@ -50,8 +49,7 @@ export default StyleSheet.create({
   message: {
     fontSize: 14,
     flex: 1,
-    paddingHorizontal: 16,
-    height: 38
+    paddingHorizontal: 16
   },
   title: {
     fontWeight: '900'
