@@ -8,6 +8,7 @@ import { changeAddress } from 'actions/booking';
 import { clearCoordinates } from 'actions/ui/map';
 
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA, normalizeCoordinate, geocode, processLocation } from 'utils';
+import { DRAG_DISABLED_STATUSES, ORDER_RECEIVED_STATUS } from 'utils/orderStatuses';
 
 import MapStyle from '../MapStyle';
 import DarkMapStyle from '../DarkMapStyle';
@@ -85,6 +86,11 @@ class MapView extends React.Component {
     }
   };
 
+  isScrollEnabled = order => (
+    (order.status === ORDER_RECEIVED_STATUS && !order.asap)
+    || !DRAG_DISABLED_STATUSES.some(status => status === order.status)
+  )
+
   render() {
     const { isOrderCreating, dragEnable, order, nightMode } = this.props;
 
@@ -100,7 +106,7 @@ class MapView extends React.Component {
           rotateEnabled={false}
           showsCompass={false}
           mapPadding={{ bottom: !order.destinationAddress && isOrderCreating ? 185 : 0 }}
-          scrollEnabled={dragEnable}
+          scrollEnabled={dragEnable && this.isScrollEnabled(order)}
           customMapStyle={nightMode ? DarkMapStyle : MapStyle}
           onRegionChangeComplete={this.getGeocode}
         >
