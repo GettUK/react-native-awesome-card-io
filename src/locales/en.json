@@ -34,7 +34,8 @@
     },
     "serviceSuspended": {
       "title": "Service Suspended",
-      "description": "Dear Customer,\nDue to unpaid invoices the service has been suspended. Please contact OT Billing Department to resolve this issue.",
+      "greeting": "Dear Customer,",
+      "description": "Due to unpaid invoices the service has been suspended.\nPlease contact OT Billing Department to resolve this issue.",
       "sign": "Thank you,\nOT Team"
     },
     "companyRequest": {

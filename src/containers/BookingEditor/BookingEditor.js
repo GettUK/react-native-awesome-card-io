@@ -320,12 +320,16 @@ class BookingEditor extends BookingController {
         <Popup
           ref={(popup) => { this.serviceSuspendedPopup = popup; }}
           title={strings('popup.serviceSuspended.title')}
+          titleStyle={styles.serviceSuspendedTitle}
           content={(
             <View>
-              <Text style={styles.popupInfo}>
+              <Text style={[styles.serviceSuspendedDescription, styles.serviceSuspendedGreeting]}>
+                {strings('popup.serviceSuspended.greeting')}
+              </Text>
+              <Text style={styles.serviceSuspendedDescription}>
                 {strings('popup.serviceSuspended.description')}
               </Text>
-              <Text style={styles.popupLabel}>
+              <Text style={styles.serviceSuspendedSign}>
                 {strings('popup.serviceSuspended.sign')}
               </Text>
             </View>
