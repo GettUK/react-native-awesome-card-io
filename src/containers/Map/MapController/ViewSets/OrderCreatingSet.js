@@ -65,6 +65,7 @@ class OrderCreatingSet extends React.Component {
   };
 
   isPathChanged = (order, oldOrder) => (
+    !order.id && !oldOrder.id &&
     (order.pickupAddress && order.destinationAddress) && (
       (order.pickupAddress && !isEqual(order.pickupAddress, oldOrder.pickupAddress))
       || (order.destinationAddress && !isEqual(order.destinationAddress, oldOrder.destinationAddress))
