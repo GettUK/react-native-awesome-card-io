@@ -1,6 +1,6 @@
 // https://github.com/facebook/react-native/issues/15114
 import React from 'react';
-import { Platform, Text } from 'react-native';
+import { Platform, Text, TextInput } from 'react-native';
 
 if (Platform.OS === 'android') {
   const oldRender = Text.prototype.render;
@@ -10,4 +10,6 @@ if (Platform.OS === 'android') {
       style: [{ fontFamily: 'Roboto', color: 'rgba(0,0,0,0.87)' }, origin.props.style]
     });
   };
+
+  TextInput.defaultProps.selectionColor = '#284784';
 }
