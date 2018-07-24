@@ -145,7 +145,7 @@ class CarTypesEditor extends Component {
             <CheckBox status={isSelected} onPress={handler} />
           </View>
 
-          <CarImage type={name} style={styles.image}/>
+          <CarImage type={name} style={styles.image} size="small" />
 
           <Text style={styles.label}>{label}</Text>
           <TouchableWithoutFeedback onPress={this.handleOpenInfo.bind(null, name)}>

@@ -39,9 +39,9 @@ export default StyleSheet.create({
     marginTop: 8
   },
   carWrapper: {
+    marginTop: 8,
     marginBottom: 10,
-    height: 85,
-    marginVertical: 8
+    height: 100
   },
   modalCarImage: {
     height: 70,

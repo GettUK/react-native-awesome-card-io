@@ -54,7 +54,7 @@ class CarImage extends PureComponent {
           <Icon
             size={sizes[size]}
             name={OTcars.includes(type) ? 'OT' : 'Gett'}
-            style={styles.logoService}
+            style={styles[`logoService${sizeFormatted}`]}
           />
         </View>
       </IconWrapper>
