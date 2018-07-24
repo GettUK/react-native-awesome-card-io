@@ -50,6 +50,7 @@ const TYPES = createTypes('booking', [
   'changeDriverRatingReasons',
   'changeDriverRatingSuccess',
   'clearCurrentOrder',
+  'saveAvailableCarsScroll',
   'clearBooking',
   'updateReferences'
 ]);
@@ -356,5 +357,7 @@ export const rateDriver = () => (dispatch, getState) => {
   })
     .then(() => dispatch({ type: TYPES.changeDriverRatingSuccess }));
 };
+
+export const saveAvailableCarsScroll = value => ({ type: TYPES.saveAvailableCarsScroll, payload: value });
 
 export const clearBooking = () => ({ type: TYPES.clearBooking });

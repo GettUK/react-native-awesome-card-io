@@ -26,8 +26,29 @@ export default class BookingController extends Component {
   state = {
     loadBookingRequested: false,
     isStopPointsModalVisible: false,
-    message: ''
+    message: '',
+    isFocused: this.props.navigation ? this.props.navigation.isFocused() : false
   };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    this.subscriptions = [
+      navigation.addListener('didFocus', () => this.setState({ isFocused: true })),
+      navigation.addListener('willBlur', () => this.setState({ isFocused: false }))
+    ];
+    this.updateAvailableCarsScroll();
+  }
+
+  componentDidUpdate({ booking: { bookingForm: { availableCarsScroll } } }) {
+    if (!this.state.isFocused && availableCarsScroll !== this.props.booking.bookingForm.availableCarsScroll) {
+      this.updateAvailableCarsScroll();
+    }
+  }
+
+  componentWillUnmount() {
+    this.subscriptions.forEach(sub => sub.remove());
+  }
 
   get isPreOrder() {
     return !this.props.booking.currentOrder.id;
@@ -35,6 +56,12 @@ export default class BookingController extends Component {
 
   getOrder(props = this.props) {
     return this.isPreOrder ? props.booking.bookingForm : props.booking.currentOrder;
+  }
+
+  updateAvailableCarsScroll() {
+    if (this.availableCars) {
+      this.availableCars.scrollTo({ x: this.props.booking.bookingForm.availableCarsScroll, animated: false });
+    }
   }
 
   goTo = (page) => {
@@ -369,6 +396,13 @@ export default class BookingController extends Component {
     changeFields(attrs);
   };
 
+  handleAvailableCarsScroll = (e) => {
+    const { saveAvailableCarsScroll } = this.props;
+    if (this.state.isFocused) {
+      saveAvailableCarsScroll(e.nativeEvent.contentOffset.x);
+    }
+  };
+
   getReasonsName = (id) => {
     const { booking: { formData: { travelReasons } } } = this.props;
     return ((travelReasons && travelReasons.find(r => r.id === +id)) || { name: strings('booking.label.other') }).name;
@@ -452,6 +486,8 @@ export default class BookingController extends Component {
         booking={this.getOrder()}
         availableVehicles={this.getAvailableVehicles()}
         onCarSelect={this.selectVehicle}
+        onScroll={this.handleAvailableCarsScroll}
+        scrollRef={(el) => { this.availableCars = el; }}
       />
     );
   }

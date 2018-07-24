@@ -11,11 +11,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const AvailableCars = ({ availableVehicles, onCarSelect, booking }) => (
+const AvailableCars = ({ availableVehicles, onCarSelect, booking, onScroll, scrollRef }) => (
   <ScrollView
     horizontal
     contentContainerStyle={styles.container}
     showsHorizontalScrollIndicator={false}
+    onScroll={onScroll}
+    scrollEventThrottle={200}
+    ref={scrollRef}
   >
     {
       availableVehicles.map((vehicle) => {

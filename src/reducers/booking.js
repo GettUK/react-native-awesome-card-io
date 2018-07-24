@@ -9,6 +9,7 @@ export const initialState = {
     busy: false
   },
   bookingForm: {
+    availableCarsScroll: 0,
     scheduledAt: null,
     scheduledType: 'now',
     travelReasonId: '',
@@ -88,7 +89,8 @@ const resetBookingValues = (state, { payload }) => {
       scheduledType: 'now',
       scheduledAt: null,
       message: state.formData.defaultDriverMessage && `Pick up: ${state.formData.defaultDriverMessage}`,
-      ...passenger
+      ...passenger,
+      availableCarsScroll: 0
     }),
     vehicles: initialState.vehicles
   });
@@ -211,6 +213,10 @@ const clearCurrentOrder = state => (
   update(state, 'currentOrder', initialState.currentOrder)
 );
 
+const saveAvailableCarsScroll = (state, { payload }) => (
+  update(state, 'bookingForm.availableCarsScroll', payload)
+);
+
 const clearBooking = () => initialState;
 
 export default composeReducer('booking', {
@@ -243,6 +249,7 @@ export default composeReducer('booking', {
   changeDriverRatingReasons,
   changeDriverRatingSuccess,
   clearCurrentOrder,
+  saveAvailableCarsScroll,
   clearBooking,
   updateReferences
 }, initialState);
