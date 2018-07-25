@@ -32,6 +32,7 @@ class MapView extends React.Component {
   }
 
   animateToRegion = (source) => {
+    this.props.disableDrag();
     if (source && source.latitude && source.longitude) {
       this.map.animateToRegion({
         latitudeDelta: LATTITIDE_DELTA,

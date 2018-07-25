@@ -165,6 +165,7 @@ class MapController extends React.PureComponent {
         order={order}
         dragEnable={!isLoadingPickup && dragEnable}
         enableDrag={this.enableDrag}
+        disableDrag={this.disableDrag}
         nightMode={nightMode}
         onStartLoadingPickup={this.startLoadingPickup}
         onEndLoadingPickup={this.endLoadingPickup}
