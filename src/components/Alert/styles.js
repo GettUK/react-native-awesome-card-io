@@ -8,7 +8,8 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
     left: 0,
-    zIndex: 99
+    zIndex: 99,
+    elevation: 10
   },
   containertop: {
     top: 0
