@@ -55,7 +55,6 @@ class References extends PureComponent {
           inputStyle={styles.input}
           style={styles.inputContainer}
           error={error}
-          selectionColor="#494949"
           pointerEvents={item.dropdown ? 'none' : 'auto'}
         />
         {item.costCentre && !!costCentreValue &&

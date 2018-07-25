@@ -93,7 +93,6 @@ class EditProfile extends Component {
         allowClearStyle={styles.allowClearStyle}
         clearIconColor="#d2d0dc"
         clearIconStyle={styles.clearIcon}
-        selectionColor="#494949"
         maxLength={30}
       />
     );

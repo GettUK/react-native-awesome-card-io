@@ -95,6 +95,7 @@ export default class ForgotPassword extends PureComponent {
               error={error}
               allowedError={false}
               errorStyle={styles.error}
+              selectionColor="rgba(255, 255, 255, 0.2)"
             />
 
             <TextButton
