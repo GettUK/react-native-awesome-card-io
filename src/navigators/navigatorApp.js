@@ -18,14 +18,14 @@ import {
   ReferenceValueSelector,
   TransitionLoading,
   PassengersList,
-  Receipt
+  Receipt,
+  EditOrderDetails
 } from 'containers';
 import ordersStyles from 'containers/Orders/styles';
 import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
 import { SaveFlightBtn } from 'containers/FlightSettings';
 import { ReferencesHeader } from 'containers/References';
 import { ReceiptHeader } from 'containers/Receipt';
-import { EditOrderDetails } from 'containers/BookingEditor';
 import { SavePassengerBtn } from 'containers/PassengersList';
 import { SaveTravelReasonIdBtn } from 'containers/ReasonForTravel';
 import { SavePaymentMethodBtn } from 'containers/PaymentsOptions';

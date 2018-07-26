@@ -11,8 +11,8 @@ import { clearCoordinates } from 'actions/ui/map';
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA, normalizeCoordinate, geocode, processLocation } from 'utils';
 import { DRAG_DISABLED_STATUSES, ORDER_RECEIVED_STATUS } from 'utils/orderStatuses';
 
-import MapStyle from '../MapStyle';
-import DarkMapStyle from '../DarkMapStyle';
+import MapStyle from './MapStyle';
+import DarkMapStyle from './DarkMapStyle';
 
 import styles from './styles';
 

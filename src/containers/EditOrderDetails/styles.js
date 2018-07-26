@@ -3,6 +3,9 @@ import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
+  flex: {
+    flex: 1
+  },
   pickUpTimeWrapper: {
     marginBottom: 30,
     paddingHorizontal: 16
@@ -30,42 +33,6 @@ export default StyleSheet.create({
     height: isIphoneX() ? 86 : 66
   },
 
-  listOption: {
-    paddingHorizontal: 16
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  titleContainer: {
-    flex: 1,
-    paddingRight: 12,
-    justifyContent: 'center',
-    height: 45
-  },
-  iconGap: {
-    paddingLeft: 12
-  },
-  title: {
-    color: color.secondaryText
-  },
-  emptyValueTitle: {
-    fontSize: 17
-  },
-  value: {
-    marginTop: 4,
-    fontSize: 18,
-    fontWeight: '900'
-  },
-  valueWithError: {
-    color: color.danger
-  },
-  divider: {
-    marginLeft: -16,
-    marginRight: -16,
-    marginVertical: 8
-  },
   orderRideBtnWrapper: {
     position: 'absolute',
     bottom: 0,
@@ -81,13 +48,5 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
-  },
-  errorDot: {
-    position: 'absolute',
-    marginLeft: -10,
-    width: 6,
-    height: 6,
-    borderRadius: 6,
-    backgroundColor: color.danger
   }
 });

@@ -194,6 +194,19 @@ class PickUpTime extends PureComponent {
     </Button>
   );
 
+  renderControlButtons = () => {
+    const buttons = [
+      { title: 'Now', style: styles.NowButton, styleText: styles.NowButtonText, onClick: this.handleNowSubmit },
+      { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
+    ];
+
+    return (
+      <View style={styles.row}>
+        {buttons.map(this.renderButton)}
+      </View>
+    );
+  }
+
   renderTimeDatePicker() {
     const { date, minDate, isModalOpened } = this.state;
     const { booking: { pickupAddress, timezone } } = this.props;
@@ -204,18 +217,9 @@ class PickUpTime extends PureComponent {
       timezoneDate = convertToZone(moment, pickupAddress.timezone || timezone);
     }
 
-    const buttons = [
-      { title: 'Now', style: styles.NowButton, styleText: styles.NowButtonText, onClick: this.handleNowSubmit },
-      { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
-    ];
-
     return (
-      <Modal
-        isVisible={isModalOpened}
-        onClose={this.closePickerModal}
-      >
+      <Modal isVisible={isModalOpened} onClose={this.closePickerModal}>
         {this.renderSelected()}
-
         {Platform.OS === 'ios' &&
           <View style={styles.TDPickerWrapper}>
             <DatePickerIOS
@@ -226,9 +230,7 @@ class PickUpTime extends PureComponent {
             />
           </View>
         }
-        <View style={styles.row}>
-          {buttons.map(this.renderButton)}
-        </View>
+        {this.renderControlButtons()}
       </Modal>
     );
   }

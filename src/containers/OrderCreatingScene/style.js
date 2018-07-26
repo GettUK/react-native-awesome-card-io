@@ -1,6 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
 import { color } from 'theme';
+
 import { isIphoneX } from 'utils';
+
+const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   wrapper: {
@@ -13,28 +17,6 @@ export default StyleSheet.create({
     padding: 5,
     marginHorizontal: 15
   },
-  bookingBtnView: {
-    alignSelf: 'stretch',
-    backgroundColor: color.primaryBtns,
-    flex: 1,
-    height: 50
-  },
-  bookingBtnDisabled: {
-    backgroundColor: color.bgSearch
-  },
-  bookingBtnText: {
-    color: color.white,
-    fontWeight: 'bold',
-    fontSize: 18
-  },
-  bookingBtnTextDisabled: {
-    color: color.arrowRight
-  },
-  bookingBtnLoading: {
-    alignSelf: 'center',
-    height: 144,
-    margin: 5
-  },
   floatedPointList: {
     position: 'absolute',
     elevation: 2,
@@ -44,6 +26,7 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     },
+    opacity: 0,
     left: 0,
     right: 0,
     marginHorizontal: 20,
@@ -59,10 +42,6 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0
-  },
-  footerOrderInfo: {
-    marginBottom: isIphoneX() ? 25 : 10,
-    marginTop: 5
   },
   footerOrder: {
     paddingBottom: isIphoneX() ? 25 : 10
@@ -114,29 +93,6 @@ export default StyleSheet.create({
   flex: {
     flex: 1
   },
-  informText: {
-    textAlign: 'center',
-    fontSize: 14,
-    lineHeight: 21
-  },
-  popupLocationTitle: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginHorizontal: 0,
-    marginBottom: 0
-  },
-  btnStyle: {
-    backgroundColor: color.white
-  },
-  btnTextStyle: {
-    color: color.secondaryText
-  },
-  popupCards: {
-    fontSize: 17,
-    marginVertical: 8,
-    marginHorizontal: 5,
-    textAlign: 'center'
-  },
   pickUpTimeWrapper: {
     marginHorizontal: 20,
     marginVertical: 5,
@@ -149,23 +105,9 @@ export default StyleSheet.create({
       height: 0
     }
   },
-  serviceSuspendedTitle: {
-    textAlign: 'center',
-    fontWeight: '600'
-  },
-  serviceSuspendedDescription: {
-    fontSize: 17,
-    lineHeight: 20,
-    color: color.primaryText
-  },
-  serviceSuspendedGreeting: {
-    marginBottom: 10
-  },
-  serviceSuspendedSign: {
-    marginVertical: 12,
-    fontSize: 17,
-    fontStyle: 'italic',
-    lineHeight: 20,
-    color: color.secondaryText
+  pickUpMarker: {
+    position: 'absolute',
+    left: (width / 2) - 16,
+    top: ((height - 190) / 2) - 40
   }
 });

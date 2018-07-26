@@ -2,10 +2,19 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, has, first, pickBy, isNull } from 'lodash';
+import { isEmpty, find, first, pickBy, isNull } from 'lodash';
 
-import { PointList, AddressModal, StopPointsModal, Icon, Divider, InformView, Popup, Alert, Button } from 'components';
-import { color } from 'theme';
+import {
+  PointList,
+  AddressModal,
+  StopPointsModal,
+  Icon,
+  Divider,
+  InformView,
+  CardsPopup,
+  Alert,
+  Button
+} from 'components';
 import { FlightModal } from 'containers/FlightSettings';
 
 import {
@@ -14,14 +23,17 @@ import {
   paymentTypeLabels,
   isEqualAddress
 } from 'containers/shared/bookings/data';
+
 import { strings } from 'locales';
-import { throttledAction } from 'utils';
+
+import { color } from 'theme';
+
+import { throttledAction, isEnoughOrderData } from 'utils';
 
 import { LoaderLayer, PickUpTime, AvailableCars } from './components';
 
 import { prepareDefaultValues } from './utils';
-import styles from './style';
-import editStyles from './EditOrderDetailsStyles';
+import styles from './styles';
 
 export default class BookingController extends Component {
   state = {
@@ -51,12 +63,10 @@ export default class BookingController extends Component {
     this.subscriptions.forEach(sub => sub.remove());
   }
 
-  get isPreOrder() {
-    return !this.props.booking.currentOrder.id;
-  }
+  getOrder() {
+    const { booking: { currentOrder, bookingForm } } = this.props;
 
-  getOrder(props = this.props) {
-    return this.isPreOrder ? props.booking.bookingForm : props.booking.currentOrder;
+    return currentOrder.id ? currentOrder : bookingForm;
   }
 
   updateAvailableCarsScroll() {
@@ -78,16 +88,8 @@ export default class BookingController extends Component {
 
   shouldRequestVehicles = () => {
     const { booking: { bookingForm } } = this.props;
-    return has(bookingForm, 'pickupAddress') &&
-      bookingForm.pickupAddress.countryCode &&
-      has(bookingForm, 'destinationAddress') &&
-      bookingForm.destinationAddress.countryCode &&
-      this.isPassengerPresent();
-  };
 
-  isPassengerPresent = () => {
-    const { booking: { bookingForm } } = this.props;
-    return !!bookingForm.passengerId;
+    return isEnoughOrderData(bookingForm);
   };
 
   requestVehicles = () => {
@@ -266,10 +268,8 @@ export default class BookingController extends Component {
 
   shouldOrderRide = () => {
     const { booking: { bookingForm } } = this.props;
-    return (has(bookingForm, 'pickupAddress') && bookingForm.pickupAddress.countryCode) &&
-      (has(bookingForm, 'destinationAddress') && bookingForm.destinationAddress.countryCode) &&
-      (bookingForm.passengerName && bookingForm.passengerPhone) &&
-      (bookingForm.vehicleName && !isNull(bookingForm.vehiclePrice));
+
+    return this.shouldRequestVehicles() && bookingForm.vehicleName && !isNull(bookingForm.vehiclePrice);
   };
 
   createBooking = async ({ flight = '', flightType = '' } = {}) => {
@@ -277,7 +277,6 @@ export default class BookingController extends Component {
 
     if (this.areAddressesUnique()) {
       const order = {
-        sourceType: 'mobile_app',
         ...bookingForm,
         scheduledAt: bookingForm.scheduledType === 'later' ? bookingForm.scheduledAt.format() : null,
         stops: bookingForm.stops
@@ -418,17 +417,17 @@ export default class BookingController extends Component {
   );
 
   renderDetailItem = ({ title, value, icon, onPress, chevron = true, error }, i, arr) => (
-    <View key={title} style={editStyles.listOption}>
+    <View key={title} style={styles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
-        <View style={editStyles.row}>
+        <View style={styles.row}>
           {icon && <Icon name={icon} color={color.pixelLine} />}
-          {!value && error && <View style={editStyles.errorDot} />}
+          {!value && error && <View style={styles.errorDot} />}
 
-          <View style={[editStyles.titleContainer, icon ? editStyles.iconGap : {}]}>
-            <Text style={[editStyles.title, value ? {} : editStyles.emptyValueTitle]}>{title}</Text>
+          <View style={[styles.titleContainer, icon ? styles.iconGap : {}]}>
+            <Text style={[styles.title, value ? {} : styles.emptyValueTitle]}>{title}</Text>
             {!!value &&
               <Text
-                style={[editStyles.value, error ? editStyles.valueWithError : {}]}
+                style={[styles.value, error ? styles.valueWithError : {}]}
                 numberOfLines={1}
               >
                 {value}
@@ -439,12 +438,13 @@ export default class BookingController extends Component {
           {chevron && <Icon name="chevron" color={color.pixelLine} width={10} />}
         </View>
       </TouchableWithoutFeedback>
-      {arr && i + 1 < arr.length && <Divider style={editStyles.divider} />}
+      {arr && i + 1 < arr.length && <Divider style={styles.divider} />}
     </View>
   );
 
   getAdditionalDetailsItems() {
     const order = this.getOrder();
+
     return [
       {
         title: 'Order for',
@@ -467,7 +467,8 @@ export default class BookingController extends Component {
         icon: 'paymentMethod',
         onPress: () => this.goTo('PaymentsOptions')
       },
-      { title: 'Flight number',
+      {
+        title: 'Flight number',
         value: order.flight,
         icon: 'flight',
         onPress: () => this.goTo('FlightSettings')
@@ -532,9 +533,26 @@ export default class BookingController extends Component {
     </Button>
   );
 
+  renderStopPointsModal = () => {
+    const { changeFields } = this.props;
+    const { isStopPointsModalVisible } = this.state;
+
+    return (
+      <StopPointsModal
+        data={this.prepareStopsData()}
+        isVisible={isStopPointsModalVisible}
+        onAddPoint={this.handleAddStop}
+        onEditAddress={this.handleEditPoint}
+        onRowMoved={this.requestVehicles}
+        onChangeAddress={changeFields}
+        onClose={this.hideStopPointsModal}
+      />
+    );
+  }
+
   render(content) {
-    const { booking: { vehicles }, changeFields } = this.props;
-    const { isStopPointsModalVisible, message, flightModal } = this.state;
+    const { booking: { vehicles } } = this.props;
+    const { message, flightModal } = this.state;
 
     return (
       <Fragment>
@@ -548,15 +566,7 @@ export default class BookingController extends Component {
           onChange={this.onChangeAddress}
         />
 
-        <StopPointsModal
-          data={this.prepareStopsData()}
-          isVisible={isStopPointsModalVisible}
-          onAddPoint={this.handleAddStop}
-          onEditAddress={this.handleEditPoint}
-          onRowMoved={this.requestVehicles}
-          onChangeAddress={changeFields}
-          onClose={this.hideStopPointsModal}
-        />
+        {this.renderStopPointsModal()}
 
         <Alert
           ref={(alert) => { this.alert = alert; }}
@@ -565,18 +575,9 @@ export default class BookingController extends Component {
           position="bottom"
         />
 
-        <FlightModal
-          isVisible={flightModal}
-          onClose={this.createBooking}
-          onSubmit={this.setAirport}
-        />
+        <FlightModal isVisible={flightModal} onClose={this.createBooking} onSubmit={this.setAirport} />
 
-        <Popup
-          ref={(popup) => { this.cardsPopup = popup; }}
-          titleStyle={styles.popupLocationTitle}
-          title={strings('popup.cards.title')}
-          content={<Text style={styles.popupCards}>{strings('popup.cards.description')}</Text>}
-        />
+        <CardsPopup innerRef={(popup) => { this.cardsPopup = popup; }} />
       </Fragment>
     );
   }
