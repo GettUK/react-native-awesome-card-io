@@ -12,6 +12,7 @@ import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderSt
 import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
+import { color } from 'theme';
 import { strings } from 'locales';
 
 import { vehiclesData, paymentTypeLabels, receiptPaymentTypes, OTcars } from 'containers/shared/bookings/data';
@@ -76,7 +77,7 @@ const OrderDetails = ({
         >
           <Icon name="receipt" size={18} />
           <Text style={orderPanelStyles.receiptBtnText}>{strings('order.button.receipt')}</Text>
-          <Icon name="chevron" size={16} color="#fff" />
+          <Icon name="chevron" size={16} color={color.white} />
         </Button>
       }
     </View>
@@ -86,14 +87,14 @@ const OrderDetails = ({
     <View key={title} style={orderPanelStyles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={orderPanelStyles.row}>
-          <Icon name={icon} color="#c6c5cd" />
+          <Icon name={icon} color={color.pixelLine} />
 
           <View style={orderPanelStyles.titleContainer}>
             <Text style={orderPanelStyles.title}>{title}</Text>
             <Text style={orderPanelStyles.name}>{value}</Text>
           </View>
 
-          {chevron && <Icon name="chevron" color="#c6c5cd" width={10} />}
+          {chevron && <Icon name="chevron" color={color.pixelLine} width={10} />}
         </View>
       </TouchableWithoutFeedback>
       {i + 1 < arr.length && <Divider style={orderPanelStyles.divider} />}
@@ -213,7 +214,7 @@ const OrderDetails = ({
   const renderCallBtn = () => (isDriverPhoneExist &&
     <TouchableWithoutFeedback onPress={callDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-        <Icon name="call" color="#fff" size={18} />
+        <Icon name="call" color={color.white} size={18} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -221,7 +222,7 @@ const OrderDetails = ({
   const renderRateBtn = () => (
     <TouchableWithoutFeedback onPress={goToRateDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.rateButton]}>
-        <Icon name="starEmpty" color="#fff" size={20} strokeWidth="2.5" />
+        <Icon name="starEmpty" color={color.white} size={20} strokeWidth="2.5" />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -259,7 +260,7 @@ const OrderDetails = ({
         <Icon
           style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
           name="arrowDown"
-          color="#c6c5cd"
+          color={color.pixelLine}
           width={34}
         />
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { color } from 'theme';
 
 import { saveFlight, changeFlight } from 'actions/booking';
 
@@ -19,7 +20,7 @@ const SaveMessageBtn = ({ touched, navigation, saveFlight, changeFlight }) => {
   });
 
   return (
-    <SaveBtn onPress={handleSave} enabled={touched} enabledColor="#fff" style={{ paddingRight: 0 }} />
+    <SaveBtn onPress={handleSave} enabled={touched} enabledColor={color.white} style={{ paddingRight: 0 }} />
   );
 };
 

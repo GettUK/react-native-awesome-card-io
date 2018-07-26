@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ff0000'
+    backgroundColor: color.danger
   },
   messageWrapper: {
     paddingTop: Platform.OS === 'android' ? 14 : 22,

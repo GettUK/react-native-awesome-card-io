@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   flex: {
     flex: 1
   },
   wrapper: {
-    backgroundColor: '#0076bb'
+    backgroundColor: color.iconsSettigs
   },
   content: {
     flexGrow: 1,
@@ -14,19 +15,19 @@ export default StyleSheet.create({
     paddingHorizontal: 15
   },
   driverName: {
-    color: '#fff',
+    color: color.white,
     fontSize: 20
   },
   vehicleDetails: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: formattedColor.white.opacity(0.6),
     fontSize: 15
   },
   label: {
-    color: '#fff',
+    color: color.white,
     fontSize: 15
   },
   subLabel: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: formattedColor.white.opacity(0.6),
     fontSize: 12
   },
   listItem: {

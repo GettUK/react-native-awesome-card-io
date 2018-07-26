@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import { Icon, GradientWrapper } from 'components';
+import { color } from 'theme';
 import styles from './styles';
 
 const backIconSize = 20;
-const backIconColor = '#fff';
+const backIconColor = color.white;
 const backBtnOpacity = 0.6;
 
 export default function ScreenHeader(props) {

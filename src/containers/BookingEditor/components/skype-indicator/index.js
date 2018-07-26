@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { View, Animated, Easing } from 'react-native';
+import { color } from 'theme';
 
 import Indicator from '../indicator';
 import styles from './styles';
@@ -9,7 +10,7 @@ export default class SkypeIndicator extends PureComponent {
   static defaultProps = {
     animationDuration: 1600,
 
-    color: '#fff',
+    color: color.white,
     count: 5,
     size: 40,
 

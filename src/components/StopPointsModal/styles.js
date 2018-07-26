@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -13,7 +14,7 @@ export default StyleSheet.create({
   },
   listItemLabel: {
     fontSize: 16,
-    color: '#000',
+    color: color.primaryText,
     paddingHorizontal: 16,
     flex: 1
   },
@@ -31,7 +32,7 @@ export default StyleSheet.create({
     paddingHorizontal: 16
   },
   addButtonLabel: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontSize: 16,
     paddingLeft: 16
   }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { StyleSheet, Text, TouchableOpacity, Platform, Keyboard } from 'react-native';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 17,
-    color: '#284784'
+    color: color.primaryBtns
   }
 });
 

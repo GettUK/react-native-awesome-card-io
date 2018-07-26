@@ -8,6 +8,7 @@ import { capitalize } from 'lodash';
 import { destroyFavoriteAddress, sendPredefinedAddress } from 'actions/passenger';
 
 import { Icon } from 'components';
+import { color } from 'theme';
 import { nullAddress, throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 
@@ -38,11 +39,11 @@ class AddressesList extends Component {
 
   renderExistPredefinedAddress = (type, data) => (
     <View style={styles.predefinedAddress}>
-      <Icon name={type} size={24} color="#0076bb" />
+      <Icon name={type} size={24} color={color.iconsSettigs} />
       <View style={[styles.flex, styles.addressWrapper, styles.predefinedAddressWrapper]}>
         <Text style={[styles.addressName, styles.predefinedAddressName]}>{capitalize(type)}</Text>
         <Text style={[styles.flex, styles.addressValue]} numberOfLines={1}>{data.line}</Text>
-        <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
+        <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
       </View>
     </View>
   );
@@ -50,7 +51,7 @@ class AddressesList extends Component {
   renderEmptyPredefinedAddress = type => (
     <View style={styles.predefinedAddress}>
       <View style={styles.addAddressIcon}>
-        <Icon name="plus" size={14} color="#284784" />
+        <Icon name="plus" size={14} color={color.primaryBtns} />
       </View>
       <View style={[styles.flex, styles.addressWrapper]}>
         <Text style={styles.addressValue}>Add {type} address</Text>
@@ -107,7 +108,7 @@ class AddressesList extends Component {
       autoClose
       sensitivity={25}
       close={!(this.state.selectedID === data.id)}
-      backgroundColor="#fff"
+      backgroundColor={color.white}
       buttonWidth={100}
       onOpen={() => this.changeSelectedID(data.id)}
       right={[
@@ -117,7 +118,7 @@ class AddressesList extends Component {
               <Text style={settingsStyles.buttonText}>
                 {strings('addresses.button.delete')}
               </Text>
-              <Icon style={styles.buttonIcon} name="close" size={17} color="#fff" />
+              <Icon style={styles.buttonIcon} name="close" size={17} color={color.white} />
             </View>
           ),
           type: 'delete',
@@ -140,7 +141,7 @@ class AddressesList extends Component {
         <Text style={styles.addressName}>{item.name}</Text>
         <Text style={styles.addressValue}>{item.address.line}</Text>
       </View>
-      <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
+      <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
     </TouchableOpacity>
   );
 

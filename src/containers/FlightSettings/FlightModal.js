@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
+import { formattedColor } from 'theme';
 
 import { Button } from 'components';
 
@@ -16,7 +17,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
   <Modal
     isVisible={isVisible}
     style={modalStyles.container}
-    backdropColor="rgba(40, 71, 132, 0.6)"
+    backdropColor={formattedColor.primaryBtns.opacity(0.6)}
   >
     <View style={modalStyles.content}>
       <Text style={modalStyles.header}>{strings('flight.text.enterTheFlightNumber')}</Text>

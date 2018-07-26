@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { color } from 'theme';
 
 import { saveMessageToDriver, changeMessageToDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
@@ -23,7 +24,7 @@ const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver, changeMessag
       title={strings('header.button.done')}
       onPress={handleSave}
       enabled={touched}
-      enabledColor="#fff"
+      enabledColor={color.color}
       style={{ paddingRight: 0 }}
     />
   );

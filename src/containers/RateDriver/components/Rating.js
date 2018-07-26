@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { color } from 'theme';
 import { Icon } from 'components/index';
 
 const styles = StyleSheet.create({
@@ -26,7 +27,7 @@ const Rating = ({ value, style, onChange, ratingCount, disabled }) => (
         >
           <Icon
             name={isActive ? 'star' : 'starEmpty'}
-            color={isActive ? '#f6b530' : 'rgba(231, 231, 231, 0.6)'}
+            color={isActive ? color.warning : color.pixelLine}
             size={30}
           />
         </TouchableOpacity>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { capitalize } from 'lodash';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { color } from 'theme';
 
 import { changePaymentFields } from 'actions/passenger';
 
@@ -38,7 +39,7 @@ class PaymentCardTypes extends Component {
             <View style={[styles.flex, styles.viewItem]}>
               <Text style={styles.paymentCardText}>{capitalize(item.name)}</Text>
             </View>
-            {isActive && <Icon style={styles.checkIcon} name="check" width={12} height={9} color="#007AFF" />}
+            {isActive && <Icon style={styles.checkIcon} name="check" width={12} height={9} color={color.bgStatuses} />}
           </TouchableOpacity>
         </View>
         <Divider />

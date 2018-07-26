@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import { ScreenHeader, BackBtn } from 'components';
+import { color } from 'theme';
 
 import {
   Map,
@@ -33,7 +34,7 @@ import { strings } from 'locales';
 import SettingsNavigator from './navigatorSettings';
 
 const headerStyle = {
-  backgroundColor: '#fff',
+  backgroundColor: color.white,
   paddingTop: Platform.OS === 'android' ? 20 : 0,
   height: Platform.OS === 'android' ? 80 : 50
 };
@@ -46,9 +47,9 @@ const routeConfiguration = {
   MapView: {
     screen: Map,
     navigationOptions: () => ({
-      headerTintColor: '#000',
+      headerTintColor: color.primaryText,
       headerStyle: {
-        backgroundColor: '#fff'
+        backgroundColor: color.white
       },
       header: null
     })
@@ -111,7 +112,7 @@ const routeConfiguration = {
             <BackBtn
               navigation={navigation}
               touchedPath="booking.passengerIdTouched"
-              color="#fff"
+              color={color.white}
               containerStyle={{ paddingLeft: 0 }}
             />
           }
@@ -131,7 +132,7 @@ const routeConfiguration = {
             <BackBtn
               navigation={navigation}
               touchedPath="booking.flightTouched"
-              color="#fff"
+              color={color.white}
               containerStyle={{ paddingLeft: 0 }}
             />
           }
@@ -151,7 +152,7 @@ const routeConfiguration = {
             <BackBtn
               navigation={navigation}
               touchedPath="booking.travelReasonIdTouched"
-              color="#fff"
+              color={color.white}
               containerStyle={{ paddingLeft: 0 }}
             />
           }
@@ -171,7 +172,7 @@ const routeConfiguration = {
             <BackBtn
               navigation={navigation}
               touchedPath="booking.paymentMethodTouched"
-              color="#fff"
+              color={color.white}
               containerStyle={{ paddingLeft: 0 }}
             />
           }

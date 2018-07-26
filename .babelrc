@@ -17,6 +17,7 @@
           "navigators": "./src/navigators",
           "reducers": "./src/reducers",
           "store": "./src/store",
+          "theme": "./src/theme",
           "utils": "./src/utils"
         }
       }

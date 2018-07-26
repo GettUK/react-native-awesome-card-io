@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Animated, View, Text, TouchableWithoutFeedback, StatusBar, Platform, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 
@@ -81,7 +82,7 @@ class Alert extends PureComponent {
 
           <TouchableWithoutFeedback onPress={this.hide}>
             <View style={styles.icon}>
-              <Icon name="close" width={30} height={30} color="#d2dadc" />
+              <Icon name="close" width={30} height={30} color={color.arrowRight} />
             </View>
           </TouchableWithoutFeedback>
         </View>

@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import PropTypes from 'prop-types';
+import { color } from 'theme';
 import StylePropType from 'react-style-proptype';
 
 import { Icon } from 'components';
@@ -24,13 +25,15 @@ const SettingsListItem = (props) => {
     onSwitch
   } = props;
 
-  const leftIcon = leftIconName ? <Icon style={styles.icon} name={leftIconName} size={24} color="#0076bb" /> : null;
+  const leftIcon = leftIconName
+    ? <Icon style={styles.icon} name={leftIconName} size={24} color={color.iconsSettigs} />
+    : null;
 
   return (
     <ListItem
       onPress={onPress}
 
-      leftIcon={isLoading ? <ActivityIndicator color="#fd6c5a" /> : leftIcon}
+      leftIcon={isLoading ? <ActivityIndicator color={color.danger} /> : leftIcon}
       avatar={(avatar || !!titleAvatar) && (
         <Avatar
           rounded
@@ -43,7 +46,7 @@ const SettingsListItem = (props) => {
 
       title={title}
       titleNumberOfLines={2}
-      chevronColor="#C7C7CC"
+      chevronColor={color.arrowRight}
 
       rightTitle={rightTitle || null}
 
@@ -51,7 +54,7 @@ const SettingsListItem = (props) => {
       hideChevron={!showRightIcon || switchButton}
       switched={switched}
       onSwitch={onSwitch}
-      switchOnTintColor="#4CD964"
+      switchOnTintColor={color.success}
 
       rightTitleStyle={styles.listItemRightTitle}
       titleStyle={[

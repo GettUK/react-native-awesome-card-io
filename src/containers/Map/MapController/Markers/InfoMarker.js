@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 import assets from 'assets';
@@ -23,7 +24,7 @@ class InfoMarker extends React.Component {
       >
         <View style={styles.infoMarkerContainer}>
           <View style={styles.infoMarker}>
-            <Icon style={styles.infoMarkerIcon} name={icon} size={18} color="#d8d8d8" />
+            <Icon style={styles.infoMarkerIcon} name={icon} size={18} color={color.pixelLine} />
             <View>
               <Text numberOfLines={1} style={styles.infoMarkerTitle}>{title}</Text>
               <Text numberOfLines={1} style={styles.infoMarkerValue}>{value}</Text>

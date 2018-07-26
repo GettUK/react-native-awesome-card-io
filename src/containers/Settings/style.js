@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,12 +9,12 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   listItemRightTitle: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 17
   },
   listItemTitle: {
     marginLeft: 5,
-    color: '#000',
+    color: color.primaryText,
     fontSize: 17
   },
   icon: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   },
   listLabelCentered: {
     textAlign: 'center',
-    color: '#fd6c5a',
+    color: color.danger,
     fontWeight: '600'
   },
   avatar: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   listItemWrapper: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   divider: {
     marginLeft: 21
@@ -65,10 +66,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#bcbbc1'
+    borderBottomColor: color.pixelLine
   },
   buttonText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 14
   },
   appVersion: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   appVersionText: {
     fontSize: 14,
-    color: '#7f7f7f'
+    color: color.secondaryText
   }
 });
 

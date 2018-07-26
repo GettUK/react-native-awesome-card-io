@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   flex: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingTop: 10
   },
   paymentView: {
@@ -24,25 +25,25 @@ export default StyleSheet.create({
   deactivateBtn: {
     marginTop: 30,
     paddingVertical: 18,
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   deactivateBtnLabel: {
     textAlign: 'center',
-    color: '#FF2600',
+    color: color.danger,
     fontSize: 17
   },
   block: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#bcbbc1'
+    borderBottomColor: color.pixelLine
   },
   paymentCardLabel: {
     fontSize: 14,
-    color: '#8e8e93',
+    color: color.secondaryText,
     marginVertical: 3
   },
   paymentCardText: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 17
   },
   chevronIcon: {
@@ -53,12 +54,12 @@ export default StyleSheet.create({
     paddingLeft: 20
   },
   paymentText: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 17,
     marginHorizontal: 3
   },
   input: {
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 17,
     paddingVertical: 17
@@ -86,7 +87,7 @@ export default StyleSheet.create({
     paddingLeft: 0
   },
   inputLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     marginTop: 5
   },
   helpIcon: {
@@ -105,12 +106,12 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   infoLabel: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 22,
     marginBottom: 10
   },
   infoText: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 17,
     flex: 1
   },
@@ -123,10 +124,10 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   emptyPaymentsLabel: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     lineHeight: 24,
     fontSize: 15,
     textAlign: 'center'

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 const styles = StyleSheet.create({
   flex: {
@@ -6,11 +7,11 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
 
   searchContainer: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: color.bgSettings,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 15,
     minHeight: 36,
-    backgroundColor: 'rgba(142, 142, 147, 0.12)',
+    backgroundColor: formattedColor.secondaryText.opacity(0.12),
     paddingLeft: 30,
     paddingRight: 6,
     fontSize: 17
@@ -33,12 +34,12 @@ const styles = StyleSheet.create({
 
   separator: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#bcbbc1',
+    borderTopColor: color.pixelLine,
     marginLeft: 15
   },
 
   valueName: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 17,
     marginRight: 33
   },

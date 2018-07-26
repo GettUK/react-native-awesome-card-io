@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { color } from 'theme';
 
 const { height } = Dimensions.get('window');
 
@@ -15,10 +16,10 @@ export const modalStyles = StyleSheet.create({
   content: {
     height: height * 0.75,
     borderRadius: 16,
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   header: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontSize: 22,
     margin: 16
   },
@@ -41,18 +42,18 @@ export const modalStyles = StyleSheet.create({
   submitButton: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#284784'
+    backgroundColor: color.primaryBtns
   },
   disabledSubmitButton: {
     opacity: 0.6
   },
   buttonLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     fontSize: 14,
     fontWeight: '600'
   },
   buttonLabelSubmit: {
-    color: '#fff',
+    color: color.white,
     fontSize: 14,
     fontWeight: '600'
   }
@@ -63,11 +64,11 @@ export default StyleSheet.create({
     flex: 1
   },
   bg: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   input: {
     fontSize: 16,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   inputContainer: {
@@ -76,7 +77,7 @@ export default StyleSheet.create({
     marginBottom: 16
   },
   inputLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     marginTop: 5
   },
 
@@ -86,7 +87,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     height: 44,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#7f7f7f',
+    borderColor: color.secondaryText,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
@@ -100,22 +101,22 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   toggleButtonActive: {
-    backgroundColor: '#2a4982'
+    backgroundColor: color.primaryBtns
   },
   toggleIcon: {
     marginRight: 16
   },
   toggleLabel: {
-    color: '#2a4982'
+    color: color.primaryBtns
   },
   toggleLabelActive: {
-    color: '#fff'
+    color: color.white
   },
   resultsWrapper: {
     marginHorizontal: 16,
     padding: 16,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#e6e6e6',
+    borderColor: color.pixelLine,
     borderRadius: 10
   },
   results: {
@@ -128,19 +129,19 @@ export default StyleSheet.create({
     width: '30%'
   },
   resultLabel: {
-    color: '#929297',
+    color: color.secondaryText,
     width: '60%'
   },
   verifyButton: {
     width: 80,
     height: 34,
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center'
   },
   verifyLabel: {
-    color: '#fff',
+    color: color.white,
     fontSize: 16,
     fontWeight: '600'
   },

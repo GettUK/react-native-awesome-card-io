@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { curry } from 'lodash';
 import { View, BackHandler, TouchableWithoutFeedback, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
+import { color } from 'theme';
 
 import { touchField, setTempAddress, changeTempAddressField, changeTempAddress } from 'actions/passenger';
 import { Input, AddressModal, DismissKeyboardView } from 'components';
@@ -69,7 +70,7 @@ class AddressEditor extends Component {
       inputStyle={[styles.input, props.last ? styles.inputLast : {}]}
       style={[styles.inputContainer, props.last ? styles.lastItem : {}]}
       allowClearStyle={styles.allowClearStyle}
-      clearIconColor="#d2d0dc"
+      clearIconColor={color.arrowRight}
       clearIconStyle={styles.clearIcon}
       {...props}
     />

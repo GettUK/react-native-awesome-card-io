@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
   bg: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   item: {
     flexDirection: 'row',
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     paddingRight: 30
   },
   reasonName: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 17,
     fontWeight: '500',
     marginRight: 33
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#bcbbc1',
+    borderTopColor: color.pixelLine,
     marginLeft: 15
   }
 });

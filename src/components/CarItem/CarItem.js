@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 import { isNull, capitalize } from 'lodash';
 import { Icon } from 'components';
+import { color } from 'theme';
 import assets from 'assets';
 
 import { formatPrice } from 'utils';
@@ -33,7 +34,7 @@ const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabl
       </View>
       {eta && !isETADisabled && (
         <View style={styles.middle}>
-          <Icon style={styles.icon} name="clock" color="rgb(216,216,216)" width={16} height={16}/>
+          <Icon style={styles.icon} name="clock" color={color.pixelLine} width={16} height={16}/>
           <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum} min`}</Text>
         </View>)
       }

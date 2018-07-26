@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { curry } from 'lodash';
+import { color } from 'theme';
 import { View, KeyboardAvoidingView, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 
 import { changePaymentField, changePaymentFields, resetPaymentFields } from 'actions/passenger';
@@ -92,9 +93,9 @@ class PaymentCardEditor extends Component {
       style={styles.inputContainer}
       errorStyle={styles.error}
       allowClear
-      helpIconColor="#979797"
+      helpIconColor={color.secondaryText}
       helpIconStyle={styles.helpIcon}
-      clearIconColor="#d2d0dc"
+      clearIconColor={color.arrowRight}
       clearIconStyle={styles.clearIcon}
       {...props}
     />
@@ -111,7 +112,7 @@ class PaymentCardEditor extends Component {
           <Text style={styles.paymentCardLabel}>{getValue(label)}</Text>
           <Text style={styles.paymentCardText}>{getValue(text)}</Text>
         </View>
-        <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
+        <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
       </TouchableOpacity>
       <Divider left={0} />
     </View>

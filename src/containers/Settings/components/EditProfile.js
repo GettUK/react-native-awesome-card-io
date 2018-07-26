@@ -5,6 +5,7 @@ import { View, TouchableOpacity, BackHandler } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { Input, Icon, KeyboardHide } from 'components';
 import ImagePicker from 'react-native-image-crop-picker';
+import { color } from 'theme';
 
 import { strings } from 'locales';
 
@@ -27,9 +28,9 @@ const avatarPickerConfig = {
   showCropGuidelines: false,
   hideBottomControls: true,
   cropperCircleOverlay: true,
-  cropperActiveWidgetColor: '#284784',
-  cropperStatusBarColor: '#284784',
-  cropperToolbarColor: '#284784'
+  cropperActiveWidgetColor: color.primaryBtns,
+  cropperStatusBarColor: color.primaryBtns,
+  cropperToolbarColor: color.primaryBtns
 };
 
 class EditProfile extends Component {
@@ -91,7 +92,7 @@ class EditProfile extends Component {
         onBlur={() => onChangeText((this.props[item] || '').trim())}
         inputStyle={styles.input}
         allowClearStyle={styles.allowClearStyle}
-        clearIconColor="#d2d0dc"
+        clearIconColor={color.arrowRight}
         clearIconStyle={styles.clearIcon}
         maxLength={30}
       />
@@ -119,7 +120,7 @@ class EditProfile extends Component {
               containerStyle={styles.avatar}
             />
             <View style={styles.avatarBackDrop} />
-            <Icon style={styles.cameraIcon} size={32} color="#fff" name="camera" />
+            <Icon style={styles.cameraIcon} size={32} color={color.white} name="camera" />
           </TouchableOpacity>
         </KeyboardHide>
 

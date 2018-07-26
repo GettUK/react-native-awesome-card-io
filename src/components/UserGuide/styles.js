@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -9,7 +10,7 @@ export default StyleSheet.create({
     flex: 1
   },
   backdrop: {
-    backgroundColor: 'rgba(40, 71, 132, 0.7)',
+    backgroundColor: formattedColor.primaryBtns.opacity(0.7),
     zIndex: 0,
     overflow: 'visible'
   },
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 10,
     borderRadius: 20,
-    borderColor: 'rgba(40, 71, 132, 0.7)',
+    borderColor: formattedColor.primaryBtns.opacity(0.7),
     overflow: 'hidden'
   },
   skipBtn: {
@@ -40,7 +41,7 @@ export default StyleSheet.create({
     paddingVertical: 20
   },
   skipBtnText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 18
   },
   pointer: {
@@ -48,7 +49,7 @@ export default StyleSheet.create({
   },
   hintText: {
     fontSize: 20,
-    color: '#fff'
+    color: color.white
   },
   step1: {
     zIndex: 1,

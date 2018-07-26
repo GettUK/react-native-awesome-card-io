@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, ViewPropTypes } from 'react-native';
+import { color } from 'theme';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -8,7 +9,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   }
 });
 
@@ -39,7 +40,7 @@ const Button = ({ styleContent, children, size, raised, disabled, disabledStyle,
     computedStyles = {
       ...computedStyles,
       elevation: 2,
-      shadowColor: '#000',
+      shadowColor: color.primaryText,
       shadowOpacity: 0.2,
       shadowRadius: 5,
       shadowOffset: {

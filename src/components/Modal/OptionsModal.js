@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 
 import { DismissKeyboardView, Icon } from 'components';
+import { color } from 'theme';
 
 import { strings } from 'locales';
 
@@ -22,7 +23,7 @@ export default function OptionsModal({
           <View style={[styles.row, (index + 1) === options.length ? styles.rowLast : {}]}>
             <Icon name={option.icon} size={26} />
             <Text style={[styles.label, styles.flex]}>{option.label}</Text>
-            <Icon name="chevron" width={9} height={13} color="#c7c7cc" />
+            <Icon name="chevron" width={9} height={13} color={color.arrowRight} />
           </View>
         </TouchableWithoutFeedback>
       ))}

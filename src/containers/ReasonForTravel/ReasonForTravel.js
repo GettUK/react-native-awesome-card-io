@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'components';
+import { color } from 'theme';
 import { changeTravelReasonId } from 'actions/booking';
 import styles from './styles';
 
@@ -28,7 +29,7 @@ class ReasonForTravel extends PureComponent {
       >
         <Text style={textStyles}>{item.name}</Text>
         {isSelected &&
-          <Icon name="check" size={13} color="#007aff" />
+          <Icon name="check" size={13} color={color.bgStatuses} />
         }
       </TouchableOpacity>
     );

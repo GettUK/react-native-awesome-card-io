@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   flex: {
@@ -6,13 +7,13 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingTop: 10
   },
 
   input: {
     fontSize: 17,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
 
@@ -27,17 +28,17 @@ const styles = StyleSheet.create({
   },
 
   errorBorder: {
-    borderBottomColor: 'red'
+    borderBottomColor: color.danger
   },
 
   inputLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     marginTop: 5
   },
 
   dropdownItem: {
     marginLeft: 16,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
     alignContent: 'center',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
 
   dropdownItemValue: {
     fontSize: 17,
-    color: '#8e8e93',
+    color: color.secondaryText,
     textAlign: 'right',
     marginRight: 10
   },
@@ -68,18 +69,18 @@ const styles = StyleSheet.create({
   },
 
   costCentreTitle: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontSize: 14
   },
 
   error: {
     position: 'absolute',
-    color: 'red',
+    color: color.danger,
     bottom: 0,
     left: 15
   },
   toggleLabel: {
-    color: '#284784'
+    color: color.primaryBtns
   }
 });
 

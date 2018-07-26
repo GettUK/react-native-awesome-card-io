@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon, SearchList } from 'components';
 import { changeReference } from 'actions/booking';
 import { debounce } from 'lodash';
+import { color } from 'theme';
 import { get } from 'utils';
 import styles from './styles';
 
@@ -50,7 +51,7 @@ class ReferenceValueSelector extends PureComponent {
       >
         <Text style={textStyles}>{item.value}</Text>
         {isSelected &&
-          <Icon name="check" size={13} color="#007aff" />
+          <Icon name="check" size={13} color={color.bgStatuses} />
         }
       </TouchableOpacity>
     );

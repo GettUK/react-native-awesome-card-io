@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
@@ -15,20 +15,20 @@ export default StyleSheet.create({
   },
   bookingBtnView: {
     alignSelf: 'stretch',
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     flex: 1,
     height: 50
   },
   bookingBtnDisabled: {
-    backgroundColor: '#e4e4e4'
+    backgroundColor: color.bgSearch
   },
   bookingBtnText: {
-    color: '#fff',
+    color: color.white,
     fontWeight: 'bold',
     fontSize: 18
   },
   bookingBtnTextDisabled: {
-    color: '#acabab'
+    color: color.arrowRight
   },
   bookingBtnLoading: {
     alignSelf: 'center',
@@ -38,7 +38,7 @@ export default StyleSheet.create({
   floatedPointList: {
     position: 'absolute',
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -69,9 +69,9 @@ export default StyleSheet.create({
   },
   selectAddress: {
     elevation: 2,
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingTop: 11,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -126,10 +126,10 @@ export default StyleSheet.create({
     marginBottom: 0
   },
   btnStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   btnTextStyle: {
-    color: '#7f7f7f'
+    color: color.secondaryText
   },
   popupCards: {
     fontSize: 17,
@@ -142,7 +142,7 @@ export default StyleSheet.create({
     marginVertical: 5,
     borderRadius: 10,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -156,7 +156,7 @@ export default StyleSheet.create({
   serviceSuspendedDescription: {
     fontSize: 17,
     lineHeight: 20,
-    color: '#000'
+    color: color.primaryText
   },
   serviceSuspendedGreeting: {
     marginBottom: 10
@@ -166,6 +166,6 @@ export default StyleSheet.create({
     fontSize: 17,
     fontStyle: 'italic',
     lineHeight: 20,
-    color: '#8e8e93'
+    color: color.secondaryText
   }
 });

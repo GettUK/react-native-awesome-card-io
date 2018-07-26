@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   rating: {
@@ -9,12 +10,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f6b530'
+    backgroundColor: color.warning
   },
   ratingLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#fff',
+    color: color.white,
     paddingRight: 3
   }
 });

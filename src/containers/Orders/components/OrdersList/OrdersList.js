@@ -3,6 +3,7 @@ import { View, Text, Image, FlatList, TouchableWithoutFeedback, Platform, Dimens
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import findKey from 'lodash/findKey';
+import { color } from 'theme';
 
 import { getOrders, clearOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
@@ -145,7 +146,7 @@ class OrdersList extends PureComponent {
                 <View style={styles.iconContainer}>
                   <Icon
                     name="pickUpField"
-                    color="#74818f"
+                    color={color.secondaryText}
                     size={12}
                     style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
                   />

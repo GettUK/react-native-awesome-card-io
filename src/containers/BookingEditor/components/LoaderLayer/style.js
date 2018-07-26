@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { formattedColor } from 'theme';
 
 export default StyleSheet.create({
   modalContainer: {
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     backgroundColor: 'transparent'
   },
   activityIndicatorWrapper: {
-    backgroundColor: 'rgba(40,71,132,0.6)',
+    backgroundColor: formattedColor.primaryBtns.opacity(0.6),
     height: 120,
     width: 120,
     borderRadius: 10,

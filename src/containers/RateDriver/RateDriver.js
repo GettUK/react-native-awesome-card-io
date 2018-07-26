@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { color } from 'theme';
 import { some } from 'lodash';
 import { changeDriverRating, changeDriverRatingReasons } from 'actions/booking';
 import { Divider, RatingLabel, GradientWrapper, Badge, Header, BackBtn } from 'components';
@@ -51,7 +52,7 @@ class RateDriver extends PureComponent {
           navigation={navigation}
           leftButton={
             <BackBtn
-              color="#fff"
+              color={color.white}
               navigation={navigation}
               touchedPath="booking.currentOrder.tempDriverRating"
             />

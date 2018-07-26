@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, BackHandler } from 'react-native';
+import { color } from 'theme';
 import { Input } from 'components';
 import { upperFirst } from 'lodash';
 
@@ -77,7 +78,7 @@ class SingleInputEditor extends Component {
           labelStyle={styles.labelStyle}
           onChangeText={changeProfileFieldValue.bind(null, key)}
           inputStyle={styles.input}
-          clearIconColor="#d2d0dc"
+          clearIconColor={color.arrowRight}
           clearIconStyle={styles.clearIcon}
           {...additionalProps}
         />

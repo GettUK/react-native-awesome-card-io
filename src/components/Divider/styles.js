@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -6,7 +7,7 @@ export default StyleSheet.create({
     marginVertical: 0,
     marginRight: 0,
     padding: 0,
-    borderBottomColor: '#d8d8d8',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   }
 });

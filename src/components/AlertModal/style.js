@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -18,9 +19,9 @@ export default StyleSheet.create({
     alignSelf: 'center'
   },
   btnCancelStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   btnTextStyle: {
-    color: '#7F7F7F'
+    color: color.secondaryText
   }
 });

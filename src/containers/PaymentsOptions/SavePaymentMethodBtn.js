@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { color } from 'theme';
 
 import { changeFields } from 'actions/booking';
 import { SaveBtn } from 'components';
@@ -22,7 +23,7 @@ const SavePaymentMethodBtn = ({ touched, navigation, changeFields, paymentMethod
       title={strings('header.button.done')}
       onPress={handleSave}
       enabled={touched}
-      enabledColor="#fff"
+      enabledColor={color.white}
       style={{ paddingRight: 0 }}
     />
   );

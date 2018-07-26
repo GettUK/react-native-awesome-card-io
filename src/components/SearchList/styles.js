@@ -1,20 +1,21 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   flex: {
     flex: 1
   },
   bg: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     width: '100%'
   },
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   searchContainer: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: color.bgSearch,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -22,7 +23,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     margin: 15,
     minHeight: 36,
-    backgroundColor: 'rgba(142, 142, 147, 0.12)',
+    backgroundColor: formattedColor.secondaryText.opacity(0.12),
     paddingLeft: 30,
     paddingRight: 6,
     fontSize: 17

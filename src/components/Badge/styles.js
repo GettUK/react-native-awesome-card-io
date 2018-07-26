@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   badgeContainer: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.6)',
+    borderColor: formattedColor.white.opacity(0.6),
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 14,
@@ -12,13 +13,13 @@ export default StyleSheet.create({
     marginVertical: 5
   },
   activeContainer: {
-    backgroundColor: '#fff'
+    backgroundColor: color.color
   },
   activeText: {
-    color: '#284784'
+    color: color.primaryBtns
   },
   badgeText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 14,
     lineHeight: 24
   }

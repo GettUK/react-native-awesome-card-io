@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { noop } from 'lodash';
 import { View, ScrollView, Text, TouchableOpacity, FlatList } from 'react-native';
+import { color } from 'theme';
 import Swipeout from 'react-native-swipeout';
 
 import { makeDefaultPayment, deactivatePayment } from 'actions/passenger';
@@ -55,7 +56,7 @@ class PaymentCardsList extends Component {
       autoClose
       sensitivity={25}
       close={!(this.state.selectedID === item.id)}
-      backgroundColor="#fff"
+      backgroundColor={color.white}
       buttonWidth={100}
       onOpen={() => this.changeSelectedID(item.id)}
       onClose={noop}
@@ -92,7 +93,7 @@ class PaymentCardsList extends Component {
               <Text style={styles.paymentText}>****</Text>
               <Text style={styles.paymentText}>{getValue(item.last4)}</Text>
             </View>
-            <Icon style={styles.chevronIcon} name="chevron" size={16} color="#c7c7cc" />
+            <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
           </TouchableOpacity>
         </View>
         <Divider />

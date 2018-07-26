@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 const styles = StyleSheet.create({
   btnContainer: {
@@ -7,7 +8,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
     borderWidth: 2,
     borderRadius: 26,
-    borderColor: 'rgba(255, 255, 255, 0.5)'
+    borderColor: formattedColor.white.opacity(0.5)
   },
 
   btn: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
   },
 
   btnText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold'

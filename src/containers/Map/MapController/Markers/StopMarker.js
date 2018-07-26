@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 
@@ -11,7 +12,7 @@ class StopMarker extends React.Component {
 
     return (
       <Marker coordinate={coordinate} id="stopMarker">
-        <Icon name="pickUpField" color="#74818f" size={12} />
+        <Icon name="pickUpField" color={color.secondaryText} size={12} />
       </Marker>
     );
   }

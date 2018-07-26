@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export const modalStyles = StyleSheet.create({
   modal: {
@@ -6,7 +7,7 @@ export const modalStyles = StyleSheet.create({
     margin: 0
   },
   content: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   header: {
     flexDirection: 'row',
@@ -18,7 +19,7 @@ export const modalStyles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 13,
     fontSize: 14,
-    color: '#284784'
+    color: color.primaryBtns
   },
   separator: {
     height: 16
@@ -48,7 +49,7 @@ export const optionsModalStyle = StyleSheet.create({
     width: '100%',
     height: 56,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#d8d8d8',
+    borderBottomColor: color.pixelLine,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -61,7 +62,7 @@ export const optionsModalStyle = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 17,
     fontWeight: '600',
-    color: '#284784'
+    color: color.primaryBtns
   },
   cancel: {
     marginTop: 8,

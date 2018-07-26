@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ViewPropTypes } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { color } from 'theme';
 
 const GradientWrapper = ({ children, ...rest }) => (
   <LinearGradient {...rest}>
@@ -17,7 +18,7 @@ GradientWrapper.propTypes = {
 };
 
 GradientWrapper.defaultProps = {
-  colors: ['#0076bb', '#284784'],
+  colors: [color.iconsSettigs, color.primaryBtns],
   start: { x: 0, y: 1 },
   end: { x: 1, y: 1 }
 };

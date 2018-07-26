@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   flex: {
     flex: 1
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingTop: 10
   },
   containerGrey: {
@@ -13,7 +14,7 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     marginBottom: 50,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   predefinedAddress: {
@@ -24,7 +25,7 @@ export default StyleSheet.create({
   addressWrapper: {
     marginLeft: 15,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     paddingVertical: 15,
     flexDirection: 'row',
     alignItems: 'center'
@@ -47,19 +48,19 @@ export default StyleSheet.create({
   addAddressIcon: {
     width: 30,
     height: 30,
-    backgroundColor: '#e7e7e7',
+    backgroundColor: color.pixelLine,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
     overflow: 'hidden'
   },
   addressValue: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 17
   },
   input: {
     fontSize: 17,
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   inputLast: {
@@ -78,19 +79,19 @@ export default StyleSheet.create({
     marginBottom: 0
   },
   inputLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     marginTop: 5
   },
   clearIcon: {
     marginRight: 20
   },
   submitBtn: {
-    backgroundColor: '#244c8a',
+    backgroundColor: color.primaryBtns,
     borderRadius: 0,
     alignSelf: 'stretch'
   },
   submitBtnText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 18,
     fontWeight: 'bold'
   },
@@ -104,14 +105,14 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
     marginBottom: 16,
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   deleteLabel: {
     fontSize: 17,
-    color: '#ff2600'
+    color: color.danger
   },
   tip: {
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 15,
     flex: 1,
     textAlign: 'center',
