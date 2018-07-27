@@ -24,7 +24,11 @@ const Rating = ({ value, style, onChange, ratingCount, disabled }) => (
           key={i}
           style={styles.starHolder}
         >
-          <Icon name={isActive ? 'star' : 'starEmpty'} color={isActive ? '#f6b530' : '#e7e7e7'} size={30} />
+          <Icon
+            name={isActive ? 'star' : 'starEmpty'}
+            color={isActive ? '#f6b530' : 'rgba(231, 231, 231, 0.6)'}
+            size={30}
+          />
         </TouchableOpacity>
       );
     })}
