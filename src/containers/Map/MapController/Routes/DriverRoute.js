@@ -1,5 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, PureComponent } from 'react';
+import { Animated } from 'react-native';
 import PropTypes from 'prop-types';
+import { isEqual, takeRight } from 'lodash';
+import Map, { Polyline } from 'react-native-maps';
+import { prepareCoordinates, areCoordinatesSimilar } from 'utils';
 
 import {
   DriverMarker,
@@ -10,23 +14,70 @@ import {
 } from '../Markers';
 
 import Route from './Route';
-import { getRoutes } from './utils';
+import { getPathCoordinates, getRoutes } from './utils';
 
-const Destinations = {
+const destinations = {
   source: SourceActiveMarker,
   eta: ETAMarker,
   destination: DestinationMarker
 };
 
-class DriverRoute extends React.Component {
-  render() {
-    const { source, destination, routeHidden, destinationType, stops } = this.props;
+const animationDuration = 10000;
 
-    const Destination = Destinations[destinationType];
+class DriverRoute extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.driverCoordinate = new Map.AnimatedRegion(prepareCoordinates(props.source));
+    this.state = {
+      source: props.source
+    };
+  }
+
+  componentDidUpdate() {
+    const { source } = this.state;
+    const { source: sourceProps } = this.props;
+    if (!isEqual(sourceProps, source) && !areCoordinatesSimilar(sourceProps, source) && !this.animationStarted) {
+      this.animationStarted = true;
+      getPathCoordinates(source, sourceProps, 'driving')
+        .then(res => this.animateDriverToRoute(res))
+        .then(() => this.setState({ source: sourceProps }));
+    }
+  }
+
+  componentWillUnmount() {
+    this.stopAnimation();
+  }
+
+  stopAnimation = () => {
+    clearInterval(this.pathAnimationInterval);
+    this.animationStarted = false;
+  };
+
+  animateDriverToRoute = (coords) => {
+    clearInterval(this.pathAnimationInterval);
+    const animations = coords.map(c =>
+      this.driverCoordinate.timing({ ...prepareCoordinates(c), duration: animationDuration / coords.length }));
+    Animated.sequence(animations).start();
+
+    let index = coords.length;
+
+    this.pathAnimationInterval = setInterval(() => {
+      this.route.setNativeProps({ coordinates: takeRight(coords, index) });
+      if (index === 0) this.stopAnimation();
+      index -= 1;
+    }, animationDuration / coords.length);
+  };
+
+  render() {
+    const { destination, routeHidden, destinationType, stops } = this.props;
+    const { source } = this.state;
+
+    const Destination = destinations[destinationType];
 
     return (
       <Fragment>
-        <DriverMarker coordinate={source} />
+        <DriverMarker coordinate={this.driverCoordinate} />
+        <Polyline coordinates={[]} ref={(el) => { this.route = el; } } strokeWidth={3} strokeColor="#2b4983" />
         <Destination coordinate={destination} value={destination.value} />
         {stops.map(stop => <StopMarker coordinate={stop} key={stop} />)}
         {!routeHidden &&

@@ -100,3 +100,6 @@ export const prepareCoordinates = address => (
     ? { latitude: address.lat, longitude: address.lng }
     : address
 );
+
+export const areCoordinatesSimilar = (first, second, precision = 0.0001) => // about 10 meters
+  Math.max(Math.abs(first.lat - second.lat), Math.abs(first.lng - second.lng)) < precision;
