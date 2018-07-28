@@ -24,7 +24,8 @@ class Popup extends PureComponent {
       PropTypes.object,
       PropTypes.number
     ]),
-    title: PropTypes.string
+    title: PropTypes.string,
+    content: PropTypes.string
   };
 
   static defaultProps = {

@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 
 import { changeFields } from 'actions/booking';
 import { Icon, Button, Modal } from 'components';
+
+import { color } from 'theme';
+
 import { formatedTime, minutesForward, momentDate, convertToZone } from 'utils';
 
 import styles from './styles';
@@ -241,14 +244,14 @@ class PickUpTime extends PureComponent {
     return (
       <TouchableWithoutFeedback onPress={this.openPickerModal}>
         <View style={[styles.pickupTimeContainer, wrapperStyle]}>
-          <Icon name="time" size={24} color="#d8d8d8" />
+          <Icon name="time" size={24} color={color.pixelLine} />
           <View style={styles.pickupTime}>
             <Text style={styles.pickupTimeLabel}>Pickup Time</Text>
             <Text style={styles.pickupTimeValue}>
               {scheduledType === 'later' ? formatedTime(scheduledAt) : 'Now'}
             </Text>
           </View>
-          <View><Icon name="chevron" size={16} color="#c7c7cc" /></View>
+          <View><Icon name="chevron" size={16} color={color.arrowRight} /></View>
           {this.renderTimeDatePicker()}
         </View>
       </TouchableWithoutFeedback>

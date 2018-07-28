@@ -5,6 +5,8 @@ import { isEqual, takeRight } from 'lodash';
 import Map, { Polyline } from 'react-native-maps';
 import { prepareCoordinates, areCoordinatesSimilar } from 'utils';
 
+import { color } from 'theme';
+
 import {
   DriverMarker,
   SourceActiveMarker,
@@ -77,7 +79,12 @@ class DriverRoute extends PureComponent {
     return (
       <Fragment>
         <DriverMarker coordinate={this.driverCoordinate} />
-        <Polyline coordinates={[]} ref={(el) => { this.route = el; } } strokeWidth={3} strokeColor="#2b4983" />
+        <Polyline
+          ref={(el) => { this.route = el; } }
+          coordinates={[]}
+          strokeWidth={3}
+          strokeColor={color.primaryBtns}
+        />
         <Destination coordinate={destination} value={destination.value} />
         {stops.map(stop => <StopMarker coordinate={stop} key={stop} />)}
         {!routeHidden &&

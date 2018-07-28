@@ -165,23 +165,21 @@ class BookingEditor extends BookingController {
   renderFavouriteAddresses() {
     const passenger = this.getPassenger();
 
-    return (
-      <ScrollView
-        horizontal
-        contentContainerStyle={styles.destinationBtns}
-        showsHorizontalScrollIndicator={false}
-      >
-        {passenger && passenger.homeAddress && passenger.homeAddress.line &&
-          this.renderAddressItem(passenger.homeAddress, strings('app.label.home'))
-        }
-        {passenger && passenger.workAddress && passenger.workAddress.line &&
-          this.renderAddressItem(passenger.workAddress, strings('app.label.work'))
-        }
-        {passenger && (passenger.favoriteAddresses || []).map(address =>
-          this.renderAddressItem(address.address, address.name))
-        }
-      </ScrollView>
-    );
+    return <ScrollView
+      horizontal
+      contentContainerStyle={styles.destinationBtns}
+      showsHorizontalScrollIndicator={false}
+    >
+      {passenger && passenger.homeAddress && passenger.homeAddress.line &&
+        this.renderAddressItem(passenger.homeAddress, strings('app.label.home'))
+      }
+      {passenger && passenger.workAddress && passenger.workAddress.line &&
+        this.renderAddressItem(passenger.workAddress, strings('app.label.work'))
+      }
+      {passenger && (passenger.favoriteAddresses || []).map(address =>
+        this.renderAddressItem(address.address, address.name))
+      }
+    </ScrollView>;
   }
 
   renderAddressesSelector() {
@@ -190,7 +188,7 @@ class BookingEditor extends BookingController {
         {this.renderPointList({ style: styles.pointList })}
         <View style={styles.destinationBtnsContainer}>
           {this.props.booking.formData.busy
-            ? <ActivityIndicator style={styles.destinationBtnsSpinner} size="small" color="#8794a0" />
+            ? <ActivityIndicator style={styles.destinationBtnsSpinner} size="small" color={color.secondaryText} />
             : this.renderFavouriteAddresses()
           }
         </View>
