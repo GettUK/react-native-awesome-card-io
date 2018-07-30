@@ -29,7 +29,7 @@ import { login } from 'actions/session';
 
 import { strings } from 'locales';
 
-import { throttledAction, isIphoneX } from 'utils';
+import { throttledAction, isIphoneX, isDevMode } from 'utils';
 
 import { prepareSwitchesBlock } from './utils';
 import { loginRules } from './validatorRules';
@@ -41,17 +41,28 @@ const { height } = Dimensions.get('window');
 
 const BLOCK_HEIGHT = 478; // Height of logo + inputs block
 
+let initialFormState = {
+  email: '',
+  password: '',
+  acceptTac: false,
+  acceptPp: false
+};
+
+if (isDevMode) {
+  initialFormState = {
+    email: 'artem@fakemail.com',
+    password: 'qwqwqwQ@',
+    acceptTac: true,
+    acceptPp: true
+  };
+}
+
 class Login extends Component {
   state = {
     isResetSuccess: false,
     loading: false,
     error: '',
-    form: {
-      email: 'artem@fakemail.com',
-      password: 'qwqwqwQ@',
-      acceptTac: false,
-      acceptPp: false
-    }
+    form: initialFormState
   };
 
   componentDidUpdate(_, { isResetSuccess }) {
