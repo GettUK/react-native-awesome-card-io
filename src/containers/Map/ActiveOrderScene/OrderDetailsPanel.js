@@ -211,7 +211,7 @@ const OrderDetails = ({
   const renderCallBtn = () => (isDriverPhoneExist &&
     <TouchableWithoutFeedback onPress={callDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.callButton]}>
-        <Icon name="call" color="#fff" />
+        <Icon name="call" color="#fff" size={18} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -219,7 +219,7 @@ const OrderDetails = ({
   const renderRateBtn = () => (
     <TouchableWithoutFeedback onPress={goToRateDriver}>
       <View style={[orderPanelStyles.roundContainer, orderPanelStyles.rateButton]}>
-        <Icon name="star" color="#fff" />
+        <Icon name="starEmpty" color="#fff" size={20} strokeWidth="2.5" />
       </View>
     </TouchableWithoutFeedback>
   );
