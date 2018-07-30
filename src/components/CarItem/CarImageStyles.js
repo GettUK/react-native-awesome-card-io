@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {},
   carImage: {
-    height: 70,
-    width: 160,
+    height: 100,
+    width: 190,
     position: 'absolute'
   },
   carImageMedium: {
@@ -20,8 +20,8 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   typeInnerWrapperBig: {
-    width: 68,
-    height: 64
+    width: 73,
+    height: 73
   },
   typeInnerWrapperMedium: {
     width: 20,
@@ -31,9 +31,19 @@ export default StyleSheet.create({
     width: 18,
     height: 18
   },
-  logoService: {
+  logoServiceSmall: {
     position: 'absolute',
-    bottom: 2,
-    left: 6
+    bottom: 5,
+    left: 8
+  },
+  logoServiceMedium: {
+    position: 'absolute',
+    bottom: 5,
+    left: 8
+  },
+  logoServiceBig: {
+    position: 'absolute',
+    bottom: 12,
+    left: 10
   }
 });
