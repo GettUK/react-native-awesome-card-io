@@ -12,7 +12,8 @@ import {
   changeAddress,
   setActiveBooking,
   getVehicles,
-  saveAvailableCarsScroll
+  saveAvailableCarsScroll,
+  setDefaultMessageToDriver
 } from 'actions/booking';
 import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
@@ -100,6 +101,8 @@ class BookingEditor extends BookingController {
             ...attrs,
             pickupAddress: data.defaultPickupAddress
           };
+
+          this.props.setDefaultMessageToDriver(data.defaultPickupAddress, { type: 'pickupAddress' });
 
           this.props.changeRegionToAnimate(prepareCoordinates(data.defaultPickupAddress));
         }
@@ -371,7 +374,8 @@ const bindActions = {
   changeAddress,
   setActiveBooking,
   changeRegionToAnimate,
-  saveAvailableCarsScroll
+  saveAvailableCarsScroll,
+  setDefaultMessageToDriver
 };
 
 export default connect(select, bindActions, null, { withRef: true })(BookingEditor);

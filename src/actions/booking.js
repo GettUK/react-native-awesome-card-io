@@ -1,7 +1,14 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 
-import { get, post, put, referencesLocalErrors } from 'utils';
+import {
+  get, post, put,
+  referencesLocalErrors,
+  messagePrefixes,
+  separateMessage,
+  getFavouriteAddressMessage,
+  formatMessage
+} from 'utils';
 import { isEmpty, reject } from 'lodash';
 import faye from 'utils/faye';
 import {
@@ -52,7 +59,8 @@ const TYPES = createTypes('booking', [
   'clearCurrentOrder',
   'saveAvailableCarsScroll',
   'clearBooking',
-  'updateReferences'
+  'updateReferences',
+  'changeMessageModified'
 ]);
 
 export const updateReferences = references => ({ type: TYPES.updateReferences, payload: references });
@@ -61,7 +69,59 @@ export const removeFields = fields => ({ type: TYPES.removeFields, payload: fiel
 
 export const changeFields = fields => ({ type: TYPES.changeFields, payload: fields });
 
-export const changeAddress = (address, meta) => ({ type: TYPES.changeAddress, payload: { address, meta } });
+export const changeMessageModified = (modified = false) => ({ type: TYPES.changeMessageModified, modified });
+
+export const saveMessageToDriver = (messageToDriver, modified = false) => (dispatch, getState) => {
+  const message = getState().booking.tempMessageToDriver.trim();
+
+  if (modified) {
+    dispatch(changeMessageModified(true));
+  }
+
+  return dispatch(changeFields({ message: messageToDriver || message }));
+};
+
+export const changeMessageToDriver = (message, touched = false) =>
+  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
+
+const getMessageForAddress = ({ message, address, meta, booking, passenger }) => {
+  const { formData: { defaultPickupAddress, defaultDriverMessage } } = booking;
+  const { data: { favoriteAddresses } } = passenger;
+  const tempMessage = message;
+
+  if (address.id === defaultPickupAddress.id && meta.type === 'pickupAddress') {
+    tempMessage.pickupMessage = `${messagePrefixes.pickup} ${defaultDriverMessage}`;
+  } else {
+    const addresses = favoriteAddresses.filter(item => item.name === address.label);
+    const type = meta.type.replace('Address', '');
+
+    tempMessage[`${type}Message`] = getFavouriteAddressMessage(addresses, type);
+  }
+
+  return tempMessage;
+};
+
+export const setDefaultMessageToDriver = (address = {}, meta = {}) => (dispatch, getState) => {
+  const { booking, passenger } = getState();
+  const {
+    bookingForm: { message: messageToDriver },
+    messageModified
+  } = booking;
+
+  let message = separateMessage(messageToDriver);
+
+  if (meta.type !== 'stops' && !messageModified) {
+    message = getMessageForAddress({ message, address, meta, booking, passenger });
+
+    dispatch(saveMessageToDriver(formatMessage(message)));
+  }
+};
+
+export const changeAddress = (address, meta) => (dispatch) => {
+  dispatch(setDefaultMessageToDriver(address, meta));
+
+  dispatch({ type: TYPES.changeAddress, payload: { address, meta } });
+};
 
 export const changeReference = reference => ({ type: TYPES.changeReference, payload: reference });
 
@@ -88,12 +148,16 @@ export const validateReferences = () => async (dispatch, getState) => {
 
 export const resetBookingValues = () => (dispatch, getState) => {
   const { memberId } = getState().session.user;
+  const { pickupAddress } = getState().booking.bookingForm;
+
+  dispatch(changeMessageModified());
+
+  dispatch(saveMessageToDriver(''));
+
+  dispatch(setDefaultMessageToDriver(pickupAddress, { type: 'pickupAddress' }));
 
   dispatch({ type: TYPES.resetBookingValues, payload: { memberId } });
 };
-
-export const changeMessageToDriver = (message, touched = false) =>
-  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
 
 export const changeFlight = (data, touched = false) =>
   ({ type: TYPES.changeFlight, payload: { data, touched } });
@@ -106,12 +170,6 @@ export const changeTravelReasonId = (id, touched = false) =>
 
 export const changePaymentMethodData = (data, touched = false) =>
   ({ type: TYPES.changePaymentMethodData, payload: { data, touched } });
-
-export const saveMessageToDriver = () => (dispatch, getState) => {
-  const message = getState().booking.tempMessageToDriver.trim();
-
-  return dispatch(changeFields({ message }));
-};
 
 export const saveFlight = () => (dispatch, getState) => {
   const { flight } = getState().booking.tempFlight;

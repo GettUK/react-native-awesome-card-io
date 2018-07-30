@@ -29,7 +29,8 @@ export const initialState = {
     busy: false
   },
   orderCreateError: null,
-  tempMessageToDriver: ''
+  tempMessageToDriver: '',
+  messageModified: false
 };
 
 const getFormDataStart = state => (
@@ -47,6 +48,9 @@ const removeFields = (state, { payload }) => (
 const changeFields = (state, { payload }) => (
   update.assign(state, 'bookingForm', payload)
 );
+
+const changeMessageModified = (state, { modified }) =>
+  update.assign(state, { messageModified: modified });
 
 const changeAddress = (state, { payload: { address, meta } }) => {
   if (meta.type !== 'stops') {
@@ -88,7 +92,6 @@ const resetBookingValues = (state, { payload }) => {
       bookerReferencesErrors: {},
       scheduledType: 'now',
       scheduledAt: null,
-      message: state.formData.defaultDriverMessage && `Pick up: ${state.formData.defaultDriverMessage}`,
       ...passenger,
       availableCarsScroll: 0
     }),
@@ -97,7 +100,7 @@ const resetBookingValues = (state, { payload }) => {
 };
 
 const changeMessageToDriver = (state, { payload }) =>
-  update(state, { tempMessageToDriver: payload.message, messageToDriverTouched: payload.touched });
+  update(state, { tempMessageToDriver: payload.message || '', messageToDriverTouched: payload.touched });
 
 const changeFlight = (state, { payload }) =>
   update(state, { tempFlight: payload.data, flightTouched: payload.touched });
@@ -229,6 +232,7 @@ export default composeReducer('booking', {
   setReferenceErrors,
   resetBookingValues,
   changeMessageToDriver,
+  changeMessageModified,
   changeFlight,
   changePassengerId,
   changeTravelReasonId,

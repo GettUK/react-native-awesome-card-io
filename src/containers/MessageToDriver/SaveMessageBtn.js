@@ -12,7 +12,7 @@ import { throttledAction } from 'utils';
 const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver, changeMessageToDriver }) => {
   const handleSave = throttledAction(() => {
     if (touched) {
-      saveMessageToDriver();
+      saveMessageToDriver('', true);
       changeMessageToDriver('');
       navigation.goBack(null);
     }
