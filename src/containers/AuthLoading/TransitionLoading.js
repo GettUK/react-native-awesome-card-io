@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Dimensions,
-  StatusBar
-} from 'react-native';
+import { View, Dimensions, StatusBar } from 'react-native';
 
 import { View as AnimatableView } from 'react-native-animatable';
 
@@ -30,11 +26,8 @@ const SCALE_RECTANGLE_ANIM = {
 };
 
 export default class TransitionLoading extends Component {
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.navigation.replace('MapView', { transition: 'loadTransition' });
-    }, 3380);
-  }
+  handleOpenMap = () =>
+    this.props.navigation.replace('MapView', { transition: 'loadTransition' });
 
   renderAnimation = ({
     name = 'logoLeft',
@@ -43,6 +36,7 @@ export default class TransitionLoading extends Component {
     delay = 1000,
     useNativeDriver = false,
     style = {},
+    onAnimationEnd = () => {},
     children = <Icon name={name} height={68} width={66} />
   }) => (
     <AnimatableView
@@ -52,6 +46,7 @@ export default class TransitionLoading extends Component {
       easing="linear"
       useNativeDriver={useNativeDriver}
       style={style}
+      onAnimationEnd={onAnimationEnd}
     >
       {children}
     </AnimatableView>
@@ -74,7 +69,7 @@ export default class TransitionLoading extends Component {
               {this.renderHideAnimation(<Icon name="logoRight" height={70} width={133} />)}
             </View>
 
-            {this.renderAnimation(SCALE_RECTANGLE_ANIM)}
+            {this.renderAnimation({ ...SCALE_RECTANGLE_ANIM, onAnimationEnd: this.handleOpenMap })}
           </View>
         </Background>
       </View>
