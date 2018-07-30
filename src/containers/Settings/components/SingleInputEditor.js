@@ -79,7 +79,6 @@ class SingleInputEditor extends Component {
           inputStyle={styles.input}
           clearIconColor="#d2d0dc"
           clearIconStyle={styles.clearIcon}
-          selectionColor="#494949"
           {...additionalProps}
         />
       </View>

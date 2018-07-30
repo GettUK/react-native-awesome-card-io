@@ -160,7 +160,6 @@ export default class Input extends PureComponent {
       allowClear,
       allowClearStyle,
       error,
-      selectionColor,
       underlineColorAndroid,
       inputRef,
       rightButton,
@@ -183,7 +182,6 @@ export default class Input extends PureComponent {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           underlineColorAndroid={underlineColorAndroid || 'transparent'}
-          selectionColor={selectionColor || 'rgba(255, 255, 255, 0.2)'}
         />
         {rightButton && this.renderRightButton()}
         {this.renderClearOption()}

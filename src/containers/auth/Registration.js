@@ -106,6 +106,7 @@ export default class Registration extends Component {
       style={styles.input}
       inputStyle={styles.inputStyle}
       labelStyle={styles.label}
+      selectionColor="rgba(255, 255, 255, 0.2)"
       {...props}
     />
   );

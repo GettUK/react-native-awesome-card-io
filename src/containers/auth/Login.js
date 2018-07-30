@@ -176,6 +176,7 @@ class Login extends Component {
           labelStyle={styles.label}
           label={strings('auth.label.email')}
           keyboardType="email-address"
+          selectionColor="rgba(255, 255, 255, 0.2)"
         />
         <Input
           value={form.password}
@@ -186,6 +187,7 @@ class Login extends Component {
           labelStyle={styles.label}
           label={strings('auth.label.password')}
           secureTextEntry
+          selectionColor="rgba(255, 255, 255, 0.2)"
         />
         <View style={styles.btnForgot}>
           <TouchableWithoutFeedback onPress={this.goToForgot}>

@@ -96,7 +96,6 @@ class PaymentCardEditor extends Component {
       helpIconStyle={styles.helpIcon}
       clearIconColor="#d2d0dc"
       clearIconStyle={styles.clearIcon}
-      selectionColor="#494949"
       {...props}
     />
   );
