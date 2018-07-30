@@ -562,7 +562,6 @@ export default class BookingController extends Component {
           message={message}
           type="failed"
           position="bottom"
-          isHeader
         />
 
         <FlightModal
