@@ -16,16 +16,15 @@ export const saveToken = token => (dispatch) => {
 
 export const registerToken = () => (dispatch, getState) => {
   const token = getState().app.push.token;
+  const uniqueId = DeviceInfo.getUniqueID();
 
-  DeviceInfo.getMACAddress().then((mac) => {
-    if (!token) {
-      PN.registerFCMToken().then((deviceToken) => {
-        post('/user_devices', { deviceToken, uuid: mac });
-      });
-    } else {
-      post('/user_devices', { deviceToken: token, uuid: mac });
-    }
-  });
+  if (!token) {
+    PN.registerFCMToken().then((deviceToken) => {
+      post('/user_devices', { deviceToken, uuid: uniqueId });
+    });
+  } else {
+    post('/user_devices', { deviceToken: token, uuid: uniqueId });
+  }
 };
 
 export const deleteToken = () => (dispatch, getState) => {
