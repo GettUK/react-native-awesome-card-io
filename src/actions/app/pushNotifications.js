@@ -1,4 +1,5 @@
 import { createTypes } from 'redux-compose-reducer';
+import DeviceInfo from 'react-native-device-info';
 
 import { destroy, post } from 'utils';
 import PN from 'utils/notifications';
@@ -16,13 +17,15 @@ export const saveToken = token => (dispatch) => {
 export const registerToken = () => (dispatch, getState) => {
   const token = getState().app.push.token;
 
-  if (!token) {
-    PN.registerFCMToken().then((deviceToken) => {
-      post('/user_devices', { deviceToken });
-    });
-  } else {
-    post('/user_devices', { deviceToken: token });
-  }
+  DeviceInfo.getMACAddress().then((mac) => {
+    if (!token) {
+      PN.registerFCMToken().then((deviceToken) => {
+        post('/user_devices', { deviceToken, uuid: mac });
+      });
+    } else {
+      post('/user_devices', { deviceToken: token, uuid: mac });
+    }
+  });
 };
 
 export const deleteToken = () => (dispatch, getState) => {
