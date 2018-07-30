@@ -9,8 +9,8 @@ import styles from './styles';
 const BackButton = ({ onClick }) => (
   <NavImageButton
     onClick={onClick}
-    styleContainer={[styles.touchZone, styles.shadow]}
-    styleView={styles.headerBack}
+    styleContainer={styles.touchZone}
+    styleView={[styles.headerBack, styles.shadow]}
     icon={<Icon width={10} height={18} name="back" color="#284784" />}
   />
 );

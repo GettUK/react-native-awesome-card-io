@@ -119,7 +119,7 @@ class OrdersList extends PureComponent {
           <View style={styles.orderMap}>
             <Image
               source={{ uri: `${item.staticMap}&${mapStyles}&key=${config.googleAPIKey}` }}
-              style={{ width: this.mapSize.width, height: this.mapSize.height }}
+              style={[{ width: this.mapSize.width, height: this.mapSize.height }, styles.orderMap]}
             />
           </View>
         </View>

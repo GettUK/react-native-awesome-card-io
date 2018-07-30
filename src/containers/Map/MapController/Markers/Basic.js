@@ -6,7 +6,7 @@ import { prepareCoordinates } from 'utils';
 
 class MarkerBasic extends React.Component {
   render() {
-    const { coordinate, children, id, anchorX, anchorY } = this.props;
+    const { coordinate, children, id, anchorX, anchorY, ...rest } = this.props;
 
     return (
       <Map.Marker
@@ -15,6 +15,7 @@ class MarkerBasic extends React.Component {
         anchor={{ x: anchorX, y: anchorY }}
         stopPropagation
         tracksViewChanges={false}
+        {...rest}
       >
         {children}
       </Map.Marker>

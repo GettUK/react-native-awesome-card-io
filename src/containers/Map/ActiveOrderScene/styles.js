@@ -126,6 +126,7 @@ export const orderPanelStyles = StyleSheet.create({
     paddingHorizontal: 16
   },
   activeItem: {
+    elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
