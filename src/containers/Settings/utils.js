@@ -110,19 +110,22 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
   ];
 }
 
-export function prepareHistoryBlock(_, handlers = {}) {
-  return [
-    {
-      leftIconName: 'paymentMethod',
-      title: strings('settings.label.payments'),
-      onPress: handlers.goToMyPayments
-    },
+export function prepareHistoryBlock(paymentsEnabled, handlers = {}) {
+  const result = [
     {
       leftIconName: 'rides',
       title: strings('settings.label.rides'),
       onPress: handlers.goToMyRides
     }
   ];
+  if (paymentsEnabled) {
+    result.unshift({
+      leftIconName: 'paymentMethod',
+      title: strings('settings.label.payments'),
+      onPress: handlers.goToMyPayments
+    });
+  }
+  return result;
 }
 
 export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {

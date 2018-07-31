@@ -105,6 +105,8 @@ class Settings extends Component {
     const { logoutLoading } = this.state;
     const devInventory = isDevMode ? prepareDevBlock(devSettings, { handleToggleChange: changeDevSettingField }) : [];
 
+    const paymentsEnabled = data && data.can && data.can.seePaymentCards;
+
     return [
       prepareProfileBlock(data, {
         goToEditProfile: this.goToEditProfile,
@@ -117,7 +119,7 @@ class Settings extends Component {
         openAddressModal: this.openAddressModal
       }),
       prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
-      prepareHistoryBlock(data, {
+      prepareHistoryBlock(paymentsEnabled, {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
       }),
