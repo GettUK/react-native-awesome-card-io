@@ -94,7 +94,7 @@ class MapView extends React.Component {
   )
 
   render() {
-    const { isOrderCreating, dragEnable, order, nightMode } = this.props;
+    const { isOrderCreating, order, nightMode } = this.props;
 
     return (
       <Fragment>
@@ -108,7 +108,7 @@ class MapView extends React.Component {
           rotateEnabled={false}
           showsCompass={false}
           mapPadding={{ bottom: !order.destinationAddress && isOrderCreating ? 185 : 0 }}
-          scrollEnabled={dragEnable && this.isScrollEnabled(order)}
+          scrollEnabled={this.isScrollEnabled(order)}
           customMapStyle={nightMode ? DarkMapStyle : MapStyle}
           onRegionChangeComplete={this.getGeocode}
         >
