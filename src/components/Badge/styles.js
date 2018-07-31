@@ -13,7 +13,7 @@ export default StyleSheet.create({
     marginVertical: 5
   },
   activeContainer: {
-    backgroundColor: color.color
+    backgroundColor: color.white
   },
   activeText: {
     color: color.primaryBtns
