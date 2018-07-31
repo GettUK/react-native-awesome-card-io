@@ -19,7 +19,8 @@ export {
   getHeight,
   filterBySearchValue,
   isDevMode,
-  prepareCoordinates
+  prepareCoordinates,
+  areCoordinatesSimilar
 } from './common';
 export * from './requests';
 export * from './map';

@@ -19,6 +19,7 @@ class Route extends React.Component {
         destination={prepareCoordinates(destination)}
         apikey={config.googleAPIKey}
         strokeWidth={3}
+        resetOnChange={false}
         strokeColor="#2b4983"
       />
     );

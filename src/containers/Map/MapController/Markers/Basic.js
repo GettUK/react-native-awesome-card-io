@@ -6,10 +6,11 @@ import { prepareCoordinates } from 'utils';
 
 class MarkerBasic extends React.Component {
   render() {
-    const { coordinate, children, id, anchorX, anchorY, ...rest } = this.props;
+    const { coordinate, children, id, anchorX, anchorY, animated, ...rest } = this.props;
+    const Marker = animated ? Map.Marker.Animated : Map.Marker;
 
     return (
-      <Map.Marker
+      <Marker
         key={id}
         coordinate={prepareCoordinates(coordinate)}
         anchor={{ x: anchorX, y: anchorY }}
@@ -18,7 +19,7 @@ class MarkerBasic extends React.Component {
         {...rest}
       >
         {children}
-      </Map.Marker>
+      </Marker>
     );
   }
 }
