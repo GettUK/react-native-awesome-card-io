@@ -20,10 +20,10 @@ export const prepareSwitchesBlock = (data = {}, handlers = {}) => [
 export const prepareInputsBlock = (data = {}, handlers = {}) => [
   {
     label: strings('auth.label.yourName'),
-    value: data.firstName || '',
-    onChangeText: v => handlers.handleChangeField('firstName', v),
+    value: data.userName || '',
+    onChangeText: v => handlers.handleChangeField('userName', v),
     autoCorrect: false,
-    error: data.errors && data.errors.firstName
+    error: data.errors && data.errors.userName
   },
   {
     label: strings('auth.label.phoneNumber'),
@@ -50,10 +50,10 @@ export const prepareInputsBlock = (data = {}, handlers = {}) => [
   },
   {
     label: strings('auth.label.comments'),
-    value: data.lastName || '',
-    onChangeText: v => handlers.handleChangeField('lastName', v),
+    value: data.comment || '',
+    onChangeText: v => handlers.handleChangeField('comment', v),
     autoCorrect: false,
     multiline: true,
-    error: data.errors && data.errors.lastName
+    error: data.errors && data.errors.comment
   }
 ];

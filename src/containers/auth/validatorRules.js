@@ -27,7 +27,7 @@ export const resetPasswordRules = {
 };
 
 export const registerCompanyRules = {
-  firstName: {
+  userName: {
     presence
   },
   phoneNumber: {

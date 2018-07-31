@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScrollView, View, StatusBar, Text } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { Answers } from 'react-native-fabric';
 import { has } from 'lodash';
 
 import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'actions/passenger';
@@ -54,10 +55,12 @@ class Settings extends Component {
   });
 
   goToAddressesList = throttledAction(() => {
+    Answers.logContentView('My Addresses was opened', 'screen view', 'myAddressesOpen');
     this.props.navigation.navigate('AddressesList', { openAddressModal: this.openAddressModal });
   });
 
   goToCarTypesEditor = throttledAction(() => {
+    Answers.logContentView('Default Car type was opened', 'screen view', 'defaultCarTypeOpen');
     this.props.navigation.navigate('CarTypesEditor');
   });
 
@@ -78,15 +81,17 @@ class Settings extends Component {
 
   goToMyRides = throttledAction(() => {
     this.props.navigation.goBack(null);
-
+    Answers.logContentView('My Rides was opened', 'screen view', 'myRidesOpen');
     this.props.navigation.state.params.onGoToRides({ fromSettings: true });
   });
 
   goToMyPayments = throttledAction(() => {
+    Answers.logContentView('Payment Cards was opened', 'screen view', 'paymentCardsOpen');
     this.props.navigation.navigate('PaymentCardsList', {});
   });
 
   goToInfoPage = throttledAction((page) => {
+    Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
     this.props.navigation.navigate('InfoPages', { page });
   });
 

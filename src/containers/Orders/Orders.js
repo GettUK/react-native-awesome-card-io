@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
+import { Answers } from 'react-native-fabric';
 
 import { GradientWrapper } from 'components';
 
@@ -27,6 +28,7 @@ function renderTabBar({ navigationState, navigation }) {
     <GradientWrapper style={styles.gradient}>
       {navigationState.routes.map((route, index) =>
         renderTab(route, index, index === navigationState.index, () => {
+          Answers.logContentView(`${route.routeName} tab was opened`, 'tab view', `${route.routeName}TabOpen`);
           navigation.navigate(route.routeName);
           navigationState.params.onChangeTab(route.routeName);
         }))
