@@ -36,14 +36,18 @@ class OrderCreatingScene extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { bookingForm: { pickupAddress } } = this.props;
+    const { bookingForm: { pickupAddress, vehicleName } } = this.props;
     const { bookingForm: { pickupAddress: pickupAddressProps } } = prevProps;
 
     if (pickupAddress && pickupAddress !== pickupAddressProps) {
       setDefaultTimezone(pickupAddress.timezone);
     }
 
-    this.showPromo();
+    if (vehicleName === 'BlackTaxi') {
+      this.closePromo();
+    } else {
+      this.showPromo();
+    }
   }
 
   componentWillUnmount() {
