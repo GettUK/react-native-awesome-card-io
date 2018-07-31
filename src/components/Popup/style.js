@@ -59,7 +59,7 @@ export default StyleSheet.create({
   serviceSuspendedDescription: {
     fontSize: 17,
     lineHeight: 20,
-    color: '#000'
+    color: color.primaryText
   },
   serviceSuspendedGreeting: {
     marginBottom: 10
@@ -69,7 +69,7 @@ export default StyleSheet.create({
     fontSize: 17,
     fontStyle: 'italic',
     lineHeight: 20,
-    color: '#8e8e93'
+    color: color.secondaryText
   },
 
   popupLocationTitle: {
@@ -79,10 +79,10 @@ export default StyleSheet.create({
     marginBottom: 0
   },
   btnStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   btnTextStyle: {
-    color: '#7f7f7f'
+    color: color.secondaryText
   },
   popupCards: {
     fontSize: 17,

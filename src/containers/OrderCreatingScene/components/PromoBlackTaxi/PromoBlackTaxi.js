@@ -6,6 +6,8 @@ import { Icon } from 'components';
 
 import assets from 'assets';
 
+import { color } from 'theme';
+
 import styles from './styles';
 
 export default class PromoBlackTaxi extends PureComponent {
@@ -37,7 +39,7 @@ export default class PromoBlackTaxi extends PureComponent {
           </View>
         </TouchableWithoutFeedback>
         <TouchableOpacity style={styles.icon} onPress={this.handleClose}>
-          <Icon name="close" color="#fff" size={14} />
+          <Icon name="close" color={color.white} size={14} />
         </TouchableOpacity>
       </Animatable.View>
     );

@@ -528,7 +528,7 @@ export default class BookingController extends Component {
       disabled={disabled}
       onPress={onPress}
     >
-      {loading && <ActivityIndicator style={styles.bookingBtnLoading} size="small" color="#acabab" />}
+      {loading && <ActivityIndicator style={styles.bookingBtnLoading} size="small" color={color.arrowRight} />}
       <Text style={[styles.bookingBtnText, disabled ? styles.bookingBtnTextDisabled : {}]}>{title}</Text>
     </Button>
   );

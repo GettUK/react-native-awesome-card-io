@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { color } from 'theme';
+
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
@@ -21,7 +23,7 @@ export default StyleSheet.create({
     paddingLeft: 12
   },
   title: {
-    color: '#a4a4a4'
+    color: color.secondaryText
   },
   emptyValueTitle: {
     fontSize: 17
@@ -32,7 +34,7 @@ export default StyleSheet.create({
     fontWeight: '900'
   },
   valueWithError: {
-    color: '#f00'
+    color: color.danger
   },
   divider: {
     marginLeft: -16,
@@ -45,25 +47,25 @@ export default StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 6,
-    backgroundColor: '#f00'
+    backgroundColor: color.danger
   },
 
   bookingBtnView: {
     alignSelf: 'stretch',
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     flex: 1,
     height: 50
   },
   bookingBtnDisabled: {
-    backgroundColor: '#e4e4e4'
+    backgroundColor: color.bgSearch
   },
   bookingBtnText: {
-    color: '#fff',
+    color: color.white,
     fontWeight: 'bold',
     fontSize: 18
   },
   bookingBtnTextDisabled: {
-    color: '#acabab'
+    color: color.arrowRight
   },
   bookingBtnLoading: {
     alignSelf: 'center',

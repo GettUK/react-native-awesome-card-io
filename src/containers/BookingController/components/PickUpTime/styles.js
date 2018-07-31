@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   pickupTimeLabel: {
     fontSize: 14,
-    color: '#7f7f7f',
+    color: color.secondaryText,
     marginBottom: 2
   },
   pickupTimeValue: {

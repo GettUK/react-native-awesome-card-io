@@ -16,6 +16,8 @@ import { Input, DismissKeyboardView, Icon } from 'components';
 
 import { strings } from 'locales';
 
+import { color } from 'theme';
+
 import { get } from 'utils';
 
 import styles from './styles';
@@ -110,8 +112,8 @@ class FlightSettings extends Component {
     return (
       <View style={styles.tabsContainer}>
         {originalData.map((item, index) => {
-          const textColor = index === selected ? '#2b4a86' : '#8e8e93';
-          const borderColor = index === selected ? '#2b4a86' : '#f2f2f2';
+          const textColor = index === selected ? color.primaryBtns : color.secondaryText;
+          const borderColor = index === selected ? color.primaryBtns : color.bgSearch;
 
           return (
             <TouchableWithoutFeedback
@@ -169,7 +171,7 @@ class FlightSettings extends Component {
             <ScrollView>
               {this.renderFlightInput()}
 
-              {loading && <ActivityIndicator color="#2a4982" />}
+              {loading && <ActivityIndicator color={color.primaryBtns} />}
 
               {originalData && originalData.length > 1 &&
                 this.renderTabs()
