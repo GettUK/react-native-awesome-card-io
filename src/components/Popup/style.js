@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -6,7 +7,7 @@ export default StyleSheet.create({
   },
   content: {
     alignSelf: 'stretch',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     marginHorizontal: 12,
     padding: 20,
     minHeight: 50,
@@ -21,16 +22,16 @@ export default StyleSheet.create({
     marginBottom: 12,
     fontSize: 22,
     lineHeight: 30,
-    color: '#284784'
+    color: color.primaryBtns
   },
   description: {
     fontSize: 17,
     lineHeight: 20,
-    color: '#000'
+    color: color.primaryText
   },
   btn: {
     elevation: 1,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -40,12 +41,12 @@ export default StyleSheet.create({
     marginHorizontal: 5,
     justifyContent: 'center',
     flex: 1,
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     height: 44
   },
   btnText: {
     alignSelf: 'center',
-    color: '#fff',
+    color: color.white,
     fontWeight: 'bold',
     lineHeight: 20,
     fontSize: 16

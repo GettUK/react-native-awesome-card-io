@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 const topIPhone = isIphoneX() ? 34 : 20;
@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#274d86'
+    backgroundColor: color.primaryBtns
   },
   animatedContainer: {
     position: 'relative',

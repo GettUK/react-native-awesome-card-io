@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 import { isIphoneX } from 'utils';
 
@@ -25,9 +26,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 5,
     borderRadius: 10,
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   orderDate: {
     flex: 1,
-    color: '#8e8e93',
+    color: color.secondaryText,
     fontSize: 12
   },
   orderMap: {
@@ -57,30 +58,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   orderLabelText: {
-    color: '#fff',
+    color: color.white,
     fontWeight: '900',
     fontSize: 10
   },
   blueLabel: {
-    backgroundColor: '#cdecfe'
+    backgroundColor: formattedColor.bgStatuses.opacity(0.2)
   },
   greenLabel: {
-    backgroundColor: '#d9f7eb'
+    backgroundColor: color.successLight
   },
   redLabel: {
-    backgroundColor: '#feccd6'
+    backgroundColor: color.dangerLight
   },
   blackLabel: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)'
+    backgroundColor: formattedColor.primaryText.opacity(0.6)
   },
   blueLabelText: {
-    color: '#0174b9'
+    color: color.iconsSettigs
   },
   greenLabelText: {
-    color: '#00c46b'
+    color: color.success
   },
   redLabelText: {
-    color: '#ff0030'
+    color: color.danger
   },
   orderAddress: {
     flexDirection: 'row',
@@ -108,11 +109,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 4,
-    backgroundColor: '#284784'
+    backgroundColor: color.primaryBtns
   },
   loaderLabel: {
     textAlign: 'center',
-    color: '#fff'
+    color: color.white
   },
   connector: {
     position: 'absolute',
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     top: 18
   },
   emptyLabel: {
-    color: '#7f7f7f',
+    color: color.secondaryText,
     fontSize: 22
   }
 });

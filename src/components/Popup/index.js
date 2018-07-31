@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
+import { formattedColor } from 'theme';
 import { isString } from 'lodash';
 import { strings } from 'locales';
 
@@ -78,7 +79,7 @@ class Popup extends PureComponent {
       <Modal
         isVisible={this.state.isVisible}
         style={[styles.container, containerStyle]}
-        backdropColor="rgba(40, 71, 132, 0.6)"
+        backdropColor={formattedColor.primaryBtns.opacity(0.6)}
       >
         {this.renderContent()}
       </Modal>

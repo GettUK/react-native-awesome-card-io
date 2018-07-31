@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { TextInput, View, Animated, TouchableOpacity, Text } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { Icon } from 'components';
+import { color } from 'theme';
 import styles from './style';
 
 const labelFontSizeValues = [18, 14];
@@ -17,7 +18,7 @@ export default class Input extends PureComponent {
 
   static defaultProps = {
     allowClear: true,
-    clearIconColor: '#fff',
+    clearIconColor: color.white,
     allowedError: true,
     placeholder: ''
   };

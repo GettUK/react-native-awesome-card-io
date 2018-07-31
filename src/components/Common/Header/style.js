@@ -1,4 +1,5 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native';
+import { color } from 'theme';
 
 import { isIphoneX } from 'utils';
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 17,
-    color: '#fff',
+    color: color.white,
     marginLeft: 0,
     textAlignVertical: 'top',
     lineHeight: 20,
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   rightHeaderButton: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 14
   },
   prorderHeader: {

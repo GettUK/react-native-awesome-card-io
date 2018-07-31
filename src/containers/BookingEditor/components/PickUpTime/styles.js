@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   pickupTimeContainer: {
@@ -6,7 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     minHeight: 50,
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingVertical: 7,
     paddingHorizontal: 20
   },
@@ -22,7 +23,7 @@ export default StyleSheet.create({
   pickupTimeValue: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: '#000'
+    color: color.primaryText
   },
   pickUpBtn: {
     marginHorizontal: 15,
@@ -36,19 +37,19 @@ export default StyleSheet.create({
   },
   time: {
     fontSize: 36,
-    color: '#000',
+    color: color.primaryText,
     fontWeight: 'bold',
     marginBottom: 5
   },
   date: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 18
   },
   TDPickerWrapper: {
-    borderColor: '#cdcdcd',
+    borderColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
-    shadowColor: '#cdcdcd',
+    shadowColor: color.pixelLine,
     shadowOffset: {
       width: 0,
       height: 0
@@ -69,7 +70,7 @@ export default StyleSheet.create({
     marginRight: 10
   },
   TDButton: {
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     marginLeft: 10,
     marginRight: 16
   },
@@ -78,10 +79,10 @@ export default StyleSheet.create({
     fontWeight: 'bold'
   },
   TDButtonText: {
-    color: '#fff'
+    color: color.white
   },
   NowButtonText: {
-    color: '#7f7f7f'
+    color: color.secondaryText
   },
   TDEditIcon: {
     marginBottom: -5

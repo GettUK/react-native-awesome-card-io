@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
+import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 const { height, width } = Dimensions.get('window');
@@ -47,11 +47,11 @@ export const screenStyles = StyleSheet.create({
     marginHorizontal: 2
   },
   createNewText: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontWeight: 'bold'
   },
   whiteText: {
-    color: '#fff'
+    color: color.white
   }
 });
 
@@ -69,7 +69,7 @@ export const fbStyles = StyleSheet.create({
     justifyContent: 'center',
     margin: 2,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: {
@@ -91,7 +91,7 @@ export const onMyWayStyles = StyleSheet.create({
     padding: 16
   },
   buttonText: {
-    color: '#5d75a1',
+    color: color.primaryBtns,
     fontWeight: '600'
   },
   listItem: {
@@ -102,7 +102,7 @@ export const onMyWayStyles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#e6e6e6'
+    borderBottomColor: color.pixelLine
   },
   listItemTitle: {
     fontSize: 16
@@ -127,7 +127,7 @@ export const orderPanelStyles = StyleSheet.create({
   },
   activeItem: {
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: {
@@ -149,16 +149,16 @@ export const orderPanelStyles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '600',
     paddingVertical: 12,
-    color: '#fff'
+    color: color.white
   },
   subHeader: {
     flexDirection: 'row'
   },
   subHeaderTitle: {
-    color: '#fff'
+    color: color.white
   },
   serviceId: {
-    color: '#fff',
+    color: color.white,
     fontWeight: '900',
     paddingLeft: 5
   },
@@ -175,7 +175,7 @@ export const orderPanelStyles = StyleSheet.create({
     borderRadius: 22
   },
   driverCarInfo: {
-    color: '#7F7F7F',
+    color: color.secondaryText,
     fontSize: 14,
     marginBottom: 5,
     lineHeight: 17
@@ -187,15 +187,15 @@ export const orderPanelStyles = StyleSheet.create({
   callButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6ebe2d'
+    backgroundColor: color.success
   },
   rateButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f6b530'
+    backgroundColor: color.warning
   },
   title: {
-    color: '#a4a4a4',
+    color: color.secondaryText,
     marginBottom: 4
   },
   name: {
@@ -238,11 +238,11 @@ export const orderPanelStyles = StyleSheet.create({
   receiptBtnWrapper: {
     alignSelf: 'flex-end',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#fff',
+    borderColor: color.white,
     borderRadius: 8
   },
   receiptBtnText: {
-    color: '#fff',
+    color: color.white,
     marginHorizontal: 10
   },
   carImage: { width: 90, height: 38 }
@@ -269,7 +269,7 @@ export const cancelReasonStyles = StyleSheet.create({
   modal: {
     flex: 1,
     margin: 0,
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   container: {
     flex: 1,
@@ -286,20 +286,20 @@ export const cancelReasonStyles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    color: '#fff',
+    color: color.white,
     marginBottom: 10,
     textAlign: 'center'
   },
   subHeader: {
     fontSize: 14,
-    color: '#fff',
+    color: color.white,
     textAlign: 'center'
   },
   title: {
     marginTop: 40,
     marginBottom: 25,
     fontSize: 22,
-    color: '#fff',
+    color: color.white,
     textAlign: 'center'
   },
   list: {
@@ -310,12 +310,12 @@ export const cancelReasonStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'stretch',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     marginBottom: 10,
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 17,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.3,
     shadowRadius: 10,
     shadowOffset: {
@@ -324,7 +324,7 @@ export const cancelReasonStyles = StyleSheet.create({
   },
   reasonTitle: {
     fontSize: 17,
-    color: '#284784',
+    color: color.primaryBtns,
     fontWeight: 'bold',
     marginLeft: 15
   }

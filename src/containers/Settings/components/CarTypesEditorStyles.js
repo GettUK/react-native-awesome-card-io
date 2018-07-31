@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   flex: {
     flex: 1
   },
   container: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   itemContainer: {
     flexDirection: 'row',
@@ -13,7 +14,7 @@ export default StyleSheet.create({
     height: 77,
     marginLeft: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#D2DCDA',
+    borderBottomColor: color.pixelLine,
     paddingRight: 8
   },
   button: {
@@ -28,7 +29,7 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 17,
     lineHeight: 28,
-    color: '#000'
+    color: color.primaryText
   },
   modalWrapper: {
     height: 320,

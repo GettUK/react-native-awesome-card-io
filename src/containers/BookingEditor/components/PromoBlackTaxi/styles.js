@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { color } from 'theme';
 
 const { width } = Dimensions.get('window');
 
@@ -8,12 +9,12 @@ export default StyleSheet.create({
     height: 66,
     marginVertical: 20,
     borderRadius: 10,
-    backgroundColor: '#ffa91b',
+    backgroundColor: color.warning,
     overflow: 'hidden',
     position: 'absolute',
     top: -80,
     left: 16,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -41,7 +42,7 @@ export default StyleSheet.create({
     fontSize: 14,
     lineHeight: 18,
     fontWeight: '600',
-    color: '#fff'
+    color: color.white
   },
   icon: {
     width: 44,

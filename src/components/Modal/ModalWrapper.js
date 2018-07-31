@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NativeModal from 'react-native-modal';
+import { color } from 'theme';
 
 import { modalStyles as styles } from './styles';
 
@@ -9,7 +10,7 @@ export default function ModalWrapper({
 }) {
   return (
     <NativeModal
-      backdropColor="#284784"
+      backdropColor={color.primaryBtns}
       backdropOpacity={0.6}
       style={[styles.modal, style]}
       onBackButtonPress={onClose}

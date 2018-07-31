@@ -1,8 +1,7 @@
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapViewDirections from 'react-native-maps-directions';
+import { color } from 'theme';
 
 import config from 'config';
 
@@ -20,7 +19,7 @@ class Route extends React.Component {
         apikey={config.googleAPIKey}
         strokeWidth={3}
         resetOnChange={false}
-        strokeColor="#2b4983"
+        strokeColor={color.iconsSettigs}
       />
     );
   }

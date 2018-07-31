@@ -14,6 +14,7 @@ import { debounce, isArray } from 'lodash';
 import axios from 'axios';
 
 import { Icon, Input, Modal, Alert } from 'components';
+import { color } from 'theme';
 import { nullAddress, get, processLocation, geocode } from 'utils';
 import { strings } from 'locales';
 import styles from './styles';
@@ -124,9 +125,9 @@ export default class AddressModal extends PureComponent {
 
     switch (this.state.meta.type) {
       case 'destinationAddress':
-        return { color: '#f00', name: 'destinationMarker' };
+        return { color: color.danger, name: 'destinationMarker' };
       case 'stops':
-        return { ...defaultIcon, color: '#8d8d8d' };
+        return { ...defaultIcon, color: color.secondaryText };
       default:
         return defaultIcon;
     }
@@ -151,7 +152,7 @@ export default class AddressModal extends PureComponent {
 
   renderFooter = () => (
     <View style={styles.indicatorView}>
-      <ActivityIndicator animating size="small" color="#f68c41" />
+      <ActivityIndicator animating size="small" color={color.warning} />
     </View>
   );
 
@@ -176,7 +177,7 @@ export default class AddressModal extends PureComponent {
             autoFocus
             allowedError={false}
             inputStyle={styles.inputStyle}
-            clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color="#8d8d8d" />}
+            clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
           />
           <View style={styles.delimiter} />
         </View>

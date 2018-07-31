@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   infoMarkerContainer: {
@@ -19,11 +20,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       ios: {
-        backgroundColor: '#fff',
+        backgroundColor: color.white,
         borderRadius: 6,
         paddingVertical: 2,
         paddingHorizontal: 7,
-        shadowColor: '#000',
+        shadowColor: color.primaryText,
         shadowOpacity: 0.2,
         shadowRadius: 5,
         shadowOffset: {
@@ -34,7 +35,7 @@ export default StyleSheet.create({
   },
   infoMarkerTitle: {
     fontSize: 11,
-    color: '#7f7f7f',
+    color: color.secondaryText,
     lineHeight: 13
   },
   infoMarkerIcon: {
@@ -43,7 +44,7 @@ export default StyleSheet.create({
   infoMarkerValue: {
     fontSize: 11,
     fontWeight: 'bold',
-    color: '#000',
+    color: color.primaryText,
     lineHeight: 13
   }
 });

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
 import { isEmpty, isEqual, has, isNull } from 'lodash';
+import { color } from 'theme';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
 import {
@@ -272,7 +273,11 @@ class BookingEditor extends BookingController {
                   styleContent={[styles.currentPositionBtnContent, styles.btnView]}
                   onPress={isActiveLocation ? getCurrentPosition : this.showLocationPopup}
                 >
-                  <Icon name={isActiveLocation ? 'myLocation' : 'inactiveLocation' } size={22} color="#284784" />
+                  <Icon
+                    name={isActiveLocation ? 'myLocation' : 'inactiveLocation' }
+                    size={22}
+                    color={color.primaryBtns}
+                  />
                 </Button>
                 {this.renderAddressesSelector()}
                 <Popup

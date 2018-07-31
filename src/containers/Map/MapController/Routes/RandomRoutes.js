@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { Polyline } from 'react-native-maps';
+import { formattedColor } from 'theme';
 import { take } from 'lodash';
 
 import { LOCATING_STATUS } from 'utils/orderStatuses';
@@ -53,7 +54,7 @@ class RandomRoutes extends React.Component {
         if (this.predictedRoutesRefs[i]) {
           this.predictedRoutesRefs[i].setNativeProps({
             strokeWidth: (value * 2) + 1,
-            strokeColor: `rgba(140, 155, 187, ${value})`
+            strokeColor: formattedColor.animationRout.opacity(value)
           });
         }
       });

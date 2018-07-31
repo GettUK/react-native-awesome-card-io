@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   wrapper: {
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     minHeight: 50,
     paddingVertical: 7,
     paddingHorizontal: 20
@@ -16,7 +17,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   labelEdit: {
-    color: '#284784'
+    color: color.primaryBtns
   },
   pickUpIcon: {
     marginRight: 15
@@ -44,13 +45,13 @@ export default StyleSheet.create({
     top: -6
   },
   selectDestinationText: {
-    color: '#8794a0',
+    color: color.secondaryText,
     fontSize: 16
   },
   emptyDestination: {
     flex: 1,
     paddingVertical: 8,
-    borderBottomColor: '#d8d8d8',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth
   }
 });

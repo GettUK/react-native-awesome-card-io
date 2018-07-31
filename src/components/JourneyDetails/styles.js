@@ -1,16 +1,17 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
     marginVertical: 5,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderRadius: 10,
     paddingTop: 8,
     paddingBottom: 7,
     paddingHorizontal: 20,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -32,13 +33,13 @@ export default StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: 'rgb(127,127,127)',
+    color: color.secondaryText,
     marginBottom: 1
   },
   labelBold: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: 'rgb(0,0,0)',
+    color: color.primaryText,
     marginTop: 1
   },
   loading: {
@@ -49,7 +50,7 @@ export default StyleSheet.create({
     marginVertical: 5,
     marginLeft: 10,
     marginRight: 20,
-    backgroundColor: '#D8D8D8',
+    backgroundColor: color.pixelLine,
     width: 1
   }
 });

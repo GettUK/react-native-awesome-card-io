@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon, SearchList } from 'components';
+import { color } from 'theme';
 import { countriesList, filterBySearchValue } from 'utils';
 import styles from '../ReferenceValueSelector/styles';
 
@@ -38,7 +39,7 @@ class CountrySelector extends PureComponent {
       >
         <Text style={textStyles}>{item.label}</Text>
         {isSelected &&
-          <Icon name="check" size={13} color="#007aff" />
+          <Icon name="check" size={13} color={color.bgStatuses} />
         }
       </TouchableOpacity>
     );

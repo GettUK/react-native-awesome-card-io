@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import { View, Platform } from 'react-native';
 
 import { Icon, BackBtn } from 'components';
+import { color } from 'theme';
 import NavImageButton from 'components/Common/NavImageButton';
 
 import { Settings } from 'containers';
@@ -37,7 +38,7 @@ const onAddPaymentCard = throttledAction(navigation =>
   ));
 
 const headerStyle = {
-  backgroundColor: '#fff',
+  backgroundColor: color.white,
   paddingTop: Platform.OS === 'android' ? 20 : 0,
   height: Platform.OS === 'android' ? 80 : 50
 };
@@ -46,7 +47,7 @@ const RoutesConfig = {
   Settings: {
     screen: Settings,
     navigationOptions: ({ navigation }) => ({
-      headerTintColor: '#000',
+      headerTintColor: color.primaryText,
       headerStyle,
       title: strings('header.title.settings'),
       headerBackTitle: strings('header.button.back'),
@@ -88,7 +89,7 @@ const RoutesConfig = {
         <NavImageButton
           onClick={() => onAddPaymentCard(navigation)}
           styleView={{ marginRight: 10 }}
-          icon={<Icon size={24} name="plus" color="#284784" />}
+          icon={<Icon size={24} name="plus" color={color.primaryBtns} />}
         />
       )
     })
@@ -138,7 +139,7 @@ const RoutesConfig = {
         <NavImageButton
           onClick={() => addNewAddress(navigation)}
           styleView={{ marginRight: 10 }}
-          icon={<Icon size={24} name="plus" color="#284784" />}
+          icon={<Icon size={24} name="plus" color={color.primaryBtns} />}
         />
       )
     })

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, StatusBar, Platform } from 'react-native';
-
+import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 const { height, width } = Dimensions.get('window');
@@ -37,19 +37,19 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 36,
-    color: '#000',
+    color: color.primaryText,
     fontWeight: 'bold',
     marginBottom: 5
   },
   date: {
-    color: '#000',
+    color: color.primaryText,
     fontSize: 18
   },
   TDPickerWrapper: {
-    borderColor: '#cdcdcd',
+    borderColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
-    shadowColor: '#cdcdcd',
+    shadowColor: color.pixelLine,
     shadowOffset: {
       width: 0,
       height: 0
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   order: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontWeight: 'bold'
   },
   NowButton: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   TDButton: {
-    backgroundColor: '#284784',
+    backgroundColor: color.primaryBtns,
     marginLeft: 10,
     marginRight: 16
   },
@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   TDButtonText: {
-    color: '#fff'
+    color: color.white
   },
   NowButtonText: {
-    color: '#7f7f7f'
+    color: color.secondaryText
   },
   TDEditIcon: {
     marginBottom: -5

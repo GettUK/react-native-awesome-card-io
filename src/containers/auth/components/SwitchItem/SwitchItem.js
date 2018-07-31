@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Platform, Switch, TouchableWithoutFeedback } from 'react-native';
 import { noop } from 'lodash';
+import { color, formattedColor } from 'theme';
 import styles from './style';
 
 export default class SwitchItem extends PureComponent {
@@ -8,9 +9,9 @@ export default class SwitchItem extends PureComponent {
     value: false,
     onLinkPress: () => noop,
     onValueChange: () => noop,
-    onTintColor: '#4cd964',
-    tintColor: 'rgba(255,255,255,0.2)',
-    thumbTintColor: Platform.OS === 'android' ? '#fff' : null
+    onTintColor: color.success,
+    tintColor: formattedColor.white.opacity(0.2),
+    thumbTintColor: Platform.OS === 'android' ? color.white : null
   };
 
   render() {

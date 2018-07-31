@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { color } from 'theme';
 
 const { width } = Dimensions.get('window');
 
@@ -21,13 +22,13 @@ export default StyleSheet.create({
     width: width - 32,
     minHeight: 70,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
       height: 0
     },
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderRadius: 10,
     padding: 16,
     paddingRight: 8,
@@ -36,16 +37,16 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   messageContainerwarning: {
-    backgroundColor: 'rgb(255, 250, 235)'
+    backgroundColor: color.warningLight
   },
   messageContainerinfo: {
-    backgroundColor: 'rgb(236, 246, 253)'
+    backgroundColor: color.infoLight
   },
   messageContainersuccess: {
-    backgroundColor: 'rgb(235, 248, 242)'
+    backgroundColor: color.successLight
   },
   messageContainerfailed: {
-    backgroundColor: 'rgb(254, 240, 239)'
+    backgroundColor: color.dangerLight
   },
   message: {
     fontSize: 14,

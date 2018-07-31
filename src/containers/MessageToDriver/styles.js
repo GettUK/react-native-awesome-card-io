@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
   bg: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   input: {
     marginVertical: 14,
     paddingHorizontal: 16,
-    color: '#7f7f7f'
+    color: color.secondaryText
   },
   messageLength: {
-    color: '#8794a0',
+    color: color.secondaryText,
     backgroundColor: 'transparent',
     marginLeft: 16,
     marginBottom: 13

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { color } from 'theme';
 
 import { changeMessageToDriver } from 'actions/booking';
 
@@ -15,7 +16,7 @@ const BackMessageBtn = ({ navigation, changeMessageToDriver }) => {
     <BackBtn
       navigation={navigation}
       touchedPath="booking.messageToDriverTouched"
-      color="#fff"
+      color={color.white}
       containerStyle={{ paddingLeft: 0 }}
       backAction={handleRemoveTempMessage}
     />

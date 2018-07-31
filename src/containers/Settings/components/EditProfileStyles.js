@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   flex: {
     flex: 1
   },
   container: {
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   avatar: {
     alignSelf: 'center',
@@ -13,7 +14,7 @@ export default StyleSheet.create({
     height: 140
   },
   input: {
-    borderBottomColor: '#bcbbc1',
+    borderBottomColor: color.pixelLine,
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 17
   },
@@ -29,7 +30,7 @@ export default StyleSheet.create({
   },
   labelStyle: {
     marginTop: 5,
-    color: '#8e8e93'
+    color: color.secondaryText
   },
   cameraWrapper: {
     alignSelf: 'center',
@@ -44,6 +45,6 @@ export default StyleSheet.create({
   },
   avatarBackDrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+    backgroundColor: formattedColor.primaryText.opacity(0.3)
   }
 });

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
@@ -9,11 +10,11 @@ export default StyleSheet.create({
   pointList: {
     paddingHorizontal: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#efefef',
+    borderBottomColor: color.pixelLine,
     marginBottom: 8
   },
   contentBlock: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingVertical: 8
   },
 
@@ -47,7 +48,7 @@ export default StyleSheet.create({
     paddingLeft: 12
   },
   title: {
-    color: '#a4a4a4'
+    color: color.secondaryText
   },
   emptyValueTitle: {
     fontSize: 17
@@ -58,7 +59,7 @@ export default StyleSheet.create({
     fontWeight: '900'
   },
   valueWithError: {
-    color: '#f00'
+    color: color.danger
   },
   divider: {
     marginLeft: -16,
@@ -69,12 +70,12 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     paddingVertical: 8,
     paddingHorizontal: 16,
     paddingBottom: isIphoneX() ? 28 : 8,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -87,6 +88,6 @@ export default StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 6,
-    backgroundColor: '#f00'
+    backgroundColor: color.danger
   }
 });

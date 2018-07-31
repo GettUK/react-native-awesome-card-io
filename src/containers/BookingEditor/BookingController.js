@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { isEmpty, find, has, first, pickBy, isNull } from 'lodash';
 
 import { PointList, AddressModal, StopPointsModal, Icon, Divider, InformView, Popup, Alert, Button } from 'components';
+import { color } from 'theme';
 import { FlightModal } from 'containers/FlightSettings';
 
 import {
@@ -420,7 +421,7 @@ export default class BookingController extends Component {
     <View key={title} style={editStyles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={editStyles.row}>
-          {icon && <Icon name={icon} color="#c6c5cd" />}
+          {icon && <Icon name={icon} color={color.pixelLine} />}
           {!value && error && <View style={editStyles.errorDot} />}
 
           <View style={[editStyles.titleContainer, icon ? editStyles.iconGap : {}]}>
@@ -435,7 +436,7 @@ export default class BookingController extends Component {
             }
           </View>
 
-          {chevron && <Icon name="chevron" color="#c6c5cd" width={10} />}
+          {chevron && <Icon name="chevron" color={color.pixelLine} width={10} />}
         </View>
       </TouchableWithoutFeedback>
       {arr && i + 1 < arr.length && <Divider style={editStyles.divider} />}

@@ -4,6 +4,7 @@ import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { flatMap } from 'lodash';
 
 import { Icon } from 'components';
+import { color } from 'theme';
 
 import { changePaymentMethodData } from 'actions/booking';
 
@@ -53,7 +54,7 @@ class PaymentsOptions extends Component {
         </Text>
 
         {isSelected &&
-          <Icon name="check" size={13} color="#007aff" />
+          <Icon name="check" size={13} color={color.bgStatuses} />
         }
       </TouchableOpacity>
     );

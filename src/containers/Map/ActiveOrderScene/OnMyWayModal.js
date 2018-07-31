@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
+import { color, formattedColor } from 'theme';
 
 import { Icon, Modal } from 'components';
 
@@ -17,12 +18,12 @@ const OnMyWayModal = ({ isVisible, onClose }) => {
       <TouchableHighlight
         onPress={handler}
         style={onMyWayStyles.listItem}
-        underlayColor="rgba(135, 206, 235, 0.3)"
+        underlayColor={formattedColor.primaryBtns.opacity(0.3)}
         key={title}
       >
         <View style={onMyWayStyles.listItem}>
           <Text style={onMyWayStyles.listItemTitle}>{title}</Text>
-          {!chevronHide && <Icon name="chevron" color="#c6c5cd" width={10} />}
+          {!chevronHide && <Icon name="chevron" color={color.arrowRight} width={10} />}
         </View>
       </TouchableHighlight>
   );

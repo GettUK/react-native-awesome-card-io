@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { color, formattedColor } from 'theme';
 
 import { rateDriver } from 'actions/booking';
 import { SaveBtn } from 'components';
@@ -17,8 +18,8 @@ function SaveRatingBtn({ rating, rateDriver, navigation, rateable = true }) {
 
   return (rateable
     ? <SaveBtn
-        defaultColor="rgba(255, 255, 255, 0.5)"
-        enabledColor="#fff"
+        defaultColor={formattedColor.white.opacity(0.5)}
+        enabledColor={color.white}
         title={strings('header.button.send')}
         onPress={handleSave}
         enabled={!!rating}

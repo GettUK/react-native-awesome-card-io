@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { color } from 'theme';
 
 const { width } = Dimensions.get('window');
 
@@ -6,7 +7,7 @@ const styles = StyleSheet.create({
   modalContent: {
     width: '100%',
     height: '88%',
-    backgroundColor: '#fff'
+    backgroundColor: color.white
   },
   flex: {
     flex: 1
@@ -21,11 +22,11 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: width - 60,
     fontSize: 18,
-    color: '#000'
+    color: color.primaryText
   },
   delimiter: {
     alignSelf: 'stretch',
-    borderColor: '#d8d8d8',
+    borderColor: color.pixelLine,
     borderTopWidth: 1
   },
   list: {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   },
   itemAddressText: {
     fontSize: 18,
-    color: '#000'
+    color: color.primaryText
   },
   indicatorView: {
     paddingVertical: 20

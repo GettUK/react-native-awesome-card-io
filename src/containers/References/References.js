@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Input, DismissKeyboardView, Icon } from 'components';
+import { color } from 'theme';
 import { changeReference } from 'actions/booking';
 import { strings } from 'locales';
 import styles from './styles';
@@ -30,7 +31,7 @@ class References extends PureComponent {
           {item.value &&
             <Text style={[styles.flex, styles.dropdownItemValue]} numberOfLines={1}>{item.value}</Text>
           }
-          <Icon name="chevron" size={16} color="#c7c7cc" style={styles.dropdownItemIcon} />
+          <Icon name="chevron" size={16} color={color.arrowRight} style={styles.dropdownItemIcon} />
         </TouchableOpacity>
         {error && error.length > 0 &&
           <Text style={styles.error}>{error[0]}</Text>

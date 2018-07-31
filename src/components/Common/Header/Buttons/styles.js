@@ -1,12 +1,13 @@
 
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   headerBack: {
     justifyContent: 'center',
     width: 30,
     height: 30,
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderRadius: 6
   },
   touchZone: {
@@ -16,7 +17,7 @@ export default StyleSheet.create({
   },
   shadow: {
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -28,7 +29,7 @@ export default StyleSheet.create({
   },
   btn: {
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -36,14 +37,14 @@ export default StyleSheet.create({
     }
   },
   orders: {
-    backgroundColor: '#284784'
+    backgroundColor: color.primaryBtns
   },
   ordersText: {
-    color: '#fff',
+    color: color.white,
     fontWeight: 'bold'
   },
   createNewText: {
-    color: '#284784',
+    color: color.primaryBtns,
     fontWeight: 'bold'
   }
 });

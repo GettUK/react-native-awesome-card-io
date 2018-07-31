@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -8,12 +9,12 @@ export default StyleSheet.create({
     height: 140,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 6,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: {
@@ -47,19 +48,19 @@ export default StyleSheet.create({
   label: {
     paddingLeft: 2,
     fontSize: 14,
-    color: 'rgb(127,127,127)',
+    color: color.secondaryText,
     marginBottom: 2
   },
   labelPrice: {
     paddingLeft: 2,
     fontSize: 18,
-    color: 'rgb(0,0,0)',
+    color: color.primaryText,
     fontWeight: 'bold',
     marginTop: 2
   },
   labelEta: {
     fontSize: 14,
-    color: 'rgb(135,148,160)'
+    color: color.secondaryText
   },
   icon: {
     marginLeft: 2,
@@ -78,7 +79,7 @@ export default StyleSheet.create({
   },
   mask: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255,255,255, 0.6)',
+    backgroundColor: formattedColor.white.opacity(0.6),
     borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 8

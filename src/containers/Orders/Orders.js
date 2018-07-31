@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation';
 import { Answers } from 'react-native-fabric';
 
 import { GradientWrapper } from 'components';
+import { color } from 'theme';
 
 import { OrdersList } from './components';
 
@@ -13,7 +14,7 @@ function renderTab(route, index, isActive, onPress) {
   return <TouchableWithoutFeedback key={route.routeName} onPress={onPress}>
     <View style={[
         styles.tab,
-        { borderColor: isActive ? '#7AE4FF' : 'transparent' }
+        { borderColor: isActive ? color.ordersTabs : 'transparent' }
       ]}
     >
       <Text style={[styles.tabLabel, { opacity: isActive ? 1 : 0.6 }]}>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { has, isNull, noop } from 'lodash';
 import { Icon, Divider } from 'components';
+import { color } from 'theme';
 import { strings } from 'locales';
 import styles from './styles';
 
@@ -83,7 +84,7 @@ export default class PointList extends PureComponent {
                 style={[styles.pickUpIcon, styles.stopPosition]}
                 name="pickUpField"
                 size={12}
-                color="#8d8d8d"
+                color={color.secondaryText}
               />
               <Icon style={styles.connector} height={12} name="dottedLine" />
               {!isNull(address.line) &&
@@ -123,7 +124,7 @@ export default class PointList extends PureComponent {
               {stopPointsAvailable &&
                 <TouchableOpacity onPress={onStopAdd}>
                   {(!data.stops || data.stops.length < 4)
-                    ? <Icon style={styles.btnPlus} name="plus" color="#8d8d8d" size={18} />
+                    ? <Icon style={styles.btnPlus} name="plus" color={color.secondaryText} size={18} />
                     : <Text style={styles.labelEdit}>Edit</Text>
                   }
                 </TouchableOpacity>

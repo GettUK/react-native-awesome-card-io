@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, Text, TextInput } from 'react-native';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 
@@ -20,7 +21,7 @@ class SearchList extends Component {
     return (
       <View style={[styles.flex, styles.container]}>
         <View style={styles.searchContainer}>
-          <Icon name="search" color="#8e8e93" size={14} style={styles.searchIcon} />
+          <Icon name="search" color={color.secondaryText} size={14} style={styles.searchIcon} />
           <TextInput
             onChangeText={onSearchValueChange}
             style={[styles.flex, styles.searchInput]}

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   label: {
-    color: '#fff',
+    color: color.white,
     fontSize: 17,
     lineHeight: 22
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import { color } from 'theme';
 
 import { Icon } from 'components';
 
@@ -8,10 +9,10 @@ import { fbStyles } from './styles';
 
 const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle }) => {
   const icons = {
-    cancel: { name: 'closeThick', color: '#ff0000' },
-    walker: { name: 'walker', color: '#6bc11a' },
-    dots: { name: 'dots', color: '#284784' },
-    myLocation: { name: 'myLocation', color: '#284784' }
+    cancel: { name: 'closeThick', color: color.danger },
+    walker: { name: 'walker', color: color.success },
+    dots: { name: 'dots', color: color.primaryBtns },
+    myLocation: { name: 'myLocation', color: color.primaryBtns }
   };
 
   const handlePress = () => {

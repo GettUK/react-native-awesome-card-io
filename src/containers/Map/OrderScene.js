@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { cancelOrder } from 'actions/booking';
 
 import { FadeInView, GradientWrapper, OptionsModal } from 'components';
+import { formattedColor } from 'theme';
 
 import { strings } from 'locales';
 import { showConfirmationAlert, isIphoneX } from 'utils';
@@ -98,9 +99,12 @@ class ActiveOrderScene extends Component {
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
     const isTripActive = status === ACTIVE_STATUS;
     // const isDriverArrived = status === ARRIVED_STATUS;
-
+    const white = formattedColor.white;
     const gradientColors = [
-      'rgba(255,255,255,0.8)', 'rgba(255,255,255,0.75)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0)'
+      white.opacity(0.8),
+      white.opacity(0.75),
+      white.opacity(0.6),
+      white.opacity(0)
     ]; // TODO: move to separate colors file
     const gradientStart = { x: 0, y: 1 };
     const gradientEnd = { x: 0, y: 0 };

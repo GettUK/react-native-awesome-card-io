@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 const styles = StyleSheet.create({
   screen: {
@@ -28,15 +29,15 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     fontSize: 18,
-    color: '#fff'
+    color: color.white
   },
 
   label: {
-    color: '#fff'
+    color: color.white
   },
 
   disabledBtnContainer: {
-    borderColor: 'rgba(255, 255, 255, 0.2)'
+    borderColor: formattedColor.white.opacity(0.2)
   },
 
   footer: {
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   footerText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 16
   },
 
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginTop: -5,
     textAlign: 'right',
-    color: '#fff',
+    color: color.white,
     fontSize: 14,
     textDecorationLine: 'underline'
   },
@@ -99,14 +100,14 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   countryText: {
-    color: '#FFF',
+    color: color.white,
     fontSize: 17
   },
   chevronIcon: {
     paddingLeft: 20
   },
   dividerStyle: {
-    borderBottomColor: 'rgba(255,255,255, 0.4)',
+    borderBottomColor: formattedColor.white.opacity(0.4),
     borderBottomWidth: 2
   },
   flex: {
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   },
   labelDefault: {
     fontSize: 14,
-    color: 'rgba(255,255,255, 0.7)',
+    color: formattedColor.white.opacity(0.7),
     marginTop: 13
   },
   marginTop: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   popupInfo: {
     fontSize: 17,
     lineHeight: 20,
-    color: '#000',
+    color: color.primaryText,
     marginBottom: 20,
     textAlign: 'center'
   },
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   labelTitle: {
-    color: '#fff',
+    color: color.white,
     fontSize: 17,
     textAlign: 'center',
     lineHeight: 20,

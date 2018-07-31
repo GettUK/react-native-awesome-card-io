@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StatusBar, ScrollView } from 'react-nativ
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
+import { color } from 'theme';
 
 import { GradientWrapper, Icon } from 'components';
 import { strings } from 'locales';
@@ -31,7 +32,7 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
       style={cancelReasonStyles.reason}
       onPress={() => submit(reason)}
     >
-      <Icon name={reasonIconMapping[reason]} color="#284784" size={26} />
+      <Icon name={reasonIconMapping[reason]} color={color.primaryBtns} size={26} />
       <Text style={cancelReasonStyles.reasonTitle}>{strings(`order.cancellationReason.${reason}`)}</Text>
     </TouchableOpacity>
   );
@@ -41,7 +42,7 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
       <StatusBar barStyle="light-content" />
       <GradientWrapper style={cancelReasonStyles.container}>
         <TouchableOpacity activeOpacity={0.8} onPress={onClose}>
-          <Icon style={cancelReasonStyles.closeIcon} size={30} name="close" color="#fff" />
+          <Icon style={cancelReasonStyles.closeIcon} size={30} name="close" color={color.white} />
         </TouchableOpacity>
         <View style={cancelReasonStyles.content}>
           <Text style={cancelReasonStyles.header}>{strings('order.text.yourRideWasCancelled')}</Text>
