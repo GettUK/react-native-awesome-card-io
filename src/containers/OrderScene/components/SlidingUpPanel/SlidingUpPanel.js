@@ -69,9 +69,9 @@ class SlidingUpPanel extends Component {
     if ((isOpened ? openedProps : !openedProps) &&
       (isOpened ? !opened : opened)
     ) {
-      this.transitionTo(-(isOpened ? top : bottom));
-
-      this.setState({ backdropAvailable: isOpened });
+      this.transitionTo(-(isOpened ? top : bottom), () => {
+        if (!isOpened) { this.setState({ backdropAvailable: isOpened }); }
+      });
 
       this.previousTop = -(isOpened ? bottom : top);
     }
@@ -122,8 +122,6 @@ class SlidingUpPanel extends Component {
     const { bottom, top } = this.props.draggableRange;
 
     if (this.previousTop !== -bottom) {
-      this.setState({ backdropAvailable: false });
-
       this.props.onClose();
     }
 
@@ -160,17 +158,17 @@ class SlidingUpPanel extends Component {
   requestClose = () => {
     const { bottom, top } = this.props.draggableRange;
 
-    this.props.onClose();
-
-    this.setState({ backdropAvailable: false });
-
     this.previousTop = -top;
 
     if (this.animatedValueY === -bottom) {
       return this.props.onRequestClose();
     }
 
-    return this.transitionTo(-bottom, this.props.onRequestClose);
+    return this.transitionTo(-bottom, () => {
+      this.setState({ backdropAvailable: false });
+      this.props.onClose();
+      this.props.onRequestClose();
+    });
   };
 
   get backdropOpacity() {
