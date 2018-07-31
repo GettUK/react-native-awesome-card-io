@@ -15,47 +15,49 @@ import {
 } from 'actions/booking';
 import { getPassengerData } from 'actions/passenger';
 
-import BookingController from './BookingController';
+import BookingController from 'containers/BookingController';
 
-import styles from './style';
-import editStyles from './EditOrderDetailsStyles';
+import styles from './styles';
 
 class EditOrderDetails extends BookingController {
+  renderOrderOptions = () => {
+    const { booking: { formData, bookingForm: { bookerReferencesErrors } } } = this.props;
+
+    return (
+      <ScrollView style={styles.flex}>
+        {this.renderPickUpTime(styles.pickUpTimeWrapper)}
+
+        <View style={[styles.contentBlock, styles.mainInfoContainer]}>
+          {this.renderPointList({ style: styles.pointList })}
+          {this.renderAvailableCars()}
+        </View>
+        {this.renderAdditionalDetails([styles.contentBlock, styles.detailsContainer])}
+        {formData.bookingReferences.length > 0 &&
+          <View style={styles.contentBlock}>
+            {this.renderDetailItem({
+              title: 'Booking References',
+              value: `${formData.bookingReferences.length} References`,
+              onPress: () => this.goTo('References'),
+              error: Object.keys(bookerReferencesErrors).length > 0
+            })}
+          </View>
+        }
+        <View style={styles.spacer} />
+      </ScrollView>
+    );
+  }
+
   renderContent() {
-    const { booking: {
-      formData,
-      vehicles,
-      currentOrder: { busy },
-      bookingForm: { bookerReferencesErrors }
-    } } = this.props;
+    const { booking: { formData, vehicles, currentOrder: { busy } } } = this.props;
 
     const isOrderBtnDisabled = formData.serviceSuspended || busy || vehicles.loading || !this.shouldOrderRide();
 
     return (
       <Fragment>
-        <ScrollView style={styles.flex}>
-          {this.renderPickUpTime(editStyles.pickUpTimeWrapper)}
-
-          <View style={[editStyles.contentBlock, editStyles.mainInfoContainer]}>
-            {this.renderPointList({ style: editStyles.pointList })}
-            {this.renderAvailableCars()}
-          </View>
-          {this.renderAdditionalDetails([editStyles.contentBlock, editStyles.detailsContainer])}
-          {formData.bookingReferences.length > 0 &&
-            <View style={editStyles.contentBlock}>
-              {this.renderDetailItem({
-                title: 'Booking References',
-                value: `${formData.bookingReferences.length} References`,
-                onPress: () => this.goTo('References'),
-                error: Object.keys(bookerReferencesErrors).length > 0
-              })}
-            </View>
-          }
-          <View style={editStyles.spacer} />
-        </ScrollView>
+        {this.renderOrderOptions()}
         {this.renderBookingBtn({
           title: 'Order Ride',
-          style: editStyles.orderRideBtnWrapper,
+          style: styles.orderRideBtnWrapper,
           disabled: isOrderBtnDisabled,
           loading: busy,
           onPress: this.handleBookingCreation

@@ -3,10 +3,10 @@ import React, { PureComponent } from 'react';
 import { View, Animated, Easing } from 'react-native';
 import { color } from 'theme';
 
-import Indicator from '../indicator';
+import Loader from './Loader';
 import styles from './styles';
 
-export default class SkypeIndicator extends PureComponent {
+export default class Indicator extends PureComponent {
   static defaultProps = {
     animationDuration: 1600,
 
@@ -19,7 +19,7 @@ export default class SkypeIndicator extends PureComponent {
   };
 
   static propTypes = {
-    ...Indicator.propTypes,
+    ...Loader.propTypes,
 
     color: PropTypes.string,
     size: PropTypes.number,
@@ -76,7 +76,7 @@ export default class SkypeIndicator extends PureComponent {
 
     return (
       <View style={[styles.container, style]}>
-        <Indicator
+        <Loader
           style={{ width, height }}
           renderComponent={this.renderComponent}
           {...props}

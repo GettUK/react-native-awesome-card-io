@@ -47,10 +47,6 @@ class PaymentCardEditor extends Component {
     });
   };
 
-  handleSubmit = () => {
-    this.goBack();
-  };
-
   closaModal = () => {
     this.setState({ isVisible: false });
   };

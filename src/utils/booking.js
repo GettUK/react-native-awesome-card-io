@@ -56,3 +56,14 @@ export const formatMessage = message => (
     ? `${message.pickupMessage}\n${message.destinationMessage}`
     : message.pickupMessage || message.destinationMessage
 );
+
+export const bookingFieldsToReset = [
+  'stops', 'destinationAddress',
+  'vehiclePrice', 'vehicleValue', 'vehicleName',
+  'travelReasonId', 'flight'
+];
+
+export const isEnoughOrderData = bookingForm =>
+  bookingForm.pickupAddress && bookingForm.pickupAddress.countryCode &&
+  bookingForm.destinationAddress && bookingForm.destinationAddress.countryCode &&
+  !!bookingForm.passengerId;

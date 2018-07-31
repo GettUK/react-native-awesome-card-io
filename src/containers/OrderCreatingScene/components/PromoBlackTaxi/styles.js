@@ -1,6 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { color } from 'theme';
 
+import { isIphoneX } from 'utils';
+
 const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
@@ -12,7 +14,7 @@ export default StyleSheet.create({
     backgroundColor: color.warning,
     overflow: 'hidden',
     position: 'absolute',
-    top: -80,
+    top: isIphoneX() ? 24 : 8,
     left: 16,
     shadowColor: color.primaryText,
     shadowOpacity: 0.2,

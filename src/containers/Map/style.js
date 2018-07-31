@@ -1,8 +1,8 @@
-import { StyleSheet, Dimensions, StatusBar, Platform } from 'react-native';
-import { color } from 'theme';
-import { isIphoneX } from 'utils';
+import { StyleSheet, StatusBar, Platform } from 'react-native';
 
-const { height, width } = Dimensions.get('window');
+import { color } from 'theme';
+
+import { isIphoneX } from 'utils';
 
 const headerPadding = Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 25;
 const iPhoneHeaderPadding = isIphoneX() ? 45 : headerPadding;
@@ -45,18 +45,6 @@ const styles = StyleSheet.create({
     color: color.primaryText,
     fontSize: 18
   },
-  TDPickerWrapper: {
-    borderColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    shadowColor: color.pixelLine,
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowRadius: 1,
-    shadowOpacity: 1
-  },
   buttonContainer: {
     flex: 1
   },
@@ -90,11 +78,6 @@ const styles = StyleSheet.create({
   },
   TDEditIcon: {
     marginBottom: -5
-  },
-  pickUpMarker: {
-    position: 'absolute',
-    left: (width / 2) - 16,
-    top: ((height - 190) / 2) - 40
   }
 });
 

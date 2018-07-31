@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
 
-export default class Indicator extends PureComponent {
+export default class Loader extends PureComponent {
   static defaultProps = {
     animationEasing: Easing.linear,
     animationDuration: 1200,

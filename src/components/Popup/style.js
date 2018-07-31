@@ -50,5 +50,44 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 20,
     fontSize: 16
+  },
+
+  serviceSuspendedTitle: {
+    textAlign: 'center',
+    fontWeight: '600'
+  },
+  serviceSuspendedDescription: {
+    fontSize: 17,
+    lineHeight: 20,
+    color: '#000'
+  },
+  serviceSuspendedGreeting: {
+    marginBottom: 10
+  },
+  serviceSuspendedSign: {
+    marginVertical: 12,
+    fontSize: 17,
+    fontStyle: 'italic',
+    lineHeight: 20,
+    color: '#8e8e93'
+  },
+
+  popupLocationTitle: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginHorizontal: 0,
+    marginBottom: 0
+  },
+  btnStyle: {
+    backgroundColor: '#fff'
+  },
+  btnTextStyle: {
+    color: '#7f7f7f'
+  },
+  popupCards: {
+    fontSize: 17,
+    marginVertical: 8,
+    marginHorizontal: 5,
+    textAlign: 'center'
   }
 });
