@@ -100,7 +100,8 @@
       "paymentCards": "Payment Cards",
       "cardDetails": "Card Details",
       "email": "Email",
-      "phone": "Phone"
+      "phone": "Phone",
+      "defaultPhone": "Default Phone"
     },
     "button": {
       "back": "Back",
@@ -265,6 +266,11 @@
     },
     "button": {
       "deactivate": "Deactivate"
+    }
+  },
+  "phones": {
+    "label": {
+      "addOtherPhone": "Add Other Phone"
     }
   },
   "addresses": {

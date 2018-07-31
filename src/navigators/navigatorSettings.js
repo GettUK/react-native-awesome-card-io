@@ -10,6 +10,7 @@ import { Settings } from 'containers';
 import {
   EditProfile,
   SingleInputEditor,
+  PhonesList,
   AddressesList,
   AddressEditor,
   SaveAddressBtn,
@@ -111,11 +112,19 @@ const RoutesConfig = {
       headerLeft: <BackBtn navigation={navigation} />
     })
   },
+  PhonesList: {
+    screen: PhonesList,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: strings('header.title.defaultPhone'),
+      headerLeft: <BackBtn navigation={navigation} />
+    })
+  },
   SingleInputEditor: {
     screen: SingleInputEditor,
     navigationOptions: ({ navigation }) => ({
       headerStyle,
-      headerTitle: strings(`header.title.${navigation.state.params.page}`),
+      headerTitle: navigation.state.params.label,
       headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
       headerRight: <SaveProfileBtn navigation={navigation} />
     })
