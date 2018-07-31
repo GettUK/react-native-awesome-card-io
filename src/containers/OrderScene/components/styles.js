@@ -15,7 +15,7 @@ export const fbStyles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'white',
+    backgroundColor: color.white,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 2,
@@ -71,7 +71,7 @@ export const orderPanelStyles = StyleSheet.create({
   listItem: {
     width: '100%',
     borderRadius: 10,
-    backgroundColor: 'white',
+    backgroundColor: color.white,
     alignItems: 'center',
     padding: 8,
     paddingHorizontal: 16

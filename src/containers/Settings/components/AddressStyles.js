@@ -10,7 +10,7 @@ export default StyleSheet.create({
     paddingTop: 10
   },
   containerGrey: {
-    backgroundColor: '#efeff4'
+    backgroundColor: color.bgSettings
   },
   scrollContainer: {
     marginBottom: 50,

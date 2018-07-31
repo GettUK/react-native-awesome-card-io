@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { color } from 'theme';
 
 const styles = StyleSheet.create({
   flex: {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   tabLabel: {
-    color: 'white',
+    color: color.white,
     fontSize: 12,
     textAlign: 'center'
   }

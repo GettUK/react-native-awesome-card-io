@@ -42,7 +42,7 @@ export const optionsModalStyle = StyleSheet.create({
   },
   wrapper: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: color.white,
     borderRadius: 8
   },
   row: {
