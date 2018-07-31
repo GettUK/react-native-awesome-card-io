@@ -6,13 +6,14 @@ import {
 } from 'react-native';
 import { HourFormat } from 'react-native-hour-format';
 import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 
 import { changeFields } from 'actions/booking';
 import { Icon, Button, Modal } from 'components';
 
 import { color } from 'theme';
 
-import { formatedTime, minutesForward, momentDate, convertToZone } from 'utils';
+import { minutesForward, momentDate, convertToZone, timeFormat } from 'utils';
 
 import styles from './styles';
 
@@ -163,10 +164,8 @@ class PickUpTime extends PureComponent {
 
   renderSelected = () => {
     const { date } = this.state;
-    const { is24HourFormat } = HourFormat;
     const moment = momentDate(date);
-    const formatedTime = is24HourFormat() ? moment.format('HH:mm') : moment.format('hh:mm a');
-    const timeText = <Text style={styles.time}>{formatedTime}</Text>;
+    const timeText = <Text style={styles.time}>{moment.format(timeFormat())}</Text>;
     const dateText = <Text style={styles.date}>{moment.format('dddd, MMMM D, YYYY')}</Text>;
 
     return (
@@ -240,7 +239,6 @@ class PickUpTime extends PureComponent {
 
   render() {
     const { booking: { scheduledType, scheduledAt }, wrapperStyle } = this.props;
-
     return (
       <TouchableWithoutFeedback onPress={this.openPickerModal}>
         <View style={[styles.pickupTimeContainer, wrapperStyle]}>
@@ -248,7 +246,10 @@ class PickUpTime extends PureComponent {
           <View style={styles.pickupTime}>
             <Text style={styles.pickupTimeLabel}>Pickup Time</Text>
             <Text style={styles.pickupTimeValue}>
-              {scheduledType === 'later' ? formatedTime(scheduledAt) : 'Now'}
+              {scheduledType === 'later'
+                ? moment(scheduledAt).format(`D MMM YYYY, ${timeFormat()}`)
+                : 'Now'
+              }
             </Text>
           </View>
           <View><Icon name="chevron" size={16} color={color.arrowRight} /></View>

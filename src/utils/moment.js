@@ -9,6 +9,4 @@ export const convertToZone = (date, timezone) => moment(date).tz(timezone);
 
 export const minutesForward = minutes => moment().add(minutes, 'minutes');
 
-export const formatedTime = time => (HourFormat.is24HourFormat()
-  ? moment(time).format('D MMM YYYY, HH:mm')
-  : moment(time).format('D MMM YYYY, hh:mm a'));
+export const timeFormat = () => (HourFormat.is24HourFormat() ? 'HH:mm' : 'hh:mm a');
