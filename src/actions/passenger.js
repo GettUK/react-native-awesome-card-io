@@ -163,7 +163,7 @@ export const sendAddress = () => (dispatch, getState) => {
 
   return req
     .catch((err) => {
-      throw err;
+      throw err.response ? err.response.data.errors : err;
     });
 };
 

@@ -21,8 +21,8 @@ const SaveAddressBtn = ({ touched, navigation, data, sendAddress, setValidationE
     if (touched && isValid()) {
       sendAddress()
         .then(() => navigation.goBack(null))
-        .catch(() => {
-          setValidationError('temp.addressErrors', {});
+        .catch((errors) => {
+          setValidationError('temp.addressErrors', errors);
         });
     }
   });
