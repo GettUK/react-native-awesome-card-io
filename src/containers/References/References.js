@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Input, DismissKeyboardView, Icon } from 'components';
 import { color } from 'theme';
 import { changeReference } from 'actions/booking';
@@ -81,9 +81,15 @@ class References extends PureComponent {
     return (
       <View style={[styles.flex, styles.container]}>
         <DismissKeyboardView style={styles.flex}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            {bookerReferences.map(this.renderItem)}
-          </ScrollView>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={80}
+            behavior="padding"
+            style={styles.flex}
+          >
+            <ScrollView keyboardShouldPersistTaps="handled">
+              {bookerReferences.map(this.renderItem)}
+            </ScrollView>
+          </KeyboardAvoidingView>
         </DismissKeyboardView>
       </View>
     );
