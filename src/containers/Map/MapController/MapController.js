@@ -71,7 +71,10 @@ class MapController extends React.PureComponent {
   }
 
   handleAppStateChange = (nextAppState) => {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    if (this.state.appState.match(/inactive|background/)
+      && nextAppState === 'active'
+      && !this.getOrder().destinationAddress
+    ) {
       this.props.checkMultiplePermissions(['location']).then(({ location }) => {
         if (location === PERMISSION_STATUS.authorized) {
           Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
