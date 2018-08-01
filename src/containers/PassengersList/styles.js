@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderBottomColor: color.pixelLine,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingRight: 12
+    paddingRight: 30
   },
   titleName: {
     fontSize: 17,
