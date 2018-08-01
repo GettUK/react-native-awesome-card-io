@@ -29,11 +29,6 @@ import BookingController from 'containers/BookingController';
 import styles from './style';
 
 class BookingEditor extends BookingController {
-  state = {
-    loadBookingRequested: false,
-    isStopPointsModalVisible: false
-  };
-
   componentDidUpdate(prevProps) {
     super.componentDidUpdate(prevProps);
 
@@ -67,7 +62,7 @@ class BookingEditor extends BookingController {
     if (!isStopPointsModalVisible && isDriveChanged) {
       this.requestVehicles();
     }
-  }
+  };
 
   showServiceSuspendedPopup = () => this.serviceSuspendedPopup.open();
 
@@ -243,7 +238,7 @@ class BookingEditor extends BookingController {
         }
       </View>
     );
-  }
+  };
 
   renderContent() {
     const { booking: { vehicles }, onLayoutPointList } = this.props;

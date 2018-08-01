@@ -35,6 +35,8 @@ import { LoaderLayer, PickUpTime, AvailableCars } from './components';
 import { prepareDefaultValues } from './utils';
 import styles from './styles';
 
+const CAR_BLOCK_WIDTH = 120;
+
 export default class BookingController extends Component {
   state = {
     loadBookingRequested: false,
@@ -69,12 +71,23 @@ export default class BookingController extends Component {
     return currentOrder.id ? currentOrder : bookingForm;
   }
 
-  updateAvailableCarsScroll() {
+  updateAvailableCarsScroll(value, animated = false) {
     if (this.availableCars) {
       setTimeout(() => {
-        this.availableCars.scrollTo({ x: this.props.booking.bookingForm.availableCarsScroll, animated: false });
+        if (value && this.availableCarsWidth < value + (CAR_BLOCK_WIDTH * 2)) {
+          this.availableCars.scrollToEnd({ animated });
+        } else {
+          this.availableCars.scrollTo({
+            x: value || this.props.booking.bookingForm.availableCarsScroll,
+            animated
+          });
+        }
       }, 0);
     }
+  }
+
+  getAvailableCarsScrollShift(vehicle) {
+    return this.getAvailableVehicles().findIndex(v => v.name === vehicle) * CAR_BLOCK_WIDTH;
   }
 
   goTo = (page) => {
@@ -155,6 +168,8 @@ export default class BookingController extends Component {
       stops: processedStops
     }).then(() => {
       const vehicle = this.lookupVehicle();
+      this.updateAvailableCarsScroll(this.getAvailableCarsScrollShift(vehicle.name), true);
+
       this.props.changeFields({
         quoteId: vehicle.quoteId,
         vehicleName: vehicle.name,
@@ -405,6 +420,10 @@ export default class BookingController extends Component {
     }
   };
 
+  handleAvailableCarsSizeChange = (width) => {
+    this.availableCarsWidth = width;
+  };
+
   getReasonsName = (id) => {
     const { booking: { formData: { travelReasons } } } = this.props;
     return ((travelReasons && travelReasons.find(r => r.id === +id)) || { name: strings('booking.label.other') }).name;
@@ -491,6 +510,7 @@ export default class BookingController extends Component {
         availableVehicles={this.getAvailableVehicles()}
         onCarSelect={this.selectVehicle}
         onScroll={this.handleAvailableCarsScroll}
+        onContentSizeChange={this.handleAvailableCarsSizeChange}
         scrollRef={(el) => { this.availableCars = el; }}
       />
     );
