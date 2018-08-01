@@ -9,7 +9,7 @@ import { Answers } from 'react-native-fabric';
 import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
 import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
-import { getFormatPrice, isIphoneX, getHeight } from 'utils';
+import { getFormatPrice, isIphoneX, getHeight, timeFormat } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
 import { color } from 'theme';
@@ -105,7 +105,7 @@ const OrderDetails = ({
     const options = [{ title: 'Order for', value: order.passenger, icon: 'avatar' }];
 
     if (!order.asap && order.scheduledAt) {
-      const scheduledAt = moment(order.scheduledAt).format('D MMM YYYY HH:mm a');
+      const scheduledAt = moment(order.scheduledAt).format(`D MMM YYYY ${timeFormat()}`);
       options.push({ title: 'Future order', value: scheduledAt, icon: 'futureOrder' });
     }
 

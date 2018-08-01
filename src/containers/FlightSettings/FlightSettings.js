@@ -18,7 +18,7 @@ import { strings } from 'locales';
 
 import { color } from 'theme';
 
-import { get } from 'utils';
+import { get, timeFormat } from 'utils';
 
 import styles from './styles';
 
@@ -36,7 +36,7 @@ class FlightSettings extends Component {
 
   setFlightDetails = (flightData) => {
     const { departure, arrival } = flightData;
-    const dateFormat = 'DD/MM/YYYY hh:mm a';
+    const dateFormat = `DD/MM/YYYY ${timeFormat()}`;
 
     this.setState({
       verificationData: [
