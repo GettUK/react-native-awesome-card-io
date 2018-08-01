@@ -53,7 +53,7 @@ export function createStore() {
   );
 
   const persistor = persistStore(store, null, () => {
-    store.dispatch(checkMultiplePermissions(['location', 'camera', 'photo']));
+    store.dispatch(checkMultiplePermissions(['camera', 'photo']));
   });
   return { store, persistor };
 }
