@@ -29,8 +29,13 @@ class PaymentCardsList extends Component {
 
   goToPaymentDetails = throttledAction((item) => {
     this.changeSelectedID();
-    this.props.navigation.navigate('PaymentCardDetails', { paymentCard: item });
+    this.props.navigation.navigate('PaymentCardDetails', {
+      paymentCard: item,
+      canDelete: this.isCardDeactivationEnabled()
+    });
   });
+
+  isCardDeactivationEnabled = () => (this.props.paymentCards.length > 1);
 
   makeDefaultPayment = (id) => {
     this.props.makeDefaultPayment(id);
@@ -50,6 +55,22 @@ class PaymentCardsList extends Component {
     });
   };
 
+  renderDeactivateButton = item => (
+    [
+      {
+        component: (
+          <View style={settingsStyles.buttonView}>
+            <Text style={settingsStyles.buttonText}>
+              {strings('paymentCard.button.deactivate')}
+            </Text>
+          </View>
+        ),
+        type: 'delete',
+        onPress: () => this.deactivateCard(item.id)
+      }
+    ]
+  )
+
   renderItem = ({ item }) => (
     <Swipeout
       key={item.id}
@@ -61,19 +82,7 @@ class PaymentCardsList extends Component {
       onOpen={() => this.changeSelectedID(item.id)}
       onClose={noop}
       scroll={noop}
-      right={[
-        {
-          component: (
-            <View style={settingsStyles.buttonView}>
-              <Text style={settingsStyles.buttonText}>
-                {strings('paymentCard.button.deactivate')}
-              </Text>
-            </View>
-          ),
-          type: 'delete',
-          onPress: () => this.deactivateCard(item.id)
-        }
-      ]}
+      right={this.isCardDeactivationEnabled() ? this.renderDeactivateButton(item) : null}
     >
       <View key={item.id}>
         <View style={[styles.commonContainer, styles.paymentWrapper]}>
@@ -125,7 +134,7 @@ class PaymentCardsList extends Component {
         <ScrollView style={[styles.flex, styles.container]}>
           {this.renderPaymentCards()}
 
-          <Tip label={strings('tip.text.removeCard')} />
+          {this.isCardDeactivationEnabled() && <Tip label={strings('tip.text.removeCard')} />}
         </ScrollView>
       )
       : this.renderEmptyContent();

@@ -20,7 +20,11 @@ class PaymentCardDetails extends Component {
 
   deactivateCard = () => {
     const { deactivatePayment, navigation } = this.props;
-    const id = navigation.state.params.paymentCard.id;
+    const { paymentCard: { id }, canDelete } = navigation.state.params;
+
+    if (!canDelete) {
+      return;
+    }
 
     showRemovalAlert({
       message: strings('alert.message.doYouWantToDeactivateTheCard'),
@@ -46,15 +50,17 @@ class PaymentCardDetails extends Component {
   );
 
   render() {
-    const { paymentCard } = this.props.navigation.state.params;
+    const { paymentCard, canDelete } = this.props.navigation.state.params;
+    const textStyle = canDelete ? styles.deactivateBtnLabel : styles.deactivateBtnLabelDisabled;
+    const activeOpacity = canDelete ? 0.6 : 1;
 
     return (
       <ScrollView style={styles.flex}>
         <View style={styles.block}>
           {prepareCardDeails(paymentCard).map(this.renderItem)}
         </View>
-        <TouchableOpacity activeOpacity={0.6} onPress={this.deactivateCard} style={styles.deactivateBtn}>
-          <Text style={styles.deactivateBtnLabel}>{strings('paymentCard.button.deactivate')}</Text>
+        <TouchableOpacity activeOpacity={activeOpacity} onPress={this.deactivateCard} style={styles.deactivateBtn}>
+          <Text style={textStyle}>{strings('paymentCard.button.deactivate')}</Text>
         </TouchableOpacity>
       </ScrollView>
     );
