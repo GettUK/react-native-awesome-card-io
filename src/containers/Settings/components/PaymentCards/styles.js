@@ -32,6 +32,11 @@ export default StyleSheet.create({
     color: color.danger,
     fontSize: 17
   },
+  deactivateBtnLabelDisabled: {
+    textAlign: 'center',
+    color: color.disabledLink,
+    fontSize: 17
+  },
   block: {
     backgroundColor: color.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
