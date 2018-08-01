@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   message: {
     fontSize: 12,
-    color: 'white'
+    color: color.white
   },
   icon: {
     width: 40,

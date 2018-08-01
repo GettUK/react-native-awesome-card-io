@@ -88,7 +88,7 @@ export default StyleSheet.create({
   checkmarkHider: {
     width: 13,
     height: 13,
-    backgroundColor: 'white',
+    backgroundColor: color.white,
     position: 'absolute',
     left: 0,
     top: 0

@@ -1,5 +1,6 @@
 import { capitalize, split } from 'lodash';
 import { strings } from 'locales';
+import { color } from 'theme';
 
 import assets from 'assets';
 
@@ -75,7 +76,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       helpPress: () => handlers.onHelpPress('expirationDate'),
       keyboardType: 'numeric',
       placeholder: strings('paymentCard.placeholder.expirationDateFormat'),
-      placeholderTextColor: '#8e8e93',
+      placeholderTextColor: color.secondaryText,
       error: data.error && (data.error.expirationMonth || data.error.expirationYear || data.error.expirationDate)
     },
     {

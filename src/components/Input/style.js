@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
+import { color, formattedColor } from 'theme';
 
 const styles = StyleSheet.create({
   container: {},
   input: {
     paddingVertical: 10,
-    borderBottomColor: 'rgba(255, 255, 255, 0.4)',
+    borderBottomColor: formattedColor.white.opacity(0.4),
     borderBottomWidth: 2
   },
   error: {
-    borderBottomColor: '#f00'
+    borderBottomColor: color.danger
   },
   withClearBtn: {
     paddingRight: 25
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     paddingTop: 4,
-    color: 'red'
+    color: color.danger
   },
   errorPlaceholder: {
     height: 14

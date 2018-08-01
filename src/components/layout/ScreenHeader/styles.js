@@ -1,5 +1,6 @@
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'utils';
+import { color } from 'theme';
 
 const iPhoneSpace = isIphoneX() ? 40 : 20;
 const topSpace = (Platform.OS === 'ios' ? iPhoneSpace : StatusBar.currentHeight) + 5;
@@ -19,7 +20,7 @@ export default StyleSheet.create({
   text: {
     backgroundColor: 'transparent',
     textAlign: 'center',
-    color: 'white',
+    color: color.white,
     fontSize: 17
   },
   title: {

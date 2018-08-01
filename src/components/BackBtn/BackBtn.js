@@ -51,13 +51,13 @@ class BackBtn extends Component {
   });
 
   render() {
-    const { containerStyle, color } = this.props;
+    const { containerStyle, color: Color } = this.props;
 
     return (
       <TouchableOpacity onPress={this.handlePress} style={[styles.container, containerStyle]}>
-        <Icon size={21} name="back" color={color || '#284784'} />
+        <Icon size={21} name="back" color={Color || color.primaryBtns} />
         {Platform.OS === 'ios' &&
-          <Text style={[styles.text, color ? { color } : {}]}>{strings('header.button.back')}</Text>
+          <Text style={[styles.text, Color ? { color: Color } : {}]}>{strings('header.button.back')}</Text>
         }
       </TouchableOpacity>
     );

@@ -56,7 +56,7 @@ const RoutesConfig = {
           <NavImageButton
             onClick={() => navigation.goBack(null)}
             styleView={{ marginLeft: 10 }}
-            icon={<Icon size={30} name="close" color="#000" />}
+            icon={<Icon size={30} name="close" color={color.primaryText} />}
           />
         </View>
       )

@@ -19,6 +19,7 @@ import update from 'update-js/fp';
 
 import { strings } from 'locales';
 import { throttledAction, isInputsValid } from 'utils';
+import { color } from 'theme';
 
 import { TextButton, SwitchItem } from './components';
 
@@ -129,7 +130,7 @@ export default class Registration extends Component {
         <View style={styles.flex}>
           {title && <Text style={styles.countryText}>{title}</Text>}
         </View>
-        <Icon style={styles.chevronIcon} name="chevron" size={16} color="#FFF" />
+        <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.white} />
       </TouchableOpacity>
       <Divider left={0} style={styles.dividerStyle}/>
     </View>
@@ -158,7 +159,7 @@ export default class Registration extends Component {
               navigation={navigation}
               titleCenter
               title={strings('header.title.yourEnquiry')}
-              leftButton={<BackBtn color="#fff" navigation={navigation}/>}
+              leftButton={<BackBtn color={color.white} navigation={navigation}/>}
               rightButton={<View style={{ width: placeholderWidth }} />} // placeholder for title aligning
             />
 
