@@ -24,7 +24,7 @@ const SaveMessageBtn = ({ touched, navigation, saveMessageToDriver, changeMessag
       title={strings('header.button.done')}
       onPress={handleSave}
       enabled={touched}
-      enabledColor={color.color}
+      enabledColor={color.white}
       style={{ paddingRight: 0 }}
     />
   );
