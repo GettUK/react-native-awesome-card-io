@@ -11,7 +11,10 @@ export default class Badge extends Component {
       PropTypes.object,
       PropTypes.number
     ]),
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     active: PropTypes.bool
   };
 
@@ -22,7 +25,7 @@ export default class Badge extends Component {
   };
 
   render() {
-    const { style, label, active, ...rest } = this.props;
+    const { style, textStyle, label, active, ...rest } = this.props;
 
     return (
       <BadgeElement
@@ -30,7 +33,7 @@ export default class Badge extends Component {
         {...rest}
       >
         {label &&
-          <Text style={[styles.badgeText, active ? styles.activeText : {}]}>
+          <Text style={[styles.badgeText, textStyle, active ? styles.activeText : {}]}>
             {label}
           </Text>
         }

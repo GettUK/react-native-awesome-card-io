@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
@@ -19,7 +19,7 @@ import {
 import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
 
-import { ServiceSuspendedPopup, LocationPopup, Button, Icon } from 'components';
+import { ServiceSuspendedPopup, LocationPopup, Button, Icon, Badge } from 'components';
 
 import { strings } from 'locales';
 import { getHeight, prepareCoordinates, getPassengerPayload } from 'utils';
@@ -127,6 +127,8 @@ class BookingEditor extends BookingController {
     }
   };
 
+  goToClosestFutureBooking = bookingId => this.props.setActiveBooking(bookingId);
+
   getPointListPosition = () => {
     const { app: { statuses: { params: { footer } } } } = this.props;
 
@@ -196,13 +198,59 @@ class BookingEditor extends BookingController {
     );
   }
 
-  renderFooter = () => {
-    const { getCurrentPosition, booking: { vehicles }, ui: { map: { currentPosition } } } = this.props;
+  renderBtn = ({ iconName, style, iconSize = 22, onPress }) => (
+    <Button
+      style={[styles.btnWrapper, style]}
+      styleContent={styles.btnView}
+      onPress={onPress}
+    >
+      <Icon name={iconName} size={iconSize} color={color.primaryBtns}/>
+    </Button>
+  );
+
+  renderActionsBar = () => {
+    const {
+      getCurrentPosition,
+      closestFutureBookingId,
+      futureBookingsCount,
+      ui: { map: { currentPosition } }
+    } = this.props;
 
     const isActiveLocation = this.isAuthorizedPermission('location') && !isNull(currentPosition);
+    const isActiveFutureOrder = futureBookingsCount && closestFutureBookingId;
+
+    return (
+      <View pointerEvents="box-none" style={styles.actionsBar}>
+        {this.renderBtn({
+          iconName: isActiveLocation ? 'myLocation' : 'inactiveLocation',
+          onPress: isActiveLocation ? getCurrentPosition : this.showLocationPopup,
+          style: styles.currentPositionBtn
+        })}
+        {isActiveFutureOrder && (
+          <Fragment>
+            {this.renderBtn({
+              iconName: 'futureOrder',
+              iconSize: 26,
+              onPress: () => this.goToClosestFutureBooking(closestFutureBookingId),
+              style: styles.futureOrderBtn
+            })}
+            <Badge
+              wrapperStyle={styles.badgeWrapper}
+              style={styles.badgeStyle}
+              textStyle={styles.badgeTextStyle}
+              label={futureBookingsCount}
+            />
+          </Fragment>
+        )}
+      </View>
+    );
+  };
+
+  renderFooter = () => {
+    const { booking: { vehicles } } = this.props;
+
     const availableVehicles = this.getAvailableVehicles();
     const shouldRequestVehicles = this.shouldRequestVehicles();
-
     return (
       <View
         onLayout={this.onLayout}
@@ -211,13 +259,7 @@ class BookingEditor extends BookingController {
       >
         {!shouldRequestVehicles && (
           <View pointerEvents="box-none">
-            <Button
-              style={styles.currentPositionBtn}
-              styleContent={[styles.currentPositionBtnContent, styles.btnView]}
-              onPress={isActiveLocation ? getCurrentPosition : this.showLocationPopup}
-            >
-              <Icon name={isActiveLocation ? 'myLocation' : 'inactiveLocation' } size={22} color={color.primaryBtns} />
-            </Button>
+            {this.renderActionsBar()}
             {this.renderAddressesSelector()}
 
             <LocationPopup
@@ -243,7 +285,7 @@ class BookingEditor extends BookingController {
         }
       </View>
     );
-  }
+  };
 
   renderContent() {
     const { booking: { vehicles }, onLayoutPointList } = this.props;
@@ -282,6 +324,8 @@ BookingEditor.propTypes = {
 
 const select = ({ session, booking, app, ui, passenger }) => ({
   memberId: has(session.user, 'memberId') ? session.user.memberId : undefined,
+  closestFutureBookingId: session.user && session.user.closestFutureBookingId,
+  futureBookingsCount: session.user && session.user.futureBookingsCount,
   booking,
   app,
   ui,
