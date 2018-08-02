@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { View, BackHandler } from 'react-native';
 import { color } from 'theme';
 import { Input } from 'components';
-import { upperFirst } from 'lodash';
 
 import { strings } from 'locales';
 
@@ -56,10 +55,11 @@ class SingleInputEditor extends Component {
       changeProfileFieldValue
     } = this.props;
 
-    const key = navigation.state.params.page;
+    const { key, label } = navigation.state.params;
+    const keys = ['phone', 'mobile'];
     let additionalProps = {};
 
-    if (key === 'phone') {
+    if (keys.includes(key)) {
       additionalProps = {
         keyboardType: 'phone-pad',
         allowmask: true,
@@ -72,7 +72,7 @@ class SingleInputEditor extends Component {
         <Input
           value={data}
           error={error && error[key]}
-          label={upperFirst(key)}
+          label={label}
           style={styles.inputContainer}
           allowClearStyle={styles.allowClearStyle}
           labelStyle={styles.labelStyle}
@@ -88,7 +88,7 @@ class SingleInputEditor extends Component {
 }
 
 const mapState = ({ passenger }, props) => ({
-  data: passenger.temp[props.navigation.state.params.page] || '',
+  data: passenger.temp[props.navigation.state.params.key] || '',
   touched: passenger.temp.profileTouched,
   error: passenger.temp.validationError
 });

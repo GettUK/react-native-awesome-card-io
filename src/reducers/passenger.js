@@ -43,7 +43,9 @@ const sendProfileDataSuccess = state => update.assign(state, 'data.passenger', {
   avatar: state.temp.avatar,
   defaultVehicle: state.temp.defaultVehicle,
   email: state.temp.email,
-  phone: state.temp.phone
+  phone: state.temp.phone,
+  mobile: state.temp.mobile,
+  defaultPhoneType: state.temp.defaultPhoneType
 });
 
 const setTempAddress = (state, { payload }) => update(state, 'temp.address', payload);

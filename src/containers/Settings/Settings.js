@@ -65,7 +65,11 @@ class Settings extends Component {
   });
 
   goToSingleInputEditor = throttledAction((page) => {
-    this.props.navigation.navigate('SingleInputEditor', { page });
+    this.props.navigation.navigate('SingleInputEditor', page);
+  });
+
+  goToPhonesList = throttledAction(() => {
+    this.props.navigation.navigate('PhonesList');
   });
 
   openAddressModal = throttledAction((predefinedType) => {
@@ -110,8 +114,8 @@ class Settings extends Component {
     return [
       prepareProfileBlock(data, {
         goToEditProfile: this.goToEditProfile,
-        goToEmailEditor: this.goToSingleInputEditor.bind(null, 'email'),
-        goToPhoneEditor: this.goToSingleInputEditor.bind(null, 'phone'),
+        goToEmailEditor: this.goToSingleInputEditor.bind(null, { key: 'email', label: strings('header.title.email') }),
+        goToPhonesList: this.goToPhonesList,
         goToCarTypesEditor: this.goToCarTypesEditor
       }),
       prepareAddressesBlock(data, {

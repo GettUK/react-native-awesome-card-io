@@ -18,9 +18,9 @@ function SaveProfileBtn({ touched, navigation, data, sendProfileData, setValidat
 
   const handleSave = throttledAction(() => {
     if (navigation.state.params) {
-      const { page, keys } = navigation.state.params;
+      const { key, keys } = navigation.state.params;
 
-      if (touched && isInputsValid(keys || [page], data, validationRules, handleError)) {
+      if (touched && isInputsValid(keys || [key], data, validationRules, handleError)) {
         handleSendData();
       }
     } else {

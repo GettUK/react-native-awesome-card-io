@@ -107,6 +107,11 @@ export const sendProfileData = () => (dispatch, getState) => {
     });
 };
 
+export const makeDefaultPhone = type => (dispatch) => {
+  dispatch(changeProfileFieldValue('defaultPhoneType', type));
+  dispatch(sendProfileData());
+};
+
 export const setTempAddress = address => (dispatch) => {
   dispatch({ type: TYPES.setTempAddress, payload: address });
 };

@@ -26,8 +26,8 @@ export function prepareProfileBlock(data = {}, handlers = {}) {
     {
       leftIconName: 'phone',
       title: strings('settings.label.phone'),
-      rightTitle: passenger.phone || '',
-      onPress: handlers.goToPhoneEditor
+      rightTitle: passenger[passenger.defaultPhoneType] || '',
+      onPress: handlers.goToPhonesList
     },
     {
       leftIconName: 'email',
@@ -205,6 +205,16 @@ const validateName = {
   }
 };
 
+const validatePhone = {
+  presence: {
+    allowEmpty: false
+  },
+  length: {
+    minimum: 10,
+    message: strings('fieldValidation.phone.length')
+  }
+};
+
 export const validationRules = {
   firstName: validateName,
   lastName: validateName,
@@ -216,15 +226,8 @@ export const validationRules = {
       message: strings('fieldValidation.email.format')
     }
   },
-  phone: {
-    presence: {
-      allowEmpty: false
-    },
-    length: {
-      minimum: 10,
-      message: strings('fieldValidation.phone.length')
-    }
-  }
+  phone: validatePhone,
+  mobile: validatePhone
 };
 
 export const addressValidationRules = {

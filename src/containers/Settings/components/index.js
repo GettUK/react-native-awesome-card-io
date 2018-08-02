@@ -1,5 +1,6 @@
 export { default as EditProfile } from './EditProfile';
 export { default as SingleInputEditor } from './SingleInputEditor';
+export { default as PhonesList } from './PhonesList';
 export { default as CarTypesEditor } from './CarTypesEditor';
 export {
   SavePaymentBtn,
