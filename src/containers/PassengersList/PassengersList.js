@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { color } from 'theme';
 
 import { Icon, SearchList } from 'components';
@@ -35,7 +35,7 @@ class PassengersList extends PureComponent {
   };
 
   renderItem = ({ item }) => {
-    const { firstName, lastName, phone, id } = item;
+    const { firstName, lastName, phone, id, avatarUrl } = item;
     const { passengerId, changePassengerId } = this.props;
 
     const isSelected = id === passengerId;
@@ -47,7 +47,10 @@ class PassengersList extends PureComponent {
         onPress={() => changePassengerId(id, true)}
       >
         <View style={styles.avatar}>
-          <Text style={{ color: color.white }}>{(firstName || lastName)[0]}</Text>
+          {avatarUrl
+            ? <Image source={{ uri: avatarUrl }} resizeMode="contain" style={styles.avatar} />
+            : <Text style={{ color: color.white }}>{(firstName || lastName)[0]}</Text>
+          }
         </View>
 
         <View style={styles.titleContainer}>
