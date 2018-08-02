@@ -70,7 +70,7 @@ class SlidingUpPanel extends Component {
       (isOpened ? !opened : opened)
     ) {
       this.transitionTo(-(isOpened ? top : bottom), () => {
-        if (!isOpened) { this.setState({ backdropAvailable: isOpened }); }
+        this.setState({ backdropAvailable: isOpened });
       });
 
       this.previousTop = -(isOpened ? bottom : top);
