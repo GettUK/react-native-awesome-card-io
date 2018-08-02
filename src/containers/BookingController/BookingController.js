@@ -248,6 +248,13 @@ export default class BookingController extends Component {
     }
   };
 
+  showErrorFor = (type) => {
+    const { booking: { orderCreateError: { response: { data } } } } = this.props;
+    if (data.errors && data.errors[type]) {
+      this.setState({ message: strings(`alert.message.${type}`) }, () => this.alert.show());
+    }
+  };
+
   showAlert = () => {
     const { booking: { orderCreateError: { response: { data } } }, setReferenceErrors } = this.props;
 
