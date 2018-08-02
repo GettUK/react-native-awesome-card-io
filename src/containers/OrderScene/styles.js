@@ -52,5 +52,11 @@ export default StyleSheet.create({
   },
   whiteText: {
     color: color.white
+  },
+  btnStyle: {
+    backgroundColor: color.white
+  },
+  btnTextStyle: {
+    color: color.secondaryText
   }
 });

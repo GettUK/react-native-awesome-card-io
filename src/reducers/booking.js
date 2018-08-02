@@ -30,7 +30,8 @@ export const initialState = {
   },
   orderCreateError: null,
   tempMessageToDriver: '',
-  messageModified: false
+  messageModified: false,
+  futureOrderId: null
 };
 
 const getFormDataStart = state => (
@@ -132,13 +133,19 @@ const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }
   })
 );
 
+const setFutureOrderId = (state, { payload }) =>
+  update(state, {
+    futureOrderId: payload,
+    'currentOrder.busy': false
+  });
+
 const getVehiclesFailure = state => (
   update(state, 'vehicles', { data: [], loading: false, loaded: true, failed: true })
 );
 
 const createBookingStart = state => (
   update(state, {
-    currentOrder: { busy: true },
+    'currentOrder.busy': true,
     orderCreateError: null
   })
 );
@@ -255,5 +262,6 @@ export default composeReducer('booking', {
   clearCurrentOrder,
   saveAvailableCarsScroll,
   clearBooking,
-  updateReferences
+  updateReferences,
+  setFutureOrderId
 }, initialState);

@@ -121,19 +121,6 @@ const styles = StyleSheet.create({
   marginTop: {
     marginTop: 13
   },
-  popupInfo: {
-    fontSize: 17,
-    lineHeight: 20,
-    color: color.primaryText,
-    marginBottom: 20,
-    textAlign: 'center'
-  },
-  titleStyle: {
-    fontWeight: '600'
-  },
-  contentWraperStyle: {
-    alignItems: 'center'
-  },
   labelTitle: {
     color: color.white,
     fontSize: 17,

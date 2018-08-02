@@ -20,6 +20,8 @@ export { CardsPopup } from './Popup';
 export { Popup } from './Popup';
 export { LocationPopup } from './Popup';
 export { ServiceSuspendedPopup } from './Popup';
+export { FutureOrderSuggestionPopup } from './Popup';
+export { SuccessPopup } from './Popup';
 export { default as FadeInView } from './Animated/FadeInView';
 export { default as TransitionView } from './Animated/TransitionView';
 export { default as InformView } from './InformView';

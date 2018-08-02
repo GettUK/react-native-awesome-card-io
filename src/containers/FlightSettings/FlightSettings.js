@@ -18,7 +18,7 @@ import { strings } from 'locales';
 
 import { color } from 'theme';
 
-import { get, timeFormat } from 'utils';
+import { get, timeFormat, getSeparatedDate } from 'utils';
 
 import styles from './styles';
 
@@ -58,11 +58,7 @@ class FlightSettings extends Component {
   handleVerify = () => {
     const { flight, selected } = this.state;
 
-    const date = moment();
-
-    const year = date.format('YYYY');
-    const month = date.format('M');
-    const day = date.format('DD');
+    const { year, month, day } = getSeparatedDate();
 
     this.setState({ loading: true, verificationData: null, error: null });
 

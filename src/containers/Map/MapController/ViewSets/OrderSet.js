@@ -87,6 +87,8 @@ class OrderSet extends React.Component {
 
     if (order.status === ORDER_RECEIVED_STATUS && !order.asap) {
       this.props.onFutureOrderAcceptedReceive();
+
+      this.resizeMapToOrderRoute();
     }
   }
 
