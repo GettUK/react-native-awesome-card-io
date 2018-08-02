@@ -32,7 +32,7 @@ export default StyleSheet.create({
     color: color.primaryText
   },
   modalWrapper: {
-    height: 320,
+    paddingBottom: 16,
     paddingHorizontal: 16
   },
   modalHeader: {
