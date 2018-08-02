@@ -7,7 +7,7 @@ import { Icon } from 'components';
 
 import { fbStyles } from './styles';
 
-const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle }) => {
+const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle, content }) => {
   const icons = {
     cancel: { name: 'closeThick', color: color.danger },
     walker: { name: 'walker', color: color.success },
@@ -21,6 +21,8 @@ const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle }) =
     }
   };
 
+  const renderInner = () => (content || <Icon {...icons[iconName]} />);
+
   return (
     <View style={[fbStyles.container, style]}>
       <TouchableOpacity
@@ -31,7 +33,7 @@ const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle }) =
         <View style={fbStyles.button}>
           {loading
             ? <ActivityIndicator size="small" color={icons[iconName].color} />
-            : <Icon {...icons[iconName]} />
+            : renderInner()
           }
         </View>
       </TouchableOpacity>

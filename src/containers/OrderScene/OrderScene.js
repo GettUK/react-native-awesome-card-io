@@ -1,26 +1,31 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Linking, BackHandler } from 'react-native';
+import { View, Text, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Answers } from 'react-native-fabric';
 
 import { cancelOrder, clearCurrentOrder, removeFields, resetBookingValues } from 'actions/booking';
 
-import { FadeInView, GradientWrapper, OptionsModal, OrderHeader } from 'components';
+import { FadeInView, GradientWrapper, OptionsModal, OrderHeader, CountdownTimer } from 'components';
+import { sms } from 'api';
 import { formattedColor } from 'theme';
 
 import { strings } from 'locales';
-import { showConfirmationAlert, isIphoneX, bookingFieldsToReset } from 'utils';
+import { showConfirmationAlert, isIphoneX, bookingFieldsToReset, minutesForward, getCurrentOrder } from 'utils';
 import {
   POINTER_DISPLAY_STATUSES,
   ORDER_RECEIVED_STATUS,
   ACTIVE_DRIVER_STATUSES,
   CANCEL_ALLOWED_STATUSES,
   CUSTOMER_CARE_STATUS,
-  ACTIVE_STATUS
+  ACTIVE_STATUS,
+  ARRIVED_STATUS,
+  DRIVER_ON_WAY
 } from 'utils/orderStatuses';
+import { onMyWayOptions, actionsOptions } from './utils';
 
-import { FloatButton, Pointer, OnMyWayModal, CancelReasonModal, OrderDetailsPanel } from './components';
+import { FloatButton, Pointer, CancelReasonModal, OrderDetailsPanel } from './components';
 
 import styles from './styles';
 
@@ -29,11 +34,13 @@ class OrderScene extends Component {
     isVisibleOptionsModal: false,
     isVisibleCancelModal: false,
     isVisibleOnMyWayModal: false,
-    isVisibleOrderDetailsPanel: false
+    isVisibleOrderDetailsPanel: false,
+    arriveIn: null
   };
 
   componentDidMount() {
     this.registerBackListener();
+    this.restoreTimer();
   }
 
   componentWillUnmount() {
@@ -41,6 +48,14 @@ class OrderScene extends Component {
 
     BackHandler.removeEventListener('hardwareBack');
   }
+
+  restoreTimer = () => {
+    const { order } = this.props;
+    getCurrentOrder(order.id)
+      .then((data) => {
+        if (data) this.handleArriveIn(moment(data));
+      });
+  };
 
   registerBackListener = () => {
     this.backListener = BackHandler.addEventListener('hardwareBack', () => {
@@ -130,14 +145,33 @@ class OrderScene extends Component {
     this.handleOpen('OrderDetailsPanel');
   };
 
-  renderHeader = () =>
+  handleOnMyWay = () => {
+    const { arriveIn } = this.state;
+
+    if (!arriveIn) this.handleOpen('OnMyWayModal');
+  };
+
+  handleArriveIn = (arriveIn = null) => {
+    this.setState({ arriveIn });
+  };
+
+  handleNotifyDriver = (arriveIn) => {
+    const { order } = this.props;
+
+    sms.notifyDriver(order.id, arriveIn)
+      .then(() => this.handleArriveIn(minutesForward(arriveIn)));
+    this.handleClose('OnMyWayModal');
+  };
+
+  renderHeader = () => (
     <OrderHeader
       status={this.props.status}
       handlePressBack={this.handleBackBtnPress}
       handlePressCreateNew={this.createNewOrder}
     />
+  );
 
-  renderFloatButton = ({ iconName, label, handler, busy }) => (
+  renderFloatButton = ({ iconName, label, handler = () => {}, busy, ...rest }) => (
     <FloatButton
       key={iconName}
       label={strings(`order.button.${label}`)}
@@ -146,17 +180,20 @@ class OrderScene extends Component {
       onPress={handler}
       style={styles.floatButton}
       labelStyle={this.props.nightMode ? styles.whiteText : {}}
+      {...rest}
     />
-  )
+  );
 
   renderInfoPanel = () => {
-    const { status, busy, nightMode } = this.props;
+    const { status, busy, nightMode, order } = this.props;
+    const { arriveIn } = this.state;
 
     const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
+    const isDriverOnWay = status === DRIVER_ON_WAY;
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
     const isTripActive = status === ACTIVE_STATUS;
-    // const isDriverArrived = status === ARRIVED_STATUS;
+    const isDriverArrived = status === ARRIVED_STATUS;
     const white = formattedColor.white;
     // TODO: move to separate colors file
     const gradientColors = [white.opacity(0.8), white.opacity(0.75), white.opacity(0.6), white.opacity(0)];
@@ -179,7 +216,7 @@ class OrderScene extends Component {
             pointerEvents="box-none"
           >
             <View style={styles.actionsRow}>
-              {(isActiveDriverStatus || isTripActive) &&
+              {(isDriverOnWay || isTripActive) &&
                 this.renderFloatButton({
                   iconName: 'myLocation',
                   label: 'myLocation',
@@ -203,17 +240,20 @@ class OrderScene extends Component {
                 })
               }
 
-              {/* isDriverArrived &&
-                <FloatButton
-                  key="way"
-                  label={'I\'m on my way'}
-                  iconName="walker"
-                  onPress={() => this.handleOpen('OnMyWayModal')}
-                  style={{ marginLeft: 40 }}
-                />
-
-                isTripActive && <FloatButton key="actions" label="Actions" iconName="dots" />
-              */}
+              {isDriverArrived &&
+                this.renderFloatButton({
+                  content: arriveIn && (
+                    <CountdownTimer
+                      orderId={order.id}
+                      onCountdownComplete={this.handleArriveIn}
+                      endTime={arriveIn}
+                    />
+                  ),
+                  iconName: 'walker',
+                  label: 'walker',
+                  handler: this.handleOnMyWay
+                })
+              }
             </View>
 
             <Text style={[styles.header, nightMode ? styles.whiteText : {}]}>
@@ -231,7 +271,12 @@ class OrderScene extends Component {
 
     return (
       <Fragment>
-        <OnMyWayModal isVisible={isVisibleOnMyWayModal} onClose={() => this.handleClose('OnMyWayModal')} />
+        <OptionsModal
+          isVisible={isVisibleOnMyWayModal}
+          options={onMyWayOptions({ notifyDriver: this.handleNotifyDriver })}
+          onClose={() => this.handleClose('OnMyWayModal')}
+          closeLabel={strings('modal.label.cancel')}
+        />
         <CancelReasonModal
           isVisible={isVisibleCancelModal}
           onClose={() => this.handleClose('CancelModal')}
@@ -240,16 +285,12 @@ class OrderScene extends Component {
 
         <OptionsModal
           isVisible={isVisibleOptionsModal}
-          options={[{
-            icon: 'contactUs',
-            label: strings('information.contactUs'),
-            onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
-          }]}
+          options={actionsOptions({ customerServicePhone })}
           onClose={() => this.handleClose('OptionsModal')}
         />
       </Fragment>
     );
-  }
+  };
 
   render() {
     const { status, order, navigation } = this.props;

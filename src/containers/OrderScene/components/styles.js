@@ -32,34 +32,6 @@ export const fbStyles = StyleSheet.create({
   }
 });
 
-export const onMyWayStyles = StyleSheet.create({
-  bottomModal: {
-    justifyContent: 'flex-end',
-    margin: 0
-  },
-  button: {
-    alignSelf: 'flex-end',
-    padding: 16
-  },
-  buttonText: {
-    color: color.primaryBtns,
-    fontWeight: '600'
-  },
-  listItem: {
-    width: width - 32,
-    height: 56,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginLeft: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: color.pixelLine
-  },
-  listItemTitle: {
-    fontSize: 16
-  }
-});
-
 export const orderPanelStyles = StyleSheet.create({
   flex: {
     flex: 1

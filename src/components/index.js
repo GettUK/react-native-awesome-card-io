@@ -12,6 +12,7 @@ export { default as Divider } from './Divider';
 export { Modal } from './Modal';
 export { OptionsModal } from './Modal';
 export { default as StopPointsModal } from './StopPointsModal';
+export { default as CountdownTimer } from './CountdownTimer';
 export { default as CarItem } from './CarItem';
 export { default as JourneyDetails } from './JourneyDetails';
 export { default as PointList } from './PointList';

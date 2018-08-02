@@ -14,16 +14,16 @@ import ModalWrapper from './ModalWrapper';
 import { optionsModalStyle as styles } from './styles';
 
 export default function OptionsModal({
-  onClose, options, style, ...rest
+  onClose, options, style, closeLabel, ...rest
 }) {
   const renderOptions = options => (
     <View style={styles.wrapper}>
       {options.map((option, index) => (
         <TouchableWithoutFeedback onPress={option.onPress} key={option.label}>
           <View style={[styles.row, (index + 1) === options.length ? styles.rowLast : {}]}>
-            <Icon name={option.icon} size={26} />
-            <Text style={[styles.label, styles.flex]}>{option.label}</Text>
-            <Icon name="chevron" width={9} height={13} color={color.arrowRight} />
+            {option.icon && <Icon name={option.icon} size={26} />}
+            <Text style={[styles.label, styles.flex, !option.icon ? styles.labelWithoutIcon : {}]}>{option.label}</Text>
+            {!option.chevronHide && <Icon name="chevron" width={9} height={13} color={color.arrowRight} />}
           </View>
         </TouchableWithoutFeedback>
       ))}
@@ -37,7 +37,7 @@ export default function OptionsModal({
 
         <TouchableWithoutFeedback onPress={onClose}>
           <View style={[styles.wrapper, styles.cancel]}>
-            <Text style={styles.label}>{strings('modal.label.cancel')}</Text>
+            <Text style={styles.label}>{closeLabel}</Text>
           </View>
         </TouchableWithoutFeedback>
       </DismissKeyboardView>
@@ -56,5 +56,6 @@ OptionsModal.propTypes = {
 };
 
 OptionsModal.defaultProps = {
-  onClose: () => {}
+  onClose: () => {},
+  closeLabel: strings('modal.label.close')
 };

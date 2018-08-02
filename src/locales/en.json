@@ -202,11 +202,12 @@
       "actions": "Actions",
       "cancelOrder": "Cancel Order",
       "myLocation": "My Location",
+      "walker": "I'm on my way",
       "createNew": "Create New",
+      "dots": "Actions",
       "orders": "Orders",
       "receipt": "Receipt",
-      "save": "Save",
-      "dots": "Actions"
+      "save": "Save"
     }
   },
   "auth": {
