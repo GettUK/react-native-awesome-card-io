@@ -109,7 +109,7 @@ class OrderSet extends React.Component {
     FINAL_STATUSES.includes(order.status);
 
   renderDriverRoutes = () => {
-    const { order } = this.props;
+    const { order, nightMode } = this.props;
 
     const destinationTypes = {
       [ARRIVED_STATUS]: 'source',
@@ -124,9 +124,11 @@ class OrderSet extends React.Component {
         <DriverRoute
           destinationType={destinationTypes[order.status]}
           source={order.driverDetails.location}
-          destination={{ ...destinationAddress, value: `${order.driverDetails.eta} min` }}
+          destination={{ ...destinationAddress, value: order.driverDetails.eta && `${order.driverDetails.eta} min` }}
           stops={order.stops || order.stopAddresses}
           routeHidden={order.status === ARRIVED_STATUS}
+          nightMode={nightMode}
+          carType={order.vehicleType}
         />
       )
       : null;

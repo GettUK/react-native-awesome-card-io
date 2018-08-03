@@ -3,9 +3,10 @@ import { Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import { isEqual, takeRight } from 'lodash';
 import Map, { Polyline } from 'react-native-maps';
-import { prepareCoordinates, areCoordinatesSimilar } from 'utils';
 
 import { color } from 'theme';
+
+import { prepareCoordinates, areCoordinatesSimilar, getAngleBetweenCoordinates } from 'utils';
 
 import {
   DriverMarker,
@@ -24,7 +25,7 @@ const destinations = {
   destination: DestinationMarker
 };
 
-const animationDuration = 10000;
+const animationDuration = 23000;
 
 class DriverRoute extends PureComponent {
   constructor(props) {
@@ -64,21 +65,52 @@ class DriverRoute extends PureComponent {
     let index = coords.length;
 
     this.pathAnimationInterval = setInterval(() => {
-      this.route.setNativeProps({ coordinates: takeRight(coords, index) });
+      const nextCoordinates = takeRight(coords, index);
+
+      this.route.setNativeProps({ coordinates: nextCoordinates });
+
+      if (nextCoordinates.length > 1) {
+        this.driverMarker.setNativeProps({
+          rotation: getAngleBetweenCoordinates({
+            lat1: nextCoordinates[0].latitude,
+            lat2: nextCoordinates[1].latitude,
+            long1: nextCoordinates[0].longitude,
+            long2: nextCoordinates[1].longitude
+          })
+        });
+      }
+
       if (index === 0) this.stopAnimation();
       index -= 1;
     }, animationDuration / coords.length);
   };
 
+  renderDriverMarker = () => {
+    const { nightMode, carType } = this.props;
+
+    return (
+      <DriverMarker
+        innerRef={(marker) => { this.driverMarker = marker; }}
+        coordinate={this.driverCoordinate}
+        nightMode={nightMode}
+        anchorX={0.5}
+        anchorY={0.7838}
+        type={carType}
+      />
+    );
+  }
+
   render() {
     const { destination, routeHidden, destinationType, stops } = this.props;
     const { source } = this.state;
 
-    const Destination = destinations[destinationType];
+    const type = destinationType === 'eta' && !destination.value ? 'source' : destinationType;
+
+    const Destination = destinations[type];
 
     return (
       <Fragment>
-        <DriverMarker coordinate={this.driverCoordinate} />
+        {this.renderDriverMarker()}
         <Polyline
           ref={(el) => { this.route = el; } }
           coordinates={[]}
