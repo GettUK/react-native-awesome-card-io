@@ -1,9 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { View, Platform } from 'react-native';
 
 import { Icon, BackBtn } from 'components';
-import { color } from 'theme';
 import NavImageButton from 'components/Common/NavImageButton';
 
 import { Settings } from 'containers';
@@ -29,147 +27,126 @@ import { emptyFavouriteAddress } from 'containers/Settings/utils';
 import { strings } from 'locales';
 import { throttledAction } from 'utils';
 
+import getDefaultHeaderStyle from './utils';
+
 const addNewAddress = throttledAction(navigation =>
-  navigation.navigate('AddressEditor', { address: emptyFavouriteAddress }));
+  navigation.navigate('AddressEditor', { address: emptyFavouriteAddress, theme: navigation.state.params.theme }));
 
 const onAddPaymentCard = throttledAction(navigation =>
   navigation.navigate(
     'PaymentCardEditor',
-    { keys: ['cardNumber', 'cvv', 'holderName', 'expirationMonth', 'expirationYear', 'expirationDate'] }
+    {
+      keys: ['cardNumber', 'cvv', 'holderName', 'expirationMonth', 'expirationYear', 'expirationDate'],
+      theme: navigation.state.params.theme
+    }
   ));
 
-const headerStyle = {
-  backgroundColor: color.white,
-  paddingTop: Platform.OS === 'android' ? 20 : 0,
-  height: Platform.OS === 'android' ? 80 : 50
-};
+const navigationOptions = (
+  navigation,
+  { headerTitle, title, headerLeft = null, headerRight = null, backOptions = {} }
+) => ({
+  headerTintColor: navigation.state.params.theme.color.primaryText,
+  headerStyle: getDefaultHeaderStyle(navigation),
+  headerTitle: headerTitle || strings(`header.title.${title}`),
+  headerLeft: headerLeft || <BackBtn navigation={navigation} {...backOptions} />,
+  headerRight
+});
 
 const RoutesConfig = {
   Settings: {
     screen: Settings,
-    navigationOptions: ({ navigation }) => ({
-      headerTintColor: color.primaryText,
-      headerStyle,
-      title: strings('header.title.settings'),
-      headerBackTitle: strings('header.button.back'),
-      headerLeft: (
-        <View style={{ flexDirection: 'row' }}>
-          <NavImageButton
-            onClick={() => navigation.goBack(null)}
-            styleView={{ marginLeft: 10 }}
-            icon={<Icon size={30} name="close" color={color.primaryText} />}
-          />
-        </View>
-      )
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'settings',
+      headerLeft:
+        <NavImageButton
+          onClick={() => navigation.goBack(null)}
+          styleView={{ marginLeft: 10 }}
+          icon={<Icon size={30} name="close" color={navigation.state.params.theme.color.primaryText} />}
+        />
     })
   },
   EditProfile: {
     screen: EditProfile,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.editProfile'),
-      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
-      headerRight: <SaveProfileBtn navigation={navigation} />
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'editProfile',
+      headerRight: <SaveProfileBtn navigation={navigation} />,
+      backOptions: { touchedPath: 'passenger.temp.profileTouched' }
     })
   },
   PaymentCardDetails: {
     screen: PaymentCardDetails,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.cardDetails'),
-      headerLeft: <BackBtn navigation={navigation} />
-    })
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, { title: 'cardDetails' })
   },
   PaymentCardsList: {
     screen: PaymentCardsList,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.paymentCards'),
-      headerLeft: <BackBtn navigation={navigation} />,
-      headerRight: (
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'paymentCards',
+      headerRight:
         <NavImageButton
           onClick={() => onAddPaymentCard(navigation)}
           styleView={{ marginRight: 10 }}
-          icon={<Icon size={24} name="plus" color={color.primaryBtns} />}
+          icon={<Icon size={24} name="plus" color={navigation.state.params.theme.color.primaryBtns} />}
         />
-      )
     })
   },
   PaymentCardEditor: {
     screen: PaymentCardEditor,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.touched" />,
-      headerTitle: strings('header.title.addCreditCard'),
-      headerRight: <SavePaymentBtn navigation={navigation} />
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'addCreditCard',
+      headerRight: <SavePaymentBtn navigation={navigation} />,
+      backOptions: { touchedPath: 'passenger.touched' }
     })
   },
   PaymentCardTypes: {
     screen: PaymentCardTypes,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.cardType'),
-      headerLeft: <BackBtn navigation={navigation} />
-    })
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, { title: 'cardType' })
   },
   PhonesList: {
     screen: PhonesList,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.defaultPhone'),
-      headerLeft: <BackBtn navigation={navigation} />
-    })
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, { title: 'defaultPhone' })
   },
   SingleInputEditor: {
     screen: SingleInputEditor,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
       headerTitle: navigation.state.params.label,
-      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
-      headerRight: <SaveProfileBtn navigation={navigation} />
+      headerRight: <SaveProfileBtn navigation={navigation} />,
+      backOptions: { touchedPath: 'passenger.temp.profileTouched' }
     })
   },
   CarTypesEditor: {
     screen: CarTypesEditor,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.defaultCarType'),
-      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.profileTouched" />,
-      headerRight: <SaveProfileBtn navigation={navigation} />
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'defaultCarType',
+      headerRight: <SaveProfileBtn navigation={navigation} />,
+      backOptions: { touchedPath: 'passenger.temp.profileTouched' }
     })
   },
   AddressesList: {
     screen: AddressesList,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
-      headerTitle: strings('header.title.myAddresses'),
-      headerLeft: <BackBtn navigation={navigation} touchedPath="passenger.temp.addressTouched" />,
-      headerRight: (
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      title: 'myAddresses',
+      headerRight:
         <NavImageButton
           onClick={() => addNewAddress(navigation)}
           styleView={{ marginRight: 10 }}
-          icon={<Icon size={24} name="plus" color={color.primaryBtns} />}
-        />
-      )
+          icon={<Icon size={24} name="plus" color={navigation.state.params.theme.color.primaryBtns} />}
+        />,
+      backOptions: { touchedPath: 'passenger.temp.addressTouched' }
     })
   },
   AddressEditor: {
     screen: AddressEditor,
-    navigationOptions: ({ navigation }) => {
-      const address = navigation.state.params && navigation.state.params.address;
-      return {
-        headerStyle,
-        headerLeft: <AddressEditorBackBtn navigation={navigation} />,
-        headerTitle: address && address.id
-          ? strings('header.title.editAddress') : strings('header.title.newAddress'),
-        headerRight: <SaveAddressBtn navigation={navigation} />
-      };
-    }
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
+      headerTitle: navigation.state.params.address.id
+        ? strings('header.title.editAddress')
+        : strings('header.title.newAddress'),
+      headerLeft: <AddressEditorBackBtn navigation={navigation} />,
+      headerRight: <SaveAddressBtn navigation={navigation} />
+    })
   },
   InfoPages: {
     screen: InfoPages,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle,
+    navigationOptions: ({ navigation }) => navigationOptions(navigation, {
       headerTitle: strings(`information.${navigation.state.params.page}`)
     })
   }

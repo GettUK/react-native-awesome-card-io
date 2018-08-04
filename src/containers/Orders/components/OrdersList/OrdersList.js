@@ -12,10 +12,14 @@ import { strings } from 'locales';
 import config from 'config';
 
 import { ListView, Icon } from 'components';
+
+import { withTheme } from 'providers';
+
 import styles from './styles';
 import mapStyles from './mapStyles';
+import darkMapStyles from './darkMapStyles';
 
-import { getLabelColor, getOrdersStatuses } from '../../util';
+import { getLabelType, getOrdersStatuses } from '../../utils';
 
 class OrdersList extends PureComponent {
   state = {
@@ -104,57 +108,71 @@ class OrdersList extends PureComponent {
     }
   }, 750);
 
-  renderItem = ({ item }) => (
-    <TouchableWithoutFeedback key={item.id} onPress={() => this.goToOrderDetails(item.id)}>
-      <View style={styles.orderWrapper}>
-        <View>
-          <View style={styles.orderMap}>
-            <Image
-              source={{ uri: `${item.staticMap}&${mapStyles}&key=${config.googleAPIKey}` }}
-              style={[{ width: this.mapSize.width, height: this.mapSize.height }, styles.orderMap]}
-            />
+  renderItem = ({ item }) => {
+    const { theme } = this.props;
+    const mapTheme = theme.type === 'dark' ? darkMapStyles : mapStyles;
+
+    return (
+      <TouchableWithoutFeedback key={item.id} onPress={() => this.goToOrderDetails(item.id)}>
+        <View style={[styles.orderWrapper, { backgroundColor: theme.color.bgPrimary }]}>
+          <View>
+            <View style={styles.orderMap}>
+              <Image
+                source={{ uri: `${item.staticMap}&${mapTheme}&key=${config.googleAPIKey}` }}
+                style={[{ width: this.mapSize.width, height: this.mapSize.height }, styles.orderMap]}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.orderDetails}>
-          <View style={styles.row}>
-            <Text style={styles.orderDate} numberOfLines={1}>{moment(item.scheduledAt).format('lll')}</Text>
-            <View style={[styles.orderLabel, styles[`${getLabelColor(item.indicatedStatus)}Label`]]}>
-              <Text style={[styles.orderLabelText, styles[`${getLabelColor(item.indicatedStatus)}LabelText`]]}>
-                {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
+          <View style={styles.orderDetails}>
+            <View style={styles.row}>
+              <Text style={styles.orderDate} numberOfLines={1}>{moment(item.scheduledAt).format('lll')}</Text>
+              <View style={[
+                styles.orderLabel,
+                { backgroundColor: theme.color[`${getLabelType(item.indicatedStatus)}Light`] }
+              ]}>
+                <Text style={[styles.orderLabelText, { color: theme.color[getLabelType(item.indicatedStatus)] }]}>
+                  {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
+                </Text>
+              </View>
+            </View>
+            <View style={[styles.orderAddress, styles.orderAddressGap]}>
+              <View style={styles.iconContainer}>
+                <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />
+                <Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" />
+              </View>
+              <Text numberOfLines={1} style={[styles.flex, { color: theme.color.primaryText }]}>
+                {item.pickupAddress.line}
+              </Text>
+            </View>
+            {item.stopAddresses && item.stopAddresses.length > 0 &&
+              item.stopAddresses.map((address, i) => (
+                <View key={i} style={[styles.orderAddress, styles.orderAddressGap]}>
+                  <View style={styles.iconContainer}>
+                    <Icon
+                      name="pickUpField"
+                      color={color.secondaryText}
+                      size={12}
+                      style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
+                    />
+                    <Icon style={styles.connector} height={12} name="dottedLine" />
+                  </View>
+                  <Text numberOfLines={1} style={[styles.flex, { color: theme.color.primaryText }]}>
+                    {address.line}
+                  </Text>
+                </View>
+              ))
+            }
+            <View style={styles.orderAddress}>
+              <Icon name="destinationMarker" width={16} style={styles.orderAddressIcon} />
+              <Text numberOfLines={1} style={[styles.flex, { color: theme.color.primaryText }]}>
+                {item.destinationAddress && item.destinationAddress.line}
               </Text>
             </View>
           </View>
-          <View style={[styles.orderAddress, styles.orderAddressGap]}>
-            <View style={styles.iconContainer}>
-              <Icon name="pickUpField" size={16} style={styles.orderAddressIcon} />
-              <Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" />
-            </View>
-            <Text numberOfLines={1} style={styles.flex}>{item.pickupAddress.line}</Text>
-          </View>
-          {item.stopAddresses && item.stopAddresses.length > 0 &&
-            item.stopAddresses.map((address, i) => (
-              <View key={i} style={[styles.orderAddress, styles.orderAddressGap]}>
-                <View style={styles.iconContainer}>
-                  <Icon
-                    name="pickUpField"
-                    color={color.secondaryText}
-                    size={12}
-                    style={[styles.orderAddressIcon, styles.orderStopAddressIcon]}
-                  />
-                  <Icon style={styles.connector} height={12} name="dottedLine" />
-                </View>
-                <Text numberOfLines={1} style={styles.flex}>{address.line}</Text>
-              </View>
-            ))
-          }
-          <View style={styles.orderAddress}>
-            <Icon name="destinationMarker" width={16} style={styles.orderAddressIcon} />
-            <Text numberOfLines={1} style={styles.flex}>{item.destinationAddress && item.destinationAddress.line}</Text>
-          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+      </TouchableWithoutFeedback>
+    );
+  }
 
   onEndReached = () => this.getOrders(true);
 
@@ -189,4 +207,4 @@ const mapDispatch = ({
   clearOrdersList
 });
 
-export default connect(mapState, mapDispatch)(OrdersList);
+export default connect(mapState, mapDispatch)(withTheme(OrdersList));

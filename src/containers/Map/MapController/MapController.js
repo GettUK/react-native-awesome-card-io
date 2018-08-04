@@ -157,7 +157,7 @@ class MapController extends React.PureComponent {
 
   renderMap = () => {
     const { dragEnable, isLoadingPickup } = this.state;
-    const { nightMode, onFutureOrderAcceptedReceive } = this.props;
+    const { onFutureOrderAcceptedReceive } = this.props;
     const isOrderCreating = this.isActiveSceneIs('orderCreating');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
     const order = this.getOrder();
@@ -169,7 +169,6 @@ class MapController extends React.PureComponent {
         dragEnable={!isLoadingPickup && dragEnable}
         enableDrag={this.enableDrag}
         disableDrag={this.disableDrag}
-        nightMode={nightMode}
         onStartLoadingPickup={this.startLoadingPickup}
         onEndLoadingPickup={this.endLoadingPickup}
       >
@@ -178,15 +177,13 @@ class MapController extends React.PureComponent {
             order={order}
             dragEnable={!isLoadingPickup && dragEnable}
             disableDrag={this.disableDrag}
-            nightMode={nightMode}
             onEndLoadingPickup={this.endLoadingPickup}
           />
           : <OrderSet
-            ref={(orderSet) => { this.orderSet = orderSet; }}
+            innerRef={(orderSet) => { this.orderSet = orderSet; }}
             order={order}
             isCompletedOrder={isCompletedOrder}
             disableDrag={this.disableDrag}
-            nightMode={nightMode}
             onFutureOrderAcceptedReceive={onFutureOrderAcceptedReceive}
           />
         }

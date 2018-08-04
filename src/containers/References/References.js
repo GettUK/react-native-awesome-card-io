@@ -1,10 +1,17 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Input, DismissKeyboardView, Icon } from 'components';
-import { color } from 'theme';
+
 import { changeReference } from 'actions/booking';
+
+import { Input, DismissKeyboardView, Icon } from 'components';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
 import styles from './styles';
 
 class References extends PureComponent {
@@ -15,7 +22,7 @@ class References extends PureComponent {
   }
 
   renderDropdownItem = (item, i) => {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     const goToReferenceSelector = () => navigation.navigate('ReferenceValueSelector', { reference: item });
     const error = this.getReferenceError(i);
@@ -27,7 +34,7 @@ class References extends PureComponent {
           onPress={goToReferenceSelector}
           style={[styles.dropdownItem, error ? styles.errorBorder : {}]}
         >
-          <Text style={[styles.flex, styles.dropdownItemTitle]}>{item.name}</Text>
+          <Text style={[styles.flex, styles.dropdownItemTitle, { color: theme.color.primaryText }]}>{item.name}</Text>
           {item.value &&
             <Text style={[styles.flex, styles.dropdownItemValue]} numberOfLines={1}>{item.value}</Text>
           }
@@ -77,9 +84,10 @@ class References extends PureComponent {
   );
 
   render() {
-    const { bookerReferences } = this.props;
+    const { bookerReferences, theme } = this.props;
+
     return (
-      <View style={[styles.flex, styles.container]}>
+      <View style={[styles.flex, styles.container, { backgroundColor: theme.color.bgSecondary }]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={80}
@@ -106,4 +114,4 @@ const mapDispatch = ({
   changeReference
 });
 
-export default connect(mapState, mapDispatch)(References);
+export default connect(mapState, mapDispatch)(withTheme(References));

@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 5,
     borderRadius: 10,
-    backgroundColor: color.white,
     elevation: 2,
     shadowColor: color.primaryText,
     shadowOpacity: 0.2,

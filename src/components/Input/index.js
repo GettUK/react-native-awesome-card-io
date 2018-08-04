@@ -1,14 +1,19 @@
 import React, { PureComponent } from 'react';
 import { TextInput, View, Animated, TouchableOpacity, Text } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
+
 import { Icon } from 'components';
+
 import { color } from 'theme';
+
+import { withTheme } from 'providers';
+
 import styles from './style';
 
 const labelFontSizeValues = [18, 14];
 const labelTopValues = [10, -10];
 
-export default class Input extends PureComponent {
+class Input extends PureComponent {
   constructor(props) {
     super(props);
     const stateIndex = +!!(props.value || props.placeholder).length;
@@ -164,10 +169,15 @@ export default class Input extends PureComponent {
       underlineColorAndroid,
       inputRef,
       rightButton,
+      theme,
       ...rest
     } = this.props;
 
-    const inputStyles = [styles.input, inputStyle];
+    const inputStyles = [
+      styles.input,
+      { borderBottomColor: theme.color.pixelLine, color: theme.color.primaryText },
+      inputStyle
+    ];
     if (allowClear) inputStyles.push(styles.withClearBtn, allowClearStyle);
     if (error) inputStyles.push(styles.error);
 
@@ -192,3 +202,5 @@ export default class Input extends PureComponent {
     );
   }
 }
+
+export default withTheme(Input);

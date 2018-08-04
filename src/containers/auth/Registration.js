@@ -85,7 +85,7 @@ export default class Registration extends Component {
   handleRegisterSuccess = () => {
     Answers.logSignUp('Company', true);
     this.setState({ loading: false, form: initialForm });
-    this.popup.open();
+    this.successPopup.open();
   };
 
   handleRegisterError = () => {
@@ -200,6 +200,7 @@ export default class Registration extends Component {
           message={error}
         />
         <SuccessPopup
+          innerRef={(popup) => { this.successPopup = popup; }}
           title={strings('popup.companyRequest.title')}
           content={strings('popup.companyRequest.description')}
         />

@@ -10,6 +10,8 @@ import { throttledAction } from 'utils';
 
 import { Input, DismissKeyboardView, Modal, Icon, Divider } from 'components';
 
+import { withTheme } from 'providers';
+
 import { extractedDate, getValue, helpInfo, prepareCardEditor, prepareCardEditorInputs } from './utils';
 import styles from './styles';
 
@@ -65,7 +67,7 @@ class PaymentCardEditor extends Component {
   };
 
   goToPaymentCardTypes = throttledAction(() => {
-    this.props.navigation.navigate('PaymentCardTypes', {});
+    this.props.navigation.navigate('PaymentCardTypes', { theme: this.props.theme });
   });
 
   renderInfo = (type) => {
@@ -106,7 +108,7 @@ class PaymentCardEditor extends Component {
       >
         <View style={styles.flex}>
           <Text style={styles.paymentCardLabel}>{getValue(label)}</Text>
-          <Text style={styles.paymentCardText}>{getValue(text)}</Text>
+          <Text style={[styles.paymentCardText, { color: this.props.theme.color.primaryText }]}>{getValue(text)}</Text>
         </View>
         <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
       </TouchableOpacity>
@@ -137,7 +139,7 @@ class PaymentCardEditor extends Component {
   render() {
     const { isVisible, type } = this.state;
     return (
-      <View style={[styles.flex, styles.container]}>
+      <View style={[styles.flex, styles.container, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={80}
@@ -171,4 +173,4 @@ const mapDispatch = {
   resetPaymentFields
 };
 
-export default connect(mapState, mapDispatch)(PaymentCardEditor);
+export default connect(mapState, mapDispatch)(withTheme(PaymentCardEditor));

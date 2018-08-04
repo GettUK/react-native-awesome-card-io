@@ -6,17 +6,22 @@ import { Button } from 'components';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
-const LabeledButton = ({ onClick, type }) => (
+const LabeledButton = ({ onClick, type, theme }) => (
   <Button
     style={styles.btnContainer}
-    styleContent={[styles.btn, styles[type]]}
+    styleContent={[styles.btn, { backgroundColor: theme.color.bgPrimary }, styles[type]]}
     raised={false}
     size="sm"
     onPress={onClick}
   >
-    <Text allowFontScaling={false} style={styles[`${type}Text`]}>
+    <Text
+      allowFontScaling={false}
+      style={[styles[`${type}Text`], type === 'createNew' && { color: theme.color.primaryBtns }]}
+    >
       {strings(`order.button.${type}`)}
     </Text>
   </Button>
@@ -32,4 +37,4 @@ LabeledButton.defaultProps = {
   onClick: () => {}
 };
 
-export default LabeledButton;
+export default withTheme(LabeledButton);

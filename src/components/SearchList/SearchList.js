@@ -5,6 +5,9 @@ import { View, FlatList, Text } from 'react-native';
 import { SearchBar } from 'components';
 
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
 
@@ -16,7 +19,8 @@ class SearchList extends Component {
   };
 
   render() {
-    const { data, searchValue, onSearchValueChange, ...rest } = this.props;
+    const { data, searchValue, theme, onSearchValueChange, ...rest } = this.props;
+
     return (
       <View style={[styles.flex, styles.container]}>
         <SearchBar
@@ -26,12 +30,14 @@ class SearchList extends Component {
         />
         {data && data.length
           ? <FlatList
-            style={[styles.flex, styles.bg]}
+            style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}
             data={data}
             {...rest}
           />
-          : <View style={[styles.flex, styles.container]}>
-            <Text style={styles.emptyResult}>{strings('app.label.emptyResult')}</Text>
+          : <View style={[styles.flex, styles.container, styles.bg, { backgroundColor: theme.color.bgSecondary }]}>
+            <Text style={[styles.emptyResult, { color: theme.color.primaryText }]}>
+              {strings('app.label.emptyResult')}
+            </Text>
           </View>
         }
       </View>
@@ -39,4 +45,4 @@ class SearchList extends Component {
   }
 }
 
-export default SearchList;
+export default withTheme(SearchList);

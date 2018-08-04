@@ -2,19 +2,21 @@ import React from 'react';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import Popup from './Popup';
 
 import styles from './style';
 
-const LocationPopup = ({ innerRef, onPress }) => (
+const LocationPopup = ({ popupRef, theme, onPress }) => (
   <Popup
-    ref={innerRef}
+    innerRef={popupRef}
     titleStyle={styles.popupLocationTitle}
     title={strings('popup.locationService.title')}
     buttons={[
       {
         title: strings('popup.locationService.button.сancel'),
-        style: styles.btnStyle,
+        style: [styles.btnStyle, { backgroundColor: theme.color.bgSecondary }],
         textStyle: styles.btnTextStyle
       },
       {
@@ -25,4 +27,4 @@ const LocationPopup = ({ innerRef, onPress }) => (
   />
 );
 
-export default LocationPopup;
+export default withTheme(LocationPopup);

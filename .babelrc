@@ -18,7 +18,8 @@
           "reducers": "./src/reducers",
           "store": "./src/store",
           "theme": "./src/theme",
-          "utils": "./src/utils"
+          "utils": "./src/utils",
+          "providers": "./src/containers/shared/providers"
         }
       }
     ]

@@ -10,8 +10,10 @@ import { setActiveBooking } from 'actions/booking';
 
 import { ListView } from 'components';
 
-import sortItems from './util';
-import { goBackFromSettings } from '../Orders/util';
+import { withTheme } from 'providers';
+
+import sortItems from './utils';
+import { goBackFromSettings } from '../Orders/utils';
 
 import styles from './styles';
 
@@ -57,48 +59,59 @@ class Notifications extends PureComponent {
   };
 
   renderSectionHeader = ({ index, section }) => (
-    <Text key={index} style={styles.sectionHeader}>{section.section}</Text>
+    <Text
+      key={index}
+      style={[styles.sectionHeader, { color: this.props.theme.color.secondaryText }]}
+    >
+      {section.section}
+    </Text>
   )
 
   renderItem = ({ item }) => (
     <TouchableWithoutFeedback key={item.id} onPress={() => this.goToNotificationDetails(item.bookingId)}>
-      <View style={styles.notificationWrapper}>
+      <View style={[styles.notificationWrapper, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         <View style={styles.notificationDetails}>
-
           {item.title &&
             <View style={styles.rowMarginBottom}>
-              <Text style={styles.bodyText}>
+              <Text style={[styles.bodyText, { color: this.props.theme.color.primaryText }]}>
                 {item.title}
               </Text>
             </View>}
 
           {item.body &&
             <View style={styles.rowMarginBottom}>
-              <Text numberOfLines={5}>
+              <Text numberOfLines={5} style={{ color: this.props.theme.color.primaryText }}>
                 {item.body}
               </Text>
             </View>}
 
           <View style={styles.row}>
-            <Text style={styles.notificationDate} numberOfLines={1}>{item.timestampDate}</Text>
-            {item.indicatedStatus && <View style={[styles.notificationLabel, styles[`${item.labelColor}Label`]]}>
-              <Text style={[styles.notificationLabelText, styles[`${item.labelColor}LabelText`]]}>
-                {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
-              </Text>
-            </View>}
-          </View>
+            <Text
+              style={[styles.notificationDate, { color: this.props.theme.color.secondaryText }]}
+              numberOfLines={1}
+            >
+              {item.timestampDate}
+            </Text>
 
+            {item.indicatedStatus &&
+              <View style={[styles.notificationLabel, styles[`${item.labelColor}Label`]]}>
+                <Text style={[styles.notificationLabelText, styles[`${item.labelColor}LabelText`]]}>
+                  {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
+                </Text>
+              </View>
+            }
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
   )
 
   render() {
-    const { sections } = this.props;
+    const { sections, theme } = this.props;
     const { loading } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.color.bgSettings }]}>
         <ListView
           typeSections
           items={sections}
@@ -121,4 +134,4 @@ const mapDispatch = ({
   clearNotificationsList
 });
 
-export default connect(mapState, mapDispatch)(Notifications);
+export default connect(mapState, mapDispatch, null, { pure: false })(withTheme(Notifications));

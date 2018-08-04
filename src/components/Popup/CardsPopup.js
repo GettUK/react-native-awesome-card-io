@@ -9,7 +9,7 @@ import styles from './style';
 
 const CardsPopup = ({ innerRef }) => (
   <Popup
-    ref={innerRef}
+    innerRef={innerRef}
     titleStyle={styles.popupLocationTitle}
     title={strings('popup.cards.title')}
     content={<Text style={styles.popupCards}>{strings('popup.cards.description')}</Text>}

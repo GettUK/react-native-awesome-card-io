@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { Platform } from 'react-native';
 import StackViewStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import { ScreenHeader, BackBtn } from 'components';
@@ -36,23 +35,20 @@ import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
 
+import getDefaultHeaderStyle from './utils';
+
 const onBackReturnable = navigation => (
   navigation.state.params && navigation.state.params.fromSettings
     ? () => {
       navigation.goBack();
       navigation.navigate('Settings', {
         onGoToRides: navigation.state.params.onGoToRides,
-        onGoToNotifications: navigation.state.params.onGoToNotifications
+        onGoToNotifications: navigation.state.params.onGoToNotifications,
+        theme: navigation.state.params.theme
       });
     }
     : null
 );
-
-const headerStyle = {
-  backgroundColor: color.white,
-  paddingTop: Platform.OS === 'android' ? 20 : 0,
-  height: Platform.OS === 'android' ? 80 : 50
-};
 
 const routeConfiguration = {
   TransitionLoading: {
@@ -63,16 +59,14 @@ const routeConfiguration = {
     screen: Map,
     navigationOptions: () => ({
       headerTintColor: color.primaryText,
-      headerStyle: {
-        backgroundColor: color.white
-      },
       header: null
     })
   },
   EditOrderDetails: {
     screen: EditOrderDetails,
     navigationOptions: ({ navigation }) => ({
-      headerStyle,
+      headerTintColor: navigation.state.params.theme.color.primaryText,
+      headerStyle: getDefaultHeaderStyle(navigation),
       headerTitle: strings('order.text.orderDetails'),
       headerLeft: <BackBtn navigation={navigation} />
     })
@@ -106,7 +100,8 @@ const routeConfiguration = {
   NotificationsView: {
     screen: Notifications,
     navigationOptions: ({ navigation }) => ({
-      headerStyle,
+      headerTintColor: navigation.state.params.theme.color.primaryText,
+      headerStyle: getDefaultHeaderStyle(navigation),
       headerTitle: 'Notifications History',
       headerLeft: <BackBtn handlePress={onBackReturnable(navigation)} />
     })

@@ -16,6 +16,8 @@ import { Input, DismissKeyboardView, Icon } from 'components';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { color } from 'theme';
 
 import { get, timeFormat, getSeparatedDate } from 'utils';
@@ -101,7 +103,7 @@ class FlightSettings extends Component {
 
   renderFlightData = item => (
     <View key={item.title} style={styles.results}>
-      <Text style={styles.resultTitle}>{item.title}</Text>
+      <Text style={[styles.resultTitle, { color: this.props.theme.color.primaryText }]}>{item.title}</Text>
       <Text style={styles.resultLabel}>{item.text}</Text>
     </View>
   );
@@ -169,7 +171,7 @@ class FlightSettings extends Component {
     const { originalData, verificationData, loading } = this.state;
 
     return (
-      <View style={[styles.flex, styles.bg]}>
+      <View style={[styles.flex, styles.bg, { backgroundColor: this.props.theme.color.bgSecondary }]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={80}
@@ -202,4 +204,4 @@ const mapState = ({ booking }) => ({
   flight: booking.bookingForm.flight
 });
 
-export default connect(mapState, { changeFlight })(FlightSettings);
+export default connect(mapState, { changeFlight })(withTheme(FlightSettings));

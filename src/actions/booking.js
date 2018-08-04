@@ -86,12 +86,12 @@ export const saveMessageToDriver = (messageToDriver, modified = false) => (dispa
 export const changeMessageToDriver = (message, touched = false) =>
   ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
 
-const getMessageForAddress = ({ message, address, meta, booking, passenger }) => {
-  const { formData: { defaultPickupAddress, defaultDriverMessage } } = booking;
+const getMessageForAddress = ({ message, address = {}, meta, booking, passenger }) => {
+  const { formData: { defaultPickupAddress = {}, defaultDriverMessage } } = booking;
   const { data: { favoriteAddresses } } = passenger;
   const tempMessage = message;
 
-  if (address.id === defaultPickupAddress.id && meta.type === 'pickupAddress') {
+  if (address && defaultPickupAddress && address.id === defaultPickupAddress.id && meta.type === 'pickupAddress') {
     tempMessage.pickupMessage = `${messagePrefixes.pickup} ${defaultDriverMessage}`;
   } else {
     const addresses = favoriteAddresses.filter(item => item.name === address.label);

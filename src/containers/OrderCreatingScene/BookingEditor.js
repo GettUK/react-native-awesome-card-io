@@ -26,6 +26,8 @@ import { getHeight, prepareCoordinates, getPassengerPayload } from 'utils';
 
 import BookingController from 'containers/BookingController';
 
+import { withTheme } from 'providers';
+
 import styles from './style';
 
 class BookingEditor extends BookingController {
@@ -104,7 +106,7 @@ class BookingEditor extends BookingController {
     if (serviceSuspended) {
       this.showServiceSuspendedPopup();
     } else {
-      this.props.navigation.navigate('EditOrderDetails');
+      this.props.navigation.navigate('EditOrderDetails', { theme: this.props.theme });
     }
   };
 
@@ -138,10 +140,10 @@ class BookingEditor extends BookingController {
     return <Button
         key={address.id || label}
         onPress={handlerPress}
-        styleContent={styles.destinationBtn}
+        styleContent={[styles.destinationBtn, { backgroundColor: this.props.theme.color.bgSecondary }]}
         style={styles.padding}
       >
-        <Text style={styles.customDestinationText}>{label}</Text>
+        <Text style={[styles.customDestinationText, { color: this.props.theme.color.primaryText }]}>{label}</Text>
       </Button>;
   };
 
@@ -167,7 +169,7 @@ class BookingEditor extends BookingController {
 
   renderAddressesSelector() {
     return (
-      <View style={styles.selectAddress}>
+      <View style={[styles.selectAddress, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         {this.renderPointList({ style: styles.pointList })}
         <View style={styles.destinationBtnsContainer}>
           {this.props.booking.formData.busy
@@ -182,10 +184,10 @@ class BookingEditor extends BookingController {
   renderBtn = ({ iconName, style, iconSize = 22, onPress }) => (
     <Button
       style={[styles.btnWrapper, style]}
-      styleContent={styles.btnView}
+      styleContent={[styles.btnView, { backgroundColor: this.props.theme.color.bgPrimary }]}
       onPress={onPress}
     >
-      <Icon name={iconName} size={iconSize} color={color.primaryBtns}/>
+      <Icon name={iconName} size={iconSize} color={this.props.theme.color.primaryBtns}/>
     </Button>
   );
 
@@ -244,7 +246,7 @@ class BookingEditor extends BookingController {
             {this.renderAddressesSelector()}
 
             <LocationPopup
-              innerRef={(popup) => { this.locationPopup = popup; }}
+              popupRef={(popup) => { this.locationPopup = popup; }}
               onPress={this.openSettings}
             />
           </View>
@@ -329,4 +331,4 @@ const bindActions = {
   setDefaultMessageToDriver
 };
 
-export default connect(select, bindActions, null, { withRef: true })(BookingEditor);
+export default connect(select, bindActions, null, { pure: false })(withTheme(BookingEditor));

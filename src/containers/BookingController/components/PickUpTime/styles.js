@@ -7,7 +7,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     minHeight: 50,
-    backgroundColor: color.white,
     paddingVertical: 7,
     paddingHorizontal: 20
   },

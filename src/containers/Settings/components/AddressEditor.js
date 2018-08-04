@@ -9,6 +9,9 @@ import { color } from 'theme';
 import { touchField, setTempAddress, changeTempAddressField, changeTempAddress } from 'actions/passenger';
 import { Input, AddressModal, DismissKeyboardView } from 'components';
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
 import { throttledAction, showConfirmationAlert } from 'utils';
 
 import styles from './AddressStyles';
@@ -28,10 +31,10 @@ class AddressEditor extends Component {
     setTempAddress(address);
 
     this.backListener = BackHandler.addEventListener('backPress', () => {
-      const { touched } = this.props;
+      const { touched, theme } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
+        showConfirmationAlert({ theme, title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 
@@ -77,11 +80,15 @@ class AddressEditor extends Component {
   );
 
   renderForm = () => {
-    const { address, errors, navigation } = this.props;
+    const { address, errors, navigation, theme } = this.props;
     const { editing } = navigation.state.params;
 
     return (
-      <InputScrollView contentContainerStyle={[styles.container, editing ? styles.scrollContainer : {}]}>
+      <InputScrollView contentContainerStyle={[
+        styles.container,
+        editing ? styles.scrollContainer : {},
+        { backgroundColor: theme.color.bgPrimary, borderBottomColor: theme.color.pixelLine }
+      ]}>
         {
           this.renderInput({
             label: `Address Name (${this.getFieldLength(address.name)}/32)`,
@@ -163,13 +170,17 @@ class AddressEditor extends Component {
     const { editing } = this.props.navigation.state.params;
 
     return (
-      <View style={[styles.flex, styles[`container${editing ? 'Grey' : ''}`]]}>
+      <View style={[
+        styles.flex,
+        styles[`container${editing ? 'Grey' : ''}`],
+        { backgroundColor: this.props.theme.color[editing ? 'bgSettings' : 'bgPrimary'] }
+      ]}>
         <DismissKeyboardView style={styles.flex}>
           {this.renderPage()}
         </DismissKeyboardView>
 
         <AddressModal
-          ref={(el) => { this.addressModal = el; }}
+          innerRef={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />
       </View>
@@ -190,4 +201,4 @@ const mapDispatch = {
   touchField
 };
 
-export default connect(mapState, mapDispatch)(AddressEditor);
+export default connect(mapState, mapDispatch)(withTheme(AddressEditor));

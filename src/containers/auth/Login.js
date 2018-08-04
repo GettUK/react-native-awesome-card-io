@@ -66,6 +66,10 @@ class Login extends Component {
     form: initialFormState
   };
 
+  componentDidMount() {
+    this.props.navigation.setParams({ theme: this.props.theme });
+  }
+
   componentDidUpdate(_, { isResetSuccess }) {
     if (this.state.isResetSuccess && !isResetSuccess) {
       this.showError();
@@ -82,10 +86,11 @@ class Login extends Component {
 
   handleSubmit = () => {
     if (this.validateInputs()) {
+      const { navigation } = this.props;
       this.setState({ loading: true });
       this.props.login(this.state.form)
         .then(() => this.setState({ loading: false }))
-        .then(() => this.props.navigation.navigate('MapView'))
+        .then(() => navigation.navigate('MapView', { theme: navigation.state.params.theme }))
         .catch(this.handleLoginError);
     }
   };
@@ -111,7 +116,7 @@ class Login extends Component {
 
       this.setState({ error: errorMessage }, this.showError);
     } else {
-      this.resetError();
+      this.setState({ error: '' });
     }
 
     return !err;
@@ -125,17 +130,13 @@ class Login extends Component {
     this.setState({ isResetSuccess: false });
   };
 
-  resetError = () => {
-    this.setState({ error: '' });
-  };
-
   goToCreateAccount = () => {
     this.props.navigation.navigate('Registration', {});
   };
 
   goToForgot = () => {
     this.props.navigation.navigate('ForgotPassword', { onReturn: this.handleActivation });
-    this.resetError();
+    this.setState({ error: '' });
   };
 
   goToInfoPage = throttledAction((page) => {

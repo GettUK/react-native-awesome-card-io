@@ -10,8 +10,13 @@ import { getPassengerData, changeToggleValue, sendPredefinedAddress } from 'acti
 import { logout, resetGuide } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
 import { changeDevSettingField } from 'actions/app/devSettings';
+
 import { AddressModal, Divider } from 'components';
+
+import { withTheme } from 'providers';
+
 import { throttledAction, isDevMode } from 'utils';
+
 import { strings } from 'locales';
 
 import {
@@ -51,25 +56,28 @@ class Settings extends Component {
   };
 
   goToEditProfile = throttledAction(() => {
-    this.props.navigation.navigate('EditProfile', { keys: ['firstName', 'lastName'] });
+    this.props.navigation.navigate('EditProfile', { theme: this.props.theme, keys: ['firstName', 'lastName'] });
   });
 
   goToAddressesList = throttledAction(() => {
     Answers.logContentView('My Addresses was opened', 'screen view', 'myAddressesOpen');
-    this.props.navigation.navigate('AddressesList', { openAddressModal: this.openAddressModal });
+    this.props.navigation.navigate('AddressesList', {
+      theme: this.props.theme,
+      openAddressModal: this.openAddressModal
+    });
   });
 
   goToCarTypesEditor = throttledAction(() => {
     Answers.logContentView('Default Car type was opened', 'screen view', 'defaultCarTypeOpen');
-    this.props.navigation.navigate('CarTypesEditor');
+    this.props.navigation.navigate('CarTypesEditor', { theme: this.props.theme });
   });
 
   goToSingleInputEditor = throttledAction((page) => {
-    this.props.navigation.navigate('SingleInputEditor', page);
+    this.props.navigation.navigate('SingleInputEditor', { ...page, theme: this.props.theme });
   });
 
   goToPhonesList = throttledAction(() => {
-    this.props.navigation.navigate('PhonesList');
+    this.props.navigation.navigate('PhonesList', { theme: this.props.theme });
   });
 
   openAddressModal = throttledAction((predefinedType) => {
@@ -97,12 +105,12 @@ class Settings extends Component {
 
   goToMyPayments = throttledAction(() => {
     Answers.logContentView('Payment Cards was opened', 'screen view', 'paymentCardsOpen');
-    this.props.navigation.navigate('PaymentCardsList', {});
+    this.props.navigation.navigate('PaymentCardsList', { theme: this.props.theme });
   });
 
   goToInfoPage = throttledAction((page) => {
     Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
-    this.props.navigation.navigate('InfoPages', { page });
+    this.props.navigation.navigate('InfoPages', { page, theme: this.props.theme });
   });
 
   resetUserGuide = throttledAction(() => {
@@ -150,9 +158,9 @@ class Settings extends Component {
   }
 
   renderBlock = (data, index) => (
-    <View key={index} style={styles.blockItems}>
+    <View key={index} style={[styles.blockItems]}>
       {data.map((listItem, indexItem, arr) => (
-        <View key={indexItem} style={styles.listItemWrapper}>
+        <View key={indexItem} style={[styles.listItemWrapper, { backgroundColor: this.props.theme.color.bgPrimary }]}>
           <SettingsListItem {...listItem} />
           {indexItem + 1 < arr.length &&
             <Divider left={(has(listItem, 'avatar') && 85) || (has(listItem, 'leftIconName') && 60) || 21} />
@@ -172,14 +180,14 @@ class Settings extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: this.props.theme.color.bgSettings }]}>
         <StatusBar barStyle="default" />
         <ScrollView style={styles.container}>
           {this.getSettingsBlocks().map(this.renderBlock)}
           {this.renderAppVersionBlock()}
         </ScrollView>
         <AddressModal
-          ref={(el) => { this.addressModal = el; }}
+          innerRef={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />
       </View>
@@ -212,4 +220,4 @@ const bindActions = {
   changeDevSettingField
 };
 
-export default connect(select, bindActions)(Settings);
+export default connect(select, bindActions)(withTheme(Settings));

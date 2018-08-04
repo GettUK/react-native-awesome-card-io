@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CalendarList } from 'react-native-calendars';
-import { color } from 'theme';
 import moment from 'moment-timezone';
+
+import { color } from 'theme';
 
 const initialState = {
   isFromDatePicked: false,

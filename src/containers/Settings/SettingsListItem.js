@@ -1,11 +1,13 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { color } from 'theme';
 import StylePropType from 'react-style-proptype';
 
 import { Icon } from 'components';
+
+import { withTheme } from 'providers';
 
 import styles from './style';
 
@@ -22,7 +24,8 @@ const SettingsListItem = (props) => {
     switched,
     isLoading,
     onPress,
-    onSwitch
+    onSwitch,
+    theme
   } = props;
 
   const leftIcon = leftIconName
@@ -30,43 +33,45 @@ const SettingsListItem = (props) => {
     : null;
 
   return (
-    <ListItem
-      onPress={onPress}
+    <TouchableWithoutFeedback onPress={onPress}>
+      <ListItem
+        leftIcon={isLoading ? <ActivityIndicator color={color.danger} /> : leftIcon}
+        avatar={(avatar || !!titleAvatar) && (
+          <Avatar
+            rounded
+            medium
+            source={avatar && { uri: avatar }}
+            title={titleAvatar}
+            containerStyle={styles.avatar}
+          />)
+        }
 
-      leftIcon={isLoading ? <ActivityIndicator color={color.danger} /> : leftIcon}
-      avatar={(avatar || !!titleAvatar) && (
-        <Avatar
-          rounded
-          medium
-          source={avatar && { uri: avatar }}
-          title={titleAvatar}
-          containerStyle={styles.avatar}
-        />)
-      }
+        title={title}
+        titleNumberOfLines={2}
+        chevronColor={color.arrowRight}
 
-      title={title}
-      titleNumberOfLines={2}
-      chevronColor={color.arrowRight}
+        rightTitle={rightTitle || null}
 
-      rightTitle={rightTitle || null}
+        switchButton={switchButton}
+        hideChevron={!showRightIcon || switchButton}
+        switched={switched}
+        onSwitch={onSwitch}
+        switchOnTintColor={color.success}
 
-      switchButton={switchButton}
-      hideChevron={!showRightIcon || switchButton}
-      switched={switched}
-      onSwitch={onSwitch}
-      switchOnTintColor={color.success}
-
-      rightTitleStyle={styles.listItemRightTitle}
-      titleStyle={[
-        styles.listItemTitle,
-        avatar || titleAvatar ? styles.avatarTitle : {},
-        titleStyle || {}
-      ]}
-      containerStyle={[
-        styles.listItemContainer,
-        avatar || titleAvatar ? styles.avatarContainer : {}
-      ]}
-    />
+        rightTitleStyle={[styles.listItemRightTitle, { color: theme.color.secondaryText }]}
+        titleStyle={[
+          styles.listItemTitle,
+          { color: theme.color.primaryText },
+          avatar || titleAvatar ? styles.avatarTitle : {},
+          titleStyle || {}
+        ]}
+        containerStyle={[
+          styles.listItemContainer,
+          { backgroundColor: theme.color.bgPrimary },
+          avatar || titleAvatar ? styles.avatarContainer : {}
+        ]}
+      />
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -100,4 +105,4 @@ SettingsListItem.defaultProps = {
   onSwitch: () => {}
 };
 
-export default SettingsListItem;
+export default withTheme(SettingsListItem);

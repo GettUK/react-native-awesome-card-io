@@ -2,18 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 import { isNull, capitalize } from 'lodash';
+
 import { Icon } from 'components';
-import { color } from 'theme';
+
 import assets from 'assets';
 
-import { formatPrice } from 'utils';
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { formatPrice } from 'utils';
 
 import CarImage from './CarImage';
 
 import styles from './styles';
 
-const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabled, serviceType }) => {
+const CarItem = ({ style, name, label, price, theme, eta, active, onChange, isETADisabled, serviceType }) => {
   const vehiclePrice = cost => (cost ? formatPrice(cost) : strings('app.label.byMeter'));
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
@@ -25,30 +29,41 @@ const CarItem = ({ style, name, label, price, eta, active, onChange, isETADisabl
         style,
         isETADisabled ? styles.containerSmall : {},
         active ? styles.activeContainer : {},
-        active && isETADisabled ? styles.activeContainerSmall : {}
+        active && isETADisabled ? styles.activeContainerSmall : {},
+        { backgroundColor: theme.color.bgPrimary }
       ]}
     >
-      <View style={styles.top}>
-        {label && (<Text numberOfLines={1} style={styles.label}>{label}</Text>)}
-        {!isNull(price) && (<Text numberOfLines={1} style={styles.labelPrice}>{vehiclePrice(price)}</Text>)}
-      </View>
-      {eta && !isETADisabled && (
-        <View style={styles.middle}>
-          <Icon style={styles.icon} name="clock" color={color.pixelLine} width={16} height={16}/>
-          <Text numberOfLines={1} style={styles.labelEta}>{`${etaNum} min`}</Text>
-        </View>)
-      }
+      <View style={[styles.column, !active && styles.deselected]}>
+        <View style={styles.top}>
+          {label &&
+            <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>{label}</Text>
+          }
+          {!isNull(price) &&
+            <Text numberOfLines={1} style={[styles.labelPrice, { color: theme.color.primaryText }]}>
+              {vehiclePrice(price)}
+            </Text>
+          }
+        </View>
+        {eta && !isETADisabled &&
+          <View style={styles.middle}>
+            <Icon style={styles.icon} name="clock" color={theme.color.pixelLine} width={16} height={16}/>
+            <Text numberOfLines={1} style={[styles.labelEta, { color: theme.color.secondaryText }]}>
+              {`${etaNum} min`}
+            </Text>
+          </View>
+        }
 
-      <CarImage
-        type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
-        style={styles.image}
-      />
+        <CarImage
+          type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
+          style={styles.image}
+        />
+      </View>
     </View>
   );
 
   const renderActiveContainer = children => (
     <ImageBackground
-      source={assets.carShadow}
+      source={theme.type === 'dark' ? assets.carNightShadow : assets.carShadow}
       resizeMode="stretch"
       style={[styles.activeBackground, isETADisabled ? styles.activeBackgroundSmall : {}]}
     >
@@ -95,4 +110,4 @@ CarItem.defaultProps = {
   isETADisabled: false
 };
 
-export default CarItem;
+export default withTheme(CarItem);
