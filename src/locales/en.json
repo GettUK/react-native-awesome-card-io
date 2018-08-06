@@ -22,7 +22,8 @@
     "notVehicles": "Vehicles are not available in this area or not allowed by Travel Policy",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
-    "watchTutorial": "Watch Tutorial"
+    "watchTutorial": "Watch Tutorial",
+    "notifications": "Notification History"
   },
   "popup": {
     "locationService": {
@@ -230,6 +231,16 @@
     "button": {
       "resetPassword": "Reset Password",
       "send": "Send"
+    }
+  },
+  "notifications": {
+    "period": {
+      "today": "TODAY",
+      "yesterday": "YESTERDAY",
+      "lastWeek": "LAST WEEK",
+      "lastMonth": "LAST MONTH",
+      "lastYear": "LAST YEAR",
+      "longTimeAgo": "LONG TIME AGO"
     }
   },
   "settings": {

@@ -85,7 +85,8 @@ class OrderCreatingScene extends PureComponent {
   goToSettings = () => {
     Answers.logContentView('Settings was opened', 'screen view', 'settingsOpen');
 
-    this.props.navigation.navigate('Settings', { onGoToRides: this.props.goToOrders });
+    const { goToOrders, goToNotifications } = this.props;
+    this.props.navigation.navigate('Settings', { onGoToRides: goToOrders, onGoToNotifications: goToNotifications });
   };
 
   clearFields = () => {
