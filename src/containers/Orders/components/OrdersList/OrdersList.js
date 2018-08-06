@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { View, Text, Image, FlatList, TouchableWithoutFeedback, Platform, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import findKey from 'lodash/findKey';
+import { debounce, findKey, isEqual } from 'lodash';
 import { color } from 'theme';
 
-import { getOrders, clearOrdersList } from 'actions/orders';
+import { getOrders, clearOrdersList, initialOrdersList } from 'actions/orders';
 import { setActiveBooking } from 'actions/booking';
 
 import { strings } from 'locales';
@@ -51,8 +51,11 @@ class OrdersList extends PureComponent {
     }
   }
 
-  componentDidUpdate({ meta: metaProps }) {
-    const { meta } = this.props;
+  componentDidUpdate({ meta: metaProps, ordersParams: ordersParamsProps }) {
+    const { meta, ordersParams } = this.props;
+    if (!isEqual(ordersParams, ordersParamsProps)) {
+      this.getOrders();
+    }
 
     if (meta && (!metaProps || meta.total !== metaProps.total)) {
       this.updateCounter(meta);
@@ -90,28 +93,33 @@ class OrdersList extends PureComponent {
     };
   }
 
-  getOrders = () => {
-    const { getOrders, type, idsType, items, meta, passengerId } = this.props;
+  getOrders = debounce((nextPageRequired = false) => {
+    const { getOrders, type, idsType, items, meta, passengerId, ordersParams, initialOrdersList } = this.props;
     const { loading } = this.state;
 
-    if (!loading && (!items.length || (items.length < meta.total))) {
+    if (!loading && (!items.length || items.length < meta.total || !nextPageRequired)) {
       this.setState({ loading: true });
 
+      if (!nextPageRequired) {
+        initialOrdersList(idsType || type);
+      }
+
       const params = {
-        page: meta.current + 1,
+        page: ((nextPageRequired && meta.current) || 0) + 1,
         order: 'scheduledAt',
         status: getOrdersStatuses(type || 'active'),
         reverse: true,
-        mapSize: this.mapSize.size
+        mapSize: this.mapSize.size,
+        ...ordersParams
       };
 
       if (idsType) {
         params[`${idsType}PassengerIds`] = [passengerId];
       }
 
-      getOrders(params, idsType || type).then(() => this.setState({ loading: false }));
+      getOrders(params, idsType || type, nextPageRequired).then(() => this.setState({ loading: false }));
     }
-  };
+  }, 750);
 
   renderItem = ({ item }) => (
     <TouchableWithoutFeedback key={item.id} onPress={() => this.goToOrderDetails(item.id)}>
@@ -167,13 +175,15 @@ class OrdersList extends PureComponent {
 
   keyExtractor = item => String(item.id);
 
+  onEndReached = () => this.getOrders(true);
+
   renderList = () => (
     <FlatList
       data={this.props.items}
       style={styles.orders}
       keyExtractor={this.keyExtractor}
       renderItem={this.renderItem}
-      onEndReached={this.getOrders}
+      onEndReached={this.onEndReached}
       ListFooterComponent={this.state.loading && Platform.OS === 'ios' &&
         <Text style={{ textAlign: 'center' }}>{strings('app.label.loading')}</Text>
       }
@@ -207,6 +217,7 @@ class OrdersList extends PureComponent {
 }
 
 const mapState = (state, props) => ({
+  ordersParams: state.orders.meta,
   items: state.orders[props.idsType || props.type].items,
   meta: state.orders[props.idsType || props.type].meta,
   passengerId: state.session.user.memberId
@@ -215,6 +226,7 @@ const mapState = (state, props) => ({
 const mapDispatch = ({
   getOrders,
   setActiveBooking,
+  initialOrdersList,
   clearOrdersList
 });
 
