@@ -11,6 +11,10 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1
   },
+  actionsBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   nextStepBtn: {
     alignSelf: 'stretch',
     flex: 1,
@@ -59,19 +63,45 @@ export default StyleSheet.create({
   },
   btnView: {
     width: 50,
-    height: 50
+    height: 50,
+    paddingHorizontal: 15,
+    margin: 2
   },
   padding: {
     padding: 5
   },
-  currentPositionBtn: {
+  btnWrapper: {
     alignSelf: 'flex-start',
-    marginBottom: 15,
+    paddingVertical: 5,
+    marginBottom: 15
+  },
+  badgeWrapper: {
+    position: 'absolute',
+    top: 2,
+    right: 11,
+    width: 18,
+    height: 18
+  },
+  badgeStyle: {
+    paddingHorizontal: 3,
+    paddingTop: 5,
+    paddingBottom: 4,
+    backgroundColor: color.warning,
+    borderRadius: 18,
+    borderWidth: 0,
+    marginHorizontal: 0,
+    marginVertical: 0
+  },
+  badgeTextStyle: {
+    fontSize: 9,
+    lineHeight: 9,
+    fontWeight: 'bold'
+  },
+  currentPositionBtn: {
     marginLeft: 15
   },
-  currentPositionBtnContent: {
-    paddingHorizontal: 15,
-    margin: 2
+  futureOrderBtn: {
+    marginRight: 15
   },
   destinationBtnsContainer: {
     minHeight: 80,
