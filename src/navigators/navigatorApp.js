@@ -20,7 +20,8 @@ import {
   PassengersList,
   Receipt,
   EditOrderDetails,
-  DateRange
+  DateRange,
+  Notifications
 } from 'containers';
 import { HeaderSearch } from 'containers/Orders';
 import { ClearBtn } from 'containers/DateRange';
@@ -34,6 +35,18 @@ import { SavePaymentMethodBtn } from 'containers/PaymentsOptions';
 import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
+
+const onBackReturnable = navigation => (
+  navigation.state.params && navigation.state.params.fromSettings
+    ? () => {
+      navigation.goBack();
+      navigation.navigate('Settings', {
+        onGoToRides: navigation.state.params.onGoToRides,
+        onGoToNotifications: navigation.state.params.onGoToNotifications
+      });
+    }
+    : null
+);
 
 const headerStyle = {
   backgroundColor: color.white,
@@ -88,6 +101,14 @@ const routeConfiguration = {
           rightContent={<ClearBtn navigation={navigation} />}
         />
       )
+    })
+  },
+  NotificationsView: {
+    screen: Notifications,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle,
+      headerTitle: 'Notifications History',
+      headerLeft: <BackBtn handlePress={onBackReturnable(navigation)} />
     })
   },
   MessageToDriver: {

@@ -7,6 +7,7 @@ import session from './session';
 import booking from './booking';
 import passenger from './passenger';
 import orders from './orders';
+import notifications from './notifications';
 
 export default combineReducers({
   network,
@@ -16,5 +17,6 @@ export default combineReducers({
   session,
   booking,
   passenger,
-  orders
+  orders,
+  notifications
 });

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Image, FlatList, TouchableWithoutFeedback, Platform, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import { debounce, findKey, isEqual } from 'lodash';
+import { debounce, isEqual } from 'lodash';
 import { color } from 'theme';
 
 import { getOrders, clearOrdersList, initialOrdersList } from 'actions/orders';
@@ -11,28 +11,11 @@ import { setActiveBooking } from 'actions/booking';
 import { strings } from 'locales';
 import config from 'config';
 
-import { Icon } from 'components';
+import { ListView, Icon } from 'components';
 import styles from './styles';
 import mapStyles from './mapStyles';
 
-function getOrdersStatuses(type) {
-  const statuses = {
-    // eslint-disable-next-line max-len
-    active: ['creating', 'locating', 'on_the_way', 'arrived', 'in_progress', 'order_received', 'customer_care', 'processing'],
-    previous: ['completed', 'cancelled', 'rejected', 'billed']
-  };
-  return statuses[type];
-}
-
-function getLabelColor(status) {
-  const colors = {
-    blue: ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'order_received'],
-    red: ['rejected', 'customer_care', 'cancelled', 'processing'],
-    green: ['completed', 'billed']
-  };
-
-  return findKey(colors, s => s.includes(status));
-}
+import { getLabelColor, getOrdersStatuses } from '../../util';
 
 class OrdersList extends PureComponent {
   state = {
@@ -173,45 +156,21 @@ class OrdersList extends PureComponent {
     </TouchableWithoutFeedback>
   );
 
-  keyExtractor = item => String(item.id);
-
   onEndReached = () => this.getOrders(true);
-
-  renderList = () => (
-    <FlatList
-      data={this.props.items}
-      style={styles.orders}
-      keyExtractor={this.keyExtractor}
-      renderItem={this.renderItem}
-      onEndReached={this.onEndReached}
-      ListFooterComponent={this.state.loading && Platform.OS === 'ios' &&
-        <Text style={{ textAlign: 'center' }}>{strings('app.label.loading')}</Text>
-      }
-      refreshing={this.state.loading}
-    />
-  )
-
-  renderAndroidLoadingLabel = () => (
-    <View style={styles.loaderWrapper}>
-      <View style={styles.loader}>
-        <Text style={styles.loaderLabel}>{strings('app.label.loading')}</Text>
-      </View>
-    </View>
-  )
 
   render() {
     const { loading } = this.state;
     const { items } = this.props;
 
     return (
-      <View style={[styles.flex, styles.centered]}>
-        {(items && items.length) || loading
-          ? this.renderList()
-          : <Text style={styles.emptyLabel}>{strings('app.label.emptyResult')}</Text>
-        }
-
-        {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel()}
-      </View>
+      <ListView
+        typeSections={false}
+        items={items}
+        renderItem={this.renderItem}
+        loading={loading}
+        refreshing={loading}
+        onEndReached={this.onEndReached}
+      />
     );
   }
 }

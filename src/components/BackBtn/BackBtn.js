@@ -34,6 +34,10 @@ class BackBtn extends Component {
   };
 
   handlePress = () => {
+    if (this.props.handlePress) {
+      this.props.handlePress();
+      return;
+    }
     Keyboard.dismiss();
 
     const { touchedPath, touched } = this.props;

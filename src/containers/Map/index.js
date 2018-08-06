@@ -22,6 +22,7 @@ class Map extends Component {
   state = {
     routeNameTab: 'Personal',
     fromOrderList: false,
+    fromNotifications: false,
     fromSettings: false,
     nightMode: false
   };
@@ -49,6 +50,12 @@ class Map extends Component {
 
   isActiveSceneIs = (name = 'orderCreating') => this.props.activeScene === AVAILABLE_MAP_SCENES[name];
 
+  handleBackFromScreen = ({ fromOrderList = false, fromNotifications = false, fromSettings = false }) => (
+    () => {
+      this.setState({ fromOrderList, fromNotifications, fromSettings });
+    }
+  );
+
   handleBackFromOrderList = ({ fromSettings = false }) => {
     this.setState({ fromOrderList: true, fromSettings });
   };
@@ -65,10 +72,20 @@ class Map extends Component {
     Answers.logContentView('Orders was opened', 'screen view', 'ordersOpen');
 
     this.props.navigation.navigate('OrdersView', {
-      onBack: this.handleBackFromOrderList,
+      onBack: this.handleBackFromScreen({ fromOrderList: true }),
       fromSettings,
       onGoToRides: this.goToOrders,
-      onChangeTab: this.setActiveRouteTab
+      onChangeTab: this.setActiveRouteTab,
+      onGoToNotifications: this.goToNotifications
+    });
+  };
+
+  goToNotifications = ({ fromSettings = false }) => {
+    this.props.navigation.navigate('NotificationsView', {
+      onBack: this.handleBackFromScreen({ fromNotifications: true }),
+      fromSettings,
+      onGoToRides: this.goToOrders,
+      onGoToNotifications: this.goToNotifications
     });
   };
 
@@ -106,6 +123,7 @@ class Map extends Component {
             getCurrentPosition={this.getCurrentPosition}
             nightMode={nightMode}
             goToOrders={this.goToOrders}
+            goToNotifications={this.goToNotifications}
           />
         }
         {(isActiveOrder || isCompletedOrder) &&

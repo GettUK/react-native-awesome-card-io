@@ -83,6 +83,12 @@ class Settings extends Component {
     this.props.sendPredefinedAddress(address, meta.predefinedType);
   };
 
+  goToNotifications = throttledAction(() => {
+    this.props.navigation.goBack(null);
+    Answers.logContentView('Notifications was opened', 'screen view', 'notificationsOpen');
+    this.props.navigation.state.params.onGoToNotifications({ fromSettings: true });
+  });
+
   goToMyRides = throttledAction(() => {
     this.props.navigation.goBack(null);
     Answers.logContentView('My Rides was opened', 'screen view', 'myRidesOpen');
@@ -102,6 +108,12 @@ class Settings extends Component {
   resetUserGuide = throttledAction(() => {
     this.props.resetGuide();
     this.props.navigation.navigate('MapView');
+  });
+
+  goToScreenFromSettings = funcName => throttledAction(() => {
+    this.props.navigation.goBack(null);
+
+    this.props.navigation.state.params[funcName]({ fromSettings: true });
   });
 
   getSettingsBlocks() {
@@ -127,7 +139,11 @@ class Settings extends Component {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
       }),
-      prepareInfoBlock(companySettings, { goToInfoPage: this.goToInfoPage, resetUserGuide: this.resetUserGuide }),
+      prepareInfoBlock(companySettings, {
+        goToInfoPage: this.goToInfoPage,
+        goToNotifications: this.goToNotifications,
+        resetUserGuide: this.resetUserGuide
+      }),
       devInventory,
       prepareLogoutBlock({ isLoading: logoutLoading }, { onLogout: this.handleLogout })
     ];

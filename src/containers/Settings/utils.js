@@ -143,6 +143,10 @@ export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
       onPress: () => handlers.goToInfoPage('termsConditions')
     },
     {
+      title: strings('information.notifications'),
+      onPress: () => handlers.goToNotifications()
+    },
+    {
       title: strings('information.contactUs'),
       onPress: () => Linking.openURL(`tel:${customerServicePhone}`)
     }

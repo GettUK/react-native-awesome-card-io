@@ -20,4 +20,5 @@ export { default as PassengersList } from './PassengersList';
 export { default as Receipt } from './Receipt';
 export { default as OrderCreatingScene } from './OrderCreatingScene';
 export { default as OrderScene } from './OrderScene';
+export { default as Notifications } from './Notifications';
 export { default as DateRange } from './DateRange';
