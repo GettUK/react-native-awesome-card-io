@@ -186,6 +186,7 @@ class MapController extends React.PureComponent {
             order={order}
             isCompletedOrder={isCompletedOrder}
             disableDrag={this.disableDrag}
+            nightMode={nightMode}
             onFutureOrderAcceptedReceive={onFutureOrderAcceptedReceive}
           />
         }

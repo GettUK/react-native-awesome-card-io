@@ -19,7 +19,7 @@ class Route extends React.Component {
         apikey={config.googleAPIKey}
         strokeWidth={3}
         resetOnChange={false}
-        strokeColor={color.iconsSettigs}
+        strokeColor={color.primaryBtns}
       />
     );
   }

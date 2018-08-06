@@ -6,12 +6,13 @@ import { prepareCoordinates } from 'utils';
 
 class MarkerBasic extends React.Component {
   render() {
-    const { coordinate, children, id, anchorX, anchorY, animated, ...rest } = this.props;
+    const { coordinate, children, id, anchorX, anchorY, animated, innerRef, ...rest } = this.props;
     const Marker = animated ? Map.Marker.Animated : Map.Marker;
 
     return (
       <Marker
         key={id}
+        ref={innerRef}
         coordinate={prepareCoordinates(coordinate)}
         anchor={{ x: anchorX, y: anchorY }}
         stopPropagation
