@@ -64,6 +64,10 @@ export const optionsModalStyle = StyleSheet.create({
     fontWeight: '600',
     color: color.primaryBtns
   },
+  labelWithoutIcon: {
+    paddingHorizontal: 0,
+    paddingRight: 16
+  },
   cancel: {
     marginTop: 8,
     height: 56,

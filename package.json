@@ -55,6 +55,7 @@
     "react-navigation": "^2.0.1",
     "react-redux": "^5.0.7",
     "react-style-proptype": "^3.2.1",
+    "react-timer-hoc": "^2.3.0",
     "redux": "^4.0.0",
     "redux-batched-actions": "^0.3.0",
     "redux-compose-reducer": "^1.1.3",

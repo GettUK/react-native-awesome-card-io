@@ -3571,7 +3571,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.2, invariant@~2.2.2:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
@@ -5644,6 +5644,13 @@ react-style-proptype@^3.2.1:
   resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-3.2.1.tgz#7cfeb9b87ec7ab9dcbde9715170ed10c11fb86aa"
   dependencies:
     prop-types "^15.5.4"
+
+react-timer-hoc@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-timer-hoc/-/react-timer-hoc-2.3.0.tgz#f62db59e4d6086f1d8b9ec57345a9b971620b6fe"
+  dependencies:
+    invariant "~2.2.2"
+    prop-types "^15.6.0"
 
 react-timer-mixin@^0.13.2:
   version "0.13.3"
