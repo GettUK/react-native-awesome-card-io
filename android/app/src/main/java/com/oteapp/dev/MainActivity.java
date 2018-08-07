@@ -1,6 +1,7 @@
 package com.oteapp.dev;
 
 import android.os.Bundle;
+import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
 
@@ -20,5 +21,11 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "oteApp";
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 }

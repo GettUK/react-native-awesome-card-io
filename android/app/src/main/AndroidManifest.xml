@@ -33,6 +33,7 @@
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification"/>
       <meta-data android:name="com.google.firebase.messaging.default_notification_color"
         android:resource="@color/google_blue" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="root_channel"/>
 
        <service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
          <intent-filter>

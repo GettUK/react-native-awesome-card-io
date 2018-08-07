@@ -32,7 +32,7 @@ export default class Badge extends Component {
         containerStyle={[styles.badgeContainer, style, active ? styles.activeContainer : {}]}
         {...rest}
       >
-        {label &&
+        {!!label &&
           <Text style={[styles.badgeText, textStyle, active ? styles.activeText : {}]}>
             {label}
           </Text>
