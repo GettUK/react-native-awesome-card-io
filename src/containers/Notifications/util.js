@@ -6,6 +6,18 @@ import { getLabelColor } from '../Orders/util';
 
 const getHourFormat = () => (HourFormat.is24HourFormat() ? '' : ', A');
 
+const titleStatusMap2 = {
+  order_received: 'received your order',
+  on_the_way: 'is on the way!',
+  arrived: 'Your taxi is here!',
+  cancelled: 'Your cancellation',
+  rejected: 'rejected'
+};
+
+const getStatusByTitle = title => (
+  Object.keys(titleStatusMap2).find(key => title.toLowerCase().includes(titleStatusMap2[key].toLowerCase()))
+);
+
 // WEDNESDAY, JULY 04, 2018
 const sectionFormatter = {
   lastDay: `[${strings('notifications.period.yesterday')}]`,
@@ -25,6 +37,11 @@ const dateFormatter = {
   lastWeek: `MMMM DD, YYYY, h:hh${getHourFormat()}`,
   nextWeek: `MMMM DD, YYYY, h:hh${getHourFormat()}`
 };
+
+const defineStatuses = items => items.map((item) => {
+  const indicatedStatus = item.body ? getStatusByTitle(item.body) : undefined;
+  return { ...item, indicatedStatus };
+});
 
 const filterSectionsByPeriod = (items) => {
   const today = () => moment();
@@ -78,7 +95,7 @@ const sortSectionsByTimestamp = (items) => {
 };
 
 const sortItems = items => (
-  sortSectionsByTimestamp(filterSectionsByPeriod(items))
+  sortSectionsByTimestamp(filterSectionsByPeriod(defineStatuses(items)))
 );
 
 export default sortItems;
