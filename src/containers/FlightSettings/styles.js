@@ -165,5 +165,13 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 12
   },
-  tabIcon: { marginHorizontal: 4 }
+  tabIcon: {
+    marginHorizontal: 4
+  },
+  saveButton: {
+    paddingRight: 0
+  },
+  stubButton: {
+    width: 37
+  }
 });
