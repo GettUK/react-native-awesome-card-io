@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { color } from 'theme';
 
@@ -8,19 +9,23 @@ import { saveFlight, changeFlight } from 'actions/booking';
 import { SaveBtn } from 'components';
 import { throttledAction } from 'utils';
 
-const SaveMessageBtn = ({ touched, navigation, saveFlight, changeFlight }) => {
+import styles from './styles';
+
+const SaveMessageBtn = ({ navigation, saveFlight, changeFlight }) => {
   const handleSave = throttledAction(() => {
-    if (touched) {
-      saveFlight();
+    saveFlight();
 
-      changeFlight({ flight: '' }, false);
+    changeFlight({ flight: '' }, false);
 
-      navigation.goBack(null);
-    }
+    navigation.goBack(null);
   });
 
+  if (navigation.state && navigation.state.params && !navigation.state.params.verifiedSaved) {
+    return <View style={styles.stubButton} />;
+  }
+
   return (
-    <SaveBtn onPress={handleSave} enabled={touched} enabledColor={color.white} style={{ paddingRight: 0 }} />
+    <SaveBtn onPress={handleSave} enabled enabledColor={color.white} style={styles.saveButton} />
   );
 };
 

@@ -26,9 +26,14 @@ class FlightSettings extends Component {
   state = {
     selected: 0,
     flight: this.props.flight || '',
+    verifiedFlight: undefined,
     verificationData: null,
     loading: false
   };
+
+  componentDidMount() {
+    this.checkFlightVerified();
+  }
 
   getAirportAddress = ({ name, terminal }) => (
     `${name}${terminal ? ` - Terminal ${terminal}` : ''}`
@@ -67,8 +72,9 @@ class FlightSettings extends Component {
 
         const flightData = data[selected];
 
-        this.setState({ originalData: data }, () => {
+        this.setState({ originalData: data, verifiedFlight: flight }, () => {
           this.setFlightDetails(flightData);
+          this.checkFlightVerified();
         });
       })
       .catch(() => {
@@ -81,8 +87,14 @@ class FlightSettings extends Component {
       });
   };
 
+  checkFlightVerified = () => {
+    const wantToDelete = this.props.flight && this.props.flight !== '' && this.state.flight === '';
+    const verifiedSaved = this.state.verifiedFlight === this.state.flight;
+    this.props.navigation.setParams({ verifiedSaved: verifiedSaved || wantToDelete });
+  }
+
   handleChangeNumber = (flight) => {
-    this.setState({ flight, error: null });
+    this.setState({ flight, error: null }, this.checkFlightVerified);
   };
 
   handleChangeSelectedData = (index) => {
