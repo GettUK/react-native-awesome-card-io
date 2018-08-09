@@ -218,13 +218,13 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
 
 const changePassengerField = (field, value) => ({ type: TYPES.changePassengerField, payload: { field, value } });
 
-export const makeDefaultPhone = type => (dispatch, getState) => {
+export const makeDefaultPhone = (field, value) => (dispatch, getState) => {
   const { passenger: { data: { passenger } }, session: { user: { memberId } } } = getState();
 
-  dispatch(changePassengerField('defaultPhoneType', type));
-  return put(`/passengers/${memberId}`, { defaultPhoneType: type })
+  dispatch(changePassengerField(field, value));
+  return put(`/passengers/${memberId}`, { [field]: value })
     .catch((err) => {
-      dispatch(changePassengerField('defaultPhoneType', passenger.defaultPhoneType));
+      dispatch(changePassengerField(field, passenger[field]));
       throw err;
     });
 };
