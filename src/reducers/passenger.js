@@ -82,6 +82,8 @@ const makeDefaultPayment = (state, { payload }) =>
 const deactivatePayment = (state, { payload }) =>
   update.remove(state, `data.paymentCards.{id:${payload}}`);
 
+const changePassengerField = (state, { payload: { field, value } }) => update(state, `data.passenger.${field}`, value);
+
 const changeToggleValueStart = (state, { payload: { field, value } }) =>
   update(state, { busy: true, [`data.passenger.${field}`]: value });
 
@@ -123,6 +125,7 @@ export default composeReducer('passenger', {
   destroyFavoriteAddress,
   makeDefaultPayment,
   deactivatePayment,
+  changePassengerField,
   changeToggleValueStart,
   changeToggleValueSuccess,
   changeToggleValueFailure,

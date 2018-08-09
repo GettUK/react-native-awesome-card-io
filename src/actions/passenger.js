@@ -22,6 +22,7 @@ const TYPES = createTypes('passenger', [
   'destroyFavoriteAddress',
   'makeDefaultPayment',
   'deactivatePayment',
+  'changePassengerField',
   'changeToggleValueStart',
   'changeToggleValueSuccess',
   'changeToggleValueFailure',
@@ -86,6 +87,7 @@ export const sendProfileData = () => (dispatch, getState) => {
 
   const trimmedTemp = {
     ...temp,
+    defaultPhoneType: !temp.mobile ? 'phone' : temp.defaultPhoneType,
     firstName: temp.firstName.trim(),
     lastName: temp.lastName.trim()
   };
@@ -94,6 +96,7 @@ export const sendProfileData = () => (dispatch, getState) => {
     .then(() => {
       dispatch(changeProfileFieldValue('firstName', trimmedTemp.firstName));
       dispatch(changeProfileFieldValue('lastName', trimmedTemp.lastName));
+      dispatch(changeProfileFieldValue('defaultPhoneType', trimmedTemp.defaultPhoneType));
 
       dispatch({ type: TYPES.sendProfileDataSuccess });
       dispatch(changeFields({
@@ -105,11 +108,6 @@ export const sendProfileData = () => (dispatch, getState) => {
       dispatch({ type: TYPES.sendProfileDataFailure, payload: err.data, error: true });
       throw err;
     });
-};
-
-export const makeDefaultPhone = type => (dispatch) => {
-  dispatch(changeProfileFieldValue('defaultPhoneType', type));
-  dispatch(sendProfileData());
 };
 
 export const setTempAddress = address => (dispatch) => {
@@ -217,6 +215,19 @@ export const changeToggleValue = curry((field, value) => (dispatch, getState) =>
       throw err;
     });
 });
+
+const changePassengerField = (field, value) => ({ type: TYPES.changePassengerField, payload: { field, value } });
+
+export const makeDefaultPhone = type => (dispatch, getState) => {
+  const { passenger: { data: { passenger } }, session: { user: { memberId } } } = getState();
+
+  dispatch(changePassengerField('defaultPhoneType', type));
+  return put(`/passengers/${memberId}`, { defaultPhoneType: type })
+    .catch((err) => {
+      dispatch(changePassengerField('defaultPhoneType', passenger.defaultPhoneType));
+      throw err;
+    });
+};
 
 export const touchField = (field, value = true) => (dispatch) => {
   dispatch({ type: TYPES.touchField, payload: { field, value } });
