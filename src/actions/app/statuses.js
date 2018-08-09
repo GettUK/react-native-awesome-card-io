@@ -4,7 +4,7 @@ import AndroidOpenSettings from 'react-native-android-open-settings';
 import { createTypes } from 'redux-compose-reducer';
 import { curry } from 'lodash/fp';
 
-const TYPES = createTypes('app/statuses', ['changePermissions', 'changeParamsField']);
+const TYPES = createTypes('app/statuses', ['changePermissions', 'changeParamsField', 'clearPermissions']);
 
 const changeParamsField = curry((field, value) => ({ type: TYPES.changeParamsField, payload: { field, value } }));
 
@@ -13,6 +13,8 @@ export const onLayoutFooter = changeParamsField('footer');
 export const onLayoutPointList = changeParamsField('pointList');
 
 export const onLayoutConnectBar = changeParamsField('connectBar');
+
+export const clearPermissions = () => ({ type: TYPES.clearPermissions });
 
 export const changePermissions = perms => ({ type: TYPES.changePermissions, payload: perms });
 
@@ -40,6 +42,12 @@ export const openSettingsPermissions = () => (Platform.OS === 'ios'
 
 export const requestLocation = () => (dispatch, getState) => {
   const { app: { statuses } } = getState();
+  if (statuses.permissions) {
+    const { location } = statuses.permissions;
+    if (location === PERMISSION_STATUS.undetermined || location === PERMISSION_STATUS.denied) {
+      return;
+    }
+  }
   if (!(statuses.permissions &&
     statuses.permissions.location === PERMISSION_STATUS.authorized)) {
     try {
