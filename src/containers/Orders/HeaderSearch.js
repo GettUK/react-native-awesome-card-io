@@ -155,7 +155,7 @@ HeaderSearch.propTypes = {
 };
 
 HeaderSearch.defaultProps = {
-  delay: 350
+  delay: 500
 };
 
 const mapState = ({ orders }) => ({

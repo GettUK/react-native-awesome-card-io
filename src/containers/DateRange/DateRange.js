@@ -12,13 +12,12 @@ import DateRangePicker from './DateRangePicker';
 import styles from './styles';
 
 const formatLabelDate = date => moment(date).format('D MMM YYYY');
-const formatDate = date => moment(date).format('YYYY-MM-DD');
 
 class DateRange extends Component {
   componentDidMount() {
     const { orders: { meta }, setFilter } = this.props;
     if (meta.from && meta.to) {
-      setFilter('tempMeta', { from: formatDate(meta.from), to: formatDate(meta.to) });
+      setFilter('tempMeta', { from: meta.from, to: meta.to });
     }
   }
 
@@ -29,7 +28,7 @@ class DateRange extends Component {
   onSaveDateRange = () => {
     const { orders: { tempMeta }, setFilter, clearFilter, navigation } = this.props;
     if (tempMeta.from && tempMeta.to) {
-      setFilter('meta', { from: moment(tempMeta.from), to: moment(tempMeta.to) });
+      setFilter('meta', { from: tempMeta.from, to: tempMeta.to });
       clearFilter('tempMeta', 'dateRange');
       navigation.goBack();
     }
@@ -66,7 +65,7 @@ class DateRange extends Component {
       <View style={styles.container}>
         <DateRangePicker
           initialRange={meta.from && meta.to &&
-            [formatDate(meta.from), formatDate(meta.to)]
+            [meta.from, meta.to]
           }
           onSuccess={this.onRangeSelect}
           futureScrollRange={1}
