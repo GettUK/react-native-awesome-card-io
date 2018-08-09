@@ -45,10 +45,12 @@ export const getCurrentUser = () => (dispatch) => {
 export const login = user => dispatch =>
   auth.login(user)
     .then(({ data: { token } }) => {
-      Answers.logLogin('Basic', true);
-      dispatch({ type: TYPES.loginSuccess, payload: token });
-      dispatch(getCurrentUser());
-      dispatch(registerToken());
+      if (token) {
+        Answers.logLogin('Basic', true);
+        dispatch({ type: TYPES.loginSuccess, payload: token });
+        dispatch(getCurrentUser());
+        dispatch(registerToken());
+      }
     });
 
 export const passGuide = () => dispatch => (
