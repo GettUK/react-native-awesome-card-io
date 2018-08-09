@@ -22,7 +22,7 @@ export const paymentTypeLabels = {
 export function preparePaymentType({ payment, cards }) {
   const card = find(cards, 'default') || cards[0];
   return payment.includes('payment_card')
-    ? `${payment}${card ? `:${card.id}` : ''}`
+    ? `${card.type}_payment_card${card ? `:${card.id}` : ''}`
     : payment;
 }
 
