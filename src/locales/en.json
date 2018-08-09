@@ -315,6 +315,9 @@
     },
     "name": {
       "length": "must be 30 characters"
+    },
+    "email": {
+      "format": "is invalid"
     }
   },
   "userGuide": {
