@@ -7,6 +7,7 @@ import { clearPassenger } from 'actions/passenger';
 import { clearMap, cancelDriverSubscription } from 'actions/ui/map';
 import { clearOrdersList } from 'actions/orders';
 import { clearBooking } from 'actions/booking';
+import { clearPermissions } from 'actions/app/statuses';
 
 const TYPES = createTypes('session', [
   'loginSuccess',
@@ -25,6 +26,7 @@ export const logout = () => (dispatch) => {
   dispatch(clearMap());
   dispatch(clearOrdersList());
   dispatch(clearBooking());
+  dispatch(clearPermissions());
 };
 
 export const getCurrentUser = () => (dispatch) => {

@@ -8,8 +8,13 @@ const initialState = {
     pointList: {},
     connectBar: {}
   },
-  isOpenKeyboard: false
+  isOpenKeyboard: false,
+  permissions: {
+    location: 'undetermined'
+  }
 };
+
+const clearPermissions = state => update(state, initialState);
 
 const changeParamsField = (state, { payload: { field, value } }) =>
   update(state, { [`params.${field}`]: value });
@@ -21,7 +26,8 @@ export default composeReducer(
   'app/statuses',
   {
     changeParamsField,
-    changePermissions
+    changePermissions,
+    clearPermissions
   },
   initialState
 );
