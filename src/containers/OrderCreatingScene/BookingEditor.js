@@ -212,7 +212,7 @@ class BookingEditor extends BookingController {
     } = this.props;
 
     const isActiveLocation = this.isAuthorizedPermission('location') && !isNull(currentPosition);
-    const isActiveFutureOrder = futureBookingsCount && closestFutureBookingId;
+    const isActiveFutureOrder = !isNull(closestFutureBookingId) && futureBookingsCount > 0;
 
     return (
       <View pointerEvents="box-none" style={styles.actionsBar}>
