@@ -179,15 +179,13 @@ export const saveFlight = () => (dispatch, getState) => {
 
 export const savePassenger = () => (dispatch, getState) => {
   const {
-    formData: { passengers },
     tempPassengerId,
-    bookingForm: { defaultPaymentType }
+    formData: { passengers }
   } = getState().booking;
 
   const { id, firstName, lastName, phone } = passengers.find(p => p.id === tempPassengerId);
 
   dispatch(changeFields({
-    ...defaultPaymentType,
     passengerId: id,
     passengerName: `${firstName} ${lastName}`,
     passengerPhone: phone
@@ -338,28 +336,27 @@ export const getFormData = () => (dispatch, getState) => {
 
   return get('/bookings/new')
     .then(({ data }) => {
-      if (!getState().booking.bookingForm.paymentMethod) {
-        const memberId = getState().session.user.memberId;
-        const passenger = data.passenger || data.passengers.find(passenger => passenger.id === memberId);
-        const cards = (passenger || {}).paymentCards || [];
+      const memberId = getState().session.user.memberId;
+      const passenger = data.passenger || data.passengers.find(passenger => passenger.id === memberId);
+      const cards = (passenger || {}).paymentCards || [];
 
-        const availablePayments = data.paymentTypes.filter(type => (
-          type !== 'passenger_payment_card' && type !== 'passenger_payment_card_periodic'
-        ));
+      const availablePayments = data.paymentTypes.filter(type => type !== 'passenger_payment_card_periodic');
 
-        let paymentType = '';
+      let paymentType = '';
 
-        if (!availablePayments.length) {
-          const paymentCard = passenger.paymentCards.find(card => card.default) || passenger.paymentCards[0];
-          if (paymentCard) paymentType = `${paymentCard.type}_payment_card:${paymentCard.id}`;
-        } else {
-          paymentType = preparePaymentType({ payment: availablePayments[0], cards });
-        }
-
-        const paymentAttrs = paymentTypeToAttrs(paymentType);
-
-        dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
+      if (!availablePayments.length) {
+        const paymentCard = passenger.paymentCards.find(card => card.default) || passenger.paymentCards[0];
+        if (paymentCard) paymentType = `${paymentCard.type}_payment_card:${paymentCard.id}`;
+      } else {
+        paymentType = preparePaymentType({
+          payment: availablePayments.find(payments => payments === data.defaultPaymentType),
+          cards
+        });
       }
+
+      const paymentAttrs = paymentTypeToAttrs(paymentType);
+
+      dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
 
       dispatch({ type: TYPES.getFormDataSuccess, payload: data });
 
