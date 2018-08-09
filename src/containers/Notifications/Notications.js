@@ -37,6 +37,7 @@ class Notifications extends PureComponent {
 
   goToNotificationDetails = (id) => {
     const { setActiveBooking, navigation } = this.props;
+
     if (id) {
       setActiveBooking(id)
         .then(goBackFromSettings(navigation));
@@ -60,7 +61,7 @@ class Notifications extends PureComponent {
   )
 
   renderItem = ({ item }) => (
-    <TouchableWithoutFeedback key={item.id} onPress={() => this.goToNotificationDetails(item.booking_id)}>
+    <TouchableWithoutFeedback key={item.id} onPress={() => this.goToNotificationDetails(item.bookingId)}>
       <View style={styles.notificationWrapper}>
         <View style={styles.notificationDetails}>
 
