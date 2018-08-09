@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: color.pixelLine,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflow: 'hidden'
   }
 });
 
