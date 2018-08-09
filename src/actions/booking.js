@@ -21,6 +21,7 @@ import {
 } from 'utils/orderStatuses';
 
 import { goToActiveOrderScene, goToOrderCreatingScene, goToCompletedOrderScene } from 'actions/ui/navigation';
+import { getCurrentUser } from 'actions/session';
 
 import {
   preparePaymentType,
@@ -221,6 +222,7 @@ const setBookingUpdater = id => (dispatch) => {
 
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
+  const isFutureOrder = !currentOrder.asap && currentOrder.scheduledAt;
 
   orderStatusSubscription = faye.on(channel, ({ data }) => {
     if (data.status === ARRIVED_STATUS) {
@@ -246,6 +248,10 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
 
         dispatch({ type: TYPES.changeOrderStatus, data });
 
+        if (isFutureOrder) {
+          dispatch(getCurrentUser());
+        }
+
         removeOrderStatusSubscription();
       } else {
         dispatch(orderReceivedStatusFlow(data, 2000));
@@ -257,12 +263,19 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
   });
 };
 
-export const createBooking = order => (dispatch) => {
+export const createBooking = order => (dispatch, getState) => {
+  const { booking: { bookingForm } } = getState();
+  const isFutureOrder = bookingForm.scheduledType === 'later';
+
   dispatch({ type: TYPES.createBookingStart });
 
   return post('/bookings', order)
     .then(({ data }) => {
       dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+
+      if (isFutureOrder) {
+        dispatch(getCurrentUser());
+      }
 
       dispatch(goToActiveOrderScene());
 
@@ -313,6 +326,7 @@ export const clearCurrentOrder = () => (dispatch) => {
 
 export const cancelOrder = () => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
+  const isFutureOrder = !currentOrder.asap && currentOrder.scheduledAt;
 
   dispatch({ type: TYPES.cancelOrderStart });
 
@@ -320,6 +334,10 @@ export const cancelOrder = () => (dispatch, getState) => {
     .then(() => {
       dispatch({ type: TYPES.cancelOrderSuccess });
       dispatch(goToCompletedOrderScene());
+
+      if (isFutureOrder) {
+        dispatch(getCurrentUser());
+      }
 
       removeOrderStatusSubscription();
     });
