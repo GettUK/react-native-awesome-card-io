@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import FCM, { FCMEvent } from 'react-native-fcm';
 
 const BOOKING_STATUS_MESSAGE = 'booking_status_change';
@@ -23,44 +24,47 @@ class PushNotification {
   };
 
   addNotificationListener = ({ userToken, setActiveBooking }) => {
-    this.userToken = userToken;
-    this.onOpenHandler = setActiveBooking;
+    if (!this.notificationListener) {
+      this.userToken = userToken;
+      this.onOpenHandler = setActiveBooking;
 
-    FCM.getInitialNotification().then((notif) => {
-      this.onOpenFromTray(notif);
-    });
-
-    this.notificationListener = FCM.on(FCMEvent.Notification, (notif) => {
-      if (notif.local_notification) {
-        return;
-      }
-
-      if (notif.opened_from_tray) {
+      FCM.getInitialNotification().then((notif) => {
         this.onOpenFromTray(notif);
+      });
 
-        return;
-      }
+      this.notificationListener = FCM.on(FCMEvent.Notification, (notif) => {
+        if (notif.local_notification) {
+          return;
+        }
 
-      if ((notif.fcm && notif.fcm.body) || (notif.aps && notif.aps.alert)) {
-        FCM.presentLocalNotification({
-          body: notif.fcm ? notif.fcm.body : notif.aps.alert,
-          priority: 'high',
-          sound: 'default',
-          large_icon: 'ic_launcher',
-          small_icon: 'ic_notification',
-          icon: 'ic_notification',
-          color: '#2b4983',
-          show_in_foreground: true,
-          vibrate: 300,
-          lights: true,
-          status: notif.status,
-          booking_id: notif.booking_id,
-          statusKind: notif.kind
-        });
-      }
+        if (notif.opened_from_tray) {
+          this.onOpenFromTray(notif);
 
-      FCM.enableDirectChannel();
-    });
+          return;
+        }
+
+        if ((notif.fcm && notif.fcm.body) || (notif.aps && notif.aps.alert)) {
+          FCM.presentLocalNotification({
+            id: notif[`${Platform.OS === 'ios' ? 'gcm' : 'google'}.message_id`],
+            body: notif.fcm ? notif.fcm.body : notif.aps.alert,
+            priority: 'high',
+            sound: 'default',
+            large_icon: 'ic_launcher',
+            small_icon: 'ic_notification',
+            icon: 'ic_notification',
+            color: '#2b4983',
+            show_in_foreground: true,
+            vibrate: 300,
+            lights: true,
+            status: notif.status,
+            booking_id: notif.booking_id,
+            statusKind: notif.kind,
+            local: true,
+            channel: 'root_channel_2'
+          });
+        }
+      });
+    }
   };
 
   onOpenFromTray = (notif) => {
@@ -75,6 +79,7 @@ class PushNotification {
 
   clearNotificationListener = () => {
     this.token = '';
+    this.userToken = '';
 
     if (this.notificationListener) this.notificationListener.remove();
   };

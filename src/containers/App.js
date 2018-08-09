@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import FCM from 'react-native-fcm';
 
 import { ConnectionMessage, AlertModal } from 'components';
 
@@ -22,6 +23,12 @@ class AppContainer extends PureComponent {
       await PN.getNotificationsPermissions();
       PN.registerFCMToken().then((token) => {
         this.props.dispatch(saveToken(token));
+      });
+
+      await FCM.createNotificationChannel({
+        id: 'root_channel_2',
+        name: 'root_channel_2',
+        priority: 'max'
       });
     }, 2000); // After login transition
   }

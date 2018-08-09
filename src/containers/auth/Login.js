@@ -51,7 +51,7 @@ let initialFormState = {
 
 if (isDevMode) {
   initialFormState = {
-    email: 'artem@fakemail.com',
+    email: 'aktest@mail.com',
     password: 'qwqwqwQ@',
     acceptTac: true,
     acceptPp: true
