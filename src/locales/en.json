@@ -273,7 +273,7 @@
       "cardType": "Card type"
     },
     "text": {
-      "cvv": "A three-digit code on your credit card, you can find this on the back of your card.",
+      "cvv": "A three- or four-digit code on your credit card, you can find this on the back of your card.",
       "expirationDate": "You should be able to find this date on the front of your card, under the card number"
     },
     "placeholder": {
