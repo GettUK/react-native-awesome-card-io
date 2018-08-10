@@ -578,7 +578,7 @@ export default class BookingController extends Component {
   }
 
   render(content) {
-    const { booking: { vehicles } } = this.props;
+    const { booking: { vehicles }, navigation } = this.props;
     const { message, flightModal } = this.state;
 
     return (
@@ -586,13 +586,11 @@ export default class BookingController extends Component {
         {content.call(this)}
 
         {vehicles.loading && <LoaderLayer loading={vehicles.loading} />}
-
         <AddressModal
           ref={(el) => { this.addressModal = el; }}
           defaultValues={prepareDefaultValues(this.getPassenger())}
           onChange={this.onChangeAddress}
         />
-
         {this.renderStopPointsModal()}
 
         <Alert
@@ -601,9 +599,12 @@ export default class BookingController extends Component {
           type="failed"
           position="bottom"
         />
-
-        <FlightModal isVisible={flightModal} onClose={this.createBooking} onSubmit={this.setAirport} />
-
+        <FlightModal
+          navigation={navigation}
+          isVisible={flightModal}
+          onClose={this.createBooking}
+          onSubmit={this.setAirport}
+        />
         <CardsPopup innerRef={(popup) => { this.cardsPopup = popup; }} />
       </Fragment>
     );
