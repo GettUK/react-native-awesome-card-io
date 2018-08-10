@@ -42,11 +42,8 @@ export const openSettingsPermissions = () => (Platform.OS === 'ios'
 
 export const requestLocation = () => (dispatch, getState) => {
   const { app: { statuses } } = getState();
-  if (statuses.permissions) {
-    const { location } = statuses.permissions;
-    if (location === PERMISSION_STATUS.undetermined || location === PERMISSION_STATUS.denied) {
-      return;
-    }
+  if (statuses.permissions && statuses.permissions.location === PERMISSION_STATUS.denied) {
+    return;
   }
   if (!(statuses.permissions &&
     statuses.permissions.location === PERMISSION_STATUS.authorized)) {
