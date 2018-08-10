@@ -21,9 +21,12 @@ export const paymentTypeLabels = {
 
 export function preparePaymentType({ payment, cards }) {
   const card = find(cards, 'default') || cards[0];
-  return payment.includes('payment_card')
+
+  const paymentType = card
     ? `${card.type}_payment_card${card ? `:${card.id}` : ''}`
-    : payment;
+    : 'account';
+
+  return payment.includes('payment_card') ? paymentType : payment;
 }
 
 export function isCashAllowed(vehicleName) {
