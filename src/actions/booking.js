@@ -238,6 +238,10 @@ const setBookingUpdater = id => (dispatch) => {
   bookingInterval = setInterval(() => {
     get(`/bookings/${id}`)
       .then(({ data }) => {
+        if (FINAL_STATUSES.includes(data.status)) {
+          clearInterval(bookingInterval);
+          return;
+        }
         dispatch({ type: TYPES.updateCurrentOrder, payload: data });
       });
   }, 3000);
