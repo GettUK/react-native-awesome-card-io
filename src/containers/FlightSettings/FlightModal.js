@@ -13,7 +13,7 @@ import FlightSettings from './FlightSettings';
 
 import { modalStyles } from './styles';
 
-const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
+const FlightModal = ({ navigation, isVisible, onClose, onSubmit, tempFlight }) => (
   <Modal
     isVisible={isVisible}
     style={modalStyles.container}
@@ -24,7 +24,7 @@ const FlightModal = ({ isVisible, onClose, onSubmit, tempFlight }) => (
 
       <View style={modalStyles.flex}>
         <ScrollView>
-          <FlightSettings />
+          <FlightSettings navigation={navigation} />
         </ScrollView>
       </View>
 
