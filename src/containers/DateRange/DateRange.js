@@ -68,7 +68,7 @@ class DateRange extends Component {
             [meta.from, meta.to]
           }
           onSuccess={this.onRangeSelect}
-          futureScrollRange={1}
+          futureScrollRange={240}
           scrollEnabled
         />
         {this.renderInterval()}
