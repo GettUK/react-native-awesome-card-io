@@ -14,10 +14,13 @@ export const REJECTED_STATUS = 'rejected';
 export const BILLED_STATUS = 'billed';
 export const IN_PROGRESS_STATUS = 'in_progress';
 export const CUSTOMER_CARE_STATUS = 'customer_care';
-export const FINAL_STATUSES = [
+export const COMPLETED_STATUSES = [
   COMPLETED_STATUS,
+  BILLED_STATUS
+];
+export const FINAL_STATUSES = [
+  ...COMPLETED_STATUSES,
   CANCELLED_STATUS,
   REJECTED_STATUS,
-  BILLED_STATUS,
   CUSTOMER_CARE_STATUS
 ];

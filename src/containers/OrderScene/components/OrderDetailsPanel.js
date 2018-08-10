@@ -8,7 +8,7 @@ import { Answers } from 'react-native-fabric';
 
 import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
-import { FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
+import { COMPLETED_STATUSES, FINAL_STATUSES, IN_PROGRESS_STATUS, DRIVER_ON_WAY } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX, getHeight, timeFormat } from 'utils';
 
 import { onLayoutPointList } from 'actions/app/statuses';
@@ -247,9 +247,9 @@ const OrderDetails = ({
         </Text>
       </View>
 
-      {(FINAL_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
+      {(COMPLETED_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
         ? renderRateBtn()
-        : renderCallBtn()
+        : !FINAL_STATUSES.includes(order.status) && renderCallBtn()
       }
     </View>
   );
