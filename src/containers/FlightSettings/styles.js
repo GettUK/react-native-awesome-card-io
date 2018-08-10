@@ -170,8 +170,5 @@ export default StyleSheet.create({
   },
   saveButton: {
     paddingRight: 0
-  },
-  stubButton: {
-    width: 37
   }
 });
