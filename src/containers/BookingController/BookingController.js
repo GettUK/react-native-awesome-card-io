@@ -15,7 +15,6 @@ import {
   Alert,
   Button
 } from 'components';
-import { FlightModal } from 'containers/FlightSettings';
 
 import {
   paymentTypeToAttrs,
@@ -30,7 +29,7 @@ import { color } from 'theme';
 
 import { throttledAction, isEnoughOrderData } from 'utils';
 
-import { LoaderLayer, PickUpTime, AvailableCars } from './components';
+import { LoaderLayer, PickUpTime, AvailableCars, ModalWithContent } from './components';
 
 import { prepareDefaultValues } from './utils';
 import styles from './styles';
@@ -40,6 +39,7 @@ const { width } = Dimensions.get('window');
 
 export default class BookingController extends Component {
   state = {
+    skipFlight: false,
     loadBookingRequested: false,
     isStopPointsModalVisible: false,
     message: '',
@@ -226,19 +226,11 @@ export default class BookingController extends Component {
 
   handleBookingCreation = throttledAction(() => {
     if (this.isPathContainAirport()) {
-      return this.showFlightModal();
+      return this.onOpenModal({ modalContent: 'flightSettings', skipFlight: true });
     }
 
     return this.createBooking();
   });
-
-  showFlightModal = () => {
-    this.setState({ flightModal: true });
-  };
-
-  hideFlightModal = () => {
-    this.setState({ flightModal: false });
-  };
 
   setAirport = () => {
     const { booking: { tempFlight }, saveFlight } = this.props;
@@ -302,7 +294,7 @@ export default class BookingController extends Component {
         this.setState({ message: strings('alert.message.reference') }, () => this.alert.show());
       }
 
-      this.hideFlightModal();
+      this.closeModal('Custom');
     }
   };
 
@@ -330,7 +322,8 @@ export default class BookingController extends Component {
         flight: bookingForm.flight || flight
       };
 
-      this.hideFlightModal();
+      this.closeModal('Custom');
+      this.setState({ skipFlight: false });
 
       if (isEmpty(await validateReferences()) && bookingForm.paymentMethod) {
         createBooking(order)
@@ -486,6 +479,36 @@ export default class BookingController extends Component {
     </View>
   );
 
+  openModal = (name) => {
+    this.setState({ [`is${name}ModalVisible`]: true });
+  };
+
+  closeModal = (name) => {
+    this.setState({ [`is${name}ModalVisible`]: false });
+  };
+
+  getReferenceError(i) {
+    const { booking: { bookingForm: { bookerReferencesErrors = {} } } } = this.props;
+
+    return bookerReferencesErrors && bookerReferencesErrors[`bookerReferences.${i}.value`];
+  }
+
+  onPressReferenceItem = (referenceIndex) => {
+    this.setState({ referenceIndex });
+    this.onOpenModal({ modalContent: 'references' });
+  };
+
+  getReferencesItems = () => {
+    const { booking: { bookingForm: { bookerReferences = [] } } } = this.props;
+
+    return bookerReferences.map((item, i) => ({
+      title: item.name,
+      value: item.value || '',
+      error: this.getReferenceError(i),
+      onPress: () => this.onPressReferenceItem(i)
+    }));
+  };
+
   getAdditionalDetailsItems() {
     const order = this.getOrder();
 
@@ -494,37 +517,40 @@ export default class BookingController extends Component {
         title: 'Order for',
         value: order.passengerName,
         icon: 'avatar',
-        onPress: () => this.goTo('PassengersList')
+        onPress: () => this.onOpenModal({ modalContent: 'passengersList' })
       },
       { title: 'Message for driver',
         value: order.message,
         icon: 'message',
-        onPress: () => this.goTo('MessageToDriver')
+        onPress: () => this.onOpenModal({ modalContent: 'messageToDriver' })
       },
       { title: 'Trip reason',
         value: this.getReasonsName(order.travelReasonId),
         icon: 'rides',
-        onPress: () => this.goTo('ReasonForTravel')
+        onPress: () => this.onOpenModal({ modalContent: 'reasonForTravel' })
       },
       { title: 'Payment method',
         value: paymentTypeLabels[order.paymentMethod],
         icon: 'paymentMethod',
-        onPress: () => this.goTo('PaymentsOptions')
+        onPress: () => this.onOpenModal({ modalContent: 'paymentsOptions' })
       },
       {
         title: 'Flight number',
         value: order.flight,
         icon: 'flight',
-        onPress: () => this.goTo('FlightSettings')
+        onPress: () => this.onOpenModal({ modalContent: 'flightSettings', skipFlight: false })
       }
     ];
   }
 
-  renderAdditionalDetails(style) {
+  renderAdditionalDetails({ labelStyle, style, items, label }) {
     return (
-      <View style={style}>
-        {this.getAdditionalDetailsItems().map(this.renderDetailItem)}
-      </View>
+      <Fragment>
+        <Text style={[styles.detailsLabel, labelStyle]}>{label}</Text>
+        <View style={style}>
+          {items.map(this.renderDetailItem)}
+        </View>
+      </Fragment>
     );
   }
 
@@ -595,10 +621,41 @@ export default class BookingController extends Component {
     );
   }
 
-  render(content) {
-    const { booking: { vehicles }, navigation } = this.props;
-    const { message, flightModal } = this.state;
+  onOpenModal = ({ modalContent, skipFlight }) => {
+    this.setState({ modalContent, skipFlight });
+    this.openModal('Custom');
+  };
 
+  onCloseModal = () => {
+    const { skipFlight } = this.state;
+    if (skipFlight) {
+      this.createBooking();
+    } else {
+      this.closeModal('Custom');
+    }
+  };
+
+  renderModal = () => {
+    const { booking: { tempMessageToDriver } } = this.props;
+    const { isCustomModalVisible = false, modalContent, referenceIndex } = this.state;
+    const isMessageToDriverContent = modalContent === 'messageToDriver';
+    const isPaymentsOptionsContent = modalContent === 'paymentsOptions';
+
+    return (
+      <ModalWithContent
+        title={isMessageToDriverContent && `${tempMessageToDriver.length}/225`}
+        contentStyles={isPaymentsOptionsContent && { height: '50%' }}
+        modalContent={modalContent}
+        referenceIndex={referenceIndex}
+        isVisible={isCustomModalVisible}
+        onClose={this.onCloseModal}
+      />
+    );
+  };
+
+  render(content) {
+    const { booking: { vehicles } } = this.props;
+    const { message } = this.state;
     return (
       <Fragment>
         {content.call(this)}
@@ -617,12 +674,7 @@ export default class BookingController extends Component {
           type="failed"
           position="bottom"
         />
-        <FlightModal
-          navigation={navigation}
-          isVisible={flightModal}
-          onClose={this.createBooking}
-          onSubmit={this.setAirport}
-        />
+        {this.renderModal()}
         <CardsPopup innerRef={(popup) => { this.cardsPopup = popup; }} />
       </Fragment>
     );

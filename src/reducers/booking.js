@@ -100,15 +100,6 @@ const changeMessageToDriver = (state, { payload }) =>
 const changeFlight = (state, { payload }) =>
   update(state, { tempFlight: payload.data, flightTouched: payload.touched });
 
-const changePassengerId = (state, { payload }) =>
-  update(state, { tempPassengerId: payload.id, passengerIdTouched: payload.touched });
-
-const changeTravelReasonId = (state, { payload }) =>
-  update(state, { tempTravelReasonId: payload.id, travelReasonIdTouched: payload.touched });
-
-const changePaymentMethodData = (state, { payload }) =>
-  update(state, { tempPaymentMethodData: payload.data, paymentMethodTouched: payload.touched });
-
 const getVehiclesStart = state =>
   update.assign(state, 'vehicles', {
     loading: true,
@@ -235,9 +226,6 @@ export default composeReducer('booking', {
   changeMessageToDriver,
   changeMessageModified,
   changeFlight,
-  changePassengerId,
-  changeTravelReasonId,
-  changePaymentMethodData,
   getVehiclesStart,
   getVehiclesSuccess,
   getVehiclesFailure,

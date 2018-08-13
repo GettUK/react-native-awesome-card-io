@@ -1,23 +1,15 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity } from 'react-native';
-
-import { changeReference } from 'actions/booking';
-
-import { Icon, SearchList } from 'components';
-
+import { Text, TouchableOpacity } from 'react-native';
+import { Icon, SearchList, Divider } from 'components';
 import { debounce } from 'lodash';
-
 import { withTheme } from 'providers';
-
 import { color } from 'theme';
-
 import { get } from 'utils';
-
 import styles from './styles';
 
 class ReferenceValueSelector extends PureComponent {
   state = {
+    loading: false,
     searchValue: '',
     items: []
   };
@@ -27,9 +19,11 @@ class ReferenceValueSelector extends PureComponent {
   }
 
   getReferenceEntries = debounce(() => {
-    const id = this.props.navigation.state.params.reference.id;
+    const id = this.props.reference.id;
+    this.setState({ loading: true });
     return get(`booking_references/${id}/reference_entries?search_term=${this.state.searchValue}`)
-      .then(({ data }) => { this.setState({ items: data.items }); });
+      .then(({ data }) => { this.setState({ items: data.items, loading: false }); })
+      .catch(() => { this.setState({ loading: false }); });
   }, 300);
 
   handleSearchValueChange = (searchValue) => {
@@ -44,12 +38,15 @@ class ReferenceValueSelector extends PureComponent {
   keyExtractor = item => String(item.id || item.value);
 
   renderItem = ({ item }) => {
-    const { bookerReference, changeReference, theme } = this.props;
+    const { reference, changeReference, onClose, theme } = this.props;
     const textStyles = [styles.flex, styles.valueName];
 
-    const isSelected = bookerReference.value === item.value;
+    const isSelected = reference.value === item.value;
     if (isSelected) textStyles.push(styles.valueNameSelected);
-    const handlerValueSelect = () => changeReference({ ...bookerReference, value: item.value });
+    const handlerValueSelect = () => {
+      changeReference({ ...reference, value: item.value });
+      onClose();
+    };
 
     return (
       <TouchableOpacity
@@ -65,30 +62,24 @@ class ReferenceValueSelector extends PureComponent {
     );
   };
 
-  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]}/>;
+  renderSeparator = () => <Divider left={15} />;
 
   render() {
-    const { searchValue } = this.state;
+    const { searchValue, loading } = this.state;
     return (
       <SearchList
+        type="inline"
+        loading={loading}
         keyboardShouldPersistTaps="handled"
         searchValue={searchValue}
         onSearchValueChange={this.handleSearchValueChange}
         data={this.getListData()}
-        ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+        ItemSeparatorComponent={this.renderSeparator}
       />
     );
   }
 }
 
-const mapState = ({ booking }, props) => ({
-  bookerReference: booking.bookingForm.bookerReferences.find(r => r.id === props.navigation.state.params.reference.id)
-});
-
-const mapDispatch = ({
-  changeReference
-});
-
-export default connect(mapState, mapDispatch)(withTheme(ReferenceValueSelector));
+export default withTheme(ReferenceValueSelector);

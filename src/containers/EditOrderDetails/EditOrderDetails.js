@@ -16,6 +16,7 @@ import {
 import { getPassengerData } from 'actions/passenger';
 
 import BookingController from 'containers/BookingController';
+import { strings } from 'locales';
 
 import { withTheme } from 'providers';
 
@@ -31,7 +32,7 @@ class EditOrderDetails extends BookingController {
   }
 
   renderOrderOptions = () => {
-    const { theme, booking: { formData, bookingForm: { bookerReferencesErrors } } } = this.props;
+    const { theme, booking: { formData } } = this.props;
 
     return (
       <ScrollView style={[styles.flex, { backgroundColor: theme.color.bgSettings }]}>
@@ -41,27 +42,22 @@ class EditOrderDetails extends BookingController {
           {this.renderPointList({ style: styles.pointList })}
           {this.renderAvailableCars()}
         </View>
-
-        {this.renderAdditionalDetails([
-          styles.contentBlock,
-          styles.detailsContainer,
-          { backgroundColor: theme.color.bgPrimary }
-        ])}
-
-        {formData.bookingReferences.length > 0 &&
-          <View style={[styles.contentBlock, { backgroundColor: theme.color.bgPrimary }]}>
-            {this.renderDetailItem({
-              title: 'Booking References',
-              value: `${formData.bookingReferences.length} References`,
-              onPress: () => this.goTo('References'),
-              error: Object.keys(bookerReferencesErrors).length > 0
-            })}
-          </View>
-        }
+        {this.renderAdditionalDetails({
+            style: [styles.contentBlock, styles.detailsContainer, { backgroundColor: theme.color.bgPrimary }],
+            items: this.getAdditionalDetailsItems()
+        })}
+        {formData.bookingReferences.length > 0 && (
+          this.renderAdditionalDetails({
+            style: [styles.contentBlock, styles.detailsContainer, { backgroundColor: theme.color.bgPrimary }],
+            items: this.getReferencesItems(),
+            label: strings('order.text.bookingReference'),
+            labelStyle: styles.labelStyle
+          })
+        )}
         <View style={styles.spacer} />
       </ScrollView>
     );
-  }
+  };
 
   renderContent() {
     const { booking: { formData, vehicles, currentOrder: { busy } } } = this.props;

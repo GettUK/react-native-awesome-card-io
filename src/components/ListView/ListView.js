@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, FlatList, SectionList, Platform } from 'react-native';
+import { View, Text, FlatList, SectionList, Platform, KeyboardAvoidingView } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { strings } from 'locales';
@@ -10,9 +10,7 @@ import styles from './styles';
 
 class ListView extends PureComponent {
   renderList = () => {
-    const {
-      styles, renderItem, items, typeSections, keyExtractor, onEndReached, loading, refreshing, theme
-    } = this.props;
+    const { style, items, typeSections, loading, theme, ...rest } = this.props;
 
     const props = {};
 
@@ -26,45 +24,53 @@ class ListView extends PureComponent {
     const Component = typeSections ? SectionList : FlatList;
 
     return (
-      <View style={[styles.container, { backgroundColor: theme.color.bgSettings }]}>
+      <View style={styles.container}>
         <Component
           {...props}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          style={styles.items}
-          onEndReached={onEndReached}
+          {...rest}
+          style={[styles.items, style]}
           ListFooterComponent={loading && Platform.OS === 'ios' &&
-            <Text style={{ textAlign: 'center', color: theme.color.primaryText }}>{strings('app.label.loading')}</Text>
+            <Text style={[styles.loading, { color: theme.color.primaryText }]}>{strings('app.label.loading')}</Text>
           }
-          refreshing={refreshing}
           stickySectionHeadersEnabled={false}
         />
       </View>
     );
-  }
+  };
 
-  renderAndroidLoadingLabel = styles => (
+  renderAndroidLoadingLabel = () => (
     <View style={styles.loaderWrapper}>
       <View style={styles.loader}>
         <Text style={styles.loaderLabel}>{strings('app.label.loading')}</Text>
       </View>
     </View>
-  )
+  );
+
+  renderEmptyLabel = () => {
+    const { theme } = this.props;
+    return (
+      <Text style={[styles.emptyLabel, { color: theme.color.secondaryText }]}>
+        {strings('app.label.emptyResult')}
+      </Text>
+    );
+  };
 
   render() {
-    const { styles, loading, items, theme } = this.props;
+    const { loading, items } = this.props;
 
     return (
-      <View style={[styles.flex, styles.centered, { backgroundColor: theme.color.bgSettings }]}>
+      <KeyboardAvoidingView
+        style={[styles.flex, styles.centered]}
+        behavior="padding"
+        keyboardVerticalOffset={80}
+      >
         {(items && items.length) || loading
           ? this.renderList()
-          : <Text style={[styles.emptyLabel, { color: theme.color.primaryText }]}>
-            {strings('app.label.emptyResult')}
-          </Text>
+          : this.renderEmptyLabel()
         }
 
-        {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel(styles)}
-      </View>
+        {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel()}
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -80,7 +86,6 @@ ListView.propTypes = {
 };
 
 ListView.defaultProps = {
-  styles,
   loading: false,
   refreshing: undefined,
   keyExtractor: item => String(item.id),

@@ -1,3 +1,4 @@
+import account from './account';
 import add from './add';
 import addresses from './addresses';
 import arrow from './arrow';
@@ -18,6 +19,7 @@ import car from './car';
 import carFacet from './carFacet';
 import carNightMode from './carNightMode';
 import carType from './carType';
+import cash from './cash';
 import check from './check';
 import checkmark from './checkmark';
 import chevron from './chevron';
@@ -108,6 +110,7 @@ import defaultAddress from './addresses/default';
 import pointOfInterest from './addresses/pointOfInterest';
 
 export default {
+  account,
   add,
   addresses,
   arrow,
@@ -128,6 +131,7 @@ export default {
   carFacet,
   carNightMode,
   carType,
+  cash,
   check,
   checkmark,
   chevron,

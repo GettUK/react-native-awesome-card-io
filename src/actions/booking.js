@@ -42,9 +42,6 @@ const TYPES = createTypes('booking', [
   'changeFields',
   'changeAddress',
   'changeReference',
-  'changePassengerId',
-  'changeTravelReasonId',
-  'changePaymentMethodData',
   'setReferenceErrors',
   'resetBookingValues',
   'changeMessageToDriver',
@@ -174,15 +171,6 @@ export const resetBookingValues = () => (dispatch, getState) => {
 export const changeFlight = (data, touched = false) =>
   ({ type: TYPES.changeFlight, payload: { data, touched } });
 
-export const changePassengerId = (id, touched = false) =>
-  ({ type: TYPES.changePassengerId, payload: { id, touched } });
-
-export const changeTravelReasonId = (id, touched = false) =>
-  ({ type: TYPES.changeTravelReasonId, payload: { id, touched } });
-
-export const changePaymentMethodData = (data, touched = false) =>
-  ({ type: TYPES.changePaymentMethodData, payload: { data, touched } });
-
 export const saveFlight = () => (dispatch, getState) => {
   const { flight } = getState().booking.tempFlight;
 
@@ -211,13 +199,13 @@ const getPaymentAttrs = (formData, passengerId) => {
   return paymentTypeToAttrs(paymentType);
 };
 
-export const savePassenger = () => (dispatch, getState) => {
-  const { tempPassengerId, formData } = getState().booking;
+export const savePassenger = passengerId => (dispatch, getState) => {
+  const { formData } = getState().booking;
 
-  const passenger = formData.passengers.find(p => p.id === tempPassengerId);
+  const passenger = formData.passengers.find(p => p.id === passengerId);
   const { id, firstName, lastName, phone } = passenger;
 
-  const paymentAttrs = getPaymentAttrs(formData, tempPassengerId);
+  const paymentAttrs = getPaymentAttrs(formData, passengerId);
 
   dispatch(changeFields({
     ...paymentAttrs,
@@ -321,8 +309,6 @@ export const createBooking = order => (dispatch, getState) => {
       } else {
         dispatch({ type: TYPES.setFutureOrderId, payload: data.id });
       }
-
-      dispatch(changePassengerId());
 
       return data;
     })

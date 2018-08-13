@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { color, formattedColor } from 'theme';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   flex: {
@@ -14,24 +14,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: color.white
   },
-  searchContainer: {
-    backgroundColor: color.bgSearch,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  searchInput: {
-    borderRadius: 10,
-    margin: 15,
-    minHeight: 36,
-    backgroundColor: formattedColor.secondaryText.opacity(0.12),
-    paddingLeft: 30,
-    paddingRight: 6,
-    fontSize: 17
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 25,
-    zIndex: 1
-  },
-  emptyResult: { fontSize: 17 }
+  listView: {
+    paddingHorizontal: 0,
+    paddingTop: 0
+  }
 });

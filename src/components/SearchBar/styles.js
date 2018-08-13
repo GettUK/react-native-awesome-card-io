@@ -7,10 +7,21 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  modalSearchContainer: {
+    marginLeft: 15,
+    alignItems: 'center'
+  },
   searchIcon: {
     position: 'absolute',
     left: 25,
     zIndex: 1
+  },
+  modalSearchIcon: {
+    marginRight: 5
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   flex: {
     flex: 1
@@ -23,5 +34,10 @@ export default StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 6,
     fontSize: 17
+  },
+  modalSearchInput: {
+    fontSize: 18,
+    color: color.primaryText,
+    borderBottomWidth: 0
   }
 });

@@ -5,7 +5,7 @@ import { color } from 'theme';
 
 import { Icon, SearchList } from 'components';
 
-import { changeFields, changePassengerId } from 'actions/booking';
+import { savePassenger } from 'actions/booking';
 
 import { withTheme } from 'providers';
 
@@ -17,11 +17,6 @@ class PassengersList extends PureComponent {
   state = {
     searchValue: ''
   };
-
-  componentDidMount() {
-    const { booking, changePassengerId } = this.props;
-    changePassengerId(booking.passengerId);
-  }
 
   handleSearchValueChange = (searchValue) => {
     this.setState({ searchValue });
@@ -36,9 +31,15 @@ class PassengersList extends PureComponent {
       : passengers;
   };
 
+  onPressItem = (id) => {
+    const { savePassenger } = this.props;
+    savePassenger(id);
+    this.onCloseModal();
+  };
+
   renderItem = ({ item }) => {
     const { firstName, lastName, phone, id, avatarUrl } = item;
-    const { passengerId, changePassengerId, theme } = this.props;
+    const { booking: { passengerId }, theme } = this.props;
 
     const isSelected = id === passengerId;
 
@@ -46,7 +47,7 @@ class PassengersList extends PureComponent {
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.passengerContainer}
-        onPress={() => changePassengerId(id, true)}
+        onPress={() => this.onPressItem(id)}
       >
         <View style={styles.avatar}>
           {avatarUrl
@@ -73,15 +74,22 @@ class PassengersList extends PureComponent {
 
   keyExtractor = item => String(item.id);
 
+  onCloseModal = () => {
+    this.props.onClose();
+    this.handleSearchValueChange('');
+  };
+
   render() {
     const { searchValue } = this.state;
     const passengers = this.preparePassengers();
 
     return (
       <SearchList
+        type="inline"
         searchValue={searchValue}
         onSearchValueChange={this.handleSearchValueChange}
-        data={passengers}
+        placeholder="Search Name"
+        data={passengers || []}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
       />
@@ -91,13 +99,11 @@ class PassengersList extends PureComponent {
 
 const mapState = ({ booking }) => ({
   passengers: booking.formData.passengers,
-  passengerId: booking.tempPassengerId,
   booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
 });
 
 const mapDispatch = ({
-  changeFields,
-  changePassengerId
+  savePassenger
 });
 
 export default connect(mapState, mapDispatch)(withTheme(PassengersList));

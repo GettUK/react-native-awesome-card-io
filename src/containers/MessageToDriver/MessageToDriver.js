@@ -1,50 +1,81 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
-
-import { changeMessageToDriver } from 'actions/booking';
-
+import { View, TouchableOpacity, Text } from 'react-native';
+import { Input, Icon, Divider } from 'components';
+import { saveMessageToDriver, changeMessageToDriver } from 'actions/booking';
+import { color } from 'theme';
 import { withTheme } from 'providers';
-
-import { isIphoneX } from 'utils';
-
+import { strings } from 'locales';
+import { throttledAction } from 'utils';
 import styles from './styles';
 
-const MessageToDriver = ({ message, touched, theme, booking, changeMessageToDriver }) => {
+const defaultPhrases = [
+  strings('messageToDriver.text.callOnArrival'),
+  strings('messageToDriver.text.doNotCall'),
+  strings('messageToDriver.text.meetAtArrivals'),
+  strings('messageToDriver.text.ringDoorOnArrival'),
+  strings('messageToDriver.text.parkAndWait'),
+  strings('messageToDriver.text.ifLateCallMe')
+];
+
+const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose }) => {
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
   };
 
   const value = touched ? message : booking.message;
+  const onCloseModal = () => {
+    changeMessageToDriver('');
+    onClose();
+  };
+  const handleSave = throttledAction(() => {
+    if (touched) {
+      saveMessageToDriver('', true);
+      onCloseModal();
+    }
+  });
+  const onPhrasePress = (item) => {
+    onChangeText(item);
+    this.input.focus();
+  };
+  const renderPhrase = (item, index) => (
+    <TouchableOpacity key={index} onPress={() => onPhrasePress(item)}>
+      <Text style={styles.phrase}>{item}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={isIphoneX() ? 85 : 65}
-        behavior="padding"
-        style={styles.flex}
-      >
-        <TextInput
-          style={[styles.input, styles.flex]}
+    <Fragment>
+      <View style={styles.header}>
+        <Input
+          inputRef={(el) => { this.input = el; }}
+          returnKeyLabel={'Done'}
+          returnKeyType={'done'}
+          blurOnSubmit
           value={value}
-          placeholder="Start type your message"
           onChangeText={onChangeText}
+          onSubmitEditing={handleSave}
+          autoCorrect={false}
+          autoFocus
           maxLength={225}
-          textAlignVertical="top"
-          underlineColorAndroid="transparent"
           multiline
+          allowedError={false}
+          placeholder={strings('app.label.startTypeMessage')}
+          inputStyle={styles.inputStyle}
+          clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
         />
-        <Text style={styles.messageLength}>{value.length}/225</Text>
-      </KeyboardAvoidingView>
-    </View>
+        <Divider left={0} />
+      </View>
+      {!value && defaultPhrases.map(renderPhrase)}
+    </Fragment>
   );
 };
 
 MessageToDriver.propTypes = {
-  navigation: PropTypes.object.isRequired,
   message: PropTypes.string,
-  changeMessageToDriver: PropTypes.func.isRequired
+  changeMessageToDriver: PropTypes.func.isRequired,
+  saveMessageToDriver: PropTypes.func.isRequired
 };
 
 MessageToDriver.defaultProps = {
@@ -58,6 +89,7 @@ const mapState = ({ booking }) => ({
 });
 
 const mapDispatch = ({
+  saveMessageToDriver,
   changeMessageToDriver
 });
 

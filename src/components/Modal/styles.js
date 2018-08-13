@@ -10,10 +10,16 @@ export const modalStyles = StyleSheet.create({
     backgroundColor: color.white
   },
   header: {
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 7,
     paddingVertical: 7
+  },
+  defaultText: {
+    paddingVertical: 8,
+    paddingHorizontal: 13,
+    fontSize: 14
   },
   closeText: {
     paddingVertical: 8,

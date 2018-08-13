@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from 'components';
 
@@ -17,22 +16,24 @@ class CheckBox extends PureComponent {
 
   static defaultProps = {
     style: {},
-    status: false,
-    onPress: () => noop
+    status: false
+  };
+
+  renderHandlerIcon = () => {
+    const { style, onPress } = this.props;
+    return (
+      <TouchableOpacity disabled={!onPress} style={style} activeOpacity={0.6} onPress={onPress}>
+        <Icon name="checkOff" />
+      </TouchableOpacity>
+    );
   };
 
   render() {
-    const { style, status, onPress } = this.props;
+    const { status } = this.props;
     return (
       status
         ? <Icon name="checkOn" />
-        : <TouchableOpacity
-          style={style}
-          activeOpacity={0.6}
-          onPress={onPress}
-        >
-          <Icon name="checkOff" />
-        </TouchableOpacity>
+        : this.renderHandlerIcon()
     );
   }
 }

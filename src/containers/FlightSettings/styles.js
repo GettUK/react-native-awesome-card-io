@@ -1,64 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { color } from 'theme';
-
-const { height } = Dimensions.get('window');
-
-export const modalStyles = StyleSheet.create({
-  flex: {
-    flex: 1
-  },
-  container: {
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  content: {
-    height: height * 0.75,
-    borderRadius: 16,
-    backgroundColor: color.white
-  },
-  header: {
-    color: color.primaryBtns,
-    fontSize: 22,
-    margin: 16
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 16
-  },
-  button: {
-    width: '47%',
-    height: 54,
-    padding: 5
-  },
-  buttonLeft: {
-    marginRight: '6%'
-  },
-  cancelButtonContent: {
-    flex: 1,
-    width: '100%'
-  },
-  submitButton: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: color.primaryBtns
-  },
-  disabledSubmitButton: {
-    opacity: 0.6
-  },
-  buttonLabel: {
-    color: color.secondaryText,
-    fontSize: 14,
-    fontWeight: '600'
-  },
-  buttonLabelSubmit: {
-    color: color.white,
-    fontSize: 14,
-    fontWeight: '600'
-  }
-});
 
 export default StyleSheet.create({
   flex: {
@@ -171,5 +112,9 @@ export default StyleSheet.create({
   },
   saveButton: {
     paddingRight: 0
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });

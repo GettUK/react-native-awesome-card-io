@@ -24,11 +24,6 @@ const styles = StyleSheet.create({
   },
   reasonNameSelected: {
     marginRight: 20
-  },
-  separator: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: color.pixelLine,
-    marginLeft: 15
   }
 });
 

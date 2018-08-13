@@ -5,6 +5,12 @@ import { color } from 'theme';
 import { isIphoneX } from 'utils';
 
 export default StyleSheet.create({
+  detailsLabel: {
+    lineHeight: 28,
+    color: color.secondaryText,
+    fontSize: 12,
+    marginLeft: 15
+  },
   listOption: {
     paddingHorizontal: 16
   },

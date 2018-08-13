@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { changeFlight } from 'actions/booking';
+import { saveFlight, changeFlight } from 'actions/booking';
 
 import { Input, DismissKeyboardView, Icon } from 'components';
 
@@ -20,7 +20,7 @@ import { withTheme } from 'providers';
 
 import { color } from 'theme';
 
-import { get, timeFormat, getSeparatedDate } from 'utils';
+import { get, timeFormat, throttledAction, getSeparatedDate } from 'utils';
 
 import styles from './styles';
 
@@ -28,6 +28,7 @@ class FlightSettings extends Component {
   state = {
     selected: 0,
     flight: this.props.flight || '',
+    verifiedSaved: undefined,
     verifiedFlight: undefined,
     verificationData: null,
     loading: false
@@ -56,6 +57,22 @@ class FlightSettings extends Component {
       loading: false
     });
   };
+
+  onCloseModal = () => {
+    const { changeFlight, onClose } = this.props;
+    changeFlight({ flight: '' }, false);
+    onClose();
+  };
+
+  handleSave = throttledAction(() => {
+    const { saveFlight } = this.props;
+    const { verifiedSaved } = this.state;
+
+    if (verifiedSaved) {
+      saveFlight();
+      this.onCloseModal();
+    }
+  });
 
   handleVerify = () => {
     const { flight, selected } = this.state;
@@ -88,8 +105,8 @@ class FlightSettings extends Component {
   checkFlightVerified = () => {
     const wantToDelete = this.props.flight && this.props.flight !== '' && this.state.flight === '';
     const verifiedSaved = this.state.verifiedFlight === this.state.flight;
-    this.props.navigation.setParams({ verifiedSaved: verifiedSaved || wantToDelete });
-  }
+    this.setState({ verifiedSaved: verifiedSaved || wantToDelete });
+  };
 
   handleChangeNumber = (flight) => {
     this.setState({ flight, error: null }, this.checkFlightVerified);
@@ -99,7 +116,7 @@ class FlightSettings extends Component {
     this.setState({ selected: index }, () => {
       this.setFlightDetails(this.state.originalData[index]);
     });
-  }
+  };
 
   renderFlightData = item => (
     <View key={item.title} style={styles.results}>
@@ -108,13 +125,24 @@ class FlightSettings extends Component {
     </View>
   );
 
-  renderVerifyButton = () => (
-    <TouchableWithoutFeedback onPress={this.handleVerify}>
+  renderButton = ({ onPress, label }) => (
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.verifyButton}>
-        <Text style={styles.verifyLabel}>{strings('flight.button.verify')}</Text>
+        <Text style={styles.verifyLabel}>{label}</Text>
       </View>
     </TouchableWithoutFeedback>
   );
+
+  renderVerifyButton = () => {
+    const { verifiedSaved } = this.state;
+
+    return (
+      <View style={styles.row}>
+        {!verifiedSaved && this.renderButton({ onPress: this.handleVerify, label: strings('flight.button.verify') })}
+        {verifiedSaved && this.renderButton({ onPress: this.handleSave, label: strings('flight.button.save') })}
+      </View>
+    );
+  };
 
   renderTabs = () => {
     const { originalData, selected } = this.state;
@@ -146,7 +174,7 @@ class FlightSettings extends Component {
         })}
       </View>
     );
-  }
+  };
 
   renderFlightInput = () => {
     const { flight, error } = this.state;
@@ -167,7 +195,7 @@ class FlightSettings extends Component {
     );
   };
 
-  render() {
+  renderContent() {
     const { originalData, verificationData, loading } = this.state;
 
     return (
@@ -198,10 +226,20 @@ class FlightSettings extends Component {
       </View>
     );
   }
+
+  render() {
+    return (
+      <View style={styles.flex}>
+        <ScrollView>
+          {this.renderContent()}
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 const mapState = ({ booking }) => ({
   flight: booking.bookingForm.flight
 });
 
-export default connect(mapState, { changeFlight })(withTheme(FlightSettings));
+export default connect(mapState, { changeFlight, saveFlight })(withTheme(FlightSettings));
