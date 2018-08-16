@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, isEqual, has, isNull } from 'lodash';
+import { isEmpty, has, isNull } from 'lodash';
 import { color } from 'theme';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
@@ -49,20 +49,6 @@ class BookingEditor extends BookingController {
       getFormData();
     }
   }
-
-  requestVehiclesOnOrderChange = (bookingFormProps) => {
-    const { booking: { vehicles, bookingForm } } = this.props;
-    const { isStopPointsModalVisible } = this.state;
-    const isDriveChanged = (!vehicles.loaded && !vehicles.loading) ||
-      !isEqual(bookingForm.stops, bookingFormProps.stops) ||
-      !isEqual(bookingForm.pickupAddress, bookingFormProps.pickupAddress) ||
-      !isEqual(bookingForm.destinationAddress, bookingFormProps.destinationAddress) ||
-      !isEqual(bookingForm.paymentMethod, bookingFormProps.paymentMethod);
-
-    if (!isStopPointsModalVisible && isDriveChanged) {
-      this.requestVehicles();
-    }
-  };
 
   showServiceSuspendedPopup = () => this.serviceSuspendedPopup.open();
 

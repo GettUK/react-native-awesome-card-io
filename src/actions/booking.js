@@ -61,7 +61,8 @@ const TYPES = createTypes('booking', [
   'saveAvailableCarsScroll',
   'clearBooking',
   'updateReferences',
-  'changeMessageModified'
+  'changeMessageModified',
+  'setFutureOrderId'
 ]);
 
 export const updateReferences = references => ({ type: TYPES.updateReferences, payload: references });
@@ -291,22 +292,25 @@ export const orderStatusSubscribe = channel => (dispatch, getState) => {
 };
 
 export const createBooking = order => (dispatch, getState) => {
-  const { booking: { bookingForm } } = getState();
+  const { booking: { bookingForm, currentOrder } } = getState();
   const isFutureOrder = bookingForm.scheduledType === 'later';
 
   dispatch({ type: TYPES.createBookingStart });
 
   return post('/bookings', order)
     .then(({ data }) => {
-      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+      if (!currentOrder.id) {
+        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-      if (isFutureOrder) {
-        dispatch(getCurrentUser());
+        if (isFutureOrder) {
+          dispatch(getCurrentUser());
+        }
+
+        dispatch(goToActiveOrderScene());
+        dispatch(orderStatusSubscribe(data.channel));
+      } else {
+        dispatch({ type: TYPES.setFutureOrderId, payload: data.id });
       }
-
-      dispatch(goToActiveOrderScene());
-
-      dispatch(orderStatusSubscribe(data.channel));
 
       dispatch(changePassengerId());
 

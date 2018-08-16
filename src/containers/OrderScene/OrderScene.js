@@ -5,14 +5,40 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Answers } from 'react-native-fabric';
 
-import { cancelOrder, clearCurrentOrder, removeFields, resetBookingValues } from 'actions/booking';
+import {
+  cancelOrder,
+  clearCurrentOrder,
+  removeFields,
+  resetBookingValues,
+  changeFields,
+  changeAddress,
+  setActiveBooking
+} from 'actions/booking';
 
-import { FadeInView, GradientWrapper, OptionsModal, OrderHeader, CountdownTimer } from 'components';
 import { sms } from 'api';
+import {
+  FadeInView,
+  GradientWrapper,
+  OptionsModal,
+  OrderHeader,
+  CountdownTimer,
+  FutureOrderSuggestionPopup,
+  SuccessPopup
+} from 'components';
 import { formattedColor } from 'theme';
 
 import { strings } from 'locales';
-import { showConfirmationAlert, isIphoneX, bookingFieldsToReset, minutesForward, getCurrentOrder } from 'utils';
+import {
+  showConfirmationAlert,
+  isIphoneX,
+  bookingFieldsToReset,
+  get,
+  processLocation,
+  geocode,
+  getSeparatedDate,
+  minutesForward,
+  getCurrentOrder
+} from 'utils';
 import {
   POINTER_DISPLAY_STATUSES,
   ORDER_RECEIVED_STATUS,
@@ -39,8 +65,24 @@ class OrderScene extends Component {
   };
 
   componentDidMount() {
+    const { currentOrder } = this.props;
+
+    if (currentOrder.flight && currentOrder.destinationAddress.airport && currentOrder.status === 'creating') {
+      this.resetBookingForm();
+
+      this.setFlightData(currentOrder.flight);
+    }
+
     this.registerBackListener();
     this.restoreTimer();
+  }
+
+  componentDidUpdate({ futureOrderId: futureOrderIdProps }) {
+    const { futureOrderId } = this.props;
+
+    if (futureOrderId && !futureOrderIdProps) {
+      this.successPopup.open();
+    }
   }
 
   componentWillUnmount() {
@@ -59,12 +101,12 @@ class OrderScene extends Component {
 
   registerBackListener = () => {
     this.backListener = BackHandler.addEventListener('hardwareBack', () => {
-      const { booking: { bookingForm } } = this.props;
+      const { bookingForm, navigation } = this.props;
 
       this.handleBackBtnPress();
 
       if (bookingForm.destinationAddress) {
-        this.goBack();
+        navigation.dispatch({ type: 'Navigation/BACK' });
         return true;
       }
 
@@ -72,17 +114,26 @@ class OrderScene extends Component {
     });
   };
 
-  goBack = () => {
-    this.props.navigation.dispatch({
-      type: 'Navigation/BACK'
-    });
-  };
+  setFlightData = (flight) => {
+    const { year, month, day } = getSeparatedDate();
 
-  goToInitialization = () => {
-    const { removeFields, resetBookingValues, clearCurrentOrder, getCurrentPosition } = this.props;
+    get('/flightstats/flights', { flight, year, month, day })
+      .then(({ data }) => {
+        this.setState({ flightData: data[0] });
+      }).then(this.futureOrderPopup.open);
+  }
+
+  resetBookingForm = () => {
+    const { removeFields, resetBookingValues } = this.props;
 
     removeFields(bookingFieldsToReset);
     resetBookingValues();
+  }
+
+  goToInitialization = () => {
+    const { clearCurrentOrder, getCurrentPosition } = this.props;
+
+    this.resetBookingForm();
 
     clearCurrentOrder();
 
@@ -124,14 +175,23 @@ class OrderScene extends Component {
     showConfirmationAlert({
       title: strings('alert.title.doYouWantToCancelOrder'),
       message: strings('alert.message.cancelOrderDescription'),
-      handler: this.cancelOrder
+      handler: () => this.props.cancelOrder().then(() => this.handleOpen('CancelModal'))
     });
   };
 
-  cancelOrder = () => {
-    this.props.cancelOrder()
-      .then(() => this.handleOpen('CancelModal'));
-  };
+  handleCreateOrder = () => {
+    const { changeFields, changeAddress } = this.props;
+    const { flightData: { arrival } } = this.state;
+
+    this.futureOrderPopup.close();
+
+    changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
+
+    geocode(arrival)
+      .then(processLocation)
+      .then(data => changeAddress(data, { type: 'pickupAddress' }))
+      .then(() => this.props.navigation.navigate('EditOrderDetails', { futureFlightOrder: true }));
+  }
 
   handleOpen = type =>
     this.setState({ [`isVisible${type}`]: true });
@@ -170,6 +230,14 @@ class OrderScene extends Component {
       handlePressCreateNew={this.createNewOrder}
     />
   );
+
+  handleActivateFutureOrder = () => {
+    const { futureOrderId, setActiveBooking } = this.props;
+
+    this.successPopup.close();
+
+    setActiveBooking(futureOrderId);
+  }
 
   renderFloatButton = ({ iconName, label, handler = () => {}, busy, ...rest }) => (
     <FloatButton
@@ -292,16 +360,54 @@ class OrderScene extends Component {
     );
   };
 
+  renderPopups = () => (
+    <Fragment>
+      <SuccessPopup
+        innerRef={(popup) => { this.successPopup = popup; }}
+        title={strings('popup.orderCreating.success')}
+        buttons={[
+          {
+            title: strings('popup.orderCreating.button.seeDetails'),
+            style: styles.btnStyle,
+            textStyle: styles.btnTextStyle,
+            onPress: this.handleActivateFutureOrder
+          },
+          {
+            title: strings('popup.orderCreating.button.сonfirm')
+          }
+        ]}
+      />
+
+      <FutureOrderSuggestionPopup
+        innerRef={(popup) => { this.futureOrderPopup = popup; }}
+        flightData={this.state.flightData}
+        onPress={this.handleCreateOrder}
+      />
+    </Fragment>
+  );
+
+  renderOrderDetailsPanel = () => (
+    <OrderDetailsPanel
+      navigation={this.props.navigation}
+      onClose={() => this.handleClose('OrderDetailsPanel')}
+      onActivate={this.showPanel}
+      visible={this.state.isVisibleOrderDetailsPanel}
+    />
+  )
+
   render() {
-    const { status, order, navigation } = this.props;
-    const { isVisibleOrderDetailsPanel } = this.state;
+    const { status, order } = this.props;
 
     const shouldShowPointer = POINTER_DISPLAY_STATUSES.includes(status) ||
       (order.status === ORDER_RECEIVED_STATUS && order.asap);
 
     return (
       <Fragment>
-        {this.renderHeader()}
+        <OrderHeader
+          status={status}
+          handlePressBack={this.handleBackBtnPress}
+          handlePressCreateNew={this.createNewOrder}
+        />
 
         <View style={styles.container} pointerEvents={shouldShowPointer ? 'auto' : 'box-none'}>
           <View style={styles.separator} />
@@ -313,12 +419,9 @@ class OrderScene extends Component {
           {this.renderModals()}
         </View>
 
-        <OrderDetailsPanel
-          navigation={navigation}
-          onClose={() => this.handleClose('OrderDetailsPanel')}
-          onActivate={this.showPanel}
-          visible={isVisibleOrderDetailsPanel}
-        />
+        {this.renderOrderDetailsPanel()}
+
+        {this.renderPopups()}
       </Fragment>
     );
   }
@@ -332,6 +435,9 @@ OrderScene.propTypes = {
 OrderScene.defaultProps = {};
 
 const mapState = ({ booking, passenger }) => ({
+  bookingForm: booking.bookingForm,
+  currentOrder: booking.currentOrder,
+  futureOrderId: booking.futureOrderId,
   status: booking.currentOrder.indicatedStatus || 'connected',
   order: booking.currentOrder,
   busy: booking.currentOrder.busy,
@@ -342,7 +448,10 @@ const mapDispatch = {
   cancelOrder,
   clearCurrentOrder,
   removeFields,
-  resetBookingValues
+  resetBookingValues,
+  changeFields,
+  changeAddress,
+  setActiveBooking
 };
 
 export default connect(mapState, mapDispatch, null, { withRef: true })(OrderScene);

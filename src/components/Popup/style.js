@@ -89,5 +89,61 @@ export default StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 5,
     textAlign: 'center'
+  },
+
+  popupInfo: {
+    fontSize: 17,
+    lineHeight: 20,
+    color: color.primaryText,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  titleStyle: {
+    fontWeight: '600'
+  },
+  contentWraperStyle: {
+    alignItems: 'center'
+  },
+
+  futureOrderTitle: {
+    fontSize: 22,
+    color: color.primaryBtns,
+    textAlign: 'center',
+    marginVertical: 20,
+    fontWeight: '600'
+  },
+  futureOrderDescription: {
+    fontSize: 17,
+    color: color.primaryText,
+    textAlign: 'center',
+    marginBottom: 30
+  },
+  futureOrderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  futureOrderTime: {
+    fontSize: 15,
+    color: color.secondaryText
+  },
+  futureOrderImage: {
+    width: '100%',
+    height: 169,
+    resizeMode: 'cover'
+  },
+  futureOrderContainer: {
+    padding: 0,
+    overflow: 'hidden'
+  },
+  futureOrderInnerContainer: {
+    paddingHorizontal: 20
+  },
+  futureOrderFooter: {
+    paddingHorizontal: 20,
+    paddingBottom: 20
+  },
+  futureOrderDivider: {
+    width: '100%',
+    height: 22
   }
 });

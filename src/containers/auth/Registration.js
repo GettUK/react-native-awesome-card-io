@@ -10,7 +10,7 @@ import {
   Input,
   DismissKeyboardView,
   Divider,
-  Popup,
+  SuccessPopup,
   Background,
   Header,
   BackBtn
@@ -199,13 +199,8 @@ export default class Registration extends Component {
           type="failed"
           message={error}
         />
-        <Popup
-          ref={(popup) => { this.popup = popup; }}
-          icon={<Icon size={70} name="registration" />}
-          contentWraperStyle={styles.contentWraperStyle}
-          titleStyle={styles.titleStyle}
+        <SuccessPopup
           title={strings('popup.companyRequest.title')}
-          contentStyle={styles.popupInfo}
           content={strings('popup.companyRequest.description')}
         />
       </DismissKeyboardView>

@@ -35,6 +35,7 @@ import drag from './drag';
 import editAndroid from './editAndroid';
 import email from './email';
 import flight from './flight';
+import flightInProgress from './flightInProgress';
 import futureOrder from './futureOrder';
 import help from './help';
 import home from './home';
@@ -131,6 +132,7 @@ export default {
   editAndroid,
   email,
   flight,
+  flightInProgress,
   futureOrder,
   help,
   home,

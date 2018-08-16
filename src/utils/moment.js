@@ -10,3 +10,13 @@ export const convertToZone = (date, timezone) => moment(date).tz(timezone);
 export const minutesForward = minutes => moment().add(minutes, 'minutes');
 
 export const timeFormat = () => (HourFormat.is24HourFormat() ? 'HH:mm' : 'hh:mm a');
+
+export const getSeparatedDate = () => {
+  const date = moment();
+
+  const year = date.format('YYYY');
+  const month = date.format('M');
+  const day = date.format('DD');
+
+  return { year, month, day };
+};

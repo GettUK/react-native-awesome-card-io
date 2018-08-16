@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, first, pickBy, isNull } from 'lodash';
+import { isEmpty, find, first, pickBy, isNull, isEqual } from 'lodash';
 
 import {
   PointList,
@@ -66,9 +66,10 @@ export default class BookingController extends Component {
   }
 
   getOrder() {
-    const { booking: { currentOrder, bookingForm } } = this.props;
+    const { booking, orderType } = this.props;
+    const { currentOrder, bookingForm } = booking;
 
-    return currentOrder.id ? currentOrder : bookingForm;
+    return booking[orderType] || (currentOrder.id ? currentOrder : bookingForm);
   }
 
   updateAvailableCarsScroll(value, animated = false) {
@@ -104,6 +105,20 @@ export default class BookingController extends Component {
 
     return isEnoughOrderData(bookingForm);
   };
+
+  requestVehiclesOnOrderChange = (bookingFormProps) => {
+    const { booking: { vehicles, bookingForm } } = this.props;
+    const { isStopPointsModalVisible } = this.state;
+    const isDriveChanged = (!vehicles.loaded && !vehicles.loading) ||
+      !isEqual(bookingForm.stops, bookingFormProps.stops) ||
+      !isEqual(bookingForm.pickupAddress, bookingFormProps.pickupAddress) ||
+      !isEqual(bookingForm.destinationAddress, bookingFormProps.destinationAddress) ||
+      !isEqual(bookingForm.paymentMethod, bookingFormProps.paymentMethod);
+
+    if (!isStopPointsModalVisible && isDriveChanged) {
+      this.requestVehicles();
+    }
+  }
 
   requestVehicles = () => {
     if (!this.shouldRequestVehicles()) return;
@@ -294,7 +309,7 @@ export default class BookingController extends Component {
     return this.shouldRequestVehicles() && bookingForm.vehicleName && !isNull(bookingForm.vehiclePrice);
   };
 
-  createBooking = async ({ flight = '', flightType = '' } = {}) => {
+  createBooking = async ({ flight = '' } = {}) => {
     const { booking: { bookingForm }, createBooking, validateReferences, navigation } = this.props;
 
     if (this.areAddressesUnique()) {
@@ -309,8 +324,7 @@ export default class BookingController extends Component {
             phone: bookingForm.passengerPhone
           }))
           : null,
-        flight: bookingForm.flight || flight,
-        flightType: bookingForm.flightType || flightType
+        flight: bookingForm.flight || flight
       };
 
       this.hideFlightModal();

@@ -20,6 +20,14 @@ import BookingController from 'containers/BookingController';
 import styles from './styles';
 
 class EditOrderDetails extends BookingController {
+  componentDidUpdate({ booking: { bookingForm } }) {
+    const { params } = this.props.navigation.state;
+
+    if (params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress) {
+      this.requestVehiclesOnOrderChange(bookingForm);
+    }
+  }
+
   renderOrderOptions = () => {
     const { booking: { formData, bookingForm: { bookerReferencesErrors } } } = this.props;
 
@@ -86,7 +94,8 @@ EditOrderDetails.propTypes = {
 };
 
 EditOrderDetails.defaultProps = {
-  passenger: {}
+  passenger: {},
+  orderType: 'bookingForm'
 };
 
 const select = ({ booking, passenger }) => ({

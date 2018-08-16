@@ -46,6 +46,17 @@
     "cards": {
       "title": "Sorry",
       "description": "You have no Credit/Debit cards added in your profile"
+    },
+    "orderCreating": {
+      "inProgress": "Order is creating",
+      "description": "We’ve noticed that you are going to fly. Do you need a taxi on arrival to",
+      "success": "Order was created!",
+      "button": {
+        "сonfirm": "OK",
+        "seeDetails": "See details",
+        "accept": "Yes, please",
+        "decline": "No, thanks"
+      }
     }
   },
   "alert": {
