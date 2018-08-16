@@ -230,7 +230,10 @@ export const validationRules = {
       message: strings('fieldValidation.email.format')
     }
   },
-  phone: validatePhone
+  phone: validatePhone,
+  mobile: {
+    minLengthWithAllowEmpty: 10
+  }
 };
 
 export const addressValidationRules = {
