@@ -9,6 +9,7 @@ import { fbStyles } from './styles';
 
 const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle, content }) => {
   const icons = {
+    dispatcher: { name: 'dispatcher', size: 30 },
     cancel: { name: 'closeThick', color: color.danger },
     walker: { name: 'walker', color: color.success },
     dots: { name: 'dots', color: color.primaryBtns },

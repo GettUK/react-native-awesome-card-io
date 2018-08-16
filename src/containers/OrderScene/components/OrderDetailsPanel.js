@@ -22,6 +22,8 @@ import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
 
+import { shouldCallDispatcher } from '../utils';
+
 const OrderDetails = ({
   app, order, references, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token
 }) => {
@@ -34,6 +36,11 @@ const OrderDetails = ({
   const callDriver = () => {
     Answers.logCustom('user clicks on call driver button', { phoneNumber: driver.info.phoneNumber });
     Linking.openURL(`tel:${driver.info.phoneNumber}`);
+  };
+
+  const callDispatcher = () => {
+    Answers.logCustom('user clicks on call fleet button', { phoneNumber: order.vendorPhone });
+    Linking.openURL(`tel:${order.vendorPhone}`);
   };
 
   const goToRateDriver = () => {
@@ -60,14 +67,22 @@ const OrderDetails = ({
     && order.indicatedStatus === 'billed';
 
   const renderHeader = () => (
-    <View style={orderPanelStyles.headerWrapper}>
-      <View>
-        <Text style={orderPanelStyles.header}>Order Details</Text>
-        <View style={orderPanelStyles.subHeader}>
-          <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
-          {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
-        </View>
-      </View>
+    <View style={[orderPanelStyles.headerWrapper]}>
+      {shouldCallDispatcher(order)
+        ? (
+          <View style={orderPanelStyles.headerNoInfoWrapper}>
+            <Text style={orderPanelStyles.headerNoInfoText}>{strings('order.text.noDriverInfo')}</Text>
+          </View>
+        )
+        : (
+          <View>
+            <Text style={orderPanelStyles.header}>Order Details</Text>
+            <View style={orderPanelStyles.subHeader}>
+              <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
+              {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
+            </View>
+          </View>
+        )}
       {shouldShowReceiptBtn() &&
         <Button
           size="sm"
@@ -203,6 +218,20 @@ const OrderDetails = ({
     </View>
   );
 
+  const renderCallFleetBtn = () => (
+    <TouchableWithoutFeedback onPress={callDispatcher}>
+      <View style={orderPanelStyles.activeContainer}>
+        <View style={orderPanelStyles.listItem}>
+          <View style={[orderPanelStyles.driverContainer, orderPanelStyles.fleetContainer]}>
+            <Icon name="dispatcher" color={color.white} size={30} strokeWidth="2.5" />
+            <Text style={orderPanelStyles.callDispatcherText}>{strings('order.button.callDispatcherFull')}</Text>
+            <Icon name="chevron" color={color.pixelLine} width={20} />
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+
   const renderReferences = () => (
     <View style={orderPanelStyles.activeContainer}>
       <View style={[orderPanelStyles.listOption, orderPanelStyles.listOptionReferenceHeader]}>
@@ -219,6 +248,7 @@ const OrderDetails = ({
   const renderBackdropComponent = () => (
     <View style={{ paddingBottom: isDriverExist ? 150 : 155 }}>
       {isDriverExist && renderDriverRating()}
+      {shouldCallDispatcher(order) ? renderCallFleetBtn() : null}
       {renderJourneyDetails()}
       {renderAdditionalDetails()}
       {references && renderReferences()}

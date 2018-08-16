@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, BackHandler } from 'react-native';
+import { View, Text, BackHandler, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -23,7 +23,7 @@ import {
   ARRIVED_STATUS,
   DRIVER_ON_WAY
 } from 'utils/orderStatuses';
-import { onMyWayOptions, actionsOptions } from './utils';
+import { onMyWayOptions, actionsOptions, shouldCallDispatcher } from './utils';
 
 import { FloatButton, Pointer, CancelReasonModal, OrderDetailsPanel } from './components';
 
@@ -133,6 +133,10 @@ class OrderScene extends Component {
       .then(() => this.handleOpen('CancelModal'));
   };
 
+  handleCallFleet = () => {
+    Linking.openURL(`tel:${this.props.order.vendorPhone}`);
+  }
+
   handleOpen = type =>
     this.setState({ [`isVisible${type}`]: true });
 
@@ -229,6 +233,14 @@ class OrderScene extends Component {
                   label: 'cancelOrder',
                   handler: this.handleCancelOrder,
                   busy
+                })
+              }
+
+              {shouldCallDispatcher(order) &&
+                this.renderFloatButton({
+                  iconName: 'dispatcher',
+                  label: 'callDispatcher',
+                  handler: this.handleCallFleet
                 })
               }
 
