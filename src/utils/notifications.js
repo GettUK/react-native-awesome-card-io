@@ -78,10 +78,11 @@ class PushNotification {
   };
 
   clearNotificationListener = () => {
-    this.token = '';
-    this.userToken = '';
-
-    if (this.notificationListener) this.notificationListener.remove();
+    if (this.notificationListener && this.token && this.userToken) {
+      this.token = '';
+      this.userToken = '';
+      this.notificationListener.remove();
+    }
   };
 }
 
