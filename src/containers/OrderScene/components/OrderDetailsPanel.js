@@ -23,7 +23,7 @@ import SlidingUpPanel from './SlidingUpPanel';
 import { orderPanelStyles } from './styles';
 
 const OrderDetails = ({
-  app, order, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token
+  app, order, references, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token
 }) => {
   const height = Dimensions.get('window').height;
   const { statuses: { params: { connectBar } } } = app;
@@ -87,7 +87,7 @@ const OrderDetails = ({
     <View key={title} style={orderPanelStyles.listOption}>
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={orderPanelStyles.row}>
-          <Icon name={icon} color={color.pixelLine} />
+          {icon && <Icon name={icon} color={color.pixelLine} />}
 
           <View style={orderPanelStyles.titleContainer}>
             <Text style={orderPanelStyles.title}>{title}</Text>
@@ -203,11 +203,25 @@ const OrderDetails = ({
     </View>
   );
 
+  const renderReferences = () => (
+    <View style={orderPanelStyles.activeContainer}>
+      <View style={[orderPanelStyles.listOption, orderPanelStyles.listOptionReferenceHeader]}>
+        <Text style={orderPanelStyles.title}>{strings('order.text.bookingHeader')}</Text>
+      </View>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.listItemReference]}>
+        {references.map(({ bookingReferenceName, value }, i, arr) => (
+          renderOption({ title: bookingReferenceName, value }, i, arr)
+        ))}
+      </View>
+    </View>
+  );
+
   const renderBackdropComponent = () => (
     <View style={{ paddingBottom: isDriverExist ? 150 : 155 }}>
       {isDriverExist && renderDriverRating()}
       {renderJourneyDetails()}
       {renderAdditionalDetails()}
+      {references && renderReferences()}
     </View>
   );
 
@@ -301,7 +315,8 @@ OrderDetails.propTypes = {
   onClose: PropTypes.func,
   order: PropTypes.object,
   driver: PropTypes.object,
-  vehicles: PropTypes.object
+  vehicles: PropTypes.object,
+  references: PropTypes.object
 };
 
 OrderDetails.defaultProps = {
@@ -314,6 +329,7 @@ OrderDetails.defaultProps = {
 const mapState = ({ app, booking, session }) => ({
   app,
   order: booking.currentOrder,
+  references: booking.currentOrder.references,
   vehicles: booking.vehicles,
   driver: booking.currentOrder.driverDetails,
   token: session.token

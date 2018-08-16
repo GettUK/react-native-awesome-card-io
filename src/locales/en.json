@@ -196,7 +196,8 @@
       "howCanImprove": "How can we improve?",
       "yourFeedback": "Your feedback will be kept anonymous",
       "selectIssues": "Please select one or more issues",
-      "orderDetails": "Order Details"
+      "orderDetails": "Order Details",
+      "bookingHeader": "BOOKING REFERENCE"
     },
     "button": {
       "actions": "Actions",

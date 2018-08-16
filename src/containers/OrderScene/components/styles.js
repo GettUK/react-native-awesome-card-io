@@ -48,6 +48,12 @@ export const orderPanelStyles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 16
   },
+  listItemReference: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0
+  },
   activeItem: {
     elevation: 2,
     shadowColor: color.primaryText,
@@ -154,6 +160,17 @@ export const orderPanelStyles = StyleSheet.create({
   listOption: {
     alignSelf: 'stretch',
     marginVertical: 4
+  },
+  listOptionReferenceHeader: {
+    width: '100%',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+    paddingTop: 14,
+    paddingBottom: 10,
+    marginVertical: 0,
+    backgroundColor: color.bgSettings
   },
   receiptBtn: {
     backgroundColor: 'transparent'
