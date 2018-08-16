@@ -26,7 +26,7 @@ class PhonesList extends Component {
   });
 
   makeDefaultPhone = (type, data) => {
-    if (data) this.props.makeDefaultPhone(type);
+    if (data) this.props.makeDefaultPhone('defaultPhoneType', type);
   };
 
   renderItem = (type, data) => {
