@@ -70,6 +70,15 @@ export const orderPanelStyles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
+  headerNoInfoWrapper: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  headerNoInfoText: {
+    fontSize: 17,
+    color: 'white'
+  },
   headerWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between'
@@ -98,6 +107,10 @@ export const orderPanelStyles = StyleSheet.create({
     flex: 1,
     marginTop: 4
   },
+  fleetContainer: {
+    flexDirection: 'row',
+    height: 40
+  },
   roundContainer: {
     width: 44,
     height: 44,
@@ -117,6 +130,13 @@ export const orderPanelStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.success
+  },
+  callDispatcherText: {
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: 18,
+    marginLeft: 10,
+    flex: 1
   },
   rateButton: {
     alignItems: 'center',

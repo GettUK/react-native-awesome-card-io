@@ -1,5 +1,6 @@
 import { Linking } from 'react-native';
 import { strings } from 'locales';
+import { PROCESSING_STATUS } from 'utils/orderStatuses';
 
 export const onMyWayOptions = (handlers = {}) => [
   {
@@ -24,3 +25,5 @@ export const actionsOptions = (data = {}) => [{
   label: strings('information.contactUs'),
   onPress: () => Linking.openURL(`tel:${data.customerServicePhone}`)
 }];
+
+export const shouldCallDispatcher = order => order.status === PROCESSING_STATUS && order.vendorNumber;

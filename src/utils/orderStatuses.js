@@ -1,8 +1,9 @@
 export const ORDER_RECEIVED_STATUS = 'order_received';
 export const LOCATING_STATUS = 'locating';
-export const DRAG_DISABLED_STATUSES = ['creating', 'processing', LOCATING_STATUS];
-export const PREORDER_STATUSES = ['creating', 'processing', 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];
-export const POINTER_DISPLAY_STATUSES = ['creating', 'processing', 'connected', LOCATING_STATUS];
+export const PROCESSING_STATUS = 'processing';
+export const DRAG_DISABLED_STATUSES = ['creating', PROCESSING_STATUS, LOCATING_STATUS];
+export const PREORDER_STATUSES = ['creating', PROCESSING_STATUS, 'connected', ORDER_RECEIVED_STATUS, LOCATING_STATUS];
+export const POINTER_DISPLAY_STATUSES = ['creating', PROCESSING_STATUS, 'connected', LOCATING_STATUS];
 export const CANCEL_ALLOWED_STATUSES = [ORDER_RECEIVED_STATUS, LOCATING_STATUS];
 export const ARRIVED_STATUS = 'arrived';
 export const ACTIVE_STATUS = 'in_progress';

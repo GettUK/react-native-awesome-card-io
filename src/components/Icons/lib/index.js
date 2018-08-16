@@ -94,6 +94,8 @@ import UGPointer from './userGuide/UGPointer';
 import OT from './logos/OT';
 import Gett from './logos/Gett';
 
+import dispatcher from './dispatcher';
+
 export default {
   add,
   addresses,
@@ -183,5 +185,6 @@ export default {
   logoRight,
   rectangle,
   OT,
-  Gett
+  Gett,
+  dispatcher
 };
