@@ -132,10 +132,10 @@ export const requestValidateReferences = () => (_, getState) =>
 export const setReferenceErrors = errors => ({ type: TYPES.setReferenceErrors, payload: errors });
 
 export const validateReferences = () => async (dispatch, getState) => {
-  const { booking: { bookingForm: { bookerReferences } } } = getState();
+  const { booking: { bookingForm: { bookerReferences }, formData } } = getState();
   let errors = referencesLocalErrors(bookerReferences);
 
-  if (isEmpty(errors)) {
+  if (isEmpty(errors) && formData.bookingReferences.length > 0) {
     try {
       await dispatch(requestValidateReferences());
     } catch ({ response }) {
