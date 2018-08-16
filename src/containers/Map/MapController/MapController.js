@@ -4,7 +4,7 @@ import { isNull } from 'lodash';
 import { AppState } from 'react-native';
 
 import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
-import { changeAddress, setActiveBooking } from 'actions/booking';
+import { changeAddress, setActiveBooking, resetSuggestedAddresses } from 'actions/booking';
 import { changePosition, changeRegionToAnimate } from 'actions/ui/map';
 import {
   checkMultiplePermissions,
@@ -113,6 +113,8 @@ class MapController extends React.PureComponent {
 
     if (coordinates && (coordinates.latitude !== latitude || coordinates.longitude !== longitude)) {
       this.props.changePosition(coordinates);
+
+      this.props.resetSuggestedAddresses({ lat: coordinates.latitude, lng: coordinates.longitude });
     }
   };
 
@@ -223,7 +225,8 @@ const mapDispatch = {
   changeAddress,
   changePosition,
   setActiveBooking,
-  changeRegionToAnimate
+  changeRegionToAnimate,
+  resetSuggestedAddresses
 };
 
 export default connect(mapState, mapDispatch, null, { withRef: true })(MapController);

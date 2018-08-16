@@ -96,6 +96,17 @@ import Gett from './logos/Gett';
 
 import dispatcher from './dispatcher';
 
+import homeAddress from './addresses/home';
+import workAddress from './addresses/work';
+import recent from './addresses/recent';
+import airport from './addresses/airport';
+import favorites from './addresses/favorites';
+import trainStation from './addresses/trainStation';
+import lodging from './addresses/hotel';
+import restaurant from './addresses/restaurant';
+import defaultAddress from './addresses/default';
+import pointOfInterest from './addresses/pointOfInterest';
+
 export default {
   add,
   addresses,
@@ -186,5 +197,15 @@ export default {
   rectangle,
   OT,
   Gett,
-  dispatcher
+  dispatcher,
+  homeAddress,
+  workAddress,
+  recent,
+  favorites,
+  trainStation,
+  lodging,
+  restaurant,
+  airport,
+  defaultAddress,
+  pointOfInterest
 };

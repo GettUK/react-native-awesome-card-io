@@ -5,9 +5,7 @@ import { CANCELLED_STATUS } from 'utils/orderStatuses';
 import { getPassengerPayload } from 'utils';
 
 export const initialState = {
-  formData: {
-    busy: false
-  },
+  formData: { busy: false },
   bookingForm: {
     availableCarsScroll: 0,
     scheduledAt: null,
@@ -16,17 +14,18 @@ export const initialState = {
     bookerReferences: [],
     bookerReferencesErrors: {}
   },
-  vehicles: {
-    loading: false,
-    loaded: false,
-    data: []
-  },
-  modals: {
-    settings: false,
-    picker: false
-  },
-  currentOrder: {
-    busy: false
+  vehicles: { loading: false, loaded: false, data: [] },
+  modals: { settings: false, picker: false },
+  currentOrder: { busy: false },
+  suggestedAddresses: {
+    coords: {},
+    airport: {},
+    trainStation: {},
+    lodging: {},
+    restaurant: {},
+    pointOfInterest: {},
+    loadingType: '',
+    loadingError: ''
   },
   orderCreateError: null,
   tempMessageToDriver: '',
@@ -34,21 +33,17 @@ export const initialState = {
   futureOrderId: null
 };
 
-const getFormDataStart = state => (
-  update(state, 'formData.busy', true)
-);
+const getFormDataStart = state =>
+  update(state, 'formData.busy', true);
 
-const getFormDataSuccess = (state, { payload }) => (
-  update.assign(state, 'formData', { ...payload, busy: false })
-);
+const getFormDataSuccess = (state, { payload }) =>
+  update.assign(state, 'formData', { ...payload, busy: false });
 
-const removeFields = (state, { payload }) => (
-  update(state, 'bookingForm', omit(state.bookingForm, payload))
-);
+const removeFields = (state, { payload }) =>
+  update(state, 'bookingForm', omit(state.bookingForm, payload));
 
-const changeFields = (state, { payload }) => (
-  update.assign(state, 'bookingForm', payload)
-);
+const changeFields = (state, { payload }) =>
+  update.assign(state, 'bookingForm', payload);
 
 const changeMessageModified = (state, { modified }) =>
   update.assign(state, { messageModified: modified });
@@ -66,12 +61,11 @@ const changeAddress = (state, { payload: { address, meta } }) => {
   return update.with(state, 'bookingForm.stops', old => old.map((s, i) => (i === meta.index ? address : s)));
 };
 
-const updateReferences = (state, { payload }) => (
+const updateReferences = (state, { payload }) =>
   update(state, {
     'bookingForm.bookerReferences': payload.map(r => ({ ...r, bookingReferenceId: r.id })),
     'bookingForm.bookerReferencesErrors': {}
-  })
-);
+  });
 
 const changeReference = (state, { payload }) =>
   update(state, {
@@ -115,14 +109,13 @@ const changeTravelReasonId = (state, { payload }) =>
 const changePaymentMethodData = (state, { payload }) =>
   update(state, { tempPaymentMethodData: payload.data, paymentMethodTouched: payload.touched });
 
-const getVehiclesStart = state => (
+const getVehiclesStart = state =>
   update.assign(state, 'vehicles', {
     loading: true,
     loaded: false
-  })
-);
+  });
 
-const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }) => (
+const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }) =>
   update(state, 'vehicles', {
     data: vehicles,
     loading: false,
@@ -130,8 +123,7 @@ const getVehiclesSuccess = (state, { payload: { vehicles, distance, duration } }
     failed: false,
     distance,
     duration
-  })
-);
+  });
 
 const setFutureOrderId = (state, { payload }) =>
   update(state, {
@@ -139,93 +131,95 @@ const setFutureOrderId = (state, { payload }) =>
     'currentOrder.busy': false
   });
 
-const getVehiclesFailure = state => (
-  update(state, 'vehicles', { data: [], loading: false, loaded: true, failed: true })
-);
+const getVehiclesFailure = state =>
+  update(state, 'vehicles', { data: [], loading: false, loaded: true, failed: true });
 
-const createBookingStart = state => (
+const createBookingStart = state =>
   update(state, {
     'currentOrder.busy': true,
     orderCreateError: null
-  })
-);
+  });
 
-const updateCurrentOrder = (state, { payload }) => (
+const updateCurrentOrder = (state, { payload }) =>
   update(state, {
     currentOrder: { ...payload, busy: false }
-  })
-);
+  });
 
-const createBookingFailure = (state, { payload }) => (
+const createBookingFailure = (state, { payload }) =>
   update(state, {
     currentOrder: { busy: false },
     orderCreateError: payload
-  })
-);
+  });
 
-const cancelOrderStart = state => (
+const cancelOrderStart = state =>
   update(state, {
     'currentOrder.busy': true,
     orderCreateError: null
-  })
-);
+  });
 
-const cancelOrderSuccess = state => (
+const cancelOrderSuccess = state =>
   update(state, {
     'currentOrder.busy': false,
     'currentOrder.status': CANCELLED_STATUS,
     'currentOrder.indicatedStatus': CANCELLED_STATUS,
     orderCreateError: null
-  })
-);
+  });
 
-const setDriver = (state, { payload }) => (
-  update(state, 'currentOrder.driverDetails', payload)
-);
+const setDriver = (state, { payload }) =>
+  update(state, 'currentOrder.driverDetails', payload);
 
-const changeOrderStatus = (state, { data }) => (
+const changeOrderStatus = (state, { data }) =>
   update.assign(state, 'currentOrder', {
     serviceId: data.serviceId,
     status: data.status,
     indicatedStatus: data.status
-  })
-);
+  });
 
-const changeDriverPosition = (state, { payload }) => (
-  update(state, { 'currentOrder.driverDetails.location': payload })
-);
+const changeDriverPosition = (state, { payload }) =>
+  update(state, { 'currentOrder.driverDetails.location': payload });
 
-const toggleVisibleModal = (state, { payload }) => (
-  update(state, `modals.${payload}`, !state.modals[payload])
-);
+const toggleVisibleModal = (state, { payload }) =>
+  update(state, `modals.${payload}`, !state.modals[payload]);
 
-const changeDriverRating = (state, { payload: { rating, ratingReasons } }) => (
+const changeDriverRating = (state, { payload: { rating, ratingReasons } }) =>
   update(state, {
     'currentOrder.tempDriverRating': rating,
     'currentOrder.tempDriverRatingReasons': ratingReasons
-  })
-);
+  });
 
-const changeDriverRatingReasons = (state, { payload }) => (
-  update(state, 'currentOrder.tempDriverRatingReasons', payload)
-);
+const changeDriverRatingReasons = (state, { payload }) =>
+  update(state, 'currentOrder.tempDriverRatingReasons', payload);
 
-const changeDriverRatingSuccess = state => (
+const changeDriverRatingSuccess = state =>
   update(state, {
     'currentOrder.rateable': false,
     'currentOrder.driverDetails.tripRating': state.currentOrder.tempDriverRating,
     'currentOrder.tempDriverRating': null,
     'currentOrder.tempDriverRatingReasons': []
-  })
-);
+  });
 
-const clearCurrentOrder = state => (
-  update(state, 'currentOrder', initialState.currentOrder)
-);
+const clearCurrentOrder = state =>
+  update(state, 'currentOrder', initialState.currentOrder);
 
-const saveAvailableCarsScroll = (state, { payload }) => (
-  update(state, 'bookingForm.availableCarsScroll', payload)
-);
+const saveAvailableCarsScroll = (state, { payload }) =>
+  update(state, 'bookingForm.availableCarsScroll', payload);
+
+const startLoadingSuggestedAddresses = (state, { payload }) =>
+  update(state, 'suggestedAddresses', { ...state.suggestedAddresses, loadingType: payload, loadingError: '' });
+
+const loadingSuggestedAddressesError = (state, { payload }) =>
+  update(state, 'suggestedAddresses', { ...state.suggestedAddresses, loadingError: payload, loadingType: '' });
+
+const changeSuggestedAddresses = (state, { payload }) =>
+  update(state, 'suggestedAddresses', { ...state.suggestedAddresses, ...payload, loadingType: '' });
+
+const resetSuggestedAddresses = (state, { payload }) =>
+  update(state, 'suggestedAddresses', {
+    ...initialState.suggestedAddresses,
+    coords: payload,
+    loadingType: '',
+    loadingError: ''
+  });
 
 const clearBooking = () => initialState;
 
@@ -263,5 +257,9 @@ export default composeReducer('booking', {
   saveAvailableCarsScroll,
   clearBooking,
   updateReferences,
-  setFutureOrderId
+  setFutureOrderId,
+  startLoadingSuggestedAddresses,
+  changeSuggestedAddresses,
+  resetSuggestedAddresses,
+  loadingSuggestedAddressesError
 }, initialState);

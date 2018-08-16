@@ -1,5 +1,6 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
+import { isEmpty, reject, snakeCase } from 'lodash';
 
 import {
   get, post, put,
@@ -9,7 +10,6 @@ import {
   getFavouriteAddressMessage,
   formatMessage
 } from 'utils';
-import { isEmpty, reject } from 'lodash';
 import faye from 'utils/faye';
 import {
   FINAL_STATUSES,
@@ -62,7 +62,11 @@ const TYPES = createTypes('booking', [
   'clearBooking',
   'updateReferences',
   'changeMessageModified',
-  'setFutureOrderId'
+  'setFutureOrderId',
+  'changeSuggestedAddresses',
+  'resetSuggestedAddresses',
+  'loadingSuggestedAddressesError',
+  'startLoadingSuggestedAddresses'
 ]);
 
 export const updateReferences = references => ({ type: TYPES.updateReferences, payload: references });
@@ -447,5 +451,23 @@ export const rateDriver = () => (dispatch, getState) => {
 };
 
 export const saveAvailableCarsScroll = value => ({ type: TYPES.saveAvailableCarsScroll, payload: value });
+
+export const changeSuggestedAddresses = payload => ({ type: TYPES.changeSuggestedAddresses, payload });
+
+export const getSuggestedAddresses = criterion => (dispatch, getState) => {
+  const { lat, lng } = getState().booking.suggestedAddresses.coords;
+
+  dispatch({ type: TYPES.startLoadingSuggestedAddresses, payload: criterion });
+
+  return get('/addresses/quick_search', { criterion: snakeCase(criterion), lat, lng })
+    .then(({ data }) => {
+      dispatch(changeSuggestedAddresses({ [criterion]: { ...data, loaded: true } }));
+      return data;
+    }).catch((err) => {
+      dispatch({ type: TYPES.loadingSuggestedAddressesError, payload: err });
+    });
+};
+
+export const resetSuggestedAddresses = coords => ({ type: TYPES.resetSuggestedAddresses, payload: coords });
 
 export const clearBooking = () => ({ type: TYPES.clearBooking });
