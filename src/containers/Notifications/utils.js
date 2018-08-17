@@ -2,8 +2,6 @@ import moment from 'moment';
 import { HourFormat } from 'react-native-hour-format';
 import { strings } from 'locales';
 
-import { getLabelColor } from '../Orders/utils';
-
 const getHourFormat = () => (HourFormat.is24HourFormat() ? '' : ', A');
 
 const titleStatusMap2 = {
@@ -78,8 +76,7 @@ const filterSectionsByPeriod = (items) => {
       ...item,
       title: item.title,
       section,
-      timestampDate: moment(item.createdAt).calendar(null, dateFormatter),
-      labelColor: getLabelColor(item.indicatedStatus)
+      timestampDate: moment(item.createdAt).calendar(null, dateFormatter)
     });
   });
 };

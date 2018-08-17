@@ -30,6 +30,8 @@ import { login } from 'actions/session';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { throttledAction, isIphoneX, isDevMode } from 'utils';
 
 import { prepareSwitchesBlock } from './utils';
@@ -141,7 +143,7 @@ class Login extends Component {
 
   goToInfoPage = throttledAction((page) => {
     Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
-    this.props.navigation.navigate('InfoPages', { page });
+    this.props.navigation.navigate('InfoPages', { page, theme: this.props.theme });
   });
 
   renderSwitchItem = (props, index) => <SwitchItem key={index} {...props} />;
@@ -290,4 +292,4 @@ const mapDispatch = {
   login
 };
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(withTheme(Login));

@@ -8,15 +8,17 @@ import { Icon } from 'components';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { timeFormat } from 'utils';
 
 import Popup from './Popup';
 
 import styles from './style';
 
-const FutureOrderSuggestionPopup = ({ innerRef, flightData, onPress }) => (
+const FutureOrderSuggestionPopup = ({ popupRef, theme, flightData, onPress }) => (
   <Popup
-    ref={innerRef}
+    innerRef={popupRef}
     title={null}
     contentWraperStyle={styles.futureOrderContainer}
     footerStyle={styles.futureOrderFooter}
@@ -25,19 +27,19 @@ const FutureOrderSuggestionPopup = ({ innerRef, flightData, onPress }) => (
         <Image style={styles.futureOrderImage} source={assets.flight} />
 
         <View style={styles.futureOrderInnerContainer}>
-          <Text style={styles.futureOrderTitle}>
+          <Text style={[styles.futureOrderTitle, { color: theme.color.primaryBtns }]}>
             {strings('popup.orderCreating.inProgress')}
           </Text>
-          <Text style={styles.futureOrderDescription}>
+          <Text style={[styles.futureOrderDescription, { color: theme.color.primaryText }]}>
             {`${strings('popup.orderCreating.description')} ${flightData && flightData.arrival.name}?`}
           </Text>
 
           <View style={styles.futureOrderRow}>
-            <Text style={[styles.futureOrderTitle, { marginVertical: 0 }]}>
+            <Text style={[styles.futureOrderTitle, { color: theme.color.primaryBtns, marginVertical: 0 }]}>
               {flightData && flightData.departure.code}
             </Text>
             <Icon style={styles.futureOrderDivider} height={22} width={134} name="flightInProgress" />
-            <Text style={[styles.futureOrderTitle, { marginVertical: 0 }]}>
+            <Text style={[styles.futureOrderTitle, { color: theme.color.primaryBtns, marginVertical: 0 }]}>
               {flightData && flightData.arrival.code}
             </Text>
           </View>
@@ -56,7 +58,7 @@ const FutureOrderSuggestionPopup = ({ innerRef, flightData, onPress }) => (
     buttons={[
       {
         title: strings('popup.orderCreating.button.decline'),
-        style: styles.btnStyle,
+        style: [styles.btnStyle, { backgroundColor: theme.color.bgSecondary }],
         textStyle: styles.btnTextStyle
       },
       {
@@ -67,4 +69,4 @@ const FutureOrderSuggestionPopup = ({ innerRef, flightData, onPress }) => (
   />
 );
 
-export default FutureOrderSuggestionPopup;
+export default withTheme(FutureOrderSuggestionPopup);

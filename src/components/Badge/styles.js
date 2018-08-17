@@ -12,12 +12,6 @@ export default StyleSheet.create({
     marginHorizontal: 5,
     marginVertical: 5
   },
-  activeContainer: {
-    backgroundColor: color.white
-  },
-  activeText: {
-    color: color.primaryBtns
-  },
   badgeText: {
     color: color.white,
     fontSize: 14,

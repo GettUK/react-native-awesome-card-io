@@ -66,7 +66,7 @@ class Popup extends PureComponent {
         {icon}
         {isString(title) && <Text style={[styles.title, { color: theme.color.primaryBtns }, titleStyle]}>{title}</Text>}
         {isString(content)
-          ? <Text style={[styles.description, contentStyle]}>{content}</Text>
+          ? <Text style={[styles.description, contentStyle, { color: theme.color.primaryText }]}>{content}</Text>
           : content
         }
         <View style={[styles.footer, footerStyle]}>

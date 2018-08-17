@@ -101,14 +101,14 @@ class Map extends Component {
   };
 
   render() {
-    const { navigation, session: { user } } = this.props;
+    const { navigation, session: { user }, theme } = this.props;
     const { fromOrderList } = this.state;
     const isOrderCreating = this.isActiveSceneIs('orderCreating');
     const isActiveOrder = this.isActiveSceneIs('activeOrder');
     const isCompletedOrder = this.isActiveSceneIs('completedOrder');
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.color.bgSettings }]}>
         {!isEmpty(user) && !user.guidePassed && <UserGuide />}
 
         {isOrderCreating &&

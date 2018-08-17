@@ -6,9 +6,13 @@ import { omit } from 'lodash';
 
 import { Modal, Icon } from 'components';
 
+import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
-export default class StopPointsModal extends PureComponent {
+class StopPointsModal extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     isVisible: PropTypes.bool,
@@ -75,7 +79,12 @@ export default class StopPointsModal extends PureComponent {
       <View style={styles.listItem}>
         <Icon name="drag" />
 
-        <Text style={styles.listItemLabel} numberOfLines={2}>{line}</Text>
+        <Text
+          style={[styles.listItemLabel, { color: this.props.theme.color.primaryText }]}
+          numberOfLines={2}
+        >
+          {line}
+        </Text>
 
         {Object.keys(this.props.data).length > 1
           ? <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, id)}>
@@ -90,14 +99,16 @@ export default class StopPointsModal extends PureComponent {
   )
 
   renderAddButton = () => {
-    const { data } = this.props;
+    const { data, theme } = this.props;
     const stopsLimit = Object.values(data).length <= 4;
 
     return (stopsLimit &&
       <TouchableWithoutFeedback onPress={this.props.onAddPoint}>
         <View style={styles.addButton}>
-          <Icon name="add" size={24} />
-          <Text style={styles.addButtonLabel}>Add stop point</Text>
+          <Icon name="add" size={24} color={theme.color.primaryBtns} />
+          <Text style={[styles.addButtonLabel, { color: theme.color.primaryBtns }]}>
+            {strings('addresses.button.addStopPoint')}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -136,3 +147,5 @@ export default class StopPointsModal extends PureComponent {
     );
   }
 }
+
+export default withTheme(StopPointsModal);

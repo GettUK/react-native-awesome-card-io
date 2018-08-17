@@ -132,12 +132,12 @@ class AddressEditor extends Component {
   };
 
   renderDeleteButton = () => {
-    const { address, navigation } = this.props;
+    const { address, navigation, theme } = this.props;
     const { onRemove } = navigation.state.params;
 
     return (
       <TouchableWithoutFeedback onPress={() => onRemove(address.id, null, navigation.goBack)}>
-        <View style={styles.deleteButton}>
+        <View style={[styles.deleteButton, { backgroundColor: theme.color.bgPrimary }]}>
           <Text style={styles.deleteLabel}>{strings('addresses.button.delete')}</Text>
         </View>
       </TouchableWithoutFeedback>

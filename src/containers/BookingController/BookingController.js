@@ -572,6 +572,7 @@ export default class BookingController extends Component {
       style={style}
       styleContent={[styles.bookingBtnView, disabled ? styles.bookingBtnDisabled : {}]}
       disabled={disabled}
+      disabledStyle={{ backgroundColor: this.props.theme.color.bgSettings }}
       onPress={onPress}
     >
       {loading && <ActivityIndicator style={styles.bookingBtnLoading} size="small" color={color.arrowRight} />}

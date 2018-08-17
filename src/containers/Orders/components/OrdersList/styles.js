@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { color, formattedColor } from 'theme';
+import { color } from 'theme';
 
 import { isIphoneX } from 'utils';
 
@@ -60,27 +60,6 @@ const styles = StyleSheet.create({
     color: color.white,
     fontWeight: '900',
     fontSize: 10
-  },
-  blueLabel: {
-    backgroundColor: formattedColor.bgStatuses.opacity(0.2)
-  },
-  greenLabel: {
-    backgroundColor: color.successLight
-  },
-  redLabel: {
-    backgroundColor: color.dangerLight
-  },
-  blackLabel: {
-    backgroundColor: formattedColor.primaryText.opacity(0.6)
-  },
-  blueLabelText: {
-    color: color.iconsSettigs
-  },
-  greenLabelText: {
-    color: color.success
-  },
-  redLabelText: {
-    color: color.danger
   },
   orderAddress: {
     flexDirection: 'row',

@@ -9,6 +9,7 @@ export const color = {
   bgSecondary: '#ffffff',
   bgSettings: '#efeff4',
   bgSearch: '#f2f2f2',
+  bgOptions: '#ffffff',
   white: '#ffffff',
   header: '#284784',
   primaryBtns: '#284784',

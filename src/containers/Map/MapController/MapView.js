@@ -115,6 +115,7 @@ class MapView extends React.Component {
           scrollEnabled={this.isScrollEnabled(order)}
           customMapStyle={nightMode ? DarkMapStyle : MapStyle}
           onRegionChangeComplete={this.getGeocode}
+          loadingBackgroundColor={theme.color.bgSettings}
         >
           {this.props.children}
         </Map>

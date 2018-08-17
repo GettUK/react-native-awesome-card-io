@@ -306,6 +306,7 @@
   },
   "addresses": {
     "button": {
+      "addStopPoint": "Add stop point",
       "delete": "Delete"
     }
   },

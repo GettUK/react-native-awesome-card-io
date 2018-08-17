@@ -13,12 +13,6 @@ export function getOrdersStatuses(type) {
   return statuses[type];
 }
 
-export function getLabelColor(status) {
-  const colors = { blue: active, red: cancelled, green: completed };
-
-  return findKey(colors, s => s.includes(status));
-}
-
 export function getLabelType(status) {
   const types = { info: active, danger: cancelled, success: completed };
 

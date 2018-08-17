@@ -71,12 +71,14 @@ class PaymentCardEditor extends Component {
   });
 
   renderInfo = (type) => {
+    const { theme } = this.props;
     const info = helpInfo[type];
+
     return type && (
       <View style={styles.infoView}>
-        {info.label && <Text style={styles.infoLabel}>{info.label}</Text>}
+        {info.label && <Text style={[styles.infoLabel, { color: theme.color.primaryText }]}>{info.label}</Text>}
         <View style={styles.infoUnderView}>
-          {info.text && <Text style={styles.infoText}>{info.text}</Text>}
+          {info.text && <Text style={[styles.infoText, { color: theme.color.secondaryText }]}>{info.text}</Text>}
           {info.image && <Image style={styles.infoImage} source={info.image} resizeMode="contain" />}
         </View>
       </View>

@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 import { Badge as BadgeElement } from 'react-native-elements';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
 import styles from './styles';
 
-export default class Badge extends Component {
+class Badge extends Component {
   static propTypes = {
     style: PropTypes.oneOfType([
       PropTypes.array,
@@ -25,15 +30,21 @@ export default class Badge extends Component {
   };
 
   render() {
-    const { style, textStyle, label, active, ...rest } = this.props;
+    const { style, textStyle, theme, label, active, ...rest } = this.props;
 
     return (
       <BadgeElement
-        containerStyle={[styles.badgeContainer, style, active ? styles.activeContainer : {}]}
+        containerStyle={[styles.badgeContainer, style, active ? { backgroundColor: theme.color.bgOptions } : {}]}
         {...rest}
       >
         {!!label &&
-          <Text style={[styles.badgeText, textStyle, active ? styles.activeText : {}]}>
+          <Text
+            style={[
+              styles.badgeText,
+              textStyle,
+              active ? { color: theme.type === 'dark' ? color.primaryText : color.primaryBtns } : {}
+            ]}
+          >
             {label}
           </Text>
         }
@@ -41,3 +52,5 @@ export default class Badge extends Component {
     );
   }
 }
+
+export default withTheme(Badge);

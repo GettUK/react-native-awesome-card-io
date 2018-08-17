@@ -3,7 +3,6 @@ import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import { ScreenHeader } from 'components';
-import { color } from 'theme';
 import { Login, ForgotPassword, Registration, CountrySelector } from 'containers';
 import { InfoPages } from 'containers/Settings';
 
@@ -42,8 +41,9 @@ const routeConfiguration = {
   InfoPages: {
     screen: InfoPages,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: navigation.state.params.theme.color.primaryText,
       headerStyle: {
-        backgroundColor: color.white,
+        backgroundColor: navigation.state.params.theme.color.bgPrimary,
         paddingTop: Platform.OS === 'android' ? 20 : 0,
         height: Platform.OS === 'android' ? 80 : 50
       },

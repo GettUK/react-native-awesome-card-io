@@ -400,7 +400,7 @@ class OrderScene extends Component {
       />
 
       <FutureOrderSuggestionPopup
-        innerRef={(popup) => { this.futureOrderPopup = popup; }}
+        popupRef={(popup) => { this.futureOrderPopup = popup; }}
         flightData={this.state.flightData}
         onPress={this.handleCreateOrder}
       />

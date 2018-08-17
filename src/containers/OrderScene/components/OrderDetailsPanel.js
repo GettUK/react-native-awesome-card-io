@@ -236,10 +236,22 @@ const OrderDetails = ({
 
   const renderReferences = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listOption, orderPanelStyles.listOptionReferenceHeader]}>
+      <View
+        style={[
+          orderPanelStyles.listOption,
+          orderPanelStyles.listOptionReferenceHeader,
+          { backgroundColor: theme.color.bgSettings }
+        ]}
+      >
         <Text style={orderPanelStyles.title}>{strings('order.text.bookingHeader')}</Text>
       </View>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.listItemReference]}>
+      <View
+        style={[
+          orderPanelStyles.listItem,
+          orderPanelStyles.listItemReference,
+          { backgroundColor: theme.color.bgPrimary }
+        ]}
+      >
         {references.map(({ bookingReferenceName, value }, i, arr) => (
           renderOption({ title: bookingReferenceName, value }, i, arr)
         ))}
@@ -352,7 +364,7 @@ OrderDetails.propTypes = {
   order: PropTypes.object,
   driver: PropTypes.object,
   vehicles: PropTypes.object,
-  references: PropTypes.object
+  references: PropTypes.array
 };
 
 OrderDetails.defaultProps = {

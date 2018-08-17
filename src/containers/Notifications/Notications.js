@@ -13,7 +13,7 @@ import { ListView } from 'components';
 import { withTheme } from 'providers';
 
 import sortItems from './utils';
-import { goBackFromSettings } from '../Orders/utils';
+import { goBackFromSettings, getLabelType } from '../Orders/utils';
 
 import styles from './styles';
 
@@ -67,6 +67,25 @@ class Notifications extends PureComponent {
     </Text>
   )
 
+  renderStatusBar = item => (
+    item.indicatedStatus &&
+      <View
+        style={[
+          styles.notificationLabel,
+          { backgroundColor: this.props.theme.color[`${getLabelType(item.indicatedStatus)}Light`] }
+        ]}
+      >
+        <Text
+          style={[
+            styles.notificationLabelText,
+            { color: this.props.theme.color[getLabelType(item.indicatedStatus)] }
+          ]}
+        >
+          {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
+        </Text>
+      </View>
+  )
+
   renderItem = ({ item }) => (
     <TouchableWithoutFeedback key={item.id} onPress={() => this.goToNotificationDetails(item.bookingId)}>
       <View style={[styles.notificationWrapper, { backgroundColor: this.props.theme.color.bgPrimary }]}>
@@ -93,13 +112,7 @@ class Notifications extends PureComponent {
               {item.timestampDate}
             </Text>
 
-            {item.indicatedStatus &&
-              <View style={[styles.notificationLabel, styles[`${item.labelColor}Label`]]}>
-                <Text style={[styles.notificationLabelText, styles[`${item.labelColor}LabelText`]]}>
-                  {strings(`order.status.${item.indicatedStatus}`).toUpperCase()}
-                </Text>
-              </View>
-            }
+            {this.renderStatusBar(item)}
           </View>
         </View>
       </View>

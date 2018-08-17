@@ -18,8 +18,12 @@ import {
 import update from 'update-js/fp';
 
 import { strings } from 'locales';
-import { throttledAction, isInputsValid } from 'utils';
+
+import { withTheme } from 'providers';
+
 import { color } from 'theme';
+
+import { throttledAction, isInputsValid } from 'utils';
 
 import { TextButton, SwitchItem } from './components';
 
@@ -43,7 +47,7 @@ const initialForm = {
   acceptPp: false
 };
 
-export default class Registration extends Component {
+class Registration extends Component {
   state = {
     loading: false,
     error: '',
@@ -103,7 +107,7 @@ export default class Registration extends Component {
 
   goToInfoPage = throttledAction((page) => {
     Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
-    this.props.navigation.navigate('InfoPages', { page });
+    this.props.navigation.navigate('InfoPages', { page, theme: this.props.theme });
   });
 
   renderInputItem = (props, index) => (
@@ -208,3 +212,5 @@ export default class Registration extends Component {
     );
   }
 }
+
+export default withTheme(Registration);
