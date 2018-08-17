@@ -60,6 +60,7 @@ class SingleInputEditor extends Component {
 
     const { key, label } = navigation.state.params;
     const keys = ['phone', 'mobile'];
+    const keyboardType = key === 'email' ? 'email-address' : 'default';
     let additionalProps = {};
 
     if (keys.includes(key)) {
@@ -73,6 +74,7 @@ class SingleInputEditor extends Component {
     return (
       <View style={[styles.flex, styles.container, { paddingTop: 24, backgroundColor: theme.color.bgPrimary }]}>
         <Input
+          keyboardType={keyboardType}
           value={data}
           error={error && error[key]}
           label={label}
