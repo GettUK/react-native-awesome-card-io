@@ -128,7 +128,7 @@ class MapController extends React.PureComponent {
   };
 
   resizeToCoordinate = (coordinates, params) => {
-    this.mapView.wrappedInstance.resizeMapToCoordinates(coordinates, params);
+    this.mapView.resizeMapToCoordinates(coordinates, params);
   }
 
   getOrder(props = this.props) {
@@ -154,7 +154,7 @@ class MapController extends React.PureComponent {
   };
 
   resizeMapToDriverAndTargetAddress = (type, order) => {
-    this.orderSet.wrappedInstance.resizeMapToDriverAndTargetAddress(type, order);
+    this.orderSet.resizeMapToDriverAndTargetAddress(type, order);
   }
 
   renderMap = () => {
