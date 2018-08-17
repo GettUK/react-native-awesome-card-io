@@ -7,6 +7,8 @@ import { Icon, SearchList } from 'components';
 
 import { changeFields, changePassengerId } from 'actions/booking';
 
+import { withTheme } from 'providers';
+
 import { filterBySearchValue } from 'utils';
 
 import styles from './styles';
@@ -36,7 +38,7 @@ class PassengersList extends PureComponent {
 
   renderItem = ({ item }) => {
     const { firstName, lastName, phone, id, avatarUrl } = item;
-    const { passengerId, changePassengerId } = this.props;
+    const { passengerId, changePassengerId, theme } = this.props;
 
     const isSelected = id === passengerId;
 
@@ -53,9 +55,11 @@ class PassengersList extends PureComponent {
           }
         </View>
 
-        <View style={styles.titleContainer}>
+        <View style={[styles.titleContainer, { borderBottomColor: theme.color.pixelLine }]}>
           <View style={[{ marginRight: isSelected ? 12 : 0 }]}>
-            <Text numberOfLines={1} style={styles.titleName}>{`${firstName} ${lastName}`}</Text>
+            <Text numberOfLines={1} style={[styles.titleName, { color: theme.color.primaryText }]}>
+              {`${firstName} ${lastName}`}
+            </Text>
             <Text style={styles.titlePhone}>{phone}</Text>
           </View>
 
@@ -96,4 +100,4 @@ const mapDispatch = ({
   changePassengerId
 });
 
-export default connect(mapState, mapDispatch)(PassengersList);
+export default connect(mapState, mapDispatch)(withTheme(PassengersList));

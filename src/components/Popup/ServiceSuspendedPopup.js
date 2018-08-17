@@ -9,7 +9,7 @@ import styles from './style';
 
 const ServiceSuspendedPopup = ({ innerRef }) => (
   <Popup
-    ref={innerRef}
+    innerRef={innerRef}
     title={strings('popup.serviceSuspended.title')}
     titleStyle={styles.serviceSuspendedTitle}
     content={(

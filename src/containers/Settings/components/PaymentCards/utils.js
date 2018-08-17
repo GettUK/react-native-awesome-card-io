@@ -25,7 +25,7 @@ export const helpInfo = {
   }
 };
 
-export const prepareCardDeails = (data = {}) => (
+export const prepareCardDetails = (data = {}) => (
   [
     {
       label: strings('paymentCard.label.cardType'),

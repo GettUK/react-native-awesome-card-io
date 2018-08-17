@@ -13,6 +13,8 @@ import {
   paymentTypeToAttrs
 } from 'containers/shared/bookings/data';
 
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
 class PaymentsOptions extends Component {
@@ -39,7 +41,7 @@ class PaymentsOptions extends Component {
   };
 
   renderItem = ({ item }) => {
-    const { paymentMethodData: { paymentMethod, paymentCardId }, changePaymentMethodData } = this.props;
+    const { paymentMethodData: { paymentMethod, paymentCardId }, changePaymentMethodData, theme } = this.props;
 
     const isSelected = item.value === paymentMethod || item.value === `${paymentMethod}:${paymentCardId}`;
 
@@ -49,7 +51,12 @@ class PaymentsOptions extends Component {
         style={styles.item}
         onPress={() => changePaymentMethodData(paymentTypeToAttrs(item.value), true)}
       >
-        <Text style={[styles.flex, styles.reasonName, isSelected ? styles.reasonNameSelected : {}]}>
+        <Text style={[
+          styles.flex,
+          styles.reasonName,
+          { color: theme.color.primaryText },
+          isSelected ? styles.reasonNameSelected : {}
+        ]}>
           {item.label}
         </Text>
 
@@ -60,14 +67,14 @@ class PaymentsOptions extends Component {
     );
   };
 
-  renderSeparator = () => <View style={styles.separator}/>;
+  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]}/>;
 
   render() {
     const paymentTypes = this.preparePaymentTypes();
 
     return (
       <FlatList
-        style={[styles.flex, styles.bg]}
+        style={[styles.flex, styles.bg, { backgroundColor: this.props.theme.color.bgSecondary }]}
         data={paymentTypes}
         ItemSeparatorComponent={this.renderSeparator}
         keyExtractor={item => item.id || item.label}
@@ -94,4 +101,4 @@ const mapDispatch = ({
   changePaymentMethodData
 });
 
-export default connect(mapState, mapDispatch)(PaymentsOptions);
+export default connect(mapState, mapDispatch)(withTheme(PaymentsOptions));

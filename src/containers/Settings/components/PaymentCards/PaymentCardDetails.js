@@ -7,9 +7,12 @@ import { deactivatePayment } from 'actions/passenger';
 import { Divider } from 'components';
 
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
 import { showRemovalAlert, throttledAction } from 'utils';
 
-import { prepareCardDeails, getValue } from './utils';
+import { prepareCardDetails, getValue } from './utils';
 import styles from './styles';
 
 class PaymentCardDetails extends Component {
@@ -19,7 +22,7 @@ class PaymentCardDetails extends Component {
   };
 
   deactivateCard = () => {
-    const { deactivatePayment, navigation } = this.props;
+    const { deactivatePayment, navigation, theme } = this.props;
     const { paymentCard: { id }, canDelete } = navigation.state.params;
 
     if (!canDelete) {
@@ -27,6 +30,7 @@ class PaymentCardDetails extends Component {
     }
 
     showRemovalAlert({
+      theme,
       message: strings('alert.message.doYouWantToDeactivateTheCard'),
       deleteLabel: strings('alert.button.deactivate'),
       handler: () => deactivatePayment(id).then(this.goBack)
@@ -41,7 +45,11 @@ class PaymentCardDetails extends Component {
         <View style={styles.paymentView}>
           <View style={[styles.flex, styles.viewItemDetails]}>
             {label && <Text style={styles.paymentCardLabel}>{getValue(label)}</Text>}
-            {text && <Text style={styles.paymentCardText}>{getValue(text)}</Text>}
+            {text &&
+              <Text style={[styles.paymentCardText, { color: this.props.theme.color.primaryText }]}>
+                {getValue(text)}
+              </Text>
+            }
           </View>
         </View>
       </View>
@@ -50,16 +58,21 @@ class PaymentCardDetails extends Component {
   );
 
   render() {
-    const { paymentCard, canDelete } = this.props.navigation.state.params;
+    const { navigation, theme } = this.props;
+    const { paymentCard, canDelete } = navigation.state.params;
     const textStyle = canDelete ? styles.deactivateBtnLabel : styles.deactivateBtnLabelDisabled;
     const activeOpacity = canDelete ? 0.6 : 1;
 
     return (
-      <ScrollView style={styles.flex}>
-        <View style={styles.block}>
-          {prepareCardDeails(paymentCard).map(this.renderItem)}
+      <ScrollView style={[styles.flex, { backgroundColor: theme.color.bgSecondary }]}>
+        <View style={[styles.block, { backgroundColor: theme.color.bgPrimary }]}>
+          {prepareCardDetails(paymentCard).map(this.renderItem)}
         </View>
-        <TouchableOpacity activeOpacity={activeOpacity} onPress={this.deactivateCard} style={styles.deactivateBtn}>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={this.deactivateCard}
+          style={[styles.deactivateBtn, { backgroundColor: theme.color.bgPrimary }]}
+        >
           <Text style={textStyle}>{strings('paymentCard.button.deactivate')}</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -71,4 +84,4 @@ const mapDispatch = {
   deactivatePayment
 };
 
-export default connect(null, mapDispatch)(PaymentCardDetails);
+export default connect(null, mapDispatch)(withTheme(PaymentCardDetails));

@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
-import { Icon } from 'components';
-import { color } from 'theme';
+
 import { changeTravelReasonId } from 'actions/booking';
+
+import { Icon } from 'components';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
 import styles from './styles';
 
 class ReasonForTravel extends PureComponent {
@@ -15,7 +21,7 @@ class ReasonForTravel extends PureComponent {
   keyExtractor = item => String(item.id);
 
   renderItem = ({ item }) => {
-    const { travelReason, changeTravelReasonId } = this.props;
+    const { travelReason, changeTravelReasonId, theme } = this.props;
     const travelReasonId = item.id.toString();
     const isSelected = travelReason === travelReasonId;
     const textStyles = [styles.flex, styles.reasonName];
@@ -27,7 +33,7 @@ class ReasonForTravel extends PureComponent {
         style={styles.item}
         onPress={() => changeTravelReasonId(travelReasonId, true)}
       >
-        <Text style={textStyles}>{item.name}</Text>
+        <Text style={[textStyles, { color: theme.color.primaryText }]}>{item.name}</Text>
         {isSelected &&
           <Icon name="check" size={13} color={color.bgStatuses} />
         }
@@ -35,13 +41,14 @@ class ReasonForTravel extends PureComponent {
     );
   };
 
-  renderSeparator = () => <View style={styles.separator}/>;
+  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]} />;
 
   render() {
-    const { travelReasons } = this.props;
+    const { travelReasons, theme } = this.props;
+
     return (
       <FlatList
-        style={[styles.flex, styles.bg]}
+        style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}
         data={travelReasons}
         ItemSeparatorComponent={this.renderSeparator}
         keyExtractor={this.keyExtractor}
@@ -61,4 +68,4 @@ const mapDispatch = ({
   changeTravelReasonId
 });
 
-export default connect(mapState, mapDispatch)(ReasonForTravel);
+export default connect(mapState, mapDispatch)(withTheme(ReasonForTravel));

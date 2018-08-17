@@ -17,6 +17,8 @@ import { getPassengerData } from 'actions/passenger';
 
 import BookingController from 'containers/BookingController';
 
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
 class EditOrderDetails extends BookingController {
@@ -29,19 +31,25 @@ class EditOrderDetails extends BookingController {
   }
 
   renderOrderOptions = () => {
-    const { booking: { formData, bookingForm: { bookerReferencesErrors } } } = this.props;
+    const { theme, booking: { formData, bookingForm: { bookerReferencesErrors } } } = this.props;
 
     return (
-      <ScrollView style={styles.flex}>
+      <ScrollView style={[styles.flex, { backgroundColor: theme.color.bgSettings }]}>
         {this.renderPickUpTime(styles.pickUpTimeWrapper)}
 
-        <View style={[styles.contentBlock, styles.mainInfoContainer]}>
+        <View style={[styles.contentBlock, styles.mainInfoContainer, { backgroundColor: theme.color.bgPrimary }]}>
           {this.renderPointList({ style: styles.pointList })}
           {this.renderAvailableCars()}
         </View>
-        {this.renderAdditionalDetails([styles.contentBlock, styles.detailsContainer])}
+
+        {this.renderAdditionalDetails([
+          styles.contentBlock,
+          styles.detailsContainer,
+          { backgroundColor: theme.color.bgPrimary }
+        ])}
+
         {formData.bookingReferences.length > 0 &&
-          <View style={styles.contentBlock}>
+          <View style={[styles.contentBlock, { backgroundColor: theme.color.bgPrimary }]}>
             {this.renderDetailItem({
               title: 'Booking References',
               value: `${formData.bookingReferences.length} References`,
@@ -65,7 +73,7 @@ class EditOrderDetails extends BookingController {
         {this.renderOrderOptions()}
         {this.renderBookingBtn({
           title: 'Order Ride',
-          style: styles.orderRideBtnWrapper,
+          style: [styles.orderRideBtnWrapper, { backgroundColor: this.props.theme.color.bgPrimary }],
           disabled: isOrderBtnDisabled,
           loading: busy,
           onPress: this.handleBookingCreation
@@ -115,4 +123,4 @@ const bindActions = {
   saveAvailableCarsScroll
 };
 
-export default connect(select, bindActions)(EditOrderDetails);
+export default connect(select, bindActions)(withTheme(EditOrderDetails));

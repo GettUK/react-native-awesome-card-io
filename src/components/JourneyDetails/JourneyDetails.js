@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, Text, View } from 'react-native';
+
 import { Icon } from 'components';
-import { color } from 'theme';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
 import styles from './styles';
 
-const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
+const JourneyDetails = ({ style, time, theme, distance, loading, timeLabel }) => {
   const renderBlockItem = ({ label, text, icon }) => (
     <View style={styles.blockItem}>
       {icon}
@@ -14,14 +20,14 @@ const JourneyDetails = ({ style, time, distance, loading, timeLabel }) => {
         <Text numberOfLines={1} style={styles.label}>{label}</Text>
         {
           !loading ?
-            <Text numberOfLines={1} style={styles.labelBold}>{text}</Text> :
+            <Text numberOfLines={1} style={[styles.labelBold, { color: theme.color.primaryText }]}>{text}</Text> :
             <ActivityIndicator style={styles.loading} size="small" color={color.pixelLine} />
         }
       </View>
     </View>
   );
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, { backgroundColor: theme.color.bgPrimary }, style]}>
       {
         renderBlockItem({
           label: strings(`order.label.${timeLabel || 'journeyTime'}`),
@@ -61,4 +67,4 @@ JourneyDetails.defaultProps = {
   distance: ''
 };
 
-export default JourneyDetails;
+export default withTheme(JourneyDetails);

@@ -115,7 +115,8 @@
       "phone": "Phone",
       "defaultPhone": "Default Phone",
       "search": "Search",
-      "dateRange": "Date range"
+      "dateRange": "Date range",
+      "notifications": "Notifications History"
     },
     "button": {
       "back": "Back",

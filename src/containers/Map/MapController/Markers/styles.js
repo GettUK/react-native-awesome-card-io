@@ -8,7 +8,6 @@ export default StyleSheet.create({
   infoMarker: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: color.white,
     borderRadius: 6,
     paddingVertical: 2,
     paddingHorizontal: 7,
@@ -22,7 +21,6 @@ export default StyleSheet.create({
   },
   infoMarkerTitle: {
     fontSize: 11,
-    color: color.secondaryText,
     lineHeight: 13
   },
   infoMarkerIcon: {
@@ -31,7 +29,6 @@ export default StyleSheet.create({
   infoMarkerValue: {
     fontSize: 11,
     fontWeight: 'bold',
-    color: color.primaryText,
     lineHeight: 13
   }
 });

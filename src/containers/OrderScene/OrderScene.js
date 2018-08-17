@@ -25,7 +25,6 @@ import {
   FutureOrderSuggestionPopup,
   SuccessPopup
 } from 'components';
-import { formattedColor } from 'theme';
 
 import { strings } from 'locales';
 import {
@@ -39,6 +38,10 @@ import {
   minutesForward,
   getCurrentOrder
 } from 'utils';
+
+
+import { withTheme } from 'providers';
+
 import {
   POINTER_DISPLAY_STATUSES,
   ORDER_RECEIVED_STATUS,
@@ -173,6 +176,7 @@ class OrderScene extends Component {
 
   handleCancelOrder = () => {
     showConfirmationAlert({
+      theme: this.props.theme,
       title: strings('alert.title.doYouWantToCancelOrder'),
       message: strings('alert.message.cancelOrderDescription'),
       handler: () => this.props.cancelOrder().then(() => this.handleOpen('CancelModal'))
@@ -251,14 +255,16 @@ class OrderScene extends Component {
       loading={busy}
       onPress={handler}
       style={styles.floatButton}
-      labelStyle={this.props.nightMode ? styles.whiteText : {}}
+      labelStyle={this.props.theme.type === 'dark' ? styles.whiteText : {}}
       {...rest}
     />
   );
 
   renderInfoPanel = () => {
-    const { status, busy, nightMode, order } = this.props;
+    const { order, status, busy, theme } = this.props;
     const { arriveIn } = this.state;
+
+    const nightMode = theme.type === 'dark';
 
     const isCancelAllowedStatus = CANCEL_ALLOWED_STATUSES.includes(status);
     const isActiveDriverStatus = ACTIVE_DRIVER_STATUSES.includes(status);
@@ -266,21 +272,24 @@ class OrderScene extends Component {
     const isCustomerCareStatus = status === CUSTOMER_CARE_STATUS;
     const isTripActive = status === ACTIVE_STATUS;
     const isDriverArrived = status === ARRIVED_STATUS;
-    const white = formattedColor.white;
-    // TODO: move to separate colors file
-    const gradientColors = [white.opacity(0.8), white.opacity(0.75), white.opacity(0.6), white.opacity(0)];
+
+    const white = theme.formattedColor.white;
+    const dark = theme.formattedColor.bgSettings;
+
+    const gradientColorsDark = [dark.opacity(0.8), dark.opacity(0.61), dark.opacity(0.45), dark.opacity(0)];
+    const gradientColorsLight = [white.opacity(0.8), white.opacity(0.75), white.opacity(0.6), white.opacity(0)];
     const gradientStart = { x: 0, y: 1 };
     const gradientEnd = { x: 0, y: 0 };
 
     const statusPosition = isIphoneX() ? 140 : 130;
 
-    const Wrapper = nightMode ? View : GradientWrapper;
-
     return (
       <FadeInView>
-        <Wrapper
+        <GradientWrapper
           style={styles.footer}
-          {...(nightMode ? {} : { colors: gradientColors, start: gradientStart, end: gradientEnd })}
+          colors={nightMode ? gradientColorsDark : gradientColorsLight}
+          start={gradientStart}
+          end={gradientEnd}
           pointerEvents="box-none"
         >
           <View
@@ -340,7 +349,7 @@ class OrderScene extends Component {
               {strings(`order.status.${status}`)}
             </Text>
           </View>
-        </Wrapper>
+        </GradientWrapper>
       </FadeInView>
     );
   };
@@ -466,4 +475,4 @@ const mapDispatch = {
   setActiveBooking
 };
 
-export default connect(mapState, mapDispatch, null, { withRef: true })(OrderScene);
+export default connect(mapState, mapDispatch)(withTheme(OrderScene));

@@ -9,6 +9,9 @@ import Swipeout from 'react-native-swipeout';
 import { makeDefaultPayment, deactivatePayment } from 'actions/passenger';
 
 import { Icon, CheckBox, Divider } from 'components';
+
+import { withTheme } from 'providers';
+
 import { throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 import { getValue } from './utils';
@@ -31,7 +34,8 @@ class PaymentCardsList extends Component {
     this.changeSelectedID();
     this.props.navigation.navigate('PaymentCardDetails', {
       paymentCard: item,
-      canDelete: this.isCardDeactivationEnabled()
+      canDelete: this.isCardDeactivationEnabled(),
+      theme: this.props.theme
     });
   });
 
@@ -49,6 +53,7 @@ class PaymentCardsList extends Component {
 
   deactivateCard = (id) => {
     showRemovalAlert({
+      theme: this.props.theme,
       message: strings('alert.message.doYouWantToDeactivateTheCard'),
       deleteLabel: strings('alert.button.deactivate'),
       handler: () => this.props.deactivatePayment(id)
@@ -77,7 +82,7 @@ class PaymentCardsList extends Component {
       autoClose
       sensitivity={25}
       close={!(this.state.selectedID === item.id)}
-      backgroundColor={color.white}
+      backgroundColor={this.props.theme.color.bgPrimary}
       buttonWidth={100}
       onOpen={() => this.changeSelectedID(item.id)}
       onClose={noop}
@@ -127,11 +132,11 @@ class PaymentCardsList extends Component {
   );
 
   render() {
-    const { paymentCards } = this.props;
+    const { paymentCards, theme } = this.props;
 
     return paymentCards && paymentCards.length
       ? (
-        <ScrollView style={[styles.flex, styles.container]}>
+        <ScrollView style={[styles.flex, styles.container, { backgroundColor: theme.color.bgPrimary }]}>
           {this.renderPaymentCards()}
 
           {this.isCardDeactivationEnabled() && <Tip label={strings('tip.text.removeCard')} />}
@@ -150,4 +155,4 @@ const mapDispatch = {
   deactivatePayment
 };
 
-export default connect(mapState, mapDispatch)(PaymentCardsList);
+export default connect(mapState, mapDispatch)(withTheme(PaymentCardsList));

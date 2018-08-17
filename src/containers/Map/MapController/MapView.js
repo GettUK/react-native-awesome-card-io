@@ -8,6 +8,8 @@ import { compact } from 'lodash';
 import { changeAddress } from 'actions/booking';
 import { clearCoordinates } from 'actions/ui/map';
 
+import { withTheme } from 'providers';
+
 import { LATTITIDE_DELTA, LONGTITUDE_DELTA, normalizeCoordinate, geocode, processLocation } from 'utils';
 import { DRAG_DISABLED_STATUSES, ORDER_RECEIVED_STATUS } from 'utils/orderStatuses';
 
@@ -18,10 +20,10 @@ import styles from './styles';
 
 class MapView extends React.Component {
   componentDidUpdate(prevProps) {
-    const { regionToAnimate: oldRegion, coordinatesToResize: oldCoordinates, nightMode: oldNightMode } = prevProps;
-    const { regionToAnimate, coordinatesToResize, nightMode } = this.props;
+    const { regionToAnimate: oldRegion, coordinatesToResize: oldCoordinates, theme: oldTheme } = prevProps;
+    const { regionToAnimate, coordinatesToResize, theme } = this.props;
 
-    if (nightMode !== oldNightMode) {
+    if (theme.type !== oldTheme.type) {
       setTimeout(() => this.map._updateStyle(), 500); // eslint-disable-line
     }
 
@@ -94,7 +96,9 @@ class MapView extends React.Component {
   )
 
   render() {
-    const { isOrderCreating, order, nightMode } = this.props;
+    const { isOrderCreating, order, theme } = this.props;
+
+    const nightMode = theme.type === 'dark';
 
     return (
       <Fragment>
@@ -130,4 +134,4 @@ const mapDispatch = {
   clearCoordinates
 };
 
-export default connect(mapState, mapDispatch, null, { withRef: true })(MapView);
+export default connect(mapState, mapDispatch)(withTheme(MapView));

@@ -12,6 +12,8 @@ import { color } from 'theme';
 import { nullAddress, throttledAction, showRemovalAlert } from 'utils';
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import settingsStyles from '../style';
 
 import Tip from './Tip';
@@ -33,15 +35,22 @@ class AddressesList extends Component {
   goToAddressEditor = throttledAction((address) => {
     this.changeSelectedID();
     this.props.navigation.navigate('AddressEditor', {
-      address, editing: true, onRemove: this.removeAddress
+      address, editing: true, onRemove: this.removeAddress, theme: this.props.theme
     });
   });
 
   renderExistPredefinedAddress = (type, data) => (
     <View style={styles.predefinedAddress}>
       <Icon name={type} size={24} color={color.iconsSettigs} />
-      <View style={[styles.flex, styles.addressWrapper, styles.predefinedAddressWrapper]}>
-        <Text style={[styles.addressName, styles.predefinedAddressName]}>{capitalize(type)}</Text>
+      <View style={[
+        styles.flex,
+        styles.addressWrapper,
+        styles.predefinedAddressWrapper,
+        { borderBottomColor: this.props.theme.color.pixelLine }
+      ]}>
+        <Text style={[styles.addressName, styles.predefinedAddressName, { color: this.props.theme.color.primaryText }]}>
+          {capitalize(type)}
+        </Text>
         <Text style={[styles.flex, styles.addressValue]} numberOfLines={1}>{data.line}</Text>
         <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
       </View>
@@ -53,7 +62,7 @@ class AddressesList extends Component {
       <View style={styles.addAddressIcon}>
         <Icon name="plus" size={14} color={color.primaryBtns} />
       </View>
-      <View style={[styles.flex, styles.addressWrapper]}>
+      <View style={[styles.flex, styles.addressWrapper, { borderBottomColor: this.props.theme.color.pixelLine }]}>
         <Text style={styles.addressValue}>Add {type} address</Text>
       </View>
     </View>
@@ -86,12 +95,13 @@ class AddressesList extends Component {
   };
 
   removeAddress = (id, type, handler) => {
-    const { destroyFavoriteAddress, sendPredefinedAddress } = this.props;
+    const { destroyFavoriteAddress, sendPredefinedAddress, theme } = this.props;
     const removeAction = type
       ? () => sendPredefinedAddress(nullAddress(null), type)
       : () => destroyFavoriteAddress(id);
 
     showRemovalAlert({
+      theme,
       message: strings('alert.message.doYouWantToDeleteTheAddress'),
       handler: () => {
         removeAction();
@@ -108,7 +118,7 @@ class AddressesList extends Component {
       autoClose
       sensitivity={25}
       close={!(this.state.selectedID === data.id)}
-      backgroundColor={color.white}
+      backgroundColor={this.props.theme.color.bgPrimary}
       buttonWidth={100}
       onOpen={() => this.changeSelectedID(data.id)}
       right={[
@@ -135,10 +145,10 @@ class AddressesList extends Component {
       key={item.id}
       activeOpacity={0.6}
       onPress={() => this.goToAddressEditor(item)}
-      style={styles.addressWrapper}
+      style={[styles.addressWrapper, { borderBottomColor: this.props.theme.color.pixelLine }]}
     >
       <View style={styles.flex}>
-        <Text style={styles.addressName}>{item.name}</Text>
+        <Text style={[styles.addressName, { color: this.props.theme.color.primaryText }]}>{item.name}</Text>
         <Text style={styles.addressValue}>{item.address.line}</Text>
       </View>
       <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
@@ -160,7 +170,7 @@ class AddressesList extends Component {
 
   render() {
     return (
-      <ScrollView style={[styles.flex, styles.container]}>
+      <ScrollView style={[styles.flex, styles.container, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         {this.renderPredefinedAddress('home')}
         {this.renderPredefinedAddress('work')}
         {this.renderFavoriteAddresses()}
@@ -182,4 +192,4 @@ const mapDispatch = {
   sendPredefinedAddress
 };
 
-export default connect(mapState, mapDispatch)(AddressesList);
+export default connect(mapState, mapDispatch)(withTheme(AddressesList));

@@ -3,7 +3,10 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import { isString } from 'lodash';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
 
 import styles from './style';
 
@@ -55,12 +58,13 @@ class Popup extends PureComponent {
   );
 
   renderContent = () => {
-    const { contentStyle, titleStyle, contentWraperStyle, footerStyle, title, content, buttons, icon } = this.props;
+    const { theme, contentStyle, titleStyle, contentWraperStyle,
+      footerStyle, title, content, buttons, icon } = this.props;
 
     return (
-      <View style={[styles.content, contentWraperStyle]}>
+      <View style={[styles.content, { backgroundColor: theme.color.bgPrimary }, contentWraperStyle]}>
         {icon}
-        {isString(title) && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+        {isString(title) && <Text style={[styles.title, { color: theme.color.primaryBtns }, titleStyle]}>{title}</Text>}
         {isString(content)
           ? <Text style={[styles.description, contentStyle]}>{content}</Text>
           : content
@@ -73,13 +77,13 @@ class Popup extends PureComponent {
   };
 
   render() {
-    const { containerStyle } = this.props;
+    const { containerStyle, theme } = this.props;
 
     return (
       <Modal
         isVisible={this.state.isVisible}
         style={[styles.container, containerStyle]}
-        backdropColor="rgba(40, 71, 132, 0.6)"
+        backdropColor={theme.color.backdrop}
       >
         {this.renderContent()}
       </Modal>
@@ -87,4 +91,4 @@ class Popup extends PureComponent {
   }
 }
 
-export default Popup;
+export default withTheme(Popup);

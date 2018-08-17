@@ -14,12 +14,18 @@ import { debounce, isArray } from 'lodash';
 import axios from 'axios';
 
 import { Icon, Input, Modal, Alert } from 'components';
-import { color } from 'theme';
-import { nullAddress, get, processLocation, geocode } from 'utils';
+
 import { strings } from 'locales';
+
+import { color } from 'theme';
+
+import { withTheme } from 'providers';
+
+import { nullAddress, get, processLocation, geocode } from 'utils';
+
 import styles from './styles';
 
-const CancelToken = axios.CancelToken;
+const CancelToken = axios.CancelToken; // TODO: move work with axios to utils
 
 const searchDebounce = 700;
 let cancelRequest;
@@ -29,7 +35,7 @@ function getAddresses(params) {
     .then(res => res.data.list);
 }
 
-export default class AddressModal extends PureComponent {
+class AddressModal extends PureComponent {
   static propTypes = {
     defaultValues: PropTypes.array,
     onChange: PropTypes.func.isRequired
@@ -141,7 +147,7 @@ export default class AddressModal extends PureComponent {
         style={styles.itemAddressView}
         onPress={() => this.onAddressPress(item)}
       >
-        <Text style={styles.itemAddressText}>
+        <Text style={[styles.itemAddressText, { color: this.props.theme.color.primaryText }]}>
           {name}
           {name && description ? ', ' : ''}
           {description}
@@ -214,7 +220,7 @@ export default class AddressModal extends PureComponent {
       <Modal
         isVisible={isVisible}
         onClose={this.close}
-        contentStyles={styles.modalContent}
+        contentStyles={[styles.modalContent, { backgroundColor: this.props.theme.color.bgPrimary }]}
       >
         {this.renderSearchInput()}
 
@@ -230,3 +236,5 @@ export default class AddressModal extends PureComponent {
     );
   }
 }
+
+export default withTheme(AddressModal);

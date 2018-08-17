@@ -1,11 +1,19 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Icon, SearchList } from 'components';
+
 import { changeReference } from 'actions/booking';
+
+import { Icon, SearchList } from 'components';
+
 import { debounce } from 'lodash';
+
+import { withTheme } from 'providers';
+
 import { color } from 'theme';
+
 import { get } from 'utils';
+
 import styles from './styles';
 
 class ReferenceValueSelector extends PureComponent {
@@ -36,7 +44,7 @@ class ReferenceValueSelector extends PureComponent {
   keyExtractor = item => String(item.id || item.value);
 
   renderItem = ({ item }) => {
-    const { bookerReference, changeReference } = this.props;
+    const { bookerReference, changeReference, theme } = this.props;
     const textStyles = [styles.flex, styles.valueName];
 
     const isSelected = bookerReference.value === item.value;
@@ -49,7 +57,7 @@ class ReferenceValueSelector extends PureComponent {
         style={styles.referenceItem}
         onPress={handlerValueSelect}
       >
-        <Text style={textStyles}>{item.value}</Text>
+        <Text style={[textStyles, { color: theme.color.primaryText }]}>{item.value}</Text>
         {isSelected &&
           <Icon name="check" size={13} color={color.bgStatuses} />
         }
@@ -57,7 +65,7 @@ class ReferenceValueSelector extends PureComponent {
     );
   };
 
-  renderSeparator = () => <View style={styles.separator}/>;
+  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]}/>;
 
   render() {
     const { searchValue } = this.state;
@@ -83,4 +91,4 @@ const mapDispatch = ({
   changeReference
 });
 
-export default connect(mapState, mapDispatch)(ReferenceValueSelector);
+export default connect(mapState, mapDispatch)(withTheme(ReferenceValueSelector));

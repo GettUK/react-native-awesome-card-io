@@ -11,6 +11,8 @@ import { strings } from 'locales';
 
 import { showConfirmationAlert } from 'utils';
 
+import { withTheme } from 'providers';
+
 import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
 
 import styles from './EditProfileStyles';
@@ -50,10 +52,10 @@ class EditProfile extends Component {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {
-      const { touched } = this.props;
+      const { touched, theme } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
+        showConfirmationAlert({ theme, title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 
@@ -100,7 +102,7 @@ class EditProfile extends Component {
   };
 
   render() {
-    const { avatarUrl, avatar, handleFirstNameChange, handleLastNameChange } = this.props;
+    const { avatarUrl, avatar, theme, handleFirstNameChange, handleLastNameChange } = this.props;
 
     const inputs = [
       { item: 'firstName', label: 'First Name', onChangeText: handleFirstNameChange },
@@ -110,7 +112,7 @@ class EditProfile extends Component {
     const userAvatar = avatar || avatarUrl;
 
     return (
-      <View style={[styles.flex, styles.container]}>
+      <View style={[styles.flex, styles.container, { backgroundColor: theme.color.bgPrimary }]}>
         <KeyboardHide style={styles.cameraWrapper}>
           <TouchableOpacity activeOpacity={0.6} style={styles.cameraWrapper} onPress={this.openAvatarPicker}>
             <Avatar
@@ -147,4 +149,4 @@ const mapDispatch = {
   touchField
 };
 
-export default connect(mapState, mapDispatch)(EditProfile);
+export default connect(mapState, mapDispatch)(withTheme(EditProfile));

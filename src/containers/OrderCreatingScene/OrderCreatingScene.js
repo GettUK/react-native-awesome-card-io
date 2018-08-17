@@ -10,6 +10,8 @@ import { OrderCreatingHeader, Icon } from 'components';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import {
   showConfirmationAlert,
   bookingFieldsToReset,
@@ -83,10 +85,15 @@ class OrderCreatingScene extends PureComponent {
   };
 
   goToSettings = () => {
+    const { navigation, goToOrders, goToNotifications } = this.props;
+
     Answers.logContentView('Settings was opened', 'screen view', 'settingsOpen');
 
-    const { goToOrders, goToNotifications } = this.props;
-    this.props.navigation.navigate('Settings', { onGoToRides: goToOrders, onGoToNotifications: goToNotifications });
+    navigation.navigate('Settings', {
+      theme: navigation.state.params.theme,
+      onGoToRides: goToOrders,
+      onGoToNotifications: goToNotifications
+    });
   };
 
   clearFields = () => {
@@ -101,7 +108,11 @@ class OrderCreatingScene extends PureComponent {
   };
 
   cancelOrderCreation = () => {
-    showConfirmationAlert({ title: strings('alert.title.cancelOrderCreation'), handler: this.clearFields });
+    showConfirmationAlert({
+      theme: this.props.theme,
+      title: strings('alert.title.cancelOrderCreation'),
+      handler: this.clearFields
+    });
   };
 
   shouldRequestVehicles = () =>
@@ -132,14 +143,14 @@ class OrderCreatingScene extends PureComponent {
   };
 
   selectBlackCab = () => {
-    this.editorView.wrappedInstance.selectVehicle('BlackTaxi');
+    this.editorView.selectVehicle('BlackTaxi');
   }
 
   renderPickUpMarker = () =>
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />;
 
   render() {
-    const { bookingForm, nightMode, navigation, getCurrentPosition, goToOrders } = this.props;
+    const { bookingForm, theme, navigation, getCurrentPosition, goToOrders } = this.props;
 
     return (
       <Fragment>
@@ -148,11 +159,11 @@ class OrderCreatingScene extends PureComponent {
           handlePressBurger={this.goToSettings}
           handlePressBack={this.cancelOrderCreation}
           handlePressOrder={goToOrders}
-          nightMode={nightMode}
+          nightMode={theme.type === 'dark'}
         />
 
         <BookingEditor
-          ref={(editor) => { this.editorView = editor; }}
+          innerRef={(editor) => { this.editorView = editor; }}
           navigation={navigation}
           getCurrentPosition={getCurrentPosition}
         />
@@ -169,7 +180,6 @@ class OrderCreatingScene extends PureComponent {
 
 OrderCreatingScene.propTypes = {
   navigation: PropTypes.object.isRequired,
-  nightMode: PropTypes.bool,
   getCurrentPosition: PropTypes.func,
   handleBackBtnPress: PropTypes.func,
   goToOrders: PropTypes.func
@@ -186,4 +196,4 @@ const mapDispatch = {
   resetBookingValues
 };
 
-export default connect(mapState, mapDispatch)(OrderCreatingScene);
+export default connect(mapState, mapDispatch)(withTheme(OrderCreatingScene));

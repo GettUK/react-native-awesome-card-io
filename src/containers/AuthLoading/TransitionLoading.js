@@ -5,6 +5,8 @@ import { View as AnimatableView } from 'react-native-animatable';
 
 import { Icon, Background } from 'components';
 
+import { withTheme } from 'providers';
+
 import styles from './style';
 
 const { height, width } = Dimensions.get('window');
@@ -25,7 +27,7 @@ const SCALE_RECTANGLE_ANIM = {
   name: 'rectangle'
 };
 
-export default class TransitionLoading extends Component {
+class TransitionLoading extends Component {
   handleOpenMap = () =>
     this.props.navigation.replace('MapView', { transition: 'loadTransition' });
 
@@ -76,3 +78,5 @@ export default class TransitionLoading extends Component {
     );
   }
 }
+
+export default withTheme(TransitionLoading);

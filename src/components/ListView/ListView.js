@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
-export default class ListView extends PureComponent {
+class ListView extends PureComponent {
   renderList = () => {
     const {
-      styles, renderItem, items, typeSections, keyExtractor, onEndReached, loading, refreshing
+      styles, renderItem, items, typeSections, keyExtractor, onEndReached, loading, refreshing, theme
     } = this.props;
 
     const props = {};
@@ -24,7 +26,7 @@ export default class ListView extends PureComponent {
     const Component = typeSections ? SectionList : FlatList;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.color.bgSettings }]}>
         <Component
           {...props}
           renderItem={renderItem}
@@ -32,7 +34,7 @@ export default class ListView extends PureComponent {
           style={styles.items}
           onEndReached={onEndReached}
           ListFooterComponent={loading && Platform.OS === 'ios' &&
-            <Text style={{ textAlign: 'center' }}>{strings('app.label.loading')}</Text>
+            <Text style={{ textAlign: 'center', color: theme.color.primaryText }}>{strings('app.label.loading')}</Text>
           }
           refreshing={refreshing}
           stickySectionHeadersEnabled={false}
@@ -50,13 +52,15 @@ export default class ListView extends PureComponent {
   )
 
   render() {
-    const { styles, loading, items } = this.props;
+    const { styles, loading, items, theme } = this.props;
 
     return (
-      <View style={[styles.flex, styles.centered]}>
+      <View style={[styles.flex, styles.centered, { backgroundColor: theme.color.bgSettings }]}>
         {(items && items.length) || loading
           ? this.renderList()
-          : <Text style={styles.emptyLabel}>{strings('app.label.emptyResult')}</Text>
+          : <Text style={[styles.emptyLabel, { color: theme.color.primaryText }]}>
+            {strings('app.label.emptyResult')}
+          </Text>
         }
 
         {loading && Platform.OS === 'android' && this.renderAndroidLoadingLabel(styles)}
@@ -82,3 +86,5 @@ ListView.defaultProps = {
   keyExtractor: item => String(item.id),
   onEndReached: undefined
 };
+
+export default withTheme(ListView);

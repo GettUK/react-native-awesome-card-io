@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
-import { color } from 'theme';
 
 import { setInitialProfileValues, makeDefaultPhone } from 'actions/passenger';
 
 import { Icon, CheckBox, Divider } from 'components';
-import { throttledAction } from 'utils';
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
+import { throttledAction } from 'utils';
 
 import styles from './PaymentCards/styles';
 
@@ -22,7 +26,9 @@ class PhonesList extends Component {
   }
 
   goToSingleInputEditor = throttledAction((key) => {
-    this.props.navigation.navigate('SingleInputEditor', { key, label: strings('header.title.phone') });
+    this.props.navigation.navigate('SingleInputEditor', {
+      key, label: strings('header.title.phone'), theme: this.props.theme
+    });
   });
 
   makeDefaultPhone = (type, data) => {
@@ -30,8 +36,10 @@ class PhonesList extends Component {
   };
 
   renderItem = (type, data) => {
-    const { defaultPhoneType } = this.props;
+    const { defaultPhoneType, theme } = this.props;
     const isActiveStatus = defaultPhoneType === type;
+
+    const labelStyles = [styles.paymentText, { color: theme.color.primaryText }];
 
     return (
       <View key={type}>
@@ -49,8 +57,8 @@ class PhonesList extends Component {
           >
             <View style={[styles.flex, styles.viewItem]}>
               {data
-                ? <Text style={styles.paymentText}>{data}</Text>
-                : <Text style={styles.paymentText}>{strings('phones.label.addOtherPhone')}</Text>
+                ? <Text style={labelStyles}>{data}</Text>
+                : <Text style={labelStyles}>{strings('phones.label.addOtherPhone')}</Text>
               }
             </View>
             <Icon style={styles.chevronIcon} name="chevron" size={16} color={color.arrowRight} />
@@ -69,7 +77,7 @@ class PhonesList extends Component {
 
   render() {
     return (
-      <ScrollView style={[styles.flex, styles.container]}>
+      <ScrollView style={[styles.flex, styles.container, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         {this.renderPhone('phone')}
         {this.renderPhone('mobile')}
       </ScrollView>
@@ -88,4 +96,4 @@ const mapDispatch = {
   setInitialProfileValues
 };
 
-export default connect(mapState, mapDispatch)(PhonesList);
+export default connect(mapState, mapDispatch)(withTheme(PhonesList));

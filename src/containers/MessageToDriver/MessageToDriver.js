@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
+
 import { changeMessageToDriver } from 'actions/booking';
+
+import { withTheme } from 'providers';
+
 import { isIphoneX } from 'utils';
+
 import styles from './styles';
 
-const MessageToDriver = ({ message, touched, booking, changeMessageToDriver }) => {
+const MessageToDriver = ({ message, touched, theme, booking, changeMessageToDriver }) => {
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
   };
@@ -14,7 +19,7 @@ const MessageToDriver = ({ message, touched, booking, changeMessageToDriver }) =
   const value = touched ? message : booking.message;
 
   return (
-    <View style={[styles.flex, styles.bg]}>
+    <View style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}>
       <KeyboardAvoidingView
         keyboardVerticalOffset={isIphoneX() ? 85 : 65}
         behavior="padding"
@@ -56,4 +61,4 @@ const mapDispatch = ({
   changeMessageToDriver
 });
 
-export default connect(mapState, mapDispatch)(MessageToDriver);
+export default connect(mapState, mapDispatch)(withTheme(MessageToDriver));

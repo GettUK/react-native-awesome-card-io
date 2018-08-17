@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import FCM from 'react-native-fcm';
+import { throttle } from 'lodash';
 
 import { ConnectionMessage, AlertModal } from 'components';
 
@@ -13,9 +14,17 @@ import { saveToken } from 'actions/app/pushNotifications';
 
 import { onLayoutConnectBar } from 'actions/app/statuses';
 
+import { darkTheme, lightTheme } from 'theme';
+
 import PN from 'utils/notifications';
 
+import { ThemeContext } from 'providers';
+
 class AppContainer extends PureComponent {
+  state = {
+    nightMode: false
+  }
+
   componentDidMount() {
     setTimeout(SplashScreen.hide, 1000); // Avoiding flicker
 
@@ -25,12 +34,16 @@ class AppContainer extends PureComponent {
         this.props.dispatch(saveToken(token));
       });
 
-      await FCM.createNotificationChannel({
-        id: 'root_channel_2',
-        name: 'root_channel_2',
-        priority: 'max'
-      });
+      if (FCM.createNotificationChannel) {
+        await FCM.createNotificationChannel({
+          id: 'root_channel_2',
+          name: 'root_channel_2',
+          priority: 'max'
+        });
+      }
     }, 2000); // After login transition
+
+    this.checkForNightMode();
   }
 
   componentDidUpdate({ isConnected }) {
@@ -41,21 +54,36 @@ class AppContainer extends PureComponent {
     }
   }
 
+  checkForNightMode = throttle(() => {
+    const hour = (new Date()).getHours();
+    const nightMode = hour >= 21 || hour < 5;
+
+    if (nightMode !== this.state.nightMode) {
+      this.setState({ nightMode });
+    }
+  }, 20000);
+
   render() {
     const { dispatch, isConnected } = this.props;
 
     return (
-      <View style={{ flex: 1 }}>
-        <AlertModal />
-        <View style={{ height: isConnected ? 0 : 60 }} />
+      <ThemeContext.Provider
+        value={this.state.nightMode ? { ...darkTheme, type: 'dark' } : { ...lightTheme, type: 'light' }}
+      >
         <View style={{ flex: 1 }}>
-          <NavigatorRoot />
+          <AlertModal />
+          <View style={{ height: isConnected ? 0 : 60 }} />
+
+          <View style={{ flex: 1 }}>
+            <NavigatorRoot />
+          </View>
+
+          <ConnectionMessage
+            onLayout={e => dispatch(onLayoutConnectBar(e))}
+            ref={(alert) => { this.alert = alert; }}
+            />
         </View>
-        <ConnectionMessage
-          onLayout={e => dispatch(onLayoutConnectBar(e))}
-          ref={(alert) => { this.alert = alert; }}
-        />
-      </View>
+      </ThemeContext.Provider>
     );
   }
 }

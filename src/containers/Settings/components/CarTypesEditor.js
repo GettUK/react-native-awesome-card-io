@@ -12,6 +12,8 @@ import { baseVehicles, baseVehiclesDescriptions } from 'containers/shared/bookin
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { showConfirmationAlert } from 'utils';
 
 import styles from './CarTypesEditorStyles';
@@ -34,10 +36,10 @@ class CarTypesEditor extends Component {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {
-      const { touched } = this.props;
+      const { touched, theme } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
+        showConfirmationAlert({ theme, title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 
@@ -65,6 +67,7 @@ class CarTypesEditor extends Component {
   };
 
   renderInfoModal = () => {
+    const { theme } = this.props;
     const { currentCar } = this.state;
     const label = (baseVehicles.find(vehicle => vehicle.name === currentCar) || {}).label;
     const info = baseVehiclesDescriptions[currentCar] || {};
@@ -78,10 +81,10 @@ class CarTypesEditor extends Component {
       <Modal
         isVisible={this.state.isModalVisible}
         onClose={this.closeInfo}
-        contentStyles={styles.modalContent}
+        contentStyles={[styles.modalContent, { backgroundColor: theme.color.bgPrimary }]}
       >
         <View style={styles.modalWrapper}>
-          <Text style={styles.modalHeader}>{label}</Text>
+          <Text style={[styles.modalHeader, { color: theme.color.primaryText }]}>{label}</Text>
 
           <CarImage
             style={styles.carWrapper}
@@ -91,7 +94,7 @@ class CarTypesEditor extends Component {
             duration={CAR_ANIMATION_DURATION}
           />
 
-          <Text style={styles.modalDesc}>{info.description}</Text>
+          <Text style={[styles.modalDesc, { color: theme.color.primaryText }]}>{info.description}</Text>
 
           <View style={styles.featuresBlock}>
             {features.map((feature, index) => (
@@ -99,7 +102,7 @@ class CarTypesEditor extends Component {
                 <View style={styles.checkmark}>
                   <Icon name="checkmark" width={13} height={10} />
                   <Animatable.View
-                    style={styles.checkmarkHider}
+                    style={[styles.checkmarkHider, { backgroundColor: theme.color.bgPrimary }]}
                     animation="slideOutRight"
                     delay={OPTIONS_DELAY + (index * 300)}
                     duration={OPTION_ANIMATION_DURATION}
@@ -107,7 +110,7 @@ class CarTypesEditor extends Component {
                 </View>
 
                 <Animatable.Text
-                  style={styles.featuresLabel}
+                  style={[styles.featuresLabel, { color: theme.color.primaryText }]}
                   animation="fadeIn"
                   delay={OPTIONS_DELAY + (index * 300)}
                   duration={OPTION_ANIMATION_DURATION}
@@ -119,7 +122,7 @@ class CarTypesEditor extends Component {
           </View>
 
           <Animatable.Text
-            style={styles.feesDesc}
+            style={[styles.feesDesc, { color: theme.color.secondaryText }]}
             animation="fadeIn"
             delay={OPTIONS_DELAY + (features.length * 300)}
             duration={OPTION_ANIMATION_DURATION}
@@ -140,14 +143,14 @@ class CarTypesEditor extends Component {
         key={name}
         onPress={handler}
       >
-        <View style={styles.itemContainer}>
+        <View style={[styles.itemContainer, { borderBottomColor: this.props.theme.color.pixelLine }]}>
           <View style={styles.button}>
             <CheckBox status={isSelected} onPress={handler} />
           </View>
 
           <CarImage type={name} style={styles.image} size="small" />
 
-          <Text style={styles.label}>{label}</Text>
+          <Text style={[styles.label, { color: this.props.theme.color.primaryText }]}>{label}</Text>
           <TouchableWithoutFeedback onPress={this.handleOpenInfo.bind(null, name)}>
             <View style={styles.button}>
               <Icon name="vehicleInfo" />
@@ -160,7 +163,7 @@ class CarTypesEditor extends Component {
 
   render() {
     return (
-      <View style={[styles.flex, styles.container]}>
+      <View style={[styles.flex, styles.container, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         <ScrollView style={styles.flex}>
           {baseVehicles.map(this.renderCarItem)}
         </ScrollView>
@@ -182,4 +185,4 @@ const mapDispatch = {
   touchField
 };
 
-export default connect(mapState, mapDispatch)(CarTypesEditor);
+export default connect(mapState, mapDispatch)(withTheme(CarTypesEditor));
