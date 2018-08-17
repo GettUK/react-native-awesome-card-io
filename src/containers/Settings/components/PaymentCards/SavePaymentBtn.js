@@ -10,7 +10,7 @@ import { validationRules } from './utils';
 
 const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidationError }) => {
   const handleSave = throttledAction(() => {
-    const { keys } = navigation.state.params;
+    const { keys, theme } = navigation.state.params;
 
     if (touched &&
       isInputsValid(keys, data, validationRules, error => setValidationError('validationPaymentError', error))
@@ -19,7 +19,7 @@ const SavePaymentBtn = ({ touched, navigation, data, addPaymentCard, setValidati
         .then(() => navigation.goBack(null))
         .catch(() => {
           setValidationError('validationPaymentError', {});
-          showMessageAlert({ message: strings('alert.message.enterValidCreditCard') });
+          showMessageAlert({ theme, message: strings('alert.message.enterValidCreditCard') });
         });
     }
   });

@@ -7,6 +7,8 @@ import { Input } from 'components';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { showConfirmationAlert } from 'utils';
 
 import { setInitialProfileValues, changeProfileFieldValue, touchField } from 'actions/passenger';
@@ -25,10 +27,10 @@ class SingleInputEditor extends Component {
     this.props.setInitialProfileValues();
 
     this.backListener = BackHandler.addEventListener('backPress', () => {
-      const { touched } = this.props;
+      const { touched, theme } = this.props;
 
       if (touched) {
-        showConfirmationAlert({ title: strings('alert.title.goBack'), handler: this.goBack });
+        showConfirmationAlert({ theme, title: strings('alert.title.goBack'), handler: this.goBack });
         return true;
       }
 
@@ -52,6 +54,7 @@ class SingleInputEditor extends Component {
       data,
       navigation,
       error,
+      theme,
       changeProfileFieldValue
     } = this.props;
 
@@ -68,7 +71,7 @@ class SingleInputEditor extends Component {
     }
 
     return (
-      <View style={[styles.flex, styles.container, { paddingTop: 24 }]}>
+      <View style={[styles.flex, styles.container, { paddingTop: 24, backgroundColor: theme.color.bgPrimary }]}>
         <Input
           value={data}
           error={error && error[key]}
@@ -99,4 +102,4 @@ const mapDispatch = {
   touchField
 };
 
-export default connect(mapState, mapDispatch)(SingleInputEditor);
+export default connect(mapState, mapDispatch)(withTheme(SingleInputEditor));

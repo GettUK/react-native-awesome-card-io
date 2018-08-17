@@ -11,7 +11,7 @@ import moment from 'moment-timezone';
 import { changeFields } from 'actions/booking';
 import { Icon, Button, Modal } from 'components';
 
-import { color } from 'theme';
+import { withTheme } from 'providers';
 
 import { minutesForward, momentDate, convertToZone, timeFormat } from 'utils';
 
@@ -45,7 +45,7 @@ class PickUpTime extends PureComponent {
     if (vehicleName && vehicleName !== vehicleNameProps) {
       const timeWithDelay = this.getMinimalFutureOrderTime().toDate();
 
-      this.setState({ date: scheduledAt ? scheduledAt.toDate() : timeWithDelay, minDate: timeWithDelay });
+      this.setState({ date: scheduledAt ? moment(scheduledAt).toDate() : timeWithDelay, minDate: timeWithDelay });
     }
   }
 
@@ -163,10 +163,17 @@ class PickUpTime extends PureComponent {
   };
 
   renderSelected = () => {
+    const { theme } = this.props;
     const { date } = this.state;
     const moment = momentDate(date);
-    const timeText = <Text style={styles.time}>{moment.format(timeFormat())}</Text>;
-    const dateText = <Text style={styles.date}>{moment.format('dddd, MMMM D, YYYY')}</Text>;
+    const timeText =
+      <Text style={[styles.time, { color: theme.color.primaryText }]}>
+        {moment.format(timeFormat())}
+      </Text>;
+    const dateText =
+      <Text style={[styles.date, { color: theme.color.primaryText }]}>
+        {moment.format('dddd, MMMM D, YYYY')}
+      </Text>;
 
     return (
       <View style={styles.selectedWrapper}>
@@ -198,7 +205,12 @@ class PickUpTime extends PureComponent {
 
   renderControlButtons = () => {
     const buttons = [
-      { title: 'Now', style: styles.NowButton, styleText: styles.NowButtonText, onClick: this.handleNowSubmit },
+      {
+        title: 'Now',
+        style: [styles.NowButton, { backgroundColor: this.props.theme.color.bgSecondary }],
+        styleText: styles.NowButtonText,
+        onClick: this.handleNowSubmit
+      },
       { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
     ];
 
@@ -209,9 +221,9 @@ class PickUpTime extends PureComponent {
     );
   }
 
-  renderTimeDatePicker() {
-    const { date, minDate, isModalOpened } = this.state;
-    const { booking: { pickupAddress, timezone } } = this.props;
+  renderDatePickeriOS = () => {
+    const { date, minDate } = this.state;
+    const { booking: { pickupAddress, timezone }, theme } = this.props;
     const moment = momentDate(date);
     let timezoneDate = moment;
 
@@ -219,40 +231,50 @@ class PickUpTime extends PureComponent {
       timezoneDate = convertToZone(moment, pickupAddress.timezone || timezone);
     }
 
+    return Platform.OS === 'ios' &&
+      <View style={[styles.TDPickerWrapper, { backgroundColor: theme.color.secondaryText, borderWidth: 0 }]}>
+        <DatePickerIOS
+          date={date}
+          onDateChange={this.handleDateChange}
+          minimumDate={minDate}
+          timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
+        />
+      </View>;
+  }
+
+  renderTimeDatePicker() {
+    const { isModalOpened } = this.state;
+    const { theme } = this.props;
+
     return (
-      <Modal isVisible={isModalOpened} onClose={this.closePickerModal}>
+      <Modal
+        isVisible={isModalOpened}
+        onClose={this.closePickerModal}
+        contentStyles={{ backgroundColor: theme.color.bgPrimary }}
+      >
         {this.renderSelected()}
-        {Platform.OS === 'ios' &&
-          <View style={styles.TDPickerWrapper}>
-            <DatePickerIOS
-              date={date}
-              onDateChange={this.handleDateChange}
-              minimumDate={minDate}
-              timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
-            />
-          </View>
-        }
+        {this.renderDatePickeriOS()}
         {this.renderControlButtons()}
       </Modal>
     );
   }
 
   render() {
-    const { booking: { scheduledType, scheduledAt }, wrapperStyle } = this.props;
+    const { booking: { scheduledType, scheduledAt }, wrapperStyle, theme } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.openPickerModal}>
-        <View style={[styles.pickupTimeContainer, wrapperStyle]}>
-          <Icon name="time" size={24} color={color.pixelLine} />
+        <View style={[styles.pickupTimeContainer, wrapperStyle, { backgroundColor: theme.color.bgPrimary }]}>
+          <Icon name="time" size={24} color={theme.color.pixelLine} />
           <View style={styles.pickupTime}>
-            <Text style={styles.pickupTimeLabel}>Pickup Time</Text>
-            <Text style={styles.pickupTimeValue}>
+            <Text style={[styles.pickupTimeLabel, { color: theme.color.primaryText }]}>Pickup Time</Text>
+            <Text style={[styles.pickupTimeValue, { color: theme.color.primaryText }]}>
               {scheduledType === 'later'
                 ? moment(scheduledAt).format(`D MMM YYYY, ${timeFormat()}`)
                 : 'Now'
               }
             </Text>
           </View>
-          <View><Icon name="chevron" size={16} color={color.arrowRight} /></View>
+          <View><Icon name="chevron" size={16} color={theme.color.arrowRight} /></View>
           {this.renderTimeDatePicker()}
         </View>
       </TouchableWithoutFeedback>
@@ -269,4 +291,4 @@ const mapDispatch = {
   changeFields
 };
 
-export default connect(mapState, mapDispatch)(PickUpTime);
+export default connect(mapState, mapDispatch)(withTheme(PickUpTime));

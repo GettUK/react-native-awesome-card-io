@@ -401,7 +401,6 @@ export default class BookingController extends Component {
     return moment().add(shift, 'minutes');
   };
 
-
   selectVehicle = (vehicleName) => {
     const {
       booking: { vehicles, bookingForm: { scheduledType, scheduledAt, paymentType } },
@@ -451,8 +450,10 @@ export default class BookingController extends Component {
   };
 
   renderNoVehiclesMessage = () => (
-    <InformView style={styles.footerOrderInfo}>
-      <Text style={styles.informText}>{strings('information.notVehicles')}</Text>
+    <InformView style={[styles.footerOrderInfo, { backgroundColor: this.props.theme.color.bgPrimary }]}>
+      <Text style={[styles.informText, { color: this.props.theme.color.primaryText }]}>
+        {strings('information.notVehicles')}
+      </Text>
     </InformView>
   );
 
@@ -467,7 +468,11 @@ export default class BookingController extends Component {
             <Text style={[styles.title, value ? {} : styles.emptyValueTitle]}>{title}</Text>
             {!!value &&
               <Text
-                style={[styles.value, error ? styles.valueWithError : {}]}
+                style={[
+                  styles.value,
+                  { color: this.props.navigation.state.params.theme.color.primaryText },
+                  error ? styles.valueWithError : {}
+                ]}
                 numberOfLines={1}
               >
                 {value}
@@ -567,6 +572,7 @@ export default class BookingController extends Component {
       style={style}
       styleContent={[styles.bookingBtnView, disabled ? styles.bookingBtnDisabled : {}]}
       disabled={disabled}
+      disabledStyle={{ backgroundColor: this.props.theme.color.bgSettings }}
       onPress={onPress}
     >
       {loading && <ActivityIndicator style={styles.bookingBtnLoading} size="small" color={color.arrowRight} />}
@@ -601,7 +607,7 @@ export default class BookingController extends Component {
 
         {vehicles.loading && <LoaderLayer loading={vehicles.loading} />}
         <AddressModal
-          ref={(el) => { this.addressModal = el; }}
+          innerRef={(el) => { this.addressModal = el; }}
           defaultValues={prepareDefaultValues(this.getPassenger())}
           onChange={this.onChangeAddress}
         />

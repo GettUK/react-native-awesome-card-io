@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'components';
-import { color } from 'theme';
 import NavImageButton from 'components/Common/NavImageButton';
+
+import { withTheme } from 'providers';
 
 import styles from './styles';
 
-const BackButton = ({ onClick }) => (
+const BackButton = ({ onClick, theme }) => (
   <NavImageButton
     onClick={onClick}
     styleContainer={styles.touchZone}
-    styleView={[styles.headerBack, styles.shadow]}
-    icon={<Icon width={10} height={18} name="back" color={color.primaryBtns} />}
+    styleView={[styles.headerBack, styles.shadow, { backgroundColor: theme.color.bgPrimary }]}
+    icon={<Icon width={10} height={18} name="back" color={theme.color.primaryBtns} />}
   />
 );
 
@@ -24,4 +25,4 @@ BackButton.defaultProps = {
   onClick: () => {}
 };
 
-export default BackButton;
+export default withTheme(BackButton);

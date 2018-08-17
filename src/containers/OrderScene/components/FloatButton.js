@@ -5,9 +5,11 @@ import { color } from 'theme';
 
 import { Icon } from 'components';
 
+import { withTheme } from 'providers';
+
 import { fbStyles } from './styles';
 
-const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle, content }) => {
+const FloatButton = ({ label, iconName, style, theme, loading, onPress, labelStyle, content }) => {
   const icons = {
     dispatcher: { name: 'dispatcher', size: 30 },
     cancel: { name: 'closeThick', color: color.danger },
@@ -31,7 +33,7 @@ const FloatButton = ({ label, iconName, style, loading, onPress, labelStyle, con
         style={fbStyles.buttonArea}
         activeOpacity={0.6}
       >
-        <View style={fbStyles.button}>
+        <View style={[fbStyles.button, { backgroundColor: theme.color.bgPrimary }]}>
           {loading
             ? <ActivityIndicator size="small" color={icons[iconName].color} />
             : renderInner()
@@ -59,4 +61,4 @@ FloatButton.defaultProps = {
   loading: false
 };
 
-export default FloatButton;
+export default withTheme(FloatButton);

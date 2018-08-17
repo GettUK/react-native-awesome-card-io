@@ -3,12 +3,15 @@ import { View, Text, TouchableOpacity, StatusBar, ScrollView } from 'react-nativ
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
-import { color } from 'theme';
+
+import { sendCancelOrderReason } from 'actions/booking';
 
 import { GradientWrapper, Icon } from 'components';
 import { strings } from 'locales';
 
-import { sendCancelOrderReason } from 'actions/booking';
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
 
 import { cancelReasonStyles } from './styles';
 
@@ -19,7 +22,7 @@ const reasonIconMapping = {
   too_long_eta: 'reasonTimer'
 };
 
-const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason }) => {
+const CancelReasonModal = ({ theme, isVisible, onClose, reasons, sendCancelOrderReason }) => {
   const submit = (reason) => {
     sendCancelOrderReason(reason)
       .then(onClose);
@@ -29,18 +32,22 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
     <TouchableOpacity
       activeOpacity={0.8}
       key={reason}
-      style={cancelReasonStyles.reason}
+      style={[cancelReasonStyles.reason, { backgroundColor: theme.color.bgSecondary }]}
       onPress={() => submit(reason)}
     >
       <Icon name={reasonIconMapping[reason]} color={color.primaryBtns} size={26} />
-      <Text style={cancelReasonStyles.reasonTitle}>{strings(`order.cancellationReason.${reason}`)}</Text>
+      <Text style={[cancelReasonStyles.reasonTitle, { color: theme.color.primaryBtns }]}>
+        {strings(`order.cancellationReason.${reason}`)}
+      </Text>
     </TouchableOpacity>
   );
+
+  const Wrapper = theme.type === 'dark' ? View : GradientWrapper;
 
   return (
     <Modal isVisible={isVisible} style={cancelReasonStyles.modal}>
       <StatusBar barStyle="light-content" />
-      <GradientWrapper style={cancelReasonStyles.container}>
+      <Wrapper style={[cancelReasonStyles.container, { backgroundColor: theme.color.bgPrimary }]}>
         <TouchableOpacity activeOpacity={0.8} onPress={onClose}>
           <Icon style={cancelReasonStyles.closeIcon} size={30} name="close" color={color.white} />
         </TouchableOpacity>
@@ -53,7 +60,7 @@ const CancelReasonModal = ({ isVisible, onClose, reasons, sendCancelOrderReason 
             {reasons.map(renderReason)}
           </ScrollView>
         </View>
-      </GradientWrapper>
+      </Wrapper>
     </Modal>
   );
 };
@@ -71,4 +78,4 @@ CancelReasonModal.defaultProps = {
   reasons: []
 };
 
-export default connect(null, { sendCancelOrderReason })(CancelReasonModal);
+export default connect(null, { sendCancelOrderReason })(withTheme(CancelReasonModal));

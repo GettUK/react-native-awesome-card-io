@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-import { Button } from 'components';
 import moment from 'moment-timezone';
+
 import { setFilter, clearFilter } from 'actions/orders';
 
+import { Button } from 'components';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
 
 import DateRangePicker from './DateRangePicker';
 
@@ -35,18 +39,22 @@ class DateRange extends Component {
   };
 
   renderInterval = () => {
-    const { orders: { tempMeta } } = this.props;
+    const { orders: { tempMeta }, theme } = this.props;
+
     return tempMeta.from && tempMeta.to && (
-      <View style={[styles.renderView, styles.intervalView]}>
-        <Text style={styles.label}>{`${formatLabelDate(tempMeta.from)} - ${formatLabelDate(tempMeta.to)}`}</Text>
+      <View style={[styles.renderView, styles.intervalView, { backgroundColor: theme.color.bgSecondary }]}>
+        <Text style={[styles.label, { color: theme.color.primaryText }]}>
+          {`${formatLabelDate(tempMeta.from)} - ${formatLabelDate(tempMeta.to)}`}
+        </Text>
       </View>
     );
   };
 
   renderButton = () => {
-    const { orders: { tempMeta } } = this.props;
+    const { orders: { tempMeta }, theme } = this.props;
+
     return tempMeta.from && tempMeta.to && (
-      <View style={[styles.renderView, styles.buttonView]}>
+      <View style={[styles.renderView, styles.buttonView, { backgroundColor: theme.color.bgPrimary }]}>
         <Button
           style={styles.saveBtn}
           styleContent={[styles.saveBtnView]}
@@ -59,10 +67,18 @@ class DateRange extends Component {
   };
 
   render() {
-    const { orders: { meta } } = this.props;
+    const { orders: { meta }, theme } = this.props;
+
+    const calendarTheme = {
+      calendarBackground: theme.color.bgSecondary,
+      dayTextColor: theme.color.primaryText,
+      markColor: theme.color.iconsSettigs,
+      markTextColor: theme.color.white,
+      todayTextColor: theme.color.bgStatuses
+    };
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.color.bgSecondary }]}>
         <DateRangePicker
           initialRange={meta.from && meta.to &&
             [meta.from, meta.to]
@@ -70,6 +86,8 @@ class DateRange extends Component {
           onSuccess={this.onRangeSelect}
           futureScrollRange={240}
           scrollEnabled
+          style={{ backgroundColor: theme.color.bgSecondary }}
+          theme={calendarTheme}
         />
         {this.renderInterval()}
         {this.renderButton()}
@@ -82,4 +100,4 @@ const mapState = ({ orders }) => ({
   orders
 });
 
-export default connect(mapState, { setFilter, clearFilter })(DateRange);
+export default connect(mapState, { setFilter, clearFilter })(withTheme(DateRange));

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { changeCoordinatesToResize, changeRegionToAnimate } from 'actions/ui/map';
 
+import { withTheme } from 'providers';
+
 import { prepareCoordinates } from 'utils';
 import {
   IN_PROGRESS_STATUS,
@@ -111,7 +113,7 @@ class OrderSet extends React.Component {
     FINAL_STATUSES.includes(order.status);
 
   renderDriverRoutes = () => {
-    const { order, nightMode } = this.props;
+    const { order, theme } = this.props;
 
     const destinationTypes = {
       [ARRIVED_STATUS]: 'source',
@@ -129,7 +131,7 @@ class OrderSet extends React.Component {
           destination={{ ...destinationAddress, value: order.driverDetails.eta && `${order.driverDetails.eta} min` }}
           stops={order.stops || order.stopAddresses}
           routeHidden={order.status === ARRIVED_STATUS}
-          nightMode={nightMode}
+          nightMode={theme.type === 'dark'}
           carType={order.vehicleType}
         />
       )
@@ -171,4 +173,4 @@ const mapDispatch = {
   changeRegionToAnimate
 };
 
-export default connect(mapState, mapDispatch, null, { withRef: true })(OrderSet);
+export default connect(mapState, mapDispatch, null)(withTheme(OrderSet));

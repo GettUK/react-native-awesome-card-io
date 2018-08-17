@@ -18,6 +18,8 @@ import { strings } from 'locales';
 import { vehiclesData, paymentTypeLabels, receiptPaymentTypes, OTcars } from 'containers/shared/bookings/data';
 import { getReceiptUrl } from 'containers/Receipt/utils';
 
+import { withTheme } from 'providers';
+
 import SlidingUpPanel from './SlidingUpPanel';
 
 import { orderPanelStyles } from './styles';
@@ -25,7 +27,7 @@ import { orderPanelStyles } from './styles';
 import { shouldCallDispatcher } from '../utils';
 
 const OrderDetails = ({
-  app, order, references, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token
+  app, order, references, driver, vehicles, visible, onActivate, onClose, navigation, onLayoutPointList, token, theme
 }) => {
   const height = Dimensions.get('window').height;
   const { statuses: { params: { connectBar } } } = app;
@@ -106,7 +108,7 @@ const OrderDetails = ({
 
           <View style={orderPanelStyles.titleContainer}>
             <Text style={orderPanelStyles.title}>{title}</Text>
-            <Text style={orderPanelStyles.name}>{value}</Text>
+            <Text style={[orderPanelStyles.name, { color: theme.color.primaryText }]}>{value}</Text>
           </View>
 
           {chevron && <Icon name="chevron" color={color.pixelLine} width={10} />}
@@ -138,7 +140,7 @@ const OrderDetails = ({
 
     return (
       <View key="details" style={orderPanelStyles.activeContainer}>
-        <View style={orderPanelStyles.listItem}>
+        <View style={[orderPanelStyles.listItem, { backgroundColor: theme.color.bgPrimary }]}>
           {options.map(renderOption)}
         </View>
       </View>
@@ -161,7 +163,7 @@ const OrderDetails = ({
           style={orderPanelStyles.carImage}
         />
 
-        <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel]}>
+        <Text style={[orderPanelStyles.name, orderPanelStyles.priceLabel, { color: theme.color.primaryText }]}>
           {getFormatPrice(order.fareQuote) || getFormatPrice(vehicle.price) || strings('app.label.byMeter')}
         </Text>
       </View>
@@ -186,7 +188,7 @@ const OrderDetails = ({
 
   const renderJourneyDetails = () => (
     <View key="journey" style={orderPanelStyles.activeContainer}>
-      <View style={orderPanelStyles.listItem}>
+      <View style={[orderPanelStyles.listItem, { backgroundColor: theme.color.bgPrimary }]}>
         {renderPointList()}
         <Divider style={orderPanelStyles.divider} />
         {order.status === DRIVER_ON_WAY && [
@@ -207,10 +209,10 @@ const OrderDetails = ({
 
   const renderDriverRating = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.row]}>
+      <View style={[orderPanelStyles.listItem, orderPanelStyles.row, { backgroundColor: theme.color.bgPrimary }]}>
         <View style={orderPanelStyles.flex}>
           <Text style={orderPanelStyles.title}>Driver</Text>
-          <Text style={orderPanelStyles.name}>{driver.info.name}</Text>
+          <Text style={[orderPanelStyles.name, { color: theme.color.primaryText }]}>{driver.info.name}</Text>
         </View>
 
         {driver.info.rating && <RatingLabel label={driver.info.rating} />}
@@ -234,10 +236,22 @@ const OrderDetails = ({
 
   const renderReferences = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listOption, orderPanelStyles.listOptionReferenceHeader]}>
+      <View
+        style={[
+          orderPanelStyles.listOption,
+          orderPanelStyles.listOptionReferenceHeader,
+          { backgroundColor: theme.color.bgSettings }
+        ]}
+      >
         <Text style={orderPanelStyles.title}>{strings('order.text.bookingHeader')}</Text>
       </View>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.listItemReference]}>
+      <View
+        style={[
+          orderPanelStyles.listItem,
+          orderPanelStyles.listItemReference,
+          { backgroundColor: theme.color.bgPrimary }
+        ]}
+      >
         {references.map(({ bookingReferenceName, value }, i, arr) => (
           renderOption({ title: bookingReferenceName, value }, i, arr)
         ))}
@@ -286,7 +300,7 @@ const OrderDetails = ({
         <Text style={orderPanelStyles.driverCarInfo} numberOfLines={2}>
           {driver.info.vehicle && driver.info.vehicle.color} {driver.info.vehicle && driver.info.vehicle.model}
         </Text>
-        <Text style={orderPanelStyles.driverLicense} numberOfLines={1}>
+        <Text style={[orderPanelStyles.driverLicense, { color: theme.color.primaryText }]} numberOfLines={1}>
           {strings('order.label.carReg')}: {driver.info.vehicle && driver.info.vehicle.licensePlate}
         </Text>
       </View>
@@ -300,11 +314,15 @@ const OrderDetails = ({
 
   const renderActiveItem = () => (
     <View style={orderPanelStyles.activeContainer}>
-      <View style={[orderPanelStyles.listItem, orderPanelStyles.activeItem, { height: isDriverExist ? 108 : 'auto' }]}>
+      <View style={[
+        orderPanelStyles.listItem,
+        orderPanelStyles.activeItem,
+        { height: isDriverExist ? 108 : 'auto', backgroundColor: theme.color.bgPrimary }
+      ]}>
         <Icon
           style={!visible ? { transform: [{ rotate: '180deg' }] } : {}}
           name="arrowDown"
-          color={color.pixelLine}
+          color={theme.color.pixelLine}
           width={34}
         />
 
@@ -346,7 +364,7 @@ OrderDetails.propTypes = {
   order: PropTypes.object,
   driver: PropTypes.object,
   vehicles: PropTypes.object,
-  references: PropTypes.object
+  references: PropTypes.array
 };
 
 OrderDetails.defaultProps = {
@@ -365,4 +383,4 @@ const mapState = ({ app, booking, session }) => ({
   token: session.token
 });
 
-export default connect(mapState, { onLayoutPointList })(OrderDetails);
+export default connect(mapState, { onLayoutPointList })(withTheme(OrderDetails));

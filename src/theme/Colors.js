@@ -5,22 +5,28 @@ export const color = {
   secondaryText: '#8e8e93',
   arrowRight: '#bbbbbf',
   pixelLine: '#D8D8D8',
+  bgPrimary: '#ffffff',
+  bgSecondary: '#ffffff',
   bgSettings: '#efeff4',
   bgSearch: '#f2f2f2',
+  bgOptions: '#ffffff',
   white: '#ffffff',
+  header: '#284784',
   primaryBtns: '#284784',
   animationRout: '#8c9bbb',
   iconsSettigs: '#0076BB',
   bgStatuses: '#00a0ff',
   ordersTabs: '#7ae4ff',
   disabledLink: '#bcc9e3',
-  infoLight: '#ecf6fd',
+  info: '#0076BB',
+  infoLight: '#D2EBFD',
   success: '#00c46b',
-  successLight: '#ebf8f2',
+  successLight: '#D4F2E2',
   warning: '#fcb625',
   warningLight: '#fffaeb',
   danger: '#ff0000',
-  dangerLight: '#fef0ef'
+  dangerLight: '#fef0ef',
+  backdrop: '#284784'
 };
 
 export const formattedColor = {
@@ -29,5 +35,11 @@ export const formattedColor = {
   white: new Color(color.white),
   primaryBtns: new Color(color.primaryBtns),
   animationRout: new Color(color.animationRout),
-  bgStatuses: new Color(color.bgStatuses)
+  bgStatuses: new Color(color.bgStatuses),
+  bgSettings: new Color(color.bgSettings)
+};
+
+export default {
+  color,
+  formattedColor
 };

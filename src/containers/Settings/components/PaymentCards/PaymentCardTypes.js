@@ -8,6 +8,9 @@ import { color } from 'theme';
 import { changePaymentFields } from 'actions/passenger';
 
 import { Icon, Divider } from 'components';
+
+import { withTheme } from 'providers';
+
 import { cardTypes } from './utils';
 import styles from './styles';
 
@@ -26,7 +29,7 @@ class PaymentCardTypes extends Component {
   };
 
   renderItem = (item) => {
-    const { paymentCard } = this.props;
+    const { paymentCard, theme } = this.props;
     const isActive = paymentCard.kind === item.name;
     return (
       <View key={item.id}>
@@ -37,7 +40,7 @@ class PaymentCardTypes extends Component {
             onPress={() => this.changePaymentCardType(item.name)}
           >
             <View style={[styles.flex, styles.viewItem]}>
-              <Text style={styles.paymentCardText}>{capitalize(item.name)}</Text>
+              <Text style={[styles.paymentCardText, { color: theme.color.primaryText }]}>{capitalize(item.name)}</Text>
             </View>
             {isActive && <Icon style={styles.checkIcon} name="check" width={12} height={9} color={color.bgStatuses} />}
           </TouchableOpacity>
@@ -49,7 +52,7 @@ class PaymentCardTypes extends Component {
 
   render() {
     return (
-      <ScrollView style={[styles.flex, styles.container]}>
+      <ScrollView style={[styles.flex, styles.container, { backgroundColor: this.props.theme.color.bgPrimary }]}>
         {cardTypes.map(this.renderItem)}
       </ScrollView>
     );
@@ -64,4 +67,4 @@ const mapDispatch = {
   changePaymentFields
 };
 
-export default connect(mapState, mapDispatch)(PaymentCardTypes);
+export default connect(mapState, mapDispatch)(withTheme(PaymentCardTypes));

@@ -4,17 +4,16 @@ import { createMaterialTopTabNavigator } from 'react-navigation';
 import { Answers } from 'react-native-fabric';
 
 import { GradientWrapper } from 'components';
-import { color } from 'theme';
 
 import { OrdersList } from './components';
 
 import styles from './styles';
 
-function renderTab(route, index, isActive, onPress) {
+function renderTab(route, isActive, theme, onPress) {
   return <TouchableWithoutFeedback key={route.routeName} onPress={onPress}>
     <View style={[
         styles.tab,
-        { borderColor: isActive ? color.ordersTabs : 'transparent' }
+        { borderColor: isActive ? theme.color.ordersTabs : 'transparent' }
       ]}
     >
       <Text style={[styles.tabLabel, { opacity: isActive ? 1 : 0.6 }]}>
@@ -25,16 +24,19 @@ function renderTab(route, index, isActive, onPress) {
 }
 
 function renderTabBar({ navigationState, navigation }) {
+  const { theme } = navigationState.params;
+  const Wrapper = theme.type === 'dark' ? View : GradientWrapper;
+
   return (
-    <GradientWrapper style={styles.gradient}>
+    <Wrapper style={[styles.gradient, { backgroundColor: theme.color.bgPrimary }]}>
       {navigationState.routes.map((route, index) =>
-        renderTab(route, index, index === navigationState.index, () => {
+        renderTab(route, index === navigationState.index, theme, () => {
           Answers.logContentView(`${route.routeName} tab was opened`, 'tab view', `${route.routeName}TabOpen`);
           navigation.navigate(route.routeName);
           navigationState.params.onChangeTab(route.routeName);
         }))
       }
-    </GradientWrapper>
+    </Wrapper>
   );
 }
 

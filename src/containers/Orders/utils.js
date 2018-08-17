@@ -1,5 +1,9 @@
 import findKey from 'lodash/findKey';
 
+const active = ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'order_received'];
+const cancelled = ['rejected', 'customer_care', 'cancelled', 'processing'];
+const completed = ['completed', 'billed'];
+
 export function getOrdersStatuses(type) {
   const statuses = {
     // eslint-disable-next-line max-len
@@ -9,14 +13,10 @@ export function getOrdersStatuses(type) {
   return statuses[type];
 }
 
-export function getLabelColor(status) {
-  const colors = {
-    blue: ['arrived', 'creating', 'in_progress', 'locating', 'on_the_way', 'order_received'],
-    red: ['rejected', 'customer_care', 'cancelled', 'processing'],
-    green: ['completed', 'billed']
-  };
+export function getLabelType(status) {
+  const types = { info: active, danger: cancelled, success: completed };
 
-  return findKey(colors, s => s.includes(status));
+  return findKey(types, s => s.includes(status));
 }
 
 export function goBackFromSettings(navigation) {

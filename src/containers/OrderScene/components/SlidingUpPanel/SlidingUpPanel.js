@@ -10,6 +10,8 @@ import {
   ScrollView
 } from 'react-native';
 
+import { withTheme } from 'providers';
+
 import styles from './styles';
 
 const visibleHeight = Dimensions.get('window').height;
@@ -80,15 +82,12 @@ class SlidingUpPanel extends Component {
   onStartShouldSetPanResponder = () => {
     if (this.previousTop !== -this.props.draggableRange.bottom) {
       this.setState({ backdropAvailable: true });
-
       this.props.onActivate();
     }
 
     this.previousTop = this.animatedValueY;
 
-    return (
-      this.props.allowDragging && this.isInsideDraggableRange(this.animatedValueY)
-    );
+    return this.props.allowDragging && this.isInsideDraggableRange(this.animatedValueY);
   };
 
   onMoveShouldSetPanResponder = (evt, gestureState) => (
@@ -112,9 +111,7 @@ class SlidingUpPanel extends Component {
   };
 
   onPanResponderRelease = () => {
-    if (!this.isInsideDraggableRange(this.animatedValueY)) {
-      return;
-    }
+    if (!this.isInsideDraggableRange(this.animatedValueY)) return;
 
     this.translateYAnimation.flattenOffset();
 
@@ -202,10 +199,18 @@ class SlidingUpPanel extends Component {
   }
 
   renderBackdrop = () => {
+    const { theme } = this.props;
+
     if (!this.props.showBackdrop && !this.state.backdropAvailable) return null;
 
     return (
-      <Animated.View style={[styles.backdrop, { opacity: this.backdropOpacity }]} />
+      <Animated.View style={[
+        styles.backdrop,
+        {
+          opacity: this.backdropOpacity,
+          backgroundColor: theme.color[theme.type === 'dark' ? 'bgSecondary' : 'primaryBtns']
+        }
+      ]} />
     );
   };
 
@@ -306,4 +311,4 @@ SlidingUpPanel.defaultProps = {
 };
 
 
-export default SlidingUpPanel;
+export default withTheme(SlidingUpPanel);

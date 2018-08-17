@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: width - 60,
     fontSize: 18,
-    color: color.primaryText
+    borderBottomColor: 'transparent'
   },
   delimiter: {
     alignSelf: 'stretch',
     borderColor: color.pixelLine,
-    borderTopWidth: 1
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   list: {
     flexGrow: 1

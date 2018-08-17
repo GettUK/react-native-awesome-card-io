@@ -7,16 +7,16 @@ import { DismissKeyboardView } from 'components';
 import { isIphoneX } from 'utils';
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import ModalWrapper from './ModalWrapper';
 
 import { modalStyles as styles } from './styles';
 
-export default function Modal({
-  onClose, label, contentStyles, children, ...rest
-}) {
+function Modal({ theme, onClose, label, contentStyles, children, ...rest }) {
   return (
     <ModalWrapper onClose={onClose} {...rest}>
-      <DismissKeyboardView style={[styles.content, contentStyles]}>
+      <DismissKeyboardView style={[{ backgroundColor: theme.color.bgPrimary }, contentStyles]}>
         <View style={styles.header}>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.closeText}>{label}</Text>
@@ -48,3 +48,5 @@ Modal.propTypes = {
 Modal.defaultProps = {
   label: strings('modal.label.close')
 };
+
+export default withTheme(Modal);

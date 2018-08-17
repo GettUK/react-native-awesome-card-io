@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, TouchableOpacity } from 'react-native';
-import { color } from 'theme';
 
 import { strings } from 'locales';
 
-export default function SaveBtn({ onPress, enabled, enabledColor, defaultColor, title, style }) {
+import { withTheme } from 'providers';
+
+function SaveBtn({ onPress, enabled, enabledColor, defaultColor, theme, title, style }) {
   return (
     <TouchableOpacity onPress={onPress} style={[{ paddingRight: 14 }, style]}>
       <Text
         style={{
-          fontSize: 17, color: enabled ? enabledColor || color.primaryBtns : defaultColor || color.disabledLink
+          fontSize: 17,
+          color: enabled ? enabledColor || theme.color.primaryBtns : defaultColor || theme.color.disabledLink
         }}
       >
         {title || strings('header.button.save')}
@@ -26,3 +28,5 @@ SaveBtn.propTypes = {
   title: PropTypes.string,
   style: Text.propTypes.style
 };
+
+export default withTheme(SaveBtn);

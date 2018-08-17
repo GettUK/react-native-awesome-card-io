@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { color, formattedColor } from 'theme';
+import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
@@ -7,9 +7,6 @@ export default StyleSheet.create({
     marginTop: 15,
     width: 110,
     height: 140,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    backgroundColor: color.white,
     borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 6,
@@ -20,6 +17,11 @@ export default StyleSheet.create({
     shadowOffset: {
       height: 0
     }
+  },
+  column: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   containerSmall: {
     marginTop: 10,
@@ -77,11 +79,7 @@ export default StyleSheet.create({
     width: 110,
     height: 42
   },
-  mask: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: formattedColor.white.opacity(0.6),
-    borderRadius: 10,
-    paddingTop: 10,
-    paddingBottom: 8
+  deselected: {
+    opacity: 0.6
   }
 });

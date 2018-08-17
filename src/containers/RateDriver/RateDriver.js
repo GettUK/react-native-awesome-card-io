@@ -2,11 +2,17 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { color } from 'theme';
 import { some } from 'lodash';
+
 import { changeDriverRating, changeDriverRatingReasons } from 'actions/booking';
-import { Divider, RatingLabel, GradientWrapper, Badge, Header, BackBtn } from 'components';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
+import { Divider, RatingLabel, GradientWrapper, Badge, Header, BackBtn } from 'components';
 import Rating from './components/Rating';
 import SaveRatingBtn from './components/SaveRatingBtn';
 
@@ -30,23 +36,65 @@ class RateDriver extends PureComponent {
     );
   };
 
+  renderRatingOptions = () => {
+    const { order: { ratingReasons, tempDriverRatingReasons }, changeDriverRatingReasons } = this.props;
+
+    return <View>
+      <Divider left={0} style={styles.divider}/>
+      <View style={styles.centerItems}>
+        <Text style={styles.label}>{strings('order.text.howCanImprove')}</Text>
+        <Text style={[styles.subLabel, { marginTop: 8 }]}>{strings('order.text.yourFeedback')}</Text>
+        <View style={styles.badgesList}>
+          {(ratingReasons || []).map((reason, index) => (
+            <Badge
+              key={index}
+              active={some(tempDriverRatingReasons, reasonName => (reasonName === reason))}
+              label={strings(`order.ratingReason.${reason}`)}
+              onPress={() => changeDriverRatingReasons(reason)}
+            />
+          ))}
+        </View>
+        <Text style={styles.subLabel}>{strings('order.text.selectIssues')}</Text>
+      </View>
+    </View>;
+  }
+
+  renderAvatar = () => {
+    const { order: { driverDetails } } = this.props;
+    const avatar = driverDetails.info.imageUrl;
+
+    return (
+      <View>
+        <Avatar
+          rounded
+          width={80}
+          height={80}
+          icon={{ name: 'user', type: 'font-awesome' }}
+          source={avatar && { uri: avatar }}
+        />
+      </View>
+    );
+  }
+
   render() {
     const {
-      order: { driverDetails, ratingReasons, rateable = true, tempDriverRating, tempDriverRatingReasons },
+      order: { driverDetails, rateable = true, tempDriverRating },
       changeDriverRating,
-      changeDriverRatingReasons,
-      navigation
+      navigation,
+      theme
     } = this.props;
-    const avatar = driverDetails.info.imageUrl;
     const labelText = (tempDriverRating || driverDetails.tripRating)
       ? strings('order.text.youRated') : strings('order.text.rateYourDriver');
     const isLowRating = tempDriverRating && tempDriverRating <= 4;
+    const darkTheme = theme.type === 'dark';
+
+    const Wrapper = darkTheme ? View : GradientWrapper;
 
     return (
-      <GradientWrapper
-        start={{ x: 1, y: 1 }}
-        end={{ x: 1, y: 0 }}
-        style={[styles.flex, styles.wrapper]}
+      <Wrapper
+        start={!darkTheme && { x: 1, y: 1 }}
+        end={!darkTheme && { x: 1, y: 0 }}
+        style={[styles.flex, styles.wrapper, { backgroundColor: theme.color.bgPrimary }]}
       >
         <Header
           navigation={navigation}
@@ -61,19 +109,11 @@ class RateDriver extends PureComponent {
         />
 
         <ScrollView contentContainerStyle={styles.content}>
-          {!isLowRating && (
-            <View>
-              <Avatar
-                rounded
-                width={80}
-                height={80}
-                icon={{ name: 'user', type: 'font-awesome' }}
-                source={avatar && { uri: avatar }}
-              />
-            </View>
-          )}
+          {!isLowRating && this.renderAvatar()}
+
           {this.renderDriverRating()}
           {this.renderDriverCarInfo(driverDetails.info.vehicle)}
+
           <Divider left={0} style={styles.divider}/>
           <Text style={styles.label}>{labelText}</Text>
           <Rating
@@ -81,28 +121,10 @@ class RateDriver extends PureComponent {
             disabled={!rateable}
             onChange={changeDriverRating}
           />
-          {isLowRating && (
-            <View>
-              <Divider left={0} style={styles.divider}/>
-              <View style={styles.centerItems}>
-                <Text style={styles.label}>{strings('order.text.howCanImprove')}</Text>
-                <Text style={[styles.subLabel, { marginTop: 8 }]}>{strings('order.text.yourFeedback')}</Text>
-                <View style={styles.badgesList}>
-                  {(ratingReasons || []).map((reason, index) => (
-                    <Badge
-                      key={index}
-                      active={some(tempDriverRatingReasons, reasonName => (reasonName === reason))}
-                      label={strings(`order.ratingReason.${reason}`)}
-                      onPress={() => changeDriverRatingReasons(reason)}
-                    />
-                  ))}
-                </View>
-                <Text style={styles.subLabel}>{strings('order.text.selectIssues')}</Text>
-              </View>
-            </View>
-          )}
+
+          {isLowRating && this.renderRatingOptions()}
         </ScrollView>
-      </GradientWrapper>
+      </Wrapper>
     );
   }
 }
@@ -116,4 +138,4 @@ const mapDispatch = {
   changeDriverRatingReasons
 };
 
-export default connect(mapState, mapDispatch)(RateDriver);
+export default connect(mapState, mapDispatch)(withTheme(RateDriver));

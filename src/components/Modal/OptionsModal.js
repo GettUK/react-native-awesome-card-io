@@ -7,22 +7,31 @@ import { color } from 'theme';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { isIphoneX } from 'utils';
 
 import ModalWrapper from './ModalWrapper';
 
 import { optionsModalStyle as styles } from './styles';
 
-export default function OptionsModal({
-  onClose, options, style, closeLabel, ...rest
-}) {
+function OptionsModal({ theme, onClose, options, style, closeLabel, ...rest }) {
   const renderOptions = options => (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { backgroundColor: theme.color.bgPrimary }]}>
       {options.map((option, index) => (
         <TouchableWithoutFeedback onPress={option.onPress} key={option.label}>
           <View style={[styles.row, (index + 1) === options.length ? styles.rowLast : {}]}>
-            {option.icon && <Icon name={option.icon} size={26} />}
-            <Text style={[styles.label, styles.flex, !option.icon ? styles.labelWithoutIcon : {}]}>{option.label}</Text>
+            {option.icon && <Icon name={option.icon} size={26} color={theme.color.primaryBtns} />}
+            <Text
+              style={[
+                styles.label,
+                styles.flex,
+                !option.icon ? styles.labelWithoutIcon : {},
+                { color: theme.color.primaryBtns }
+              ]}
+            >
+              {option.label}
+            </Text>
             {!option.chevronHide && <Icon name="chevron" width={9} height={13} color={color.arrowRight} />}
           </View>
         </TouchableWithoutFeedback>
@@ -36,8 +45,8 @@ export default function OptionsModal({
         {renderOptions(options)}
 
         <TouchableWithoutFeedback onPress={onClose}>
-          <View style={[styles.wrapper, styles.cancel]}>
-            <Text style={styles.label}>{closeLabel}</Text>
+          <View style={[styles.wrapper, styles.cancel, { backgroundColor: theme.color.bgPrimary }]}>
+            <Text style={[styles.label, { color: theme.color.primaryBtns }]}>{closeLabel}</Text>
           </View>
         </TouchableWithoutFeedback>
       </DismissKeyboardView>
@@ -59,3 +68,5 @@ OptionsModal.defaultProps = {
   onClose: () => {},
   closeLabel: strings('modal.label.close')
 };
+
+export default withTheme(OptionsModal);

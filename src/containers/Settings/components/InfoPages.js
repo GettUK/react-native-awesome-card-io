@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, StatusBar, Linking } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 
+import { withTheme } from 'providers';
+
 import services from './data';
 
 import styles from './InfoPagesStyles';
@@ -36,8 +38,10 @@ class InfoPages extends PureComponent {
   )
 
   renderText = ({ type = 'plain', value, inner = false }) => (
-    <Hyperlink linkStyle={styles.link} onPress={url => Linking.openURL(url)}>
-      <Text style={[styles[type], inner && { marginBottom: 0 }]} key={value}>{value}</Text>
+    <Hyperlink linkStyle={styles.link} onPress={url => Linking.openURL(url)} key={value}>
+      <Text style={[styles[type], inner && { marginBottom: 0 }, { color: this.props.theme.color.primaryText }]}>
+        {value}
+      </Text>
     </Hyperlink>
   )
 
@@ -51,7 +55,7 @@ class InfoPages extends PureComponent {
     const page = this.props.navigation.state.params.page;
 
     return (
-      <View style={[styles.flex, styles.wrapper]}>
+      <View style={[styles.flex, styles.wrapper, { backgroundColor: this.props.theme.color.bgSecondary }]}>
         <StatusBar barStyle="default" />
 
         <ScrollView>
@@ -62,4 +66,4 @@ class InfoPages extends PureComponent {
   }
 }
 
-export default InfoPages;
+export default withTheme(InfoPages);

@@ -28,6 +28,7 @@ class ReferencesHeader extends PureComponent {
       this.goBack();
     } else {
       showConfirmationAlert({
+        theme: this.props.navigation.state.params.theme,
         title: strings('alert.title.goBack'),
         message: strings('alert.message.goBackWithReferenceErrors'),
         handler: this.goBack

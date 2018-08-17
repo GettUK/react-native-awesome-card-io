@@ -1,8 +1,14 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+
 import { Icon, SearchList } from 'components';
+
+import { withTheme } from 'providers';
+
 import { color } from 'theme';
+
 import { countriesList, filterBySearchValue } from 'utils';
+
 import styles from '../ReferenceValueSelector/styles';
 
 class CountrySelector extends PureComponent {
@@ -20,7 +26,7 @@ class CountrySelector extends PureComponent {
   keyExtractor = item => String(item.id || item.value);
 
   renderItem = ({ item }) => {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
     const { selectItem } = this.state;
     const textStyles = [styles.flex, styles.valueName];
 
@@ -37,7 +43,7 @@ class CountrySelector extends PureComponent {
         style={styles.referenceItem}
         onPress={handlerValueSelect}
       >
-        <Text style={textStyles}>{item.label}</Text>
+        <Text style={[textStyles, { color: theme.color.primaryText }]}>{item.label}</Text>
         {isSelected &&
           <Icon name="check" size={13} color={color.bgStatuses} />
         }
@@ -45,7 +51,7 @@ class CountrySelector extends PureComponent {
     );
   };
 
-  renderSeparator = () => <View style={styles.separator}/>;
+  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]}/>;
 
   render() {
     const { searchValue } = this.state;
@@ -64,4 +70,4 @@ class CountrySelector extends PureComponent {
   }
 }
 
-export default CountrySelector;
+export default withTheme(CountrySelector);

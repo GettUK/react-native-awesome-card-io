@@ -30,6 +30,8 @@ import { login } from 'actions/session';
 
 import { strings } from 'locales';
 
+import { withTheme } from 'providers';
+
 import { throttledAction, isIphoneX, isDevMode } from 'utils';
 
 import { prepareSwitchesBlock } from './utils';
@@ -66,6 +68,10 @@ class Login extends Component {
     form: initialFormState
   };
 
+  componentDidMount() {
+    this.props.navigation.setParams({ theme: this.props.theme });
+  }
+
   componentDidUpdate(_, { isResetSuccess }) {
     if (this.state.isResetSuccess && !isResetSuccess) {
       this.showError();
@@ -82,10 +88,11 @@ class Login extends Component {
 
   handleSubmit = () => {
     if (this.validateInputs()) {
+      const { navigation } = this.props;
       this.setState({ loading: true });
       this.props.login(this.state.form)
         .then(() => this.setState({ loading: false }))
-        .then(() => this.props.navigation.navigate('MapView'))
+        .then(() => navigation.navigate('MapView', { theme: navigation.state.params.theme }))
         .catch(this.handleLoginError);
     }
   };
@@ -111,7 +118,7 @@ class Login extends Component {
 
       this.setState({ error: errorMessage }, this.showError);
     } else {
-      this.resetError();
+      this.setState({ error: '' });
     }
 
     return !err;
@@ -125,22 +132,18 @@ class Login extends Component {
     this.setState({ isResetSuccess: false });
   };
 
-  resetError = () => {
-    this.setState({ error: '' });
-  };
-
   goToCreateAccount = () => {
     this.props.navigation.navigate('Registration', {});
   };
 
   goToForgot = () => {
     this.props.navigation.navigate('ForgotPassword', { onReturn: this.handleActivation });
-    this.resetError();
+    this.setState({ error: '' });
   };
 
   goToInfoPage = throttledAction((page) => {
     Answers.logContentView(`${strings(`information.${page}`)} was opened`, 'screen view', `${page}Open`);
-    this.props.navigation.navigate('InfoPages', { page });
+    this.props.navigation.navigate('InfoPages', { page, theme: this.props.theme });
   });
 
   renderSwitchItem = (props, index) => <SwitchItem key={index} {...props} />;
@@ -289,4 +292,4 @@ const mapDispatch = {
   login
 };
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(withTheme(Login));

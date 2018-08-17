@@ -10,6 +10,8 @@ import {
   subscribeToDriversLocations
 } from 'actions/ui/map';
 
+import { withTheme } from 'providers';
+
 import { prepareCoordinates } from 'utils';
 
 import {
@@ -93,12 +95,12 @@ class OrderCreatingSet extends React.Component {
   };
 
   renderMapItems = () => {
-    const { order, vehicles, drivers, nightMode, devSettings } = this.props;
+    const { order, vehicles, drivers, theme, devSettings } = this.props;
 
     return (
       <Fragment>
         {!order.destinationAddress && devSettings.showCarAnimations &&
-          <DriversMarkers drivers={drivers} nightMode={nightMode} />
+          <DriversMarkers drivers={drivers} nightMode={theme.type === 'dark'} />
         }
         {order.destinationAddress &&
           <OrderRoute
@@ -146,4 +148,4 @@ const mapDispatch = {
   subscribeToDriversLocations
 };
 
-export default connect(mapState, mapDispatch)(OrderCreatingSet);
+export default connect(mapState, mapDispatch)(withTheme(OrderCreatingSet));

@@ -26,7 +26,8 @@ const imagesApp = {
   loginBg: require('./png/application/login-bg.jpg'),
   loginBgX: require('./png/application/bg_X.png'),
   carShadow: require('./png/car_shadow.png'),
-  flight: require('./png/application/flight.png')
+  flight: require('./png/application/flight.png'),
+  carNightShadow: require('./png/car_night_shadow.png')
 };
 /* eslint-enable global-require */
 

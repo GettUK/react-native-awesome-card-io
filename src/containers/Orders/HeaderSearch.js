@@ -5,9 +5,15 @@ import { View, Dimensions } from 'react-native';
 import { View as AnimatableView } from 'react-native-animatable';
 
 import { setFilter, clearFilter } from 'actions/orders';
+
 import { ScreenHeader, IconBtn, SearchBar } from 'components';
+
 import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
 import { formattedColor } from 'theme';
+
 import styles from './styles';
 
 export const { width } = Dimensions.get('window');
@@ -85,7 +91,7 @@ class HeaderSearch extends Component {
               onChangeText={this.onChangeText}
               value={meta.search || ''}
               placeholder={strings('header.title.search')}
-              theme={formattedColor.white.opacity(0.6)}
+              labelColor={formattedColor.white.opacity(0.6)}
               underlineColorAndroid="transparent"
             />
             {this.renderAnimation({
@@ -104,12 +110,16 @@ class HeaderSearch extends Component {
   };
 
   hanlderBackPress = () => {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     navigation.goBack();
 
     if (navigation.state.params && navigation.state.params.fromSettings) {
-      navigation.navigate('Settings', { onGoToRides: this.props.navigation.state.params.onGoToRides });
+      navigation.navigate('Settings', {
+        theme,
+        onGoToRides: navigation.state.params.onGoToRides,
+        onGoToNotifications: navigation.state.params.onGoToNotifications
+      });
     }
   };
 
@@ -162,4 +172,4 @@ const mapState = ({ orders }) => ({
   meta: orders.meta
 });
 
-export default connect(mapState, { setFilter, clearFilter })(HeaderSearch);
+export default connect(mapState, { setFilter, clearFilter })(withTheme(HeaderSearch));

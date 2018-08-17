@@ -1,13 +1,25 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
-import { has, isNull, noop } from 'lodash';
-import { Icon, Divider } from 'components';
-import { color } from 'theme';
-import { strings } from 'locales';
-import styles from './styles';
+import { has, isNull, noop, isEqual } from 'lodash';
 
-export default class PointList extends PureComponent {
+import { Icon, Divider } from 'components';
+
+import { strings } from 'locales';
+
+import { withTheme } from 'providers';
+
+import { color } from 'theme';
+
+import prepareStyles from './styles';
+
+class PointList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.styles = prepareStyles(props.theme.color);
+  }
+
   static propTypes = {
     style: PropTypes.oneOfType([
       PropTypes.array,
@@ -25,6 +37,14 @@ export default class PointList extends PureComponent {
     onAddressPress: () => noop,
     allowAddingStops: true
   };
+
+  componentDidUpdate({ theme: oldTheme }) {
+    const { theme } = this.props;
+
+    if (!isEqual(oldTheme, theme)) {
+      this.styles = prepareStyles(theme.color);
+    }
+  }
 
   onLayout = (e) => {
     this.props.onLayout(e.nativeEvent.layout);
@@ -45,25 +65,25 @@ export default class PointList extends PureComponent {
     const { data } = this.props;
     return (
       this.hasAddressType(name) && !isNull(data[name].line) &&
-        <Text style={styles.pickUpText} numberOfLines={1}>
+        <Text style={this.styles.pickUpText} numberOfLines={1}>
           {data[name].label || data[name].line}
         </Text>
     );
   }
 
   renderStopsCount = count => (
-    <Text style={[styles.pickUpText, { fontWeight: '600' }]} numberOfLines={1}>
+    <Text style={[this.styles.pickUpText, { fontWeight: '600' }]} numberOfLines={1}>
       {`${count} Stops Points`}
     </Text>
   );
 
   renderPickUpItem = () => (
     <TouchableOpacity
-      style={styles.row}
+      style={this.styles.row}
       onPress={this.handlePickupAddressPress}
     >
-      <Icon style={styles.pickUpIcon} name="pickUpField" size={16} />
-      <View style={styles.pickupTextWrapper}>{this.renderAddressLabel('pickupAddress')}</View>
+      <Icon style={this.styles.pickUpIcon} name="pickUpField" size={16} />
+      <View style={this.styles.pickupTextWrapper}>{this.renderAddressLabel('pickupAddress')}</View>
     </TouchableOpacity>
   );
 
@@ -75,20 +95,20 @@ export default class PointList extends PureComponent {
         const address = item.address ? item.address : item;
         return (
           <View key={address.line + i}>
-            <Divider left={31} />
+            <Divider left={31} style={this.styles.divider} />
             <TouchableOpacity
-              style={styles.row}
+              style={this.styles.row}
               onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
             >
               <Icon
-                style={[styles.pickUpIcon, styles.stopPosition]}
+                style={[this.styles.pickUpIcon, this.styles.stopPosition]}
                 name="pickUpField"
                 size={12}
                 color={color.secondaryText}
               />
-              <Icon style={styles.connector} height={12} name="dottedLine" />
+              <Icon style={this.styles.connector} height={12} name="dottedLine" />
               {!isNull(address.line) &&
-                <Text style={styles.pickUpText} numberOfLines={1}>
+                <Text style={this.styles.pickUpText} numberOfLines={1}>
                   {address.label || address.line}
                 </Text>
               }
@@ -105,11 +125,11 @@ export default class PointList extends PureComponent {
 
     return ((this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
       <TouchableOpacity
-        style={styles.row}
+        style={this.styles.row}
         onPress={this.handleDestinationAddressPress}
       >
         <Icon
-          style={styles.pickUpIcon}
+          style={this.styles.pickUpIcon}
           name="destinationMarker"
           width={16}
           height={19}
@@ -124,16 +144,16 @@ export default class PointList extends PureComponent {
               {stopPointsAvailable &&
                 <TouchableOpacity onPress={onStopAdd}>
                   {(!data.stops || data.stops.length < 4)
-                    ? <Icon style={styles.btnPlus} name="plus" color={color.secondaryText} size={18} />
-                    : <Text style={styles.labelEdit}>Edit</Text>
+                    ? <Icon style={this.styles.btnPlus} name="plus" color={color.secondaryText} size={18} />
+                    : <Text style={this.styles.labelEdit}>Edit</Text>
                   }
                 </TouchableOpacity>
               }
             </Fragment>
           )
           : (
-            <View style={styles.emptyDestination}>
-              <Text style={styles.selectDestinationText} numberOfLines={1}>
+            <View style={this.styles.emptyDestination}>
+              <Text style={this.styles.selectDestinationText} numberOfLines={1}>
                 {strings('booking.label.selectDestination')}
               </Text>
             </View>
@@ -150,18 +170,22 @@ export default class PointList extends PureComponent {
     return (
       <View
         onLayout={this.onLayout}
-        style={[styles.wrapper, style]}
+        style={[this.styles.wrapper, style]}
       >
         {this.renderPickUpItem()}
         {hasDestination &&
-          <View><Icon style={[styles.connector, styles.pickUpConnector]} height={12} name="dottedLine" /></View>
+          <View>
+            <Icon style={[this.styles.connector, this.styles.pickUpConnector]} height={12} name="dottedLine" />
+          </View>
         }
         {!allowAddingStops && this.renderStopsItem()}
         {hasDestination &&
-          <Divider left={31} />
+          <Divider left={31} style={this.styles.divider} />
         }
         {this.renderDestinationItem()}
       </View>
     );
   }
 }
+
+export default withTheme(PointList);

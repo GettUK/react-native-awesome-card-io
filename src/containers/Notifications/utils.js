@@ -2,8 +2,6 @@ import moment from 'moment';
 import { HourFormat } from 'react-native-hour-format';
 import { strings } from 'locales';
 
-import { getLabelColor } from '../Orders/util';
-
 const getHourFormat = () => (HourFormat.is24HourFormat() ? '' : ', A');
 
 const titleStatusMap2 = {
@@ -43,13 +41,18 @@ const defineStatuses = items => items.map((item) => {
   return { ...item, indicatedStatus };
 });
 
-const filterSectionsByPeriod = (items) => {
+const getPeriods = () => {
   const today = () => moment();
   const endOfTheWeek = () => moment().subtract(today().day(), 'days');
   const weekAgo = () => endOfTheWeek().subtract(7, 'days');
   const monthAgo = () => endOfTheWeek().subtract(1, 'months');
   const yearAgo = () => endOfTheWeek().subtract(12, 'months');
 
+  return { today, endOfTheWeek, weekAgo, monthAgo, yearAgo };
+};
+
+const filterSectionsByPeriod = (items) => {
+  const { today, endOfTheWeek, weekAgo, monthAgo, yearAgo } = getPeriods();
   const check = (now, before, after) => now().isBefore(before()) && now().isAfter(after());
 
   return items.map((item) => {
@@ -73,8 +76,7 @@ const filterSectionsByPeriod = (items) => {
       ...item,
       title: item.title,
       section,
-      timestampDate: moment(item.createdAt).calendar(null, dateFormatter),
-      labelColor: getLabelColor(item.indicatedStatus)
+      timestampDate: moment(item.createdAt).calendar(null, dateFormatter)
     });
   });
 };
