@@ -57,7 +57,7 @@ class Map extends Component {
   };
 
   handleShowPanel = () => {
-    this.orderScene.wrappedInstance.showPanel();
+    this.orderScene.showPanel();
   };
 
   goToOrders = ({ fromSettings = false }) => {
