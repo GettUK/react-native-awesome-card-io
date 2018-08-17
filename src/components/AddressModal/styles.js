@@ -33,8 +33,12 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   itemAddressView: {
-    marginLeft: 45,
-    paddingVertical: 5
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 72,
+    width: '100%'
   },
   itemAddressText: {
     fontSize: 18,
@@ -43,7 +47,29 @@ const styles = StyleSheet.create({
   indicatorView: {
     paddingVertical: 20
   },
-  clearIcon: { paddingHorizontal: 16 }
+  clearIcon: { paddingHorizontal: 16 },
+  tabBarContainer: { height: 72 },
+  tabContainer: {
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: color.bgSearch
+  },
+  activeTab: {
+    borderBottomColor: color.primaryBtns
+  },
+  tabLabel: {
+    fontSize: 12,
+    fontWeight: '200',
+    color: color.secondaryText
+  },
+  loading: {
+    textAlign: 'center',
+    marginTop: 24,
+    color: color.secondaryText
+  },
+  iconSpace: { marginRight: 16 }
 });
 
 export default styles;

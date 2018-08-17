@@ -10,8 +10,11 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView
 } from 'react-native';
+import { connect } from 'react-redux';
 import { debounce, isArray } from 'lodash';
 import axios from 'axios';
+
+import { getSuggestedAddresses } from 'actions/booking';
 
 import { Icon, Input, Modal, Alert } from 'components';
 
@@ -22,6 +25,8 @@ import { color } from 'theme';
 import { withTheme } from 'providers';
 
 import { nullAddress, get, processLocation, geocode } from 'utils';
+
+import AddressTabBar from './AddressTabBar';
 
 import styles from './styles';
 
@@ -52,7 +57,8 @@ class AddressModal extends PureComponent {
     loading: false,
     inputValue: '',
     values: [],
-    meta: {}
+    meta: {},
+    activeTab: 'favorites'
   };
 
   open(address, meta) {
@@ -60,7 +66,6 @@ class AddressModal extends PureComponent {
     this.setState({
       isVisible: true,
       meta,
-      values: this.props.defaultValues,
       inputValue: processedAddress.line,
       loading: !!processedAddress.line
     }, this.searchAddresses);
@@ -70,12 +75,22 @@ class AddressModal extends PureComponent {
     this.setState({ isVisible: false, inputValue: '', values: [] });
   };
 
+  onChangeTab = (activeTab) => {
+    const { suggestedAddresses, getSuggestedAddresses } = this.props;
+
+    this.setState({ activeTab });
+
+    if (activeTab !== 'favorites' && (!suggestedAddresses[activeTab] || !suggestedAddresses[activeTab].loaded)) {
+      getSuggestedAddresses(activeTab);
+    }
+  }
+
   onChangeText = (text) => {
     this.setState({ inputValue: text }, this.searchAddresses);
   };
 
   onAddressPress = (item) => {
-    const { id, text, google, predefined, address } = item;
+    const { id, text, google = true, predefined, address } = item;
     Keyboard.dismiss();
 
     if (text) {
@@ -140,18 +155,39 @@ class AddressModal extends PureComponent {
   }
 
   renderAddressItem = ({ item }) => {
-    const { description, ...rest } = item;
-    const name = this.getOptionName(rest);
+    const { theme } = this.props;
+    const { inputValue, activeTab } = this.state;
+    const { type, types, name, address, text } = item;
+
+    const icons = {
+      favorite: 'favorites',
+      airport: 'airport',
+      trainStation: 'trainStation',
+      lodging: 'lodging',
+      restaurant: 'restaurant',
+      pointOfInterest: 'pointOfInterest',
+      home: 'homeAddress',
+      work: 'workAddress'
+    };
+
+    const typedIcon = activeTab && activeTab !== 'favorites' && !inputValue.length
+      ? activeTab
+      : (type || types) && icons[type || types[0]];
+
     return (
       <TouchableOpacity
         style={styles.itemAddressView}
         onPress={() => this.onAddressPress(item)}
       >
-        <Text style={[styles.itemAddressText, { color: this.props.theme.color.primaryText }]}>
-          {name}
-          {name && description ? ', ' : ''}
-          {description}
-        </Text>
+        <Icon name={typedIcon || 'defaultAddress'} style={styles.iconSpace} height={20} />
+        <View style={styles.flex}>
+          <Text numberOfLines={1} style={[styles.itemAddressText, { color: theme.color.primaryText }]}>
+            {name || text}
+          </Text>
+          {address &&
+            <Text numberOfLines={1} style={{ paddingTop: 6, color: theme.color.secondaryText }}>{address.line}</Text>
+          }
+        </View>
       </TouchableOpacity>
     );
   };
@@ -180,7 +216,6 @@ class AddressModal extends PureComponent {
             onChangeText={this.onChangeText}
             style={styles.input}
             autoCorrect={false}
-            autoFocus
             allowedError={false}
             inputStyle={styles.inputStyle}
             clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
@@ -192,8 +227,10 @@ class AddressModal extends PureComponent {
   }
 
   renderAddressList() {
-    const { values, loading, inputValue } = this.state;
-    const { defaultValues } = this.props;
+    const { values, loading, activeTab, inputValue } = this.state;
+    const { defaultValues, suggestedAddresses } = this.props;
+
+    const addresses = activeTab === 'favorites' ? defaultValues : suggestedAddresses[activeTab].list;
 
     return (
       <KeyboardAvoidingView
@@ -205,7 +242,7 @@ class AddressModal extends PureComponent {
           keyboardShouldPersistTaps="always"
           contentContainerStyle={styles.list}
           removeClippedSubviews={Platform.OS !== 'ios'}
-          data={inputValue.length ? values : defaultValues}
+          data={inputValue.length ? values : addresses}
           renderItem={this.renderAddressItem}
           keyExtractor={this.keyExtractor}
           ListFooterComponent={loading && this.renderFooter}
@@ -215,7 +252,9 @@ class AddressModal extends PureComponent {
   }
 
   render() {
-    const { isVisible } = this.state;
+    const { loadingTab, theme } = this.props;
+    const { isVisible, activeTab, inputValue } = this.state;
+
     return (
       <Modal
         isVisible={isVisible}
@@ -224,7 +263,11 @@ class AddressModal extends PureComponent {
       >
         {this.renderSearchInput()}
 
-        {this.renderAddressList()}
+        {!inputValue.length &&
+          <AddressTabBar theme={theme} activeTab={activeTab} onChangeTab={this.onChangeTab} />
+        }
+
+        {loadingTab === activeTab ? <Text style={styles.loading}>Loading...</Text> : this.renderAddressList()}
 
         <Alert
           ref={(alert) => { this.alert = alert; }}
@@ -237,4 +280,10 @@ class AddressModal extends PureComponent {
   }
 }
 
-export default withTheme(AddressModal);
+const mapState = ({ booking }) => ({
+  loadingTab: booking.suggestedAddresses.loadingType,
+  error: booking.suggestedAddresses.loadingError,
+  suggestedAddresses: booking.suggestedAddresses
+});
+
+export default connect(mapState, { getSuggestedAddresses })(withTheme(AddressModal));

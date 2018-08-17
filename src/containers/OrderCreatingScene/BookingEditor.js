@@ -14,7 +14,8 @@ import {
   setActiveBooking,
   getVehicles,
   saveAvailableCarsScroll,
-  setDefaultMessageToDriver
+  setDefaultMessageToDriver,
+  resetSuggestedAddresses
 } from 'actions/booking';
 import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
@@ -55,7 +56,8 @@ class BookingEditor extends BookingController {
   showServiceSuspendedPopup = () => this.serviceSuspendedPopup.open();
 
   loadBooking = () => {
-    const { getFormData, memberId, changeFields, activeBookingId, setActiveBooking } = this.props;
+    const { getFormData, memberId, changeFields, activeBookingId, setActiveBooking,
+      setDefaultMessageToDriver, changeRegionToAnimate, resetSuggestedAddresses } = this.props;
 
     getFormData()
       .then((data) => {
@@ -69,9 +71,11 @@ class BookingEditor extends BookingController {
         if (!currentPosition && !bookingForm.pickupAddress) {
           attrs = { ...attrs, pickupAddress: data.defaultPickupAddress };
 
-          this.props.setDefaultMessageToDriver(data.defaultPickupAddress, { type: 'pickupAddress' });
+          setDefaultMessageToDriver(data.defaultPickupAddress, { type: 'pickupAddress' });
 
-          this.props.changeRegionToAnimate(prepareCoordinates(data.defaultPickupAddress));
+          changeRegionToAnimate(prepareCoordinates(data.defaultPickupAddress));
+
+          resetSuggestedAddresses({ lat: data.defaultPickupAddress.lat, lng: data.defaultPickupAddress.lng });
         }
 
         if (!isEmpty(data.booking)) {
@@ -328,7 +332,8 @@ const bindActions = {
   setActiveBooking,
   changeRegionToAnimate,
   saveAvailableCarsScroll,
-  setDefaultMessageToDriver
+  setDefaultMessageToDriver,
+  resetSuggestedAddresses
 };
 
 export default connect(select, bindActions, null, { pure: false })(withTheme(BookingEditor));
