@@ -260,7 +260,7 @@ class BookingEditor extends BookingController {
         }
         {shouldRequestVehicles && availableVehicles.length > 0 &&
           <View style={styles.footerOrder} pointerEvents="box-none">
-            {this.renderPickUpTime(styles.pickUpTimeWrapper)}
+            {this.renderPickUpTime({ style: styles.pickUpTimeWrapper })}
 
             {this.renderAvailableCars()}
             {this.renderBookingBtn({

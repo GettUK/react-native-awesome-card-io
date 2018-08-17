@@ -72,7 +72,6 @@ class ReasonForTravel extends PureComponent {
 }
 
 const mapState = ({ booking }) => ({
-  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm,
   travelReasons: booking.formData.travelReasons
 });
 

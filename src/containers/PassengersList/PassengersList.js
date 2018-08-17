@@ -98,8 +98,7 @@ class PassengersList extends PureComponent {
 }
 
 const mapState = ({ booking }) => ({
-  passengers: booking.formData.passengers,
-  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
+  passengers: booking.formData.passengers
 });
 
 const mapDispatch = ({

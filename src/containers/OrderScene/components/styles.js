@@ -36,6 +36,21 @@ export const orderPanelStyles = StyleSheet.create({
   flex: {
     flex: 1
   },
+  pickUpTimeWrapper: {
+    marginHorizontal: 20,
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    shadowColor: color.primaryText,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 0
+    }
+  },
+  noVehicles: {
+    marginHorizontal: 3
+  },
   activeContainer: {
     padding: 16,
     paddingVertical: 6

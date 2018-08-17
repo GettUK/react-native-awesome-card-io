@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
@@ -19,7 +19,7 @@ const defaultPhrases = [
   strings('messageToDriver.text.ifLateCallMe')
 ];
 
-const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose }) => {
+const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose, theme }) => {
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
   };
@@ -41,12 +41,12 @@ const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, sav
   };
   const renderPhrase = (item, index) => (
     <TouchableOpacity key={index} onPress={() => onPhrasePress(item)}>
-      <Text style={styles.phrase}>{item}</Text>
+      <Text style={[styles.phrase, { color: theme.color.secondaryText }]}>{item}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <Fragment>
+    <View style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}>
       <View style={styles.header}>
         <Input
           inputRef={(el) => { this.input = el; }}
@@ -62,13 +62,14 @@ const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, sav
           multiline
           allowedError={false}
           placeholder={strings('app.label.startTypeMessage')}
-          inputStyle={styles.inputStyle}
+          placeholderTextColor={theme.color.secondaryText}
+          inputStyle={[styles.inputStyle, { color: theme.color.primaryText }]}
           clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
         />
         <Divider left={0} />
       </View>
       {!value && defaultPhrases.map(renderPhrase)}
-    </Fragment>
+    </View>
   );
 };
 
@@ -84,8 +85,7 @@ MessageToDriver.defaultProps = {
 
 const mapState = ({ booking }) => ({
   touched: booking.messageToDriverTouched,
-  message: booking.tempMessageToDriver,
-  booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
+  message: booking.tempMessageToDriver
 });
 
 const mapDispatch = ({

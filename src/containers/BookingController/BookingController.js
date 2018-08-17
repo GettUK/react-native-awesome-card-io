@@ -70,7 +70,7 @@ export default class BookingController extends Component {
     const { booking, orderType } = this.props;
     const { currentOrder, bookingForm } = booking;
 
-    return booking[orderType] || (currentOrder.id ? currentOrder : bookingForm);
+    return booking[orderType] || (currentOrder.id && currentOrder.asap ? currentOrder : bookingForm);
   }
 
   updateAvailableCarsScroll(value, animated = false) {
@@ -160,7 +160,7 @@ export default class BookingController extends Component {
 
     let scheduledAtTime = null;
     if (scheduledType === 'later') {
-      scheduledAtTime = scheduledAt.format();
+      scheduledAtTime = moment(scheduledAt).format();
     }
 
     const processedPassengerName = passenger ? `${passenger.firstName} ${passenger.lastName}` : passengerName;
@@ -390,7 +390,7 @@ export default class BookingController extends Component {
       vehicle = find(data, { name: vehicleName });
     }
 
-    if (vehicle) {
+    if (vehicle && vehicle.earliestAvailableIn) {
       shift = vehicle.earliestAvailableIn;
     }
 
@@ -414,7 +414,7 @@ export default class BookingController extends Component {
     };
 
     if (scheduledType !== 'now') {
-      const selected = scheduledAt;
+      const selected = moment(scheduledAt);
       const available = this.getEarliestAvailableTime(vehicle);
 
       if (selected.isBefore(available)) {
@@ -441,8 +441,8 @@ export default class BookingController extends Component {
     return ((travelReasons && travelReasons.find(r => r.id === +id)) || { name: strings('booking.label.other') }).name;
   };
 
-  renderNoVehiclesMessage = () => (
-    <InformView style={[styles.footerOrderInfo, { backgroundColor: this.props.theme.color.bgPrimary }]}>
+  renderNoVehiclesMessage = ({ style } = {}) => (
+    <InformView style={[styles.footerOrderInfo, style, { backgroundColor: this.props.theme.color.bgPrimary }]}>
       <Text style={[styles.informText, { color: this.props.theme.color.primaryText }]}>
         {strings('information.notVehicles')}
       </Text>
@@ -510,9 +510,10 @@ export default class BookingController extends Component {
   };
 
   getAdditionalDetailsItems() {
-    const order = this.getOrder();
+    const { booking: { currentOrder } } = this.props;
 
-    return [
+    const order = this.getOrder();
+    const options = [
       {
         title: 'Order for',
         value: order.passengerName,
@@ -541,6 +542,10 @@ export default class BookingController extends Component {
         onPress: () => this.onOpenModal({ modalContent: 'flightSettings', skipFlight: false })
       }
     ];
+
+    if (currentOrder.id && !currentOrder.asap) options.splice(2, 1);
+
+    return options;
   }
 
   renderAdditionalDetails({ labelStyle, style, items, label }) {
@@ -566,6 +571,21 @@ export default class BookingController extends Component {
     );
   }
 
+  renderCars = ({ style } = {}) => {
+    const { booking: { vehicles } } = this.props;
+    const availableVehicles = this.getAvailableVehicles();
+    const shouldRequestVehicles = this.shouldRequestVehicles();
+
+    return (
+      <Fragment>
+        {shouldRequestVehicles && availableVehicles.length > 0 && this.renderAvailableCars()}
+        {shouldRequestVehicles && !vehicles.loading && availableVehicles.length === 0 &&
+          this.renderNoVehiclesMessage({ style })
+        }
+      </Fragment>
+    );
+  };
+
   renderPointList({ style, onLayout = () => {} } = {}) {
     const order = this.getOrder();
     return (
@@ -580,10 +600,12 @@ export default class BookingController extends Component {
     );
   }
 
-  renderPickUpTime(style) {
+  renderPickUpTime({ style, title, disableNow }) {
     const order = this.getOrder();
     return (
       <PickUpTime
+        title={title}
+        disableNow={disableNow}
         booking={order}
         wrapperStyle={style}
         requestVehicles={this.requestVehicles}
@@ -638,6 +660,7 @@ export default class BookingController extends Component {
   renderModal = () => {
     const { booking: { tempMessageToDriver } } = this.props;
     const { isCustomModalVisible = false, modalContent, referenceIndex } = this.state;
+    const order = this.getOrder();
     const isMessageToDriverContent = modalContent === 'messageToDriver';
     const isPaymentsOptionsContent = modalContent === 'paymentsOptions';
 
@@ -649,6 +672,7 @@ export default class BookingController extends Component {
         referenceIndex={referenceIndex}
         isVisible={isCustomModalVisible}
         onClose={this.onCloseModal}
+        booking={order}
       />
     );
   };

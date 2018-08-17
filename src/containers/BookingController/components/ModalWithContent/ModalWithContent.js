@@ -28,7 +28,7 @@ class ModalWithContent extends PureComponent {
   };
 
   render() {
-    const { isVisible, modalContent, onClose, title, contentStyles, referenceIndex } = this.props;
+    const { isVisible, modalContent, onClose, title, contentStyles, referenceIndex, booking } = this.props;
     const content = modalContent || DEFAULT_RENDER_CONTENT;
     const Component = renderAs[content];
 
@@ -40,7 +40,7 @@ class ModalWithContent extends PureComponent {
         contentStyles={[styles.container, contentStyles]}
         onClose={onClose}
       >
-        <Component onClose={onClose} referenceIndex={referenceIndex} />
+        <Component booking={booking} onClose={onClose} referenceIndex={referenceIndex} />
       </Modal>
     );
   }
