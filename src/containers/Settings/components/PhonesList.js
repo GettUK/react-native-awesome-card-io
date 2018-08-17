@@ -53,7 +53,7 @@ class PhonesList extends Component {
           <TouchableOpacity
             style={styles.paymentView}
             activeOpacity={0.6}
-            onPress={this.goToSingleInputEditor.bind(null, type)}
+            onPress={() => this.goToSingleInputEditor(type)}
           >
             <View style={[styles.flex, styles.viewItem]}>
               {data
