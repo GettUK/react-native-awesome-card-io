@@ -178,7 +178,7 @@ class FlightSettings extends Component {
             behavior="padding"
             style={styles.flex}
           >
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps="always">
               {this.renderFlightInput()}
 
               {loading && <ActivityIndicator color={color.primaryBtns} />}

@@ -120,7 +120,7 @@ class PaymentCardEditor extends Component {
     const { paymentCard, error } = this.props;
 
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         {prepareCardEditor(paymentCard, {
             goToPaymentCardTypes: this.goToPaymentCardTypes
           }).map(this.renderItem)
