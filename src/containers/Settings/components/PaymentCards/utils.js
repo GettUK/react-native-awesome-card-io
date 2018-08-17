@@ -85,6 +85,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       value: getValue(data.cvv),
       onChangeText: handlers.handleMaskInputChange('cvv'),
       mask: '[0009]',
+      secureTextEntry: true,
       allowHelp: true,
       helpPress: () => handlers.onHelpPress('cvv'),
       keyboardType: 'numeric',
