@@ -94,14 +94,20 @@ const getMessageForAddress = ({ message, address = {}, meta, booking, passenger 
   const { formData: { defaultPickupAddress = {}, defaultDriverMessage } } = booking;
   const { data: { favoriteAddresses } } = passenger;
   const tempMessage = message;
+  const isPickup = meta.type === 'pickupAddress';
 
-  if (address && defaultPickupAddress && address.id === defaultPickupAddress.id && meta.type === 'pickupAddress') {
+  const favoriteAddress = favoriteAddresses.find(item => item.name === address.label);
+  const type = meta.type.replace('Address', '');
+
+  if (favoriteAddress) {
+    tempMessage[`${type}Message`] = getFavouriteAddressMessage(favoriteAddress, type);
+  }
+
+  const isCompanyDefaultAddress = address && defaultPickupAddress && address.id === defaultPickupAddress.id;
+  const isNotFavoriteAddress = !favoriteAddress || !favoriteAddress[`${type}Message`];
+
+  if (isPickup && isCompanyDefaultAddress && isNotFavoriteAddress) {
     tempMessage.pickupMessage = `${messagePrefixes.pickup} ${defaultDriverMessage}`;
-  } else {
-    const addresses = favoriteAddresses.filter(item => item.name === address.label);
-    const type = meta.type.replace('Address', '');
-
-    tempMessage[`${type}Message`] = getFavouriteAddressMessage(addresses, type);
   }
 
   return tempMessage;

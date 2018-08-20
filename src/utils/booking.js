@@ -40,12 +40,8 @@ export const separateMessage = (messageToDriver) => {
 export const getFavouriteAddressMessage = (addresses, type) => {
   let message = '';
 
-  if (addresses.length) {
-    addresses.forEach((item) => {
-      if (item && item[`${type}Message`]) {
-        message = `${messagePrefixes[type]} ${item[`${type}Message`]}`;
-      }
-    });
+  if (addresses && addresses[`${type}Message`]) {
+    message = `${messagePrefixes[type]} ${addresses[`${type}Message`]}`;
   }
 
   return message;
