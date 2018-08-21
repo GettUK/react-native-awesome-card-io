@@ -30,7 +30,8 @@ export const modalStyles = StyleSheet.create({
   },
   button: {
     width: '47%',
-    height: 44
+    height: 54,
+    padding: 5
   },
   buttonLeft: {
     marginRight: '6%'
