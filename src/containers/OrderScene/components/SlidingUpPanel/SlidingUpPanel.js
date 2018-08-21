@@ -73,7 +73,7 @@ class SlidingUpPanel extends Component {
     ) {
       this.transitionTo(-(isOpened ? top : bottom), () => {
         this.setState({ backdropAvailable: isOpened });
-      });
+      }, 1);
 
       this.previousTop = -(isOpened ? bottom : top);
     }
@@ -142,10 +142,10 @@ class SlidingUpPanel extends Component {
     }
   };
 
-  transitionTo = (value, onAnimationEnd = () => {}) => {
+  transitionTo = (value, onAnimationEnd = () => {}, duration = 260) => {
     const animationConfig = {
       toValue: -Math.abs(value),
-      duration: 260,
+      duration,
       delay: Platform.OS === 'android' ? 166.67 : 10
     };
 
