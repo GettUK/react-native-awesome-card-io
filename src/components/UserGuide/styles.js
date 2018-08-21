@@ -54,7 +54,7 @@ export default StyleSheet.create({
   step1: {
     zIndex: 1,
     position: 'absolute',
-    bottom: 173,
+    bottom: 178,
     left: 0,
     right: 0,
     alignItems: 'center',
