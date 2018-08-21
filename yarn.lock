@@ -5409,9 +5409,9 @@ react-native-modal@6.0.0:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
-react-native-offline@3.7.4:
-  version "3.7.4"
-  resolved "https://registry.yarnpkg.com/react-native-offline/-/react-native-offline-3.7.4.tgz#7a4017a648b27cf2566eb1bbe1781954fddf7467"
+react-native-offline@3.11.1:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-offline/-/react-native-offline-3.11.1.tgz#c391115135a0a21c2eade126c43d5acf8ead58e1"
   dependencies:
     hoist-non-react-statics "^1.2.0"
     lodash "^4.17.4"
