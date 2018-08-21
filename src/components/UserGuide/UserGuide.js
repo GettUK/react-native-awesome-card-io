@@ -82,7 +82,7 @@ class UserGuide extends PureComponent {
             height: height + (2 * padding),
             width: width + (2 * padding),
             top: -padding,
-            left: -padding
+            left: -padding + 2
           }
         ]}
       />
@@ -131,15 +131,16 @@ class UserGuide extends PureComponent {
         <View style={[styles.backdrop, { height: isIphoneX() ? 40 : 21 }]} />
         <View style={styles.row}>
           {this.renderSideGap()}
-          {step > 2 && this.renderHole(50, 60)}
+          {step > 2 && this.renderHole(52, 52)}
           {this.renderMiddleGap()}
-          {step > 1 && this.renderHole(97, 60)}
+          {step > 1 && this.renderHole(108, 52)}
           {this.renderSideGap()}
         </View>
         {this.renderMiddleGap()}
         <View style={styles.row}>
           {this.renderSideGap()}
-          {this.renderHole(width - 10, 95)}
+          {this.renderHole(width - 12, 100)}
+          {this.renderSideGap()}
           {this.renderSideGap()}
         </View>
         <View style={[styles.backdrop, { height: isIphoneX() ? 90 : 75 }]} />
