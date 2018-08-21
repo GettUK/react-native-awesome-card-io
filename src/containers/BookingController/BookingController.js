@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, ActivityIndicator, Dimensions } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, first, pickBy, isNull, isEqual } from 'lodash';
+import { isEmpty, find, first, pickBy, isNull, isEqual, isUndefined } from 'lodash';
 
 import {
   PointList,
@@ -36,6 +36,7 @@ import { prepareDefaultValues } from './utils';
 import styles from './styles';
 
 const CAR_BLOCK_WIDTH = 120;
+const { width } = Dimensions.get('window');
 
 export default class BookingController extends Component {
   state = {
@@ -73,23 +74,25 @@ export default class BookingController extends Component {
   }
 
   updateAvailableCarsScroll(value, animated = false) {
-    if (this.availableCars) {
-      setTimeout(() => {
-        if (value && this.availableCarsWidth < value + (CAR_BLOCK_WIDTH * 2)) {
-          this.availableCars.scrollToEnd({ animated });
-        } else {
-          this.availableCars.scrollTo({
-            x: value || this.props.booking.bookingForm.availableCarsScroll,
-            animated
-          });
-        }
-      }, 0);
+    if (!this.availableCars) return;
+
+    if (value && this.getAvailableCarsWidth() < value + (CAR_BLOCK_WIDTH * 3)) {
+      this.availableCars.scrollToEnd({ animated });
+    } else {
+      this.availableCars.scrollTo({
+        x: isUndefined(value) ? this.props.booking.bookingForm.availableCarsScroll : value,
+        animated
+      });
     }
   }
 
   getAvailableCarsScrollShift(vehicle) {
-    return this.getAvailableVehicles().findIndex(v => v.name === vehicle) * CAR_BLOCK_WIDTH;
+    return this.getAvailableCarsWidth() > width
+      ? this.getAvailableVehicles().findIndex(v => v.name === vehicle) * CAR_BLOCK_WIDTH
+      : 0;
   }
+
+  getAvailableCarsWidth = () => this.getAvailableVehicles().length * CAR_BLOCK_WIDTH;
 
   goTo = (page) => {
     this.props.navigation.navigate(page);
@@ -440,10 +443,6 @@ export default class BookingController extends Component {
     }
   };
 
-  handleAvailableCarsSizeChange = (width) => {
-    this.availableCarsWidth = width;
-  };
-
   getReasonsName = (id) => {
     const { booking: { formData: { travelReasons } } } = this.props;
     return ((travelReasons && travelReasons.find(r => r.id === +id)) || { name: strings('booking.label.other') }).name;
@@ -536,7 +535,6 @@ export default class BookingController extends Component {
         availableVehicles={this.getAvailableVehicles()}
         onCarSelect={this.selectVehicle}
         onScroll={this.handleAvailableCarsScroll}
-        onContentSizeChange={this.handleAvailableCarsSizeChange}
         scrollRef={(el) => { this.availableCars = el; }}
       />
     );
