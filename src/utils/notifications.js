@@ -60,7 +60,7 @@ class PushNotification {
             booking_id: notif.booking_id,
             statusKind: notif.kind,
             local: true,
-            channel: 'root_channel_2'
+            channel: 'default'
           });
         }
       });

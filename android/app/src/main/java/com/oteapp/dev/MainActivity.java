@@ -2,6 +2,7 @@ package com.oteapp.dev;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 
 import com.facebook.react.ReactActivity;
 
@@ -12,6 +13,7 @@ public class MainActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this);
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     /**

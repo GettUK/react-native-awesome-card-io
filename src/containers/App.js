@@ -34,13 +34,11 @@ class AppContainer extends PureComponent {
         this.props.dispatch(saveToken(token));
       });
 
-      if (FCM.createNotificationChannel) {
-        await FCM.createNotificationChannel({
-          id: 'root_channel_2',
-          name: 'root_channel_2',
-          priority: 'max'
-        });
-      }
+      await FCM.createNotificationChannel({
+        id: 'default',
+        name: 'default',
+        priority: 'normal'
+      });
     }, 2000); // After login transition
 
     this.checkForNightMode();

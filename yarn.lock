@@ -5340,9 +5340,9 @@ react-native-fabric@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-native-fabric/-/react-native-fabric-0.5.1.tgz#e5eb65c56196355b41f230c14adcc9c4bcf60dda"
 
-react-native-fcm@^15.0.0:
-  version "15.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-15.0.2.tgz#11448c0c494c2b03dcf1d1cf223e8a579f72e743"
+react-native-fcm@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-16.2.0.tgz#abd6ca80337080279d13c561753025ef44fa655b"
 
 react-native-fetch-blob@^0.10.8:
   version "0.10.8"
