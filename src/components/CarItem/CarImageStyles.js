@@ -33,12 +33,12 @@ export default StyleSheet.create({
   },
   logoServiceSmall: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 3,
     left: 8
   },
   logoServiceMedium: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 3,
     left: 8
   },
   logoServiceBig: {
