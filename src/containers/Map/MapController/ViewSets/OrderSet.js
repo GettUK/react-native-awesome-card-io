@@ -87,7 +87,7 @@ class OrderSet extends React.Component {
       this.resizeMapToDriverAndTargetAddress('destination', order); // TODO: need to resize to stops too
     }
 
-    if (order.status === ORDER_RECEIVED_STATUS && !order.asap) {
+    if (order.status !== oldOrder.status && order.status === ORDER_RECEIVED_STATUS && !order.asap) {
       this.props.onFutureOrderAcceptedReceive();
 
       this.resizeMapToOrderRoute();
