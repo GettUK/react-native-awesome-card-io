@@ -95,7 +95,7 @@ class BookingEditor extends BookingController {
 
         this.props.getPassengerData();
 
-        if (activeBookingId && currentPosition) {
+        if (activeBookingId) {
           setActiveBooking(activeBookingId);
         }
         if (data.serviceSuspended) {

@@ -51,11 +51,11 @@ class MapController extends React.PureComponent {
 
     if (currentPosition !== currentPositionProps && isNull(currentPositionProps)) {
       setTimeout(() => {
-        Coordinates.getNavigatorLocation(this.changePosition, changeAddress);
-        changeRegionToAnimate(currentPosition);
-
         if (activeBookingId) {
           setActiveBooking(activeBookingId);
+        } else {
+          Coordinates.getNavigatorLocation(this.changePosition, changeAddress);
+          changeRegionToAnimate(currentPosition);
         }
       }, 500);
     }
@@ -108,10 +108,10 @@ class MapController extends React.PureComponent {
   };
 
   changePosition = (coordinates) => {
-    const { currentPosition } = this.props;
+    const { currentPosition, currentOrder } = this.props;
     const { latitude, longitude } = currentPosition || {};
 
-    if (coordinates && (coordinates.latitude !== latitude || coordinates.longitude !== longitude)) {
+    if (coordinates && (coordinates.latitude !== latitude || coordinates.longitude !== longitude) && !currentOrder.id) {
       this.props.changePosition(coordinates);
 
       this.props.resetSuggestedAddresses({ lat: coordinates.latitude, lng: coordinates.longitude });
@@ -119,10 +119,10 @@ class MapController extends React.PureComponent {
   };
 
   getCurrentPosition = () => {
-    const { currentPosition } = this.props;
+    const { currentPosition, currentOrder } = this.props;
 
     Coordinates.getNavigatorLocation(this.changePosition, this.props.changeAddress);
-    if (!isNull(currentPosition)) {
+    if (!isNull(currentPosition) && !currentOrder.id) {
       this.props.changeRegionToAnimate(currentPosition);
     }
   };
