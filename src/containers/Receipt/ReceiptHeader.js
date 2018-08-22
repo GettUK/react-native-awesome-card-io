@@ -49,7 +49,7 @@ class ReceiptHeader extends PureComponent {
 
   renderDownloadBtn = () => (
     <TouchableOpacity onPress={this.downloadReceipt} style={styles.receiptIcon}>
-      <Icon name="receipt" size={20} />
+      <Icon name="download" size={30} />
     </TouchableOpacity>
   );
 

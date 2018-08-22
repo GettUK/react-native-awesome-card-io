@@ -7,8 +7,8 @@ export default StyleSheet.create({
     backgroundColor: color.bgSearch
   },
   receiptIcon: {
-    top: -8,
-    padding: 8
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   rightContentStyle: {
     marginTop: -8
