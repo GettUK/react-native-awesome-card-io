@@ -1,5 +1,5 @@
 import { createStore as createStore_, applyMiddleware, compose } from 'redux';
-import { createNetworkMiddleware, checkInternetConnection, offlineActionTypes } from 'react-native-offline';
+import { createNetworkMiddleware } from 'react-native-offline';
 import thunk from 'redux-thunk';
 import { enableBatching } from 'redux-batched-actions';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -42,7 +42,8 @@ export function createStore() {
     storage,
     transforms: [
       createFilter('app', ['statuses', 'push', 'devSettings']),
-      createFilter('session', ['token'])
+      createFilter('session', ['token']),
+      createFilter('network', ['isConnected'])
     ],
     whitelist: ['app', 'session']
   };
@@ -54,13 +55,6 @@ export function createStore() {
 
   const persistor = persistStore(store, null, () => {
     store.dispatch(checkMultiplePermissions(['camera', 'photo']));
-
-    checkInternetConnection().then((isConnected) => {
-      store.dispatch({
-        type: offlineActionTypes.CONNECTION_CHANGE,
-        payload: isConnected
-      });
-    });
   });
 
   return { store, persistor };
