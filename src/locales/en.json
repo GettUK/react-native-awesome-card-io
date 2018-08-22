@@ -162,6 +162,9 @@
     }
   },
   "order": {
+    "type": {
+      "asDirected": "As directed"
+    },
     "status": {
       "connected": "Creating...",
       "creating": "Creating...",

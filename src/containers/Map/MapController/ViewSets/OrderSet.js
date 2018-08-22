@@ -18,6 +18,7 @@ import {
 } from 'utils/orderStatuses';
 
 import { DriverRoute, OrderRoute, RandomRoutes } from '../Routes';
+import { SourceActiveMarker } from '../Markers';
 
 import { preparePointsList } from './utils';
 
@@ -54,11 +55,14 @@ class OrderSet extends React.Component {
     && (ACTIVE_DRIVER_STATUSES.includes(order.status) || order.status === IN_PROGRESS_STATUS)
   );
 
-  shouldShowOrderPath = order => (
+  shouldShowOrderPath = order =>
     this.isCompletedOrderStatus(order)
       || (order.status === ORDER_RECEIVED_STATUS && !order.asap)
-      || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location)
-  );
+      || (order.status === DRIVER_ON_WAY && order.driverDetails && !order.driverDetails.location);
+
+  shouldShowPickupMarker = order =>
+    !order.destinationAddress &&
+      (!POINTER_DISPLAY_STATUSES.includes(order.status) || (order.status === ORDER_RECEIVED_STATUS && !order.asap));
 
   resizeMapOnOpenOrder = () => {
     const { order, changeRegionToAnimate } = this.props;
@@ -145,13 +149,15 @@ class OrderSet extends React.Component {
       <Fragment>
         {this.renderDriverRoutes()}
 
-        {this.shouldShowOrderPath(order) &&
+        {this.shouldShowOrderPath(order) && order.destinationAddress &&
           <OrderRoute
             source={order.pickupAddress}
             destination={order.destinationAddress}
             stops={order.stops || order.stopAddresses}
           />
         }
+
+        {this.shouldShowPickupMarker(order) && <SourceActiveMarker coordinate={order.pickupAddress} />}
 
         {devSettings.showLocatingCarAnimation && <RandomRoutes order={order} />}
       </Fragment>
