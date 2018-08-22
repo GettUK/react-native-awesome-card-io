@@ -180,6 +180,7 @@ const OrderDetails = ({
       <PointList
         onLayout={onLayoutPointList}
         allowAddingStops={false}
+        allowEditing={false}
         style={orderPanelStyles.pointList}
         data={data}
       />
