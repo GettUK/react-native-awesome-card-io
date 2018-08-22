@@ -98,6 +98,11 @@ class Registration extends Component {
     this.setState({ loading: false, error }, this.showError);
   };
 
+  handleConfirm = () => {
+    this.successPopup.close();
+    this.props.navigation.goBack(null);
+  }
+
   goToSelectCountry = () => {
     this.props.navigation.navigate(
       'CountrySelector',
@@ -207,6 +212,12 @@ class Registration extends Component {
           innerRef={(popup) => { this.successPopup = popup; }}
           title={strings('popup.companyRequest.title')}
           content={strings('popup.companyRequest.description')}
+          buttons={[
+            {
+              title: strings('alert.button.ok'),
+              onPress: this.handleConfirm
+            }
+          ]}
         />
       </DismissKeyboardView>
     );
