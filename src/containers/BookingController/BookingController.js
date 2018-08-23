@@ -358,7 +358,7 @@ export default class BookingController extends Component {
   };
 
   prepareStopsData = () => {
-    const { booking: { bookingForm: { destinationAddress, stops } } } = this.props;
+    const { booking: { bookingForm: { stops } } } = this.props;
 
     const stopsObject = (stops || []).reduce((stop, item, index) => ({
       ...stop,
@@ -366,8 +366,7 @@ export default class BookingController extends Component {
     }), {});
 
     return {
-      ...stopsObject,
-      [`stop${(stops || []).length}`]: destinationAddress
+      ...stopsObject
     };
   };
 
@@ -593,6 +592,7 @@ export default class BookingController extends Component {
         onLayout={onLayout}
         onAddressPress={this.openAddressModal}
         onStopAdd={this.showStopPointsModal}
+        allowEditing={true}
         data={order}
         allowEmptyDestination
         style={style}

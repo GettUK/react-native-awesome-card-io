@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
-import { has, isNull, noop, isEqual } from 'lodash';
+import { has, isNull, isEqual } from 'lodash';
 
 import { Icon, Divider } from 'components';
 
@@ -27,16 +27,22 @@ class PointList extends Component {
       PropTypes.number
     ]),
     data: PropTypes.object.isRequired,
+    destinationStyleModifier: PropTypes.object,
     onAddressPress: PropTypes.func,
     onStopAdd: PropTypes.func,
-    onLayout: PropTypes.func
+    onLayout: PropTypes.func,
+    allowEditing: PropTypes.bool,
+    stopAsList: PropTypes.bool,
+    noItemMargin: PropTypes.bool
   };
 
   static defaultProps = {
     style: {},
-    onAddressPress: () => noop,
+    destinationStyleModifier: { marginTop: -8 },
     allowAddingStops: true,
-    allowEditing: true
+    allowEditing: false,
+    stopAsList: false,
+    noItemMargin: true
   };
 
   componentDidUpdate({ theme: oldTheme }) {
@@ -52,8 +58,10 @@ class PointList extends Component {
   };
 
   handleAddressPress = (type) => {
-    const { onAddressPress, data } = this.props;
-    onAddressPress(data[type], { type });
+    const { onAddressPress, data, allowEditing } = this.props;
+    if (allowEditing) {
+      onAddressPress(data[type], { type });
+    }
   };
 
   handlePickupAddressPress = () => this.handleAddressPress('pickupAddress');
@@ -72,66 +80,32 @@ class PointList extends Component {
     );
   }
 
-  renderStopsCount = count => (
-    <Text style={[this.styles.pickUpText, { fontWeight: '600' }]} numberOfLines={1}>
-      {`${count} Stops Points`}
-    </Text>
-  );
-
   renderPickUpItem = () => (
     <TouchableOpacity
       disabled={!this.props.allowEditing}
-      style={this.styles.row}
+      style={[this.styles.row, { marginTop: 8 }]}
       onPress={this.handlePickupAddressPress}
     >
       <Icon style={this.styles.pickUpIcon} name="pickUpField" size={16} />
       <View style={this.styles.pickupTextWrapper}>{this.renderAddressLabel('pickupAddress')}</View>
+      {this.renderEditIcon()}
     </TouchableOpacity>
   );
 
-  renderStopsItem = () => {
-    const { data, onAddressPress, allowEditing } = this.props;
-
-    return (
-      this.hasAddressType('stops') &&
-      data.stops.map((item, i) => {
-        const address = item.address ? item.address : item;
-        return (
-          <View key={address.line + i}>
-            <Divider left={31} style={this.styles.divider} />
-            <TouchableOpacity
-              disabled={!allowEditing}
-              style={this.styles.row}
-              onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
-            >
-              <Icon
-                style={[this.styles.pickUpIcon, this.styles.stopPosition]}
-                name="pickUpField"
-                size={12}
-                color={color.secondaryText}
-              />
-              <Icon style={this.styles.connector} height={12} name="dottedLine" />
-              {!isNull(address.line) &&
-                <Text style={this.styles.pickUpText} numberOfLines={1}>
-                  {address.label || address.line}
-                </Text>
-              }
-            </TouchableOpacity>
-          </View>
-        );
-      })
-    );
-  };
+  renderEditIcon = () => (
+    this.shouldRenderAddStop() && this.props.allowEditing && <Icon style={this.styles.editIcon} name="Edit" size={16} />
+  )
 
   renderDestinationItem = () => {
-    const { data, allowAddingStops, onStopAdd, allowEmptyDestination, allowEditing } = this.props;
-    const stopPointsAvailable = allowAddingStops && data.pickupAddress && data.pickupAddress.countryCode === 'GB';
+    const { allowEmptyDestination, destinationStyleModifier } = this.props;
+    const wrapperStyleModifier = this.shouldRenderAddStop()
+      ? this.styles.wrapperStyleModifier : destinationStyleModifier;
 
     return ((this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
       <TouchableOpacity
-        style={this.styles.row}
+        disabled={!this.props.allowEditing}
+        style={[this.styles.row, wrapperStyleModifier]}
         onPress={this.handleDestinationAddressPress}
-        disabled={!allowEditing}
       >
         <Icon
           style={this.styles.pickUpIcon}
@@ -140,53 +114,113 @@ class PointList extends Component {
           height={19}
         />
         {this.hasAddressType('destinationAddress')
-          ? (
-            <Fragment>
-              {stopPointsAvailable && data.stops && data.stops.length
-                ? this.renderStopsCount(data.stops.length + 1)
-                : this.renderAddressLabel('destinationAddress')
-              }
-              {stopPointsAvailable &&
-                <TouchableOpacity onPress={onStopAdd}>
-                  {(!data.stops || data.stops.length < 4)
-                    ? <Icon style={this.styles.btnPlus} name="plus" color={color.secondaryText} size={18} />
-                    : <Text style={this.styles.labelEdit}>Edit</Text>
-                  }
-                </TouchableOpacity>
-              }
-            </Fragment>
-          )
+          ? this.renderAddressLabel('destinationAddress')
           : (
             <View style={this.styles.emptyDestination}>
               <Text style={this.styles.selectDestinationText} numberOfLines={1}>
                 {strings('booking.label.selectDestination')}
               </Text>
             </View>
-         )
+          )
         }
+        {this.renderEditIcon()}
       </TouchableOpacity>
     );
   };
 
-  render() {
-    const { style, allowAddingStops, allowEmptyDestination } = this.props;
-    const hasDestination = this.hasAddressType('destinationAddress') || allowEmptyDestination;
+  shouldRenderAddStop = () => {
+    const { data } = this.props;
+    const stopPointsAvailable = Boolean(data.pickupAddress);
+    const hasDestination = this.hasAddressType('pickupAddress') && this.hasAddressType('destinationAddress');
 
+    return (
+      (hasDestination && stopPointsAvailable
+        && (!data || !data.stopAddresses || !data.stopAddresses.length || data.stopAddresses.length <= 5))
+          || (data && data.id && !data.asap)
+    );
+  }
+
+  renderStopsItem = () => {
+    const { data, onAddressPress } = this.props;
+
+    return (
+      <View style={{ marginTop: 8 }}>
+        {data.stopAddresses.map(({ line }, index, array) => (
+          <View key={index}>
+            {this.renderStopItem(line, onAddressPress, array.length - 1 === index)}
+          </View>
+        ))}
+      </View>
+    );
+  };
+
+  renderIcon = ({ size = 19, pointsNum = 9, gradientColorStart = '#48B5FF', gradientColorStop = '#615FFF' }) => (
+    <Icon
+      size={size}
+      color={color}
+      name="dottedLine"
+      pointsNum={pointsNum}
+      gradientColorStart={gradientColorStart}
+      gradientColorStop={gradientColorStop}
+    />
+  )
+
+  renderStopItem = (text, onPress, downDottedLine) => (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
+      <View style={[this.styles.stopsRow, { marginTop: this.props.noItemMargin ? 0 : -8, justifyContent: 'center' }]}>
+        <View style={this.styles.leftPanelContainer}>
+          {this.renderIcon({})}
+          <Icon size={14} color={color.secondaryText} name="pickUpField" />
+          {downDottedLine && this.renderIcon({ gradientColorStart: '#615FFF', gradientColorStop: '#48B5FF' })}
+        </View>
+
+        <View style={downDottedLine ? this.styles.addStopTextWrapperLast : this.styles.addStopTextWrapper}>
+          <Text style={this.styles.addStopText} numberOfLines={1}>{text}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  renderAddStopItem = () => {
+    const { data, onStopAdd, stopAsList } = this.props;
+
+    if (!this.shouldRenderAddStop()) {
+      return (
+        <View style={this.styles.emptyStops}>
+          <View style={this.styles.leftPanelContainer}>
+            {this.renderIcon({})}
+          </View>
+          <View style={this.styles.emptyDivider}>
+            <Divider left={12} />
+          </View>
+        </View>
+      );
+    }
+
+    if (stopAsList) {
+      return this.renderStopsItem();
+    }
+
+    let addStopsText = strings('booking.label.addStopPoint');
+    if (data.stopAddresses && data.stopAddresses.length && data.stopAddresses.length > 0) {
+      addStopsText = (
+        `${data.stopAddresses.length} ${strings('booking.label.stopPoint')}${data.stopAddresses.length > 1 ? 's' : ''}`
+      );
+    }
+
+    return this.renderStopItem(addStopsText, onStopAdd, true);
+  }
+
+  render() {
     return (
       <View
         onLayout={this.onLayout}
-        style={[this.styles.wrapper, style]}
+        style={[this.styles.wrapper, this.props.style]}
       >
         {this.renderPickUpItem()}
-        {hasDestination &&
-          <View>
-            <Icon style={[this.styles.connector, this.styles.pickUpConnector]} height={12} name="dottedLine" />
-          </View>
-        }
-        {!allowAddingStops && this.renderStopsItem()}
-        {hasDestination &&
-          <Divider left={31} style={this.styles.divider} />
-        }
+
+        {this.renderAddStopItem()}
+
         {this.renderDestinationItem()}
       </View>
     );

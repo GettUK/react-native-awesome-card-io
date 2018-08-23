@@ -1,16 +1,22 @@
+/* eslint-disable no-trailing-spaces */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
 import { omit } from 'lodash';
 
-import { Modal, Icon } from 'components';
+import { Modal, Icon, Divider } from 'components';
 
-import { strings } from 'locales';
+import { color } from 'theme';
 
 import { withTheme } from 'providers';
 
+import { strings } from 'locales';
+
 import styles from './styles';
+
+const ORDER_PANEL_WIDTH = 40;
+const ROW_HEIGHT = 64;
 
 class StopPointsModal extends PureComponent {
   static propTypes = {
@@ -26,6 +32,10 @@ class StopPointsModal extends PureComponent {
     isVisible: false
   }
 
+  state = {
+    isDragging: false
+  }
+
   componentDidUpdate({ data: dataProps }) {
     const { data } = this.props;
 
@@ -35,6 +45,10 @@ class StopPointsModal extends PureComponent {
   }
 
   handleEditAddress = (id) => {
+    if (id < 0) {
+      this.props.onAddPoint();
+      return;
+    }
     const { data, onEditAddress } = this.props;
 
     const keys = Object.keys(data);
@@ -42,7 +56,7 @@ class StopPointsModal extends PureComponent {
     const address = data[keys[index]];
     const type = index < (keys.length - 1) ? 'stops' : 'destinationAddress';
 
-    onEditAddress(address, { type, index });
+    onEditAddress(address, { type, index }, true);
   }
 
   handleDeleteAddress = (id) => {
@@ -65,83 +79,145 @@ class StopPointsModal extends PureComponent {
 
   changePath = (data, order) => {
     const stops = order.map(id => data[id]);
-    const destinationAddress = stops.pop();
 
-    this.props.onChangeAddress({ destinationAddress, stops });
-
-    this.props.onClose();
+    this.props.onChangeAddress({ stops });
 
     this.props.onRowMoved();
   };
 
-  renderRow = ({ line, id }) => (
+  renderRow = ({ line, id = -1, textStyle = styles.listItemLabel, canDelete = true }) => (
     <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, id)}>
-      <View style={styles.listItem}>
-        <Icon name="drag" />
+      <View style={styles.rowWrapper}>
+        <View style={styles.rowInnerWrapper}>
+          <View style={styles.dragButton}>
+            <Icon name="drag" size={15} />
+          </View>
 
-        <Text
-          style={[styles.listItemLabel, { color: this.props.theme.color.primaryText }]}
-          numberOfLines={2}
-        >
-          {line}
-        </Text>
+          <Text style={textStyle} numberOfLines={1}>{line}</Text>
 
-        {Object.keys(this.props.data).length > 1
-          ? <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, id)}>
+          {canDelete && <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, id)}>
             <View style={styles.deleteButton}>
-              <Icon name="close" size={16} />
+              <Icon name="close" size={16} color={color.secondaryText} />
             </View>
-          </TouchableWithoutFeedback>
-          : <View style={styles.deleteButton} />
-        }
+          </TouchableWithoutFeedback>}
+        </View>
+
+        <View style={styles.dividerWrapper}>
+          <Divider left={2} />
+        </View>
       </View>
     </TouchableWithoutFeedback>
+  );
+
+  isAddStopAvailable = (index = Object.values(this.order).length) => index <= 4;
+
+  renderAddButton = () => (
+    this.isAddStopAvailable()
+      ? this.renderRow({
+        line: strings('booking.label.addStopPoint'),
+        textStyle: styles.addButtonLabel,
+        canDelete: false
+      }) : null
   )
 
-  renderAddButton = () => {
-    const { data, theme } = this.props;
-    const stopsLimit = Object.values(data).length <= 4;
-
-    return (stopsLimit &&
-      <TouchableWithoutFeedback onPress={this.props.onAddPoint}>
-        <View style={styles.addButton}>
-          <Icon name="add" size={24} color={theme.color.primaryBtns} />
-          <Text style={[styles.addButtonLabel, { color: theme.color.primaryBtns }]}>
-            {strings('addresses.button.addStopPoint')}
-          </Text>
+  renderStops = () => {
+    const renderIt = ({ child, index = '+', needIcon = true }) => (
+      <View key={`${index}`} style={styles.counterItemContainer}>
+        <View style={styles.counterRoundedWrapperStyle}>
+          {child || <Text style={styles.counterTextStyle}>{index + 1}</Text>}
         </View>
-      </TouchableWithoutFeedback>
+        {needIcon &&
+          <View style={styles.dividerLineBtnStyle}>
+            <Icon name="dottedLine" pointsNum={9} size={20} gradientColorStart="#615FFF" gradientColorStop="#615FFF" />
+          </View>}
+      </View>
     );
-  };
+
+    const renderIterator = () => this.order.map((child, index) =>
+      renderIt({ index, needIcon: this.isAddStopAvailable(index + 1) }));
+
+    const renderPlus = () => renderIt({
+      child: <Text style={styles.plusBtnStyle}> + </Text>,
+      needIcon: false
+    });
+
+    const renderIcon = (inverted = false) => {
+      const start = inverted ? '#615FFF' : '#48B5FF';
+      const stop = inverted ? '#48B5FF' : '#615FFF';
+      return (
+        <View style={styles.iconStyle}>
+          <Icon name="dottedLine" pointsNum={9} gradientColorStart={start} gradientColorStop={stop} size={20} />
+        </View>
+      );
+    };
+
+    return (
+      <View style={[styles.leftPanelContainer, { height: this.getListHeight() }]}>
+        {renderIcon()}
+
+        {this.order.length > 0 && renderIterator()}
+        {this.isAddStopAvailable() && renderPlus()}
+
+        {renderIcon(true)}
+      </View>
+    );
+  }
 
   order = Object.keys(this.props.data);
 
-  render() {
-    const { data, isVisible, onClose } = this.props;
+  getListHeight = (defaultHeight = 60) => (
+    Object.keys(this.props.data).length * defaultHeight
+  )
 
+  handleDragStart = () => this.setState({ isDragging: true });
+
+  handleDragStop = () => this.setState({ isDragging: false });
+
+  renderList = () => {
+    const { data } = this.props;
     const keys = Object.keys(data);
-
-    const listHeight = keys.length * 60;
 
     const order = keys.length !== this.order.length ? keys : this.order;
 
     return (
-      <Modal
-        isVisible={isVisible}
-        onClose={onClose}
-      >
-        <View style={[styles.wrapper, { height: 64 + listHeight }]}>
+      <View style={[styles.wrapper, { height: 100 + this.getListHeight() }]}>
+        <View style={{ height: this.getListHeight() }}>
           <SortableListView
-            style={{ height: listHeight }}
             data={data}
             order={order}
+            disableSorting={this.order && this.order.length <= 1}
+            activeOpacity={0.92}
+            sortRowStyle={styles.sortRowStyle}
+            onMoveStart={this.handleDragStart}
+            onMoveEnd={this.handleDragStop}
             onRowMoved={this.handleRowMoved}
             renderRow={this.renderRow}
             scrollEnabled={false}
             limitScrolling
           />
+        </View>
 
-          {this.renderAddButton()}
+        {this.renderAddButton()}
+      </View>
+    );
+  }
+
+  renderOrderPanel = () => (
+    <View style={{ width: ORDER_PANEL_WIDTH, height: this.getListHeight() }}>
+      {!this.state.isDragging && this.renderStops()}
+    </View>
+  )
+
+  render() {
+    const { isVisible, onClose } = this.props;
+
+    const height = 40 + this.getListHeight() + (this.isAddStopAvailable() ? ROW_HEIGHT : 0);
+
+    return (
+      <Modal isVisible={isVisible} onClose={onClose} >
+        <View style={{ flexDirection: 'row', height }}>
+          {this.renderOrderPanel()}
+          {this.renderList()}
         </View>
       </Modal>
     );

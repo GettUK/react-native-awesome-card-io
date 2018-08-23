@@ -30,10 +30,12 @@ import closeThick from './closeThick';
 import contactUs from './contactUs';
 import currentLocation from './currentLocation';
 import destinationMarker from './destinationMarker';
+import Delete from './delete';
 import distance from './distance';
 import dots from './dots';
 import dottedLine from './dottedLine';
 import drag from './drag';
+import Edit from './edit';
 import editAndroid from './editAndroid';
 import email from './email';
 import flight from './flight';
@@ -142,11 +144,13 @@ export default {
   closeThick,
   contactUs,
   currentLocation,
+  Delete,
   destinationMarker,
   distance,
   dots,
   dottedLine,
   drag,
+  Edit,
   editAndroid,
   email,
   flight,

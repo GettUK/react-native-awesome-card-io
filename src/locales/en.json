@@ -140,6 +140,8 @@
   },
   "booking": {
     "label": {
+      "addStopPoint": "Add stop point",
+      "stopPoint": "Stop Point",
       "usePassengerCostCentre": "Use passenger's Cost Centre",
       "selectDestination": "Select Destination",
       "other": "Other",

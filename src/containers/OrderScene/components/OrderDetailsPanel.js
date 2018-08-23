@@ -212,7 +212,7 @@ class OrderDetails extends BookingController {
   renderPointList = ({ style }) => {
     const { onLayoutPointList } = this.props;
     const order = this.getOrder();
-    const props = this.isFutureEditOrder()
+    const props = this.isFutureEditOrder() // TODO: allowAddingStops
       ? {
         onAddressPress: this.openAddressModal,
         onStopAdd: this.showStopPointsModal,
@@ -228,7 +228,10 @@ class OrderDetails extends BookingController {
         {...props}
         onLayout={onLayoutPointList}
         style={style}
+        destinationStyleModifier={{ marginTop: 0 }}
         data={order}
+        stopAsList={true}
+        noItemMargin={false}
       />
     );
   };
