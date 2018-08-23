@@ -222,6 +222,8 @@
       "yourFeedback": "Your feedback will be kept anonymous",
       "selectIssues": "Please select one or more issues",
       "orderDetails": "Order Details",
+      "billed": "Billed",
+      "serviceID": "Service ID",
       "noDriverInfo": "This order can not be tracked due to technical limitations of the driver/fleet",
       "bookingReference": "BOOKING REFERENCE"
     },

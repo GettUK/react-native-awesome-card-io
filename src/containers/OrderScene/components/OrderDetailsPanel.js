@@ -68,8 +68,10 @@ const OrderDetails = ({
     receiptPaymentTypes.includes(order.paymentMethod)
     && order.indicatedStatus === 'billed';
 
+  const getHeaderTitle = () => strings(`order.text.${shouldShowReceiptBtn() ? 'billed' : 'orderDetails'}`);
+
   const renderHeader = () => (
-    <View style={[orderPanelStyles.headerWrapper]}>
+    <View style={orderPanelStyles.headerWrapper}>
       {shouldCallDispatcher(order)
         ? (
           <View style={orderPanelStyles.headerNoInfoWrapper}>
@@ -78,13 +80,18 @@ const OrderDetails = ({
         )
         : (
           <View>
-            <Text style={orderPanelStyles.header}>Order Details</Text>
+            <Text style={orderPanelStyles.header}>{getHeaderTitle()}</Text>
             <View style={orderPanelStyles.subHeader}>
-              <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
-              {order.serviceId && <Text style={orderPanelStyles.serviceId}>{order.serviceId}</Text>}
+              <Text style={orderPanelStyles.subHeaderTitle}>{`${strings('order.text.serviceID')}:`}</Text>
+              {order.serviceId &&
+                <Text style={orderPanelStyles.serviceId} adjustsFontSizeToFit minimumFontScale={0.5}>
+                  {order.serviceId}
+                </Text>
+              }
             </View>
           </View>
         )}
+
       {shouldShowReceiptBtn() &&
         <Button
           size="sm"

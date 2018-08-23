@@ -98,7 +98,8 @@ export const orderPanelStyles = StyleSheet.create({
   serviceId: {
     color: color.white,
     fontWeight: '900',
-    paddingLeft: 5
+    paddingLeft: 5,
+    marginRight: 2
   },
   driverContainer: {
     flexDirection: 'row',
@@ -197,7 +198,7 @@ export const orderPanelStyles = StyleSheet.create({
   },
   receiptBtnWrapper: {
     alignSelf: 'flex-end',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     borderColor: color.white,
     borderRadius: 8
   },
