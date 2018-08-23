@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableWithoutFeedback, View, Text, Dimensions } from 'react-native';
+import { TouchableWithoutFeedback, View, Text, Dimensions, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
 
@@ -128,7 +128,7 @@ class UserGuide extends PureComponent {
 
     return (
       <AnimatedView duration={1500} animation="fadeIn" useNativeDriver style={styles.wrapper}>
-        <View style={[styles.backdrop, { height: isIphoneX() ? 40 : 21 }]} />
+        <View style={[styles.backdrop, { height: isIphoneX() ? 40 : (StatusBar.currentHeight + 2) || 21 }]} />
         <View style={styles.row}>
           {this.renderSideGap()}
           {step > 2 && this.renderHole(52, 52)}
