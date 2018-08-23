@@ -8,7 +8,7 @@ import styles from './style';
 
 const SuccessPopup = ({ innerRef, title, content = null, buttons = null }) => (
   <Popup
-    ref={innerRef}
+    innerRef={innerRef}
     icon={<Icon size={70} name="registration" />}
     contentWraperStyle={styles.contentWraperStyle}
     titleStyle={styles.titleStyle}
