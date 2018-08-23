@@ -1,12 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, has, isNull } from 'lodash';
+import { isEmpty, has, isNull, isEqual } from 'lodash';
 import { color } from 'theme';
 
 import { changeRegionToAnimate } from 'actions/ui/map';
+import { getCurrentWeather } from 'actions/ui/weather';
 import {
   getFormData,
   changeFields,
@@ -30,6 +31,7 @@ import BookingController from 'containers/BookingController';
 
 import { withTheme } from 'providers';
 
+import { Weather } from './components';
 import styles from './style';
 
 class BookingEditor extends BookingController {
@@ -37,7 +39,7 @@ class BookingEditor extends BookingController {
     super.componentDidUpdate(prevProps);
 
     const { booking: { bookingForm: bookingFormProps }, memberId } = prevProps;
-    const { booking: { bookingForm }, getFormData } = this.props;
+    const { booking: { bookingForm }, getFormData, getCurrentWeather } = this.props;
     const { loadBookingRequested } = this.state;
 
     this.requestVehiclesOnOrderChange(bookingFormProps);
@@ -51,6 +53,10 @@ class BookingEditor extends BookingController {
 
     if (bookingForm.destinationAddress && !bookingFormProps.destinationAddress) {
       getFormData();
+    }
+
+    if (bookingForm.pickupAddress && !isEqual(bookingForm.pickupAddress, bookingFormProps.pickupAddress)) {
+      getCurrentWeather(bookingForm.pickupAddress);
     }
   }
 
@@ -115,7 +121,7 @@ class BookingEditor extends BookingController {
     }
   };
 
-  goToClosestFutureBooking = bookingId => this.props.setActiveBooking(bookingId);
+  goToClosestFutureBooking = () => this.props.setActiveBooking(this.props.closestFutureBookingId);
 
   getPointListPosition = () => {
     const { app: { statuses: { params: { footer } } } } = this.props;
@@ -209,17 +215,19 @@ class BookingEditor extends BookingController {
 
     return (
       <View pointerEvents="box-none" style={styles.actionsBar}>
-        {this.renderBtn({
-          iconName: isActiveLocation ? 'myLocation' : 'inactiveLocation',
-          onPress: isActiveLocation ? getCurrentPosition : this.showLocationPopup,
-          style: styles.currentPositionBtn
-        })}
+        <View style={styles.leftActionsBar}>
+          {isActiveLocation && <Weather />}
+          {this.renderBtn({
+            iconName: isActiveLocation ? 'myLocation' : 'inactiveLocation',
+            onPress: isActiveLocation ? getCurrentPosition : this.showLocationPopup
+          })}
+        </View>
         {isActiveFutureOrder && (
-          <Fragment>
+          <View>
             {this.renderBtn({
               iconName: 'futureOrder',
               iconSize: 26,
-              onPress: () => this.goToClosestFutureBooking(closestFutureBookingId),
+              onPress: this.goToClosestFutureBooking,
               style: styles.futureOrderBtn
             })}
             <Badge
@@ -228,7 +236,7 @@ class BookingEditor extends BookingController {
               textStyle={styles.badgeTextStyle}
               label={futureBookingsCount}
             />
-          </Fragment>
+          </View>
         )}
       </View>
     );
@@ -335,7 +343,8 @@ const bindActions = {
   saveAvailableCarsScroll,
   setDefaultMessageToDriver,
   resetSuggestedAddresses,
-  updateBooking
+  updateBooking,
+  getCurrentWeather
 };
 
 export default connect(select, bindActions, null, { pure: false })(withTheme(BookingEditor));

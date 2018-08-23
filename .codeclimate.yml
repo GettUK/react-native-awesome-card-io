@@ -10,3 +10,7 @@ engines:
 exclude_paths:
 - android/
 - ios/
+- src/components/Icons/lib
+checks:
+ similar-code:
+    enabled: false

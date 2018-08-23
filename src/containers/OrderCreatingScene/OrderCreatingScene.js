@@ -21,7 +21,7 @@ import {
 } from 'utils';
 
 import BookingEditor from './BookingEditor';
-import PromoBlackTaxi from './components';
+import { PromoBlackTaxi } from './components';
 
 import styles from './style';
 

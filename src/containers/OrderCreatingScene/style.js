@@ -13,7 +13,8 @@ export default StyleSheet.create({
   },
   actionsBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
   },
   nextStepBtn: {
     alignSelf: 'stretch',
@@ -71,8 +72,7 @@ export default StyleSheet.create({
     padding: 5
   },
   btnWrapper: {
-    alignSelf: 'flex-start',
-    paddingVertical: 5,
+    paddingTop: 10,
     marginBottom: 15
   },
   badgeWrapper: {
@@ -97,7 +97,7 @@ export default StyleSheet.create({
     lineHeight: 9,
     fontWeight: 'bold'
   },
-  currentPositionBtn: {
+  leftActionsBar: {
     marginLeft: 15
   },
   futureOrderBtn: {

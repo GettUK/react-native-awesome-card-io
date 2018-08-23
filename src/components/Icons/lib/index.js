@@ -112,6 +112,8 @@ import restaurant from './addresses/restaurant';
 import defaultAddress from './addresses/default';
 import pointOfInterest from './addresses/pointOfInterest';
 
+import * as weather from './weather';
+
 export default {
   account,
   add,
@@ -217,5 +219,6 @@ export default {
   restaurant,
   airport,
   defaultAddress,
-  pointOfInterest
+  pointOfInterest,
+  weather
 };

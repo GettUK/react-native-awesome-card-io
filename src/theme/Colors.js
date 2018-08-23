@@ -5,12 +5,12 @@ export const color = {
   secondaryText: '#8e8e93',
   arrowRight: '#bbbbbf',
   pixelLine: '#D8D8D8',
-  bgPrimary: '#ffffff',
-  bgSecondary: '#ffffff',
+  bgPrimary: '#fff',
+  bgSecondary: '#fff',
   bgSettings: '#efeff4',
   bgSearch: '#f2f2f2',
-  bgOptions: '#ffffff',
-  white: '#ffffff',
+  bgOptions: '#fff',
+  white: '#fff',
   header: '#284784',
   primaryBtns: '#284784',
   animationRout: '#8c9bbb',
@@ -26,7 +26,9 @@ export const color = {
   warningLight: '#fffaeb',
   danger: '#ff0000',
   dangerLight: '#fef0ef',
-  backdrop: '#284784'
+  backdrop: '#284784',
+  forecastDayTemp: '#8e8e93',
+  forecastNightTemp: '#bbbbbf'
 };
 
 export const formattedColor = {

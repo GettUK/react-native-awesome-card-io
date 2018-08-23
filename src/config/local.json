@@ -9,5 +9,7 @@
   "faye": {
     "path" : "https://dev.gettaxi.me/faye"
   },
-  "googleAPIKey": "AIzaSyBmgcuoNZLqQG7I51V9dk_mUoadHi438P8"
+  "googleAPIKey": "AIzaSyBmgcuoNZLqQG7I51V9dk_mUoadHi438P8",
+  "weatherUrl": "https://api.openweathermap.org/data/2.5",
+  "weatherAPIKey": "b238946c4bfa9ef9d818f3390ef017a7"
 }
