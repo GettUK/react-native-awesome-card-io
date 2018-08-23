@@ -35,7 +35,8 @@ class PointList extends Component {
   static defaultProps = {
     style: {},
     onAddressPress: () => noop,
-    allowAddingStops: true
+    allowAddingStops: true,
+    allowEditing: true
   };
 
   componentDidUpdate({ theme: oldTheme }) {
@@ -79,6 +80,7 @@ class PointList extends Component {
 
   renderPickUpItem = () => (
     <TouchableOpacity
+      disabled={!this.props.allowEditing}
       style={this.styles.row}
       onPress={this.handlePickupAddressPress}
     >
@@ -88,7 +90,8 @@ class PointList extends Component {
   );
 
   renderStopsItem = () => {
-    const { data, onAddressPress } = this.props;
+    const { data, onAddressPress, allowEditing } = this.props;
+
     return (
       this.hasAddressType('stops') &&
       data.stops.map((item, i) => {
@@ -97,6 +100,7 @@ class PointList extends Component {
           <View key={address.line + i}>
             <Divider left={31} style={this.styles.divider} />
             <TouchableOpacity
+              disabled={!allowEditing}
               style={this.styles.row}
               onPress={() => { onAddressPress(address, { type: 'stops', index: i }); }}
             >
@@ -120,13 +124,14 @@ class PointList extends Component {
   };
 
   renderDestinationItem = () => {
-    const { data, allowAddingStops, onStopAdd, allowEmptyDestination } = this.props;
+    const { data, allowAddingStops, onStopAdd, allowEmptyDestination, allowEditing } = this.props;
     const stopPointsAvailable = allowAddingStops && data.pickupAddress && data.pickupAddress.countryCode === 'GB';
 
     return ((this.hasAddressType('destinationAddress') || allowEmptyDestination) &&
       <TouchableOpacity
         style={this.styles.row}
         onPress={this.handleDestinationAddressPress}
+        disabled={!allowEditing}
       >
         <Icon
           style={this.styles.pickUpIcon}
