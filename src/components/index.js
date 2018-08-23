@@ -39,6 +39,6 @@ export { default as Background } from './Background';
 export { default as UserGuide } from './UserGuide';
 export { default as AlertModal } from './AlertModal';
 export { default as SearchList } from './SearchList';
-export { default as SearchBar } from './SearchBar';
+export { InlineBar, RoundedBar } from './SearchBar';
 export { default as CarImage } from './CarItem/CarImage';
 export { default as ListView } from './ListView';

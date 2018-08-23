@@ -36,11 +36,11 @@ class EditOrderDetails extends BookingController {
 
     return (
       <ScrollView style={[styles.flex, { backgroundColor: theme.color.bgSettings }]}>
-        {this.renderPickUpTime(styles.pickUpTimeWrapper)}
+        {this.renderPickUpTime({ style: styles.pickUpTimeWrapper })}
 
         <View style={[styles.contentBlock, styles.mainInfoContainer, { backgroundColor: theme.color.bgPrimary }]}>
           {this.renderPointList({ style: styles.pointList })}
-          {this.renderAvailableCars()}
+          {this.renderCars()}
         </View>
         {this.renderAdditionalDetails({
             style: [styles.contentBlock, styles.detailsContainer, { backgroundColor: theme.color.bgPrimary }],

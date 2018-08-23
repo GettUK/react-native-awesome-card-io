@@ -90,8 +90,7 @@ const mapState = ({ booking, session }) => {
 
   return {
     companyPaymentTypes: paymentTypes,
-    paymentCards: (passenger || passengers.find(passenger => passenger.id === currentId)).paymentCards,
-    booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm
+    paymentCards: (passenger || passengers.find(passenger => passenger.id === currentId)).paymentCards
   };
 };
 

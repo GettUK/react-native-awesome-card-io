@@ -47,7 +47,7 @@ class PickUpTime extends PureComponent {
 
       this.setState({ date: scheduledAt ? moment(scheduledAt).toDate() : timeWithDelay, minDate: timeWithDelay });
     }
-  }
+  };
 
   openPickerModal = () => {
     const { booking: { scheduledAt } } = this.props;
@@ -55,17 +55,18 @@ class PickUpTime extends PureComponent {
 
     this.setState({
       isModalOpened: true,
-      date: (scheduledAt || minDate).toDate(),
+      date: (scheduledAt ? moment(scheduledAt) : minDate).toDate(),
       minDate: minDate.toDate()
     });
   };
 
   getMinimalFutureOrderTime = () => {
-    const { vehicleName, vehicles } = this.props;
-    const delay = vehicles.data.find(vehicle => vehicle.name === vehicleName).earliestAvailableIn;
-
-    return minutesForward(delay);
-  }
+    const { vehicleName, vehicles, disableNow } = this.props;
+    const delay = vehicles.data.find(vehicle => vehicle.name === vehicleName);
+    const earliestAvailable = (delay && delay.earliestAvailableIn) || 60;
+    const minutes = disableNow ? 1440 : earliestAvailable;
+    return minutesForward(minutes);
+  };
 
   closePickerModal = () => {
     this.setState({ isModalOpened: false });
@@ -204,6 +205,7 @@ class PickUpTime extends PureComponent {
   );
 
   renderControlButtons = () => {
+    const { disableNow } = this.props;
     const buttons = [
       {
         title: 'Now',
@@ -214,12 +216,16 @@ class PickUpTime extends PureComponent {
       { title: 'Set', style: styles.TDButton, styleText: styles.TDButtonText, onClick: this.handleDateSubmit }
     ];
 
+    if (disableNow) {
+      buttons.shift();
+    }
+
     return (
       <View style={styles.row}>
         {buttons.map(this.renderButton)}
       </View>
     );
-  }
+  };
 
   renderDatePickeriOS = () => {
     const { date, minDate } = this.state;
@@ -260,13 +266,13 @@ class PickUpTime extends PureComponent {
   }
 
   render() {
-    const { booking: { scheduledType, scheduledAt }, wrapperStyle, theme } = this.props;
+    const { booking: { scheduledType, scheduledAt }, wrapperStyle, theme, title } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.openPickerModal}>
         <View style={[styles.pickupTimeContainer, wrapperStyle, { backgroundColor: theme.color.bgPrimary }]}>
           <Icon name="time" size={24} color={theme.color.pixelLine} />
           <View style={styles.pickupTime}>
-            <Text style={[styles.pickupTimeLabel, { color: theme.color.primaryText }]}>Pickup Time</Text>
+            <Text style={[styles.pickupTimeLabel, { color: theme.color.primaryText }]}>{title}</Text>
             <Text style={[styles.pickupTimeValue, { color: theme.color.primaryText }]}>
               {scheduledType === 'later'
                 ? moment(scheduledAt).format(`D MMM YYYY, ${timeFormat()}`)
@@ -281,6 +287,11 @@ class PickUpTime extends PureComponent {
     );
   }
 }
+
+PickUpTime.defaultProps = {
+  title: 'Pickup Time',
+  disableNow: false
+};
 
 const mapState = ({ booking }) => ({
   vehicleName: booking.bookingForm.vehicleName,

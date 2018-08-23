@@ -131,12 +131,10 @@ class OrderScene extends Component {
 
     removeFields(bookingFieldsToReset);
     resetBookingValues();
-  }
+  };
 
   goToInitialization = () => {
     const { clearCurrentOrder, getCurrentPosition } = this.props;
-
-    this.resetBookingForm();
 
     clearCurrentOrder();
 

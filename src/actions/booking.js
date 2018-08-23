@@ -5,6 +5,7 @@ import { isEmpty, reject, snakeCase } from 'lodash';
 import {
   get, post, put,
   referencesLocalErrors,
+  bookingFieldsToReset,
   messagePrefixes,
   separateMessage,
   getFavouriteAddressMessage,
@@ -246,6 +247,34 @@ const setBookingUpdater = id => (dispatch) => {
   }, 3000);
 };
 
+export const getFormData = () => (dispatch, getState) => {
+  const { booking: { currentOrder } } = getState();
+
+  dispatch({ type: TYPES.getFormDataStart });
+
+  const request = currentOrder.id
+    ? get(`/bookings/${currentOrder.id}/edit`)
+    : get('/bookings/new');
+  return request
+    .then(({ data }) => {
+      const { booking: { currentOrder }, session: { user: { memberId } } } = getState();
+
+      const paymentAttrs = getPaymentAttrs(data, memberId);
+
+      dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
+
+      dispatch({ type: TYPES.getFormDataSuccess, payload: data });
+
+      dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
+
+      if (!currentOrder.asap) {
+        dispatch(changeFields({ ...data.booking }));
+      }
+
+      return data;
+    });
+};
+
 export const orderStatusSubscribe = channel => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
   const isFutureOrder = !currentOrder.asap && currentOrder.scheduledAt;
@@ -302,6 +331,7 @@ export const createBooking = order => (dispatch, getState) => {
 
         if (isFutureOrder) {
           dispatch(getCurrentUser());
+          dispatch(getFormData());
         }
 
         dispatch(goToActiveOrderScene());
@@ -318,6 +348,13 @@ export const createBooking = order => (dispatch, getState) => {
     });
 };
 
+export const updateBooking = () => (dispatch, getState) => {
+  const { booking: { bookingForm } } = getState();
+
+  return put(`/bookings/${bookingForm.id}`, bookingForm)
+    .then(({ data }) => (data));
+};
+
 export const setActiveBooking = id => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
@@ -326,6 +363,10 @@ export const setActiveBooking = id => (dispatch, getState) => {
   return get(`/bookings/${id}`)
     .then(({ data }) => {
       dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+
+      if (!data.asap) {
+        dispatch(getFormData());
+      }
 
       if (data.status === DRIVER_ON_WAY) {
         dispatch(setBookingUpdater(id));
@@ -345,6 +386,9 @@ export const setActiveBooking = id => (dispatch, getState) => {
 };
 
 export const clearCurrentOrder = () => (dispatch) => {
+  dispatch(removeFields(bookingFieldsToReset));
+  dispatch(resetBookingValues());
+
   removeOrderStatusSubscription();
   dispatch(goToOrderCreatingScene());
   dispatch({ type: TYPES.clearCurrentOrder });
@@ -374,25 +418,6 @@ export const sendCancelOrderReason = reason => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
   return put(`/bookings/${currentOrder.id}/cancellation_reason`, { cancellation_reason: reason });
-};
-
-export const getFormData = () => (dispatch, getState) => {
-  dispatch({ type: TYPES.getFormDataStart });
-
-  return get('/bookings/new')
-    .then(({ data }) => {
-      const memberId = getState().session.user.memberId;
-
-      const paymentAttrs = getPaymentAttrs(data, memberId);
-
-      dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
-
-      dispatch({ type: TYPES.getFormDataSuccess, payload: data });
-
-      dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
-
-      return data;
-    });
 };
 
 export const getVehicles = params => (dispatch) => {
