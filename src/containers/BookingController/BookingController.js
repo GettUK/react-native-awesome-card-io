@@ -509,7 +509,7 @@ export default class BookingController extends Component {
     }));
   };
 
-  getAdditionalDetailsItems() {
+  getAdditionalDetailsItems({ isOrderEditing = false } = {}) {
     const { booking: { currentOrder } } = this.props;
 
     const order = this.getOrder();
@@ -518,7 +518,8 @@ export default class BookingController extends Component {
         title: 'Order for',
         value: order.passengerName,
         icon: 'avatar',
-        onPress: () => this.onOpenModal({ modalContent: 'passengersList' })
+        chevron: !isOrderEditing,
+        onPress: () => !isOrderEditing && this.onOpenModal({ modalContent: 'passengersList' })
       },
       { title: 'Message for driver',
         value: order.message,
