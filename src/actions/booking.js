@@ -258,6 +258,8 @@ export const getFormData = () => (dispatch, getState) => {
   return request
     .then(({ data }) => {
       const { booking: { currentOrder }, session: { user: { memberId } } } = getState();
+      const isOrderReceived = currentOrder.indicatedStatus === ORDER_RECEIVED_STATUS;
+      const isFutureEditOrder = !currentOrder.asap && isOrderReceived;
 
       const paymentAttrs = getPaymentAttrs(data, memberId);
 
@@ -267,7 +269,7 @@ export const getFormData = () => (dispatch, getState) => {
 
       dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
 
-      if (!currentOrder.asap) {
+      if (isFutureEditOrder && data.booking) {
         dispatch(changeFields({ ...data.booking }));
       }
 
@@ -351,6 +353,8 @@ export const createBooking = order => (dispatch, getState) => {
 export const updateBooking = () => (dispatch, getState) => {
   const { booking: { bookingForm } } = getState();
 
+  if (!bookingForm.id) return Promise.resolve();
+
   return put(`/bookings/${bookingForm.id}`, bookingForm)
     .then(({ data }) => (data));
 };
@@ -362,9 +366,11 @@ export const setActiveBooking = id => (dispatch, getState) => {
 
   return get(`/bookings/${id}`)
     .then(({ data }) => {
+      const isOrderReceived = data.indicatedStatus === ORDER_RECEIVED_STATUS;
+      const isFutureEditOrder = !data.asap && isOrderReceived;
       dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-      if (!data.asap) {
+      if (isFutureEditOrder) {
         dispatch(getFormData());
       }
 
