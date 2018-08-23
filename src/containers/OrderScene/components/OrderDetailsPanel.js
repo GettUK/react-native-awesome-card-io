@@ -274,7 +274,7 @@ const OrderDetails = ({
       {shouldCallDispatcher(order) ? renderCallFleetBtn() : null}
       {renderJourneyDetails()}
       {renderAdditionalDetails()}
-      {references && references.length && renderReferences()}
+      {references && references.length > 0 && renderReferences()}
     </View>
   );
 
