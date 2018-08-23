@@ -90,16 +90,22 @@ class AddressModal extends PureComponent {
   };
 
   onAddressPress = (item) => {
-    const { id, text, google = true, predefined, address } = item;
+    const { activeTab, inputValue } = this.state;
+    const { id, text, google, predefined, address } = item;
+    const googleParam = google || (activeTab !== 'favourites' && !inputValue);
+
     Keyboard.dismiss();
 
+    const payload = {
+      locationId: id,
+      string: text,
+      predefined
+    };
+
+    if (googleParam) payload.google = googleParam;
+
     if (text) {
-      geocode({
-        locationId: id,
-        string: text,
-        google,
-        predefined
-      })
+      geocode(payload)
         .then(processLocation)
         .then(this.handleSelect)
         .catch(this.alert.show);
