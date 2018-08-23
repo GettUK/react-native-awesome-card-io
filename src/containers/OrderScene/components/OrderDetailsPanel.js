@@ -180,9 +180,10 @@ const OrderDetails = ({
   const renderPointList = () => {
     const data = {
       pickupAddress: order.pickupAddress,
-      destinationAddress: order.destinationAddress,
+      destinationAddress: order.destinationAddress || { line: strings('order.type.asDirected') },
       stops: order.stopAddresses
     };
+
     return (
       <PointList
         onLayout={onLayoutPointList}

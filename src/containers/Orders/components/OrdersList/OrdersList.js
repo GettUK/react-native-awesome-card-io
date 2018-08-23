@@ -165,7 +165,7 @@ class OrdersList extends PureComponent {
             <View style={styles.orderAddress}>
               <Icon name="destinationMarker" width={16} style={styles.orderAddressIcon} />
               <Text numberOfLines={1} style={[styles.flex, { color: theme.color.primaryText }]}>
-                {item.destinationAddress && item.destinationAddress.line}
+                {item.destinationAddress ? item.destinationAddress.line : strings('order.type.asDirected')}
               </Text>
             </View>
           </View>
