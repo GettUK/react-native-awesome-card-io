@@ -13,11 +13,14 @@ import ModalWrapper from './ModalWrapper';
 
 import { modalStyles as styles } from './styles';
 
-function Modal({ theme, onClose, label, contentStyles, children, ...rest }) {
+function Modal({
+  theme, onClose, label, title, titleStyles, contentStyles, children, ...rest
+}) {
   return (
     <ModalWrapper onClose={onClose} {...rest}>
       <DismissKeyboardView style={[{ backgroundColor: theme.color.bgPrimary }, contentStyles]}>
         <View style={styles.header}>
+          <Text style={[styles.defaultText, titleStyles]}>{title}</Text>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.closeText}>{label}</Text>
           </TouchableOpacity>

@@ -2,22 +2,29 @@ import { StyleSheet } from 'react-native';
 import { color } from 'theme';
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   flex: {
     flex: 1
   },
   bg: {
     backgroundColor: color.white
   },
-  input: {
-    marginVertical: 14,
-    paddingHorizontal: 16,
-    color: color.secondaryText
+  inputStyle: {
+    fontSize: 18,
+    color: color.primaryText,
+    borderBottomWidth: 0
   },
-  messageLength: {
-    color: color.secondaryText,
-    backgroundColor: 'transparent',
-    marginLeft: 16,
-    marginBottom: 13
+  header: {
+    marginLeft: 15
+  },
+  phrase: {
+    color: color.primaryText,
+    fontSize: 17,
+    marginLeft: 15,
+    paddingVertical: 11
   }
 });
 

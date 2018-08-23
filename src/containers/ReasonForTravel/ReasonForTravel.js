@@ -1,27 +1,27 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
-
-import { changeTravelReasonId } from 'actions/booking';
-
-import { Icon } from 'components';
-
-import { withTheme } from 'providers';
-
+import { Text, TouchableOpacity } from 'react-native';
+import { Icon, Divider, SearchList } from 'components';
 import { color } from 'theme';
-
+import { filterBySearchValue } from 'utils';
+import { changeFields } from 'actions/booking';
+import { withTheme } from 'providers';
 import styles from './styles';
 
 class ReasonForTravel extends PureComponent {
-  componentDidMount() {
-    const { booking, changeTravelReasonId } = this.props;
-    changeTravelReasonId(booking.travelReasonId);
-  }
+  state = {
+    searchValue: ''
+  };
 
   keyExtractor = item => String(item.id);
 
+  onChangeTravelReason = (travelReasonId) => {
+    this.props.changeFields({ travelReasonId });
+    this.onCloseModal();
+  };
+
   renderItem = ({ item }) => {
-    const { travelReason, changeTravelReasonId, theme } = this.props;
+    const { booking: { travelReasonId: travelReason }, theme } = this.props;
     const travelReasonId = item.id.toString();
     const isSelected = travelReason === travelReasonId;
     const textStyles = [styles.flex, styles.reasonName];
@@ -31,7 +31,7 @@ class ReasonForTravel extends PureComponent {
       <TouchableOpacity
         activeOpacity={0.6}
         style={styles.item}
-        onPress={() => changeTravelReasonId(travelReasonId, true)}
+        onPress={() => this.onChangeTravelReason(travelReasonId)}
       >
         <Text style={[textStyles, { color: theme.color.primaryText }]}>{item.name}</Text>
         {isSelected &&
@@ -41,18 +41,31 @@ class ReasonForTravel extends PureComponent {
     );
   };
 
-  renderSeparator = () => <View style={[styles.separator, { borderTopColor: this.props.theme.color.pixelLine }]} />;
+  renderSeparator = () => <Divider left={15} />;
+
+  filterItems = () => filterBySearchValue(this.props.travelReasons, ['name', 'id'], this.state.searchValue);
+
+  handleSearchValueChange = (searchValue) => {
+    this.setState({ searchValue });
+  };
+
+  onCloseModal = () => {
+    this.props.onClose();
+    this.handleSearchValueChange('');
+  };
 
   render() {
-    const { travelReasons, theme } = this.props;
-
+    const { searchValue } = this.state;
     return (
-      <FlatList
-        style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}
-        data={travelReasons}
-        ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={this.keyExtractor}
+      <SearchList
+        type="inline"
+        searchValue={searchValue}
+        onSearchValueChange={this.handleSearchValueChange}
+        placeholder="Search Reason"
+        data={this.filterItems()}
         renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+        ItemSeparatorComponent={this.renderSeparator}
       />
     );
   }
@@ -60,12 +73,11 @@ class ReasonForTravel extends PureComponent {
 
 const mapState = ({ booking }) => ({
   booking: booking.currentOrder.id ? booking.currentOrder : booking.bookingForm,
-  travelReasons: booking.formData.travelReasons,
-  travelReason: booking.tempTravelReasonId
+  travelReasons: booking.formData.travelReasons
 });
 
 const mapDispatch = ({
-  changeTravelReasonId
+  changeFields
 });
 
 export default connect(mapState, mapDispatch)(withTheme(ReasonForTravel));

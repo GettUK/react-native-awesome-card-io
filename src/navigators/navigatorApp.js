@@ -8,15 +8,8 @@ import { color } from 'theme';
 import {
   Map,
   Orders,
-  MessageToDriver,
   RateDriver,
-  ReasonForTravel,
-  PaymentsOptions,
-  References,
-  FlightSettings,
-  ReferenceValueSelector,
   TransitionLoading,
-  PassengersList,
   Receipt,
   EditOrderDetails,
   DateRange,
@@ -24,13 +17,7 @@ import {
 } from 'containers';
 import { HeaderSearch } from 'containers/Orders';
 import { ClearBtn } from 'containers/DateRange';
-import { SaveMessageBtn, BackMessageBtn } from 'containers/MessageToDriver';
-import { SaveFlightBtn } from 'containers/FlightSettings';
-import { ReferencesHeader } from 'containers/References';
 import { ReceiptHeader } from 'containers/Receipt';
-import { SavePassengerBtn } from 'containers/PassengersList';
-import { SaveTravelReasonIdBtn } from 'containers/ReasonForTravel';
-import { SavePaymentMethodBtn } from 'containers/PaymentsOptions';
 import { strings } from 'locales';
 
 import SettingsNavigator from './navigatorSettings';
@@ -105,119 +92,6 @@ const routeConfiguration = {
       headerTitle: 'Notifications History',
       headerLeft: <BackBtn handlePress={onBackReturnable(navigation)} />
     })
-  },
-  MessageToDriver: {
-    screen: MessageToDriver,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <ScreenHeader
-          navigation={navigation}
-          title="Message to Driver"
-          leftContent={<BackMessageBtn navigation={navigation} />}
-          rightContent={<SaveMessageBtn navigation={navigation} />}
-        />
-      )
-    })
-  },
-  PassengersList: {
-    screen: PassengersList,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <ScreenHeader
-          navigation={navigation}
-          title="Employees"
-          leftContent={
-            <BackBtn
-              navigation={navigation}
-              touchedPath="booking.passengerIdTouched"
-              color={color.white}
-              containerStyle={{ paddingLeft: 0 }}
-            />
-          }
-          rightContent={<SavePassengerBtn navigation={navigation} />}
-        />
-      )
-    })
-  },
-  FlightSettings: {
-    screen: FlightSettings,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <ScreenHeader
-          navigation={navigation}
-          title={strings('flight.label.flightNumber')}
-          leftContent={
-            <BackBtn
-              navigation={navigation}
-              touchedPath="booking.flightTouched"
-              color={color.white}
-              containerStyle={{ paddingLeft: 0 }}
-            />
-          }
-          rightContent={<SaveFlightBtn navigation={navigation} />}
-        />
-      )
-    })
-  },
-  ReasonForTravel: {
-    screen: ReasonForTravel,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <ScreenHeader
-          navigation={navigation}
-          title="Reason for travel"
-          leftContent={
-            <BackBtn
-              navigation={navigation}
-              touchedPath="booking.travelReasonIdTouched"
-              color={color.white}
-              containerStyle={{ paddingLeft: 0 }}
-            />
-          }
-          rightContent={<SaveTravelReasonIdBtn navigation={navigation} />}
-        />
-      )
-    })
-  },
-  PaymentsOptions: {
-    screen: PaymentsOptions,
-    navigationOptions: ({ navigation }) => ({
-      header: (
-        <ScreenHeader
-          navigation={navigation}
-          title="Available payment methods"
-          leftContent={
-            <BackBtn
-              navigation={navigation}
-              touchedPath="booking.paymentMethodTouched"
-              color={color.white}
-              containerStyle={{ paddingLeft: 0 }}
-            />
-          }
-          rightContent={<SavePaymentMethodBtn navigation={navigation} />}
-        />
-      )
-    })
-  },
-  References: {
-    screen: References,
-    navigationOptions: ({ navigation }) => ({
-      header: <ReferencesHeader navigation={navigation} />
-    })
-  },
-  ReferenceValueSelector: {
-    screen: ReferenceValueSelector,
-    navigationOptions: ({ navigation }) => {
-      const reference = navigation.state.params && navigation.state.params.reference;
-      return {
-        header: (
-          <ScreenHeader
-            navigation={navigation}
-            title={reference.name}
-          />
-        )
-      };
-    }
   },
   RateDriver: {
     screen: RateDriver,

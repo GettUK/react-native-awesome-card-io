@@ -6,6 +6,9 @@ export default StyleSheet.create({
   flex: {
     flex: 1
   },
+  labelStyle: {
+    marginVertical: 6
+  },
   pickUpTimeWrapper: {
     marginBottom: 30,
     paddingHorizontal: 16

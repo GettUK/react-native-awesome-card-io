@@ -133,7 +133,9 @@
       "none": "None",
       "loading": "Loading...",
       "emptyResult": "No Results",
-      "byMeter": "By meter"
+      "byMeter": "By meter",
+      "startTyping": "Start typing…",
+      "startTypeMessage": "Start type your message"
     }
   },
   "booking": {
@@ -158,7 +160,18 @@
     "button": {
       "noThanks": "No Thanks",
       "ok": "OK",
-      "verify": "Verify"
+      "verify": "Verify",
+      "save": "Save"
+    }
+  },
+  "messageToDriver": {
+    "text": {
+      "callOnArrival": "Call on arrival",
+      "doNotCall": "Do not call",
+      "meetAtArrivals": "Meet at arrivals",
+      "ringDoorOnArrival": "Ring door on arrival",
+      "parkAndWait": "Park and wait",
+      "ifLateCallMe": "If late call me"
     }
   },
   "order": {
@@ -210,7 +223,7 @@
       "selectIssues": "Please select one or more issues",
       "orderDetails": "Order Details",
       "noDriverInfo": "This order can not be tracked due to technical limitations of the driver/fleet",
-      "bookingHeader": "BOOKING REFERENCE"
+      "bookingReference": "BOOKING REFERENCE"
     },
     "button": {
       "actions": "Actions",

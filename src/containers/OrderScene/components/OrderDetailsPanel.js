@@ -243,7 +243,7 @@ const OrderDetails = ({
           { backgroundColor: theme.color.bgSettings }
         ]}
       >
-        <Text style={orderPanelStyles.title}>{strings('order.text.bookingHeader')}</Text>
+        <Text style={orderPanelStyles.title}>{strings('order.text.bookingReference')}</Text>
       </View>
       <View
         style={[

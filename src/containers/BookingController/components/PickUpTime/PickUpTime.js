@@ -232,7 +232,7 @@ class PickUpTime extends PureComponent {
     }
 
     return Platform.OS === 'ios' &&
-      <View style={[styles.TDPickerWrapper, { backgroundColor: theme.color.secondaryText, borderWidth: 0 }]}>
+      <View style={[styles.TDPickerWrapper, { backgroundColor: theme.color.bgOptions, borderWidth: 0 }]}>
         <DatePickerIOS
           date={date}
           onDateChange={this.handleDateChange}

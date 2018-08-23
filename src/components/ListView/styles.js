@@ -38,5 +38,13 @@ export default StyleSheet.create({
   loaderLabel: {
     textAlign: 'center',
     color: color.white
+  },
+  emptyLabel: {
+    color: color.secondaryText,
+    fontSize: 22
+  },
+  loading: {
+    textAlign: 'center',
+    margin: 10
   }
 });

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Text } from 'react-native';
-
-import { SearchBar } from 'components';
-
-import { strings } from 'locales';
-
+import { View } from 'react-native';
+import { SearchBar, ListView } from 'components';
 import { withTheme } from 'providers';
-
+import { strings } from 'locales';
 import styles from './styles';
 
 
@@ -15,31 +11,28 @@ class SearchList extends Component {
   static propsTypes = {
     data: PropTypes.array,
     searchValue: PropTypes.string,
-    onSearchValueChange: PropTypes.func
+    onSearchValueChange: PropTypes.func,
+    type: PropTypes.oneOf(['inline', 'rounded'])
   };
 
   render() {
-    const { data, searchValue, theme, onSearchValueChange, ...rest } = this.props;
-
+    const { data, searchValue, onSearchValueChange, type, placeholder, ...rest } = this.props;
     return (
       <View style={[styles.flex, styles.container]}>
         <SearchBar
+          type={type}
           onChangeText={onSearchValueChange}
           value={searchValue}
-          placeholder="Start typing…"
+          placeholder={placeholder || strings('app.label.startTyping')}
         />
-        {data && data.length
-          ? <FlatList
-            style={[styles.flex, styles.bg, { backgroundColor: theme.color.bgSecondary }]}
-            data={data}
+        <View style={[styles.flex, styles.bg]}>
+          <ListView
+            style={styles.listView}
+            typeSections={false}
+            items={data}
             {...rest}
           />
-          : <View style={[styles.flex, styles.container, styles.bg, { backgroundColor: theme.color.bgSecondary }]}>
-            <Text style={[styles.emptyResult, { color: theme.color.primaryText }]}>
-              {strings('app.label.emptyResult')}
-            </Text>
-          </View>
-        }
+        </View>
       </View>
     );
   }

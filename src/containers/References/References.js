@@ -1,61 +1,39 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
-
-import { changeReference } from 'actions/booking';
-
-import { Input, DismissKeyboardView, Icon } from 'components';
-
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Input } from 'components';
+import { ReferenceValueSelector } from 'containers';
+import { changeReference, validateReferences } from 'actions/booking';
 import { strings } from 'locales';
-
-import { withTheme } from 'providers';
-
-import { color } from 'theme';
-
+import { isNumber } from 'lodash';
 import styles from './styles';
 
+
 class References extends PureComponent {
-  getReferenceError(i) {
-    const { bookerReferencesErrors } = this.props;
+  getReferenceError = () => {
+    const { booking: { bookingForm: { bookerReferencesErrors = {} } }, referenceIndex } = this.props;
 
-    return bookerReferencesErrors && bookerReferencesErrors[`bookerReferences.${i}.value`];
-  }
-
-  renderDropdownItem = (item, i) => {
-    const { navigation, theme } = this.props;
-
-    const goToReferenceSelector = () => navigation.navigate('ReferenceValueSelector', { reference: item });
-    const error = this.getReferenceError(i);
-
-    return (
-      <View>
-        <TouchableOpacity
-          activeOpacity={0.6}
-          onPress={goToReferenceSelector}
-          style={[styles.dropdownItem, error ? styles.errorBorder : {}]}
-        >
-          <Text style={[styles.flex, styles.dropdownItemTitle, { color: theme.color.primaryText }]}>{item.name}</Text>
-          {item.value &&
-            <Text style={[styles.flex, styles.dropdownItemValue]} numberOfLines={1}>{item.value}</Text>
-          }
-          <Icon name="chevron" size={16} color={color.arrowRight} style={styles.dropdownItemIcon} />
-        </TouchableOpacity>
-        {error && error.length > 0 &&
-          <Text style={styles.error}>{error[0]}</Text>
-        }
-      </View>
-    );
+    return bookerReferencesErrors && bookerReferencesErrors[`bookerReferences.${referenceIndex}.value`];
   };
 
-  renderInputItem = (item, i) => {
-    const { costCentreValue, changeReference } = this.props;
-    const error = this.getReferenceError(i);
+  renderInputItem = (item) => {
+    const { booking: { bookingForm: { costCentre } }, changeReference, validateReferences, onClose } = this.props;
+    const error = this.getReferenceError();
     const handleChange = value => changeReference({ ...item, value });
+    const handleValidateReferences = () => validateReferences();
+    const handleCostCentre = () => {
+      handleChange(costCentre);
+      onClose();
+    };
 
     return (
       <View style={styles.inputWrapper}>
         <Input
           label={item.name}
+          returnKeyLabel={'Done'}
+          returnKeyType={'done'}
+          blurOnSubmit
+          onSubmitEditing={handleValidateReferences}
           value={item.value || ''}
           editable={!item.dropdown}
           onChangeText={handleChange}
@@ -65,8 +43,8 @@ class References extends PureComponent {
           error={error}
           pointerEvents={item.dropdown ? 'none' : 'auto'}
         />
-        {item.costCentre && !!costCentreValue &&
-          <TouchableOpacity style={styles.costCentre} activeOpacity={0.6} onPress={() => handleChange(costCentreValue)}>
+        {item.costCentre && !!costCentre &&
+          <TouchableOpacity style={styles.costCentre} activeOpacity={0.6} onPress={handleCostCentre}>
             <Text style={styles.costCentreTitle}>{strings('booking.label.usePassengerCostCentre')}</Text>
           </TouchableOpacity>
         }
@@ -74,44 +52,27 @@ class References extends PureComponent {
     );
   };
 
-  renderItem = (item, i) => (
-    <View key={item.id}>
-      {!item.dropdown
-        ? this.renderInputItem(item, i)
-        : this.renderDropdownItem(item, i)
-      }
-    </View>
-  );
+  renderContent = (item) => {
+    const { changeReference, onClose } = this.props;
+    return (item.dropdown
+      ? <ReferenceValueSelector reference={item} changeReference={changeReference} onClose={onClose}/>
+      : this.renderInputItem(item)
+    );
+  };
 
   render() {
-    const { bookerReferences, theme } = this.props;
-
-    return (
-      <View style={[styles.flex, styles.container, { backgroundColor: theme.color.bgSecondary }]}>
-        <DismissKeyboardView style={styles.flex}>
-          <KeyboardAvoidingView
-            keyboardVerticalOffset={80}
-            behavior="padding"
-            style={styles.flex}
-          >
-            <ScrollView keyboardShouldPersistTaps="handled">
-              {bookerReferences.map(this.renderItem)}
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </DismissKeyboardView>
-      </View>
-    );
+    const { referenceIndex, booking: { bookingForm: { bookerReferences = [] } } } = this.props;
+    return isNumber(referenceIndex) && this.renderContent(bookerReferences[referenceIndex]);
   }
 }
 
 const mapState = ({ booking }) => ({
-  bookerReferences: booking.bookingForm.bookerReferences,
-  bookerReferencesErrors: booking.bookingForm.bookerReferencesErrors,
-  costCentreValue: booking.bookingForm.costCentre
+  booking
 });
 
 const mapDispatch = ({
-  changeReference
+  changeReference,
+  validateReferences
 });
 
-export default connect(mapState, mapDispatch)(withTheme(References));
+export default connect(mapState, mapDispatch)(References);
