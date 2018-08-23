@@ -105,12 +105,12 @@ class BookingEditor extends BookingController {
   };
 
   goToEditOrderDetails = () => {
-    const { booking: { formData: { serviceSuspended } } } = this.props;
+    const { theme, booking: { formData: { serviceSuspended } } } = this.props;
 
     if (serviceSuspended) {
       this.showServiceSuspendedPopup();
     } else {
-      this.props.navigation.navigate('EditOrderDetails', { theme: this.props.theme });
+      this.props.navigation.navigate('EditOrderDetails', { theme });
     }
   };
 
