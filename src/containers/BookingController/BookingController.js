@@ -444,7 +444,7 @@ export default class BookingController extends Component {
   renderNoVehiclesMessage = ({ style } = {}) => (
     <InformView style={[styles.footerOrderInfo, style, { backgroundColor: this.props.theme.color.bgPrimary }]}>
       <Text style={[styles.informText, { color: this.props.theme.color.primaryText }]}>
-        {strings('information.notVehicles')}
+        {strings('information.noVehicles')}
       </Text>
     </InformView>
   );
