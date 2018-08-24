@@ -651,8 +651,9 @@ export default class BookingController extends Component {
 
   onCloseModal = () => {
     const { skipFlight } = this.state;
+
     if (skipFlight) {
-      this.createBooking();
+      this.setAirport();
     } else {
       this.closeModal('Custom');
     }
