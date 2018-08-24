@@ -92,8 +92,8 @@ class RateDriver extends PureComponent {
 
     return (
       <Wrapper
-        start={!darkTheme && { x: 1, y: 1 }}
-        end={!darkTheme && { x: 1, y: 0 }}
+        start={!darkTheme ? { x: 1, y: 1 } : null}
+        end={!darkTheme ? { x: 1, y: 0 } : null}
         style={[styles.flex, styles.wrapper, { backgroundColor: theme.color.bgPrimary }]}
       >
         <Header
