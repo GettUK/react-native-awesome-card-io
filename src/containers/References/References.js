@@ -20,7 +20,14 @@ class References extends PureComponent {
     const { booking: { bookingForm: { costCentre } }, changeReference, validateReferences, onClose } = this.props;
     const error = this.getReferenceError();
     const handleChange = value => changeReference({ ...item, value });
-    const handleValidateReferences = () => validateReferences();
+    const handleValidateReferences = () => {
+      const isEmptyValue = (item.value || '') === '';
+
+      if (!isEmptyValue) onClose();
+      setTimeout(() => {
+        if (!isEmptyValue) validateReferences();
+      }, 350); // for smooth animation
+    };
     const handleCostCentre = () => {
       handleChange(costCentre);
       onClose();
