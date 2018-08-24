@@ -38,7 +38,7 @@ const FutureOrderSuggestionPopup = ({ popupRef, theme, flightData, onPress }) =>
             <Text style={[styles.futureOrderTitle, { color: theme.color.primaryBtns, marginVertical: 0 }]}>
               {flightData && flightData.departure.code}
             </Text>
-            <Icon style={styles.futureOrderDivider} height={22} width={134} name="flightInProgress" />
+            <Icon style={styles.futureOrderDivider} height={22} width={124} name="flightInProgress" />
             <Text style={[styles.futureOrderTitle, { color: theme.color.primaryBtns, marginVertical: 0 }]}>
               {flightData && flightData.arrival.code}
             </Text>

@@ -181,12 +181,12 @@ class PickUpTime extends PureComponent {
         {this.renderSelectedValue(
           timeText,
           this.openTimePickerAndroid,
-          <Icon style={styles.TDEditIcon} name="editAndroid" />
+          <Icon style={styles.TDEditIcon} name="editAndroid" color={theme.color.primaryText} />
         )}
         {this.renderSelectedValue(
           dateText,
           this.openDatePickerAndroid,
-          <Icon size={20} name="editAndroid" />
+          <Icon size={20} name="editAndroid" color={theme.color.primaryText} />
         )}
       </View>
     );

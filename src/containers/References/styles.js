@@ -3,9 +3,7 @@ import { color } from 'theme';
 
 const styles = StyleSheet.create({
   input: {
-    fontSize: 17,
-    borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    fontSize: 17
   },
   inputWrapper: {
     marginBottom: 20,

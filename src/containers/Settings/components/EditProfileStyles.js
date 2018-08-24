@@ -14,8 +14,6 @@ export default StyleSheet.create({
     height: 140
   },
   input: {
-    borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 17
   },
   inputContainer: {

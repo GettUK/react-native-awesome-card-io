@@ -69,7 +69,12 @@ const styles = StyleSheet.create({
     marginTop: 24,
     color: color.secondaryText
   },
-  iconSpace: { marginRight: 16 }
+  iconSpace: { marginRight: 16 },
+  emptyLabel: {
+    marginTop: 24,
+    fontSize: 16,
+    textAlign: 'center'
+  }
 });
 
 export default styles;

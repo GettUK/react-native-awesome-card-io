@@ -24,7 +24,7 @@ class RoundedBar extends PureComponent {
         />
         <TextInput
           onChangeText={onChangeText}
-          style={[styles.flex, styles.searchInput, inputStyle]}
+          style={[styles.flex, styles.searchInput, { color: theme.color.primaryText }, inputStyle]}
           placeholderTextColor={labelColor || theme.color.secondaryText}
           value={value}
           {...rest}

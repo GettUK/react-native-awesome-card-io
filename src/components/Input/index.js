@@ -166,7 +166,6 @@ class Input extends PureComponent {
       allowClear,
       allowClearStyle,
       error,
-      underlineColorAndroid,
       inputRef,
       rightButton,
       theme,
@@ -192,7 +191,8 @@ class Input extends PureComponent {
           style={inputStyles}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          underlineColorAndroid={underlineColorAndroid || 'transparent'}
+          placeholderTextColor={theme.color.secondaryText}
+          underlineColorAndroid="transparent"
         />
         {rightButton && this.renderRightButton()}
         {this.renderClearOption()}

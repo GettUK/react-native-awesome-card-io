@@ -6,7 +6,15 @@ import styles from './styles';
 class AddressTabBar extends PureComponent {
   renderTab = ({ label, id }) => (
     <TouchableWithoutFeedback onPress={() => this.props.onChangeTab(id)}>
-      <View key={id} style={[styles.tabContainer, id === this.props.activeTab && styles.activeTab]}>
+      <View
+        key={id}
+        style={[
+          styles.tabContainer,
+          { borderBottomColor: this.props.theme.color.bgSearch },
+          id === this.props.activeTab && styles.activeTab,
+          id === this.props.activeTab && { borderBottomColor: this.props.theme.color.primaryBtns }
+        ]}
+      >
         <Text style={[styles.tabLabel, id === this.props.activeTab && { color: this.props.theme.color.primaryText }]}>
           {label.toUpperCase()}
         </Text>
@@ -16,9 +24,9 @@ class AddressTabBar extends PureComponent {
 
   render() {
     const tabs = [
-      { label: 'Favorites', id: 'favorites' },
+      { label: 'Favourites', id: 'favorites' },
       { label: 'Airports', id: 'airport' },
-      { label: 'TrainStations', id: 'trainStation' },
+      { label: 'Train Stations', id: 'trainStation' },
       { label: 'Hotels', id: 'lodging' },
       { label: 'Restaurants', id: 'restaurant' },
       { label: 'Places to visit', id: 'pointOfInterest' }

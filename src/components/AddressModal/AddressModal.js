@@ -181,10 +181,7 @@ class AddressModal extends PureComponent {
       : (type || types) && icons[type || types[0]];
 
     return (
-      <TouchableOpacity
-        style={styles.itemAddressView}
-        onPress={() => this.onAddressPress(item)}
-      >
+      <TouchableOpacity style={styles.itemAddressView} onPress={() => this.onAddressPress(item)}>
         <Icon name={typedIcon || 'defaultAddress'} style={styles.iconSpace} height={20} />
         <View style={styles.flex}>
           <Text numberOfLines={1} style={[styles.itemAddressText, { color: theme.color.primaryText }]}>
@@ -218,6 +215,7 @@ class AddressModal extends PureComponent {
         />
         <View style={styles.flex}>
           <Input
+            placeholder="Enter the address..."
             value={inputValue}
             onChangeText={this.onChangeText}
             style={styles.input}
@@ -226,33 +224,35 @@ class AddressModal extends PureComponent {
             inputStyle={styles.inputStyle}
             clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
           />
-          <View style={styles.delimiter} />
+          <View style={[styles.delimiter, { borderColor: this.props.theme.color.pixelLine }]} />
         </View>
       </View>
     );
   }
 
   renderAddressList() {
-    const { values, loading, activeTab, inputValue } = this.state;
-    const { defaultValues, suggestedAddresses } = this.props;
+    const { values, loading, loadingTab, activeTab, inputValue } = this.state;
+    const { defaultValues, suggestedAddresses, theme } = this.props;
 
     const addresses = activeTab === 'favorites' ? defaultValues : suggestedAddresses[activeTab].list;
+    const data = inputValue.length ? values : addresses;
 
     return (
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={styles.flex}
-        keyboardVerticalOffset={80}
-      >
-        <FlatList
-          keyboardShouldPersistTaps="always"
-          contentContainerStyle={styles.list}
-          removeClippedSubviews={Platform.OS !== 'ios'}
-          data={inputValue.length ? values : addresses}
-          renderItem={this.renderAddressItem}
-          keyExtractor={this.keyExtractor}
-          ListFooterComponent={loading && this.renderFooter}
-        />
+      <KeyboardAvoidingView behavior="padding" style={styles.flex} keyboardVerticalOffset={80}>
+        {data && data.length && loadingTab !== activeTab
+          ? <FlatList
+            keyboardShouldPersistTaps="always"
+            contentContainerStyle={styles.list}
+            removeClippedSubviews={Platform.OS !== 'ios'}
+            data={data}
+            renderItem={this.renderAddressItem}
+            keyExtractor={this.keyExtractor}
+            ListFooterComponent={loading && this.renderFooter}
+          />
+          : <Text style={[styles.emptyLabel, { color: theme.color.primaryText }]}>
+            {strings('app.label.emptyResult')}
+          </Text>
+        }
       </KeyboardAvoidingView>
     );
   }

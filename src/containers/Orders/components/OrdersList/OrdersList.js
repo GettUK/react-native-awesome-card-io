@@ -178,10 +178,11 @@ class OrdersList extends PureComponent {
 
   render() {
     const { loading } = this.state;
-    const { items } = this.props;
+    const { items, theme } = this.props;
 
     return (
       <ListView
+        style={{ backgroundColor: theme.color.bgSecondary }}
         typeSections={false}
         items={items}
         renderItem={this.renderItem}

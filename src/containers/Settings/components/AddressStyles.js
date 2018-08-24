@@ -59,9 +59,7 @@ export default StyleSheet.create({
     fontSize: 17
   },
   input: {
-    fontSize: 17,
-    borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    fontSize: 17
   },
   inputLast: {
     borderBottomColor: 'transparent'

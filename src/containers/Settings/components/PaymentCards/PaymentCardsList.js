@@ -64,7 +64,7 @@ class PaymentCardsList extends Component {
     [
       {
         component: (
-          <View style={settingsStyles.buttonView}>
+          <View style={[settingsStyles.buttonView, { borderBottomColor: this.props.theme.color.pixelLine }]}>
             <Text style={settingsStyles.buttonText}>
               {strings('paymentCard.button.deactivate')}
             </Text>
