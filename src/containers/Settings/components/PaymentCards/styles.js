@@ -64,8 +64,6 @@ export default StyleSheet.create({
     marginHorizontal: 3
   },
   input: {
-    borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 17,
     paddingVertical: 17
   },

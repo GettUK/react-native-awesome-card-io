@@ -9,9 +9,7 @@ export default StyleSheet.create({
     backgroundColor: color.white
   },
   input: {
-    fontSize: 16,
-    borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    fontSize: 16
   },
   inputContainer: {
     marginLeft: 16,

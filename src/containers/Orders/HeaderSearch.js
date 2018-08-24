@@ -6,7 +6,7 @@ import { View as AnimatableView } from 'react-native-animatable';
 
 import { setFilter, clearFilter } from 'actions/orders';
 
-import { ScreenHeader, IconBtn, SearchBar } from 'components';
+import { ScreenHeader, IconBtn, RoundedBar } from 'components';
 
 import { strings } from 'locales';
 
@@ -84,7 +84,7 @@ class HeaderSearch extends Component {
               transition: ['opacity'],
               children: <IconBtn style={styles.iconLeftBtn} onPress={this.closeFiltersLayout} name="close"/>
             })}
-            <SearchBar
+            <RoundedBar
               containerStyle={styles.searchBarContainer}
               inputStyle={styles.searchBarInput}
               iconStyle={styles.searchBarIcon}

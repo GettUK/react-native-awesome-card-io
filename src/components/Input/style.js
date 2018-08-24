@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 10,
     borderBottomColor: formattedColor.white.opacity(0.4),
-    borderBottomWidth: 2
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   error: {
     borderBottomColor: color.danger

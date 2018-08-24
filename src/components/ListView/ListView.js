@@ -56,11 +56,11 @@ class ListView extends PureComponent {
   };
 
   render() {
-    const { loading, items } = this.props;
+    const { loading, items, theme } = this.props;
 
     return (
       <KeyboardAvoidingView
-        style={[styles.flex, styles.centered]}
+        style={[styles.flex, styles.centered, { backgroundColor: theme.color.bgSecondary }]}
         behavior="padding"
         keyboardVerticalOffset={80}
       >

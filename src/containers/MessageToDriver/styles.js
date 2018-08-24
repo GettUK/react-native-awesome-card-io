@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     fontSize: 18,
-    color: color.primaryText,
     borderBottomWidth: 0
   },
   header: {

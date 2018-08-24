@@ -74,7 +74,8 @@ class DateRange extends Component {
       dayTextColor: theme.color.primaryText,
       markColor: theme.color.iconsSettigs,
       markTextColor: theme.color.white,
-      todayTextColor: theme.color.bgStatuses
+      todayTextColor: theme.color.bgStatuses,
+      monthTextColor: theme.color.primaryText
     };
 
     return (

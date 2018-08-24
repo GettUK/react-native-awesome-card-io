@@ -35,7 +35,7 @@ const CancelReasonModal = ({ theme, isVisible, onClose, reasons, sendCancelOrder
       style={[cancelReasonStyles.reason, { backgroundColor: theme.color.bgSecondary }]}
       onPress={() => submit(reason)}
     >
-      <Icon name={reasonIconMapping[reason]} color={color.primaryBtns} size={26} />
+      <Icon name={reasonIconMapping[reason]} color={theme.color.primaryBtns} size={26} />
       <Text style={[cancelReasonStyles.reasonTitle, { color: theme.color.primaryBtns }]}>
         {strings(`order.cancellationReason.${reason}`)}
       </Text>

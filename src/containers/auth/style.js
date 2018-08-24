@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
 
   inputStyle: {
+    borderBottomColor: color.pixelLine,
     fontSize: 18,
     color: color.white
   },
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   dividerStyle: {
     borderBottomColor: formattedColor.white.opacity(0.4),
-    borderBottomWidth: 2
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   flex: {
     flex: 1

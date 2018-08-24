@@ -20,7 +20,13 @@ function OptionsModal({ theme, onClose, options, style, closeLabel, ...rest }) {
     <View style={[styles.wrapper, { backgroundColor: theme.color.bgPrimary }]}>
       {options.map((option, index) => (
         <TouchableWithoutFeedback onPress={option.onPress} key={option.label}>
-          <View style={[styles.row, (index + 1) === options.length ? styles.rowLast : {}]}>
+          <View
+            style={[
+              styles.row,
+              { borderBottomColor: theme.color.pixelLine },
+              (index + 1) === options.length ? styles.rowLast : {}
+            ]}
+          >
             {option.icon && <Icon name={option.icon} size={26} color={theme.color.primaryBtns} />}
             <Text
               style={[
