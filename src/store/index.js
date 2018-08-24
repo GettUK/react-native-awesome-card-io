@@ -42,8 +42,7 @@ export function createStore() {
     storage,
     transforms: [
       createFilter('app', ['statuses', 'push', 'devSettings']),
-      createFilter('session', ['token']),
-      createFilter('network', ['isConnected'])
+      createFilter('session', ['token'])
     ],
     whitelist: ['app', 'session']
   };
