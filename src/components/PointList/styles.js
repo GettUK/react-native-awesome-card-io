@@ -6,19 +6,21 @@ export default color =>
     wrapper: {
       flexDirection: 'column',
       backgroundColor: (color || defaultColor).bgPrimary,
-      minHeight: 50,
       paddingVertical: 7,
       paddingHorizontal: 20
     },
     row: {
       flexDirection: 'row',
-      marginVertical: 8,
+      marginVertical: 0,
       alignSelf: 'flex-start',
       alignItems: 'center',
       justifyContent: 'center'
     },
     labelEdit: {
       color: (color || defaultColor).primaryBtns
+    },
+    editIcon: {
+      marginLeft: 10
     },
     pickUpIcon: {
       marginRight: 15
@@ -58,5 +60,41 @@ export default color =>
     },
     divider: {
       borderBottomColor: (color || defaultColor).pixelLine
+    },
+    emptyDivider: {
+      height: 1,
+      width: '100%',
+      paddingRight: 15
+    },
+    wrapperStyleModifier: {
+      marginTop: -8,
+      marginBottom: 8
+    },
+    emptyStops: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    stopsRow: {
+      flexDirection: 'row',
+      marginBottom: 7
+    },
+    leftPanelContainer: {
+      marginLeft: -1.5,
+      alignItems: 'center'
+    },
+    addStopTextWrapper: {
+      flex: 1,
+      justifyContent: 'center',
+      marginLeft: 12,
+      alignSelf: 'flex-end'
+    },
+    addStopTextWrapperLast: {
+      flex: 1,
+      justifyContent: 'center',
+      marginLeft: 12
+    },
+    addStopText: {
+      fontSize: 15,
+      color: color.primaryBtns
     }
   });
