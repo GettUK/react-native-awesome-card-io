@@ -44,8 +44,10 @@ class ReferenceValueSelector extends PureComponent {
     const isSelected = reference.value === item.value;
     if (isSelected) textStyles.push(styles.valueNameSelected);
     const handlerValueSelect = () => {
-      changeReference({ ...reference, value: item.value });
       onClose();
+      setTimeout(() => {
+        changeReference({ ...reference, value: item.value });
+      }, 350); // for smooth animation
     };
 
     return (
