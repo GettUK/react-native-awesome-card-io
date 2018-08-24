@@ -182,7 +182,7 @@ class OrderScene extends Component {
   };
 
   handleCreateOrder = () => {
-    const { changeFields, changeAddress } = this.props;
+    const { changeFields, changeAddress, theme } = this.props;
     const { flightData: { arrival } } = this.state;
 
     this.futureOrderPopup.close();
@@ -192,7 +192,7 @@ class OrderScene extends Component {
     geocode(arrival)
       .then(processLocation)
       .then(data => changeAddress(data, { type: 'pickupAddress' }))
-      .then(() => this.props.navigation.navigate('EditOrderDetails', { futureFlightOrder: true }));
+      .then(() => this.props.navigation.navigate('EditOrderDetails', { futureFlightOrder: true, theme }));
   }
 
   handleCallFleet = () => {
