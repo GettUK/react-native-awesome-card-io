@@ -169,7 +169,10 @@ class OrderDetails extends BookingController {
 
   renderAdditionalDetails = () => {
     const { theme } = this.props;
-    const options = this.isFutureEditOrder() ? this.getAdditionalDetailsItems() : this.getOptions();
+    const options = this.isFutureEditOrder()
+      ? this.getAdditionalDetailsItems({ isOrderEditing: true })
+      : this.getOptions();
+
     return (
       <View key="details" style={orderPanelStyles.activeContainer}>
         <View style={[orderPanelStyles.listItem, { backgroundColor: theme.color.bgPrimary }]}>
