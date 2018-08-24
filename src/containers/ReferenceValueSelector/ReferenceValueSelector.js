@@ -64,7 +64,7 @@ class ReferenceValueSelector extends PureComponent {
     );
   };
 
-  renderSeparator = () => <Divider left={15} />;
+  renderSeparator = () => <Divider />;
 
   render() {
     const { searchValue, loading } = this.state;

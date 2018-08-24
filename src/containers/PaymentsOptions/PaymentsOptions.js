@@ -47,7 +47,6 @@ class PaymentsOptions extends Component {
 
   renderItem = ({ item, index }) => {
     const { booking: { paymentMethod, paymentCardId } } = this.props;
-    const paymentTypes = this.preparePaymentTypes();
     const isSelected = item.value === paymentMethod || item.value === `${paymentMethod}:${paymentCardId}`;
 
     return (
@@ -63,12 +62,11 @@ class PaymentsOptions extends Component {
             </View>
           </View>
         </View>
-        {paymentTypes.length - 1 !== index && <Divider />}
       </TouchableOpacity>
     );
   };
 
-  renderSeparator = () => <Divider left={15} />;
+  renderSeparator = () => <Divider />;
 
   render() {
     const paymentTypes = this.preparePaymentTypes();

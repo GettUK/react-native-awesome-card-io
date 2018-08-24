@@ -23,7 +23,7 @@ class InlineBar extends PureComponent {
             color={labelColor || theme.color.secondaryText}
             size={12}
           />
-          <View style={styles.flex}>
+          <View style={[styles.flex, styles.inputWrapper]}>
             <Input
               value={value}
               onChangeText={onChangeText}

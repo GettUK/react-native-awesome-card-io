@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginLeft: 15,
     paddingVertical: 11
+  },
+  input: {
+    marginRight: 10
   }
 });
 

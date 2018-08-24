@@ -32,10 +32,12 @@ class PassengersList extends PureComponent {
   };
 
   onPressItem = (id) => {
-    const { savePassenger, updateBooking, updateEnabled } = this.props;
-    savePassenger(id);
-    if (updateEnabled) updateBooking();
-    this.onCloseModal();
+    const { savePassenger, updateBooking, updateEnabled, onClose } = this.props;
+    onClose();
+    setTimeout(() => {
+      savePassenger(id);
+      if (updateEnabled) updateBooking();
+    }, 350); // for smooth animation
   };
 
   renderItem = ({ item }) => {
@@ -74,11 +76,6 @@ class PassengersList extends PureComponent {
   };
 
   keyExtractor = item => String(item.id);
-
-  onCloseModal = () => {
-    this.props.onClose();
-    this.handleSearchValueChange('');
-  };
 
   render() {
     const { searchValue } = this.state;

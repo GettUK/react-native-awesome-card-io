@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Input, Icon, Divider } from 'components';
-import { saveMessageToDriver, changeMessageToDriver, updateBooking } from 'actions/booking';
+import { changeMessageToDriver, updateBooking } from 'actions/booking';
 import { color } from 'theme';
+import { debounce } from 'lodash';
 import { withTheme } from 'providers';
 import { strings } from 'locales';
-import { throttledAction } from 'utils';
 import styles from './styles';
 
 const defaultPhrases = [
@@ -19,28 +19,22 @@ const defaultPhrases = [
   strings('messageToDriver.text.ifLateCallMe')
 ];
 
-const MessageToDriver = ({
-  updateBooking, updateEnabled, message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose, theme
-}) => {
+const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageToDriver, onClose, theme }) => {
+  const updateMessageToDriver = debounce(() => {
+    if (updateEnabled) updateBooking();
+  }, 750);
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
+    updateMessageToDriver();
   };
 
-  const value = touched ? message : booking.message;
-  const onCloseModal = () => {
-    changeMessageToDriver('');
-    onClose();
-  };
-  const handleSave = throttledAction(() => {
-    if (touched) {
-      saveMessageToDriver('', true);
-      if (updateEnabled) updateBooking();
-      onCloseModal();
-    }
-  });
+  const value = booking.message;
   const onPhrasePress = (item) => {
-    onChangeText(item);
-    this.input.focus();
+    onClose();
+    setTimeout(() => {
+      onChangeText(item);
+      updateMessageToDriver();
+    }, 350); // for smooth animation
   };
   const renderPhrase = (item, index) => (
     <TouchableOpacity key={index} onPress={() => onPhrasePress(item)}>
@@ -58,7 +52,7 @@ const MessageToDriver = ({
           blurOnSubmit
           value={value}
           onChangeText={onChangeText}
-          onSubmitEditing={handleSave}
+          onSubmitEditing={onClose}
           autoCorrect={false}
           autoFocus
           maxLength={225}
@@ -66,6 +60,7 @@ const MessageToDriver = ({
           allowedError={false}
           placeholder={strings('app.label.startTypeMessage')}
           placeholderTextColor={theme.color.secondaryText}
+          style={styles.input}
           inputStyle={[styles.inputStyle, { color: theme.color.primaryText }]}
           clearIcon={<Icon name="close" size={16} style={styles.clearIcon} color={color.secondaryText} />}
         />
@@ -77,24 +72,12 @@ const MessageToDriver = ({
 };
 
 MessageToDriver.propTypes = {
-  message: PropTypes.string,
-  changeMessageToDriver: PropTypes.func.isRequired,
-  saveMessageToDriver: PropTypes.func.isRequired
+  changeMessageToDriver: PropTypes.func.isRequired
 };
-
-MessageToDriver.defaultProps = {
-  message: ''
-};
-
-const mapState = ({ booking }) => ({
-  touched: booking.messageToDriverTouched,
-  message: booking.tempMessageToDriver
-});
 
 const mapDispatch = ({
-  saveMessageToDriver,
   changeMessageToDriver,
   updateBooking
 });
 
-export default connect(mapState, mapDispatch)(withTheme(MessageToDriver));
+export default connect(null, mapDispatch)(withTheme(MessageToDriver));
