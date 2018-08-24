@@ -56,7 +56,9 @@ export const formatMessage = message => (
 export const bookingFieldsToReset = [
   'stops', 'destinationAddress',
   'vehiclePrice', 'vehicleValue', 'vehicleName',
-  'travelReasonId', 'flight'
+  'travelReasonId', 'flight',
+  'id', 'status', 'internationalFlag', 'specialRequirements',
+  'vehicleVendorId', 'serviceType', 'messageToDriver', 'schedule'
 ];
 
 export const isEnoughOrderData = bookingForm =>
