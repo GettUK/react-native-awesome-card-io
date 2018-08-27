@@ -220,6 +220,7 @@ class OrderDetails extends BookingController {
         onAddressPress: this.openAddressModal,
         onStopAdd: this.showStopPointsModal,
         noItemMargin: false,
+        destinationStyleModifier: { marginTop: 0 },
         allowAddingStops: true,
         allowEditing: true
       }
