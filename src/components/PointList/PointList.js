@@ -140,16 +140,28 @@ class PointList extends Component {
     );
   }
 
-  renderStopsItem = () => {
-    const { data } = this.props;
+  hasAnyStops = data => (
+    data && ((data.stopAddresses && data.stopAddresses.length > 0) || (data.stops && data.stops.length > 0))
+  )
 
-    /* onPress === onAddressPress */
+  getStops = (data) => {
+    if (data.stopAddresses && data.stopAddresses.length > 0) {
+      return data.stopAddresses;
+    } else if (data.stops && data.stops.length > 0) {
+      return data.stops;
+    }
+    return [];
+  }
+
+  renderStopsItem = () => {
+    const { data, onStopAdd, allowEditing } = this.props;
+    const onAddressPress = allowEditing ? onStopAdd : () => {};
 
     return (
       <View style={{ marginTop: 8 }}>
         {(data.stops || data.stopAddresses).map(({ address = {}, line }, index, array) => (
           <View key={index}>
-            {this.renderStopItem(address.line || line, () => {}, array.length - 1 === index)}
+            {this.renderStopItem(address.line || line, onAddressPress, array.length - 1 === index)}
           </View>
         ))}
       </View>
@@ -172,7 +184,7 @@ class PointList extends Component {
         <View style={this.styles.leftPanelContainer}>
           {this.renderIcon()}
           <Icon size={14} color={color.secondaryText} name="pickUpField" />
-          {downDottedLine && this.renderIcon({ gradientColorStart: '#615FFF', gradientColorStop: '#48B5FF' })}
+          {downDottedLine && this.renderIcon({ gradientColorStart: '#615FFF', gradientColorStop: '#615FFF' })}
         </View>
 
         <View style={downDottedLine ? this.styles.addStopTextWrapperLast : this.styles.addStopTextWrapper}>
@@ -183,9 +195,9 @@ class PointList extends Component {
   );
 
   renderAddStopItem = () => {
-    const { data, onStopAdd, stopAsList } = this.props;
+    const { data, onStopAdd, stopAsList, allowAddingStops, allowEditing } = this.props;
 
-    if (!this.shouldRenderAddStop()) {
+    if (!this.shouldRenderAddStop() || (!this.hasAnyStops(data) && !allowAddingStops && !allowEditing)) {
       return (
         <View style={this.styles.emptyStops}>
           <View style={this.styles.leftPanelContainer}>
@@ -198,17 +210,15 @@ class PointList extends Component {
       );
     }
 
-    if (stopAsList && (data.stops || data.stopAddresses)) {
+    if (stopAsList && this.hasAnyStops(data)) {
       return this.renderStopsItem();
     }
 
     let addStopsText = strings('booking.label.addStopPoint');
-    if (data.stopAddresses && data.stopAddresses.length && data.stopAddresses.length > 0) {
-      addStopsText = (
-        `${data.stopAddresses.length} ${strings('booking.label.stopPoint')}${data.stopAddresses.length > 1 ? 's' : ''}`
-      );
+    if (this.hasAnyStops(data)) {
+      const stops = this.getStops(data);
+      addStopsText = `${stops.length} ${strings('booking.label.stopPoint')}${stops.length > 1 ? 's' : ''}`;
     }
-
     return this.renderStopItem(addStopsText, onStopAdd, true);
   }
 
