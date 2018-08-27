@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
-import { omit } from 'lodash';
+import { omit, mapValues } from 'lodash';
 
 import { Modal, Icon, Divider } from 'components';
 
@@ -16,7 +16,7 @@ import { strings } from 'locales';
 import styles from './styles';
 
 const ORDER_PANEL_WIDTH = 40;
-const ROW_HEIGHT = 64;
+const ROW_HEIGHT = 66;
 
 class StopPointsModal extends PureComponent {
   static propTypes = {
@@ -60,7 +60,7 @@ class StopPointsModal extends PureComponent {
   }
 
   handleDeleteAddress = (id) => {
-    const { data } = this.props;
+    const data = this.getData();
 
     const key = this.order.find(key => data[key].id === id);
 
@@ -87,7 +87,7 @@ class StopPointsModal extends PureComponent {
 
   renderRow = ({ line, id = -1, textStyle = styles.listItemLabel, canDelete = true }) => (
     <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, id)}>
-      <View style={styles.rowWrapper}>
+      <View style={[styles.rowWrapper, { height: ROW_HEIGHT }]}>
         <View style={styles.rowInnerWrapper}>
           <View style={styles.dragButton}>
             <Icon name="drag" size={15} />
@@ -128,7 +128,8 @@ class StopPointsModal extends PureComponent {
         </View>
         {needIcon &&
           <View style={styles.dividerLineBtnStyle}>
-            <Icon name="dottedLine" pointsNum={9} size={20} gradientColorStart="#615FFF" gradientColorStop="#615FFF" />
+            <Icon name="dottedLine" pointsNum={9} size={21} gradientColorStart="#615FFF" gradientColorStop="#615FFF" />
+            <Icon name="dottedLine" pointsNum={9} size={21} gradientColorStart="#615FFF" gradientColorStop="#615FFF" />
           </View>}
       </View>
     );
@@ -165,9 +166,12 @@ class StopPointsModal extends PureComponent {
 
   order = Object.keys(this.props.data);
 
-  getListHeight = (defaultHeight = 60) => (
-    Object.keys(this.props.data).length * defaultHeight
-  )
+  getListHeight = (defaultHeight = ROW_HEIGHT) => Object.keys(this.props.data).length * defaultHeight
+
+  getData = () => mapValues(this.props.data, (value, id) => ({
+    ...(value.address && value.address.line ? value.address : value),
+    id
+  }));
 
   handleDragStart = () => this.setState({ isDragging: true });
 
@@ -180,10 +184,10 @@ class StopPointsModal extends PureComponent {
     const order = keys.length !== this.order.length ? keys : this.order;
 
     return (
-      <View style={[styles.wrapper, { height: 100 + this.getListHeight() }]}>
+      <View style={[styles.wrapper, { height: 40 + ROW_HEIGHT + this.getListHeight() }]}>
         <View style={{ height: this.getListHeight() }}>
           <SortableListView
-            data={data}
+            data={this.getData()}
             order={order}
             disableSorting={this.order && this.order.length <= 1}
             activeOpacity={0.92}

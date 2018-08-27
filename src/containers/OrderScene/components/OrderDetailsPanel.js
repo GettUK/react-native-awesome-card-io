@@ -215,11 +215,13 @@ class OrderDetails extends BookingController {
   renderPointList = ({ style }) => {
     const { onLayoutPointList } = this.props;
     const order = this.getOrder();
-    const props = this.isFutureEditOrder() // TODO: allowAddingStops
+    const props = this.isFutureEditOrder()
       ? {
         onAddressPress: this.openAddressModal,
         onStopAdd: this.showStopPointsModal,
-        allowAddingStops: true
+        noItemMargin: false,
+        allowAddingStops: true,
+        allowEditing: true
       }
       : {
         allowAddingStops: false,

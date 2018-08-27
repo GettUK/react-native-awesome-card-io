@@ -63,6 +63,7 @@ export default color =>
     },
     emptyDivider: {
       height: 1,
+      marginBottom: 5,
       width: '100%',
       paddingRight: 15
     },
@@ -80,7 +81,8 @@ export default color =>
     },
     leftPanelContainer: {
       marginLeft: -1.5,
-      alignItems: 'center'
+      alignItems: 'center',
+      zIndex: -1
     },
     addStopTextWrapper: {
       flex: 1,

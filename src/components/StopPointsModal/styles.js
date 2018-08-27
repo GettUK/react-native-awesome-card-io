@@ -19,7 +19,7 @@ export default StyleSheet.create({
     flex: 1
   },
   dividerWrapper: {
-    height: 1,
+    height: 10,
     width: '100%',
     paddingRight: 40
   },
