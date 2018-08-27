@@ -60,6 +60,7 @@ import styles from './styles';
 
 class OrderScene extends Component {
   state = {
+    futureOrderForm: null,
     isVisibleOptionsModal: false,
     isVisibleCancelModal: false,
     isVisibleOnMyWayModal: false,
@@ -71,8 +72,6 @@ class OrderScene extends Component {
     const { currentOrder } = this.props;
 
     if (currentOrder.flight && currentOrder.destinationAddress.airport && currentOrder.status === 'creating') {
-      this.resetBookingForm();
-
       this.setFlightData(currentOrder.flight);
     }
 
@@ -118,13 +117,16 @@ class OrderScene extends Component {
   };
 
   setFlightData = (flight) => {
+    const { bookingForm } = this.props;
     const { year, month, day } = getSeparatedDate();
 
     get('/flightstats/flights', { flight, year, month, day })
       .then(({ data }) => {
-        this.setState({ flightData: data[0] });
-      }).then(this.futureOrderPopup.open);
-  }
+        this.setState({ flightData: data[0], futureOrderForm: bookingForm }, () => {
+          this.futureOrderPopup.open();
+        });
+      });
+  };
 
   resetBookingForm = () => {
     const { removeFields, resetBookingValues } = this.props;
@@ -181,23 +183,36 @@ class OrderScene extends Component {
     });
   };
 
+  restoreFutureOrder = () => {
+    const { futureOrderForm } = this.state;
+    changeFields({ ...futureOrderForm });
+    this.setState({ futureOrderForm: null });
+  };
+
   handleCreateOrder = () => {
     const { changeFields, changeAddress, theme } = this.props;
     const { flightData: { arrival } } = this.state;
 
     this.futureOrderPopup.close();
 
-    changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
-
     geocode(arrival)
       .then(processLocation)
-      .then(data => changeAddress(data, { type: 'pickupAddress' }))
-      .then(() => this.props.navigation.navigate('EditOrderDetails', { futureFlightOrder: true, theme }));
-  }
+      .then((data) => {
+        this.resetBookingForm();
+        changeAddress(data, { type: 'pickupAddress' });
+        changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
+      })
+      .then(() =>
+        this.props.navigation.navigate('EditOrderDetails', {
+          futureFlightOrder: true,
+          theme,
+          restoreFutureOrder: this.restoreFutureOrder
+        }));
+  };
 
   handleCallFleet = () => {
     Linking.openURL(`tel:${this.props.order.vendorPhone}`);
-  }
+  };
 
   handleOpen = type =>
     this.setState({ [`isVisible${type}`]: true });

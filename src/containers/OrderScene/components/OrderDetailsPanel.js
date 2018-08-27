@@ -11,8 +11,7 @@ import {
   COMPLETED_STATUSES,
   FINAL_STATUSES,
   IN_PROGRESS_STATUS,
-  DRIVER_ON_WAY,
-  ORDER_RECEIVED_STATUS
+  DRIVER_ON_WAY
 } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 
@@ -58,7 +57,7 @@ class OrderDetails extends BookingController {
 
     const { booking: { bookingForm: bookingFormProps } } = prevProps;
 
-    if (this.isFutureEditOrder()) this.requestVehiclesOnOrderChange(bookingFormProps);
+    if (this.isFutureOrderEdit()) this.requestVehiclesOnOrderChange(bookingFormProps);
   }
 
   callDriver = () => {
@@ -169,7 +168,7 @@ class OrderDetails extends BookingController {
 
   renderAdditionalDetails = () => {
     const { theme } = this.props;
-    const options = this.isFutureEditOrder()
+    const options = this.isFutureOrderEdit()
       ? this.getAdditionalDetailsItems({ isOrderEditing: true })
       : this.getOptions();
 
@@ -206,16 +205,10 @@ class OrderDetails extends BookingController {
     );
   };
 
-  isFutureEditOrder = () => {
-    const { booking: { currentOrder: { asap, indicatedStatus = 'connected' } } } = this.props;
-    const isOrderReceived = indicatedStatus === ORDER_RECEIVED_STATUS;
-    return !asap && isOrderReceived;
-  };
-
   renderPointList = ({ style }) => {
     const { onLayoutPointList } = this.props;
     const order = this.getOrder();
-    const props = this.isFutureEditOrder()
+    const props = this.isFutureOrderEdit()
       ? {
         onAddressPress: this.openAddressModal,
         onStopAdd: this.showStopPointsModal,
@@ -247,7 +240,7 @@ class OrderDetails extends BookingController {
 
     return (
       <Fragment>
-        {this.isFutureEditOrder() &&
+        {this.isFutureOrderEdit() &&
           this.renderPickUpTime({ style: orderPanelStyles.pickUpTimeWrapper, title: 'Future order', disableNow: true })
         }
         <View key="journey" style={orderPanelStyles.activeContainer}>
@@ -265,7 +258,7 @@ class OrderDetails extends BookingController {
               <Divider key="divider" style={orderPanelStyles.divider} />
             ]
             }
-            {this.isFutureEditOrder() ? this.renderCars({ style: orderPanelStyles.noVehicles }) : this.renderCarItem()}
+            {this.isFutureOrderEdit() ? this.renderCars({ style: orderPanelStyles.noVehicles }) : this.renderCarItem()}
           </View>
         </View>
       </Fragment>
@@ -453,20 +446,9 @@ class OrderDetails extends BookingController {
     );
   };
 
-  onClose = () => {
-    const { onClose, updateBooking } = this.props;
-    const availableVehicles = this.getAvailableVehicles();
-    const shouldRequestVehicles = this.shouldRequestVehicles();
-
-    onClose();
-    if (this.isFutureEditOrder() && shouldRequestVehicles && availableVehicles.length > 0) {
-      updateBooking();
-    }
-  };
-
   renderContent() {
     const {
-      app: { statuses: { params: { connectBar } } }, booking: { currentOrder }, visible, onActivate
+      app: { statuses: { params: { connectBar } } }, booking: { currentOrder }, visible, onActivate, onClose
     } = this.props;
     const { driverDetails: driver } = currentOrder;
     const connectBarTop = getHeight(connectBar) > 0 ? (getHeight(connectBar) - topIPhone) : 0;
@@ -485,7 +467,7 @@ class OrderDetails extends BookingController {
         header={this.renderHeader()}
         closeButton={<Icon name="arrow" />}
         onActivate={onActivate}
-        onClose={this.onClose}
+        onClose={onClose}
         opened={visible}
       >
         {this.renderActiveItem()}

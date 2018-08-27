@@ -55,7 +55,10 @@ const routeConfiguration = {
       headerTintColor: navigation.state.params.theme.color.primaryText,
       headerStyle: getDefaultHeaderStyle(navigation),
       headerTitle: strings('order.text.orderDetails'),
-      headerLeft: <BackBtn navigation={navigation} />
+      headerLeft: <BackBtn
+        navigation={navigation}
+        backAction={navigation.state.params && navigation.state.params.restoreFutureOrder}
+      />
     })
   },
   Settings: {

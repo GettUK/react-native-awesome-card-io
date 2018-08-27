@@ -8,7 +8,7 @@ import { HourFormat } from 'react-native-hour-format';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
-import { changeFields } from 'actions/booking';
+import { changeFields, updateBooking } from 'actions/booking';
 import { Icon, Button, Modal } from 'components';
 
 import { withTheme } from 'providers';
@@ -93,7 +93,7 @@ class PickUpTime extends PureComponent {
 
   handleUpdateSchedule = (type = 'now') => {
     const { date } = this.state;
-    const { requestVehicles, changeFields } = this.props;
+    const { requestVehicles, changeFields, updateEnabled, updateBooking } = this.props;
     const minDate = this.getMinimalFutureOrderTime();
     const scheduledAt = type === 'later'
       ? (minDate.isBefore(momentDate(date)) && momentDate(date)) || minDate
@@ -101,6 +101,7 @@ class PickUpTime extends PureComponent {
 
     this.closePickerModal();
     changeFields({ scheduledType: type, scheduledAt });
+    if (updateEnabled) updateBooking();
     requestVehicles();
   };
 
@@ -290,7 +291,8 @@ class PickUpTime extends PureComponent {
 
 PickUpTime.defaultProps = {
   title: 'Pickup Time',
-  disableNow: false
+  disableNow: false,
+  updateEnabled: false
 };
 
 const mapState = ({ booking }) => ({
@@ -299,7 +301,8 @@ const mapState = ({ booking }) => ({
 });
 
 const mapDispatch = {
-  changeFields
+  changeFields,
+  updateBooking
 };
 
 export default connect(mapState, mapDispatch)(withTheme(PickUpTime));
