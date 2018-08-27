@@ -141,13 +141,15 @@ class PointList extends Component {
   }
 
   renderStopsItem = () => {
-    const { data, onAddressPress } = this.props;
+    const { data } = this.props;
+
+    /* onPress === onAddressPress */
 
     return (
       <View style={{ marginTop: 8 }}>
-        {data.stopAddresses.map(({ line }, index, array) => (
+        {(data.stops || data.stopAddresses).map(({ address = {}, line }, index, array) => (
           <View key={index}>
-            {this.renderStopItem(line, onAddressPress, array.length - 1 === index)}
+            {this.renderStopItem(address.line || line, () => {}, array.length - 1 === index)}
           </View>
         ))}
       </View>
