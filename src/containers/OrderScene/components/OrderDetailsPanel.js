@@ -233,7 +233,7 @@ class OrderDetails extends BookingController {
         style={style}
         destinationStyleModifier={{ marginTop: 0 }}
         data={order}
-        stopAsList={true}
+        stopAsList
         noItemMargin={false}
       />
     );
