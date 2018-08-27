@@ -53,11 +53,11 @@ const getPeriods = () => {
 
 const filterSectionsByPeriod = (items) => {
   const { today, endOfTheWeek, weekAgo, monthAgo, yearAgo } = getPeriods();
-  const check = (now, before, after) => now().isBefore(before()) && now().isAfter(after());
+  const check = (now, before, after) => (now.isBefore(before()) && now.isAfter(after())) || now.isSame(before(), 'day');
 
   return items.map((item) => {
-    const itemTime = () => moment(item.createdAt);
-    const tempTitle = itemTime().calendar(null, sectionFormatter);
+    const itemTime = moment(item.createdAt);
+    const tempTitle = itemTime.calendar(null, sectionFormatter);
 
     let section;
     if (check(itemTime, today, endOfTheWeek)) {
