@@ -76,14 +76,16 @@ export default class BookingController extends Component {
   updateAvailableCarsScroll(value, animated = false) {
     if (!this.availableCars) return;
 
-    if (value && this.getAvailableCarsWidth() < value + (CAR_BLOCK_WIDTH * 3)) {
-      this.availableCars.scrollToEnd({ animated });
-    } else {
-      this.availableCars.scrollTo({
-        x: isUndefined(value) ? this.props.booking.bookingForm.availableCarsScroll : value,
-        animated
-      });
-    }
+    setTimeout(() => {
+      if (value && this.getAvailableCarsWidth() < value + (CAR_BLOCK_WIDTH * 3)) {
+        this.availableCars.scrollToEnd({ animated });
+      } else {
+        this.availableCars.scrollTo({
+          x: isUndefined(value) ? this.props.booking.bookingForm.availableCarsScroll : value,
+          animated
+        });
+      }
+    }, 0);
   }
 
   getAvailableCarsScrollShift(vehicle) {
