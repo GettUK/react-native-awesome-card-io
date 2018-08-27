@@ -199,7 +199,7 @@ class PointList extends Component {
       );
     }
 
-    if (stopAsList) {
+    if (stopAsList && (data.stops || data.stopAddresses)) {
       return this.renderStopsItem();
     }
 
