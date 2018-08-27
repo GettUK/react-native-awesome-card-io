@@ -5,9 +5,8 @@ import styles from './styles';
 
 class AddressTabBar extends PureComponent {
   renderTab = ({ label, id }) => (
-    <TouchableWithoutFeedback onPress={() => this.props.onChangeTab(id)}>
+    <TouchableWithoutFeedback key={id} onPress={() => this.props.onChangeTab(id)}>
       <View
-        key={id}
         style={[
           styles.tabContainer,
           { borderBottomColor: this.props.theme.color.bgSearch },
@@ -20,7 +19,7 @@ class AddressTabBar extends PureComponent {
         </Text>
       </View>
     </TouchableWithoutFeedback>
-  )
+  );
 
   render() {
     const tabs = [

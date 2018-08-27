@@ -156,22 +156,21 @@ class PointList extends Component {
     );
   };
 
-  renderIcon = ({ size = 19, pointsNum = 9, gradientColorStart = '#48B5FF', gradientColorStop = '#615FFF' }) => (
+  renderIcon = ({ size = 19, pointsNum = 9, gradientColorStart = '#48B5FF', gradientColorStop = '#615FFF' } = {}) => (
     <Icon
       size={size}
-      color={color}
       name="dottedLine"
       pointsNum={pointsNum}
       gradientColorStart={gradientColorStart}
       gradientColorStop={gradientColorStop}
     />
-  )
+  );
 
   renderStopItem = (text, onPress, downDottedLine) => (
     <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
       <View style={[this.styles.stopsRow, { marginTop: this.props.noItemMargin ? 0 : -8, justifyContent: 'center' }]}>
         <View style={this.styles.leftPanelContainer}>
-          {this.renderIcon({})}
+          {this.renderIcon()}
           <Icon size={14} color={color.secondaryText} name="pickUpField" />
           {downDottedLine && this.renderIcon({ gradientColorStart: '#615FFF', gradientColorStop: '#48B5FF' })}
         </View>
@@ -190,7 +189,7 @@ class PointList extends Component {
       return (
         <View style={this.styles.emptyStops}>
           <View style={this.styles.leftPanelContainer}>
-            {this.renderIcon({})}
+            {this.renderIcon()}
           </View>
           <View style={this.styles.emptyDivider}>
             <Divider left={12} />
