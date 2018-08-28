@@ -195,19 +195,34 @@ class OrderScene extends Component {
 
     this.futureOrderPopup.close();
 
-    geocode(arrival)
-      .then(processLocation)
-      .then((data) => {
-        this.resetBookingForm();
-        changeAddress(data, { type: 'pickupAddress' });
-        changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
-      })
-      .then(() =>
-        this.props.navigation.navigate('EditOrderDetails', {
-          futureFlightOrder: true,
-          theme,
-          restoreFutureOrder: this.restoreFutureOrder
-        }));
+    let queryString = arrival.name;
+    if (arrival.terminal) queryString += ` Terminal ${arrival.terminal}`;
+
+    get('/addresses', { string: queryString })
+      .then((res) => {
+        if (res.data.list[0]) {
+          const { id, text, google, predefined } = res.data.list[0];
+          const payload = {
+            locationId: id,
+            string: text,
+            predefined,
+            google
+          };
+          geocode(payload)
+            .then(processLocation)
+            .then((data) => {
+              this.resetBookingForm();
+              changeAddress(data, { type: 'pickupAddress' });
+              changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
+            })
+            .then(() =>
+              this.props.navigation.navigate('EditOrderDetails', {
+                futureFlightOrder: true,
+                theme,
+                restoreFutureOrder: this.restoreFutureOrder
+              }));
+        }
+      });
   };
 
   handleCallFleet = () => {
