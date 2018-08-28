@@ -39,5 +39,8 @@ export default StyleSheet.create({
     fontSize: 18,
     color: color.primaryText,
     borderBottomWidth: 0
+  },
+  inputWrapper: {
+    marginRight: 10
   }
 });

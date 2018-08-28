@@ -16,8 +16,9 @@ class ReasonForTravel extends PureComponent {
   keyExtractor = item => String(item.id);
 
   onChangeTravelReason = (travelReasonId) => {
-    this.props.changeFields({ travelReasonId });
-    this.onCloseModal();
+    const { onClose, changeFields } = this.props;
+    onClose();
+    setTimeout(() => changeFields({ travelReasonId }), 350); // for smooth animation
   };
 
   renderItem = ({ item }) => {
@@ -41,17 +42,12 @@ class ReasonForTravel extends PureComponent {
     );
   };
 
-  renderSeparator = () => <Divider left={15} />;
+  renderSeparator = () => <Divider />;
 
   filterItems = () => filterBySearchValue(this.props.travelReasons, ['name', 'id'], this.state.searchValue);
 
   handleSearchValueChange = (searchValue) => {
     this.setState({ searchValue });
-  };
-
-  onCloseModal = () => {
-    this.props.onClose();
-    this.handleSearchValueChange('');
   };
 
   render() {

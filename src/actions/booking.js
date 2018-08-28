@@ -45,7 +45,6 @@ const TYPES = createTypes('booking', [
   'changeReference',
   'setReferenceErrors',
   'resetBookingValues',
-  'changeMessageToDriver',
   'changeFlight',
   'getVehiclesStart',
   'getVehiclesSuccess',
@@ -75,18 +74,11 @@ export const changeFields = fields => ({ type: TYPES.changeFields, payload: fiel
 
 export const changeMessageModified = (modified = false) => ({ type: TYPES.changeMessageModified, modified });
 
-export const saveMessageToDriver = (messageToDriver, modified = false) => (dispatch, getState) => {
-  const message = getState().booking.tempMessageToDriver.trim();
+export const changeMessageToDriver = (message, modified = false) => (dispatch) => {
+  if (modified) dispatch(changeMessageModified(true));
 
-  if (modified) {
-    dispatch(changeMessageModified(true));
-  }
-
-  return dispatch(changeFields({ message: messageToDriver || message }));
+  return dispatch(changeFields({ message }));
 };
-
-export const changeMessageToDriver = (message, touched = false) =>
-  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
 
 const getMessageForAddress = ({ message, address = {}, meta, booking, passenger }) => {
   const { formData: { defaultPickupAddress = {}, defaultDriverMessage } } = booking;
@@ -123,7 +115,7 @@ export const setDefaultMessageToDriver = (address = {}, meta = {}) => (dispatch,
   if (meta.type !== 'stops' && !messageModified) {
     message = getMessageForAddress({ message, address, meta, booking, passenger });
 
-    dispatch(saveMessageToDriver(formatMessage(message)));
+    dispatch(changeMessageToDriver(formatMessage(message)));
   }
 };
 
@@ -162,7 +154,7 @@ export const resetBookingValues = () => (dispatch, getState) => {
 
   dispatch(changeMessageModified());
 
-  dispatch(saveMessageToDriver(''));
+  dispatch(changeMessageToDriver(''));
 
   dispatch(setDefaultMessageToDriver(pickupAddress, { type: 'pickupAddress' }));
 

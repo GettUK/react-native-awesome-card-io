@@ -28,7 +28,6 @@ export const initialState = {
     loadingError: ''
   },
   orderCreateError: null,
-  tempMessageToDriver: '',
   messageModified: false,
   futureOrderId: null
 };
@@ -93,9 +92,6 @@ const resetBookingValues = (state, { payload }) => {
     vehicles: initialState.vehicles
   });
 };
-
-const changeMessageToDriver = (state, { payload }) =>
-  update(state, { tempMessageToDriver: payload.message || '', messageToDriverTouched: payload.touched });
 
 const changeFlight = (state, { payload }) =>
   update(state, { tempFlight: payload.data, flightTouched: payload.touched });
@@ -223,7 +219,6 @@ export default composeReducer('booking', {
   changeReference,
   setReferenceErrors,
   resetBookingValues,
-  changeMessageToDriver,
   changeMessageModified,
   changeFlight,
   getVehiclesStart,
