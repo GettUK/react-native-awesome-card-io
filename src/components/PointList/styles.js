@@ -16,6 +16,10 @@ export default color =>
       alignItems: 'center',
       justifyContent: 'center'
     },
+    pickUpRow: {
+      justifyContent: 'center',
+      marginTop: 8
+    },
     labelEdit: {
       color: (color || defaultColor).primaryBtns
     },
@@ -77,7 +81,8 @@ export default color =>
     },
     stopsRow: {
       flexDirection: 'row',
-      marginBottom: 7
+      marginBottom: 7,
+      justifyContent: 'center'
     },
     leftPanelContainer: {
       marginLeft: -1.5,

@@ -1,7 +1,7 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { color } from 'theme';
 
-const isIOS = Platform.OS === 'ios';
+import { isIOS } from 'utils';
 
 export default StyleSheet.create({
   wrapper: {

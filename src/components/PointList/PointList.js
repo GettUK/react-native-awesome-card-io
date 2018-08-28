@@ -11,6 +11,8 @@ import { withTheme } from 'providers';
 
 import { color } from 'theme';
 
+import { isAndroid } from 'utils';
+
 import prepareStyles from './styles';
 
 class PointList extends Component {
@@ -70,6 +72,12 @@ class PointList extends Component {
 
   hasAddressType = type => has(this.props.data, type) && !!this.props.data[type];
 
+  getPickUpItemStyle = () => ([
+    this.styles.row,
+    this.styles.pickUpRow,
+    { marginBottom: this.props.orderDetails && isAndroid && this.hasAnyStops(this.props.data) ? -8 : 0 }
+  ]);
+
   renderAddressLabel(name) {
     const { data } = this.props;
     return (
@@ -83,7 +91,7 @@ class PointList extends Component {
   renderPickUpItem = () => (
     <TouchableOpacity
       disabled={!this.props.allowEditing}
-      style={[this.styles.row, { marginTop: 8 }]}
+      style={this.getPickUpItemStyle()}
       onPress={this.handlePickupAddressPress}
     >
       <Icon style={this.styles.pickUpIcon} name="pickUpField" size={16} />
@@ -138,11 +146,11 @@ class PointList extends Component {
         && (!data || !data.stopAddresses || !data.stopAddresses.length || data.stopAddresses.length <= 5))
           || (data && data.id && !data.asap)
     );
-  }
+  };
 
   hasAnyStops = data => (
     data && ((data.stopAddresses && data.stopAddresses.length > 0) || (data.stops && data.stops.length > 0))
-  )
+  );
 
   getStops = (data) => {
     if (data.stopAddresses && data.stopAddresses.length > 0) {
@@ -151,7 +159,15 @@ class PointList extends Component {
       return data.stops;
     }
     return [];
-  }
+  };
+
+  getStopItemStyle = downDottedLine => ([
+    this.styles.stopsRow,
+    {
+      marginTop: this.props.noItemMargin || isAndroid || !this.hasAnyStops(this.props.data) ? 0 : -8,
+      marginBottom: isAndroid && !downDottedLine ? 0 : 8
+    }
+  ]);
 
   renderStopsItem = () => {
     const { data, onStopAdd, allowEditing } = this.props;
@@ -180,7 +196,7 @@ class PointList extends Component {
 
   renderStopItem = (text, onPress, downDottedLine) => (
     <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
-      <View style={[this.styles.stopsRow, { marginTop: this.props.noItemMargin ? 0 : -8, justifyContent: 'center' }]}>
+      <View style={this.getStopItemStyle(downDottedLine)}>
         <View style={this.styles.leftPanelContainer}>
           {this.renderIcon()}
           <Icon size={14} color={color.secondaryText} name="pickUpField" />
@@ -220,7 +236,7 @@ class PointList extends Component {
       addStopsText = `${stops.length} ${strings('booking.label.stopPoint')}${stops.length > 1 ? 's' : ''}`;
     }
     return this.renderStopItem(addStopsText, onStopAdd, true);
-  }
+  };
 
   render() {
     return (
