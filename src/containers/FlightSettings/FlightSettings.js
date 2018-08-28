@@ -195,20 +195,19 @@ class FlightSettings extends Component {
     );
   };
 
-  renderContent() {
+  render() {
     const { originalData, verificationData, loading } = this.state;
 
     return (
       <View style={[styles.flex, styles.bg, { backgroundColor: this.props.theme.color.bgSecondary }]}>
         <DismissKeyboardView style={styles.flex}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={80}
+            keyboardVerticalOffset={130}
             behavior="padding"
             style={styles.flex}
           >
-            <ScrollView keyboardShouldPersistTaps="always">
-              {this.renderFlightInput()}
-
+            {this.renderFlightInput()}
+            <ScrollView keyboardShouldPersistTaps="handled">
               {loading && <ActivityIndicator color={color.primaryBtns} />}
 
               {originalData && originalData.length > 1 &&
@@ -223,16 +222,6 @@ class FlightSettings extends Component {
             </ScrollView>
           </KeyboardAvoidingView>
         </DismissKeyboardView>
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <View style={styles.flex}>
-        <ScrollView>
-          {this.renderContent()}
-        </ScrollView>
       </View>
     );
   }
