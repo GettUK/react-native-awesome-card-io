@@ -36,6 +36,7 @@ class FlightSettings extends Component {
 
   componentDidMount() {
     this.checkFlightVerified();
+    this.handleVerify();
   }
 
   getAirportAddress = ({ name, terminal }) => (
@@ -65,10 +66,11 @@ class FlightSettings extends Component {
   };
 
   handleSave = throttledAction(() => {
-    const { saveFlight, updateBooking, updateEnabled } = this.props;
-    const { verifiedSaved } = this.state;
+    const { saveFlight, changeFlight, updateBooking, updateEnabled } = this.props;
+    const { verifiedSaved, flight } = this.state;
 
     if (verifiedSaved) {
+      if (!flight) changeFlight({ flight: '' }, false);
       saveFlight();
       if (updateEnabled) updateBooking();
       this.onCloseModal();
@@ -78,9 +80,11 @@ class FlightSettings extends Component {
   handleVerify = () => {
     const { flight, selected } = this.state;
 
+    if (!flight) return;
+
     const { year, month, day } = getSeparatedDate();
 
-    this.setState({ loading: true, verificationData: null, error: null });
+    this.setState({ loading: true, verificationData: null, verifiedFlight: undefined, error: null });
 
     get('/flightstats/flights', { flight, year, month, day })
       .then(({ data }) => {
@@ -104,8 +108,9 @@ class FlightSettings extends Component {
   };
 
   checkFlightVerified = () => {
-    const wantToDelete = this.props.flight && this.props.flight !== '' && this.state.flight === '';
-    const verifiedSaved = this.state.verifiedFlight === this.state.flight;
+    const { flight, verifiedFlight } = this.state;
+    const wantToDelete = this.props.flight && this.props.flight !== '' && flight === '';
+    const verifiedSaved = verifiedFlight === flight;
     this.setState({ verifiedSaved: verifiedSaved || wantToDelete });
   };
 
@@ -139,8 +144,10 @@ class FlightSettings extends Component {
 
     return (
       <View style={styles.row}>
-        {!verifiedSaved && this.renderButton({ onPress: this.handleVerify, label: strings('flight.button.verify') })}
-        {verifiedSaved && this.renderButton({ onPress: this.handleSave, label: strings('flight.button.save') })}
+        {verifiedSaved
+          ? this.renderButton({ onPress: this.handleSave, label: strings('flight.button.save') })
+          : this.renderButton({ onPress: this.handleVerify, label: strings('flight.button.verify') })
+        }
       </View>
     );
   };
