@@ -229,6 +229,7 @@ class OrderDetails extends BookingController {
         style={style}
         data={order}
         stopAsList
+        orderDetails
         noItemMargin={false}
       />
     );

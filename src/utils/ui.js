@@ -1,5 +1,9 @@
 import { Dimensions, Platform } from 'react-native';
 
+export const isIOS = Platform.OS === 'ios';
+
+export const isAndroid = Platform.OS === 'android';
+
 export function isIphoneX() {
   const dimen = Dimensions.get('window');
 
