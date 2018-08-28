@@ -11,7 +11,8 @@ import {
   saveFlight,
   setReferenceErrors,
   validateReferences,
-  saveAvailableCarsScroll
+  saveAvailableCarsScroll,
+  updateBooking
 } from 'actions/booking';
 import { getPassengerData } from 'actions/passenger';
 
@@ -116,7 +117,8 @@ const bindActions = {
   setReferenceErrors,
   validateReferences,
   saveFlight,
-  saveAvailableCarsScroll
+  saveAvailableCarsScroll,
+  updateBooking
 };
 
 export default connect(select, bindActions)(withTheme(EditOrderDetails));

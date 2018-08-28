@@ -5,7 +5,7 @@ import { color } from 'theme';
 
 import { Icon, SearchList } from 'components';
 
-import { savePassenger } from 'actions/booking';
+import { savePassenger, updateBooking } from 'actions/booking';
 
 import { withTheme } from 'providers';
 
@@ -32,8 +32,9 @@ class PassengersList extends PureComponent {
   };
 
   onPressItem = (id) => {
-    const { savePassenger } = this.props;
+    const { savePassenger, updateBooking, updateEnabled } = this.props;
     savePassenger(id);
+    if (updateEnabled) updateBooking();
     this.onCloseModal();
   };
 
@@ -102,7 +103,8 @@ const mapState = ({ booking }) => ({
 });
 
 const mapDispatch = ({
-  savePassenger
+  savePassenger,
+  updateBooking
 });
 
 export default connect(mapState, mapDispatch)(withTheme(PassengersList));

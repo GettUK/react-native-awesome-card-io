@@ -257,9 +257,7 @@ export const getFormData = () => (dispatch, getState) => {
     : get('/bookings/new');
   return request
     .then(({ data }) => {
-      const { booking: { currentOrder }, session: { user: { memberId } } } = getState();
-      const isOrderReceived = currentOrder.indicatedStatus === ORDER_RECEIVED_STATUS;
-      const isFutureEditOrder = !currentOrder.asap && isOrderReceived;
+      const { session: { user: { memberId } } } = getState();
 
       const paymentAttrs = getPaymentAttrs(data, memberId);
 
@@ -269,7 +267,7 @@ export const getFormData = () => (dispatch, getState) => {
 
       dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
 
-      if (isFutureEditOrder && data.booking) {
+      if (data.booking) {
         dispatch(changeFields({ ...data.booking }));
       }
 
@@ -351,11 +349,9 @@ export const createBooking = order => (dispatch, getState) => {
 };
 
 export const updateBooking = () => (dispatch, getState) => {
-  const { booking: { bookingForm } } = getState();
+  const { booking: { bookingForm, currentOrder } } = getState();
 
-  if (!bookingForm.id) return Promise.resolve();
-
-  return put(`/bookings/${bookingForm.id}`, bookingForm)
+  return put(`/bookings/${bookingForm.id || currentOrder.id}`, bookingForm)
     .then(({ data }) => (data));
 };
 
@@ -367,10 +363,10 @@ export const setActiveBooking = id => (dispatch, getState) => {
   return get(`/bookings/${id}`)
     .then(({ data }) => {
       const isOrderReceived = data.indicatedStatus === ORDER_RECEIVED_STATUS;
-      const isFutureEditOrder = !data.asap && isOrderReceived;
+      const isFutureOrderEdit = !data.asap && isOrderReceived;
       dispatch({ type: TYPES.updateCurrentOrder, payload: data });
 
-      if (isFutureEditOrder) {
+      if (isFutureOrderEdit) {
         dispatch(getFormData());
       }
 

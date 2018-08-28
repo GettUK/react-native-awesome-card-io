@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { saveFlight, changeFlight } from 'actions/booking';
+import { saveFlight, changeFlight, updateBooking } from 'actions/booking';
 
 import { Input, DismissKeyboardView, Icon } from 'components';
 
@@ -65,11 +65,12 @@ class FlightSettings extends Component {
   };
 
   handleSave = throttledAction(() => {
-    const { saveFlight } = this.props;
+    const { saveFlight, updateBooking, updateEnabled } = this.props;
     const { verifiedSaved } = this.state;
 
     if (verifiedSaved) {
       saveFlight();
+      if (updateEnabled) updateBooking();
       this.onCloseModal();
     }
   });
@@ -242,4 +243,4 @@ const mapState = ({ booking }) => ({
   flight: booking.bookingForm.flight
 });
 
-export default connect(mapState, { changeFlight, saveFlight })(withTheme(FlightSettings));
+export default connect(mapState, { changeFlight, saveFlight, updateBooking })(withTheme(FlightSettings));

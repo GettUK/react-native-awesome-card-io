@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Input, Icon, Divider } from 'components';
-import { saveMessageToDriver, changeMessageToDriver } from 'actions/booking';
+import { saveMessageToDriver, changeMessageToDriver, updateBooking } from 'actions/booking';
 import { color } from 'theme';
 import { withTheme } from 'providers';
 import { strings } from 'locales';
@@ -19,7 +19,9 @@ const defaultPhrases = [
   strings('messageToDriver.text.ifLateCallMe')
 ];
 
-const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose, theme }) => {
+const MessageToDriver = ({
+  updateBooking, updateEnabled, message, touched, booking, changeMessageToDriver, saveMessageToDriver, onClose, theme
+}) => {
   const onChangeText = (message) => {
     changeMessageToDriver(message, true);
   };
@@ -32,6 +34,7 @@ const MessageToDriver = ({ message, touched, booking, changeMessageToDriver, sav
   const handleSave = throttledAction(() => {
     if (touched) {
       saveMessageToDriver('', true);
+      if (updateEnabled) updateBooking();
       onCloseModal();
     }
   });
@@ -90,7 +93,8 @@ const mapState = ({ booking }) => ({
 
 const mapDispatch = ({
   saveMessageToDriver,
-  changeMessageToDriver
+  changeMessageToDriver,
+  updateBooking
 });
 
 export default connect(mapState, mapDispatch)(withTheme(MessageToDriver));

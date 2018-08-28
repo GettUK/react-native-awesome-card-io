@@ -15,7 +15,8 @@ import {
   getVehicles,
   saveAvailableCarsScroll,
   setDefaultMessageToDriver,
-  resetSuggestedAddresses
+  resetSuggestedAddresses,
+  updateBooking
 } from 'actions/booking';
 import { onLayoutPointList, onLayoutFooter, openSettingsPermissions, PERMISSION_STATUS } from 'actions/app/statuses';
 import { getPassengerData } from 'actions/passenger';
@@ -333,7 +334,8 @@ const bindActions = {
   changeRegionToAnimate,
   saveAvailableCarsScroll,
   setDefaultMessageToDriver,
-  resetSuggestedAddresses
+  resetSuggestedAddresses,
+  updateBooking
 };
 
 export default connect(select, bindActions, null, { pure: false })(withTheme(BookingEditor));

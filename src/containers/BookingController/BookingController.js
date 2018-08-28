@@ -17,6 +17,10 @@ import {
 } from 'components';
 
 import {
+  ORDER_RECEIVED_STATUS
+} from 'utils/orderStatuses';
+
+import {
   paymentTypeToAttrs,
   isCashAllowed,
   paymentTypeLabels,
@@ -373,13 +377,14 @@ export default class BookingController extends Component {
   };
 
   onChangeAddress = (address, meta) => {
-    const { booking, changeAddress, changeFields } = this.props;
+    const { booking, changeAddress, changeFields, updateBooking } = this.props;
 
     if (meta.type === 'pickupAddress' && address.countryCode !== 'GB' && booking.bookingForm.stops) {
       changeFields({ stops: [] });
     }
 
     changeAddress(address, meta);
+    if (this.isFutureOrderEdit()) updateBooking();
   };
 
   getEarliestAvailableTime = (vehicle) => {
@@ -488,6 +493,12 @@ export default class BookingController extends Component {
     this.setState({ [`is${name}ModalVisible`]: false });
   };
 
+  isFutureOrderEdit = () => {
+    const { booking: { currentOrder: { asap, indicatedStatus = 'connected' } } } = this.props;
+    const isOrderReceived = indicatedStatus === ORDER_RECEIVED_STATUS;
+    return !asap && isOrderReceived;
+  };
+
   getReferenceError(i) {
     const { booking: { bookingForm: { bookerReferencesErrors = {} } } } = this.props;
 
@@ -561,12 +572,18 @@ export default class BookingController extends Component {
     );
   }
 
+  onCarSelect = (vehicleName) => {
+    const { updateBooking } = this.props;
+    this.selectVehicle(vehicleName);
+    if (this.isFutureOrderEdit()) updateBooking();
+  };
+
   renderAvailableCars() {
     return (
       <AvailableCars
         booking={this.getOrder()}
         availableVehicles={this.getAvailableVehicles()}
-        onCarSelect={this.selectVehicle}
+        onCarSelect={this.onCarSelect}
         onScroll={this.handleAvailableCarsScroll}
         scrollRef={(el) => { this.availableCars = el; }}
       />
@@ -605,8 +622,10 @@ export default class BookingController extends Component {
 
   renderPickUpTime({ style, title, disableNow }) {
     const order = this.getOrder();
+
     return (
       <PickUpTime
+        updateEnabled={this.isFutureOrderEdit()}
         title={title}
         disableNow={disableNow}
         booking={order}
@@ -644,7 +663,7 @@ export default class BookingController extends Component {
         onClose={this.hideStopPointsModal}
       />
     );
-  }
+  };
 
   onOpenModal = ({ modalContent, skipFlight }) => {
     this.setState({ modalContent, skipFlight });
@@ -670,6 +689,7 @@ export default class BookingController extends Component {
 
     return (
       <ModalWithContent
+        updateEnabled={this.isFutureOrderEdit()}
         title={isMessageToDriverContent && `${tempMessageToDriver.length}/225`}
         contentStyles={isPaymentsOptionsContent && { height: '50%' }}
         modalContent={modalContent}
@@ -720,5 +740,6 @@ BookingController.propTypes = {
   setReferenceErrors: PropTypes.func,
   saveFlight: PropTypes.func,
   createBooking: PropTypes.func,
-  validateReferences: PropTypes.func
+  validateReferences: PropTypes.func,
+  updateBooking: PropTypes.func
 };
