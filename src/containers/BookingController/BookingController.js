@@ -31,7 +31,7 @@ import { strings } from 'locales';
 
 import { color } from 'theme';
 
-import { throttledAction, isEnoughOrderData } from 'utils';
+import { throttledAction, isEnoughOrderData, getStopPoints } from 'utils';
 
 import { LoaderLayer, PickUpTime, AvailableCars, ModalWithContent } from './components';
 
@@ -200,6 +200,7 @@ export default class BookingController extends Component {
         vehicleValue: vehicle.value,
         vehiclePrice: vehicle.price
       });
+      this.updateBooking();
     });
   };
 
@@ -310,6 +311,11 @@ export default class BookingController extends Component {
     return this.shouldRequestVehicles() && bookingForm.vehicleName && !isNull(bookingForm.vehiclePrice);
   };
 
+  updateBooking = () => {
+    const { updateBooking } = this.props;
+    setTimeout(() => this.areAddressesUnique() && this.isFutureOrderEdit() && updateBooking(), 500);
+  };
+
   createBooking = async ({ flight = '' } = {}) => {
     const { booking: { bookingForm }, createBooking, validateReferences, navigation } = this.props;
 
@@ -317,14 +323,7 @@ export default class BookingController extends Component {
       const order = {
         ...bookingForm,
         scheduledAt: bookingForm.scheduledType === 'later' ? bookingForm.scheduledAt.format() : null,
-        stops: bookingForm.stops
-          ? bookingForm.stops.map(stop => ({
-            address: stop,
-            name: bookingForm.passengerName,
-            passengerId: bookingForm.passengerId,
-            phone: bookingForm.passengerPhone
-          }))
-          : null,
+        stops: getStopPoints(bookingForm),
         flight: bookingForm.flight || flight
       };
 
@@ -368,7 +367,10 @@ export default class BookingController extends Component {
 
     const stopsObject = (stops || []).reduce((stop, item, index) => ({
       ...stop,
-      [`stop${index}`]: item
+      [`stop${index}`]: {
+        ...item,
+        index
+      }
     }), {});
 
     return {
@@ -377,14 +379,14 @@ export default class BookingController extends Component {
   };
 
   onChangeAddress = (address, meta) => {
-    const { booking, changeAddress, changeFields, updateBooking } = this.props;
+    const { booking, changeAddress, changeFields } = this.props;
 
     if (meta.type === 'pickupAddress' && address.countryCode !== 'GB' && booking.bookingForm.stops) {
       changeFields({ stops: [] });
     }
 
     changeAddress(address, meta);
-    if (this.isFutureOrderEdit()) updateBooking();
+    this.updateBooking();
   };
 
   getEarliestAvailableTime = (vehicle) => {
@@ -496,7 +498,7 @@ export default class BookingController extends Component {
   isFutureOrderEdit = () => {
     const { booking: { currentOrder: { asap, indicatedStatus = 'connected' } } } = this.props;
     const isOrderReceived = indicatedStatus === ORDER_RECEIVED_STATUS;
-    return !asap && isOrderReceived;
+    return !asap && isOrderReceived && this.shouldRequestVehicles();
   };
 
   getReferenceError(i) {
@@ -573,9 +575,8 @@ export default class BookingController extends Component {
   }
 
   onCarSelect = (vehicleName) => {
-    const { updateBooking } = this.props;
     this.selectVehicle(vehicleName);
-    if (this.isFutureOrderEdit()) updateBooking();
+    this.updateBooking();
   };
 
   renderAvailableCars() {
@@ -625,7 +626,7 @@ export default class BookingController extends Component {
 
     return (
       <PickUpTime
-        updateEnabled={this.isFutureOrderEdit()}
+        updateBooking={this.updateBooking}
         title={title}
         disableNow={disableNow}
         booking={order}
@@ -648,8 +649,13 @@ export default class BookingController extends Component {
     </Button>
   );
 
-  renderStopPointsModal = () => {
+  onChangeStopPointAddress = (attrs) => {
     const { changeFields } = this.props;
+    changeFields(attrs);
+    this.updateBooking();
+  };
+
+  renderStopPointsModal = () => {
     const { isStopPointsModalVisible } = this.state;
 
     return (
@@ -659,7 +665,7 @@ export default class BookingController extends Component {
         onAddPoint={this.handleAddStop}
         onEditAddress={this.handleEditPoint}
         onRowMoved={this.requestVehicles}
-        onChangeAddress={changeFields}
+        onChangeAddress={this.onChangeStopPointAddress}
         onClose={this.hideStopPointsModal}
       />
     );

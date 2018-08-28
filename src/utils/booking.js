@@ -65,3 +65,12 @@ export const isEnoughOrderData = bookingForm =>
   bookingForm.pickupAddress && bookingForm.pickupAddress.countryCode &&
   bookingForm.destinationAddress && bookingForm.destinationAddress.countryCode &&
   !!bookingForm.passengerId;
+
+export const getStopPoints = bookingForm => (bookingForm.stops
+  ? bookingForm.stops.map(stop => ({
+    address: stop,
+    name: bookingForm.passengerName,
+    passengerId: bookingForm.passengerId,
+    phone: bookingForm.passengerPhone
+  }))
+  : null);
