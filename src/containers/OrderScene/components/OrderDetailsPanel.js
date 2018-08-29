@@ -163,6 +163,15 @@ class OrderDetails extends BookingController {
       });
     }
 
+    if (currentOrder.flight) {
+      options.push({
+        title: 'Flight number',
+        value: currentOrder.flight,
+        icon: 'flight',
+        chevron: false
+      });
+    }
+
     return options;
   };
 
