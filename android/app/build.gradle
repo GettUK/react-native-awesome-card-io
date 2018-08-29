@@ -109,8 +109,8 @@ android {
         applicationId "com.oteapp.dev"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0"
+        versionCode 11
+        versionName "1.6"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
