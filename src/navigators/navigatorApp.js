@@ -57,7 +57,7 @@ const routeConfiguration = {
       headerTitle: strings('order.text.orderDetails'),
       headerLeft: <BackBtn
         navigation={navigation}
-        backAction={navigation.state.params && navigation.state.params.restoreFutureOrder}
+        backAction={navigation.state.params.restoreFutureOrder}
       />
     })
   },

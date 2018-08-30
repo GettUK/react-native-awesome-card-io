@@ -185,6 +185,7 @@ class OrderScene extends Component {
 
   restoreFutureOrder = () => {
     const { futureOrderForm } = this.state;
+    const { changeFields } = this.props;
     changeFields({ ...futureOrderForm });
     this.setState({ futureOrderForm: null });
   };
