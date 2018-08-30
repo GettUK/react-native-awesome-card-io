@@ -31,6 +31,8 @@ const AvailableCars = ({ availableVehicles, onCarSelect, booking, onScroll, scro
             eta={vehicle.eta}
             label={vehicleData.label}
             price={vehicle.price}
+            localPrice={vehicle.localPrice}
+            localCurrencySymbol={vehicle.localCurrencySymbol}
             serviceType={vehicle.serviceType}
             active={vehicle.name === booking.vehicleName}
             isETADisabled={booking.scheduledType === 'later'}

@@ -3,13 +3,13 @@ import { color } from 'theme';
 
 export default StyleSheet.create({
   container: {
-    margin: 5,
-    marginTop: 15,
-    width: 110,
-    height: 140,
+    marginHorizontal: 10,
+    marginTop: 13,
+    width: 104,
+    height: 124,
     borderRadius: 10,
-    paddingTop: 10,
-    paddingBottom: 6,
+    paddingTop: 11,
+    paddingBottom: 9,
     elevation: 2,
     shadowColor: color.primaryText,
     shadowOpacity: 0.2,
@@ -24,62 +24,72 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   containerSmall: {
-    marginTop: 10,
-    height: 116
+    marginTop: 12,
+    height: 124
   },
   activeContainer: {
-    width: 114,
-    height: 144,
+    width: 104,
+    height: 124,
     margin: 0,
     marginTop: 0,
     shadowRadius: 0
   },
   activeContainerSmall: {
-    height: 120
+    marginTop: 0,
+    height: 124
   },
   activeBackground: {
-    width: 134,
-    height: 164,
+    width: 120,
+    height: 140,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 5
-  },
-  activeBackgroundSmall: {
-    height: 130
+    paddingVertical: 5,
+    marginTop: 4
   },
   label: {
     paddingLeft: 2,
     fontSize: 14,
     color: color.secondaryText,
-    marginBottom: 2
+    marginVertical: 2
   },
   labelPrice: {
     paddingLeft: 2,
     fontSize: 18,
     color: color.primaryText,
     fontWeight: 'bold',
-    marginTop: 2
-  },
-  labelEta: {
-    fontSize: 14,
-    color: color.secondaryText
-  },
-  icon: {
-    marginLeft: 2,
-    marginRight: 6
+    marginVertical: 2
   },
   top: {
-    paddingHorizontal: 8
-  },
-  middle: {
     paddingHorizontal: 8,
-    flexDirection: 'row'
+    paddingTop: 4
   },
   image: {
-    width: 110,
-    height: 42
+    alignSelf: 'center'
   },
   deselected: {
     opacity: 0.6
+  },
+  badgeWrapper: {
+    width: '100%',
+    position: 'absolute',
+    top: -10,
+    alignItems: 'center'
+  },
+  badgeStyle: {
+    backgroundColor: color.arrowRight,
+    flexDirection: 'row',
+    paddingHorizontal: 11,
+    paddingVertical: 3,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: color.white
+  },
+  badgeActiveStyle: {
+    backgroundColor: color.iconsSettigs
+  },
+  badgeTextStyle: {
+    color: color.white,
+    fontSize: 12,
+    lineHeight: 14
   }
 });

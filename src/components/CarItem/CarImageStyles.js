@@ -4,16 +4,19 @@ export default StyleSheet.create({
   container: {},
   carImage: {
     height: 100,
-    width: 190,
-    position: 'absolute'
+    width: 190
   },
   carImageMedium: {
-    width: 110,
+    width: 104,
     height: 42
   },
   carImageSmall: {
     width: 90,
     height: 38
+  },
+  carImageExtraSmall: {
+    width: 64,
+    height: 25
   },
   typeWrapper: {
     bottom: 0,
@@ -30,6 +33,15 @@ export default StyleSheet.create({
   typeInnerWrapperSmall: {
     width: 18,
     height: 18
+  },
+  typeInnerWrapperExtraSmall: {
+    width: 18,
+    height: 18
+  },
+  logoServiceExtraSmall: {
+    position: 'absolute',
+    bottom: 3,
+    left: 8
   },
   logoServiceSmall: {
     position: 'absolute',

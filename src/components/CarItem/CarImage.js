@@ -21,7 +21,7 @@ class CarImage extends PureComponent {
     ]),
     duration: PropTypes.number,
     type: PropTypes.string,
-    size: PropTypes.oneOf(['small', 'medium', 'big']),
+    size: PropTypes.oneOf(['extraSmall', 'small', 'medium', 'big']),
     animatable: PropTypes.bool
   };
 
@@ -36,6 +36,7 @@ class CarImage extends PureComponent {
   renderLogo = (sizeFormatted) => {
     const { size, type, animatable, duration } = this.props;
     const sizes = {
+      extraSmall: 18,
       small: 28,
       medium: 34,
       big: 62
@@ -59,7 +60,7 @@ class CarImage extends PureComponent {
         </View>
       </IconWrapper>
     );
-  }
+  };
 
   render() {
     const { style, size, type, animatable, duration } = this.props;
