@@ -9,7 +9,8 @@ import {
   messagePrefixes,
   separateMessage,
   getFavouriteAddressMessage,
-  formatMessage
+  formatMessage,
+  getStopPoints
 } from 'utils';
 import faye from 'utils/faye';
 import {
@@ -260,7 +261,11 @@ export const getFormData = () => (dispatch, getState) => {
       dispatch({ type: TYPES.updateReferences, payload: data.bookingReferences });
 
       if (data.booking) {
-        dispatch(changeFields({ ...data.booking }));
+        const props = {};
+        if (data.booking.stops && data.booking.stops.length > 0) {
+          props.stops = data.booking.stops.map(stop => stop.address);
+        }
+        dispatch(changeFields({ ...data.booking, ...props }));
       }
 
       return data;
@@ -343,7 +348,12 @@ export const createBooking = order => (dispatch, getState) => {
 export const updateBooking = () => (dispatch, getState) => {
   const { booking: { bookingForm, currentOrder } } = getState();
 
-  return put(`/bookings/${bookingForm.id || currentOrder.id}`, bookingForm)
+  const order = {
+    ...bookingForm,
+    stops: getStopPoints(bookingForm)
+  };
+
+  return put(`/bookings/${bookingForm.id || currentOrder.id}`, order)
     .then(({ data }) => (data));
 };
 

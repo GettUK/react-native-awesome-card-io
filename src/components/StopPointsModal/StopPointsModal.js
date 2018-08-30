@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
-import { omit, mapValues } from 'lodash';
+import { omit } from 'lodash';
 
 import { Modal, Icon, Divider } from 'components';
 
@@ -30,52 +30,52 @@ class StopPointsModal extends PureComponent {
 
   static defaultProps = {
     isVisible: false
-  }
+  };
 
   state = {
     isDragging: false
-  }
+  };
 
   componentDidUpdate({ data: dataProps }) {
     const { data } = this.props;
 
     if (data !== dataProps) {
-      this.order = Object.keys(data);
+      this.orderKeys = Object.keys(data);
     }
   }
 
-  handleEditAddress = (id) => {
-    if (id < 0) {
+  handleEditAddress = (indexToDelete) => {
+    if (indexToDelete < 0) {
       this.props.onAddPoint();
       return;
     }
     const { data, onEditAddress } = this.props;
 
     const keys = Object.keys(data);
-    const index = keys.findIndex(item => data[item].id === id);
+    const index = keys.findIndex(item => data[item].index === indexToDelete);
     const address = data[keys[index]];
     const type = index < (keys.length - 1) ? 'stops' : 'destinationAddress';
 
     onEditAddress(address, { type, index }, true);
-  }
+  };
 
-  handleDeleteAddress = (id) => {
-    const data = this.getData();
+  handleDeleteAddress = (index) => {
+    const { data } = this.props;
 
-    const key = this.order.find(key => data[key].id === id);
+    const key = this.orderKeys.find(key => data[key].index === index);
 
     const filteredObject = omit(data, key);
 
     const keys = Object.keys(filteredObject);
 
     this.changePath(filteredObject, keys);
-  }
+  };
 
   handleRowMoved = (meta) => {
-    this.order.splice(meta.to, 0, this.order.splice(meta.from, 1)[0]);
+    this.orderKeys.splice(meta.to, 0, this.orderKeys.splice(meta.from, 1)[0]);
 
-    this.changePath(this.props.data, this.order);
-  }
+    this.changePath(this.props.data, this.orderKeys);
+  };
 
   changePath = (data, order) => {
     const stops = order.map(id => data[id]);
@@ -85,8 +85,8 @@ class StopPointsModal extends PureComponent {
     this.props.onRowMoved();
   };
 
-  renderRow = ({ line, id = -1, textStyle = styles.listItemLabel, canDelete = true }) => (
-    <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, id)}>
+  renderRow = ({ line, index = -1, textStyle = styles.listItemLabel, canDelete = true }) => (
+    <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, index)}>
       <View style={[styles.rowWrapper, { height: ROW_HEIGHT }]}>
         <View style={styles.rowInnerWrapper}>
           <View style={styles.dragButton}>
@@ -95,7 +95,7 @@ class StopPointsModal extends PureComponent {
 
           <Text style={textStyle} numberOfLines={1}>{line}</Text>
 
-          {canDelete && <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, id)}>
+          {canDelete && <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, index)}>
             <View style={styles.deleteButton}>
               <Icon name="close" size={16} color={color.secondaryText} />
             </View>
@@ -109,7 +109,7 @@ class StopPointsModal extends PureComponent {
     </TouchableWithoutFeedback>
   );
 
-  isAddStopAvailable = (index = Object.values(this.order).length) => index <= 4;
+  isAddStopAvailable = (index = Object.values(this.orderKeys).length) => index <= 4;
 
   renderAddButton = () => (
     this.isAddStopAvailable()
@@ -118,7 +118,7 @@ class StopPointsModal extends PureComponent {
         textStyle: styles.addButtonLabel,
         canDelete: false
       }) : null
-  )
+  );
 
   renderStops = () => {
     const renderIt = ({ child, index = '+', needIcon = true }) => (
@@ -134,7 +134,7 @@ class StopPointsModal extends PureComponent {
       </View>
     );
 
-    const renderIterator = () => this.order.map((child, index) =>
+    const renderIterator = () => this.orderKeys.map((child, index) =>
       renderIt({ index, needIcon: this.isAddStopAvailable(index + 1) }));
 
     const renderPlus = () => renderIt({
@@ -156,22 +156,17 @@ class StopPointsModal extends PureComponent {
       <View style={[styles.leftPanelContainer, { height: this.getListHeight() }]}>
         {renderIcon()}
 
-        {this.order.length > 0 && renderIterator()}
+        {this.orderKeys.length > 0 && renderIterator()}
         {this.isAddStopAvailable() && renderPlus()}
 
         {renderIcon(true)}
       </View>
     );
-  }
+  };
 
-  order = Object.keys(this.props.data);
+  orderKeys = Object.keys(this.props.data);
 
   getListHeight = (defaultHeight = ROW_HEIGHT) => Object.keys(this.props.data).length * defaultHeight
-
-  getData = () => mapValues(this.props.data, (value, id) => ({
-    ...(value.address && value.address.line ? value.address : value),
-    id
-  }));
 
   handleDragStart = () => this.setState({ isDragging: true });
 
@@ -181,15 +176,15 @@ class StopPointsModal extends PureComponent {
     const { data } = this.props;
     const keys = Object.keys(data);
 
-    const order = keys.length !== this.order.length ? keys : this.order;
+    const order = keys.length !== this.orderKeys.length ? keys : this.orderKeys;
 
     return (
       <View style={[styles.wrapper, { height: 40 + ROW_HEIGHT + this.getListHeight() }]}>
         <View style={{ height: this.getListHeight() }}>
           <SortableListView
-            data={this.getData()}
+            data={data}
             order={order}
-            disableSorting={this.order && this.order.length <= 1}
+            disableSorting={this.orderKeys && this.orderKeys.length <= 1}
             activeOpacity={0.92}
             sortRowStyle={styles.sortRowStyle}
             onMoveStart={this.handleDragStart}
@@ -204,13 +199,13 @@ class StopPointsModal extends PureComponent {
         {this.renderAddButton()}
       </View>
     );
-  }
+  };
 
   renderOrderPanel = () => (
     <View style={{ width: ORDER_PANEL_WIDTH, height: this.getListHeight() }}>
       {!this.state.isDragging && this.renderStops()}
     </View>
-  )
+  );
 
   render() {
     const { isVisible, onClose } = this.props;
