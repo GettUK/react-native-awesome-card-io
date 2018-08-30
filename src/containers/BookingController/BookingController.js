@@ -239,14 +239,6 @@ export default class BookingController extends Component {
     return this.createBooking();
   });
 
-  setAirport = () => {
-    const { booking: { tempFlight }, saveFlight } = this.props;
-
-    saveFlight();
-
-    this.createBooking(tempFlight);
-  };
-
   areAddressesUnique() {
     const { booking: { bookingForm: { pickupAddress, stops, destinationAddress } } } = this.props;
     const addresses = [pickupAddress, ...(stops || []), destinationAddress];
@@ -316,15 +308,14 @@ export default class BookingController extends Component {
     setTimeout(() => this.areAddressesUnique() && this.isFutureOrderEdit() && updateBooking(), 500);
   };
 
-  createBooking = async ({ flight = '' } = {}) => {
+  createBooking = async () => {
     const { booking: { bookingForm }, createBooking, validateReferences, navigation } = this.props;
 
     if (this.areAddressesUnique()) {
       const order = {
         ...bookingForm,
         scheduledAt: bookingForm.scheduledType === 'later' ? bookingForm.scheduledAt.format() : null,
-        stops: getStopPoints(bookingForm),
-        flight: bookingForm.flight || flight
+        stops: getStopPoints(bookingForm)
       };
 
       this.closeModal('Custom');
@@ -680,7 +671,7 @@ export default class BookingController extends Component {
     const { skipFlight } = this.state;
 
     if (skipFlight) {
-      this.setAirport();
+      setTimeout(this.createBooking, 0);
     } else {
       this.closeModal('Custom');
     }
