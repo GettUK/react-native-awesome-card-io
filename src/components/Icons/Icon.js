@@ -1,5 +1,6 @@
 import { createElement } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import lib from './lib';
 
 const Icon = ({
@@ -9,7 +10,7 @@ const Icon = ({
     return null;
   }
 
-  const svg = lib[name];
+  const svg = get(lib, name);
 
   if (!svg) {
     // eslint-disable-next-line no-console
