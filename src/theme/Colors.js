@@ -29,15 +29,10 @@ export const color = {
   backdrop: '#284784'
 };
 
-export const formattedColor = {
-  primaryText: new Color(color.primaryText),
-  secondaryText: new Color(color.secondaryText),
-  white: new Color(color.white),
-  primaryBtns: new Color(color.primaryBtns),
-  animationRout: new Color(color.animationRout),
-  bgStatuses: new Color(color.bgStatuses),
-  bgSettings: new Color(color.bgSettings)
-};
+export const formattedColor = {};
+Object.keys(color).forEach((key) => {
+  formattedColor[key] = new Color(color[key]);
+});
 
 export default {
   color,

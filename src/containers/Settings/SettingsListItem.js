@@ -25,6 +25,7 @@ const SettingsListItem = (props) => {
     isLoading,
     onPress,
     onSwitch,
+    badge,
     theme
   } = props;
 
@@ -49,6 +50,7 @@ const SettingsListItem = (props) => {
         title={title}
         titleNumberOfLines={2}
         chevronColor={color.arrowRight}
+        badge={badge}
 
         rightTitle={rightTitle || null}
 
@@ -84,6 +86,7 @@ SettingsListItem.propTypes = {
     PropTypes.element,
     PropTypes.string
   ]),
+  badge: PropTypes.shape(),
   showRightIcon: PropTypes.bool,
   switchButton: PropTypes.bool,
   switched: PropTypes.bool,

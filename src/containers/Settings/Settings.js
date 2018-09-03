@@ -118,14 +118,15 @@ class Settings extends Component {
     this.props.navigation.navigate('MapView');
   });
 
-  goToScreenFromSettings = funcName => throttledAction(() => {
-    this.props.navigation.goBack(null);
-
-    this.props.navigation.state.params[funcName]({ fromSettings: true });
-  });
-
   getSettingsBlocks() {
-    const { devSettings, passengerData: data, companySettings, changeToggleValue, changeDevSettingField } = this.props;
+    const {
+      devSettings,
+      passengerData: data,
+      companySettings,
+      changeToggleValue,
+      changeDevSettingField,
+      unreadNotifications
+    } = this.props;
     const { logoutLoading } = this.state;
     const devInventory = isDevMode ? prepareDevBlock(devSettings, { handleToggleChange: changeDevSettingField }) : [];
 
@@ -147,7 +148,7 @@ class Settings extends Component {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
       }),
-      prepareInfoBlock(companySettings, {
+      prepareInfoBlock(companySettings, unreadNotifications, {
         goToInfoPage: this.goToInfoPage,
         goToNotifications: this.goToNotifications,
         resetUserGuide: this.resetUserGuide
@@ -203,11 +204,12 @@ Settings.propTypes = {
 
 Settings.defaultProps = {};
 
-const select = ({ app, passenger, network }) => ({
+const select = ({ app, passenger, network, notifications }) => ({
   passengerData: passenger.data,
   companySettings: passenger.companySettings,
   isConnected: network.isConnected,
-  devSettings: app.devSettings
+  devSettings: app.devSettings,
+  unreadNotifications: notifications.unreadCounter
 });
 
 const bindActions = {

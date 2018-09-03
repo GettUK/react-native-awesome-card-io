@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+import { Badge } from 'components';
 
 import { BurgerButton, BackButton, LabeledButton } from './Buttons';
 
@@ -7,11 +9,24 @@ import Header from './Header';
 
 import styles from './style';
 
-const OrderCreatingHeader = ({ handlePressBurger, handlePressBack, handlePressOrder, nightMode, type }) => (
+const OrderCreatingHeader = ({
+  unreadNotifications, handlePressBurger, handlePressBack, handlePressOrder, nightMode, type }) => (
   <Header
     customStyles={styles.prorderHeader}
     leftButton={type === 'dashboard'
-      ? <BurgerButton theme={nightMode ? 'dark' : 'light'} onClick={handlePressBurger} />
+      ? (
+        <Fragment>
+          <BurgerButton theme={nightMode ? 'dark' : 'light'} onClick={handlePressBurger} />
+          {!!unreadNotifications &&
+            <Badge
+              wrapperStyle={styles.badgeWrapperStyle}
+              style={styles.badgeStyle}
+              textStyle={styles.badgeTextStyle}
+              label={unreadNotifications}
+            />
+          }
+        </Fragment>
+      )
       : <BackButton onClick={handlePressBack} />
     }
     rightButton={type === 'dashboard' && <LabeledButton type="orders" onClick={handlePressOrder} />}

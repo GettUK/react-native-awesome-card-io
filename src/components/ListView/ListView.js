@@ -56,11 +56,11 @@ class ListView extends PureComponent {
   };
 
   render() {
-    const { loading, items, theme } = this.props;
+    const { loading, items, theme, listViewStyle } = this.props;
 
     return (
       <KeyboardAvoidingView
-        style={[styles.flex, styles.centered, { backgroundColor: theme.color.bgSecondary }]}
+        style={[styles.flex, styles.centered, listViewStyle || { backgroundColor: theme.color.bgSecondary }]}
         behavior="padding"
         keyboardVerticalOffset={80}
       >
@@ -82,14 +82,16 @@ ListView.propTypes = {
   keyExtractor: PropTypes.func,
   refreshing: PropTypes.bool,
   loading: PropTypes.bool,
-  onEndReached: PropTypes.func
+  onEndReached: PropTypes.func,
+  listViewStyle: PropTypes.shape()
 };
 
 ListView.defaultProps = {
   loading: false,
   refreshing: undefined,
   keyExtractor: item => String(item.id),
-  onEndReached: undefined
+  onEndReached: undefined,
+  listViewStyle: undefined
 };
 
 export default withTheme(ListView);

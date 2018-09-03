@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   notificationWrapper: {
     marginBottom: 10,
     borderRadius: 10,
-    backgroundColor: color.white
+    backgroundColor: color.bgSettings
   },
   notificationDetails: {
     paddingHorizontal: 15,

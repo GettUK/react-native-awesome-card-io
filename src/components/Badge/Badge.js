@@ -45,7 +45,7 @@ class Badge extends Component {
               active ? { color: theme.type === 'dark' ? color.primaryText : color.primaryBtns } : {}
             ]}
           >
-            {label}
+            {`${label}`}
           </Text>
         }
       </BadgeElement>

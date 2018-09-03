@@ -28,14 +28,10 @@ export const color = {
   backdrop: 'rgba(49,59,77,0.7)'
 };
 
-export const formattedColor = {
-  primaryText: new Color(color.primaryText),
-  white: new Color(color.white),
-  primaryBtns: new Color(color.primaryBtns),
-  animationRout: new Color(color.animationRout),
-  bgStatuses: new Color(color.animationRout),
-  bgSettings: new Color(color.bgSettings)
-};
+export const formattedColor = {};
+Object.keys(color).forEach((key) => {
+  formattedColor[key] = new Color(color[key]);
+});
 
 export default {
   color,
