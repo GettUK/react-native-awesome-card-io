@@ -150,7 +150,7 @@ class OrderCreatingScene extends PureComponent {
     <Icon name="sourceMarker" width={32} height={52} style={styles.pickUpMarker} />;
 
   render() {
-    const { bookingForm, theme, navigation, getCurrentPosition, goToOrders } = this.props;
+    const { bookingForm, theme, navigation, getCurrentPosition, goToOrders, unreadNotifications } = this.props;
 
     return (
       <Fragment>
@@ -160,6 +160,7 @@ class OrderCreatingScene extends PureComponent {
           handlePressBack={this.cancelOrderCreation}
           handlePressOrder={goToOrders}
           nightMode={theme.type === 'dark'}
+          unreadNotifications={unreadNotifications}
         />
 
         <BookingEditor
@@ -185,10 +186,11 @@ OrderCreatingScene.propTypes = {
   goToOrders: PropTypes.func
 };
 
-const mapState = ({ booking, passenger }) => ({
+const mapState = ({ booking, passenger, notifications }) => ({
   bookingForm: booking.bookingForm,
   vehicles: booking.vehicles,
-  passengerData: passenger.data.passenger
+  passengerData: passenger.data.passenger,
+  unreadNotifications: notifications.unreadCounter
 });
 
 const mapDispatch = {

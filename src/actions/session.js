@@ -8,6 +8,7 @@ import { clearMap, cancelDriverSubscription } from 'actions/ui/map';
 import { clearOrdersList } from 'actions/orders';
 import { clearBooking } from 'actions/booking';
 import { clearPermissions } from 'actions/app/statuses';
+import { getNotifications, clearUnread } from 'actions/notifications';
 
 const TYPES = createTypes('session', [
   'loginSuccess',
@@ -27,6 +28,7 @@ export const logout = () => (dispatch) => {
   dispatch(clearOrdersList());
   dispatch(clearBooking());
   dispatch(clearPermissions());
+  dispatch(clearUnread());
 };
 
 export const getCurrentUser = () => (dispatch) => {
@@ -51,6 +53,9 @@ export const login = user => dispatch =>
         dispatch(getCurrentUser());
         dispatch(registerToken());
       }
+    })
+    .then(() => {
+      dispatch(getNotifications());
     });
 
 export const passGuide = () => dispatch => (

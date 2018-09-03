@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { strings } from 'locales';
 
-import { getNotifications, clearNotificationsList } from 'actions/notifications';
+import { getNotifications, clearNotificationsList, markAsRead } from 'actions/notifications';
 import { setActiveBooking } from 'actions/booking';
 
 import { ListView } from 'components';
@@ -17,6 +17,9 @@ import { goBackFromSettings, getLabelType } from '../Orders/utils';
 
 import styles from './styles';
 
+const VIEWED_IDS = {};
+let PREV_LENGTH = 0;
+
 class Notifications extends PureComponent {
   static propTypes = {
     getNotifications: PropTypes.func.isRequired,
@@ -25,23 +28,46 @@ class Notifications extends PureComponent {
     sections: PropTypes.array.isRequired
   }
 
+  viewabilityConfig = {
+    minimumViewTime: 10,
+    viewAreaCoveragePercentThreshold: 60
+  };
+
   state = {
     loading: false
   };
 
   componentDidMount() {
     this.requestNotifications();
+
+    this.interval = setInterval(() => {
+      const newLength = Object.keys(VIEWED_IDS).length;
+      if (newLength > PREV_LENGTH) {
+        this.props.markAsRead(VIEWED_IDS);
+        PREV_LENGTH = newLength;
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
     this.props.clearNotificationsList();
+
+    clearInterval(this.interval);
   }
 
-  goToNotificationDetails = (id) => {
+  handleViewableItemsChanged = (viewableItems) => {
+    viewableItems.forEach((item) => {
+      if (item.key && !VIEWED_IDS[item.key]) {
+        VIEWED_IDS[item.key] = item.key;
+      }
+    });
+  }
+
+  goToNotificationDetails = ({ bookingId }) => {
     const { setActiveBooking, navigation } = this.props;
 
-    if (id) {
-      setActiveBooking(id)
+    if (bookingId) {
+      setActiveBooking(bookingId)
         .then(goBackFromSettings(navigation));
     }
   };
@@ -86,9 +112,24 @@ class Notifications extends PureComponent {
       </View>
   )
 
+  getItemStyle = (itemId) => {
+    const { theme, readMessagesIds } = this.props;
+    return ([
+      styles.notificationWrapper,
+      {
+        backgroundColor: readMessagesIds[itemId]
+          ? theme.color.bgPrimary
+          : theme.formattedColor.success.opacity(0.5)
+      }
+    ]);
+  };
+
   renderItem = ({ item }) => (
-    <TouchableWithoutFeedback key={item.id} onPress={() => this.goToNotificationDetails(item.bookingId)}>
-      <View style={[styles.notificationWrapper, { backgroundColor: this.props.theme.color.bgPrimary }]}>
+    <TouchableWithoutFeedback
+      key={item.id}
+      onPress={() => this.goToNotificationDetails(item)}
+    >
+      <View style={this.getItemStyle(item.id)}>
         <View style={styles.notificationDetails}>
           {item.title &&
             <View style={styles.rowMarginBottom}>
@@ -124,27 +165,32 @@ class Notifications extends PureComponent {
     const { loading } = this.state;
 
     return (
-      <View style={[styles.container, { backgroundColor: theme.color.bgSettings }]}>
+      <View style={styles.container}>
         <ListView
+          listViewStyle={{ backgroundColor: theme.color.bgSettings }}
           typeSections
           items={sections}
           loading={loading}
           renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
+          viewabilityConfig={this.viewabilityConfig}
+          onViewableItemsChanged={({ viewableItems }) => this.handleViewableItemsChanged(viewableItems)}
         />
       </View>
     );
   }
 }
 
-const mapState = state => ({
-  sections: sortItems(state.notifications.items)
+const mapState = ({ notifications: { items, readMessagesIds } }) => ({
+  sections: sortItems(items),
+  readMessagesIds
 });
 
 const mapDispatch = ({
   getNotifications,
   setActiveBooking,
-  clearNotificationsList
+  clearNotificationsList,
+  markAsRead
 });
 
 export default connect(mapState, mapDispatch, null, { pure: false })(withTheme(Notifications));

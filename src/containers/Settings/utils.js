@@ -128,7 +128,12 @@ export function prepareHistoryBlock(paymentsEnabled, handlers = {}) {
   return result;
 }
 
-export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
+export function prepareInfoBlock({ customerServicePhone }, badgeValue = 0, handlers = {}) {
+  const badge = badgeValue ? {
+    value: badgeValue,
+    textStyle: styles.badgeTextStyle,
+    containerStyle: styles.badgeContainer
+  } : undefined;
   return [
     {
       title: strings('information.watchTutorial'),
@@ -144,7 +149,8 @@ export function prepareInfoBlock({ customerServicePhone }, handlers = {}) {
     },
     {
       title: strings('information.notifications'),
-      onPress: () => handlers.goToNotifications()
+      onPress: () => handlers.goToNotifications(),
+      badge
     },
     {
       title: strings('information.contactUs'),

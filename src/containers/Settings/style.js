@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { color } from 'theme';
 
+import { isIOS } from 'utils';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -80,6 +82,20 @@ const styles = StyleSheet.create({
   appVersionText: {
     fontSize: 14,
     color: color.secondaryText
+  },
+  badgeTextStyle: {
+    color: color.white,
+    marginTop: isIOS ? -7 : 0,
+    fontSize: 9,
+    lineHeight: 24
+  },
+  badgeContainer: {
+    paddingHorizontal: 0,
+    paddingVertical: 1,
+    alignItems: 'center',
+    width: 16,
+    height: 16,
+    backgroundColor: color.warning
   }
 });
 

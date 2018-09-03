@@ -44,7 +44,7 @@ export function createStore() {
       createFilter('app', ['statuses', 'push', 'devSettings']),
       createFilter('session', ['token'])
     ],
-    whitelist: ['app', 'session']
+    whitelist: ['app', 'session', 'notifications']
   };
   const store = createStore_(
     enableBatching(persistReducer(persistConfig, reducer)),
