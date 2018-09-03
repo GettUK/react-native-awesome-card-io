@@ -1,7 +1,7 @@
 import Color from './Color';
 
 export const color = {
-  primaryText: '#fff',
+  primaryText: '#ffffff',
   secondaryText: 'rgba(255,255,255,0.6)',
   arrowRight: '#bbbbbf',
   pixelLine: 'rgba(255,255,255,0.13)',
@@ -10,8 +10,8 @@ export const color = {
   bgSettings: '#2c3343',
   bgSearch: '#313b4d',
   bgOptions: 'rgba(255,255,255,0.8)',
-  white: '#fff',
-  primaryBtns: '#fff',
+  white: '#ffffff',
+  primaryBtns: '#ffffff',
   animationRout: '#8c9bbb',
   iconsSettigs: '#0076BB',
   bgStatuses: '#00a0ff',
@@ -26,7 +26,7 @@ export const color = {
   danger: '#ff6884',
   dangerLight: 'rgba(255,0,0,0.2)',
   backdrop: 'rgba(49,59,77,0.7)',
-  forecastDayTemp: '#fff',
+  forecastDayTemp: '#ffffff',
   forecastNightTemp: 'rgba(255, 255, 255, 0.6)'
 };
 
