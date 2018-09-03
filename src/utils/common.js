@@ -43,8 +43,8 @@ export function nullAddress(line = null) {
   };
 }
 
-export function formatPrice(value) {
-  return `£${(value / 100).toFixed(2)}`;
+export function formatPrice(currency, value) {
+  return `${currency}${(value / 100).toFixed(2)}`;
 }
 
 export const getFormatPrice = price => price && formatPrice(price);

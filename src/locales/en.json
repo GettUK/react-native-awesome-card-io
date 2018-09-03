@@ -135,7 +135,8 @@
       "emptyResult": "No Results",
       "byMeter": "By meter",
       "startTyping": "Start typing…",
-      "startTypeMessage": "Start type your message"
+      "startTypeMessage": "Start type your message",
+      "min": "min"
     }
   },
   "booking": {

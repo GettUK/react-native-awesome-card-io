@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View, ImageBackground } from 'react-native';
+import { Badge } from 'react-native-elements';
 import { isNull, capitalize } from 'lodash';
-
-import { Icon } from 'components';
 
 import assets from 'assets';
 
@@ -17,11 +16,21 @@ import CarImage from './CarImage';
 
 import styles from './styles';
 
-const CarItem = ({ style, name, label, price, theme, eta, active, onChange, isETADisabled, serviceType }) => {
-  const vehiclePrice = cost => (cost ? formatPrice(cost) : strings('app.label.byMeter'));
+const CarItem = ({
+  style, name, label, price, theme, eta, active, onChange, isETADisabled, serviceType, localCurrencySymbol, localPrice
+}) => {
+  const vehiclePrice = (currency, cost) => (cost ? formatPrice(currency, cost) : strings('app.label.byMeter'));
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
-
+  const renderBadge = () => (
+    <Badge
+      containerStyle={[styles.badgeStyle, active ? styles.badgeActiveStyle : {}]}
+      wrapperStyle={styles.badgeWrapper}
+    >
+      <Text style={[styles.badgeTextStyle, { fontWeight: 'bold' }]}>{etaNum}</Text>
+      <Text style={styles.badgeTextStyle}>{` ${strings('app.label.min')}`}</Text>
+    </Badge>
+  );
   const renderContainer = () => (
     <View
       style={[
@@ -40,24 +49,22 @@ const CarItem = ({ style, name, label, price, theme, eta, active, onChange, isET
           }
           {!isNull(price) &&
             <Text numberOfLines={1} style={[styles.labelPrice, { color: theme.color.primaryText }]}>
-              {vehiclePrice(price)}
+              {vehiclePrice('£', price)}
+            </Text>
+          }
+          {!isNull(localCurrencySymbol) && !isNull(localPrice) &&
+            <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>
+              {localPrice ? formatPrice(localCurrencySymbol, localPrice) : ''}
             </Text>
           }
         </View>
-        {eta && !isETADisabled &&
-          <View style={styles.middle}>
-            <Icon style={styles.icon} name="clock" color={theme.color.pixelLine} width={16} height={16}/>
-            <Text numberOfLines={1} style={[styles.labelEta, { color: theme.color.secondaryText }]}>
-              {`${etaNum} min`}
-            </Text>
-          </View>
-        }
-
         <CarImage
+          size={!isNull(localPrice) ? 'extraSmall' : 'medium'}
           type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
           style={styles.image}
         />
       </View>
+        {eta && !isETADisabled && renderBadge()}
     </View>
   );
 
@@ -65,7 +72,7 @@ const CarItem = ({ style, name, label, price, theme, eta, active, onChange, isET
     <ImageBackground
       source={theme.type === 'dark' ? assets.carNightShadow : assets.carShadow}
       resizeMode="stretch"
-      style={[styles.activeBackground, isETADisabled ? styles.activeBackgroundSmall : {}]}
+      style={styles.activeBackground}
     >
       {children}
     </ImageBackground>
@@ -106,6 +113,7 @@ CarItem.defaultProps = {
   name: 'Standard',
   eta: '',
   price: null,
+  localPrice: null,
   active: false,
   isETADisabled: false
 };
