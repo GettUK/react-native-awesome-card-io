@@ -33,8 +33,18 @@ class CarImage extends PureComponent {
     animatable: false
   };
 
+  getLogoIconName = () => {
+    const { type } = this.props;
+    if (type === 'Chauffeur') {
+      return 'Carey';
+    } else if (OTcars.includes(type)) {
+      return 'OT';
+    }
+    return 'Gett';
+  };
+
   renderLogo = (sizeFormatted) => {
-    const { size, type, animatable, duration } = this.props;
+    const { size, animatable, duration } = this.props;
     const sizes = {
       extraSmall: 18,
       small: 28,
@@ -54,7 +64,7 @@ class CarImage extends PureComponent {
         <View style={styles[`typeInnerWrapper${sizeFormatted}`]}>
           <Icon
             size={sizes[size]}
-            name={OTcars.includes(type) ? 'OT' : 'Gett'}
+            name={this.getLogoIconName()}
             style={styles[`logoService${sizeFormatted}`]}
           />
         </View>
