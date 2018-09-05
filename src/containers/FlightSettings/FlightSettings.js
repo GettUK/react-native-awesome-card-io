@@ -65,13 +65,13 @@ class FlightSettings extends Component {
     onClose();
   };
 
-  handleSave = throttledAction(() => {
+  handleSave = throttledAction(async () => {
     const { saveFlight, changeFlight, updateBooking, updateEnabled } = this.props;
     const { verifiedSaved, flight } = this.state;
 
     if (verifiedSaved) {
       if (!flight) changeFlight({ flight: '' }, false);
-      saveFlight();
+      await saveFlight();
       if (updateEnabled) updateBooking();
       this.onCloseModal();
     }

@@ -73,6 +73,8 @@ export const removeFields = fields => ({ type: TYPES.removeFields, payload: fiel
 
 export const changeFields = fields => ({ type: TYPES.changeFields, payload: fields });
 
+export const asyncChangeFields = fields => dispatch => Promise.resolve(dispatch(changeFields(fields)));
+
 export const changeMessageModified = (modified = false) => ({ type: TYPES.changeMessageModified, modified });
 
 export const changeMessageToDriver = (message, modified = false) => (dispatch) => {
@@ -167,8 +169,7 @@ export const changeFlight = (data, touched = false) =>
 
 export const saveFlight = () => (dispatch, getState) => {
   const { flight } = getState().booking.tempFlight;
-
-  dispatch(changeFields({ flight }));
+  return dispatch(asyncChangeFields({ flight }));
 };
 
 const getPaymentAttrs = (formData, passengerId) => {
