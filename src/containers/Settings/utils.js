@@ -70,7 +70,9 @@ export function prepareAddressesBlock(data = {}, handlers = {}) {
 
 export function prepareSwitchersBlock(data = {}, handlers = {}) {
   const { passenger } = data;
-
+  const themeTitle = data.autoThemeMode
+    ? strings('settings.label.auto')
+    : strings(`settings.label.${data.isNightMode ? 'night' : 'day'}`);
   return [
     {
       leftIconName: 'email',
@@ -106,6 +108,13 @@ export function prepareSwitchersBlock(data = {}, handlers = {}) {
       switchButton: true,
       switched: passenger.wheelchairUser || false,
       onSwitch: v => handlers.handleToggleChange('wheelchairUser', v)
+    },
+    {
+      leftIconName: 'theme',
+      title: strings('settings.label.theme'),
+      switchButton: false,
+      rightTitle: themeTitle,
+      onPress: () => handlers.handleOpenThemeModal()
     }
   ];
 }

@@ -290,12 +290,26 @@
       "sms": "SMS",
       "notification": "Push Notifications",
       "events": "Calendar Events",
+      "auto": "Auto",
+      "day": "Day",
+      "night": "Night",
+      "theme": "Color Theme",
       "wheelchair": "Wheelchair Access",
       "payments": "Payment Cards",
       "rides": "My Rides",
       "carAnimations": "Car animations",
       "locatingCarAnimation": "Locating a car animation",
       "version": "VERSION"
+    },
+    "themeTitle": {
+      "auto": "Auto theme",
+      "day": "Day theme",
+      "night": "Night theme"
+    },
+    "themeText": {
+      "auto": "The color theme of the application will change automatically depending on the time of the day.\n\nDay theme - from 5 am to 9 pm\nNight theme - from 9 pm to 5 am",
+      "day": "The color theme will not change automatically depending on the time of the day and will be set as Day theme.",
+      "night": "The color theme will not change automatically depending on the time of the day and will be set as Night theme."
     },
     "button": {
       "logout": "Log Out"

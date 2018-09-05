@@ -70,6 +70,7 @@ import sourceMarker from './sourceMarker';
 import star from './star';
 import starEmpty from './starEmpty';
 import time from './time';
+import theme from './theme';
 import vehicleInfo from './info';
 import walker from './walker';
 import wheelchair from './wheelchair';
@@ -186,6 +187,7 @@ export default {
   star,
   starEmpty,
   time,
+  theme,
   UGArrow1,
   UGArrow2,
   UGArrow3,

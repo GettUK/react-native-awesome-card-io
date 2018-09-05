@@ -13,7 +13,7 @@ export const modalStyles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 7,
+    paddingRight: 7,
     paddingVertical: 7
   },
   defaultText: {
