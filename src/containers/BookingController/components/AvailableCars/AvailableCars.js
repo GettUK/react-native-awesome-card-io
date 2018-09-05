@@ -7,7 +7,8 @@ import { vehiclesData } from 'containers/shared/bookings/data';
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    paddingTop: 5
   }
 });
 

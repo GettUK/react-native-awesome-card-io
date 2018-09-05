@@ -43,11 +43,11 @@ export function nullAddress(line = null) {
   };
 }
 
-export function formatPrice(currency, value) {
+export function formatPrice(value, currency) {
   return `${currency}${(value / 100).toFixed(2)}`;
 }
 
-export const getFormatPrice = price => price && formatPrice(price);
+export const getFormatPrice = price => price && formatPrice(price, '£');
 
 export function throttledAction(fn) {
   return throttle(fn, 1000, { trailing: false });

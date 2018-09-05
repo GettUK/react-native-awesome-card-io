@@ -19,7 +19,7 @@ import styles from './styles';
 const CarItem = ({
   style, name, label, price, theme, eta, active, onChange, isETADisabled, serviceType, localCurrencySymbol, localPrice
 }) => {
-  const vehiclePrice = (currency, cost) => (cost ? formatPrice(currency, cost) : strings('app.label.byMeter'));
+  const vehiclePrice = (cost, currency) => (cost ? formatPrice(cost, currency) : strings('app.label.byMeter'));
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
   const renderBadge = () => (
@@ -32,57 +32,58 @@ const CarItem = ({
     </Badge>
   );
   const renderContainer = () => (
-    <View
-      style={[
-        styles.container,
-        style,
-        isETADisabled ? styles.containerSmall : {},
-        active ? styles.activeContainer : {},
-        active && isETADisabled ? styles.activeContainerSmall : {},
-        { backgroundColor: theme.color.bgPrimary }
-      ]}
-    >
-      <View style={[styles.column, !active && styles.deselected]}>
-        <View style={styles.top}>
-          {label &&
-            <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>{label}</Text>
-          }
-          {!isNull(price) &&
-            <Text numberOfLines={1} style={[styles.labelPrice, { color: theme.color.primaryText }]}>
-              {vehiclePrice('£', price)}
-            </Text>
-          }
-          {!isNull(localCurrencySymbol) && !isNull(localPrice) &&
-            <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>
-              {localPrice ? formatPrice(localCurrencySymbol, localPrice) : ''}
-            </Text>
-          }
+    <View style={styles.containerWrapper}>
+      <View
+        style={[
+          styles.container,
+          style,
+          active ? styles.activeContainer : {},
+          { backgroundColor: theme.color.bgPrimary }
+        ]}
+      >
+        <View style={styles.column}>
+          <View style={styles.top}>
+            {label &&
+              <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>{label}</Text>
+            }
+            {!isNull(price) &&
+              <Text numberOfLines={1} style={[styles.labelPrice, { color: theme.color.primaryText }]}>
+                {vehiclePrice(price, '£')}
+              </Text>
+            }
+            {!isNull(localCurrencySymbol) && !isNull(localPrice) &&
+              <Text numberOfLines={1} style={[styles.label, { color: theme.color.secondaryText }]}>
+                {localPrice ? formatPrice(localPrice, localCurrencySymbol) : ''}
+              </Text>
+            }
+          </View>
+          <CarImage
+            size={!isNull(localPrice) ? 'extraSmall' : 'small'}
+            type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
+            style={styles.image}
+          />
         </View>
-        <CarImage
-          size={!isNull(localPrice) ? 'extraSmall' : 'medium'}
-          type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
-          style={styles.image}
-        />
       </View>
-        {eta && !isETADisabled && renderBadge()}
+      {eta && !isETADisabled && renderBadge()}
     </View>
   );
 
-  const renderActiveContainer = children => (
-    <ImageBackground
-      source={theme.type === 'dark' ? assets.carNightShadow : assets.carShadow}
-      resizeMode="stretch"
-      style={styles.activeBackground}
-    >
-      {children}
-    </ImageBackground>
-  );
-
-  const content = renderContainer();
+  const renderActiveContainer = () => {
+    const sourceImage = theme.type === 'dark' ? assets.carNightShadow : assets.carShadow;
+    return (
+      <ImageBackground
+        source={active ? sourceImage : null}
+        resizeMode="stretch"
+        style={styles.activeBackground}
+      >
+        {renderContainer()}
+      </ImageBackground>
+    );
+  };
 
   return (
-    <TouchableOpacity onPress={() => !active && onChange(name)}>
-      {active ? renderActiveContainer(content) : content}
+    <TouchableOpacity activeOpacity={0.6} onPress={() => !active && onChange(name)}>
+      {renderActiveContainer()}
     </TouchableOpacity>
   );
 };
