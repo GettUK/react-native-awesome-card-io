@@ -46,5 +46,9 @@ export default StyleSheet.create({
   loading: {
     textAlign: 'center',
     margin: 10
+  },
+  footerView: {
+    height: 30,
+    width: '100%'
   }
 });
