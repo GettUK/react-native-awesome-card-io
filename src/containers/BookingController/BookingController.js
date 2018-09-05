@@ -449,9 +449,9 @@ export default class BookingController extends Component {
   );
 
   renderDetailItem = ({ title, value, icon, onPress, chevron = true, error }, i, arr) => (
-    <View key={title} style={styles.listOption}>
+    <View key={title}>
       <TouchableWithoutFeedback onPress={onPress}>
-        <View style={styles.row}>
+        <View style={[styles.row, styles.listOption]}>
           {icon && <Icon name={icon} color={color.pixelLine} />}
           {!value && error && <View style={styles.errorDot} />}
 

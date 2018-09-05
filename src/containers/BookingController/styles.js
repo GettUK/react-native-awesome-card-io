@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   errorDot: {
     position: 'absolute',
-    marginLeft: -10,
+    marginLeft: 6,
     width: 6,
     height: 6,
     borderRadius: 6,
