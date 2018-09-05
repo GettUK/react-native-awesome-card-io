@@ -88,7 +88,7 @@ class OrderDetails extends BookingController {
             { backgroundColor: theme.color.bgSettings }
           ]}
         >
-          <Text style={orderPanelStyles.title}>{strings('order.text.bookingReference')}</Text>
+          <Text style={orderPanelStyles.title}>{strings('order.text.bookingReferences')}</Text>
         </View>
         <View
           style={[
