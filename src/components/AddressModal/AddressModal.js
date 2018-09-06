@@ -66,6 +66,7 @@ class AddressModal extends PureComponent {
     this.setState({
       isVisible: true,
       meta,
+      activeTab: 'favorites',
       inputValue: processedAddress.line,
       loading: !!processedAddress.line
     }, this.searchAddresses);
