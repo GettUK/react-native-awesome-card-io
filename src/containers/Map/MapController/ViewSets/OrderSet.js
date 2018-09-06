@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
 
 import { changeCoordinatesToResize, changeRegionToAnimate } from 'actions/ui/map';
 
@@ -20,7 +21,7 @@ import {
 import { DriverRoute, OrderRoute, RandomRoutes } from '../Routes';
 import { SourceActiveMarker } from '../Markers';
 
-import { preparePointsList } from './utils';
+import { preparePointsList, getStops } from './utils';
 
 class OrderSet extends React.Component {
   componentDidMount() {
@@ -78,7 +79,13 @@ class OrderSet extends React.Component {
     if ((order.status === ORDER_RECEIVED_STATUS && order.asap) || POINTER_DISPLAY_STATUSES.includes(order.status)) {
       changeRegionToAnimate(prepareCoordinates(order.pickupAddress));
     }
-  }
+  };
+
+  isPathChanged = (order, oldOrder) => (
+    (!isEqual(order.pickupAddress, oldOrder.pickupAddress))
+    || (order.destinationAddress && !isEqual(order.destinationAddress, oldOrder.destinationAddress))
+    || (getStops(order) && !isEqual(getStops(order), getStops(oldOrder)))
+  );
 
   resizeMapOnActiveOrderChange = ({ oldOrder }) => {
     const { order } = this.props;
@@ -91,12 +98,14 @@ class OrderSet extends React.Component {
       this.resizeMapToDriverAndTargetAddress('destination', order); // TODO: need to resize to stops too
     }
 
-    if (order.status !== oldOrder.status && order.status === ORDER_RECEIVED_STATUS && !order.asap) {
+    if ((order.status !== oldOrder.status && order.status === ORDER_RECEIVED_STATUS && !order.asap)
+      || this.isPathChanged(order, oldOrder)
+    ) {
       this.props.onFutureOrderAcceptedReceive();
 
       this.resizeMapToOrderRoute();
     }
-  }
+  };
 
   resizeMapToDriverAndTargetAddress = (type, order) => {
     const dest = prepareCoordinates(order[`${type}Address`]);
@@ -108,7 +117,7 @@ class OrderSet extends React.Component {
   resizeMapToOrderRoute = () => {
     const { source, dest, stops } = preparePointsList(this.props.order);
     setTimeout(() => this.props.changeCoordinatesToResize([source, dest, ...stops]));
-  }
+  };
 
   gotNewStatus = (oldOrder, order, status) =>
     oldOrder.status !== status && order.status === status;

@@ -227,6 +227,8 @@ const orderReceivedStatusFlow = (data, delay) => (dispatch, getState) => {
   }
 };
 
+const updateCurrentOrder = data => ({ type: TYPES.updateCurrentOrder, payload: data });
+
 const setBookingUpdater = id => (dispatch) => {
   bookingInterval = setInterval(() => {
     get(`/bookings/${id}`)
@@ -235,7 +237,7 @@ const setBookingUpdater = id => (dispatch) => {
           clearInterval(bookingInterval);
           return;
         }
-        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+        dispatch(updateCurrentOrder(data));
       });
   }, 3000);
 };
@@ -324,7 +326,7 @@ export const createBooking = order => (dispatch, getState) => {
   return post('/bookings', order)
     .then(({ data }) => {
       if (!currentOrder.id) {
-        dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+        dispatch(updateCurrentOrder(data));
 
         if (isFutureOrder) {
           dispatch(getCurrentUser());
@@ -354,7 +356,7 @@ export const updateBooking = () => (dispatch, getState) => {
   };
 
   return put(`/bookings/${bookingForm.id || currentOrder.id}`, order)
-    .then(({ data }) => (data));
+    .then(({ data }) => { dispatch(updateCurrentOrder(data)); });
 };
 
 export const setActiveBooking = id => (dispatch, getState) => {
@@ -366,7 +368,7 @@ export const setActiveBooking = id => (dispatch, getState) => {
     .then(({ data }) => {
       const isOrderReceived = data.indicatedStatus === ORDER_RECEIVED_STATUS;
       const isFutureOrderEdit = !data.asap && isOrderReceived;
-      dispatch({ type: TYPES.updateCurrentOrder, payload: data });
+      dispatch(updateCurrentOrder(data));
 
       if (isFutureOrderEdit) {
         dispatch(getFormData());

@@ -247,7 +247,7 @@ class PickUpTime extends PureComponent {
           timeZoneOffsetInMinutes={timezoneDate.utcOffset()}
         />
       </View>;
-  }
+  };
 
   renderTimeDatePicker() {
     const { isModalOpened } = this.state;

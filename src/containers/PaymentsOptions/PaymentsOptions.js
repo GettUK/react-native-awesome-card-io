@@ -6,7 +6,7 @@ import { flatMap, capitalize, last, split } from 'lodash';
 import { Icon, CheckBox, Divider, ListView } from 'components';
 import { color } from 'theme';
 
-import { changeFields, updateBooking } from 'actions/booking';
+import { changeFields } from 'actions/booking';
 
 import {
   paymentTypeLabels,
@@ -37,11 +37,10 @@ class PaymentsOptions extends Component {
   };
 
   onChangePaymentType = (item) => {
-    const { onClose, changeFields, updateBooking, updateEnabled } = this.props;
+    const { onClose, changeFields } = this.props;
     onClose();
     setTimeout(() => {
       changeFields(paymentTypeToAttrs(item.value), true);
-      if (updateEnabled) updateBooking();
     }, 350); // for smooth animation
   };
 
@@ -96,8 +95,7 @@ const mapState = ({ booking, session }) => {
 };
 
 const mapDispatch = ({
-  changeFields,
-  updateBooking
+  changeFields
 });
 
 export default connect(mapState, mapDispatch)(withTheme(PaymentsOptions));
