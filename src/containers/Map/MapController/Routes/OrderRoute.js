@@ -31,12 +31,14 @@ class OrderRoute extends React.Component {
     const Source = Sources[sourceType];
     const Destination = Destinations[destinationType];
 
+    const processedStops = stops.map(s => s.address || s);
+
     return (
       <Fragment>
         <Source coordinate={source} value={source.value} />
         <Destination coordinate={destination} value={destination.value} />
-        {stops.map(stop => <StopMarker coordinate={stop} key={stop.line} />)}
-        {getRoutes({ source, destination, stops }).map((coords, i) =>
+        {processedStops.map(stop => <StopMarker coordinate={stop} key={stop.line} />)}
+        {getRoutes({ source, destination, stops: processedStops }).map((coords, i) =>
           <Route key={i} source={coords.source} destination={coords.destination} />)}
       </Fragment>
     );

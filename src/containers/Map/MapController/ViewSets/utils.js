@@ -7,7 +7,7 @@ export const getStops = order => (
 export const preparePointsList = (order) => {
   const source = prepareCoordinates(order.pickupAddress);
   const dest = prepareCoordinates(order.destinationAddress);
-  const stops = (getStops(order) || []).map(prepareCoordinates);
+  const stops = (getStops(order) ? getStops(order).map(s => s.address || s) : []).map(prepareCoordinates);
 
   return { source, dest, stops };
 };
