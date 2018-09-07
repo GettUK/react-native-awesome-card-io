@@ -116,6 +116,7 @@ class OrderSet extends React.Component {
 
   resizeMapToOrderRoute = () => {
     const { source, dest, stops } = preparePointsList(this.props.order);
+
     setTimeout(() => this.props.changeCoordinatesToResize([source, dest, ...stops]));
   };
 

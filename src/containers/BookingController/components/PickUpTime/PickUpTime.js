@@ -93,7 +93,7 @@ class PickUpTime extends PureComponent {
 
   handleUpdateSchedule = (type = 'now') => {
     const { date } = this.state;
-    const { requestVehicles, changeFields, updateBooking } = this.props;
+    const { requestVehicles, changeFields } = this.props;
     const minDate = this.getMinimalFutureOrderTime();
     const scheduledAt = type === 'later'
       ? (minDate.isBefore(momentDate(date)) && momentDate(date)) || minDate
@@ -101,7 +101,6 @@ class PickUpTime extends PureComponent {
 
     this.closePickerModal();
     changeFields({ scheduledType: type, scheduledAt });
-    updateBooking();
     requestVehicles();
   };
 
@@ -267,7 +266,7 @@ class PickUpTime extends PureComponent {
   }
 
   render() {
-    const { booking: { scheduledType, scheduledAt }, wrapperStyle, theme, title } = this.props;
+    const { booking: { scheduledType, scheduledAt, asap }, wrapperStyle, theme, title } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.openPickerModal}>
         <View style={[styles.pickupTimeContainer, wrapperStyle, { backgroundColor: theme.color.bgPrimary }]}>
@@ -275,7 +274,7 @@ class PickUpTime extends PureComponent {
           <View style={styles.pickupTime}>
             <Text style={[styles.pickupTimeLabel, { color: theme.color.primaryText }]}>{title}</Text>
             <Text style={[styles.pickupTimeValue, { color: theme.color.primaryText }]}>
-              {scheduledType === 'later'
+              {scheduledType === 'later' || asap === false
                 ? moment(scheduledAt).format(`D MMM YYYY, ${timeFormat()}`)
                 : 'Now'
               }

@@ -74,7 +74,7 @@ export default class BookingController extends Component {
     const { booking, orderType } = this.props;
     const { currentOrder, bookingForm } = booking;
 
-    return booking[orderType] || (currentOrder.id && currentOrder.asap ? currentOrder : bookingForm);
+    return booking[orderType] || (currentOrder.id ? currentOrder : bookingForm);
   }
 
   updateAvailableCarsScroll(value, animated = false) {
@@ -616,7 +616,6 @@ export default class BookingController extends Component {
 
     return (
       <PickUpTime
-        updateBooking={this.updateBooking}
         title={title}
         disableNow={disableNow}
         booking={order}

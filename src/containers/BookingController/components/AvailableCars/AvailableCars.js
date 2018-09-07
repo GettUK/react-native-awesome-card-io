@@ -34,7 +34,7 @@ const AvailableCars = ({ availableVehicles, onCarSelect, booking, onScroll, scro
             localPrice={vehicle.localPrice}
             localCurrencySymbol={vehicle.localCurrencySymbol}
             serviceType={vehicle.serviceType}
-            active={vehicle.name === booking.vehicleName}
+            active={vehicle.name === (booking.vehicleName ? booking.vehicleName : booking.vehicleType)}
             isETADisabled={booking.scheduledType === 'later'}
           />
         );

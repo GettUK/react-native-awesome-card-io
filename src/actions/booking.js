@@ -355,6 +355,7 @@ export const updateBooking = () => (dispatch, getState) => {
     stops: getStopPoints(bookingForm)
   };
 
+  dispatch(updateCurrentOrder(order));
   return put(`/bookings/${bookingForm.id || currentOrder.id}`, order)
     .then(({ data }) => { dispatch(updateCurrentOrder(data)); });
 };
