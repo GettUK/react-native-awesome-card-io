@@ -127,7 +127,7 @@ export default class BookingController extends Component {
     if (!isStopPointsModalVisible && isDriveChanged) {
       this.requestVehicles();
     }
-  }
+  };
 
   requestVehicles = () => {
     if (!this.shouldRequestVehicles()) return;
@@ -305,7 +305,7 @@ export default class BookingController extends Component {
 
   updateBooking = () => {
     const { updateBooking } = this.props;
-    setTimeout(() => this.areAddressesUnique() && this.isFutureOrderEdit() && updateBooking(), 500);
+    setTimeout(() => this.areAddressesUnique() && this.isFutureOrderEdit() && updateBooking(), 0);
   };
 
   createBooking = async () => {
@@ -377,7 +377,6 @@ export default class BookingController extends Component {
     }
 
     changeAddress(address, meta);
-    this.updateBooking();
   };
 
   getEarliestAvailableTime = (vehicle) => {
@@ -643,7 +642,6 @@ export default class BookingController extends Component {
   onChangeStopPointAddress = (attrs) => {
     const { changeFields } = this.props;
     changeFields(attrs);
-    this.updateBooking();
   };
 
   renderStopPointsModal = () => {

@@ -128,9 +128,7 @@ const createBookingStart = state =>
   });
 
 const updateCurrentOrder = (state, { payload }) =>
-  update(state, {
-    currentOrder: { ...payload, busy: false }
-  });
+  update.assign(state, 'currentOrder', { ...payload, busy: false });
 
 const createBookingFailure = (state, { payload }) =>
   update(state, {
