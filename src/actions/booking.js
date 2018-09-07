@@ -1,6 +1,6 @@
 import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
-import { isEmpty, reject, snakeCase } from 'lodash';
+import { isEmpty, reject, snakeCase, omit } from 'lodash';
 
 import {
   get, post, put,
@@ -351,7 +351,7 @@ export const updateBooking = () => (dispatch, getState) => {
   const { booking: { bookingForm, currentOrder } } = getState();
 
   const order = {
-    ...bookingForm,
+    ...omit(bookingForm, 'status'),
     stops: getStopPoints(bookingForm)
   };
 

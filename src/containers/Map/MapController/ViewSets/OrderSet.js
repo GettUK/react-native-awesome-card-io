@@ -81,10 +81,13 @@ class OrderSet extends React.Component {
     }
   };
 
+  isStopsChanged = (order, oldOrder) =>
+    !isEqual(getStops(order).map(s => s.line || s.address.line), getStops(oldOrder).map(s => s.line || s.address.line));
+
   isPathChanged = (order, oldOrder) => (
-    (!isEqual(order.pickupAddress, oldOrder.pickupAddress))
-    || (order.destinationAddress && !isEqual(order.destinationAddress, oldOrder.destinationAddress))
-    || (getStops(order) && !isEqual(getStops(order), getStops(oldOrder)))
+    (!isEqual(order.pickupAddress.line, oldOrder.pickupAddress.line))
+    || (order.destinationAddress && !isEqual(order.destinationAddress.line, oldOrder.destinationAddress.line))
+    || (getStops(order) && this.isStopsChanged(order, oldOrder))
   );
 
   resizeMapOnActiveOrderChange = ({ oldOrder }) => {
@@ -98,11 +101,12 @@ class OrderSet extends React.Component {
       this.resizeMapToDriverAndTargetAddress('destination', order); // TODO: need to resize to stops too
     }
 
-    if ((order.status !== oldOrder.status && order.status === ORDER_RECEIVED_STATUS && !order.asap)
-      || this.isPathChanged(order, oldOrder)
-    ) {
+    if ((order.status !== oldOrder.status && order.status === ORDER_RECEIVED_STATUS && !order.asap)) {
       this.props.onFutureOrderAcceptedReceive();
+      this.resizeMapToOrderRoute();
+    }
 
+    if (this.isPathChanged(order, oldOrder)) {
       this.resizeMapToOrderRoute();
     }
   };
