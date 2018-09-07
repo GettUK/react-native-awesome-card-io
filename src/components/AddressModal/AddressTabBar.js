@@ -22,14 +22,7 @@ class AddressTabBar extends PureComponent {
   );
 
   render() {
-    const tabs = [
-      { label: 'Favourites', id: 'favorites' },
-      { label: 'Airports', id: 'airport' },
-      { label: 'Train Stations', id: 'trainStation' },
-      { label: 'Hotels', id: 'lodging' },
-      { label: 'Restaurants', id: 'restaurant' },
-      { label: 'Places to visit', id: 'pointOfInterest' }
-    ];
+    const { tabs } = this.props;
 
     return (
       <View style={styles.tabBarContainer}>

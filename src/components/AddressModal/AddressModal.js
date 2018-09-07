@@ -62,15 +62,29 @@ class AddressModal extends PureComponent {
     activeTab: 'favorites'
   };
 
+  get barTabs() {
+    const { hideFavorites } = this.props;
+    const tabs = [
+      { label: 'Favourites', id: 'favorites' },
+      { label: 'Airports', id: 'airport' },
+      { label: 'Train Stations', id: 'trainStation' },
+      { label: 'Hotels', id: 'lodging' },
+      { label: 'Restaurants', id: 'restaurant' },
+      { label: 'Places to visit', id: 'pointOfInterest' }
+    ];
+    return tabs.filter(t => !hideFavorites || t.id !== 'favorites');
+  }
+
   open(address, meta) {
     const processedAddress = address || nullAddress('');
+    const firstTab = this.barTabs[0].id;
     this.setState({
       isVisible: true,
       meta,
-      activeTab: 'favorites',
+      activeTab: firstTab,
       inputValue: processedAddress.line,
       inputTouched: false
-    });
+    }, this.onChangeTab(firstTab));
   }
 
   close = () => {
@@ -277,7 +291,7 @@ class AddressModal extends PureComponent {
         {this.renderSearchInput()}
 
         {(!inputValue.length || !inputTouched) &&
-          <AddressTabBar theme={theme} activeTab={activeTab} onChangeTab={this.onChangeTab} />
+          <AddressTabBar theme={theme} tabs={this.barTabs} activeTab={activeTab} onChangeTab={this.onChangeTab} />
         }
 
         {this.renderAddressList()}
