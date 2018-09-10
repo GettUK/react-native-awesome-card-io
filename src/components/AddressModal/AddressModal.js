@@ -56,6 +56,7 @@ class AddressModal extends PureComponent {
     isVisible: false,
     loading: false,
     inputValue: '',
+    inputTouched: false,
     values: [],
     meta: {},
     activeTab: 'favorites'
@@ -67,12 +68,12 @@ class AddressModal extends PureComponent {
       isVisible: true,
       meta,
       inputValue: processedAddress.line,
-      loading: !!processedAddress.line
-    }, this.searchAddresses);
+      inputTouched: false
+    });
   }
 
   close = () => {
-    this.setState({ isVisible: false, inputValue: '', values: [] });
+    this.setState({ isVisible: false, inputValue: '', inputTouched: false, values: [] });
   };
 
   onChangeTab = (activeTab) => {
@@ -83,10 +84,10 @@ class AddressModal extends PureComponent {
     if (activeTab !== 'favorites' && (!suggestedAddresses[activeTab] || !suggestedAddresses[activeTab].loaded)) {
       getSuggestedAddresses(activeTab);
     }
-  }
+  };
 
   onChangeText = (text) => {
-    this.setState({ inputValue: text }, this.searchAddresses);
+    this.setState({ inputValue: text, inputTouched: true }, this.searchAddresses);
   };
 
   onAddressPress = (item) => {
@@ -118,13 +119,13 @@ class AddressModal extends PureComponent {
   handleSelect = (address) => {
     this.props.onChange(address, this.state.meta);
     this.setState({ isVisible: false });
-    setTimeout(() => this.setState({ inputValue: '', values: [], meta: {} }), 500); // for smooth animation
+    setTimeout(() => this.setState({
+      inputValue: '',
+      values: [],
+      inputTouched: false,
+      meta: {}
+    }), 500); // for smooth animation
   };
-
-  getOptionName = opt =>
-    (opt.name && opt.address && opt.address.line
-      ? `${opt.name}, ${opt.address.line}`
-      : opt.text);
 
   searchAddresses = debounce(() => {
     const { inputValue, loading } = this.state;
@@ -144,7 +145,7 @@ class AddressModal extends PureComponent {
           this.setState({ values: [], loading: false });
         }
       });
-  }, searchDebounce);
+  }, searchDebounce, { leading: true });
 
   getPointerIconData() {
     const defaultIcon = { name: 'pickUpField' };
@@ -230,16 +231,23 @@ class AddressModal extends PureComponent {
     );
   }
 
+  renderEmptyResult = () => (
+    <Text style={[styles.emptyLabel, { color: this.props.theme.color.primaryText }]}>
+      {strings('app.label.emptyResult')}
+    </Text>
+  );
+
   renderAddressList() {
-    const { values, loading, loadingTab, activeTab, inputValue } = this.state;
-    const { defaultValues, suggestedAddresses, theme } = this.props;
+    const { values, loading, activeTab, inputValue, inputTouched } = this.state;
+    const { defaultValues, loadingTab, suggestedAddresses } = this.props;
 
     const addresses = activeTab === 'favorites' ? defaultValues : suggestedAddresses[activeTab].list;
-    const data = inputValue.length ? values : addresses;
+    const data = inputValue.length > 0 && inputTouched ? values : addresses;
+    const isLoading = loading || (loadingTab && loadingTab.length > 0);
 
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.flex} keyboardVerticalOffset={80}>
-        {data && data.length && loadingTab !== activeTab
+        {(data && data.length) || isLoading
           ? <FlatList
             keyboardShouldPersistTaps="always"
             contentContainerStyle={styles.list}
@@ -247,19 +255,17 @@ class AddressModal extends PureComponent {
             data={data}
             renderItem={this.renderAddressItem}
             keyExtractor={this.keyExtractor}
-            ListFooterComponent={loading && this.renderFooter}
+            ListFooterComponent={isLoading && this.renderFooter}
           />
-          : <Text style={[styles.emptyLabel, { color: theme.color.primaryText }]}>
-            {strings('app.label.emptyResult')}
-          </Text>
+          : this.renderEmptyResult()
         }
       </KeyboardAvoidingView>
     );
   }
 
   render() {
-    const { loadingTab, theme } = this.props;
-    const { isVisible, activeTab, inputValue } = this.state;
+    const { theme } = this.props;
+    const { isVisible, activeTab, inputValue, inputTouched } = this.state;
 
     return (
       <Modal
@@ -269,11 +275,11 @@ class AddressModal extends PureComponent {
       >
         {this.renderSearchInput()}
 
-        {!inputValue.length &&
+        {(!inputValue.length || !inputTouched) &&
           <AddressTabBar theme={theme} activeTab={activeTab} onChangeTab={this.onChangeTab} />
         }
 
-        {loadingTab === activeTab ? <Text style={styles.loading}>Loading...</Text> : this.renderAddressList()}
+        {this.renderAddressList()}
 
         <Alert
           ref={(alert) => { this.alert = alert; }}
