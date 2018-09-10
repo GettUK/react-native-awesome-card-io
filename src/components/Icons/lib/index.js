@@ -98,6 +98,7 @@ import UGPointer from './userGuide/UGPointer';
 
 import OT from './logos/OT';
 import Gett from './logos/Gett';
+import Carey from './logos/Carey';
 
 import download from './download';
 import dispatcher from './dispatcher';
@@ -210,6 +211,7 @@ export default {
   rectangle,
   OT,
   Gett,
+  Carey,
   download,
   dispatcher,
   homeAddress,

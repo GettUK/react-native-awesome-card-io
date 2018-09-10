@@ -93,6 +93,9 @@ export const allVehicles = [{
 }, {
   name: 'Business',
   label: 'Business'
+}, {
+  name: 'Chauffeur',
+  label: 'Chauffeur'
 }];
 
 export const OTcars = [
@@ -106,6 +109,7 @@ export const backOfficeBaseVehicles = allVehicles.filter(v =>
 export const baseVehicles = backOfficeBaseVehicles.filter(v => v.name !== 'Special');
 
 /* eslint-disable max-len */
+const priceInfo = 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.';
 export const baseDescriptions = {
   Standard: {
     description: 'Safe and reliable saloon vehicle that is perfect for your everyday ground transport needs.',
@@ -113,7 +117,7 @@ export const baseDescriptions = {
       '15 minutes free waiting time',
       '30 minutes free waiting time for airport pickups'
     ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+    price: priceInfo
   },
   BlackTaxi: {
     description: 'A Comfortable ride that takes bus lanes to get you there quicker',
@@ -121,7 +125,7 @@ export const baseDescriptions = {
       '2 minutes free waiting time and then 50p/min',
       '15 mins free waiting time for airport pickups'
     ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+    price: priceInfo
   },
   BlackTaxiXL: {
     description: 'A comfortable ride that takes bus lanes to get you there quicker.',
@@ -129,7 +133,7 @@ export const baseDescriptions = {
       '2 minutes free waiting time and then 50p/min',
       '15 mins free waiting time for airport pickups'
     ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+    price: priceInfo
   },
   Exec: {
     description: 'The perfect balance between luxury and reliability, our executive services will ensure you arrive in style.',
@@ -137,7 +141,7 @@ export const baseDescriptions = {
       '5 minutes free waiting time',
       '30 minutes free waiting time for airport pickups'
     ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+    price: priceInfo
   },
   MPV: {
     description: 'Spacious and comfortable with ample space for luggage. The People Carrier is ideal for long distance journeys.',
@@ -145,7 +149,7 @@ export const baseDescriptions = {
       '15 minutes free waiting time',
       '30 minutes free waiting time for airport pickups'
     ],
-    price: 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.'
+    price: priceInfo
   }
 };
 /* eslint-enable */
@@ -160,7 +164,8 @@ export const baseVehiclesDescriptions = {
   StandardXL: baseDescriptions.MPV,
   Business: baseDescriptions.Exec,
   GettXL: baseDescriptions.MPV,
-  GettExpress: baseDescriptions.Standard
+  GettExpress: baseDescriptions.Standard,
+  Chauffeur: baseDescriptions.Standard
 };
 
 // comparing looked-up address with saved address can sometimes yield different
