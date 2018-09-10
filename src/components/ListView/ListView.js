@@ -29,8 +29,9 @@ class ListView extends PureComponent {
           {...props}
           {...rest}
           style={[styles.items, style]}
-          ListFooterComponent={loading && Platform.OS === 'ios' &&
-            <Text style={[styles.loading, { color: theme.color.primaryText }]}>{strings('app.label.loading')}</Text>
+          ListFooterComponent={loading && Platform.OS === 'ios'
+            ? (<Text style={[styles.loading, { color: theme.color.primaryText }]}>{strings('app.label.loading')}</Text>)
+            : (<View style={styles.footerView} />)
           }
           stickySectionHeadersEnabled={false}
         />
