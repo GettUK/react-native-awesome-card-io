@@ -2,15 +2,17 @@ import { StyleSheet } from 'react-native';
 import { color } from 'theme';
 
 export default StyleSheet.create({
-  container: {
+  containerWrapper: {
     marginHorizontal: 10,
-    marginTop: 13,
-    width: 104,
-    height: 124,
+    paddingTop: 2
+  },
+  container: {
+    zIndex: 0,
+    width: 98,
+    height: 119,
     borderRadius: 10,
     paddingTop: 11,
     paddingBottom: 9,
-    elevation: 2,
     shadowColor: color.primaryText,
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -23,28 +25,16 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  containerSmall: {
-    marginTop: 12,
-    height: 124
-  },
   activeContainer: {
-    width: 104,
-    height: 124,
-    margin: 0,
-    marginTop: 0,
     shadowRadius: 0
   },
-  activeContainerSmall: {
-    marginTop: 0,
-    height: 124
-  },
   activeBackground: {
-    width: 120,
-    height: 140,
+    width: 118,
+    height: 139,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 5,
-    marginTop: 4
+    paddingTop: 4
   },
   label: {
     paddingLeft: 2,
@@ -54,7 +44,7 @@ export default StyleSheet.create({
   },
   labelPrice: {
     paddingLeft: 2,
-    fontSize: 18,
+    fontSize: 17,
     color: color.primaryText,
     fontWeight: 'bold',
     marginVertical: 2
@@ -66,13 +56,13 @@ export default StyleSheet.create({
   image: {
     alignSelf: 'center'
   },
-  deselected: {
-    opacity: 0.6
-  },
   badgeWrapper: {
     width: '100%',
     position: 'absolute',
-    top: -10,
+    top: -8,
+    left: 0,
+    zIndex: 1,
+    overflow: 'visible',
     alignItems: 'center'
   },
   badgeStyle: {
