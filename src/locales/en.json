@@ -231,7 +231,7 @@
       "billed": "Billed",
       "serviceID": "Service ID",
       "noDriverInfo": "This order can not be tracked due to technical limitations of the driver/fleet",
-      "bookingReference": "BOOKING REFERENCE"
+      "bookingReferences": "BOOKING REFERENCES"
     },
     "button": {
       "actions": "Actions",

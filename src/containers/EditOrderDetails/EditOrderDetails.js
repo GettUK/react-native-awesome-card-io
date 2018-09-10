@@ -51,7 +51,7 @@ class EditOrderDetails extends BookingController {
           this.renderAdditionalDetails({
             style: [styles.contentBlock, styles.detailsContainer, { backgroundColor: theme.color.bgPrimary }],
             items: this.getReferencesItems(),
-            label: strings('order.text.bookingReference'),
+            label: strings('order.text.bookingReferences'),
             labelStyle: styles.labelStyle
           })
         )}
