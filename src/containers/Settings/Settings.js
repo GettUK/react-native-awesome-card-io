@@ -222,6 +222,7 @@ class Settings extends Component {
           {this.renderAppVersionBlock()}
         </ScrollView>
         <AddressModal
+          hideFavorites
           innerRef={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />

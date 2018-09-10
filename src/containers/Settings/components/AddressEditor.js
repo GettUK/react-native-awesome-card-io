@@ -180,6 +180,7 @@ class AddressEditor extends Component {
         </DismissKeyboardView>
 
         <AddressModal
+          hideFavorites
           innerRef={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />
