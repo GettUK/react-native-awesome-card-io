@@ -668,7 +668,7 @@ export default class BookingController extends Component {
     const { skipFlight } = this.state;
 
     if (skipFlight) {
-      setTimeout(this.createBooking, 0);
+      this.createBooking();
     } else {
       this.closeModal('Custom');
     }
