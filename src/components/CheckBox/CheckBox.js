@@ -10,6 +10,7 @@ class CheckBox extends PureComponent {
       PropTypes.object,
       PropTypes.number
     ]),
+    color: PropTypes.string,
     onPress: PropTypes.func,
     status: PropTypes.bool
   };
@@ -29,10 +30,10 @@ class CheckBox extends PureComponent {
   };
 
   render() {
-    const { status } = this.props;
+    const { status, color } = this.props;
     return (
       status
-        ? <Icon name="checkOn" />
+        ? <Icon name="checkOn" color={color} />
         : this.renderHandlerIcon()
     );
   }

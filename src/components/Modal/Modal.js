@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 
@@ -14,16 +14,24 @@ import ModalWrapper from './ModalWrapper';
 import { modalStyles as styles } from './styles';
 
 function Modal({
-  theme, onClose, label, title, titleStyles, contentStyles, children, ...rest
+  theme, onClose, label, title, titleStyles, contentStyles, children, headerContent, leftButton, closeTextStyle, ...rest
 }) {
   return (
     <ModalWrapper onClose={onClose} {...rest}>
       <DismissKeyboardView style={[{ backgroundColor: theme.color.bgPrimary }, contentStyles]}>
         <View style={styles.header}>
-          <Text style={[styles.defaultText, titleStyles]}>{title}</Text>
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.closeText}>{label}</Text>
-          </TouchableOpacity>
+          {headerContent
+            ? headerContent()
+            : (
+              <Fragment>
+                {leftButton || null}
+                <Text style={[styles.defaultText, titleStyles]}>{title}</Text>
+                <TouchableOpacity onPress={onClose}>
+                  <Text style={[styles.closeText, closeTextStyle || {}]}>{label}</Text>
+                </TouchableOpacity>
+              </Fragment>
+            )
+          }
         </View>
         {children}
         {isIphoneX() && <View style={styles.separator} />}

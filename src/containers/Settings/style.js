@@ -83,6 +83,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: color.secondaryText
   },
+  themeModeModal: {
+    width: '100%',
+    height: '40%'
+  },
   badgeTextStyle: {
     color: color.white,
     marginTop: isIOS ? -7 : 0,
@@ -96,6 +100,9 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     backgroundColor: color.warning
+  },
+  closeTextStyle: {
+    fontSize: 17
   }
 });
 

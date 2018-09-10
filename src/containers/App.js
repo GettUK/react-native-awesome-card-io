@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,9 +20,18 @@ import PN from 'utils/notifications';
 
 import { ThemeContext } from 'providers';
 
-class AppContainer extends PureComponent {
+import { shallowEqual, isNightModeTime } from 'utils';
+
+class AppContainer extends Component {
   state = {
-    nightMode: false
+    isNightMode: this.props.isNightMode
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.autoThemeMode !== nextProps.autoThemeMode || this.props.isNightMode !== nextProps.isNightMode) {
+      this.checkForNightModeImmediate(nextProps);
+    }
+    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
   }
 
   componentDidMount() {
@@ -53,20 +62,32 @@ class AppContainer extends PureComponent {
   }
 
   checkForNightMode = throttle(() => {
-    const hour = (new Date()).getHours();
-    const nightMode = hour >= 21 || hour < 5;
-
-    if (nightMode !== this.state.nightMode) {
-      this.setState({ nightMode });
+    const { autoThemeMode } = this.props;
+    if (autoThemeMode) {
+      this.checkForNightModeImmediate(this.props);
     }
   }, 20000);
+
+  checkForNightModeImmediate = (props) => {
+    const { autoThemeMode, isNightMode } = props;
+
+    if (autoThemeMode) {
+      const isNightMode = isNightModeTime();
+
+      if (isNightMode !== this.state.isNightMode) {
+        this.setState({ isNightMode });
+      }
+    } else {
+      this.setState({ isNightMode });
+    }
+  }
 
   render() {
     const { dispatch, isConnected } = this.props;
 
     return (
       <ThemeContext.Provider
-        value={this.state.nightMode ? { ...darkTheme, type: 'dark' } : { ...lightTheme, type: 'light' }}
+        value={this.state.isNightMode ? { ...darkTheme, type: 'dark' } : { ...lightTheme, type: 'light' }}
       >
         <View style={{ flex: 1 }}>
           <AlertModal />
@@ -90,8 +111,10 @@ AppContainer.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-const mapState = ({ network }) => ({
-  isConnected: network.isConnected
+const mapState = ({ network, app }) => ({
+  isConnected: network.isConnected,
+  autoThemeMode: app.theme.autoThemeMode,
+  isNightMode: app.theme.isNightMode
 });
 
 export default connect(mapState)(AppContainer);

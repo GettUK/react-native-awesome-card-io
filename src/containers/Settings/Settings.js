@@ -11,7 +11,9 @@ import { logout, resetGuide } from 'actions/session';
 import { deleteToken } from 'actions/app/pushNotifications';
 import { changeDevSettingField } from 'actions/app/devSettings';
 
-import { AddressModal, Divider } from 'components';
+import { AddressModal, Divider, BackBtn, Modal } from 'components';
+
+import { ThemeSettings, ThemeSettingsInfo } from 'containers';
 
 import { withTheme } from 'providers';
 
@@ -36,12 +38,20 @@ import styles from './style';
 
 class Settings extends Component {
   state = {
-    logoutLoading: false
+    logoutLoading: false,
+    isThemeSettingsVisible: false,
+    themeInfo: undefined
   };
 
   componentDidMount() {
     this.props.getPassengerData();
   }
+
+  handleOpenThemeModal = () => this.setState({ isThemeSettingsVisible: true });
+
+  handleHideThemeModal = () => this.setState({ isThemeSettingsVisible: false, themeInfo: undefined });
+
+  handleOnThemeModalInfo = themeInfo => this.setState({ themeInfo });
 
   handleLogout = async () => {
     if (!this.state.logoutLoading && this.props.isConnected) {
@@ -125,7 +135,9 @@ class Settings extends Component {
       companySettings,
       changeToggleValue,
       changeDevSettingField,
-      unreadNotifications
+      unreadNotifications,
+      autoThemeMode,
+      isNightMode
     } = this.props;
     const { logoutLoading } = this.state;
     const devInventory = isDevMode ? prepareDevBlock(devSettings, { handleToggleChange: changeDevSettingField }) : [];
@@ -143,7 +155,10 @@ class Settings extends Component {
         goToAddressesList: this.goToAddressesList,
         openAddressModal: this.openAddressModal
       }),
-      prepareSwitchersBlock(data, { handleToggleChange: changeToggleValue }),
+      prepareSwitchersBlock(
+        { autoThemeMode, isNightMode, ...data },
+        { handleToggleChange: changeToggleValue, handleOpenThemeModal: this.handleOpenThemeModal }
+      ),
       prepareHistoryBlock(paymentsEnabled, {
         goToMyRides: this.goToMyRides,
         goToMyPayments: this.goToMyPayments
@@ -179,6 +194,25 @@ class Settings extends Component {
     </View>
   );
 
+  renderThemeModalLeftButton = () => (
+    this.state.themeInfo ? (<BackBtn handlePress={() => { this.setState({ themeInfo: undefined }); }} />) : null
+  )
+
+  renderThemeModalContent = () => (
+    this.state.themeInfo
+      ? (
+        <ThemeSettingsInfo
+          chosenThemeInfo={this.state.themeInfo}
+        />
+      )
+      : (
+        <ThemeSettings
+          handleOnThemeModalInfo={this.handleOnThemeModalInfo}
+          onClose={this.handleHideThemeModal}
+        />
+      )
+  )
+
   render() {
     return (
       <View style={[styles.container, { backgroundColor: this.props.theme.color.bgSettings }]}>
@@ -191,6 +225,15 @@ class Settings extends Component {
           innerRef={(el) => { this.addressModal = el; }}
           onChange={this.handleAddressChange}
         />
+        <Modal
+          contentStyles={styles.themeModeModal}
+          isVisible={this.state.isThemeSettingsVisible}
+          onClose={this.handleHideThemeModal}
+          leftButton={this.renderThemeModalLeftButton()}
+          closeTextStyle={styles.closeTextStyle}
+        >
+          {this.renderThemeModalContent()}
+        </Modal>
       </View>
     );
   }
@@ -209,7 +252,9 @@ const select = ({ app, passenger, network, notifications }) => ({
   companySettings: passenger.companySettings,
   isConnected: network.isConnected,
   devSettings: app.devSettings,
-  unreadNotifications: notifications.unreadCounter
+  unreadNotifications: notifications.unreadCounter,
+  autoThemeMode: app.theme.autoThemeMode,
+  isNightMode: app.theme.isNightMode
 });
 
 const bindActions = {
