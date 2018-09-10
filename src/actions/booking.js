@@ -230,6 +230,7 @@ const orderReceivedStatusFlow = (data, delay) => (dispatch, getState) => {
 const updateCurrentOrder = data => ({ type: TYPES.updateCurrentOrder, payload: data });
 
 const setBookingUpdater = id => (dispatch) => {
+  if (bookingInterval) clearInterval(bookingInterval);
   bookingInterval = setInterval(() => {
     get(`/bookings/${id}`)
       .then(({ data }) => {
