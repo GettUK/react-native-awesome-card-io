@@ -28,8 +28,13 @@ const SCALE_RECTANGLE_ANIM = {
 };
 
 class TransitionLoading extends Component {
-  handleOpenMap = () =>
-    this.props.navigation.replace('MapView', { transition: 'loadTransition' });
+  handleOpenMap = () => {
+    const { navigation } = this.props;
+
+    if (navigation.isFocused()) {
+      navigation.replace('MapView', { transition: 'loadTransition' });
+    }
+  }
 
   renderAnimation = ({
     name = 'logoLeft',

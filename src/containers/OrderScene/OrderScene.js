@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, Text, BackHandler, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -58,7 +58,7 @@ import { FloatButton, Pointer, CancelReasonModal, OrderDetailsPanel } from './co
 
 import styles from './styles';
 
-class OrderScene extends Component {
+class OrderScene extends PureComponent {
   state = {
     futureOrderForm: null,
     isVisibleOptionsModal: false,
