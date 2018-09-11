@@ -24,10 +24,18 @@ import { withTheme } from 'providers';
 import styles from './styles';
 
 class EditOrderDetails extends BookingController {
+  componentDidMount() {
+    if (this.props.onCloseEditor) {
+      this.props.navigation.setParams({ restoreFutureOrder: this.props.onCloseEditor });
+    }
+  }
+
   componentDidUpdate({ booking: { bookingForm } }) {
+    super.componentDidMount();
     const { params } = this.props.navigation.state;
 
-    if (params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress) {
+    if ((params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress)
+      || (params && params.shouldRequestVehicles)) {
       this.requestVehiclesOnOrderChange(bookingForm);
     }
   }
@@ -95,7 +103,8 @@ EditOrderDetails.propTypes = {
   setReferenceErrors: PropTypes.func,
   saveFlight: PropTypes.func,
   createBooking: PropTypes.func,
-  validateReferences: PropTypes.func
+  validateReferences: PropTypes.func,
+  getFormData: PropTypes.func
 };
 
 EditOrderDetails.defaultProps = {

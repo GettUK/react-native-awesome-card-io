@@ -24,21 +24,16 @@ import { color } from 'theme';
 
 import { withTheme } from 'providers';
 
-import { nullAddress, get, processLocation, geocode } from 'utils';
+import { address } from 'api';
+
+import { nullAddress, processLocation, geocode } from 'utils';
 
 import AddressTabBar from './AddressTabBar';
 
 import styles from './styles';
 
-const CancelToken = axios.CancelToken; // TODO: move work with axios to utils
-
 const searchDebounce = 700;
 let cancelRequest;
-
-function getAddresses(params) {
-  return get('/addresses', params, { cancelToken: new CancelToken((c) => { cancelRequest = c; }) })
-    .then(res => res.data.list);
-}
 
 class AddressModal extends PureComponent {
   static propTypes = {
@@ -74,6 +69,8 @@ class AddressModal extends PureComponent {
     ];
     return tabs.filter(t => !hideFavorites || t.id !== 'favorites');
   }
+
+  onHandleRequestToken = (c) => { cancelRequest = c; }
 
   open(address, meta) {
     const processedAddress = address || nullAddress('');
@@ -151,7 +148,7 @@ class AddressModal extends PureComponent {
     }
 
     this.setState({ loading: true });
-    getAddresses({ string: inputValue })
+    address.getAddress(inputValue, this.onHandleRequestToken)
       .then((data) => {
         this.setState({ values: isArray(data) ? data : [], loading: false });
       })

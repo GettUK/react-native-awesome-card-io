@@ -64,8 +64,11 @@ const TYPES = createTypes('booking', [
   'changeSuggestedAddresses',
   'resetSuggestedAddresses',
   'loadingSuggestedAddressesError',
-  'startLoadingSuggestedAddresses'
+  'startLoadingSuggestedAddresses',
+  'restoreCurrentOrder'
 ]);
+
+export const restoreCurrentOrder = payload => ({ type: TYPES.restoreCurrentOrder, payload });
 
 export const updateReferences = references => ({ type: TYPES.updateReferences, payload: references });
 
@@ -244,12 +247,12 @@ const setBookingUpdater = id => (dispatch) => {
   }, 3000);
 };
 
-export const getFormData = () => (dispatch, getState) => {
+export const getFormData = (forceNew = false) => (dispatch, getState) => {
   const { booking: { currentOrder } } = getState();
 
   dispatch({ type: TYPES.getFormDataStart });
 
-  const request = currentOrder.id
+  const request = !forceNew && currentOrder.id
     ? get(`/bookings/${currentOrder.id}/edit`)
     : get('/bookings/new');
   return request
