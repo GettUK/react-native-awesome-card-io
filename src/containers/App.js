@@ -80,7 +80,7 @@ class AppContainer extends Component {
     } else {
       this.setState({ isNightMode });
     }
-  }
+  };
 
   render() {
     const { dispatch, isConnected } = this.props;
