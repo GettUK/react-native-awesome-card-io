@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { strings } from 'locales';
 
-import { getNotifications, clearNotificationsList, markAsRead } from 'actions/notifications';
+import { getNotifications, markAsRead } from 'actions/notifications';
 import { setActiveBooking } from 'actions/booking';
 
 import { ListView } from 'components';
@@ -24,7 +24,6 @@ class Notifications extends PureComponent {
   static propTypes = {
     getNotifications: PropTypes.func.isRequired,
     setActiveBooking: PropTypes.func.isRequired,
-    clearNotificationsList: PropTypes.func.isRequired,
     sections: PropTypes.array.isRequired
   }
 
@@ -50,8 +49,6 @@ class Notifications extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.clearNotificationsList();
-
     clearInterval(this.interval);
   }
 
@@ -189,7 +186,6 @@ const mapState = ({ notifications: { items, readMessagesIds } }) => ({
 const mapDispatch = ({
   getNotifications,
   setActiveBooking,
-  clearNotificationsList,
   markAsRead
 });
 
