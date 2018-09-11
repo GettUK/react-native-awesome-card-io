@@ -28,12 +28,12 @@ const sectionFormatter = {
 
 // July 04, 2018, 8:23 AM
 const dateFormatter = {
-  lastDay: `[${strings('notifications.period.yesterday')}], h:hh${getHourFormat()}`,
-  sameDay: `[${strings('notifications.period.today')}], h:hh${getHourFormat()}`,
-  sameElse: `MMMM DD, YYYY, h:hh${getHourFormat()}`,
-  nextDay: `MMMM DD, YYYY, h:hh${getHourFormat()}`,
-  lastWeek: `MMMM DD, YYYY, h:hh${getHourFormat()}`,
-  nextWeek: `MMMM DD, YYYY, h:hh${getHourFormat()}`
+  lastDay: `[${strings('notifications.period.yesterday')}], h:mm${getHourFormat()}`,
+  sameDay: `[${strings('notifications.period.today')}], h:mm${getHourFormat()}`,
+  sameElse: `MMMM DD, YYYY, h:mm${getHourFormat()}`,
+  nextDay: `MMMM DD, YYYY, h:mm${getHourFormat()}`,
+  lastWeek: `MMMM DD, YYYY, h:mm${getHourFormat()}`,
+  nextWeek: `MMMM DD, YYYY, h:mm${getHourFormat()}`
 };
 
 const defineStatuses = items => items.map((item) => {

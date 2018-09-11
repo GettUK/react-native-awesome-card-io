@@ -35,26 +35,11 @@ const markAsRead = (state, { ids }) => {
   return update(state, newState);
 };
 
-// used to clear unused ids from cache(maximum cache capacity is length of items array)
-const clearUnread = (state) => {
-  const reducedIds = {};
-  state.items.forEach((item) => {
-    if (state.readMessagesIds[item.id]) {
-      reducedIds[item.id] = item.id;
-    }
-  });
-  return update(state, { readMessagesIds: reducedIds });
-};
-
-const clearNotificationsList = state => update(state, { items: [] });
-
 export default composeReducer(
   'notifications',
   {
     getNotifications,
-    clearNotificationsList,
-    markAsRead,
-    clearUnread
+    markAsRead
   },
   initialState
 );

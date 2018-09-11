@@ -3,9 +3,7 @@ import { get } from 'utils';
 
 const TYPES = createTypes('notifications', [
   'getNotifications',
-  'clearNotificationsList',
-  'markAsRead',
-  'clearUnread'
+  'markAsRead'
 ]);
 
 export const markAsRead = ids => (dispatch) => {
@@ -20,8 +18,3 @@ export const getNotifications = () => dispatch => (
       return res.data;
     })
 );
-
-export const clearUnread = () => dispatch => dispatch({ type: TYPES.clearUnread });
-
-export const clearNotificationsList = () => dispatch => dispatch({ type: TYPES.clearNotificationsList });
-
