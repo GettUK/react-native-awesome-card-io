@@ -74,9 +74,6 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: color.white
   },
-  badgeActiveStyle: {
-    backgroundColor: color.iconsSettigs
-  },
   badgeTextStyle: {
     color: color.white,
     fontSize: 12,

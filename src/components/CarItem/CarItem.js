@@ -24,11 +24,30 @@ const CarItem = ({
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
   const renderBadge = () => (
     <Badge
-      containerStyle={[styles.badgeStyle, active ? styles.badgeActiveStyle : {}]}
+      containerStyle={[
+        styles.badgeStyle,
+        { backgroundColor: theme.color[active ? 'iconsSettigs' : 'pixelLine'] },
+        { borderColor: theme.color.bgPrimary }
+      ]}
       wrapperStyle={styles.badgeWrapper}
     >
-      <Text style={[styles.badgeTextStyle, { fontWeight: 'bold' }]}>{etaNum}</Text>
-      <Text style={styles.badgeTextStyle}>{` ${strings('app.label.min')}`}</Text>
+      <Text
+        style={[
+          styles.badgeTextStyle,
+          { fontWeight: 'bold' },
+          { color: theme.formattedColor.white.opacity(active ? 1 : 0.6) }
+        ]}
+      >
+        {etaNum}
+      </Text>
+      <Text
+        style={[
+          styles.badgeTextStyle,
+          { color: theme.formattedColor.white.opacity(active ? 1 : 0.6) }
+        ]}
+      >
+        {` ${strings('app.label.min')}`}
+      </Text>
     </Badge>
   );
   const renderContainer = () => (
@@ -38,7 +57,8 @@ const CarItem = ({
           styles.container,
           style,
           active ? styles.activeContainer : {},
-          { backgroundColor: theme.color.bgPrimary }
+          { backgroundColor: theme.color.bgPrimary },
+          !isNull(localPrice) ? { paddingBottom: 0 } : {}
         ]}
       >
         <View style={styles.column}>
