@@ -79,6 +79,7 @@
       "enterValidCreditCard": "Please enter a valid credit card",
       "cancelOrderDescription": "Сancellations charges may apply when you cancel this order",
       "goBackWithReferenceErrors": "Are you sure you want to go back, you have some errors in references values?",
+      "pathDuplication": "Path contains duplications of points. Please, check all addresses.",
 
       "youCanNotRegisterCompany": "You can't register a company now",
       "userCanNotBeLogged": "User can't be logged in now",

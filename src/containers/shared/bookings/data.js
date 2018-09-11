@@ -173,7 +173,7 @@ export const baseVehiclesDescriptions = {
 const precision = 6;
 
 function comparableProps(address) {
-  const props = ['line', 'lat', 'lng', 'postalCode'];
+  const props = ['line', 'lat', 'lng'];
   const toRoundProps = ['lat', 'lng'];
   const addressProps = pick(address, props);
 
@@ -188,4 +188,12 @@ function haveSameProps(address, otherAddress) {
 
 export function isEqualAddress(address, otherAddress) {
   return address && otherAddress && haveSameProps(address, otherAddress);
+}
+
+export function isEqualAddresses(addresses) {
+  return addresses.every((address, index) => {
+    const previous = index ? addresses[index - 1] : null;
+
+    return !isEqualAddress(address, previous);
+  });
 }

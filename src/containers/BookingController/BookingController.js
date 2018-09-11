@@ -24,7 +24,7 @@ import {
   paymentTypeToAttrs,
   isCashAllowed,
   paymentTypeLabels,
-  isEqualAddress
+  isEqualAddresses
 } from 'containers/shared/bookings/data';
 
 import { strings } from 'locales';
@@ -245,20 +245,10 @@ export default class BookingController extends Component {
     const { booking: { bookingForm: { pickupAddress, stops, destinationAddress } } } = this.props;
     const addresses = [pickupAddress, ...(stops || []), destinationAddress];
 
-    let unique = true;
-
-    addresses.forEach((address, index) => {
-      const previous = index ? addresses[index - 1] : null;
-
-      if (isEqualAddress(address, previous)) {
-        unique = false;
-      }
-    });
+    const unique = isEqualAddresses(addresses);
 
     if (!unique) {
-      const message = 'Path contains duplications of points. Please, check all addresses.';
-
-      this.setState({ message }, () => this.alert.show());
+      this.setState({ message: strings('alert.message.pathDuplication') }, () => this.alert.show());
     }
 
     return unique;

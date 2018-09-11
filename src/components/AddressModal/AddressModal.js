@@ -18,6 +18,8 @@ import { getSuggestedAddresses } from 'actions/booking';
 
 import { Icon, Input, Modal, Alert } from 'components';
 
+import { isEqualAddresses } from 'containers/shared/bookings/data';
+
 import { strings } from 'locales';
 
 import { color } from 'theme';
@@ -59,7 +61,8 @@ class AddressModal extends PureComponent {
     inputTouched: false,
     values: [],
     meta: {},
-    activeTab: 'favorites'
+    activeTab: 'favorites',
+    message: ''
   };
 
   get barTabs() {
@@ -124,22 +127,47 @@ class AddressModal extends PureComponent {
       geocode(payload)
         .then(processLocation)
         .then(this.handleSelect)
-        .catch(this.alert.show);
+        .catch(() => this.setState({ message: strings('alert.message.notSupportedAddress') }, () => this.alert.show()));
     }
+
     if (address) {
       this.handleSelect(address);
     }
   };
 
+  areAddressesUnique(address) {
+    const { meta: { type, index } } = this.state;
+    const { bookingForm, currentOrder } = this.props;
+    const order = currentOrder.id ? currentOrder : bookingForm;
+    const { pickupAddress, destinationAddress, stops, stopAddresses } = order;
+    const stopPoints = stopAddresses || stops || [];
+
+    if (type === 'destinationAddress') {
+      return isEqualAddresses([pickupAddress, ...stopPoints, address]);
+    } else if (type === 'stops') {
+      stopPoints[index || 0] = address;
+
+      return isEqualAddresses([pickupAddress, ...stopPoints, destinationAddress]);
+    }
+
+    return isEqualAddresses([address, ...(stops || []), destinationAddress]);
+  }
+
   handleSelect = (address) => {
-    this.props.onChange(address, this.state.meta);
-    this.setState({ isVisible: false });
-    setTimeout(() => this.setState({
-      inputValue: '',
-      values: [],
-      inputTouched: false,
-      meta: {}
-    }), 500); // for smooth animation
+    const { currentOrder: { id }, bookingForm: { destinationAddress } } = this.props;
+
+    if ((id || destinationAddress) && !this.areAddressesUnique(address)) {
+      this.setState({ message: strings('alert.message.pathDuplication') }, () => this.alert.show());
+    } else {
+      this.props.onChange(address, this.state.meta);
+      this.setState({ isVisible: false });
+      setTimeout(() => this.setState({
+        inputValue: '',
+        values: [],
+        inputTouched: false,
+        meta: {}
+      }), 500); // for smooth animation
+    }
   };
 
   searchAddresses = debounce(() => {
@@ -299,7 +327,7 @@ class AddressModal extends PureComponent {
         <Alert
           ref={(alert) => { this.alert = alert; }}
           type="failed"
-          message={strings('alert.message.notSupportedAddress')}
+          message={this.state.message}
           position="bottom"
         />
       </Modal>
@@ -310,7 +338,9 @@ class AddressModal extends PureComponent {
 const mapState = ({ booking }) => ({
   loadingTab: booking.suggestedAddresses.loadingType,
   error: booking.suggestedAddresses.loadingError,
-  suggestedAddresses: booking.suggestedAddresses
+  suggestedAddresses: booking.suggestedAddresses,
+  bookingForm: booking.bookingForm,
+  currentOrder: booking.currentOrder
 });
 
 export default connect(mapState, { getSuggestedAddresses })(withTheme(AddressModal));
