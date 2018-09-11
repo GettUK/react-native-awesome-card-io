@@ -84,8 +84,10 @@ const styles = StyleSheet.create({
     color: color.secondaryText
   },
   themeModeModal: {
-    width: '100%',
-    height: '40%'
+    width: '100%'
+  },
+  modalWrapper: {
+    height: 250
   },
   badgeTextStyle: {
     color: color.white,

@@ -214,8 +214,9 @@ class Settings extends Component {
   )
 
   render() {
+    const { theme: { color } } = this.props;
     return (
-      <View style={[styles.container, { backgroundColor: this.props.theme.color.bgSettings }]}>
+      <View style={[styles.container, { backgroundColor: color.bgSettings }]}>
         <StatusBar barStyle="default" />
         <ScrollView style={styles.container}>
           {this.getSettingsBlocks().map(this.renderBlock)}
@@ -227,13 +228,15 @@ class Settings extends Component {
           onChange={this.handleAddressChange}
         />
         <Modal
-          contentStyles={styles.themeModeModal}
+          contentStyles={[styles.themeModeModal, { backgroundColor: color.bgSecondary }]}
           isVisible={this.state.isThemeSettingsVisible}
           onClose={this.handleHideThemeModal}
           leftButton={this.renderThemeModalLeftButton()}
-          closeTextStyle={styles.closeTextStyle}
+          closeTextStyle={[styles.closeTextStyle, { color: color.primaryBtns }]}
         >
-          {this.renderThemeModalContent()}
+          <View style={styles.modalWrapper}>
+            {this.renderThemeModalContent()}
+          </View>
         </Modal>
       </View>
     );
