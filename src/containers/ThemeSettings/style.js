@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    height: 55
   },
   dividerStyle: {
     marginRight: -15
@@ -28,8 +29,7 @@ const styles = StyleSheet.create({
   lineView: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
-    paddingVertical: 10
+    flex: 1
   },
   label: {
     color: color.black,
@@ -42,7 +42,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: {
-    marginHorizontal: 12
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 42,
+    height: 30,
+    marginLeft: 12
   },
   themeInfoWrapper: {
     paddingHorizontal: 16,
