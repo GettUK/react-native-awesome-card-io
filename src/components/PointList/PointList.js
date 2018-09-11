@@ -149,7 +149,9 @@ class PointList extends Component {
   };
 
   hasAnyStops = data => (
-    data && ((data.stopAddresses && data.stopAddresses.length > 0) || (data.stops && data.stops.length > 0))
+    data && (data.id && data.asap
+      ? data.stopAddresses && data.stopAddresses.length > 0
+      : data.stops && data.stops.length > 0)
   );
 
   getStops = (data) => {

@@ -67,7 +67,9 @@ export default class BookingController extends Component {
   }
 
   componentWillUnmount() {
-    this.subscriptions.forEach(sub => sub.remove());
+    if (this.subscriptions) {
+      this.subscriptions.forEach(sub => sub.remove());
+    }
   }
 
   getOrder() {
@@ -638,9 +640,12 @@ export default class BookingController extends Component {
     </Button>
   );
 
-  onChangeStopPointAddress = (attrs) => {
-    const { changeFields } = this.props;
-    changeFields(attrs);
+  onChangeStopPointAddress = async (attrs) => {
+    const { asyncChangeFields } = this.props;
+
+    await asyncChangeFields(attrs);
+
+    this.requestVehicles();
   };
 
   renderStopPointsModal = () => {

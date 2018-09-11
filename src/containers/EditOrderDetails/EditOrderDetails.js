@@ -6,6 +6,7 @@ import { View, ScrollView } from 'react-native';
 import {
   changeFields,
   changeAddress,
+  asyncChangeFields,
   getVehicles,
   createBooking,
   saveFlight,
@@ -111,6 +112,7 @@ const select = ({ booking, passenger }) => ({
 const bindActions = {
   changeFields,
   changeAddress,
+  asyncChangeFields,
   getVehicles,
   createBooking,
   getPassengerData,
