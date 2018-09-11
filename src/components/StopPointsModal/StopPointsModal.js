@@ -85,29 +85,33 @@ class StopPointsModal extends PureComponent {
     this.props.onRowMoved();
   };
 
-  renderRow = ({ line, index = -1, textStyle = styles.listItemLabel, canDelete = true }) => (
-    <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, index)}>
-      <View style={[styles.rowWrapper, { height: ROW_HEIGHT }]}>
-        <View style={styles.rowInnerWrapper}>
-          <View style={styles.dragButton}>
-            <Icon name="drag" size={15} />
+  renderRow = ({ line, index = -1, textStyle = null, canDelete = true }) => {
+    const defaultStyle = [styles.listItemLabel, { color: this.props.theme.color.primaryText }];
+
+    return (
+      <TouchableWithoutFeedback onPress={this.handleEditAddress.bind(null, index)}>
+        <View style={[styles.rowWrapper, { height: ROW_HEIGHT }]}>
+          <View style={styles.rowInnerWrapper}>
+            <View style={styles.dragButton}>
+              <Icon name="drag" size={15} />
+            </View>
+
+            <Text style={textStyle || defaultStyle} numberOfLines={1}>{line}</Text>
+
+            {canDelete && <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, index)}>
+              <View style={styles.deleteButton}>
+                <Icon name="close" size={16} color={color.secondaryText} />
+              </View>
+            </TouchableWithoutFeedback>}
           </View>
 
-          <Text style={textStyle} numberOfLines={1}>{line}</Text>
-
-          {canDelete && <TouchableWithoutFeedback onPress={this.handleDeleteAddress.bind(null, index)}>
-            <View style={styles.deleteButton}>
-              <Icon name="close" size={16} color={color.secondaryText} />
-            </View>
-          </TouchableWithoutFeedback>}
+          <View style={styles.dividerWrapper}>
+            <Divider left={2} />
+          </View>
         </View>
-
-        <View style={styles.dividerWrapper}>
-          <Divider left={2} />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+      </TouchableWithoutFeedback>
+    );
+  }
 
   isAddStopAvailable = (index = Object.values(this.orderKeys).length) => index <= 4;
 
