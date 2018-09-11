@@ -34,6 +34,10 @@ class BackBtn extends Component {
     color: PropTypes.string
   };
 
+  static defaultProps = {
+    backAction: () => {}
+  }
+
   handlePress = () => {
     if (this.props.handlePress) {
       this.props.handlePress();
@@ -51,7 +55,7 @@ class BackBtn extends Component {
 
   goBack = throttledAction(() => {
     const { backAction, navigation } = this.props;
-    if (backAction) { backAction(); }
+    backAction();
     navigation.goBack(null);
   });
 

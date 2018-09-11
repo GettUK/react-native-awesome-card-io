@@ -10,12 +10,14 @@ import {
   clearCurrentOrder,
   removeFields,
   resetBookingValues,
-  changeFields,
   changeAddress,
-  setActiveBooking
+  setActiveBooking,
+  changeReference,
+  restoreCurrentOrder,
+  getFormData
 } from 'actions/booking';
 
-import { sms } from 'api';
+import { address, flights, sms } from 'api';
 import {
   FadeInView,
   GradientWrapper,
@@ -31,14 +33,9 @@ import {
   showConfirmationAlert,
   isIphoneX,
   bookingFieldsToReset,
-  get,
-  processLocation,
-  geocode,
-  getSeparatedDate,
   minutesForward,
   getCurrentOrder
 } from 'utils';
-
 
 import { withTheme } from 'providers';
 
@@ -60,7 +57,6 @@ import styles from './styles';
 
 class OrderScene extends PureComponent {
   state = {
-    futureOrderForm: null,
     isVisibleOptionsModal: false,
     isVisibleCancelModal: false,
     isVisibleOnMyWayModal: false,
@@ -72,7 +68,9 @@ class OrderScene extends PureComponent {
     const { currentOrder } = this.props;
 
     if (currentOrder.flight && currentOrder.destinationAddress.airport && currentOrder.status === 'creating') {
-      this.setFlightData(currentOrder.flight);
+      this.setOrderState(currentOrder.flight);
+    } else {
+      this.setOrderState();
     }
 
     this.registerBackListener();
@@ -116,16 +114,20 @@ class OrderScene extends PureComponent {
     });
   };
 
-  setFlightData = (flight) => {
-    const { bookingForm } = this.props;
-    const { year, month, day } = getSeparatedDate();
+  setOrderState = (flight) => {
+    const { booking } = this.props;
 
-    get('/flightstats/flights', { flight, year, month, day })
-      .then(({ data }) => {
-        this.setState({ flightData: data[0], futureOrderForm: bookingForm }, () => {
-          this.futureOrderPopup.open();
+    if (flight) {
+      flights.getFlights(flight)
+        .then(({ data }) => {
+          this.setState({ flightData: data[0] }, this.futureOrderPopup.open);
+        })
+        .then(() => {
+          this.setState({ booking });
         });
-      });
+    } else {
+      this.setState({ booking });
+    }
   };
 
   resetBookingForm = () => {
@@ -133,6 +135,61 @@ class OrderScene extends PureComponent {
 
     removeFields(bookingFieldsToReset);
     resetBookingValues();
+  };
+
+  prepareFutureOrderForm = async (extraData) => {
+    const editorParamsModifier = {};
+    let queryString;
+    if (this.state.flightData && this.state.flightData.arrival) {
+      const { name, terminal } = this.state.flightData.arrival;
+      queryString = name;
+      if (terminal) {
+        queryString += ` Terminal ${terminal}`;
+      }
+
+      editorParamsModifier.futureFlightOrder = true;
+    } else if (extraData.pickupAddress) {
+      queryString = extraData.pickupAddress.line;
+
+      editorParamsModifier.shouldRequestVehicles = true;
+    } else {
+      throw new Error('queryString is not defined');
+    }
+
+    const addresses = [];
+    addresses.push({
+      addressToUpdate: extraData.pickupAddress ? extraData.pickupAddress : await address.getAddress(queryString),
+      type: 'pickupAddress'
+    });
+    if (extraData.destinationAddress) {
+      addresses.push({ addressToUpdate: extraData.destinationAddress, type: 'destinationAddress' });
+    }
+    if (extraData.stops) {
+      extraData.stops.forEach((addressToUpdate) => {
+        addresses.push({ addressToUpdate, type: 'stops' });
+      });
+    }
+
+    return {
+      addresses,
+      editorParamsModifier
+    };
+  }
+
+  updateBookingForm = (list, references = []) => {
+    // execute change address sequently
+    let sequence = Promise.resolve();
+    list.map(async ({ addressToUpdate, type }) => {
+      sequence = sequence.then(async () => {
+        const finalAddress = await address.getAddressWithLocation(addressToUpdate.line);
+        this.props.changeAddress(finalAddress, { type });
+      });
+    });
+
+    references.forEach((reference) => {
+      const ref = this.props.formData.bookingReferences.find(item => item.name === reference.bookingReferenceName);
+      this.props.changeReference({ ...ref, value: reference.value });
+    });
   };
 
   goToInitialization = () => {
@@ -184,46 +241,56 @@ class OrderScene extends PureComponent {
   };
 
   restoreFutureOrder = () => {
-    const { futureOrderForm } = this.state;
-    const { changeFields } = this.props;
-    changeFields({ ...futureOrderForm });
-    this.setState({ futureOrderForm: null });
+    const { booking } = this.state;
+    const { restoreCurrentOrder } = this.props;
+
+    restoreCurrentOrder({ booking });
   };
 
-  handleCreateOrder = () => {
-    const { changeFields, changeAddress, theme } = this.props;
-    const { flightData: { arrival } } = this.state;
+  handleCreateFutureOrder = () => {
+    this.handleCreateOrder({ beforeCallback: this.futureOrderPopup.close, onCloseEditor: this.restoreFutureOrder });
+  };
 
-    this.futureOrderPopup.close();
+  handleRepeatReturnOrder = ({ isReturn = false }) => {
+    const { pickupAddress, destinationAddress, stopAddresses, references } = this.state.booking.currentOrder;
 
-    let queryString = arrival.name;
-    if (arrival.terminal) queryString += ` Terminal ${arrival.terminal}`;
+    let extraData;
+    if (isReturn) {
+      extraData = {
+        pickupAddress: destinationAddress,
+        destinationAddress: pickupAddress,
+        stops: stopAddresses ? stopAddresses.reverse() : [],
+        references
+      };
+    } else {
+      extraData = {
+        pickupAddress,
+        destinationAddress,
+        stops: stopAddresses || [],
+        references
+      };
+    }
 
-    get('/addresses', { string: queryString })
-      .then((res) => {
-        if (res.data.list[0]) {
-          const { id, text, google, predefined } = res.data.list[0];
-          const payload = {
-            locationId: id,
-            string: text,
-            predefined,
-            google
-          };
-          geocode(payload)
-            .then(processLocation)
-            .then((data) => {
-              this.resetBookingForm();
-              changeAddress(data, { type: 'pickupAddress' });
-              changeFields({ scheduledType: 'later', scheduledAt: moment(arrival.time) });
-            })
-            .then(() =>
-              this.props.navigation.navigate('EditOrderDetails', {
-                futureFlightOrder: true,
-                theme,
-                restoreFutureOrder: this.restoreFutureOrder
-              }));
-        }
-      });
+    this.handleCreateOrder({ onCloseEditor: this.restoreFutureOrder, extraData });
+  };
+
+  handleCreateOrder = async ({ beforeCallback, onCloseEditor = () => {}, extraData }) => {
+    this.resetBookingForm();
+    await this.props.getFormData(true);
+
+    const editorParams = {
+      theme: this.props.theme,
+      restoreFutureOrder: onCloseEditor
+    };
+
+    if (beforeCallback) {
+      beforeCallback();
+    }
+
+    const { addresses, editorParamsModifier } = await this.prepareFutureOrderForm(extraData);
+    this.updateBookingForm(addresses, extraData.references);
+
+    this.props.navigation.navigate('EditOrderDetails', { ...editorParams, ...editorParamsModifier });
   };
 
   handleCallFleet = () => {
@@ -260,7 +327,7 @@ class OrderScene extends PureComponent {
     this.handleClose('OnMyWayModal');
   };
 
-  renderHeader = () => (
+  addressrenderHeader = () => (
     <OrderHeader
       status={this.props.status}
       handlePressBack={this.handleBackBtnPress}
@@ -431,7 +498,7 @@ class OrderScene extends PureComponent {
       <FutureOrderSuggestionPopup
         popupRef={(popup) => { this.futureOrderPopup = popup; }}
         flightData={this.state.flightData}
-        onPress={this.handleCreateOrder}
+        onPress={this.handleCreateFutureOrder}
       />
     </Fragment>
   );
@@ -442,6 +509,7 @@ class OrderScene extends PureComponent {
       onClose={() => this.handleClose('OrderDetailsPanel')}
       onActivate={this.showPanel}
       visible={this.state.isVisibleOrderDetailsPanel}
+      handleRepeatReturnOrder={this.handleRepeatReturnOrder}
     />
   )
 
@@ -485,7 +553,9 @@ OrderScene.propTypes = {
 OrderScene.defaultProps = {};
 
 const mapState = ({ booking, passenger }) => ({
+  booking,
   bookingForm: booking.bookingForm,
+  formData: booking.formData,
   currentOrder: booking.currentOrder,
   futureOrderId: booking.futureOrderId,
   status: booking.currentOrder.indicatedStatus || 'connected',
@@ -499,9 +569,11 @@ const mapDispatch = {
   clearCurrentOrder,
   removeFields,
   resetBookingValues,
-  changeFields,
   changeAddress,
-  setActiveBooking
+  setActiveBooking,
+  changeReference,
+  restoreCurrentOrder,
+  getFormData
 };
 
 export default connect(mapState, mapDispatch)(withTheme(OrderScene));
