@@ -193,6 +193,7 @@ class Input extends PureComponent {
           onBlur={this.handleBlur}
           placeholderTextColor={theme.color.secondaryText}
           underlineColorAndroid="transparent"
+          selectionColor="#B5CBF4"
         />
         {rightButton && this.renderRightButton()}
         {this.renderClearOption()}

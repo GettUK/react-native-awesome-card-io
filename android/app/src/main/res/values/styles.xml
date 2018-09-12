@@ -9,7 +9,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:timePickerDialogTheme">@style/Dialog.Theme</item>
         <item name="android:datePickerDialogTheme">@style/Dialog.Theme</item>
-        <item name="colorControlActivated">#fff</item>
+        <item name="android:textColorHighlight">#B5CBF4</item>
+        <item name="colorControlActivated">#284784</item>
         <item name="colorSwitchThumbNormal">#fff</item>
         <item name="android:colorForeground">#33000000</item>
         <item name="android:textColorPrimary">#000</item>
