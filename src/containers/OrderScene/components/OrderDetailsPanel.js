@@ -20,6 +20,7 @@ import { onLayoutPointList } from 'actions/app/statuses';
 import {
   changeFields,
   changeAddress,
+  asyncChangeFields,
   getVehicles,
   createBooking,
   saveFlight,
@@ -575,6 +576,7 @@ const bindActions = {
   onLayoutPointList,
   changeFields,
   changeAddress,
+  asyncChangeFields,
   getVehicles,
   createBooking,
   getPassengerData,

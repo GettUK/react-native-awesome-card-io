@@ -11,6 +11,7 @@ import { getCurrentWeather } from 'actions/ui/weather';
 import {
   getFormData,
   changeFields,
+  asyncChangeFields,
   changeAddress,
   setActiveBooking,
   getVehicles,
@@ -337,6 +338,7 @@ const bindActions = {
   getVehicles,
   getPassengerData,
   changeFields,
+  asyncChangeFields,
   changeAddress,
   setActiveBooking,
   changeRegionToAnimate,

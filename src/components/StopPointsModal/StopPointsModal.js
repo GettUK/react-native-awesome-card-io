@@ -81,8 +81,6 @@ class StopPointsModal extends PureComponent {
     const stops = order.map(id => data[id]);
 
     this.props.onChangeAddress({ stops });
-
-    this.props.onRowMoved();
   };
 
   renderRow = ({ line, index = -1, textStyle = null, canDelete = true }) => {
