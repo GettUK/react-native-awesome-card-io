@@ -465,6 +465,8 @@ export const changeDriverRatingReasons = name => (dispatch, getState) => {
     ratingReasons.push(name);
   }
   dispatch({ type: TYPES.changeDriverRatingReasons, payload: ratingReasons });
+
+  return ratingReasons;
 };
 
 export const rateDriver = () => (dispatch, getState) => {
