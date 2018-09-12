@@ -20,6 +20,7 @@ const CarItem = ({
   style, name, label, price, theme, eta, active, onChange, isETADisabled, serviceType, localCurrencySymbol, localPrice
 }) => {
   const vehiclePrice = (cost, currency) => (cost ? formatPrice(cost, currency) : strings('app.label.byMeter'));
+  const existLocalPrice = !isNull(localPrice) && localPrice > 0;
   const etaNum = parseInt(String(eta).replace('< ', ''), 10);
   const serviceSpecificName = `${name}${capitalize(serviceType)}`;
   const renderBadge = () => (
@@ -57,8 +58,7 @@ const CarItem = ({
           styles.container,
           style,
           active ? styles.activeContainer : {},
-          { backgroundColor: theme.color.bgPrimary },
-          !isNull(localPrice) ? { paddingBottom: 0 } : {}
+          { backgroundColor: theme.color.bgPrimary }
         ]}
       >
         <View style={styles.column}>
@@ -78,7 +78,7 @@ const CarItem = ({
             }
           </View>
           <CarImage
-            size={!isNull(localPrice) ? 'extraSmall' : 'small'}
+            size={existLocalPrice ? 'extraSmall' : 'small'}
             type={assets.carTypes[serviceSpecificName] ? serviceSpecificName : name}
             style={styles.image}
           />
