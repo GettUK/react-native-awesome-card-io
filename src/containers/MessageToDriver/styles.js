@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginRight: 10
+  },
+  phraseWrapper: {
+    paddingVertical: 15
   }
 });
 
