@@ -26,13 +26,15 @@ import styles from './styles';
 
 class EditOrderDetails extends BookingController {
   componentDidMount() {
+    super.componentDidMount();
     if (this.props.onCloseEditor) {
       this.props.navigation.setParams({ restoreFutureOrder: this.props.onCloseEditor });
     }
   }
 
-  componentDidUpdate({ booking: { bookingForm } }) {
-    super.componentDidMount();
+  componentDidUpdate(prevProps) {
+    super.componentDidUpdate(prevProps);
+    const { bookingForm } = prevProps.booking;
     const { params } = this.props.navigation.state;
 
     if ((params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress)
