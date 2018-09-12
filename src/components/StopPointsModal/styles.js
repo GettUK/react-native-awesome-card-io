@@ -73,7 +73,6 @@ export default StyleSheet.create({
   },
   listItemLabel: {
     fontSize: 16,
-    color: color.primaryText,
     paddingLeft: 0,
     flex: 1,
     alignItems: 'center'
