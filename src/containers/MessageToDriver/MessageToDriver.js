@@ -30,15 +30,12 @@ const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageT
 
   const value = booking.message;
   const onPhrasePress = (item) => {
-    onClose();
-    setTimeout(() => {
-      onChangeText(item);
-      updateMessageToDriver();
-    }, 350); // for smooth animation
+    this.input.focus();
+    onChangeText(item);
   };
   const renderPhrase = (item, index) => (
     <TouchableOpacity key={index} onPress={() => onPhrasePress(item)}>
-      <Text style={[styles.phrase, { color: theme.color.secondaryText }]}>{item}</Text>
+      <Text style={[styles.phrase, { color: theme.color.primaryText }]}>{item}</Text>
     </TouchableOpacity>
   );
 
@@ -66,7 +63,9 @@ const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageT
         />
         <Divider left={0} />
       </View>
-      {!value && defaultPhrases.map(renderPhrase)}
+      <View style={styles.phraseWrapper}>
+        {!value && defaultPhrases.map(renderPhrase)}
+      </View>
     </View>
   );
 };
