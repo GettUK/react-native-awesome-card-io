@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-import { color, formattedColor } from 'theme';
+import { color } from 'theme';
 
 import { isIphoneX } from 'utils';
 
@@ -221,37 +221,7 @@ export const orderPanelStyles = StyleSheet.create({
     color: color.white,
     marginHorizontal: 10
   },
-  carImage: {
-    width: 90,
-    height: 38
-  },
-  serviceIdContainer: {
-    width: '100%'
-  },
-  moreBtnContainer: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    width: 40,
-    aspectRatio: 1,
-    borderWidth: 1,
-    borderColor: formattedColor.white.opacity(0.6),
-    borderRadius: 7.5,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  dotsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 10
-  },
-  dotStyle: {
-    width: 4,
-    aspectRatio: 1,
-    borderRadius: 3,
-    backgroundColor: color.white
-  }
+  carImage: { width: 90, height: 38 }
 });
 
 const circleSize = width * 0.6;

@@ -5,14 +5,13 @@ import PropTypes from 'prop-types';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Answers } from 'react-native-fabric';
 
-import { Icon, PointList, JourneyDetails, Divider, RatingLabel, OptionsModal, CarImage } from 'components';
+import { Icon, PointList, JourneyDetails, Divider, RatingLabel, Button, CarImage } from 'components';
 
 import {
   COMPLETED_STATUSES,
   FINAL_STATUSES,
   IN_PROGRESS_STATUS,
-  DRIVER_ON_WAY,
-  BILLED_STATUS
+  DRIVER_ON_WAY
 } from 'utils/orderStatuses';
 import { getFormatPrice, isIphoneX, getHeight } from 'utils';
 
@@ -51,38 +50,9 @@ const topIPhone = isIphoneX() ? 34 : 20;
 const bottomIPhone = isIphoneX() ? 12 : 0;
 
 const shouldShowReceiptBtn = order =>
-  order && order.paymentMethod
-    && receiptPaymentTypes.includes(order.paymentMethod)
-    && order.indicatedStatus === BILLED_STATUS;
-
-const shouldShowRepeatOptions = order => order && FINAL_STATUSES.includes(order.status);
+  receiptPaymentTypes.includes(order.paymentMethod) && order.indicatedStatus === 'billed';
 
 class OrderDetails extends BookingController {
-  state = {
-    isVisibleOptionsModal: false
-  }
-
-  get getFinishedOrderModalOptions() {
-    return ([
-      {
-        icon: 'repeat',
-        label: strings('order.text.repeatJourney'),
-        onPress: () => {
-          this.props.handleRepeatReturnOrder({ isReturn: false });
-          this.toggleShowOptionsModal();
-        }
-      },
-      {
-        icon: 'comeBack',
-        label: strings('order.text.returnJourney'),
-        onPress: () => {
-          this.props.handleRepeatReturnOrder({ isReturn: true });
-          this.toggleShowOptionsModal();
-        }
-      }
-    ]);
-  }
-
   componentDidUpdate(prevProps) {
     super.componentDidUpdate(prevProps);
 
@@ -90,8 +60,6 @@ class OrderDetails extends BookingController {
 
     if (this.isFutureOrderEdit()) this.requestVehiclesOnOrderChange(bookingFormProps);
   }
-
-  toggleShowOptionsModal = () => this.setState({ isVisibleOptionsModal: !this.state.isVisibleOptionsModal });
 
   callDriver = () => {
     const { booking: { currentOrder } } = this.props;
@@ -372,10 +340,6 @@ class OrderDetails extends BookingController {
     }
   };
 
-  getHeaderStatus = order => (
-    (order && order.indicatedStatus === 'billed') ? strings('order.text.billed') : strings('order.text.orderDetails')
-  )
-
   renderHeader = () => {
     const { booking: { currentOrder } } = this.props;
     return (
@@ -387,8 +351,8 @@ class OrderDetails extends BookingController {
             </View>
           )
           : (
-            <View style={orderPanelStyles.serviceIdContainer}>
-              <Text style={orderPanelStyles.header}>{this.getHeaderStatus(currentOrder)}</Text>
+            <View>
+              <Text style={orderPanelStyles.header}>Order Details</Text>
               <View style={orderPanelStyles.subHeader}>
                 <Text style={orderPanelStyles.subHeaderTitle}>Service ID:</Text>
                 {currentOrder.serviceId &&
@@ -397,24 +361,23 @@ class OrderDetails extends BookingController {
                   </Text>
                 }
               </View>
-              {shouldShowRepeatOptions(currentOrder) && this.renderMoreButton()}
             </View>
           )}
+        {shouldShowReceiptBtn(currentOrder) &&
+          <Button
+            size="sm"
+            onPress={this.openReceipt}
+            styleContent={orderPanelStyles.receiptBtn}
+            style={orderPanelStyles.receiptBtnWrapper}
+          >
+            <Icon name="receipt" size={18} />
+            <Text style={orderPanelStyles.receiptBtnText}>{strings('order.button.receipt')}</Text>
+            <Icon name="chevron" size={16} color={color.white} />
+          </Button>
+        }
       </View>
     );
   };
-
-  renderMoreButton = () => (
-    <TouchableWithoutFeedback onPress={this.toggleShowOptionsModal}>
-      <View style={orderPanelStyles.moreBtnContainer}>
-        <View style={orderPanelStyles.dotsWrapper}>
-          <View style={orderPanelStyles.dotStyle} />
-          <View style={orderPanelStyles.dotStyle} />
-          <View style={orderPanelStyles.dotStyle} />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
 
   renderRateBtn = () => (
     <TouchableWithoutFeedback onPress={this.goToRateDriver}>
@@ -523,30 +486,8 @@ class OrderDetails extends BookingController {
     );
   }
 
-  renderPage() {
-    const options = this.getFinishedOrderModalOptions;
-    if (shouldShowReceiptBtn(this.props.booking.currentOrder)) {
-      options.push({
-        icon: 'receipt',
-        label: strings('order.text.receipt'),
-        onPress: this.openReceipt
-      });
-    }
-
-    return (
-      <Fragment>
-        {this.renderContent()}
-        <OptionsModal
-          isVisible={this.state.isVisibleOptionsModal}
-          options={options}
-          onClose={this.toggleShowOptionsModal}
-        />
-      </Fragment>
-    );
-  }
-
   render() {
-    return super.render(this.renderPage);
+    return super.render(this.renderContent);
   }
 }
 
@@ -554,15 +495,13 @@ OrderDetails.propTypes = {
   navigation: PropTypes.object,
   visible: PropTypes.bool,
   onActivate: PropTypes.func,
-  onClose: PropTypes.func,
-  handleRepeatReturnOrder: PropTypes.func
+  onClose: PropTypes.func
 };
 
 OrderDetails.defaultProps = {
   visible: false,
   onActivate: () => {},
-  onClose: () => {},
-  handleRepeatReturnOrder: () => {}
+  onClose: () => {}
 };
 
 const mapState = ({ app, session, booking, passenger }) => ({

@@ -37,8 +37,7 @@ class EditOrderDetails extends BookingController {
     const { bookingForm } = prevProps.booking;
     const { params } = this.props.navigation.state;
 
-    if ((params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress)
-      || (params && params.shouldRequestVehicles)) {
+    if (params && params.futureFlightOrder && this.props.booking.bookingForm.destinationAddress) {
       this.requestVehiclesOnOrderChange(bookingForm);
     }
   }
@@ -106,8 +105,7 @@ EditOrderDetails.propTypes = {
   setReferenceErrors: PropTypes.func,
   saveFlight: PropTypes.func,
   createBooking: PropTypes.func,
-  validateReferences: PropTypes.func,
-  getFormData: PropTypes.func
+  validateReferences: PropTypes.func
 };
 
 EditOrderDetails.defaultProps = {

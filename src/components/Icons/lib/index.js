@@ -28,7 +28,6 @@ import clock from './clock';
 import close from './close';
 import closeThick from './closeThick';
 import contactUs from './contactUs';
-import comeBack from './comeBack';
 import currentLocation from './currentLocation';
 import destinationMarker from './destinationMarker';
 import Delete from './delete';
@@ -62,7 +61,6 @@ import reasonSadMan from './reasonSadMan';
 import reasonTaxi from './reasonTaxi';
 import reasonTimer from './reasonTimer';
 import receipt from './receipt';
-import repeat from './repeat';
 import registration from './registration';
 import rides from './rides';
 import search from './search';
@@ -141,7 +139,6 @@ export default {
   carNightMode,
   carType,
   cash,
-  comeBack,
   check,
   checkmark,
   chevron,
@@ -183,7 +180,6 @@ export default {
   reasonTaxi,
   reasonTimer,
   receipt,
-  repeat,
   rides,
   search,
   settings,
