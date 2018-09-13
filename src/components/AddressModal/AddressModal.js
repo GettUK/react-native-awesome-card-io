@@ -137,12 +137,16 @@ class AddressModal extends PureComponent {
     const { bookingForm, currentOrder } = this.props;
     const order = currentOrder.id ? currentOrder : bookingForm;
     const { pickupAddress, destinationAddress, stops, stopAddresses } = order;
-    const stopPoints = stopAddresses || stops || [];
+    let stopPoints = [...(stopAddresses || stops || [])];
 
     if (type === 'destinationAddress') {
       return isEqualAddresses([pickupAddress, ...stopPoints, address]);
     } else if (type === 'stops') {
-      stopPoints[index || 0] = address;
+      if (index) {
+        stopPoints[index] = address;
+      } else {
+        stopPoints = [...stopPoints, address];
+      }
 
       return isEqualAddresses([pickupAddress, ...stopPoints, destinationAddress]);
     }
