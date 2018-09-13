@@ -54,7 +54,7 @@ class StopPointsModal extends PureComponent {
     const keys = Object.keys(data);
     const index = keys.findIndex(item => data[item].index === indexToDelete);
     const address = data[keys[index]];
-    const type = index < (keys.length - 1) ? 'stops' : 'destinationAddress';
+    const type = index <= (keys.length - 1) ? 'stops' : 'destinationAddress';
 
     onEditAddress(address, { type, index }, true);
   };
