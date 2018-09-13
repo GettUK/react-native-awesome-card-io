@@ -21,7 +21,9 @@ axios.interceptors.request.use((config) => {
 });
 
 const Apps = withNetworkConnectivity({
-  withRedux: true
+  withRedux: true,
+  checkConnectionInterval: 5000,
+  checkInBackground: true
 })(App);
 
 function wrapper() {
