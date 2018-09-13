@@ -59,6 +59,7 @@ const SettingsListItem = (props) => {
         switched={switched}
         onSwitch={onSwitch}
         switchOnTintColor={color.success}
+        switchThumbTintColor="#fff"
 
         rightTitleStyle={[styles.listItemRightTitle, { color: theme.color.secondaryText }]}
         titleStyle={[
