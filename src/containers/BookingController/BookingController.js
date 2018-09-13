@@ -67,9 +67,7 @@ export default class BookingController extends Component {
   }
 
   componentWillUnmount() {
-    if (this.subscriptions) {
-      this.subscriptions.forEach(sub => sub.remove());
-    }
+    this.subscriptions.forEach(sub => sub.remove());
   }
 
   getOrder() {

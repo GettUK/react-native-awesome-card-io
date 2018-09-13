@@ -32,12 +32,6 @@ export const initialState = {
   futureOrderId: null
 };
 
-const restoreCurrentOrder = (state, { payload: { booking: { bookingForm, currentOrder } } }) =>
-  update.assign(state, {
-    bookingForm,
-    currentOrder
-  });
-
 const getFormDataStart = state =>
   update(state, 'formData.busy', true);
 
@@ -248,6 +242,5 @@ export default composeReducer('booking', {
   startLoadingSuggestedAddresses,
   changeSuggestedAddresses,
   resetSuggestedAddresses,
-  loadingSuggestedAddressesError,
-  restoreCurrentOrder
+  loadingSuggestedAddressesError
 }, initialState);
