@@ -508,7 +508,8 @@ const mapState = ({ app, session, booking, passenger }) => ({
   app,
   session,
   booking,
-  passenger
+  passenger,
+  canSeeBookers: session.user.can && session.user.can.seeBookers
 });
 
 const bindActions = {

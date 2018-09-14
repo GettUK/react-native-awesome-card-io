@@ -507,7 +507,7 @@ export default class BookingController extends Component {
   };
 
   getAdditionalDetailsItems({ isOrderEditing = false } = {}) {
-    const { booking: { currentOrder } } = this.props;
+    const { booking: { currentOrder }, canSeeBookers } = this.props;
 
     const order = this.getOrder();
     const options = [
@@ -515,8 +515,8 @@ export default class BookingController extends Component {
         title: 'Order for',
         value: order.passenger || order.passengerName,
         icon: 'avatar',
-        chevron: !isOrderEditing,
-        onPress: () => !isOrderEditing && this.onOpenModal({ modalContent: 'passengersList' })
+        chevron: !isOrderEditing && canSeeBookers,
+        onPress: () => !isOrderEditing && canSeeBookers && this.onOpenModal({ modalContent: 'passengersList' })
       },
       { title: 'Message for driver',
         value: order.message,
