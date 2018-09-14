@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { debounce, isArray } from 'lodash';
+import { debounce, isArray, isUndefined } from 'lodash';
 import axios from 'axios';
 
 import { getSuggestedAddresses } from 'actions/booking';
@@ -109,9 +109,13 @@ class AddressModal extends PureComponent {
   };
 
   onAddressPress = (item) => {
-    const { activeTab, inputValue } = this.state;
+    const { bookingForm } = this.props;
+    const { activeTab, inputValue, meta: { type, index } } = this.state;
     const { id, text, google, predefined, address } = item;
-    const googleParam = google || (activeTab !== 'favourites' && !inputValue);
+    const currentAddress = !isUndefined(index) ? bookingForm.stops[index] : bookingForm[type];
+
+    const areAddressesByInputShown = inputValue && currentAddress && currentAddress.line !== inputValue;
+    const googleParam = google || (activeTab !== 'favourites' && !areAddressesByInputShown);
 
     Keyboard.dismiss();
 
