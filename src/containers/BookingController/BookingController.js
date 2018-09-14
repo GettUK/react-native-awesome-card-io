@@ -202,6 +202,7 @@ export default class BookingController extends Component {
         vehicleValue: vehicle.value,
         vehiclePrice: vehicle.price
       });
+
       this.updateBooking();
     });
   };

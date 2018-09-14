@@ -144,7 +144,7 @@ class AddressModal extends PureComponent {
     const { bookingForm, currentOrder } = this.props;
     const order = currentOrder.id ? currentOrder : bookingForm;
     const { pickupAddress, destinationAddress, stops, stopAddresses } = order;
-    let stopPoints = [...(stopAddresses || stops || [])];
+    let stopPoints = (stopAddresses || stops || []).map(address => address.address || address);
 
     if (type === 'destinationAddress') {
       return isEqualAddresses([pickupAddress, ...stopPoints, address]);
@@ -158,7 +158,7 @@ class AddressModal extends PureComponent {
       return isEqualAddresses([pickupAddress, ...stopPoints, destinationAddress]);
     }
 
-    return isEqualAddresses([address, ...(stops || []), destinationAddress]);
+    return isEqualAddresses([address, ...(stopPoints || []), destinationAddress]);
   }
 
   handleSelect = (address) => {
