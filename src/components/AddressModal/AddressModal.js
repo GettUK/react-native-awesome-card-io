@@ -78,7 +78,7 @@ class AddressModal extends PureComponent {
     return tabs.filter(t => !hideFavorites || t.id !== 'favorites');
   }
 
-  open(address, meta) {
+  open(address, meta = {}) {
     const processedAddress = address || nullAddress('');
     const firstTab = this.barTabs[0].id;
     this.setState({
@@ -114,7 +114,9 @@ class AddressModal extends PureComponent {
     const { id, text, google, predefined, address } = item;
     const currentAddress = !isUndefined(index) ? bookingForm.stops[index] : bookingForm[type];
 
-    const areAddressesByInputShown = inputValue && currentAddress && currentAddress.line !== inputValue;
+    const areAddressesByInputShown = currentAddress && inputValue
+      ? currentAddress.line !== inputValue
+      : inputValue;
     const googleParam = google || (activeTab !== 'favourites' && !areAddressesByInputShown);
 
     Keyboard.dismiss();
@@ -162,9 +164,9 @@ class AddressModal extends PureComponent {
   }
 
   handleSelect = (address) => {
-    const { currentOrder: { id }, bookingForm: { destinationAddress } } = this.props;
+    const { currentOrder: { id }, bookingForm: { destinationAddress }, hideFavorites } = this.props;
 
-    if ((id || destinationAddress) && !this.areAddressesUnique(address)) {
+    if ((id || destinationAddress) && !hideFavorites && !this.areAddressesUnique(address)) {
       this.setState({ message: strings('alert.message.pathDuplication') }, () => this.alert.show());
     } else {
       this.props.onChange(address, this.state.meta);
