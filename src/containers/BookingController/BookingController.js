@@ -693,6 +693,7 @@ export default class BookingController extends Component {
   render(content) {
     const { booking: { vehicles } } = this.props;
     const { message } = this.state;
+
     return (
       <Fragment>
         {content.call(this)}
