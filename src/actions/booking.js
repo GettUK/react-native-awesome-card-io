@@ -255,8 +255,9 @@ export const getFormData = () => (dispatch, getState) => {
   return request
     .then(({ data }) => {
       const { session: { user: { memberId } } } = getState();
+      const passengerId = currentOrder.id ? currentOrder.passengerId : memberId;
 
-      const paymentAttrs = getPaymentAttrs(data, memberId);
+      const paymentAttrs = getPaymentAttrs(data, passengerId);
 
       dispatch(changeFields({ ...paymentAttrs, defaultPaymentType: paymentAttrs }));
 
