@@ -104,7 +104,7 @@ export default class BookingController extends Component {
     this.props.navigation.navigate(page);
   };
 
-  filtrateVehicles = v => v.available && v.name !== 'Porsche' && v.serviceType !== 'splyt';
+  filtrateVehicles = v => v.available && v.name !== 'Porsche';
 
   getAvailableVehicles = () => {
     const { booking: { vehicles } } = this.props;

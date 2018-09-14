@@ -99,6 +99,8 @@ import UGPointer from './userGuide/UGPointer';
 import OT from './logos/OT';
 import Gett from './logos/Gett';
 import Carey from './logos/Carey';
+import BabySeat from './logos/BabySeat';
+import Wheelchair from './logos/Wheelchair';
 
 import download from './download';
 import dispatcher from './dispatcher';
@@ -212,6 +214,8 @@ export default {
   OT,
   Gett,
   Carey,
+  BabySeat,
+  Wheelchair,
   download,
   dispatcher,
   homeAddress,

@@ -96,10 +96,20 @@ export const allVehicles = [{
 }, {
   name: 'Chauffeur',
   label: 'Chauffeur'
+}, {
+  name: 'BabySeat',
+  label: 'Baby seat'
+}, {
+  name: 'Wheelchair',
+  label: 'WAV'
 }];
 
 export const OTcars = [
   'Standard', 'Exec', 'MPV', 'BlackTaxiOT', 'OTBlackTaxi'
+];
+
+export const splytCars = [
+  'BabySeat', 'Wheelchair'
 ];
 
 export const vehiclesData = keyBy(allVehicles, 'name');
@@ -110,15 +120,27 @@ export const baseVehicles = backOfficeBaseVehicles.filter(v => v.name !== 'Speci
 
 /* eslint-disable max-len */
 const priceInfo = 'Excluding VAT & fees. The final price may increase should the final destination be amended after the journey has started. If additional stops are added or the free waiting time is exceeded.';
+
+const Standard = {
+  description: 'Safe and reliable saloon vehicle that is perfect for your everyday ground transport needs.',
+  features: [
+    '15 minutes free waiting time',
+    '30 minutes free waiting time for airport pickups'
+  ],
+  price: priceInfo
+};
+
+const BlackTaxiXL = {
+  description: 'A comfortable ride that takes bus lanes to get you there quicker.',
+  features: [
+    '2 minutes free waiting time and then 50p/min',
+    '15 mins free waiting time for airport pickups'
+  ],
+  price: priceInfo
+};
+
 export const baseDescriptions = {
-  Standard: {
-    description: 'Safe and reliable saloon vehicle that is perfect for your everyday ground transport needs.',
-    features: [
-      '15 minutes free waiting time',
-      '30 minutes free waiting time for airport pickups'
-    ],
-    price: priceInfo
-  },
+  Standard,
   BlackTaxi: {
     description: 'A Comfortable ride that takes bus lanes to get you there quicker',
     features: [
@@ -127,14 +149,7 @@ export const baseDescriptions = {
     ],
     price: priceInfo
   },
-  BlackTaxiXL: {
-    description: 'A comfortable ride that takes bus lanes to get you there quicker.',
-    features: [
-      '2 minutes free waiting time and then 50p/min',
-      '15 mins free waiting time for airport pickups'
-    ],
-    price: priceInfo
-  },
+  BlackTaxiXL,
   Exec: {
     description: 'The perfect balance between luxury and reliability, our executive services will ensure you arrive in style.',
     features: [
@@ -150,7 +165,9 @@ export const baseDescriptions = {
       '30 minutes free waiting time for airport pickups'
     ],
     price: priceInfo
-  }
+  },
+  BabySeat: { ...Standard, description: `${Standard.description} (Child seat provided in the car)` },
+  Wheelchair: { ...BlackTaxiXL, description: 'A car that accepts a reference wheelchair.' }
 };
 /* eslint-enable */
 
@@ -165,7 +182,8 @@ export const baseVehiclesDescriptions = {
   Business: baseDescriptions.Exec,
   GettXL: baseDescriptions.MPV,
   GettExpress: baseDescriptions.Standard,
-  Chauffeur: baseDescriptions.Standard
+  BabySeat: baseDescriptions.BabySeat,
+  Wheelchair: baseDescriptions.Wheelchair
 };
 
 // comparing looked-up address with saved address can sometimes yield different

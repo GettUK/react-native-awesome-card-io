@@ -8,7 +8,7 @@ import assets from 'assets';
 
 import { Icon } from 'components';
 
-import { OTcars } from 'containers/shared/bookings/data';
+import { OTcars, splytCars } from 'containers/shared/bookings/data';
 
 import styles from './CarImageStyles';
 
@@ -37,6 +37,8 @@ class CarImage extends PureComponent {
     const { type } = this.props;
     if (type === 'Chauffeur') {
       return 'Carey';
+    } else if (splytCars.includes(type)) {
+      return type;
     } else if (OTcars.includes(type)) {
       return 'OT';
     }
@@ -46,7 +48,7 @@ class CarImage extends PureComponent {
   renderLogo = (sizeFormatted) => {
     const { size, animatable, duration } = this.props;
     const sizes = {
-      extraSmall: 18,
+      extraSmall: 22,
       small: 28,
       medium: 34,
       big: 62
