@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Input, Icon, Divider } from 'components';
-import { changeMessageToDriver, updateBooking } from 'actions/booking';
+import { saveMessageToDriver, changeMessageToDriver, updateBooking } from 'actions/booking';
 import { color } from 'theme';
-import { debounce } from 'lodash';
 import { withTheme } from 'providers';
 import { strings } from 'locales';
+import { throttledAction } from 'utils';
 import styles from './styles';
 
 const defaultPhrases = [
@@ -19,16 +19,22 @@ const defaultPhrases = [
   strings('messageToDriver.text.ifLateCallMe')
 ];
 
-const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageToDriver, onClose, theme }) => {
-  const updateMessageToDriver = debounce(() => {
-    if (updateEnabled) updateBooking();
-  }, 750);
-  const onChangeText = (message) => {
-    changeMessageToDriver(message, true);
-    updateMessageToDriver();
-  };
+const MessageToDriver = ({
+  updateBooking, updateEnabled, booking, changeMessageToDriver, saveMessageToDriver, onClose, theme, touched, message
+}) => {
+  const onChangeText = message => changeMessageToDriver(message, true);
 
-  const value = booking.message;
+  const value = touched ? message : booking.message;
+  const handleMessageSave = throttledAction(() => {
+    if (touched) {
+      onClose();
+      setTimeout(() => {
+        saveMessageToDriver('', true);
+        changeMessageToDriver('');
+        if (updateEnabled) updateBooking();
+      }, 350);
+    }
+  });
   const onPhrasePress = (item) => {
     this.input.focus();
     onChangeText(item);
@@ -49,7 +55,7 @@ const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageT
           blurOnSubmit
           value={value}
           onChangeText={onChangeText}
-          onSubmitEditing={onClose}
+          onSubmitEditing={handleMessageSave}
           autoCorrect={false}
           autoFocus
           maxLength={225}
@@ -71,12 +77,20 @@ const MessageToDriver = ({ updateBooking, updateEnabled, booking, changeMessageT
 };
 
 MessageToDriver.propTypes = {
-  changeMessageToDriver: PropTypes.func.isRequired
+  changeMessageToDriver: PropTypes.func.isRequired,
+  saveMessageToDriver: PropTypes.func.isRequired,
+  updateBooking: PropTypes.func.isRequired
 };
 
+const mapState = ({ booking }) => ({
+  touched: booking.messageToDriverTouched,
+  message: booking.tempMessageToDriver
+});
+
 const mapDispatch = ({
+  saveMessageToDriver,
   changeMessageToDriver,
   updateBooking
 });
 
-export default connect(null, mapDispatch)(withTheme(MessageToDriver));
+export default connect(mapState, mapDispatch)(withTheme(MessageToDriver));

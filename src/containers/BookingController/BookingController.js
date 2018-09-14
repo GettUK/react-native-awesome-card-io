@@ -670,16 +670,16 @@ export default class BookingController extends Component {
   };
 
   renderModal = () => {
-    const { booking: { bookingForm: { message } } } = this.props;
+    const { booking: { tempMessageToDriver } } = this.props;
     const { isCustomModalVisible = false, modalContent, referenceIndex } = this.state;
     const order = this.getOrder();
-    const isMessageToDriverContent = modalContent === 'messageToDriver' && message;
+    const isMessageToDriverContent = modalContent === 'messageToDriver' && tempMessageToDriver;
     const isPaymentsOptionsContent = modalContent === 'paymentsOptions';
 
     return (
       <ModalWithContent
         updateEnabled={this.isFutureOrderEdit()}
-        title={isMessageToDriverContent && `${message.length}/225`}
+        title={isMessageToDriverContent && `${tempMessageToDriver.length}/225`}
         contentStyles={isPaymentsOptionsContent && { height: '50%' }}
         modalContent={modalContent}
         referenceIndex={referenceIndex}
