@@ -78,7 +78,7 @@ class FlightSettings extends Component {
   });
 
   handleVerify = () => {
-    const { flight, selected } = this.state;
+    const { flight } = this.state;
 
     if (!flight) return;
 
@@ -90,9 +90,9 @@ class FlightSettings extends Component {
       .then(({ data }) => {
         this.props.changeFlight({ flight }, true);
 
-        const flightData = data[selected];
+        const flightData = data[0];
 
-        this.setState({ originalData: data, verifiedFlight: flight }, () => {
+        this.setState({ originalData: data, verifiedFlight: flight, selected: 0 }, () => {
           this.setFlightDetails(flightData);
           this.checkFlightVerified();
         });
