@@ -512,7 +512,7 @@ export default class BookingController extends Component {
     const options = [
       {
         title: 'Order for',
-        value: order.passengerName,
+        value: order.passenger || order.passengerName,
         icon: 'avatar',
         chevron: !isOrderEditing,
         onPress: () => !isOrderEditing && this.onOpenModal({ modalContent: 'passengersList' })
