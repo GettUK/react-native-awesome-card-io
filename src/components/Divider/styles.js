@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, PixelRatio } from 'react-native';
 import { color } from 'theme';
 
 export default StyleSheet.create({
@@ -8,6 +8,6 @@ export default StyleSheet.create({
     marginRight: 0,
     padding: 0,
     borderBottomColor: color.pixelLine,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: PixelRatio.get() * StyleSheet.hairlineWidth
   }
 });
