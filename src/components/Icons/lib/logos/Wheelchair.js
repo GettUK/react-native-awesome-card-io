@@ -6,7 +6,7 @@ export default function Wheelchair({ color, ...rest }) {
     <Svg viewBox="0 0 34 34" {...rest}>
       <G fill="none" fillRule="evenodd" stroke="#FFF" transform="translate(2 2)">
         <Circle cx="15" cy="15" r="16" fill="#284784" strokeWidth="2"/>
-        <G strokeWidth="1.3" transform="translate(7 8)">
+        <G fill="none" stroke="#FFF" strokeWidth="1.3" transform="translate(7 8)">
           <Path strokeLinecap="round" d="M.696 0h2.386l1.024 6.187c.91-.217 1.77-.198 2.585.058.813.255 1.548.706 2.204 1.35h3.706l.755 4.894h2.288"/>
           <Circle cx="5.217" cy="10.783" r="4.567"/>
           <Circle cx="5.217" cy="10.783" r="1.043"/>
