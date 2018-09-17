@@ -60,6 +60,7 @@ const TYPES = createTypes('booking', [
   'clearBooking',
   'updateReferences',
   'changeMessageModified',
+  'changeMessageToDriver',
   'setFutureOrderId',
   'changeSuggestedAddresses',
   'resetSuggestedAddresses',
@@ -77,11 +78,18 @@ export const asyncChangeFields = fields => dispatch => Promise.resolve(dispatch(
 
 export const changeMessageModified = (modified = false) => ({ type: TYPES.changeMessageModified, modified });
 
-export const changeMessageToDriver = (message, modified = false) => (dispatch) => {
-  if (modified) dispatch(changeMessageModified(true));
+export const saveMessageToDriver = (messageToDriver, modified = false) => (dispatch, getState) => {
+  const message = getState().booking.tempMessageToDriver.trim();
 
-  return dispatch(changeFields({ message }));
+  if (modified) {
+    dispatch(changeMessageModified(true));
+  }
+
+  return dispatch(changeFields({ message: messageToDriver || message }));
 };
+
+export const changeMessageToDriver = (message, touched = false) =>
+  ({ type: TYPES.changeMessageToDriver, payload: { message, touched } });
 
 const getMessageForAddress = ({ message, address = {}, meta, booking, passenger }) => {
   const { formData: { defaultPickupAddress = {}, defaultDriverMessage } } = booking;
@@ -118,7 +126,7 @@ export const setDefaultMessageToDriver = (address = {}, meta = {}) => (dispatch,
   if (meta.type !== 'stops' && !messageModified) {
     message = getMessageForAddress({ message, address, meta, booking, passenger });
 
-    dispatch(changeMessageToDriver(formatMessage(message)));
+    dispatch(saveMessageToDriver(formatMessage(message)));
   }
 };
 
@@ -157,7 +165,7 @@ export const resetBookingValues = () => (dispatch, getState) => {
 
   dispatch(changeMessageModified());
 
-  dispatch(changeMessageToDriver(''));
+  dispatch(saveMessageToDriver());
 
   dispatch(setDefaultMessageToDriver(pickupAddress, { type: 'pickupAddress' }));
 
