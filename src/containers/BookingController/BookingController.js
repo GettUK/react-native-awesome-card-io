@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableWithoutFeedback, ActivityIndicator, Dimensions } from 'react-native';
 import moment from 'moment-timezone';
-import { isEmpty, find, first, pickBy, isNull, isEqual, isUndefined } from 'lodash';
+import { isEmpty, find, first, pickBy, isNull, isEqual, isUndefined, pick } from 'lodash';
 
 import {
   PointList,
@@ -200,7 +200,8 @@ export default class BookingController extends Component {
         quoteId: vehicle.quoteId,
         vehicleName: vehicle.name,
         vehicleValue: vehicle.value,
-        vehiclePrice: vehicle.price
+        vehiclePrice: vehicle.price,
+        ...(pick(vehicle, ['supportsDriverMessage', 'supportsFlightNumber', 'regionId', 'estimateId']))
       });
 
       this.updateBooking();
@@ -402,8 +403,7 @@ export default class BookingController extends Component {
       vehicleName: vehicle.name,
       vehicleValue: vehicle.value,
       vehiclePrice: vehicle.price,
-      supportsDriverMessage: vehicle.supportsDriverMessage,
-      supportsFlightNumber: vehicle.supportsFlightNumber
+      ...(pick(vehicle, ['supportsDriverMessage', 'supportsFlightNumber', 'regionId', 'estimateId']))
     };
 
     if (scheduledType !== 'now') {
