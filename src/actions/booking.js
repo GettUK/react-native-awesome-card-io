@@ -2,6 +2,8 @@ import { createTypes } from 'redux-compose-reducer';
 import { batchActions } from 'redux-batched-actions';
 import { isEmpty, reject, snakeCase, omit } from 'lodash';
 
+import { AVAILABLE_MAP_SCENES } from 'actions/ui/navigation';
+
 import {
   get, post, put,
   referencesLocalErrors,
@@ -416,7 +418,7 @@ export const clearCurrentOrder = () => (dispatch) => {
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
-  const { booking: { currentOrder } } = getState();
+  const { booking: { currentOrder }, ui: { navigation: { activeScene } } } = getState();
   const isFutureOrder = !currentOrder.asap && currentOrder.scheduledAt;
 
   dispatch({ type: TYPES.cancelOrderStart });
@@ -424,7 +426,7 @@ export const cancelOrder = () => (dispatch, getState) => {
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
     .then(() => {
       dispatch({ type: TYPES.cancelOrderSuccess });
-      dispatch(goToCompletedOrderScene());
+      if (activeScene === AVAILABLE_MAP_SCENES.activeOrder) dispatch(goToCompletedOrderScene());
 
       if (isFutureOrder) {
         dispatch(getCurrentUser());
