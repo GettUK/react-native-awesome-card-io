@@ -112,6 +112,7 @@ class RateDriver extends PureComponent {
               color={color.white}
               navigation={navigation}
               touchedPath="booking.currentOrder.tempDriverRating"
+              backAction={changeDriverRating}
             />
           }
           rightButton={<SaveRatingBtn navigation={navigation} />}
