@@ -1,6 +1,6 @@
 export const getPassengerPayload = (data, memberId) => {
   const { passenger: dataPassenger, passengers } = data;
-  const passenger = dataPassenger || (memberId && passengers.find(passenger => passenger.id === memberId));
+  const passenger = memberId && passengers ? passengers.find(passenger => passenger.id === memberId) : dataPassenger;
 
   if (passenger) {
     const { id, firstName, lastName, phone, costCentre } = passenger;
