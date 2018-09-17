@@ -4,7 +4,8 @@ export default StyleSheet.create({
   container: {},
   carImage: {
     height: 100,
-    width: 190
+    width: 190,
+    marginLeft: -5
   },
   carImageMedium: {
     width: 104,
@@ -40,22 +41,22 @@ export default StyleSheet.create({
   },
   logoServiceExtraSmall: {
     position: 'absolute',
-    bottom: 3,
-    left: 8
+    bottom: 1,
+    left: 2
   },
   logoServiceSmall: {
     position: 'absolute',
     bottom: 3,
-    left: 8
+    left: 5
   },
   logoServiceMedium: {
     position: 'absolute',
     bottom: 3,
-    left: 8
+    left: 5
   },
   logoServiceBig: {
     position: 'absolute',
     bottom: 12,
-    left: 10
+    left: 5
   }
 });

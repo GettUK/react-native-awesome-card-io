@@ -18,7 +18,9 @@ const imagesApp = {
     Economy: require('./png/carTypes/Economy.png'),
     StandardXL: require('./png/carTypes/StandardXL.png'),
     Business: require('./png/carTypes/GettExpress.png'),
-    Chauffeur: require('./png/carTypes/Exec.png')
+    Chauffeur: require('./png/carTypes/Exec.png'),
+    BabySeat: require('./png/carTypes/Standard.png'),
+    Wheelchair: require('./png/carTypes/BlackTaxiXL.png')
   },
   blackCabPromo: require('./png/promo/carBlackCab.png'),
   expirationDate: require('./png/application/expirationDate.png'),
