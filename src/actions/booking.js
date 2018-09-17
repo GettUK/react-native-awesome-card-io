@@ -418,13 +418,15 @@ export const clearCurrentOrder = () => (dispatch) => {
 };
 
 export const cancelOrder = () => (dispatch, getState) => {
-  const { booking: { currentOrder }, ui: { navigation: { activeScene } } } = getState();
+  const { booking: { currentOrder } } = getState();
   const isFutureOrder = !currentOrder.asap && currentOrder.scheduledAt;
 
   dispatch({ type: TYPES.cancelOrderStart });
 
   return put(`/bookings/${currentOrder.id}/cancel`, { cancellation_fee: false })
     .then(() => {
+      const { ui: { navigation: { activeScene } } } = getState();
+
       dispatch({ type: TYPES.cancelOrderSuccess });
       if (activeScene === AVAILABLE_MAP_SCENES.activeOrder) dispatch(goToCompletedOrderScene());
 
