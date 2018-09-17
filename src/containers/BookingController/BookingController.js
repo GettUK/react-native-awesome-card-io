@@ -401,7 +401,9 @@ export default class BookingController extends Component {
       quoteId: vehicle.quoteId,
       vehicleName: vehicle.name,
       vehicleValue: vehicle.value,
-      vehiclePrice: vehicle.price
+      vehiclePrice: vehicle.price,
+      supportsDriverMessage: vehicle.supportsDriverMessage,
+      supportsFlightNumber: vehicle.supportsFlightNumber
     };
 
     if (scheduledType !== 'now') {
@@ -510,7 +512,7 @@ export default class BookingController extends Component {
     const { booking: { currentOrder }, canSeeBookers } = this.props;
 
     const order = this.getOrder();
-    const options = [
+    let options = [
       {
         title: 'Order for',
         value: order.passenger || order.passengerName,
@@ -542,6 +544,14 @@ export default class BookingController extends Component {
     ];
 
     if (currentOrder.id && !currentOrder.asap) options.splice(2, 1);
+
+    if (order.supportsDriverMessage === false) {
+      options = options.filter(o => o.title !== 'Message for driver');
+    }
+
+    if (order.supportsFlightNumber === false) {
+      options = options.filter(o => o.title !== 'Flight number');
+    }
 
     return options;
   }
