@@ -109,7 +109,7 @@ android {
         applicationId "com.oteapp.dev"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 8
+        versionCode 9
         versionName "1.15.0"
         multiDexEnabled true
         ndk {
