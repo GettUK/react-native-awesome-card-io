@@ -182,6 +182,7 @@ export const baseVehiclesDescriptions = {
   Business: baseDescriptions.Exec,
   GettXL: baseDescriptions.MPV,
   GettExpress: baseDescriptions.Standard,
+  Chauffeur: baseDescriptions.Standard,
   BabySeat: baseDescriptions.BabySeat,
   Wheelchair: baseDescriptions.Wheelchair
 };
