@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
+import { ActivityIndicator, TouchableWithoutFeedback, Platform } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { color } from 'theme';
@@ -59,7 +59,8 @@ const SettingsListItem = (props) => {
         switched={switched}
         onSwitch={onSwitch}
         switchOnTintColor={color.success}
-        switchThumbTintColor="#fff"
+        switchThumbTintColor={Platform.OS === 'android' ? '#FFF' : null}
+        switchTintColor={Platform.OS === 'android' ? '#DDD' : null}
 
         rightTitleStyle={[styles.listItemRightTitle, { color: theme.color.secondaryText }]}
         titleStyle={[
