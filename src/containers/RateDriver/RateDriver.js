@@ -19,11 +19,6 @@ import SaveRatingBtn from './components/SaveRatingBtn';
 import styles from './styles';
 
 class RateDriver extends PureComponent {
-  state = {
-    rating: this.props.tempDriverRating || (this.props.driverDetails && this.props.driverDetails.tripRating),
-    ratingReasons: this.props.order.ratingReasons
-  }
-
   goBack = () => this.props.navigation.goBack();
 
   renderDriverCarInfo = vehicle => (
@@ -42,8 +37,7 @@ class RateDriver extends PureComponent {
   };
 
   renderRatingOptions = () => {
-    const { order: { tempDriverRatingReasons }, changeDriverRatingReasons } = this.props;
-    const { ratingReasons } = this.state;
+    const { order: { ratingReasons, tempDriverRatingReasons }, changeDriverRatingReasons } = this.props;
 
     return <View>
       <Divider left={0} style={styles.divider}/>
@@ -56,9 +50,7 @@ class RateDriver extends PureComponent {
               key={index}
               active={some(tempDriverRatingReasons, reasonName => (reasonName === reason))}
               label={strings(`order.ratingReason.${reason}`)}
-              onPress={() => {
-                this.setState({ ratingReasons: changeDriverRatingReasons(reason) });
-              }}
+              onPress={() => changeDriverRatingReasons(reason)}
             />
           ))}
         </View>
@@ -86,15 +78,14 @@ class RateDriver extends PureComponent {
 
   render() {
     const {
-      order: { driverDetails, rateable = true },
+      order: { driverDetails, rateable = true, tempDriverRating },
       changeDriverRating,
       navigation,
       theme
     } = this.props;
-    const { rating } = this.state;
-    const labelText = rating
+    const labelText = (tempDriverRating || driverDetails.tripRating)
       ? strings('order.text.youRated') : strings('order.text.rateYourDriver');
-    const isLowRating = rating && rating <= 4;
+    const isLowRating = tempDriverRating && tempDriverRating <= 4;
     const darkTheme = theme.type === 'dark';
 
     const Wrapper = darkTheme ? View : GradientWrapper;
@@ -126,12 +117,9 @@ class RateDriver extends PureComponent {
           <Divider left={0} style={styles.divider}/>
           <Text style={styles.label}>{labelText}</Text>
           <Rating
-            value={rateable ? rating : driverDetails.tripRating}
+            value={rateable ? tempDriverRating : driverDetails.tripRating}
             disabled={!rateable}
-            onChange={(rating) => {
-              this.setState({ rating });
-              changeDriverRating(rating);
-            }}
+            onChange={changeDriverRating}
           />
 
           {isLowRating && this.renderRatingOptions()}
