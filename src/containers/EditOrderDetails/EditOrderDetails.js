@@ -113,9 +113,10 @@ EditOrderDetails.defaultProps = {
   orderType: 'bookingForm'
 };
 
-const select = ({ booking, passenger }) => ({
+const select = ({ booking, passenger, session }) => ({
   booking,
-  passenger
+  passenger,
+  canSeeBookers: session.user.can && session.user.can.seeBookers
 });
 
 const bindActions = {

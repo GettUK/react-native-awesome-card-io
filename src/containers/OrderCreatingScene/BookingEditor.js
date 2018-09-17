@@ -328,7 +328,8 @@ const select = ({ session, booking, app, ui, passenger }) => ({
   ui,
   passenger,
   activeBookingId: session.user && session.user.activeBookingId,
-  permissions: app.statuses.permissions
+  permissions: app.statuses.permissions,
+  canSeeBookers: session.user && session.user.can && session.user.can.seeBookers
 });
 
 const bindActions = {
