@@ -3,6 +3,7 @@ package com.oteapp.dev;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.cardio.RNCardIOPackage;
 import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import xyz.miron.reactnativehourformat.RNHourFormatPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCardIOPackage(),
             new AndroidOpenSettingsPackage(),
             new LottiePackage(),
             new RNHourFormatPackage(),

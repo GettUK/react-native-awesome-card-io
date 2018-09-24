@@ -33,6 +33,7 @@
 		7D954E592099C2A300E9AB56 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D954E582099C2A300E9AB56 /* login_bg.png */; };
 		7DB89A3E206D3E4900BF652B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB89A1E206D3E4100BF652B /* libRCTAnimation.a */; };
 		92A2291F20865F2D00209D73 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92A2291D20865F2D00209D73 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93B41FB59E3A482C9AE15D1F /* libRNCardIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50D7DFA650942BE83045BE2 /* libRNCardIO.a */; };
 		B55EF9339CDF4575A6F2BEF5 /* libRNHourFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */; };
 		CAA8EEAFA0F14A10A6A4CE48 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */; };
 		CC2FF042204DB270008351CA /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -298,6 +299,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNHourFormat;
 		};
+		ABF10EC621491D24008B6309 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 183313C7D1174A4CBCEC14E1 /* RNCardIO.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCardIO;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -325,6 +333,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = oteApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = oteApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = oteApp/main.m; sourceTree = "<group>"; };
+		183313C7D1174A4CBCEC14E1 /* RNCardIO.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCardIO.xcodeproj; path = "../node_modules/react-native-awesome-card-io/ios/RNCardIO.xcodeproj"; sourceTree = "<group>"; };
 		1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNHourFormat.xcodeproj; path = "../node_modules/react-native-hour-format/ios/RNHourFormat.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* oteApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "oteApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* oteApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "oteApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -355,6 +364,7 @@
 		D2E12FD9FA0E4FC78C60F755 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextInputMask.a; sourceTree = "<group>"; };
 		ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTextInputMask.xcodeproj; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; };
+		F50D7DFA650942BE83045BE2 /* libRNCardIO.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCardIO.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +393,7 @@
 				7D8BC1AE2041B4EF009D2E2B /* libReact.a in Frameworks */,
 				431CDC76CC86417D826C32EF /* libRNTextInputMask.a in Frameworks */,
 				B55EF9339CDF4575A6F2BEF5 /* libRNHourFormat.a in Frameworks */,
+				93B41FB59E3A482C9AE15D1F /* libRNCardIO.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +566,7 @@
 				7D8BC19E2041B396009D2E2B /* RCTWebSocket.xcodeproj */,
 				ED341634AF4B40C9B3172614 /* RNTextInputMask.xcodeproj */,
 				1A481553CEB94E55921AD438 /* RNHourFormat.xcodeproj */,
+				183313C7D1174A4CBCEC14E1 /* RNCardIO.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -593,6 +605,7 @@
 			children = (
 				DDC4BC84F6FF435383337666 /* libRNTextInputMask.a */,
 				C7342082DB114C2986BEBDC1 /* libRNHourFormat.a */,
+				F50D7DFA650942BE83045BE2 /* libRNCardIO.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -620,6 +633,14 @@
 			isa = PBXGroup;
 			children = (
 				AB390ACD20F6509C006C5A54 /* libRNHourFormat.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABF10EC321491D23008B6309 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABF10EC721491D24008B6309 /* libRNCardIO.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -802,6 +823,10 @@
 				{
 					ProductGroup = 7D8BC13F2041ACA9009D2E2B /* Products */;
 					ProjectRef = 7D8BC13E2041ACA9009D2E2B /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = ABF10EC321491D23008B6309 /* Products */;
+					ProjectRef = 183313C7D1174A4CBCEC14E1 /* RNCardIO.xcodeproj */;
 				},
 				{
 					ProductGroup = AB390AC920F6509B006C5A54 /* Products */;
@@ -1063,6 +1088,13 @@
 			fileType = archive.ar;
 			path = libRNHourFormat.a;
 			remoteRef = AB390ACC20F6509C006C5A54 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABF10EC721491D24008B6309 /* libRNCardIO.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCardIO.a;
+			remoteRef = ABF10EC621491D24008B6309 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1388,12 +1420,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = oteAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1422,12 +1456,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = oteAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1464,6 +1500,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gps",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1504,6 +1541,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gps",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = oteApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1540,11 +1578,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = "oteApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1577,11 +1617,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask/**",
 					"$(SRCROOT)/../node_modules/react-native-hour-format/ios",
+					"$(SRCROOT)/../node_modules/react-native-awesome-card-io/ios/**",
 				);
 				INFOPLIST_FILE = "oteApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1614,6 +1656,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.oteApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1638,6 +1681,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

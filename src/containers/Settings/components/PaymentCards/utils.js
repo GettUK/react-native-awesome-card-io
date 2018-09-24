@@ -61,6 +61,9 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       label: strings('paymentCard.label.cardNumber'),
       value: getValue(data.cardNumber),
       onChangeText: handlers.handleMaskInputChange('cardNumber'),
+      helpPress: handlers.scanPress,
+      allowHelp: true,
+      helpIconName: 'scanCard',
       mask: '[0000000000000999999]',
       keyboardType: 'numeric',
       error: data.error && data.error.cardNumber

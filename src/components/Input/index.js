@@ -79,6 +79,7 @@ class Input extends PureComponent {
       allowmask,
       allowHelp,
       helpIcon,
+      helpIconName,
       helpIconColor,
       helpPress,
       helpIconStyle
@@ -90,7 +91,7 @@ class Input extends PureComponent {
         style={[styles.clearBtn, helpIconStyle]}
         onPress={helpPress}
       >
-        {helpIcon || <Icon name="help" size={22} color={helpIconColor} />}
+        {helpIcon || <Icon name={helpIconName || 'help'} size={24} color={helpIconColor} />}
       </TouchableOpacity>
     );
   };

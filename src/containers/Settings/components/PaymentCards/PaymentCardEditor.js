@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { curry } from 'lodash';
+import { curry, noop } from 'lodash';
 import { color } from 'theme';
 import { View, KeyboardAvoidingView, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
+import { CardIOModule, CardIOUtilities } from 'react-native-awesome-card-io';
 
 import { changePaymentField, changePaymentFields, resetPaymentFields } from 'actions/passenger';
-import { throttledAction } from 'utils';
+import { throttledAction, isIOS } from 'utils';
 
 import { Input, DismissKeyboardView, Modal, Icon, Divider } from 'components';
 
@@ -14,7 +15,6 @@ import { withTheme } from 'providers';
 
 import { extractedDate, getValue, helpInfo, prepareCardEditor, prepareCardEditorInputs } from './utils';
 import styles from './styles';
-
 
 class PaymentCardEditor extends Component {
   state = {
@@ -26,9 +26,55 @@ class PaymentCardEditor extends Component {
     navigation: PropTypes.object
   };
 
+  componentDidMount() {
+    if (isIOS) {
+      CardIOUtilities.preload();
+    }
+  }
+
   componentWillUnmount() {
     this.props.resetPaymentFields();
   }
+
+  handleScanCard = () => {
+    CardIOModule
+      .scanCard({
+        hideCardIOLogo: true,
+        useCardIOLogo: false,
+        requireExpiry: true,
+        requireCVV: true,
+        requireCardholderName: false,
+        scanExpiry: true,
+        keepStatusBarStyle: true,
+        suppressScannedCardImage: true,
+        usePaypalActionbarIcon: false
+      })
+      .then(this.onScannedCard)
+      .catch(noop);
+  }
+
+  onScannedCard = (card) => {
+    const { expiryMonth, expiryYear, cvv, cardNumber, cardholderName } = card;
+    const data = {};
+    if (cardholderName) {
+      data.holderName = cardholderName;
+    }
+    if (cardNumber) {
+      data.cardNumber = cardNumber;
+    }
+    if (expiryMonth && expiryYear) {
+      data.expirationMonthText = `${expiryMonth}`;
+      data.expirationMonth = expiryMonth;
+      data.expirationYear = `${expiryYear}`;
+      data.expirationDate = { expiryMonth, expiryYear };
+    }
+    if (cvv) {
+      data.cvv = cvv;
+    }
+    this.props.changePaymentFields(data);
+    this.cardHolderInput.handleFocus();
+  }
+
 
   handleMaskInputChange = curry((field, formatted, extracted) => {
     this.props.changePaymentField(field, extracted);
@@ -131,7 +177,8 @@ class PaymentCardEditor extends Component {
             handleMaskInputChange: this.handleMaskInputChange,
             handleInputChange: this.handleInputChange,
             handleExpirationDate: this.handleExpirationDate,
-            onHelpPress: this.onHelpPress
+            onHelpPress: this.onHelpPress,
+            scanPress: this.handleScanCard
           }).map(this.renderInput)
         }
       </ScrollView>

@@ -66,6 +66,7 @@ import rides from './rides';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
+import ScanCard from './ScanCard';
 import sourceMarker from './sourceMarker';
 import star from './star';
 import starEmpty from './starEmpty';
@@ -186,6 +187,7 @@ export default {
   search,
   settings,
   sms,
+  ScanCard,
   sourceMarker,
   star,
   starEmpty,
