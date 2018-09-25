@@ -66,7 +66,7 @@ import rides from './rides';
 import search from './search';
 import settings from './settings';
 import sms from './sms';
-import ScanCard from './ScanCard';
+import ScanCard from './scanCard';
 import sourceMarker from './sourceMarker';
 import star from './star';
 import starEmpty from './starEmpty';

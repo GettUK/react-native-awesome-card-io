@@ -63,7 +63,7 @@ export const prepareCardEditorInputs = (data = {}, handlers = {}) => (
       onChangeText: handlers.handleMaskInputChange('cardNumber'),
       helpPress: handlers.scanPress,
       allowHelp: true,
-      helpIconName: 'scanCard',
+      helpIconName: 'ScanCard',
       mask: '[0000000000000999999]',
       keyboardType: 'numeric',
       error: data.error && data.error.cardNumber
