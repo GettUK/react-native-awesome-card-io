@@ -36,7 +36,7 @@ class PaymentCardEditor extends Component {
     this.props.resetPaymentFields();
   }
 
-  handleScanCard = () => {
+  handleScanCard = throttledAction(() => {
     CardIOModule
       .scanCard({
         hideCardIOLogo: true,
@@ -46,12 +46,15 @@ class PaymentCardEditor extends Component {
         requireCardholderName: false,
         scanExpiry: true,
         keepStatusBarStyle: true,
+        suppressManualEntry: true,
         suppressScannedCardImage: true,
-        usePaypalActionbarIcon: false
+        usePaypalActionbarIcon: false,
+        mainColor: this.props.theme.color.primaryBtns,
+        guideColor: '#00C46B'
       })
       .then(this.onScannedCard)
       .catch(noop);
-  }
+  })
 
   onScannedCard = (card) => {
     const { expiryMonth, expiryYear, cvv, cardNumber, cardholderName } = card;

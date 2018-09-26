@@ -14,6 +14,8 @@ public class MainActivity extends ReactActivity {
         SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
     }
 
     /**
