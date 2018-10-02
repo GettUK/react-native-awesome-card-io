@@ -13,6 +13,9 @@ allprojects {
     repositories {
         jcenter()
         maven { url "$projectDir/../node_modules/react-native/android" }
+        flatDir {
+            dirs 'aars'
+        }
     }
 }
 
@@ -42,5 +45,6 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'io.card:android-sdk:5.5.1'
+    // compile 'io.card:android-sdk:5.5.1'
+    compile (name:'card.io', ext:'aar')
 }

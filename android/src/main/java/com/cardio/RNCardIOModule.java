@@ -1,8 +1,12 @@
 package com.cardio;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -53,6 +57,9 @@ public class RNCardIOModule extends ReactContextBaseJavaModule implements Activi
     if (config.hasKey("guideColor")) {
       intent.putExtra(CardIOActivity.EXTRA_GUIDE_COLOR, Color.parseColor(config.getString("guideColor")));
     }
+    if (config.hasKey("mainColor")) {
+      intent.putExtra(CardIOActivity.EXTRA_MAIN_COLOR, Color.parseColor(config.getString("mainColor")));
+    }
     if (config.hasKey("useCardIOLogo")) {
       intent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, config.getBoolean("useCardIOLogo"));
     }
@@ -97,6 +104,12 @@ public class RNCardIOModule extends ReactContextBaseJavaModule implements Activi
     if (config.hasKey("usePaypalActionbarIcon")) {
       intent.putExtra(CardIOActivity.EXTRA_USE_PAYPAL_ACTIONBAR_ICON, config.getBoolean("usePaypalActionbarIcon"));
     }
+
+    intent.putExtra(CardIOActivity.EXTRA_SCAN_OVERLAY_LAYOUT_ID, R.layout.custom_overlay);
+    intent.putExtra(CardIOActivity.EXTRA_SCAN_OVERLAY_CANCEL_BUTTON_ID, R.id.io_card_payment_scanOverlayCancelButtonId);
+    intent.putExtra(CardIOActivity.EXTRA_SCAN_OVERLAY_FLASHLIGHT_BUTTON_ID, R.id.io_card_payment_scanOverlayFlashlightButtonId);
+    intent.putExtra(CardIOActivity.EXTRA_SCAN_OVERLAY_FLASHLIGHT_ON_ID, R.id.io_card_payment_scanOverlayFlashlightOnId);
+    intent.putExtra(CardIOActivity.EXTRA_SCAN_OVERLAY_FLASHLIGHT_OFF_ID, R.id.io_card_payment_scanOverlayFlashlightOffId);
   }
 
   @Override

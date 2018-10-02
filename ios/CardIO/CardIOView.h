@@ -1,6 +1,6 @@
 //
 //  CardIOView.h
-//  Version 5.4.1
+//  Version 5.4.1-9-gcee7318
 //
 //  See the file "LICENSE.md" for the full license governing this code.
 //
@@ -34,12 +34,16 @@
 /// E.g., specifying "en" on a device set to "English" and "United Kingdom" will result in "en_GB".
 ///
 /// These localizations are currently included:
-/// ar,da,de,en,en_AU,en_GB,es,es_MX,fr,he,is,it,ja,ko,ms,nb,nl,pl,pt,pt_BR,ru,sv,th,tr,zh-Hans,zh-Hant,zh-Hant_TW.
+/// ar,da,de,en,en_AU,en_GB,es,es_MX,fi,fr,he,is,it,ja,ko,ms,nb,nl,pl,pt,pt_BR,ru,sv,th,tr,zh-Hans,zh-Hant,zh-Hant_TW.
 @property(nonatomic, copy, readwrite) NSString *languageOrLocale;
 
 /// Alter the card guide (bracket) color. Opaque colors recommended.
 /// Defaults to nil; if nil, will use card.io green.
 @property(nonatomic, retain, readwrite) UIColor *guideColor;
+
+/// Alter the card guide (bracket) color. Opaque colors recommended.
+/// Defaults to nil; if nil, will use card.io green.
+@property(nonatomic, retain, readwrite) UIColor *mainColor;
 
 /// Set to YES to show the card.io logo over the camera instead of the PayPal logo. Defaults to NO.
 @property(nonatomic, assign, readwrite) BOOL useCardIOLogo;

@@ -30,6 +30,10 @@ RCT_EXPORT_MODULE();
         UIColor *value = [RCTConvert UIColor:config[@"guideColor"]];
         [viewController setValue:value forKey:@"guideColor"];
     }
+    if ([config objectForKey:@"mainColor"] != nil) {
+        UIColor *value = [RCTConvert UIColor:config[@"mainColor"]];
+        [viewController setValue:value forKey:@"mainColor"];
+    }
     if ([config objectForKey:@"useCardIOLogo"] != nil) {
         BOOL value = [RCTConvert BOOL:config[@"useCardIOLogo"]];
         [viewController setValue:@(value) forKey:@"useCardIOLogo"];
